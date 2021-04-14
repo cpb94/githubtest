@@ -1,0 +1,26 @@
+$PBExportHeader$f_impresora_predeterminada.srf
+global type f_impresora_predeterminada from function_object
+end type
+
+forward prototypes
+global function string f_impresora_predeterminada ()
+end prototypes
+
+global function string f_impresora_predeterminada ();string v_impresora_predeterminada
+environment env
+
+GetEnvironment(env)
+
+if env.OSType = WindowsNT! then
+	RegistryGet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows", "Device",v_impresora_predeterminada)
+	v_impresora_predeterminada = mid(v_impresora_predeterminada,1,pos(v_impresora_predeterminada,",") -1)	
+end if
+
+if env.OSType = Windows! then
+	RegistryGet("HKEY_LOCAL_MACHINE\Config\0001\System\CurrentControlSet\Control\Print\Printers", "default", v_impresora_predeterminada)
+end if
+
+return (v_impresora_predeterminada)
+
+
+end function

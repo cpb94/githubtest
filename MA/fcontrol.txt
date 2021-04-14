@@ -1,0 +1,234 @@
+long      i,indice,total,donde,cantidad
+Datetime fecha1, fecha2, fecha3, fecha4, fecha, falta1, falta2
+dec{2}    bruto,cambio,precio,dto1,dto2,bruto1,bruto2,metros,pm, a, b, v_metros_lin, v_metros_lin_tot
+String    series,cliente,sel,serie,divisa,moneda = "7",clientes,tarifa,calidad,articulo, familia
+datastore datos
+integer dia1, mes1, anyo1, dia2, mes2, anyo2
+integer dia_alta1, mes_alta1, anyo_alta1, dia_alta2, mes_alta2, anyo_alta2
+
+
+dw_detalle.Reset()
+dw_detalle2.Reset()
+dw_detalle.object.porcentaje_imp.text =  '0.0'+" %"
+dw_detalle.object.porcentaje_metros.text =  '0'+" %"
+dw_detalle.object.porcentaje_piezas.text =  '0'+" %"
+
+fecha1 = datetime(date(em_fechadesde.text))
+fecha2 = datetime(date(em_fechahasta.text))
+fecha3 = datetime(date(em_fechadesde.text))
+fecha4 = datetime(date(em_fechahasta.text))
+
+falta1 = datetime(date(em_faltadesde.text))
+falta2 = datetime(date(em_faltahasta.text))
+
+
+
+if uo_cliente.em_codigo.text = '' or isnull (uo_cliente.em_codigo.text) then
+	cliente = "%"
+else
+	cliente = uo_cliente.em_codigo.text
+end if
+
+if uo_familia.em_codigo.text = '' or isnull (uo_familia.em_codigo.text) then
+	familia = "%"
+else
+	familia = uo_familia.em_codigo.text
+end if
+
+if rb_detalle.checked then
+	dw_resumen.visible = false
+	dw_detalle.visible = true
+	dw_detalle2.visible = true
+	dw_detalle.SetTransObject(SQLCA)
+	dw_detalle2.SetTransObject(SQLCA)
+	dw_detalle.Retrieve(codigo_empresa,fecha1,fecha2,cliente,series, familia)
+
+	
+	dia1 = day(date(fecha1))
+	mes1 = month(date(fecha1))
+	anyo1 = year(date(fecha1)) - 1
+	dia2 = day(date(fecha2))
+	mes2 = month(date(fecha2) )
+	anyo2 = year(date(fecha2) )- 1
+	
+	fecha1 = Datetime(date ( anyo1, mes1, dia1))
+	fecha2 = Datetime (date( anyo2, mes2, dia2))
+	fecha3 = Datetime(date ( anyo1, mes1, dia1))
+	fecha4 = Datetime (date( anyo2, mes2, dia2))
+	
+	dia_alta1 = day(date(falta1))
+	mes_alta1 = month(date(falta1))
+	anyo_alta1 = year(date(falta1)) - 1
+	dia_alta2 = day(date(falta2))
+	mes_alta2 = month(date(falta2) )
+	anyo_alta2 = year(date(falta2)) - 1
+
+	falta1 = datetime( date(dia_alta1, mes_alta1, anyo_alta1))
+	falta2 = datetime(date(dia_alta2,  mes_alta2, anyo_alta2))
+		
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	datastore ds_clientes
+	long fila_Actual
+	string sel1, v_empresa
+	date   v_fpedido
+	integer  v_anyo, v_pedido, v_linea
+	decimal v_importe, v_piezas, v_metros, v_importe_tot = 0, v_piezas_tot = 0, v_metros_tot = 0
+	
+	if cliente = '' or isnull(cliente) then cliente = '%'
+		
+	v_importe_tot = 0
+	v_piezas_tot = 0
+	v_metros_tot = 0
+	v_metros_lin_tot = 0
+	
+	if cliente = '%' then
+		 f_piezas_metros_metrosl_importe_todos (v_piezas, v_metros, v_importe, v_metros_lin, date(fecha1), date(fecha2), cliente)
+		 
+		 if isnull(v_piezas) then v_piezas = 0
+		if isnull(v_metros) then v_metros = 0
+		if isnull(v_importe) then v_importe = 0
+		v_importe_tot = v_importe_tot + v_importe
+		v_piezas_tot = v_piezas_tot + v_piezas
+		v_metros_tot = v_metros_tot + v_metros
+		v_metros_lin_tot = v_metros_lin_tot + v_metros_lin 
+		 
+	else
+	
+		sel1 = " select genter.codigo, genter.razon from genter inner join venclientes ON venclientes.empresa = genter.empresa AND venclientes.codigo = genter.codigo where genter.empresa =  "+codigo_empresa+"  and genter.tipoter = 'C' "+&
+					" and genter.codigo like '"+cliente+"' AND venclientes.grupo LIKE '"+familia+"' "
+		f_cargar_cursor_nuevo (sel1, ds_clientes)
+		
+		dw_detalle2.Setredraw(false)
+		dw_detalle2.reset()
+	
+		
+		for i = 1 to ds_clientes.rowcount()
+			cliente = ds_clientes.object.genter_codigo[i]
+			v_piezas = 0
+			v_metros = 0
+			v_importe = 0
+	
+			f_piezas_metros_metrosl_importe_cliente (v_piezas, v_metros, v_importe, v_metros_lin, date(fecha1), date(fecha2), cliente)
+			if isnull(v_piezas) then v_piezas = 0
+			if isnull(v_metros) then v_metros = 0
+			if isnull(v_importe) then v_importe = 0
+			v_importe_tot = v_importe_tot + v_importe
+			v_piezas_tot = v_piezas_tot + v_piezas
+			v_metros_tot = v_metros_tot + v_metros
+			v_metros_lin_tot = v_metros_lin_tot + v_metros_lin
+			f_mensaje_proceso ("Clientes:", i, ds_clientes.rowcount())
+		next
+	end if
+	
+	fila_actual = dw_detalle2.insertrow(0)
+	dw_detalle2.object.piezas[fila_actual] = v_piezas_tot
+	dw_detalle2.object.importe[fila_actual] = v_importe_tot
+	dw_detalle2.object.metros[fila_actual] = v_metros_tot
+	dw_detalle2.object.metrosl[fila_actual] = v_metros_lin_tot
+
+	dw_detalle2.setsort("")
+	dw_detalle2.setsort("importe D")
+	dw_detalle2.sort()
+	dw_detalle2.Setredraw(True)
+	
+	destroy ds_clientes
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	if dw_detalle.RowCount() > 0 and dw_detalle2.RowCount() > 0 then
+		/////////////////////////////////////////////////////////////////////////////////////
+		if isnull(dw_detalle.object.total_importe[dw_detalle.GetRow()]) then
+			a = 0
+		else
+			a = dec(dw_detalle.object.total_importe[dw_detalle.GetRow()])
+		end if
+		if isnull(dw_detalle.object.total_importe[dw_detalle2.GetRow()]) then
+			b = 0
+		else
+			b = dec(dw_detalle2.object.importe[dw_detalle2.GetRow()])
+		end if
+		if b = 0 then
+			dw_detalle.object.porcentaje_imp.text =  '0.0'+" %"
+		else
+			dw_detalle.object.porcentaje_imp.text =  String(  round(((a - b) / b) * 100, 1))+" %"
+		end if													
+		/////////////////////////////////////////////////////////////////////////////////////
+		
+		if isnull(dw_detalle.object.total_metros[dw_detalle.GetRow()]) then
+			a = 0
+		else
+			a = dec(dw_detalle.object.total_metros[dw_detalle.GetRow()])
+		end if
+		if isnull(dw_detalle.object.total_metros[dw_detalle2.GetRow()]) then
+			b = 0
+		else
+			b = dec(dw_detalle2.object.metros[dw_detalle2.GetRow()])
+		end if
+		if b = 0 then
+			dw_detalle.object.porcentaje_metros.text =  '0'+" %"
+		else
+			dw_detalle.object.porcentaje_metros.text =  String(  round(((a - b) / b) * 100, 1))+" %"
+		end if													
+
+		/////////////////////////////////////////////////////////////////////////////////////
+		
+		if isnull(dw_detalle.object.total_piezas[dw_detalle.GetRow()]) then
+			a = 0
+		else
+			a = dec(dw_detalle.object.total_piezas[dw_detalle.GetRow()])
+		end if
+		if isnull(dw_detalle.object.total_piezas[dw_detalle2.GetRow()]) then
+			b = 0
+		else
+			b = dec(dw_detalle2.object.piezas[dw_detalle2.GetRow()])
+		end if
+		if b = 0 then
+			dw_detalle.object.porcentaje_piezas.text =  '0.0'+" %"
+		else
+			dw_detalle.object.porcentaje_piezas.text =  String(  round(((a - b) / b) * 100, 1))+" %"
+		end if													
+
+		/////////////////////////////////////////////////////////////////////////////////////
+		
+//		if isnull(dw_detalle.object.total_metrosl[dw_detalle.GetRow()]) then
+//			a = 0
+//		else
+//			a = dec(dw_detalle.object.total_metrosl[dw_detalle.GetRow()])
+//		end if
+//		if isnull(dw_detalle.object.total_metrosl[dw_detalle2.GetRow()]) then
+//			b = 0
+//		else
+//			b = dec(dw_detalle2.object.metrosl[dw_detalle2.GetRow()])
+//		end if
+//		if b = 0 then
+//			dw_detalle.object.porcentaje_metrosl.text =  '0.0'+" %"
+//		else
+//			dw_detalle.object.porcentaje_metrosl.text =  String(  round(((a - b) / b) * 100, 1))+" %"
+//		end if													
+	end if
+end if
+
+if rb_resumen.checked then
+	dw_detalle.visible = false
+	dw_detalle2.visible = false
+	dw_resumen_g2.visible = false
+	dw_resumen.visible = true
+	dw_resumen.SetTransObject(SQLCA)
+	dw_resumen.Reset()
+	dw_resumen.Retrieve(codigo_empresa, cliente, fecha1, fecha2, fecha3, fecha4, familia, '%')
+end if
+
+if rb_resumen_g2.checked then
+	dw_detalle.visible = false
+	dw_detalle2.visible = false
+	dw_resumen.visible = false
+	dw_resumen_g2.visible = true
+	dw_resumen_g2.SetTransObject(SQLCA)
+	dw_resumen_g2.Reset()
+	dw_resumen_g2.Retrieve(codigo_empresa, cliente, fecha1, fecha2, familia)
+end if
