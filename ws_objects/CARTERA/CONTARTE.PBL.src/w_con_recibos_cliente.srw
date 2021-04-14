@@ -3,6 +3,8 @@ $PBExportComments$€
 forward
 global type w_con_recibos_cliente from w_int_con_empresa
 end type
+type mdi_1 from mdiclient within w_con_recibos_cliente
+end type
 type pb_2 from upb_salir within w_con_recibos_cliente
 end type
 type cb_1 from u_boton within w_con_recibos_cliente
@@ -50,10 +52,13 @@ end forward
 global type w_con_recibos_cliente from w_int_con_empresa
 integer x = 55
 integer y = 24
-integer width = 4434
-integer height = 3320
+integer width = 4462
+integer height = 3344
 string title = "Consulta de Movimientos"
-long backcolor = 17039543
+boolean resizable = true
+windowtype windowtype = mdidock!
+long backcolor = 134217730
+mdi_1 mdi_1
 pb_2 pb_2
 cb_1 cb_1
 dw_proceso dw_proceso
@@ -268,6 +273,7 @@ end event
 on w_con_recibos_cliente.create
 int iCurrent
 call super::create
+this.mdi_1=create mdi_1
 this.pb_2=create pb_2
 this.cb_1=create cb_1
 this.dw_proceso=create dw_proceso
@@ -290,32 +296,34 @@ this.uo_tipo2=create uo_tipo2
 this.dw_1=create dw_1
 this.cbx_original=create cbx_original
 iCurrent=UpperBound(this.Control)
-this.Control[iCurrent+1]=this.pb_2
-this.Control[iCurrent+2]=this.cb_1
-this.Control[iCurrent+3]=this.dw_proceso
-this.Control[iCurrent+4]=this.cb_consulta
-this.Control[iCurrent+5]=this.pb_imprimir_preli
-this.Control[iCurrent+6]=this.dw_listado
-this.Control[iCurrent+7]=this.dw_proceso2
-this.Control[iCurrent+8]=this.gb_2
-this.Control[iCurrent+9]=this.uo_cliente
-this.Control[iCurrent+10]=this.cb_2
-this.Control[iCurrent+11]=this.gb_cuenta
-this.Control[iCurrent+12]=this.st_1
-this.Control[iCurrent+13]=this.em_fechadesde
-this.Control[iCurrent+14]=this.em_fechahasta
-this.Control[iCurrent+15]=this.st_8
-this.Control[iCurrent+16]=this.st_9
-this.Control[iCurrent+17]=this.gb_1
-this.Control[iCurrent+18]=this.uo_tipo
-this.Control[iCurrent+19]=this.uo_tipo2
-this.Control[iCurrent+20]=this.dw_1
-this.Control[iCurrent+21]=this.cbx_original
+this.Control[iCurrent+1]=this.mdi_1
+this.Control[iCurrent+2]=this.pb_2
+this.Control[iCurrent+3]=this.cb_1
+this.Control[iCurrent+4]=this.dw_proceso
+this.Control[iCurrent+5]=this.cb_consulta
+this.Control[iCurrent+6]=this.pb_imprimir_preli
+this.Control[iCurrent+7]=this.dw_listado
+this.Control[iCurrent+8]=this.dw_proceso2
+this.Control[iCurrent+9]=this.gb_2
+this.Control[iCurrent+10]=this.uo_cliente
+this.Control[iCurrent+11]=this.cb_2
+this.Control[iCurrent+12]=this.gb_cuenta
+this.Control[iCurrent+13]=this.st_1
+this.Control[iCurrent+14]=this.em_fechadesde
+this.Control[iCurrent+15]=this.em_fechahasta
+this.Control[iCurrent+16]=this.st_8
+this.Control[iCurrent+17]=this.st_9
+this.Control[iCurrent+18]=this.gb_1
+this.Control[iCurrent+19]=this.uo_tipo
+this.Control[iCurrent+20]=this.uo_tipo2
+this.Control[iCurrent+21]=this.dw_1
+this.Control[iCurrent+22]=this.cbx_original
 end on
 
 on w_con_recibos_cliente.destroy
 call super::destroy
 if IsValid(MenuID) then destroy(MenuID)
+destroy(this.mdi_1)
 destroy(this.pb_2)
 destroy(this.cb_1)
 destroy(this.dw_proceso)
@@ -351,6 +359,10 @@ type st_empresa from w_int_con_empresa`st_empresa within w_con_recibos_cliente
 integer y = 20
 integer width = 4009
 integer height = 80
+end type
+
+type mdi_1 from mdiclient within w_con_recibos_cliente
+long BackColor=268435456
 end type
 
 type pb_2 from upb_salir within w_con_recibos_cliente
