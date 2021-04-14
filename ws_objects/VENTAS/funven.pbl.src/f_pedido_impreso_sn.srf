@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_pedido_impreso_sn.srf
+global type f_pedido_impreso_sn from function_object
+end type
+
+forward prototypes
+global function string f_pedido_impreso_sn (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_pedido_impreso_sn (string empresa, integer anyo, decimal pedido);String impreso
+Integer var_veces
+impreso="N"
+
+  SELECT venped.veces  INTO :var_veces  FROM venped  
+   WHERE venped.empresa = :empresa
+   AND   venped.anyo    = :anyo
+   AND   venped.pedido  = :pedido;
+
+
+if var_veces<>0 then Impreso="S"
+
+Return impreso
+end function
+

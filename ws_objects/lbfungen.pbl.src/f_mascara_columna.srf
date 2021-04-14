@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_mascara_columna.srf
+$PBExportComments$Modifica la mascara de una datawindow, recibo datawindow, columna y mascara, pone con defecto  autofocus.
+global type f_mascara_columna from function_object
+end type
+
+forward prototypes
+global subroutine f_mascara_columna (datawindow var_datawindow, string var_columna, string var_mascara)
+end prototypes
+
+global subroutine f_mascara_columna (datawindow var_datawindow, string var_columna, string var_mascara);String var_montaje
+var_montaje = var_columna + ".Edit.AutoSelect= Yes" 
+var_datawindow.Modify(var_montaje)
+var_montaje = var_columna + ".Format=" +"'"+ var_mascara +"'"
+var_datawindow.Modify(var_montaje)
+var_montaje = var_columna + ".Edit.Format=" +"'"+ var_mascara +"'"
+var_datawindow.Modify(var_montaje)
+//var_montaje = var_columna + ".editmask.mask=" +"'"+ var_mascara +"'"
+//var_datawindow.Modify(var_montaje)
+
+end subroutine
+

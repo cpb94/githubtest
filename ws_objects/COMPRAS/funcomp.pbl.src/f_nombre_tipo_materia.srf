@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_nombre_tipo_materia.srf
+$PBExportComments$Devuelve el nombre del tipo Materia
+global type f_nombre_tipo_materia from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipo_materia (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_tipo_materia (string empresa, string codigo);string nombre
+  SELECT venmateria.abreviado INTO :nombre FROM venmateria  
+   WHERE venmateria.empresa = :empresa 
+	and   venmateria.codigo  = :codigo   ;
+return nombre
+end function
+

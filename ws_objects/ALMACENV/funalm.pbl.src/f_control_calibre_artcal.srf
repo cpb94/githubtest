@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_control_calibre_artcal.srf
+global type f_control_calibre_artcal from function_object
+end type
+
+forward prototypes
+global function boolean f_control_calibre_artcal (string arg_empresa, string arg_articulo, string arg_calidad)
+end prototypes
+
+global function boolean f_control_calibre_artcal (string arg_empresa, string arg_articulo, string arg_calidad);String var_familia
+IF trim(arg_articulo) = "" Then return TRUE
+IF trim(arg_calidad)  = "" Then return TRUE
+
+IF f_calibre_calidad(arg_empresa,arg_calidad)   = "N" Then Return FALSE
+IF f_calibre_articulo(arg_empresa,arg_articulo) = "N" Then Return FALSE
+
+Return TRUE
+
+end function
+

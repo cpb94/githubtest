@@ -1,0 +1,44 @@
+﻿$PBExportHeader$ftc_modifica_tamanyo_imagen.srf
+global type ftc_modifica_tamanyo_imagen from function_object
+end type
+
+forward prototypes
+global subroutine ftc_modifica_tamanyo_imagen (integer ancho_std, integer alto_std, ref picture p_imagen, boolean centrar)
+end prototypes
+
+global subroutine ftc_modifica_tamanyo_imagen (integer ancho_std, integer alto_std, ref picture p_imagen, boolean centrar);// ancho_std:  Ancho del cuadro en el que que queremos meter la imagen.
+// alto_std:  Alto del cuadro en el que que queremos meter la imagen.
+// p_imagen: Objeto en el que vamos a meter la imagen
+// centrar: Si queremos que la imagen se centre en el espacio resercado a la imagen pasaremos true. 
+
+//IMPORTANTE: Es conveniente ocultar el objeto picture antes de llamar a la función para que no se vean las transformaciones en pantalla.
+
+long ancho_real, alto_real
+dec ratio_std 
+
+ratio_std = ( ancho_std / alto_std)
+
+ancho_real = p_imagen.width
+alto_real = p_imagen.height
+
+p_imagen.SetRedraw(false)
+if ancho_real > ancho_std or alto_real > alto_std then
+	if ( ancho_real / alto_real) > ratio_std then
+		p_imagen.width = ancho_std
+		p_imagen.height = alto_real / ( ancho_real / ancho_std )
+	end if
+	if ( ancho_real / alto_real) < ratio_std then
+		p_imagen.height = alto_std
+		p_imagen.width = ancho_real / ( alto_real / alto_std )
+	end if
+end if
+if centrar then
+	p_imagen.x = p_imagen.x + ( ancho_std - p_imagen.width ) / 2
+	p_imagen.y = p_imagen.y + ( alto_std - p_imagen.height ) / 2
+	p_imagen.visible = true
+end if
+p_imagen.SetRedraw(true)
+
+
+end subroutine
+

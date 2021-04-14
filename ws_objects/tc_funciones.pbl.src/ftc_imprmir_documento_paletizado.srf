@@ -1,0 +1,64 @@
+﻿$PBExportHeader$ftc_imprmir_documento_paletizado.srf
+global type ftc_imprmir_documento_paletizado from function_object
+end type
+
+forward prototypes
+global subroutine ftc_imprmir_documento_paletizado (integer tipo)
+end prototypes
+
+global subroutine ftc_imprmir_documento_paletizado (integer tipo);/*****************************************************************************************************************************************************************************************
+EL TIPO INDICA QUE TIPO DE DOCUMENTO IMPRIMIREMOS (PREPARADO POR SI HUBIERA QUE IMPRIMIR DOCUMENTOS DIFERENTES)
+Si tipo = 1 -> Papel para contenedores.
+
+*****************************************************************************************************************************************************************************************/
+
+str_escandallo arg_escandallo[300]
+string articulo, sel
+integer fila_actual
+datawindow DW, data
+string descripcion_art, v_empresa
+string v_cod_caja, v_piezascaja,  v_cajaspallet
+string v_anyo, v_linped
+String v_formato
+dec v_ot, v_pedido
+
+if tipo = 1 then
+
+	DW = w_planificacion_tencer_wide.dw_1
+	data = w_planificacion_tencer_wide.dw_listado_ficha2
+	
+	articulo = DW.object.cod_articulo[DW.GetRow()]
+	descripcion_art = DW.object.descripcion[DW.GetRow()]
+	v_ot = DW.object.ot[DW.GetRow()]
+
+	data.reset()
+
+	select anyo, pedido, linped
+	into :v_anyo, :v_pedido, :v_linped
+	from planificacion
+	where ot = :v_ot;
+	
+	// Sacamos la información de las cajas
+	select almartcajas.caja, almartcajas.piezascaja
+	into :v_cod_caja, :v_piezascaja
+	from almartcajas, almcajas
+	where almartcajas.empresa = almcajas.empresa
+	and almartcajas.caja = almcajas.codigo
+	AND almartcajas.articulo = :articulo
+	and pordefecto = 'S';
+	
+	// Sacamos la información de las pallets
+	select palarticulo.cajaspallet
+	into :v_cajaspallet
+	from palarticulo, pallets
+	where palarticulo.empresa = pallets.empresa
+	and palarticulo.caja = :v_cod_caja
+	and palarticulo.articulo = :articulo
+	and palarticulo.codigo = pallets.codigo
+	and pordefecto = 'S';
+end if
+
+f_imprimir_datawindow(data) 
+
+end subroutine
+

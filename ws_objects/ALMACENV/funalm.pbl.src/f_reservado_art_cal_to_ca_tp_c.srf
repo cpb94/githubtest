@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_reservado_art_cal_to_ca_tp_c.srf
+global type f_reservado_art_cal_to_ca_tp_c from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_art_cal_to_ca_tp_c (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_reservado_art_cal_to_ca_tp_c (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja);Dec{4} ld_reservado
+
+ld_reservado = f_reservado_art_cal_to_ca_tp_c_pzs(arg_empresa,arg_articulo,arg_calidad,arg_tono,arg_calibre,arg_tipo_pallet,arg_caja)
+ld_reservado = f_conversion_piezas_cantidad(arg_empresa,arg_articulo,arg_caja,ld_reservado)
+
+Return ld_reservado
+/*
+Dec{4}   var_existencias
+
+SELECT isnull(sum(venliped.cantidad),0)
+INTO   :var_existencias  
+FROM   venliped  
+WHERE venliped.empresa     = :arg_empresa
+AND   venliped.articulo    = :arg_articulo
+AND   venliped.calidad     = :arg_calidad
+AND   venliped.tonochar    = :arg_tono
+AND   venliped.calibre     = :arg_calibre
+AND   venliped.tipo_pallet = :arg_tipo_pallet
+AND   venliped.caja        = :arg_caja
+AND   venliped.situacion   = 'C';
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :empresa
+AND   almlinubica.articulo    = :articulo
+AND   almlinubica.calidad     = :calidad
+AND   almlinubica.tonochar    = :tono
+AND   almlinubica.calibre     = :calibre;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+
+Return  var_existencias */
+end function
+

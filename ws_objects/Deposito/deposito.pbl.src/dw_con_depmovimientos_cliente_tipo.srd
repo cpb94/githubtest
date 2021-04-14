@@ -1,0 +1,170 @@
+﻿$PBExportHeader$dw_con_depmovimientos_cliente_tipo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=76 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=64 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=depmovhis_empresa dbname="depmovhis.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_almacen dbname="depmovhis.almacen" )
+ column=(type=long updatewhereclause=yes name=depmovhis_anyo dbname="depmovhis.anyo" )
+ column=(type=long updatewhereclause=yes name=depmovhis_nummov dbname="depmovhis.nummov" )
+ column=(type=char(20) updatewhereclause=yes name=depmovhis_articulo dbname="depmovhis.articulo" )
+ column=(type=datetime updatewhereclause=yes name=depmovhis_fechmov dbname="depmovhis.fechmov" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_tipomov dbname="depmovhis.tipomov" )
+ column=(type=number updatewhereclause=yes name=depmovhis_cantidade dbname="depmovhis.cantidade" )
+ column=(type=number updatewhereclause=yes name=depmovhis_cantidads dbname="depmovhis.cantidads" )
+ column=(type=number updatewhereclause=yes name=depmovhis_precio dbname="depmovhis.precio" )
+ column=(type=char(15) updatewhereclause=yes name=depmovhis_codtercero dbname="depmovhis.codtercero" )
+ column=(type=char(15) updatewhereclause=yes name=depmovhis_numdoc dbname="depmovhis.numdoc" )
+ column=(type=char(1) updatewhereclause=yes name=depmovhis_situacion dbname="depmovhis.situacion" )
+ column=(type=datetime updatewhereclause=yes name=depmovhis_punteado dbname="depmovhis.punteado" )
+ column=(type=number updatewhereclause=yes name=depmovhis_antexist dbname="depmovhis.antexist" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_familia dbname="depmovhis.familia" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_formato dbname="depmovhis.formato" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_modelo dbname="depmovhis.modelo" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_calidad dbname="depmovhis.calidad" )
+ column=(type=long updatewhereclause=yes name=depmovhis_tono dbname="depmovhis.tono" )
+ column=(type=long updatewhereclause=yes name=depmovhis_calibre dbname="depmovhis.calibre" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_tipo_unidad dbname="depmovhis.tipo_unidad" )
+ column=(type=char(20) updatewhereclause=yes name=depmovhis_referencia dbname="depmovhis.referencia" )
+ column=(type=datetime updatewhereclause=yes name=depmovhis_f_alta dbname="depmovhis.f_alta" )
+ column=(type=char(15) updatewhereclause=yes name=depmovhis_usuario dbname="depmovhis.usuario" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_tipo_pallet dbname="depmovhis.tipo_pallet" )
+ column=(type=char(1) updatewhereclause=yes name=depmovhis_tipo dbname="depmovhis.tipo" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=deptipomov_resumido dbname="deptipomov.resumido" )
+ column=(type=char(3) updatewhereclause=yes name=calidades_abreviado dbname="calidades.abreviado" )
+ column=(type=char(10) updatewhereclause=yes name=pallets_resumido dbname="pallets.resumido" )
+ column=(type=char(5) updatewhereclause=yes name=deptipomov_tipomov dbname="deptipomov.tipomov" )
+ column=(type=char(4) updatewhereclause=yes name=depmovhis_tonochar dbname="depmovhis.tonochar" )
+ column=(type=char(5) updatewhereclause=yes name=depmovhis_caja dbname="depmovhis.caja" )
+ retrieve="  SELECT depmovhis.empresa,   
+         depmovhis.almacen,   
+         depmovhis.anyo,   
+         depmovhis.nummov,   
+         depmovhis.articulo,   
+         depmovhis.fechmov,   
+         depmovhis.tipomov,   
+         depmovhis.cantidade,   
+         depmovhis.cantidads,   
+         depmovhis.precio,   
+         depmovhis.codtercero,   
+         depmovhis.numdoc,   
+         depmovhis.situacion,   
+         depmovhis.punteado,   
+         depmovhis.antexist,   
+         depmovhis.familia,   
+         depmovhis.formato,   
+         depmovhis.modelo,   
+         depmovhis.calidad,   
+         depmovhis.tono,   
+         depmovhis.calibre,   
+         depmovhis.tipo_unidad,   
+         depmovhis.referencia,   
+         depmovhis.f_alta,   
+         depmovhis.usuario,   
+         depmovhis.tipo_pallet,   
+         depmovhis.tipo,   
+         genter.razon,   
+         articulos.descripcion,   
+         deptipomov.resumido,   
+         calidades.abreviado,   
+         pallets.resumido,   
+         deptipomov.tipomov,   
+         depmovhis.tonochar,   
+         depmovhis.caja  
+    FROM depmovhis,   
+         genter,   
+         articulos,   
+         deptipomov,   
+         calidades,   
+         pallets  
+   WHERE ( depmovhis.empresa *= genter.empresa) and  
+         ( depmovhis.tipo *= genter.tipoter) and  
+         ( depmovhis.codtercero *= genter.codigo) and  
+         ( depmovhis.empresa *= deptipomov.empresa) and  
+         ( depmovhis.tipomov *= deptipomov.tipomov) and  
+         ( depmovhis.empresa *= calidades.empresa) and  
+         ( depmovhis.calidad *= calidades.codigo) and  
+         ( depmovhis.empresa *= pallets.empresa) and  
+         ( depmovhis.tipo_pallet *= pallets.codigo) and  
+         ( depmovhis.empresa = articulos.empresa ) and  
+         ( depmovhis.articulo = articulos.codigo ) and  
+         ( (depmovhis.empresa = :arg_empresa ) AND  
+         (depmovhis.fechmov >= :arg_fecha_desde ) AND  
+         (depmovhis.fechmov <= :arg_fecha_hasta ) AND  
+         (depmovhis.situacion <> 'A' ) ) AND  
+         depmovhis.almacen like :arg_almacen AND  
+         depmovhis.articulo like :arg_articulo    
+" arguments=(("arg_empresa", string),("arg_fecha_desde", datetime),("arg_fecha_hasta", datetime),("arg_almacen", string),("arg_articulo", string))  sort="depmovhis_empresa A depmovhis_almacen A articulos_descripcion A depmovhis_articulo A depmovhis_calidad A depmovhis_tonochar A depmovhis_calibre A depmovhis_tipo_pallet A depmovhis_fechmov A depmovhis_nummov A " )
+group(level=1 header.height=68 trailer.height=0 by=("depmovhis_empresa" , "depmovhis_almacen" ) header.color="553648127" trailer.color="536870912" )
+group(level=2 header.height=64 trailer.height=100 by=("depmovhis_empresa" , "depmovhis_almacen" , "articulos_descripcion" , "depmovhis_articulo" , "depmovhis_calidad" , "depmovhis_tonochar" , "depmovhis_calibre" , "depmovhis_tipo_pallet" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="14" y="12" height="56" width="215"  name=fechmov_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Nº Doc"border="6" color="0" x="247" y="12" height="56" width="192"  name=numdoc_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tipo"border="6" color="0" x="457" y="12" height="56" width="229"  name=tipomov_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cl"border="6" color="0" x="1399" y="12" height="56" width="91"  name=calidad_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="To"border="6" color="0" x="1509" y="12" height="56" width="91"  name=tono_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="C"border="6" color="0" x="1618" y="12" height="56" width="50"  name=calibre_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tp"border="6" color="0" x="1687" y="12" height="56" width="78"  name=tipo_pallet_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tc"border="6" color="0" x="1783" y="12" height="56" width="69"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Entradas"border="6" color="0" x="1870" y="12" height="56" width="274"  name=cantidade_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Salidas"border="6" color="0" x="2162" y="12" height="56" width="274"  name=cantidads_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stock"border="6" color="0" x="2455" y="12" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tercero"border="6" color="0" x="704" y="12" height="56" width="677"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=header.1 alignment="0" expression="f_nombre_depalmacen( depmovhis_empresa , depmovhis_almacen )"border="0" color="128" x="9" y="4" height="56" width="1499" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header.2 alignment="0" text="Stock inicial en fecha"border="0" color="0" x="1527" y="4" height="56" width="466"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header.2 alignment="0" text=":"border="0" color="0" x="2002" y="4" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=header.2 alignment="2" expression=" arg_fecha_desde "border="0" color="0" x="2039" y="4" height="56" width="251" format="dd-mm-yy"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=header.2 alignment="1" expression="f_stock_calidad_tipopallet_depmovhis_alm( depmovhis_empresa ,depmovhis_articulo,depmovhis_calidad,depmovhis_tonochar,depmovhis_calibre,arg_fecha_desde , depmovhis_tipo_pallet , depmovhis_caja , depmovhis_almacen )"border="0" color="0" x="2318" y="4" height="56" width="411" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  name=stock_inicial  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=29 alignment="0" tabsequence=32766 border="0" color="0" x="375" y="4" height="56" width="1006" format="[general]"  name=articulos_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="5" y1="4" x2="5" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="238" y1="4" x2="238" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="448" y1="4" x2="448" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="695" y1="4" x2="695" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="2743" y1="4" x2="2743" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="18" y="4" height="56" width="210" format="[shortdate] [time]"  name=depmovhis_fechmov editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="251" y="4" height="56" width="187" format="[general]"  name=depmovhis_numdoc edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=32766 border="0" color="0" x="462" y="4" height="56" width="224" format="[general]"  name=deptipomov_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1390" y1="4" x2="1390" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2167" y="4" height="56" width="270" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  name=depmovhis_cantidads edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2446" y1="4" x2="2446" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1874" y="4" height="56" width="270" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  name=depmovhis_cantidade edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2153" y1="4" x2="2153" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1861" y1="4" x2="1861" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="1403" y="4" height="56" width="87" format="[general]"  name=calidades_abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="9" y1="68" x2="2747" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=34 alignment="0" tabsequence=32766 border="0" color="0" x="1513" y="4" height="56" width="87" format="[general]"  name=depmovhis_tonochar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1609" y1="4" x2="1609" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="2" tabsequence=32766 border="0" color="0" x="1623" y="4" height="56" width="50" format="[general]"  name=depmovhis_calibre editmask.mask="##" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1678" y1="4" x2="1678" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=32 alignment="2" tabsequence=32766 border="0" color="0" x="1691" y="4" height="56" width="73" format="[general]"  name=pallets_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1499" y1="4" x2="1499" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1774" y1="4" x2="1774" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_caja_abr( depmovhis_empresa , depmovhis_caja )"border="0" color="0" x="1787" y="4" height="56" width="64" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="f_stock_calidad_tipopallet_depmovhis_alm( depmovhis_empresa ,depmovhis_articulo,depmovhis_calidad,depmovhis_tonochar,depmovhis_calibre,arg_fecha_desde , depmovhis_tipo_pallet , depmovhis_caja , depmovhis_almacen )+cumulativeSum(  depmovhis_cantidade  for group 2 ) - cumulativeSum( depmovhis_cantidads  for group 2 ) "border="0" color="0" x="2459" y="4" height="56" width="274" format="~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="0" expression="f_razon_genter( depmovhis_empresa , depmovhis_tipo , depmovhis_codtercero )"border="0" color="0" x="709" y="4" height="56" width="672" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.2 x1="5" y1="4" x2="5" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=29 alignment="0" tabsequence=32766 border="0" color="16711680" x="375" y="4" height="60" width="1006" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="5" y1="72" x2="2747" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1390" y1="4" x2="1390" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=31 alignment="0" tabsequence=32766 border="0" color="16711680" x="1403" y="4" height="60" width="87" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1499" y1="4" x2="1499" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=21 alignment="2" tabsequence=32766 border="0" color="16711680" x="1623" y="4" height="60" width="50" format="[general]" editmask.mask="##" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=34 alignment="0" tabsequence=32766 border="0" color="16711680" x="1513" y="4" height="60" width="87" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1609" y1="4" x2="1609" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1678" y1="4" x2="1678" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=trailer.2 id=32 alignment="2" tabsequence=32766 border="0" color="16711680" x="1691" y="4" height="60" width="73" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1774" y1="4" x2="1774" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="0" expression="f_nombre_caja_abr( depmovhis_empresa , depmovhis_caja )"border="0" color="16711680" x="1787" y="4" height="60" width="64" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="1861" y1="0" x2="1861" y2="64" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(depmovhis_cantidade for group 2)"border="0" color="16711680" x="1874" y="4" height="60" width="270" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=trailer.2 x1="2153" y1="4" x2="2153" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(depmovhis_cantidads for group 2)"border="0" color="16711680" x="2167" y="4" height="60" width="270" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=trailer.2 x1="2446" y1="4" x2="2446" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="f_stock_calidad_tipopallet_depmovhis_alm( depmovhis_empresa ,depmovhis_articulo,depmovhis_calidad,depmovhis_tonochar,depmovhis_calibre,arg_fecha_desde , depmovhis_tipo_pallet , depmovhis_caja , depmovhis_almacen )+sum(depmovhis_cantidade for group 2)-sum(depmovhis_cantidads for group 2)
+
+"border="0" color="16711680" x="2459" y="4" height="60" width="274" format="[general]~tf_mascara_unidad(f_unidad_articulo( depmovhis_empresa , depmovhis_articulo ))"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=trailer.2 x1="2743" y1="4" x2="2743" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_comision_pz_agente.srf
+global type f_comision_pz_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_comision_pz_agente (string empresa, string agente)
+end prototypes
+
+global function decimal f_comision_pz_agente (string empresa, string agente);dec comision_pz
+
+select comision_pz
+into   :comision_pz
+from   venagentes
+where  empresa = :empresa
+and    agente  = :agente;
+
+if isnull(comision_pz) then comision_pz = 0
+
+return comision_pz
+end function
+

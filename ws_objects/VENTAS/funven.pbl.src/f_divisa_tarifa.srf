@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_divisa_tarifa.srf
+global type f_divisa_tarifa from function_object
+end type
+
+forward prototypes
+global function string f_divisa_tarifa (string empresa, string tarifa)
+end prototypes
+
+global function string f_divisa_tarifa (string empresa, string tarifa);String variable
+
+  SELECT ventarifas.moneda  
+    INTO :variable  
+    FROM ventarifas  
+   WHERE  ventarifas.empresa = :empresa 
+	AND    ventarifas.codigo  = :tarifa ;
+
+
+if IsNull(variable) then variable = ""
+Return variable
+end function
+

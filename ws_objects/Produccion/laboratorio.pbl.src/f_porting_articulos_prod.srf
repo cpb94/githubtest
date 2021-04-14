@@ -1,0 +1,271 @@
+﻿$PBExportHeader$f_porting_articulos_prod.srf
+global type f_porting_articulos_prod from function_object
+end type
+
+forward prototypes
+global subroutine f_porting_articulos_prod ()
+end prototypes
+
+global subroutine f_porting_articulos_prod ();datastore proddetartic
+long     indice,total,obs_vers
+string   sel,ant_articulo,ant_version,v_formula,v_descripcion_mp,v_proveedor
+string   v_articulo,v_version,v_aplicacion,v_formulacion,v_notas,v_tipoformula,v_ubicacion_pantalla
+dec      v_numaplic,v_gramaje,v_densidad,v_viscosidad,v_hilospantalla,v_equivalencia_kg_mp
+dec      v_precio,v_coste_kg_formula
+datetime v_f_alta
+boolean  bien = true
+sel = "select * from proddetartic where empresa = '"+codigo_empresa+"' order by articulo,version,numaplic"
+
+proddetartic = f_cargar_cursor(sel)
+
+total = proddetartic.rowcount()
+ant_articulo = ''
+ant_version  = ''
+
+for indice = 1 to total
+	f_mensaje_proceso("Estado porting",indice,total)
+	v_articulo           = proddetartic.object.articulo[indice]
+	v_version            = proddetartic.object.version[indice]
+	if ant_articulo = '' then
+		ant_articulo = v_articulo
+		ant_version  = v_version		
+	end if
+	if v_articulo <> ant_articulo or v_version <> ant_version then	
+		if bien then
+			commit;
+			//messagebox("Atención","Actualizando "+f_nombre_articulo(codigo_empresa,ant_articulo)+" versión "+ant_version)
+		else
+			rollback;
+			messagebox("Atención","No se graba "+f_nombre_articulo(codigo_empresa,ant_articulo)+" versión "+ant_version)
+		end if
+		ant_articulo = v_articulo
+		ant_version  = v_version
+		bien = true
+	end if	
+	v_numaplic           = DEC(proddetartic.object.numaplic[indice])
+	v_aplicacion         = proddetartic.object.aplicacion[indice]
+	v_formulacion        = proddetartic.object.formulacion[indice]
+	v_gramaje            = proddetartic.object.gramaje[indice]
+	v_densidad           = proddetartic.object.densidad[indice]
+	v_viscosidad         = proddetartic.object.viscosidad[indice]
+	v_hilospantalla      = proddetartic.object.hilospantalla[indice]
+	v_notas              = proddetartic.object.notas[indice]
+	v_f_alta             = proddetartic.object.f_alta[indice]
+	v_ubicacion_pantalla = proddetartic.object.ubicacion_pantalla[indice]
+	v_tipoformula        = proddetartic.object.tipoformula[indice]
+	
+	obs_vers = 0
+	select count(*)
+	into   :obs_vers
+	from   prodobsversionart
+	where  empresa  = :codigo_empresa
+	and    articulo = :v_articulo
+	and    version  = :v_version;
+	
+	if isnull(obs_vers) then obs_vers = 0
+	if obs_vers = 0 then
+		insert into prodobsversionart
+			(empresa,			articulo,					version,
+			 observaciones, 	observaciones_largas, 	fecha)
+		values
+			(:codigo_empresa,	:v_articulo,				:v_version,
+			 '', 					'', 							:v_f_alta);		
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if
+	else
+		update prodobsversionart
+		set    fecha = :v_f_alta
+		where  empresa  = :codigo_empresa
+		and    articulo = :v_articulo
+		and    version  = :v_version;
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if
+			
+	end if
+	
+	insert into prodaplicaciones_articulo
+		(empresa, 			articulo, 			version, 
+		 aplicacion, 		contador, 			orden,
+		 comentarios)
+	values
+		(:codigo_empresa, :v_articulo, 		:v_version, 
+		 :v_aplicacion, 	:v_numaplic, 		:v_numaplic,
+		 :v_notas);
+	if sqlca.sqlcode <> 0 then 
+		messagebox("Error 1",sqlca.sqlerrtext)
+		bien = false
+	end if
+		
+	
+	if isnull(v_formulacion) then v_formulacion = ""
+	if trim(v_formulacion) <> "" then
+		
+		if v_tipoformula = "pura" then
+			v_formula  = ""
+			select formula
+			into   :v_formula
+			from   prodformula
+			where  empresa = :codigo_empresa
+			and    mp_equivalente = :v_formulacion;
+			
+			if isnull(v_formula) then v_formula = ""
+			if trim(v_formula) = "" then
+				select descripcion,equivalencia_kg
+				into   :v_descripcion_mp,:v_equivalencia_kg_mp
+				from   venmprima
+				where  empresa = :codigo_empresa
+				and    codigo  = :v_formulacion;
+				
+				select max(proveedor)
+				into   :v_proveedor
+				from   comprovmprima
+				where  empresa = :codigo_empresa
+				and    mprima  = :v_formulacion;
+				
+				select precio
+				into   :v_precio
+				from   comprovmprima
+				where  empresa   = :codigo_empresa
+				and    mprima    = :v_formulacion
+				and    proveedor = :v_proveedor;
+				
+				if isnull(v_equivalencia_kg_mp) then v_equivalencia_kg_mp = 1
+				if v_equivalencia_kg_mp = 0 then v_equivalencia_kg_mp = 1
+				
+				v_coste_kg_formula = v_precio / v_equivalencia_kg_mp
+				
+				Select max(convert(int,formula)+1)
+				Into   :v_formula
+				From   prodformula
+				Where  empresa = :codigo_empresa;				
+				
+				if isnull(v_formula) then v_formula = ""
+				if trim(v_formula) = "" then v_formula = "1"
+				
+				insert into prodformula
+					(empresa, 						formula, 				 descripcion_produccion, 
+					 descripcion_laboratorio,  fecha_alta, 			 empleado, 
+					 coste_kg_formula, 			activa_en_produccion, mp_equivalente)
+				values
+					(:codigo_empresa, 			:v_formula, 			 :v_descripcion_mp, 
+					 :v_descripcion_mp,        '01/01/2000', 			 '', 
+					 :v_coste_kg_formula, 			'S',               :v_formulacion);
+					 
+				if sqlca.sqlcode <> 0 then 
+					messagebox("Error 1",sqlca.sqlerrtext)
+					bien = false
+				end if
+					
+				insert into proddetformula
+					(empresa, 			formulacion, 			mp, 
+					 cantidad, 			unidadmedida, 			proveedor, 
+					 cantidad_u_m_mp, unidad_u_m_mp)
+				values
+					(:codigo_empresa, :v_formula, 			:v_formulacion, 
+					 1, 			      'gr', 		         :v_proveedor, 
+					 1, 					'gr');
+				if sqlca.sqlcode <> 0 then 
+					messagebox("Error 1",sqlca.sqlerrtext)
+					bien = false
+				end if
+					
+			end if
+			v_formulacion = v_formula
+		end if		
+		insert into prodformulacionesapli_articulo
+			(empresa, 			articulo, 			version, 
+			 aplicacion, 		contador, 			formula, 
+			 gramaje)
+		values
+			(:codigo_empresa, :v_articulo, 		:v_version, 
+			 :v_aplicacion, 	:v_numaplic, 		:v_formulacion,
+			 :v_gramaje);
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if
+			
+	end if
+	
+	if isnull(v_densidad) then v_densidad = 0
+	if v_densidad <> 0 then
+		insert into prodcaracteristapli_articulo
+		   (empresa, 			articulo, 			version, 
+			 aplicacion, 		contador, 			caracteristica,
+			 orden, 				valor_numerico, 	valor_alfanumerico)
+		values
+			(:codigo_empresa, :v_articulo, 		:v_version, 
+			 :v_aplicacion, 	:v_numaplic, 		'1',
+			 1,					:v_densidad,      '');
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if
+			
+	end if
+
+	if isnull(v_viscosidad) then v_viscosidad = 0
+	if v_viscosidad <> 0 then
+		insert into prodcaracteristapli_articulo
+		   (empresa, 			articulo, 			version, 
+			 aplicacion, 		contador, 			caracteristica,
+			 orden, 				valor_numerico, 	valor_alfanumerico)
+		values
+			(:codigo_empresa, :v_articulo, 		:v_version, 
+			 :v_aplicacion, 	:v_numaplic, 		'2',
+			 2,					:v_viscosidad,    '');
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if
+	end if
+
+	if isnull(v_hilospantalla) then v_hilospantalla = 0
+	if v_hilospantalla <> 0 then
+		insert into prodcaracteristapli_articulo
+		   (empresa, 			articulo, 			version, 
+			 aplicacion, 		contador, 			caracteristica,
+			 orden, 				valor_numerico, 	valor_alfanumerico)
+		values
+			(:codigo_empresa, :v_articulo, 		:v_version, 
+			 :v_aplicacion, 	:v_numaplic, 		'3',
+			 3,					:v_hilospantalla, '');
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if			
+	end if
+
+	if isnull(v_ubicacion_pantalla) then v_ubicacion_pantalla = ""
+	if trim(v_ubicacion_pantalla) <> "" then
+		insert into prodcaracteristapli_articulo
+		   (empresa, 			articulo, 			version, 
+			 aplicacion, 		contador, 			caracteristica,
+			 orden, 				valor_numerico, 	valor_alfanumerico)
+		values
+			(:codigo_empresa, :v_articulo, 		:v_version, 
+			 :v_aplicacion, 	:v_numaplic, 		'4',
+			 4,					0, 					:v_ubicacion_pantalla);
+		if sqlca.sqlcode <> 0 then 
+			messagebox("Error 1",sqlca.sqlerrtext)
+			bien = false
+		end if			
+	end if
+	
+next 
+
+if bien then
+	commit;
+	//messagebox("Atención","Actualizando "+f_nombre_articulo(codigo_empresa,v_articulo)+" versión "+v_version)
+else
+	rollback;
+	messagebox("Atención","No se graba "+f_nombre_articulo(codigo_empresa,v_articulo)+" versión "+v_version)
+end if
+
+destroy proddetartic
+end subroutine
+

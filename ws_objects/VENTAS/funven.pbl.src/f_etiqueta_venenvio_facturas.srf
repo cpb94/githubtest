@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_etiqueta_venenvio_facturas.srf
+global type f_etiqueta_venenvio_facturas from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_venenvio_facturas (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_etiqueta_venenvio_facturas (string empresa, string cliente, string envio);String   var_nombre,  var_razon,var_pais, var_provincia,&
+	      var_cod_postal,      var_localidad,  var_domicilio  
+		
+String    montaje,nom,pais,provincia
+
+ 	  SELECT venenvio.descripcion,venenvio.pais,    venenvio.provincia,   
+	         venenvio.codpostal,venenvio.localidad, venenvio.domicilio  
+    INTO :var_nombre,  :var_pais,:var_provincia,:var_cod_postal,   
+         :var_localidad,    :var_domicilio  
+    FROM venenvio  
+   WHERE ( venenvio.empresa = :empresa ) AND  
+         ( venenvio.cliente = :cliente ) AND  
+         ( venenvio.codigo = :envio );
+			IF sqlca.sqlcode = 100 Then Return ""
+
+
+IF IsNull(var_nombre)    Then  var_nombre     =  ""
+IF IsNull(var_razon)     Then  var_razon      =  ""
+IF IsNull(var_localidad) Then  var_localidad  =  ""
+IF IsNull(var_domicilio) Then  var_domicilio  =  ""
+IF IsNull(var_pais)      Then  var_pais       =  ""
+IF IsNull(var_provincia) Then  var_provincia  =  ""
+IF IsNull(var_cod_postal) Then  var_cod_postal  =  ""
+
+nom  = Trim(var_nombre) + Trim(var_razon)			
+   
+IF Trim(var_nombre) <> "" and Trim(var_razon)<> "" Then
+	nom = var_nombre + Char(13) + var_razon
+END IF
+
+pais      = f_nombre_pais(var_pais)
+provincia = f_nombre_provincia(var_pais,var_provincia)
+
+montaje  =  nom + char(13) + &
+			  var_domicilio + char(13) + &
+           var_cod_postal + " " + var_localidad + char(13) + &
+			  + provincia + " ("+pais+")"
+			  				  
+ Return montaje
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_fecha.srf
+global type f_nombre_fecha from function_object
+end type
+
+forward prototypes
+global function string f_nombre_fecha (datetime fecha1)
+end prototypes
+
+global function string f_nombre_fecha (datetime fecha1);Date fecha
+string xmes
+Dec mes,dia,anyo
+fecha = Date(fecha1)
+mes = Month(fecha)
+dia = Day(fecha)
+anyo = Year(fecha)
+xmes = f_nombre_mes(mes)
+Return  Trim(String(dia)) + " de " + xmes + " de " + Trim(STring(anyo,f_mascara_decimales(0)))
+end function
+

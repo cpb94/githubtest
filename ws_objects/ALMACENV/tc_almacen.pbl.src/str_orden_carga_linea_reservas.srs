@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_orden_carga_linea_reservas.srs
+global type str_orden_carga_linea_reservas from structure
+     STRING     empresa
+     INTEGER     anyo
+     STRING     codigo
+     INTEGER     linea
+     DECIMAL {0}     id_alm_bultos
+     DECIMAL {6}     cantidad
+end type
+

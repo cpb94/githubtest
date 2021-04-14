@@ -1,0 +1,354 @@
+﻿$PBExportHeader$f_insertar_venliped.srf
+global type f_insertar_venliped from function_object
+end type
+
+forward prototypes
+global function any f_insertar_venliped (str_venliped linped)
+end prototypes
+
+global function any f_insertar_venliped (str_venliped linped);Dec{6}  impdto,importe,acumulado,importedto1,importedto2,importedto3,importedto4,importedtopp,importedtoesp,control_precio,control_bruto,control_importedto,control_importe
+Dec{2}  var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,control_descuento
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,var_calculo_dtoesp,v_mascara,ls_gestionar_en_piezas_ventipolin
+Dec{6}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+Integer procesos
+datetime v_fecha_intr 
+datetime fentrega, fentrega_inicial, fecha_entrega2, fecha_entrega3, fecha_entrega4, fecha_entrega5
+char     base_cli_bloqueo
+dec      ld_m2_caja
+long     ll_piezas_caja
+
+if isnull(linped.cantidad_pzs) then linped.cantidad_pzs = 0
+if isnull(linped.precio_pzs) then linped.precio_pzs = 0
+
+linped.cantidad_facturar = linped.cantidad
+
+IF linped.tipo_unidad = "1" Then	
+	if f_facturar_metros_reales_venped(codigo_empresa,linped.anyo,linped.pedido) = "S" then
+		linped.cantidad_facturar = f_cantidad_facturar_articulo(codigo_empresa,linped.articulo,linped.caja,linped.cantidad)
+	end if
+end if
+
+ls_gestionar_en_piezas_ventipolin = f_gestionar_en_piezas_ventipolin(linped.empresa,linped.tipolinea)
+
+IF IsNull(linped.articulo) Then linped.articulo = ""
+
+IF Trim(linped.articulo) = "" Then
+	linped.peso      = 0
+	linped.peso_neto = 0
+	linped.cantidad_pzs = linped.cantidad
+	linped.precio_pzs   = linped.precio
+ELSE
+	if ls_gestionar_en_piezas_ventipolin = 'S' then
+		linped.peso       = f_calculo_peso_pzs(linped.empresa,linped.articulo,linped.tipo_pallet,linped.cajas,linped.total_cajas,linped.pallets,linped.cantidad,linped.caja)
+		linped.peso_neto  = f_calculo_peso_neto_pzs(linped.empresa,linped.articulo,linped.cajas,linped.total_cajas,linped.cantidad,linped.caja)		
+	else
+		linped.peso       = f_calculo_peso(linped.empresa,linped.articulo,linped.tipo_pallet,linped.cajas,linped.total_cajas,linped.pallets,linped.cantidad,linped.caja)
+		linped.peso_neto  = f_calculo_peso_neto(linped.empresa,linped.articulo,linped.cajas,linped.total_cajas,linped.cantidad,linped.caja)
+	end if
+	
+	linped.tipo_unidad = f_unidad_articulo(linped.empresa,linped.articulo)
+	
+	if linped.cantidad_pzs = 0 then
+		if linped.tipo_unidad = '1' then
+			linped.cantidad_pzs = f_conversion_cantidad_piezas( linped.empresa, linped.articulo, linped.caja, linped.cantidad)
+		else
+			linped.cantidad_pzs = linped.cantidad
+		end if
+	end if
+	
+	if linped.precio_pzs = 0 then
+		if linped.tipo_unidad = '1' then
+			ld_m2_caja     = f_metroscaja_articulo(linped.empresa,linped.articulo,linped.caja)
+			ll_piezas_caja = f_piezascaja_articulo(linped.empresa,linped.articulo,linped.caja)
+			
+			if ll_piezas_caja <> 0 and ld_m2_caja <> 0 then	
+				linped.precio_pzs = (linped.precio * ld_m2_caja) / ll_piezas_caja
+			else
+				linped.precio_pzs = linped.precio
+			end if			
+		else
+			linped.precio_pzs = linped.precio	
+		end if		
+	end if
+END IF
+
+IF IsNUll(linped.peso) Then linped.peso = 0
+IF IsNUll(linped.peso_neto) Then linped.peso_neto = 0
+IF IsNUll(linped.pallets) Then linped.pallets = 0
+IF IsNUll(linped.cajas) Then linped.cajas = 0
+IF IsNUll(linped.total_cajas) Then linped.total_cajas = 0
+IF IsNUll(linped.id_alm_orden_carga) Then linped.id_alm_orden_carga = 0
+IF IsNUll(linped.ordenacion_orden_carga) Then linped.ordenacion_orden_carga = 0
+IF IsNUll(linped.bulto_desde_orden_carga) Then linped.bulto_desde_orden_carga = 0
+IF IsNUll(linped.bulto_hasta_orden_carga) Then linped.bulto_hasta_orden_carga = 0
+
+linped.precio_neto        = linped.precio
+linped.precio_aduana_neto = linped.precio_aduana
+linped.control_comisiones = f_comision_ventipolin(linped.empresa,linped.tipolinea)
+linped.control_descuentos = f_descuento_ventipolin(linped.empresa,linped.tipolinea)
+
+SELECT  venped.dtoesp1,     venped.dtoesp2,   
+			venped.dtoesp3,     venped.dtoesp4,   
+			venped.dtopp,       venped.tipodto1,   
+			venped.tipodto2,    venped.tipodto3,   
+			venped.tipodto4,    venped.divisa,
+			venped.calculo_dto, venped.numpedcli,
+			venped.transportista, venped.envio,venped.numpedcli,venped.calculo_dtoesp
+INTO 		:var_dto1,        :var_dto2,      :var_dto3,  :var_dto4,   
+			:var_dtopp,       :var_tipodto1,  :var_tipodto2,   
+			:var_tipodto3,    :var_tipodto4,  :linped.divisa,
+			:var_calculo_dto,:linped.ref_cli,:linped.transportista,
+			:linped.envio,:linped.numpedcli,:var_calculo_dtoesp
+FROM 	venped  
+WHERE 	(venped.empresa  = :linped.empresa ) AND  
+			(venped.anyo     = :linped.anyo ) AND  
+			(venped.pedido = :linped.pedido );
+			
+			
+v_mascara =	f_mascara_precios_fra_moneda(linped.divisa)
+IF  IsNull(linped.dtoesp) Then linped.dtoesp= 0
+if isnull(linped.dtoesp2) then linped.dtoesp2=0
+IF IsNull(var_dto1)  Then var_dto1  = 0
+IF IsNull(var_dto2)  Then var_dto2  = 0
+IF IsNull(var_dto3)  Then var_dto3  = 0
+IF IsNull(var_dto4)  Then var_dto4  = 0
+IF IsNull(var_dtopp) Then var_dtopp = 0
+linped.impdtopp  =0
+
+FOR procesos = 1 TO 2
+   IF procesos = 1 then control_precio = linped.precio_neto
+   IF procesos = 2 then control_precio = linped.precio_aduana_neto
+	
+	//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+	control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+	
+	IF var_calculo_dtoesp = "N" Then
+		importedtoesp = Dec(String((control_bruto * linped.dtoesp /100),v_mascara))
+		acumulado = control_bruto - importedtoesp
+		//Dto2
+		importedtoesp = importedtoesp + Dec(String((acumulado * linped.dtoesp2 /100),v_mascara))
+		acumulado = control_bruto - importedtoesp			
+	ELSE
+		control_precio = control_precio - &
+		Dec(String((control_precio * linped.dtoesp)/100,v_mascara))
+		control_precio = control_precio - &
+		Dec(String((control_precio * linped.dtoesp2)/100,v_mascara))		
+		//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+		control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+		acumulado = control_bruto
+		
+	END IF
+	
+	IF linped.control_descuentos = "N" Then
+		linped.descuento = 0
+	ELSE
+	 IF var_tipodto1  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+			acumulado = acumulado - importedto1
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto1)/100,v_mascara))
+			//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+			control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linped.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+	 
+	 IF var_tipodto2  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+			acumulado = acumulado - importedto2
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto2)/100,v_mascara))
+			//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+			control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linped.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+ 	 IF var_tipodto3  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+			acumulado = acumulado - importedto3
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto3)/100,v_mascara))
+			//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+			control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linped.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+ 	 IF var_tipodto4  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+			acumulado = acumulado - importedto4
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto4)/100,v_mascara))
+			//control_bruto = Dec(String(linped.cantidad * control_precio,v_mascara))
+			control_bruto = Dec(String(linped.cantidad_facturar * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linped.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	END IF
+	linped.impdtopp = Dec(String((acumulado * var_dtopp/100),v_mascara))
+	
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - linped.importedto
+	If control_bruto = 0 then
+		control_descuento  = 0
+	ELse
+		control_descuento  = (control_importedto/control_bruto)* 100
+	END IF
+	
+// David: Lo quito porque el descuento acumulado que calcula, debido al redondeo, no tiene por qué cuadrar con el cálculo	
+// con los descuentos por separado.
+//	control_importedto    = Dec(String(control_bruto * control_descuento / 100,v_mascara))
+//	control_importe       = control_bruto - control_importedto
+	
+	IF procesos = 1 Then
+		linped.descuento       = control_descuento
+		linped.bruto           = control_bruto
+	   linped.importedto      = control_importedto
+	   linped.importe         = control_importe
+		linped.precio_neto     = control_precio
+ 		linped.neto            = acumulado
+	END IF
+	IF procesos = 2 Then
+		linped.descuento_aduana       = linped.dtoesp
+	   linped.importe_aduana         = control_importe
+		linped.precio_aduana_neto     = control_precio
+	END IF
+NEXT
+
+IF f_sector_articulo(linped.empresa,linped.articulo) = "S" Then
+		IF linped.situacion = "F" Then
+			linped.orden_preparacion = 3
+		ELSE
+			IF linped.tipo_unidad = "1" Then
+				linped.orden_preparacion = 1
+			ELSE
+				linped.orden_preparacion = 2
+			END IF
+		END IF
+ELSE
+	linped.orden_preparacion = 4
+END IF
+
+SELECT  N
+INTO 		:base_cli_bloqueo
+FROM 	art_codestadistico  
+WHERE 	(art_codestadistico.empresa  = :linped.empresa ) AND  
+			(art_codestadistico.codigo = :linped.articulo );
+
+IF isnull (linped.bloqueado) or  linped.bloqueado = '' then
+	IF base_cli_bloqueo = 'S' THEN
+		linped.bloqueado = '1'
+		//setnull(v_fecha_intr) //YA NO PONEMOS A NULL LA FECHA AL ESTAR BLOQUEADO 07-2015
+	ELSE
+		linped.bloqueado = '0'
+	END IF
+ELSE
+	IF linped.bloqueado = '1' THEN
+		//setnull(v_fecha_intr) //YA NO PONEMOS A NULL LA FECHA AL ESTAR BLOQUEADO 07-2015
+	END IF
+END IF
+
+INSERT INTO venliped
+	( empresa,									anyo,									pedido,									linea,
+	serie,										fpedido,								fentrega,								cliente,
+	tipo_unidad,								articulo,							familia,									formato,   
+	modelo,										calidad,								tonochar,								calibre,
+	precio,										precio_estand,						cantidad,								pallets,
+	total_cajas,								cajas,								dtocomer,								dtoesp,   
+	descripcion,								tipoiva,								iva,										linfab,
+	provincia,									pais,									zona,										tipolinea,
+	texto1,										texto2,								texto3,									texto4,
+	referencia,									montajeartcal,						situacion,								divisa,
+	metros_lineales,							peso,									falta,									usuario,
+	tipo_pallet,								importe, 							descuento,				 				importedto,
+	clase,										sector,								agente1,									agente2,
+	agente3,										comision11,							comision12,								comision21,
+	comision22,									comision31,							comision32,								deposito,
+	orden_preparacion,						cantidad_prepa,					es_pico,									numero_pico,
+	anyo_ent,									nummov_ent,							anyo_sal,								nummov_sal,
+	fila_ent,									altura_ent,							operario_prepa,						control_incremento,
+	peso_neto,									precio_aduana,						control_descuentos,					control_comisiones,
+	importe_aduana,							bruto,								precio_neto,							precio_aduana_neto,
+	descuento_aduana,							neto,									impdtopp,								ref_cli,
+	transportista,								almacen_ent,						tipo_pallet_preparacion,			almacen_deposito,
+	envio,										numpedcli,							caja,										subfamilia,
+	subformato,									cantidad_facturar,				almacen_de_carga,						dtoesp2,
+	numpalet,									anyo_proddiaria,					contador_proddiaria,					idioma,
+	cantidad_original,						linea_desdoblada_de,				planificado,							fentrega_inicial,
+	fecha_entrega2, 							fecha_entrega3,					fecha_entrega4,						fecha_entrega5,
+	observaciones,								bloqueado,							fecha_intr, 							orden,
+	tono_imprimir,								calibre_imprimir,					id_alm_orden_carga,					ordenacion_orden_carga,
+	bulto_desde_orden_carga,				bulto_hasta_orden_carga,		cantidad_pzs,							precio_pzs,
+	id_alm_orden_preparacion)  
+VALUES 
+	(:linped.empresa,							:linped.anyo,						:linped.pedido,						:linped.linea,
+	:linped.serie,								:linped.fpedido,					:linped.fentrega,						:linped.cliente,   
+	:linped.tipo_unidad,						:linped.articulo,					:linped.familia,						:linped.formato,
+	:linped.modelo,							:linped.calidad,					:linped.tonochar,						:linped.calibre,
+	:linped.precio,							:linped.precio_estand,			:linped.cantidad,						:linped.pallets,
+	:linped.total_cajas,						:linped.cajas,						:linped.dtocomer,						:linped.dtoesp,
+	:linped.descripcion,						:linped.tipoiva,					:linped.iva,							:linped.linfab,   
+	:linped.provincia,						:linped.pais,						:linped.zona,							:linped.tipolinea,
+	:linped.texto1,							:linped.texto2,					:linped.texto3,						:linped.texto4,
+	:linped.referencia,						:linped.montajeartcal,			:linped.situacion,					:linped.divisa,
+	:linped.metros_lineales,				:linped.peso,						:linped.falta,							:linped.usuario,
+	:linped.tipo_pallet,						:linped.importe,					:linped.descuento,					:linped.importedto,
+	:linped.clase,								:linped.sector,					:linped.agente1,						:linped.agente2,
+	:linped.agente3,							:linped.comision11,				:linped.comision12,					:linped.comision21,
+	:linped.comision22,						:linped.comision31,				:linped.comision32,					:linped.deposito,
+	:linped.orden_preparacion,				:linped.cantidad_prepa,			:linped.es_pico,						:linped.numero_pico,
+	:linped.anyo_ent,							:linped.nummov_ent,				:linped.anyo_sal,						:linped.nummov_sal,
+	:linped.fila_ent,							:linped.altura_ent,				:linped.operario_prepa,				:linped.control_incremento,
+	:linped.peso_neto,						:linped.precio_aduana,			:linped.control_descuentos,		:linped.control_comisiones,
+	:linped.importe_aduana,					:linped.bruto,						:linped.precio_neto,					:linped.precio_aduana_neto,
+	:linped.descuento_aduana,				:linped.neto,						:linped.impdtopp,						:linped.ref_cli,
+	:linped.transportista,					:linped.almacen_ent,				:linped.tipo_pallet_preparacion,	:linped.almacen_deposito,
+	:linped.envio,								:linped.numpedcli,				:linped.caja,							:linped.subfamilia,
+	:linped.subformato,						:linped.cantidad_facturar,		:linped.almacen_de_carga,			:linped.dtoesp2,
+	:linped.numpalet,							:linped.anyo_proddiaria,		:linped.contador_proddiaria,		:linped.idioma,
+	:linped.cantidad_original,				:linped.linea_desdoblada_de,	:linped.planificado,					:linped.fentrega_inicial,
+	:linped.fecha_entrega2,					:linped.fecha_entrega3,			:linped.fecha_entrega4,				:linped.fecha_entrega5,
+	:linped.observaciones,					:linped.bloqueado,				:linped.fecha_intr,					:linped.orden,
+	:linped.tono_imprimir,					:linped.calibre_imprimir,		:linped.id_alm_orden_carga,		:linped.ordenacion_orden_carga,
+	:linped.bulto_desde_orden_carga,		:linped.bulto_hasta_orden_carga,:linped.cantidad_pzs,				:linped.precio_pzs,
+	:linped.id_alm_orden_preparacion);
+
+IF SQLCA.SQLCODE <> 0 Then
+	f_mensaje("Error en base de datos",SQLCA.SQLERRTEXT)
+	RETURN FALSE
+ELSE
+	RETURN TRUE
+END IF
+
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_revista.srf
+$PBExportComments$Devuelve el nombre de la revista.
+global type f_nombre_revista from function_object
+end type
+
+forward prototypes
+global function string f_nombre_revista (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_revista (string empresa, string codigo);String var_descripcion
+  SELECT mrevistas.descripcion  
+    INTO :var_descripcion  
+    FROM mrevistas  
+   WHERE ( mrevistas.empresa = :empresa ) AND  
+         ( mrevistas.codigo = :codigo ) ;
+Return var_descripcion;
+
+
+end function
+

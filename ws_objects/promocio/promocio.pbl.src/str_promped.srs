@@ -1,0 +1,58 @@
+﻿$PBExportHeader$str_promped.srs
+global type str_promped from structure
+	string		empresa
+	integer		anyo
+	decimal {0}	pedido
+	datetime		fpedido
+	datetime		fentrega
+	datetime		falta
+	string		tipo_cliente
+	string		cliente
+	datetime		flistado
+	string		observaciones
+	string		agente1
+	string		agente2
+	string		numpedcli
+	string		idioma
+	datetime		fbloqueo
+	string		transportista
+	string		serie
+	string		zona
+	string		envio
+	string		correspondencia
+	string		domiciliacion
+	string		forma_envio
+	string		cod_entrega
+	string		usuario
+	string		tipo_portes
+	string		periodo_fac
+	string		usuario_pedido
+	string		agente3
+	decimal {0}	veces
+	decimal {2}	peso_material
+	decimal {2}	coste_material
+	decimal {2}	venta_material
+	decimal {2}	peso_total
+	decimal {2}	coste_total
+	decimal {2}	venta_total
+	string		tipo_expositor
+	string		expositor
+	string		tipo
+	string		pais
+	string		reposicion
+	decimal {2}	peso_paneles
+	decimal {2}	coste_paneles
+	decimal {2}	venta_paneles
+	decimal {2}	peso_expositor
+	decimal {2}	coste_expositor
+	decimal {2}	venta_expositor
+	string		situacion
+	string		control_libre
+	string		clase_panel
+	decimal {0}	coste_manipulacion
+	string		numserie
+	string		exp_cargado
+	string		juego_de_piezas
+	string		cajas
+end type
+

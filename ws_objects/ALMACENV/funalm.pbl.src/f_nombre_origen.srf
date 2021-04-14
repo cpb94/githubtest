@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nombre_origen.srf
+$PBExportComments$Devuelve la descripcion del registro tabla almorigen origenres de movimientos del almacen.
+global type f_nombre_origen from function_object
+end type
+
+forward prototypes
+global function string f_nombre_origen (string ra_codemp, string ra_codorigen)
+end prototypes
+
+global function string f_nombre_origen (string ra_codemp, string ra_codorigen); string ls_nombre_origen
+
+  SELECT almorigen.descripcion  
+    INTO :ls_nombre_origen
+    FROM almorigen  
+   WHERE ( almorigen.empresa = :ra_codemp ) AND  
+			( almorigen.origen = :ra_codorigen )  
+	USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_origen = ""
+END IF
+Return ls_nombre_origen
+
+end function
+

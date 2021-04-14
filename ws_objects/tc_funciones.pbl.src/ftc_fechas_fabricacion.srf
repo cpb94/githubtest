@@ -1,0 +1,28 @@
+﻿$PBExportHeader$ftc_fechas_fabricacion.srf
+global type ftc_fechas_fabricacion from function_object
+end type
+
+forward prototypes
+global function string ftc_fechas_fabricacion (string empresa, string articulo)
+end prototypes
+
+global function string ftc_fechas_fabricacion (string empresa, string articulo);String resultado, sql
+Long i
+Datastore fechas
+
+sql = "SELECT f_fin_estimada FROM planificacion WHERE empresa = '"+empresa+"' AND cod_articulo = '"+articulo+"' AND f_fin_estimada IS NOT NULL AND LTRIM(RTRIM(f_fin_estimada)) <> '' ORDER BY f_fin_estimada ASC "
+
+f_cargar_cursor_trans (SQLCA,  sql, fechas)
+
+i = 1
+resultado = ""
+do while i <= fechas.RowCount() 
+	resultado = resultado + string(i) + ") " + String(fechas.object.f_fin_estimada[i],"dd/mm/yyyy") + " ~r"
+	i ++
+loop
+
+
+return resultado
+Destroy fechas
+end function
+

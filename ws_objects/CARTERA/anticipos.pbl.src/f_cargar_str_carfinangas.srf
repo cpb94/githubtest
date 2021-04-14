@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_cargar_str_carfinangas.srf
+global type f_cargar_str_carfinangas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_carfinangas (STRING arg_empresa, INTEGER arg_anyo, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, STRING arg_aboliqteo, INTEGER arg_liquidacion, STRING arg_codgas,  ref str_carfinangas str_carfinangas)
+end prototypes
+
+global function boolean f_cargar_str_carfinangas (STRING arg_empresa, INTEGER arg_anyo, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, STRING arg_aboliqteo, INTEGER arg_liquidacion, STRING arg_codgas,  ref str_carfinangas str_carfinangas);boolean lb_correcto = true
+
+SELECT carfinangas.empresa,
+       carfinangas.anyo,
+       carfinangas.bancofinan,
+       carfinangas.contador,
+       carfinangas.num_prorroga,
+       carfinangas.aboliqteo,
+       carfinangas.liquidacion,
+       carfinangas.codgas,
+       carfinangas.porcentaje,
+       carfinangas.importe_min,
+       carfinangas.cambio,
+       carfinangas.divisas,
+       carfinangas.moneda,
+       carfinangas.importe,
+       carfinangas.cuenta
+INTO   :str_carfinangas.empresa,
+       :str_carfinangas.anyo,
+       :str_carfinangas.bancofinan,
+       :str_carfinangas.contador,
+       :str_carfinangas.num_prorroga,
+       :str_carfinangas.aboliqteo,
+       :str_carfinangas.liquidacion,
+       :str_carfinangas.codgas,
+       :str_carfinangas.porcentaje,
+       :str_carfinangas.importe_min,
+       :str_carfinangas.cambio,
+       :str_carfinangas.divisas,
+       :str_carfinangas.moneda,
+       :str_carfinangas.importe,
+       :str_carfinangas.cuenta
+FROM carfinangas
+WHERE carfinangas.empresa = :arg_empresa AND carfinangas.anyo = :arg_anyo AND carfinangas.bancofinan = :arg_bancofinan AND carfinangas.contador = :arg_contador AND carfinangas.num_prorroga = :arg_num_prorroga AND carfinangas.aboliqteo = :arg_aboliqteo AND carfinangas.liquidacion = :arg_liquidacion AND carfinangas.codgas = :arg_codgas;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

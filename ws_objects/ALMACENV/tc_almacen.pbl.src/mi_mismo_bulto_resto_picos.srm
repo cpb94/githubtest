@@ -1,0 +1,142 @@
+﻿$PBExportHeader$mi_mismo_bulto_resto_picos.srm
+forward
+global type mi_mismo_bulto_resto_picos from menu
+end type
+type m_marcar from menu within mi_mismo_bulto_resto_picos
+end type
+type m_0 from menu within mi_mismo_bulto_resto_picos
+end type
+type m_salir from menu within mi_mismo_bulto_resto_picos
+end type
+global type mi_mismo_bulto_resto_picos from menu
+m_marcar m_marcar
+m_0 m_0
+m_salir m_salir
+end type
+end forward
+
+global type mi_mismo_bulto_resto_picos from menu
+m_marcar m_marcar
+m_0 m_0
+m_salir m_salir
+end type
+global mi_mismo_bulto_resto_picos mi_mismo_bulto_resto_picos
+
+on mi_mismo_bulto_resto_picos.create
+mi_mismo_bulto_resto_picos=this
+call super::create
+this.text = "mi_mismo_bulto_resto_picos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_marcar=create m_marcar
+this.m_0=create m_0
+this.m_salir=create m_salir
+this.Item[UpperBound(this.Item)+1]=this.m_marcar
+this.Item[UpperBound(this.Item)+1]=this.m_0
+this.Item[UpperBound(this.Item)+1]=this.m_salir
+end on
+
+on mi_mismo_bulto_resto_picos.destroy
+call super::destroy
+destroy(this.m_marcar)
+destroy(this.m_0)
+destroy(this.m_salir)
+end on
+
+type m_marcar from menu within mi_mismo_bulto_resto_picos
+end type
+
+event clicked;ParentWindow.triggerevent("asignar_mismo_bulto_a_resto_de_picos")
+end event
+
+on m_marcar.create
+call super::create
+this.text = "Asignar Mismo Bulto a Resto de Picos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_marcar.destroy
+call super::destroy
+end on
+
+type m_0 from menu within mi_mismo_bulto_resto_picos
+end type
+
+on m_0.create
+call super::create
+this.text = "-"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_0.destroy
+call super::destroy
+end on
+
+type m_salir from menu within mi_mismo_bulto_resto_picos
+end type
+
+on m_salir.create
+call super::create
+this.text = "Salir"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_salir.destroy
+call super::destroy
+end on
+

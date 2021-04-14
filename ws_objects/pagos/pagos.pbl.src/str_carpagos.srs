@@ -1,0 +1,33 @@
+﻿$PBExportHeader$str_carpagos.srs
+global type str_carpagos from structure
+     STRING     empresa
+     DECIMAL {0}     anyo
+     DECIMAL {0}     orden
+     DECIMAL {0}     anyofra
+     STRING     fra
+     DECIMAL {0}     recibo
+     DATETIME     ffra
+     DATETIME     fvto
+     DATETIME     fpago
+     DECIMAL {6}     importe
+     DECIMAL {6}     divisas
+     STRING     moneda
+     STRING     banco
+     STRING     proveedor
+     STRING     tipodoc
+     STRING     codpago
+     STRING     situacion
+     STRING     cuenta
+     DATETIME     femi
+     STRING     num_talon
+     STRING     asignar_banco
+     STRING     tipodoc_pago
+     DECIMAL {6}     cambio
+     STRING     punteado
+     STRING     concepto
+     STRING     observaciones
+     DECIMAL {6}     anyoagrupa
+     DECIMAL {6}     efectoagrupa
+     STRING     agrupado
+end type
+

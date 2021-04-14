@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dwact_fcampo3.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=173 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=empresa dbname="act_fcampo3.empresa" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=codigo dbname="act_fcampo3.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=texto dbname="act_fcampo3.texto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"act_fcampo3~" ) COLUMN(NAME=~"act_fcampo3.empresa~") COLUMN(NAME=~"act_fcampo3.codigo~") COLUMN(NAME=~"act_fcampo3.texto~")WHERE(    EXP1 =~"act_fcampo3.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"act_fcampo3.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = number) " update="act_fcampo3" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", number)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="74" y="56" height="65" width="357"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="439" y="48" height="77" width="1203" format="[general]"  name=texto edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

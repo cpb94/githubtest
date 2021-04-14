@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_venconductores_nombre.srf
+global type f_venconductores_nombre from function_object
+end type
+
+forward prototypes
+global function string f_venconductores_nombre (string empresa, string transp, string codigo)
+end prototypes
+
+global function string f_venconductores_nombre (string empresa, string transp, string codigo);String ls_nombre
+
+ SELECT venconductores.nombre	
+    INTO :ls_nombre
+    FROM venconductores  
+   WHERE ( venconductores.empresa = :empresa ) AND  
+         ( venconductores.transportista = :transp) AND  
+         ( venconductores.codigo = :codigo )  ;
+
+if isnull(ls_nombre) then ls_nombre = ""
+
+Return ls_nombre
+
+end function
+

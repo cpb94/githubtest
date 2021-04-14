@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_max_almlinubica.srf
+global type f_max_almlinubica from function_object
+end type
+
+forward prototypes
+global function integer f_max_almlinubica (string empresa, string ubicacion)
+end prototypes
+
+global function integer f_max_almlinubica (string empresa, string ubicacion);Integer var_linea 
+SELECT max(almlinubica.linea)  
+INTO :var_linea  
+FROM almlinubica  
+WHERE ( almlinubica.empresa = :empresa )
+AND   ( almlinubica.ubicacion = :ubicacion ) ;  
+Return var_linea
+
+end function
+

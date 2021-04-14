@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nuestracta_banco.srf
+global type f_nuestracta_banco from function_object
+end type
+
+forward prototypes
+global function string f_nuestracta_banco (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_nuestracta_banco (string cod_empresa, string cod_banco);String ls_cuenta,ls_entidad,ls_oficina,ls_control,var_cuenta
+
+ SELECT  carbancos.nuestracta,carbancos.entidad,carbancos.oficina,carbancos.control
+   INTO  :ls_cuenta,:ls_entidad,:ls_oficina,:ls_control
+   FROM  carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+
+ if isnull(ls_cuenta) and isnull(ls_entidad) and isnull(ls_oficina) and isnull(ls_control) then
+	var_cuenta = ""
+ else
+   var_cuenta = ls_entidad + " / " + ls_oficina + " / " + ls_control + " / " + ls_cuenta
+ end if
+
+RETURN var_cuenta
+//
+
+end function
+

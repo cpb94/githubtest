@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_zona_venparametros.srf
+global type f_zona_venparametros from function_object
+end type
+
+forward prototypes
+global function string f_zona_venparametros (string arg_empresa)
+end prototypes
+
+global function string f_zona_venparametros (string arg_empresa);String var_variable
+
+SELECT venparametros.zona  INTO :var_variable FROM venparametros  
+ WHERE venparametros.empresa  =  :arg_empresa;
+	
+Return var_variable
+
+end function
+

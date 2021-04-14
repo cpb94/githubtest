@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_permisos_usuario.srf
+global type f_permisos_usuario from function_object
+end type
+
+forward prototypes
+global function boolean f_permisos_usuario (string codigo)
+end prototypes
+
+global function boolean f_permisos_usuario (string codigo);String permiso
+
+SELECT permisos.permiso  
+INTO   :permiso
+FROM   permisos  
+WHERE  permisos.v_usuario = :nombre_usuario
+AND    permisos.permiso = :codigo;
+
+if isnull(permiso) or trim(permiso)= "" then
+	return false
+else
+	return true
+end if
+end function
+

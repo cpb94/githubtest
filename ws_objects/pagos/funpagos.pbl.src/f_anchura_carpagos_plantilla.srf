@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_anchura_carpagos_plantilla.srf
+global type f_anchura_carpagos_plantilla from function_object
+end type
+
+forward prototypes
+global function decimal f_anchura_carpagos_plantilla (string empresa, string banco, string tipodoc)
+end prototypes
+
+global function decimal f_anchura_carpagos_plantilla (string empresa, string banco, string tipodoc);Dec var
+  SELECT carpagos_plantillas.anchura
+  
+    INTO :var  
+    FROM carpagos_plantillas  
+   WHERE ( carpagos_plantillas.empresa = :empresa ) AND  
+         ( carpagos_plantillas.banco  = :banco ) AND  
+         ( carpagos_plantillas.tipodoc = :tipodoc )   ;
+var = var * f_powerund() / 1000
+return var
+end function
+

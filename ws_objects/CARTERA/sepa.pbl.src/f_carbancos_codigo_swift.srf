@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_carbancos_codigo_swift.srf
+global type f_carbancos_codigo_swift from function_object
+
+end type
+
+forward prototypes
+global function string f_carbancos_codigo_swift (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_carbancos_codigo_swift (string cod_empresa, string cod_banco);String ls_codigo_swift
+
+SELECT isnull(carbancos.codigo_swift,'')
+INTO   :ls_codigo_swift
+FROM   carbancos 
+WHERE ( carbancos.empresa= :cod_empresa )
+AND   ( carbancos.banco  = :cod_banco   );
+
+return ls_codigo_swift
+
+
+
+end function
+

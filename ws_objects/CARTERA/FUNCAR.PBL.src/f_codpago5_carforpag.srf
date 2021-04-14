@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_codpago5_carforpag.srf
+global type f_codpago5_carforpag from function_object
+end type
+
+forward prototypes
+global function string f_codpago5_carforpag (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function string f_codpago5_carforpag (string arg_empresa, string arg_codigo);string retorno
+
+select codpago5
+into :retorno
+from carforpag
+where empresa=:arg_empresa and
+		forma=:arg_codigo;
+		
+if isnull(retorno) or retorno='' then retorno=arg_codigo
+
+return retorno
+end function
+

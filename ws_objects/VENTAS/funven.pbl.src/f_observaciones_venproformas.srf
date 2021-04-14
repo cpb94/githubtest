@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_observaciones_venproformas.srf
+global type f_observaciones_venproformas from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_venproformas (string empresa, integer anyo, decimal proforma)
+end prototypes
+
+global function string f_observaciones_venproformas (string empresa, integer anyo, decimal proforma);String var_empresa,var_observaciones
+Dec{0} var_anyo,var_proforma
+
+  SELECT venproformas.empresa,venproformas.anyo,venproformas.proforma,venproformas.observaciones  
+    INTO :var_empresa,:var_anyo,:var_proforma,:var_observaciones  
+    FROM venproformas  
+   WHERE (venproformas.empresa = :empresa)
+   AND   (venproformas.anyo    = :anyo)
+   AND   (venproformas.proforma  = :proforma)   
+ORDER BY venproformas.empresa ASC,venproformas.anyo ASC,venproformas.proforma ASC;
+
+
+Return var_observaciones
+end function
+

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$str_carfinanliq.srs
+global type str_carfinanliq from structure
+     STRING     empresa
+     INTEGER     anyo
+     STRING     bancofinan
+     INTEGER     contador
+     INTEGER     num_prorroga
+     INTEGER     liquidacion
+     STRING     banco
+     DATETIME     fecha
+     DECIMAL {2}     cambio
+     DECIMAL {5}     divisas
+     DECIMAL {2}     importe
+     STRING     moneda
+end type
+

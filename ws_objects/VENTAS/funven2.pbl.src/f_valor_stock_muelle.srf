@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_valor_stock_muelle.srf
+global type f_valor_stock_muelle from function_object
+end type
+
+forward prototypes
+global function decimal f_valor_stock_muelle (string empresa)
+end prototypes
+
+global function decimal f_valor_stock_muelle (string empresa);dec valor_stock_muelle
+
+select sum( (CASE WHEN articulos.unidad = '0' THEN (almacenmovimientos.cantidade - almacenmovimientos.cantidads) ELSE (floor((almacenmovimientos.cantidade - almacenmovimientos.cantidads) / av.piezascaja) * av.metroscaja) END)  * venlintarifas.precio )
+into :valor_stock_muelle
+from almacenmovimientos 
+INNER JOIN venlintarifas ON almacenmovimientos.empresa = venlintarifas.empresa and almacenmovimientos.articulo = venlintarifas.articulo and venlintarifas.tarifa = (SELECT TOP 1 v.tarifa FROM venlintarifas v WHERE v.tarifa <> '5' AND v.articulo = almacenmovimientos.articulo) 
+INNER JOIN almartcajas av ON almacenmovimientos.empresa = av.empresa AND almacenmovimientos.articulo = av.articulo AND almacenmovimientos.caja = av.caja 
+INNER JOIN articulos ON almacenmovimientos.empresa = articulos.empresa AND almacenmovimientos.articulo = articulos.codigo 
+where almacenmovimientos.empresa = :codigo_empresa 
+and av.piezascaja <> 0 
+and almacenmovimientos.almacen = '1'
+and almacenmovimientos.zona = 'P'
+and almacenmovimientos.fila = 1
+and almacenmovimientos.altura = 1;
+
+if isnull(valor_stock_muelle) then
+	valor_stock_muelle = 0
+end if
+
+return valor_stock_muelle
+
+
+
+end function
+

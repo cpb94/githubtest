@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_cantidad_paneles_pedidos.srf
+global type f_cantidad_paneles_pedidos from function_object
+end type
+
+forward prototypes
+global function integer f_cantidad_paneles_pedidos (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function integer f_cantidad_paneles_pedidos (string empresa, integer anyo, decimal pedido);Integer paneles
+  SELECT sum(cantidad)
+    INTO :paneles
+    FROM promlinped
+   WHERE ( promlinped.empresa = :empresa ) AND  
+         ( promlinped.anyo    = :anyo ) AND  
+			( promlinped.pedido  = :pedido);
+iF IsNull(paneles) Then  paneles = 0
+Return paneles
+
+
+end function
+

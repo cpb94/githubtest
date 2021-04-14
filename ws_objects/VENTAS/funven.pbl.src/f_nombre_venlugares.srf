@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_venlugares.srf
+global type f_nombre_venlugares from function_object
+end type
+
+forward prototypes
+global function string f_nombre_venlugares (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_venlugares (string empresa, string codigo);String var_param
+
+   SELECT venlugares.nombre  
+    INTO :var_param  
+    FROM venlugares  
+   WHERE ( venlugares.empresa = :empresa ) AND  
+         ( venlugares.codigo = :codigo )   ;
+
+
+RETURN var_param
+//
+
+end function
+

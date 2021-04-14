@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_precio_neto_almcolecciones.srf
+global type f_precio_neto_almcolecciones from function_object
+end type
+
+forward prototypes
+global function string f_precio_neto_almcolecciones (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function string f_precio_neto_almcolecciones (string arg_empresa, string arg_codigo);string	retorno
+
+  SELECT precio_neto  
+    INTO :retorno
+    FROM almcolecciones
+   WHERE ( empresa =:arg_empresa ) AND  
+         ( codigo = :arg_codigo )   
+     USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN 	retorno="N"
+
+
+RETURN retorno
+end function
+

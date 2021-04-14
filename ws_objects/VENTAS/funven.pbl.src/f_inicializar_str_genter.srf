@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_inicializar_str_genter.srf
+global type f_inicializar_str_genter from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_genter ( ref str_genter str_genter)
+end prototypes
+
+global function boolean f_inicializar_str_genter ( ref str_genter str_genter);boolean lb_correcto = true
+
+if isnull(str_genter.empresa) then str_genter.empresa = ''
+if isnull(str_genter.tipoter) then str_genter.tipoter = ''
+if isnull(str_genter.codigo) then str_genter.codigo = ''
+if isnull(str_genter.nombre) then str_genter.nombre = ''
+if isnull(str_genter.razon) then str_genter.razon = ''
+if isnull(str_genter.cif) then str_genter.cif = ''
+if isnull(str_genter.pais) then str_genter.pais = ''
+if isnull(str_genter.provincia) then str_genter.provincia = ''
+if isnull(str_genter.cod_postal) then str_genter.cod_postal = ''
+if isnull(str_genter.localidad) then str_genter.localidad = ''
+if isnull(str_genter.domicilio) then str_genter.domicilio = ''
+if isnull(str_genter.telefono) then str_genter.telefono = ''
+if isnull(str_genter.fax) then str_genter.fax = ''
+if isnull(str_genter.moneda) then str_genter.moneda = ''
+if isnull(str_genter.riesgo) then str_genter.riesgo = 0
+if isnull(str_genter.apellidos) then str_genter.apellidos = ''
+if isnull(str_genter.sexo) then str_genter.sexo = ''
+if isnull(str_genter.idioma) then str_genter.idioma = ''
+if isnull(str_genter.activo) then str_genter.activo = ''
+if isnull(str_genter.tipopais) then str_genter.tipopais = ''
+if isnull(str_genter.cl_domicilio) then str_genter.cl_domicilio = ''
+if isnull(str_genter.nu_domicilio) then str_genter.nu_domicilio = ''
+if isnull(str_genter.prefijo_provincia) then str_genter.prefijo_provincia = ''
+if isnull(str_genter.distribuidor) then str_genter.distribuidor = ''
+if isnull(str_genter.codigo_cliente) then str_genter.codigo_cliente = ''
+if isnull(str_genter.genter) then str_genter.genter = ''
+if isnull(str_genter.cuenta) then str_genter.cuenta = ''
+if isnull(str_genter.textoactivo) then str_genter.textoactivo = ''
+if isnull(str_genter.telefono2) then str_genter.telefono2 = ''
+if isnull(str_genter.email1) then str_genter.email1 = ''
+if isnull(str_genter.email2) then str_genter.email2 = ''
+if isnull(str_genter.visible_expo) then str_genter.visible_expo = ''
+if isnull(str_genter.codigo_adv) then str_genter.codigo_adv = 0
+return lb_correcto
+end function
+

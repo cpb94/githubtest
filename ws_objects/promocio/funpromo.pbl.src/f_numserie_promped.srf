@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_numserie_promped.srf
+global type f_numserie_promped from function_object
+end type
+
+forward prototypes
+global function string f_numserie_promped (string empresa, decimal anyo, integer pedido)
+end prototypes
+
+global function string f_numserie_promped (string empresa, decimal anyo, integer pedido);String variable
+  
+  SELECT promped.numserie
+    INTO :variable  
+    FROM promped  
+   WHERE ( promped.empresa = :empresa ) AND  
+         ( promped.anyo = :anyo ) AND  
+         ( promped.pedido = :pedido )   ;
+IF ISNULL(variable) then variable = ""
+Return variable
+end function
+

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_cambiar_coma_por_punto.srf
+global type f_cambiar_coma_por_punto from function_object
+end type
+
+forward prototypes
+global function string f_cambiar_coma_por_punto (string cadena)
+end prototypes
+
+global function string f_cambiar_coma_por_punto (string cadena);return replace(cadena,pos(cadena,","),1,".")
+end function
+

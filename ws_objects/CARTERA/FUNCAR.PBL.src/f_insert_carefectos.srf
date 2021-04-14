@@ -1,0 +1,158 @@
+﻿$PBExportHeader$f_insert_carefectos.srf
+global type f_insert_carefectos from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carefectos (str_carefectos efectos)
+end prototypes
+
+global function boolean f_insert_carefectos (str_carefectos efectos);  
+efectos.factura = left(efectos.factura, 20)
+
+if isnull(efectos.agrupado) then efectos.agrupado = ''
+if trim(efectos.agrupado) = '' then efectos.agrupado = 'N'
+
+if isnull(efectos.pago_a_cuenta) then efectos.pago_a_cuenta = ''
+if trim(efectos.pago_a_cuenta) = '' then efectos.pago_a_cuenta = 'N'
+
+INSERT INTO carefectos  
+	( carefectos.empresa, 
+	  carefectos.anyo, 
+	  carefectos.orden, 
+	  carefectos.anyofra, 
+	  carefectos.factura, 
+	  carefectos.recibo, 
+	  carefectos.fvto, 
+	  carefectos.fvto_original, 
+	  carefectos.ffra, 
+	  carefectos.fcobro, 
+	  carefectos.importe, 
+	  carefectos.divisas, 
+	  carefectos.monedas, 
+	  carefectos.fpago, 
+	  carefectos.tipodoc, 
+	  carefectos.banco, 
+	  carefectos.remesa, 
+	  carefectos.fremesa, 
+	  carefectos.situacion, 
+	  carefectos.agente1, 
+	  carefectos.pais, 
+	  carefectos.cuenta, 
+	  carefectos.domiciliacion, 
+	  carefectos.Nacional, 
+	  carefectos.observaciones, 
+	  carefectos.libre, 
+	  carefectos.gasto, 
+	  carefectos.fdevolucion, 
+	  carefectos.agrupado, 
+	  carefectos.efectoagrupa, 
+	  carefectos.anyoagrupa, 
+	  carefectos.cliente, 
+	  carefectos.anyo_remesa, 
+	  carefectos.comision11, 
+	  carefectos.comision12, 
+	  carefectos.agente2, 
+	  carefectos.comision21, 
+	  carefectos.comision22, 
+	  carefectos.agente3, 
+	  carefectos.comision31, 
+	  carefectos.comision32, 
+	  carefectos.cambio, 
+	  carefectos.serie, 
+	  carefectos.remesa_total, 
+	  carefectos.tipo_remesa, 
+	  carefectos.veces, 
+	  carefectos.fechaimp, 
+	  carefectos.nomcli, 
+	  carefectos.domicli, 
+	  carefectos.poblacli, 
+	  carefectos.paiscli, 
+	  carefectos.nombanco, 
+	  carefectos.dirbanco1, 
+	  carefectos.dirbanco2, 
+	  carefectos.recibir_dmto, 
+	  carefectos.fecha_recibido, 
+	  carefectos.punteado, 
+	  carefectos.clase_efecto, 
+	  carefectos.cambio_euros, 
+	  carefectos.cambio_asegurado, 
+	  carefectos.devuelto_notificado_agente, 
+	  carefectos.devuelto_notificado_agente2, 
+	  carefectos.devuelto_notificado_agente3, 
+	  carefectos.banco_docu, 
+	  carefectos.pago_a_cuenta )      
+VALUES 
+	( :efectos.empresa, 
+	  :efectos.anyo, 
+	  :efectos.orden, 
+	  :efectos.anyofra, 
+	  :efectos.factura, 
+	  :efectos.recibo, 
+	  :efectos.fvto, 
+	  :efectos.fvto_original, 
+	  :efectos.ffra, 
+	  :efectos.fcobro, 
+	  :efectos.importe, 
+	  :efectos.divisas, 
+	  :efectos.monedas, 
+	  :efectos.fpago, 
+	  :efectos.tipodoc, 
+	  :efectos.banco, 
+	  :efectos.remesa, 
+	  :efectos.fremesa, 
+	  :efectos.situacion, 
+	  :efectos.agente1, 
+	  :efectos.pais, 
+	  :efectos.cuenta, 
+	  :efectos.domiciliacion, 
+	  :efectos.Nacional, 
+	  :efectos.observaciones, 
+	  :efectos.libre, 
+	  :efectos.gasto, 
+	  :efectos.fdevolucion, 
+	  :efectos.agrupado, 
+	  :efectos.efectoagrupa, 
+	  :efectos.anyoagrupa, 
+	  :efectos.cliente, 
+	  :efectos.anyo_remesa, 
+	  :efectos.comision11, 
+	  :efectos.comision12, 
+	  :efectos.agente2, 
+	  :efectos.comision21, 
+	  :efectos.comision22, 
+	  :efectos.agente3, 
+	  :efectos.comision31, 
+	  :efectos.comision32, 
+	  :efectos.cambio, 
+	  :efectos.serie, 
+	  :efectos.remesa_total, 
+	  :efectos.tipo_remesa, 
+	  :efectos.veces, 
+	  :efectos.fechaimp, 
+	  :efectos.nomcli, 
+	  :efectos.domicli, 
+	  :efectos.poblacli, 
+	  :efectos.paiscli, 
+	  :efectos.nombanco, 
+	  :efectos.dirbanco1, 
+	  :efectos.dirbanco2, 
+	  :efectos.recibir_dmto, 
+	  :efectos.fecha_recibido, 
+	  :efectos.punteado, 
+	  :efectos.clase_efecto, 
+	  :efectos.cambio_euros, 
+	  :efectos.cambio_asegurado, 
+	  :efectos.devuelto_notificado_agente, 
+	  :efectos.devuelto_notificado_agente2, 
+	  :efectos.devuelto_notificado_agente3, 
+	  :efectos.banco_docu, 
+	  :efectos.pago_a_cuenta );
+
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("(f_insert_carefectos)Error en base de datos",SQLCA.SQLERRTEXT)
+	Return FALSE
+ELSE
+	Return TRUE
+END IF
+end function
+

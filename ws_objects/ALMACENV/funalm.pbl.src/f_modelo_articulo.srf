@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_modelo_articulo.srf
+global type f_modelo_articulo from function_object
+end type
+
+forward prototypes
+global function string f_modelo_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_modelo_articulo (string empresa, string articulo);String var_variable,var_codigo,var_empresa
+
+  SELECT articulos.empresa,articulos.codigo,articulos.modelo
+  INTO :var_empresa,:var_codigo,:var_variable  
+  FROM articulos
+  Where articulos.empresa = :empresa
+  And   articulos.codigo  =:articulo
+  Order By articulos.empresa Asc, articulos.codigo Asc;
+
+Return Trim(var_variable) ;
+
+end function
+

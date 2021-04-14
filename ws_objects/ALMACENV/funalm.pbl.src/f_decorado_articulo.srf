@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_decorado_articulo.srf
+global type f_decorado_articulo from function_object
+end type
+
+forward prototypes
+global function string f_decorado_articulo (string ai_codemp, string ai_codart)
+end prototypes
+
+global function string f_decorado_articulo (string ai_codemp, string ai_codart);string	ls_decorado
+
+  SELECT  articulo.decorado  INTO :ls_decorado     FROM articulo 
+   WHERE  articulo.empresa = :ai_codemp 
+   AND    articulo.codigo  = :ai_codart
+     USING SQLCA;
+
+RETURN ls_decorado
+end function
+

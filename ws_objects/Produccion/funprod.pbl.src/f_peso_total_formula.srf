@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_peso_total_formula.srf
+global type f_peso_total_formula from function_object
+end type
+
+forward prototypes
+global function real f_peso_total_formula (string empresa, string formula)
+end prototypes
+
+global function real f_peso_total_formula (string empresa, string formula);real peso_total
+
+select sum(cantidad) into :peso_total
+from proddetformula where
+empresa = :empresa and formulacion = :formula;
+
+if IsNull(peso_total) then peso_total = 1
+
+return peso_total
+end function
+

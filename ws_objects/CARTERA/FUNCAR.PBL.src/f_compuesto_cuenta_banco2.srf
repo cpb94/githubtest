@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_compuesto_cuenta_banco2.srf
+global type f_compuesto_cuenta_banco2 from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_cuenta_banco2 (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_compuesto_cuenta_banco2 (string cod_empresa, string cod_banco);String ls_compuesto,oficina,entidad,control,cuenta
+
+ SELECT    carbancos.entidad,carbancos.oficina,carbancos.control,carbancos.nuestracta
+    INTO   :entidad,:oficina,:control,:cuenta
+    FROM carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+			
+ if IsNull(entidad) then entidad = ""
+ if IsNull(oficina) then oficina = ""
+ if IsNull(control) then control = ""
+ if IsNull(cuenta)  then cuenta  = "" 
+ 
+ ls_compuesto = Trim(entidad)+"-" +Trim(oficina)+"-" +trim(control)+"-" +trim(cuenta)
+
+RETURN ls_compuesto
+//
+
+end function
+

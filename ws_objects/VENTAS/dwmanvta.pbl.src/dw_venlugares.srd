@@ -1,0 +1,35 @@
+﻿$PBExportHeader$dw_venlugares.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=216 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venlugares.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="venlugares.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=nombre dbname="venlugares.nombre" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=direccion dbname="venlugares.direccion" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=localidad dbname="venlugares.localidad" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=pais dbname="venlugares.pais" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=provincia dbname="venlugares.provincia" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=codpostal dbname="venlugares.codpostal" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=telefono dbname="venlugares.telefono" )
+ retrieve="  SELECT venlugares.empresa,   
+         venlugares.codigo,   
+         venlugares.nombre,   
+         venlugares.direccion,   
+         venlugares.localidad,   
+         venlugares.pais,   
+         venlugares.provincia,   
+         venlugares.codpostal,   
+         venlugares.telefono  
+    FROM venlugares  
+   WHERE ( venlugares.empresa = :empresa ) AND  
+         ( venlugares.codigo = :codigo )    
+" update="venlugares" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Nombre:"border="0" color="0" x="87" y="20" height="64" width="343"  name=nombre_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="453" y="20" height="64" width="1321" format="[general]"  name=nombre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Pais:"border="0" color="0" x="91" y="104" height="68" width="338"  name=pais_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=30 border="5" color="0" x="453" y="112" height="64" width="146" format="[general]"  name=pais edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=detail filename="c:\BMP\CARPETA.BMP" x="626" y="112" height="68" width="69" border="6"  name=pb_pais pointer="\bmp\MANO.CUR" )
+compute(band=detail alignment="0" expression="f_nombre_pais(pais)"border="6" color="128" x="736" y="112" height="68" width="1125" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

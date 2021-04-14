@@ -1,0 +1,58 @@
+﻿$PBExportHeader$dw_con_pantallas_articulos.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=288 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=art_ver_op_aplicaciones_articulo dbname="art_ver_op_aplicaciones.articulo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="articulos.descripcion" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_op_aplicaciones_version dbname="art_ver_op_aplicaciones.version" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_op_aplicaciones_orden dbname="art_ver_op_aplicaciones.orden" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_op_aplicaciones_operacion dbname="art_ver_op_aplicaciones.operacion" )
+ column=(type=char(10) updatewhereclause=yes name=prodpantallas_codigo dbname="prodpantallas.codigo" )
+ column=(type=char(10) updatewhereclause=yes name=prodpantallas_juegopantallas dbname="prodpantallas.juegopantallas" )
+ column=(type=char(25) updatewhereclause=yes name=prodpantallas_descripcion dbname="prodpantallas.descripcion" )
+ column=(type=decimal(0) updatewhereclause=yes name=prodpantallas_numero_hilos dbname="prodpantallas.numero_hilos" )
+ retrieve="  SELECT art_ver_op_aplicaciones.articulo,   
+         articulos.descripcion,   
+         art_ver_op_aplicaciones.version,   
+         art_ver_op_aplicaciones.orden,   
+         art_ver_op_aplicaciones.operacion,   
+         prodpantallas.codigo,   
+         prodpantallas.juegopantallas,   
+         prodpantallas.descripcion,
+         prodpantallas.numero_hilos
+     FROM art_ver_op_aplicaciones,   
+         articulos,   
+         prodpantallas
+   WHERE ( art_ver_op_aplicaciones.empresa = prodpantallas.empresa ) and  
+         ( art_ver_op_aplicaciones.pantalla = prodpantallas.codigo ) and  
+         ( art_ver_op_aplicaciones.empresa = articulos.empresa ) and  
+         ( art_ver_op_aplicaciones.articulo = articulos.codigo ) and  
+          ( articulos.empresa = :ar_empresa ) AND  
+         prodpantallas.descripcion like :ar_pantalla   
+	order by convert(integer,  art_ver_op_aplicaciones.articulo)
+" arguments=(("ar_empresa", string),("ar_pantalla", string)) )
+text(band=header alignment="2" text="Artículos por Pantalla" border="0" color="0" x="37" y="32" height="100" width="3118" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="today()"border="0" color="0" x="2848" y="52" height="60" width="329" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="1" expression="pageCount()"border="0" color="0" x="73" y="228" height="36" width="32" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Artículo" border="2" color="0" x="96" y="224" height="56" width="1225" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Ver." border="2" color="0" x="1349" y="224" height="56" width="105" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Op." border="2" color="0" x="1481" y="224" height="56" width="101" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Pantalla" border="2" color="0" x="1600" y="224" height="56" width="910" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="J.P." border="2" color="0" x="2528" y="224" height="56" width="151" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Hilos" border="2" color="0" x="2930" y="224" height="56" width="155" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Ubic." border="2" color="0" x="2706" y="224" height="56" width="201" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="2" color="0" x="87" y="8" height="56" width="165" format="[general]" html.valueishtml="0"  name=art_ver_op_aplicaciones_articulo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="265" y="8" height="56" width="1061" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="2" color="0" x="1349" y="8" height="56" width="110" format="[general]" html.valueishtml="0"  name=art_ver_op_aplicaciones_version visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="2" color="0" x="1614" y="8" height="56" width="178" format="[general]" html.valueishtml="0"  name=prodpantallas_codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="2" color="0" x="1806" y="8" height="56" width="695" format="[general]" html.valueishtml="0"  name=prodpantallas_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="2" color="0" x="2528" y="8" height="56" width="151" format="[general]" html.valueishtml="0"  name=prodpantallas_juegopantallas visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="f_ubicacion_juego_pantallas( prodpantallas_juegopantallas )"border="2" color="0" x="2693" y="8" height="56" width="219" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="2" color="0" x="2930" y="8" height="56" width="155" format="[general]" html.valueishtml="0"  name=prodpantallas_numero_hilos visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="(*) DobleClicked conecta con la ficha del artículo" border="0" color="128" x="946" y="12" height="48" width="1193" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=5 alignment="2" tabsequence=0 border="2" color="0" x="1477" y="8" height="56" width="110" html.valueishtml="0"  name=art_ver_op_aplicaciones_operacion visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

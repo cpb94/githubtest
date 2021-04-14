@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_precioventa_promclasemedidas.srf
+global type f_precioventa_promclasemedidas from function_object
+end type
+
+forward prototypes
+global function decimal f_precioventa_promclasemedidas (string empresa, string clase, string medida)
+end prototypes
+
+global function decimal f_precioventa_promclasemedidas (string empresa, string clase, string medida);Dec param
+
+SELECT promclasemedidas.precioventa 
+INTO   :param  
+FROM   promclasemedidas  
+WHERE ( promclasemedidas.empresa     = :empresa )
+AND  	( promclasemedidas.clase_panel = :clase   )
+AND  	( promclasemedidas.tipo_medida = :medida  );
+
+IF isnull(param) then param = 0
+
+Return param
+end function
+

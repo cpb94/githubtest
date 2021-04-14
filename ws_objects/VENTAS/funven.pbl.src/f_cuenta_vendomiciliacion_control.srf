@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_cuenta_vendomiciliacion_control.srf
+global type f_cuenta_vendomiciliacion_control from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_vendomiciliacion_control (string arg_empresa, string arg_cliente, string arg_codigo)
+end prototypes
+
+global function string f_cuenta_vendomiciliacion_control (string arg_empresa, string arg_cliente, string arg_codigo);String var_control
+
+ SELECT  control  INTO :var_control
+ 
+    FROM vendomiciliacion  
+   WHERE empresa = :arg_empresa 
+	AND   cliente = :arg_cliente 
+	AND   codigo  = :arg_codigo;
+			IF SQLCA.SQLCODE <> 0  and SQLCA.SQLCODE <> 100 Then 
+				f_mensaje("Error en f_cuenta domicililaciones",sqlca.sqlerrtext)
+			END IF
+
+
+Return Trim(var_control) 
+
+end function
+

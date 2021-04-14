@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_nombre_materia.srf
+global type f_nombre_materia from function_object
+end type
+
+forward prototypes
+global function string f_nombre_materia (string empresa, string numero)
+end prototypes
+
+global function string f_nombre_materia (string empresa, string numero);string nombre_materia;
+  
+SELECT venmateria.descripcion  
+ INTO :nombre_materia  
+ FROM venmateria  
+WHERE ( venmateria.empresa = :empresa ) AND  
+		( venmateria.codigo = :numero ) 
+USING SQLCA;
+
+IF SQLCA.SQLCode<>0 THEN
+	Return ""
+ELSE
+	Return nombre_materia	
+END IF
+
+
+
+
+
+
+
+
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$ftc_peso_bascula_venped.srf
+global type ftc_peso_bascula_venped from function_object
+end type
+
+forward prototypes
+global function decimal ftc_peso_bascula_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function decimal ftc_peso_bascula_venped (string empresa, integer anyo, decimal pedido);Dec{4} var_variable
+
+SELECT venped.peso_bascula_kg
+INTO   :var_variable
+FROM   venped  
+WHERE  (venped.empresa = :empresa)
+AND    (venped.anyo    = :anyo)
+AND    (venped.pedido  = :pedido) ;  
+
+if isnull(var_variable) then var_variable = 0
+
+Return var_variable
+end function
+

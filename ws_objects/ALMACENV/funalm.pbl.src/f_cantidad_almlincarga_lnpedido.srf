@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_cantidad_almlincarga_lnpedido.srf
+global type f_cantidad_almlincarga_lnpedido from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_almlincarga_lnpedido (string empresa, integer anyo_ped, decimal pedido, decimal linea_ped)
+end prototypes
+
+global function decimal f_cantidad_almlincarga_lnpedido (string empresa, integer anyo_ped, decimal pedido, decimal linea_ped);Dec{2}  var_cantidad
+  SELECT Sum(cantidad) INTO :var_cantidad    FROM almlincargas  
+   WHERE almlincargas.empresa = :empresa 
+	AND   almlincargas.anyo_ped = :anyo_ped
+	AND   almlincargas.pedido = :pedido
+	AND   almlincargas.linea_ped = :linea_ped ;
+			IF isNull(var_cantidad)  then var_cantidad = 0
+			Return var_cantidad
+
+end function
+

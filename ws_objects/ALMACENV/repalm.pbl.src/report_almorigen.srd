@@ -1,0 +1,22 @@
+﻿$PBExportHeader$report_almorigen.srd
+$PBExportComments$Listado de origenes.
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=521 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almorigen.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=origen dbname="almorigen.origen" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="almorigen.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=resumido dbname="almorigen.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almorigen~" ) COLUMN(NAME=~"almorigen.empresa~") COLUMN(NAME=~"almorigen.origen~") COLUMN(NAME=~"almorigen.descripcion~") COLUMN(NAME=~"almorigen.resumido~")WHERE( EXP1 =~"almorigen.empresa~" OP =~"=~" EXP2 =~":cod_empresa~" ) ) ORDER(NAME=~"almorigen.empresa~" ASC=yes ) ORDER(NAME=~"almorigen.descripcion~" ASC=yes ) ARG(NAME = ~"cod_empresa~" TYPE = string) " update="almorigen" updatewhere=1 updatekeyinplace=no arguments=(("cod_empresa", string)) )
+report(band=header dataobject="report_cabecera" x="1" y="0" height="305" width="3457" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO ORIGENES MOVIMIENTOS DE ALMACEN"border="0" color="128" x="609" y="320" height="65" width="1783"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="19" y="288" height="57" width="563" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="897" y="4" height="65" width="275" format="[general]"  name=origen  tag="Codigo origen movimento." edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1189" y="4" height="65" width="604" format="[general]"  name=descripcion  tag="Descripcion origen movimiento." edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1811" y="4" height="65" width="293" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Descripcion"border="1" color="33554432" x="1194" y="444" height="65" width="595"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Resumido"border="1" color="33554432" x="1806" y="444" height="65" width="302"  name=resumido_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Origen"border="1" color="33554432" x="887" y="444" height="65" width="275"  name=origen_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

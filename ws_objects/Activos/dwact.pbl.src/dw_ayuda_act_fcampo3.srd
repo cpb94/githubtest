@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_ayuda_act_fcampo3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=88 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes key=yes name=codigo dbname="act_fcampo3.codigo" )
+ column=(type=char(30) updatewhereclause=yes name=texto dbname="act_fcampo3.texto" )
+ column=(type=char(4) updatewhereclause=yes key=yes name=empresa dbname="act_fcampo3.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"act_fcampo3~" ) COLUMN(NAME=~"act_fcampo3.codigo~") COLUMN(NAME=~"act_fcampo3.texto~") COLUMN(NAME=~"act_fcampo3.empresa~")WHERE(    EXP1 =~"act_fcampo3.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"act_fcampo3.texto~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="act_fcampo3" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Código"border="6" color="0" x="183" y="20" height="64" width="325"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripción"border="6" color="0" x="530" y="20" height="64" width="1088"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="187" y="8" height="64" width="315" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="530" y="8" height="64" width="1079" format="[general]"  name=texto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

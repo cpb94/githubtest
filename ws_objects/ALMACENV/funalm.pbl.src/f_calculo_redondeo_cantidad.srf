@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_calculo_redondeo_cantidad.srf
+$PBExportComments$Esta Rutina calcula los metros exactos a partir de un articulo y cantidad segun su tipo de unidad(si el articulo va en metros la cajas han de estar completas).
+global type f_calculo_redondeo_cantidad from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_redondeo_cantidad (string cod_empresa, string cod_articulo, string caja, decimal n_total)
+end prototypes
+
+global function decimal f_calculo_redondeo_cantidad (string cod_empresa, string cod_articulo, string caja, decimal n_total); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Dec{0} bien,total_cajas,total_pallets,cajas,n_piezascaja,n_cajaspallet,total_piezas
+ decimal{3}  total_cantidad
+ Dec n_metroscaja
+ 
+ bien=0
+ SELECT  articulos.empresa,articulos.codigo, articulos.formato,   
+         articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja    
+    INTO :cod_empresa,:cod_articulo,:cod_formato,:cod_unidad,
+	      :n_piezascaja,:n_metroscaja  
+    FROM articulos,almartcajas
+   WHERE (articulos.empresa = :cod_empresa )
+	AND   (articulos.codigo  = :cod_articulo )   
+	AND   (almartcajas.empresa = articulos.empresa)
+	AND   (almartcajas.articulo = articulos.codigo)
+	AND   (almartcajas.caja = :caja)
+ORDER BY articulos.empresa ASC,articulos.codigo ASC  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien=1
+
+CHOOSE CASE cod_unidad
+CASE  "1"
+       total_cajas      = n_total / n_metroscaja
+       total_cantidad   = total_cajas * n_metroscaja
+   
+CASE "0"
+       // no hay piezas parciales
+       total_piezas   = n_total
+       total_cantidad = total_piezas
+ CASE  ELSE
+   bien=1
+END CHOOSE
+RETURN total_cantidad
+
+
+
+
+
+
+
+
+
+
+end function
+

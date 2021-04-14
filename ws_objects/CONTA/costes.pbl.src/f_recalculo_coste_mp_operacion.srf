@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_recalculo_coste_mp_operacion.srf
+global type f_recalculo_coste_mp_operacion from function_object
+end type
+
+forward prototypes
+global subroutine f_recalculo_coste_mp_operacion (string formulacion)
+end prototypes
+
+global subroutine f_recalculo_coste_mp_operacion (string formulacion);// Recalcular coste operaciones
+string articulo, ver, sel, operacion, tipo_operacion
+datastore regs
+long i
+dec coste_mp_operacion
+dec {4} coste_mp_m2, ancho, largo, area_pieza
+
+
+sel = " select articulo, version, operacion "+&
+		" from art_ver_op_aplicaciones "+&
+		" where empresa = '"+codigo_empresa+"' "+&
+		" and formula = '"+formulacion+"' "
+		
+f_cargar_cursor_nuevo ( sel, regs)
+
+for i = 1 to regs.rowcount()
+	articulo = regs.object.articulo[i]
+	ver = regs.object.version[i]
+	operacion = regs.object.operacion[i]
+
+	SELECT sum( CASE 
+					WHEN (prodaplicaciones.coste_euros_m2 is null or prodaplicaciones.coste_euros_m2 = 0 )
+					THEN  prodformula.coste_kg_formula * art_ver_op_aplicaciones.gramaje	
+					ELSE prodaplicaciones.coste_euros_m2 * (( formatos.ancho * formatos.largo) / 10000)
+				END)
+	INTO :coste_mp_operacion						
+	FROM art_ver_op_aplicaciones
+	INNER JOIN prodaplicaciones on art_ver_op_aplicaciones.empresa = prodaplicaciones.empresa and art_ver_op_aplicaciones.tipoaplicacion = prodaplicaciones.codigo
+	INNER JOIN prodformula on art_ver_op_aplicaciones.empresa = prodformula.empresa and art_ver_op_aplicaciones.formula = prodformula.formula
+	INNER JOIN articulos on art_ver_op_aplicaciones.empresa =  articulos.empresa and  art_ver_op_aplicaciones.articulo = articulos.codigo
+	INNER JOIN formatos on  articulos.empresa =  formatos.empresa and  articulos.formato = formatos.codigo
+	WHERE art_ver_op_aplicaciones.empresa = :codigo_empresa
+	AND art_ver_op_aplicaciones.articulo = :articulo
+	AND art_ver_op_aplicaciones.operacion = :operacion
+	AND art_ver_op_aplicaciones.version = :ver;
+
+	
+	update art_ver_operaciones
+	set coste_mp = :coste_mp_operacion 
+	where empresa = :codigo_empresa
+	and articulo = :articulo
+	and version = :ver
+	and operacion = :operacion;
+	
+	if sqlca.sqlcode <> 0 then
+		rollback using SQLCA;
+		messagebox("Actualizando art_ver_operaciones. ","Error: "+sqlca.sqlerrtext)
+		exit;
+	end if
+next
+
+destroy regs
+
+
+end subroutine
+

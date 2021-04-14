@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_vencondiciones.srf
+global type f_nombre_vencondiciones from function_object
+end type
+
+forward prototypes
+global function string f_nombre_vencondiciones (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_vencondiciones (string empresa, string codigo);String var_descripcion
+SELECT vencondiciones.descripcion  
+INTO :var_descripcion    
+FROM vencondiciones  
+WHERE  vencondiciones.empresa   = :empresa
+AND    vencondiciones.codigo  = :codigo;
+Return var_descripcion
+
+end function
+

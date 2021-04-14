@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_tarifa_promparam.srf
+global type f_tarifa_promparam from function_object
+end type
+
+forward prototypes
+global function string f_tarifa_promparam (string arg_empresa)
+end prototypes
+
+global function string f_tarifa_promparam (string arg_empresa);String  var_tarifa
+
+  SELECT promparam.tarifa INTO :var_tarifa
+    FROM promparam  
+   WHERE promparam.empresa = :arg_empresa   ;
+	
+Return var_tarifa;
+
+end function
+

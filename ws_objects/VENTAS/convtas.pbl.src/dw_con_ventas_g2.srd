@@ -1,0 +1,82 @@
+﻿$PBExportHeader$dw_con_ventas_g2.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=4 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=136 color="536870912" )
+header[2](height=60 color="536870912" )
+summary(height=72 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=number updatewhereclause=yes name=total dbname="total" )
+ retrieve="	SELECT 	year(venlifac.ffactura),
+				art_grupo2.descripcion,
+				genter.razon,
+				sum( venlifac.neto / venlifac.cambio) total
+	
+	FROM 	venlifac,   
+			genter,
+			art_codestadistico,
+			art_grupo2,
+			venclientes
+   WHERE ( venlifac.empresa = genter.empresa ) and  
+         ( venlifac.cliente = genter.codigo ) and  
+			( venlifac.articulo = art_codestadistico.codigo ) and
+			( venlifac.empresa = art_codestadistico.empresa ) and
+			( genter.empresa = venclientes.empresa ) and
+			( genter.codigo = venclientes.codigo ) and
+         ( art_codestadistico.G2 = art_grupo2.descripcion_abr ) and  
+         (  genter.tipoter = 'C' ) AND  
+         ( year (venlifac.ffactura) >= :a1 ) AND  
+         ( year (venlifac.ffactura) <= :a2 ) AND  
+         ( month (venlifac.ffactura) >= :m1 ) AND  
+         ( month (venlifac.ffactura) <= :m2 ) AND
+         ( venlifac.cliente like :cliente ) AND 
+         ( venlifac.empresa = :empresa )  and
+			( venclientes.agente1 like :agente )
+
+
+	group by year(venlifac.ffactura)  ,
+	art_grupo2.descripcion, genter.razon
+
+/*
+
+
+  SELECT art_grupo2.descripcion, 
+			genter.razon,  
+         year (articulos.fecha_alta ) año,
+	count(*) total
+    FROM articulos LEFT OUTER JOIN genter ON articulos.empresa = genter.empresa AND articulos.cliente = genter.codigo,   
+         art_codestadistico,   
+         art_grupo2  
+   WHERE ( articulos.empresa = art_codestadistico.empresa ) and  
+         ( articulos.codigo = art_codestadistico.codigo ) and  
+         ( art_codestadistico.empresa = art_grupo2.empresa ) and  
+         ( art_codestadistico.G2 = art_grupo2.descripcion_abr ) and  
+         ( articulos.empresa = :empresa ) AND  
+         ( articulos.fecha_alta >= :fecha1 ) AND  
+         ( articulos.fecha_alta <= :fecha2 ) AND  
+         ( month (articulos.fecha_alta) >= month(:fecha1) ) AND  
+         ( month (articulos.fecha_alta) <= month(:fecha2) ) AND  
+         ( articulos.cliente like :cliente) AND  
+         ( genter.tipoter = 'C' ) and
+			( articulos.uso = '3')
+group by art_grupo2.descripcion, 
+			genter.razon,  
+         year (articulos.fecha_alta )
+
+*/" arguments=(("empresa", string),("fecha1", date),("fecha2", date),("cliente", string),("a1", number),("a2", number),("m1", number),("m2", number),("agente", string))  sort="descripcion A " )
+text(band=header[1] alignment="0" text="" border="0" color="33554432" x="9" y="4" height="56" width="613" html.valueishtml="0"  name=t1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="9" y="4" height="76" width="613" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33481950" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="33554432" x="631" y="4" height="76" width="375" format="###,###,###,##0.00" html.valueishtml="0"  name=total visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0 crosstab.repeat=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217752" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="33554432" x="1015" y="4" height="76" width="475" format="###,###,###,##0.00" html.valueishtml="0"  name=grand_sum_total visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33471187" )
+text(band=header[1] alignment="0" text="" border="0" color="33554432" x="9" y="68" height="56" width="613" html.valueishtml="0"  name=t2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="~"Total~""border="0" color="33554432" x="9" y="4" height="76" width="613" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+compute(band=summary alignment="1" expression="sum(total for all )"border="0" color="33554432" x="631" y="4" height="76" width="375" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+compute(band=summary alignment="1" expression="sum(grand_sum_total for all )"border="0" color="33554432" x="1015" y="4" height="76" width="475" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+text(band=header[2] alignment="0" text="Descripcion" border="0" color="16777215" x="9" y="4" height="56" width="613" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" )
+text(band=header[2] alignment="2" text="@compute_0001" border="0" color="16777215" x="631" y="4" height="56" width="375" html.valueishtml="0"  name=total_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" )
+text(band=header[2] alignment="2" text="Total " border="0" color="16777215" x="1015" y="4" height="56" width="475" html.valueishtml="0"  name=grand_sum_total_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="33554432" x="1015" y="400" height="56" width="475" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33471187" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "compute_0001" rows = "descripcion" values = "sum(total for crosstab)" sourcenames = "compute_0001, descripcion, razon, total")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

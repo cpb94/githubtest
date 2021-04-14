@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_cosbal.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=140 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="cosbal.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="cosbal.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="cosbal.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cosbal~" ) COLUMN(NAME=~"cosbal.empresa~") COLUMN(NAME=~"cosbal.codigo~") COLUMN(NAME=~"cosbal.descripcion~")WHERE(    EXP1 =~"cosbal.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"cosbal.codigo~"   OP =~"=~"    EXP2 =~":cod_codigo~" ) ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"cod_codigo~" TYPE = string) " update="cosbal" updatewhere=0 updatekeyinplace=yes arguments=(("cod_empresa", string),("cod_codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="73" y="44" height="64" width="357"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="457" y="32" height="76" width="1280" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

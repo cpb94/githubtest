@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_promcontador.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=217 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="promcontador.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="promcontador.anyo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=pedidos dbname="promcontador.pedidos" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"promcontador~" ) COLUMN(NAME=~"promcontador.empresa~") COLUMN(NAME=~"promcontador.anyo~") COLUMN(NAME=~"promcontador.pedidos~")WHERE(    EXP1 =~"promcontador.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promcontador.anyo~"   OP =~"=~"    EXP2 =~":anyo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number) " update="promcontador" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("anyo", number)) )
+text(band=detail alignment="1" text="Pedidos:"border="0" color="0" x="46" y="100" height="69" width="270"  name=pedidos_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="5" color="0" x="339" y="104" height="69" width="362" format="[general]"  name=pedidos editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

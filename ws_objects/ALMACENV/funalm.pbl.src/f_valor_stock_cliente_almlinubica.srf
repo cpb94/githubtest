@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_valor_stock_cliente_almlinubica.srf
+global type f_valor_stock_cliente_almlinubica from function_object
+end type
+
+forward prototypes
+global function decimal f_valor_stock_cliente_almlinubica (string empresa, string cliente)
+end prototypes
+
+global function decimal f_valor_stock_cliente_almlinubica (string empresa, string cliente);dec importe
+
+select sum((almacenmovimientos.cantidade - almacenmovimientos.cantidads) * venlintarifas.precio * .75 )
+into :importe
+from almacenmovimientos, articulos, venlintarifas
+where almacenmovimientos.empresa = :empresa
+and almacenmovimientos.articulo = articulos.codigo
+and almacenmovimientos.empresa = venlintarifas.empresa
+and almacenmovimientos.articulo = venlintarifas.articulo
+and articulos.cliente = :cliente
+and venlintarifas.tarifa <> '5'
+and articulos.uso = '3';
+
+/*
+select sum (almlinubica.existencias * venlintarifas.precio * .75  )
+into: importe
+from almlinubica, articulos, venlintarifas
+where almlinubica.empresa = :empresa
+and almlinubica.articulo = articulos.codigo
+and almlinubica.empresa = venlintarifas.empresa
+and almlinubica.articulo = venlintarifas.articulo
+and articulos.cliente = :cliente
+and venlintarifas.tarifa <> '5'
+and articulos.uso = '3';
+*/
+
+importe = importe
+
+return importe
+end function
+

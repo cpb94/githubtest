@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_compone_cta_dudoso_cobro.srf
+global type f_compone_cta_dudoso_cobro from function_object
+end type
+
+forward prototypes
+global function string f_compone_cta_dudoso_cobro (string var_empresa, integer var_ejercicio, string var_codigo, string var_pais, string var_provincia)
+end prototypes
+
+global function string f_compone_cta_dudoso_cobro (string var_empresa, integer var_ejercicio, string var_codigo, string var_pais, string var_provincia);integer var_digitos,Xx
+string  var_cuenta,ceros
+
+if f_tipo_pais(var_pais)='N' then	
+	ceros="4350"	
+	ceros=ceros + string(long(var_provincia),'00')
+	ceros=ceros + string(long(var_codigo),'0000')
+	var_cuenta=ceros
+else
+	var_cuenta=''
+end if
+return var_cuenta
+
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$str_parametros.srs
+$PBExportComments$Parametros de Ventanas:~r~n~tTitulo, Criterio de Busqueda, Report a listar,~r~n~tEmpresa (True/False) a considerar,~r~n~tArgumentos...
+global type str_parametros from structure
+	string		s_titulo_ventana
+	string		s_titulo_ayuda
+	string		s_nom_datawindow
+	string		s_criterio_busqueda
+	string		s_listado
+	string		s_filtro
+	boolean		b_empresa
+	string		s_argumentos[100]
+	integer		i_nargumentos
+	integer		posicion_x
+	integer		posicion_y
+	string		nombre_ventana
+	string		resultado
+end type
+

@@ -1,0 +1,257 @@
+﻿$PBExportHeader$dw_con_ped_pre_cliente_serie_fechas_fech.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venliped.empresa" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="venliped.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="venliped.pedido" )
+ column=(type=long updatewhereclause=yes name=linea dbname="venliped.linea" )
+ column=(type=char(5) updatewhereclause=yes name=serie dbname="venliped.serie" )
+ column=(type=datetime updatewhereclause=yes name=fpedido dbname="venliped.fpedido" )
+ column=(type=datetime updatewhereclause=yes name=fentrega dbname="venliped.fentrega" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venliped.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="venliped.tipo_unidad" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="venliped.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="venliped.familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="venliped.formato" )
+ column=(type=char(5) updatewhereclause=yes name=modelo dbname="venliped.modelo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="venliped.calidad" )
+ column=(type=long updatewhereclause=yes name=tono dbname="venliped.tono" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="venliped.calibre" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio dbname="venliped.precio" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_estand dbname="venliped.precio_estand" )
+ column=(type=number updatewhereclause=yes name=cantidad dbname="venliped.cantidad" )
+ column=(type=long updatewhereclause=yes name=pallets dbname="venliped.pallets" )
+ column=(type=long updatewhereclause=yes name=total_cajas dbname="venliped.total_cajas" )
+ column=(type=long updatewhereclause=yes name=cajas dbname="venliped.cajas" )
+ column=(type=number updatewhereclause=yes name=dtocomer dbname="venliped.dtocomer" )
+ column=(type=number updatewhereclause=yes name=dtoesp dbname="venliped.dtoesp" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="venliped.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=tipoiva dbname="venliped.tipoiva" )
+ column=(type=number updatewhereclause=yes name=iva dbname="venliped.iva" )
+ column=(type=char(5) updatewhereclause=yes name=linfab dbname="venliped.linfab" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="venliped.provincia" )
+ column=(type=char(5) updatewhereclause=yes name=pais dbname="venliped.pais" )
+ column=(type=char(5) updatewhereclause=yes name=zona dbname="venliped.zona" )
+ column=(type=char(5) updatewhereclause=yes name=tipolinea dbname="venliped.tipolinea" )
+ column=(type=char(40) updatewhereclause=yes name=texto1 dbname="venliped.texto1" )
+ column=(type=char(40) updatewhereclause=yes name=texto2 dbname="venliped.texto2" )
+ column=(type=char(40) updatewhereclause=yes name=texto3 dbname="venliped.texto3" )
+ column=(type=char(40) updatewhereclause=yes name=texto4 dbname="venliped.texto4" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="venliped.referencia" )
+ column=(type=char(20) updatewhereclause=yes name=montajeartcal dbname="venliped.montajeartcal" )
+ column=(type=char(1) updatewhereclause=yes name=situacion dbname="venliped.situacion" )
+ column=(type=char(5) updatewhereclause=yes name=divisa dbname="venliped.divisa" )
+ column=(type=decimal(4) updatewhereclause=yes name=metros_lineales dbname="venliped.metros_lineales" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso dbname="venliped.peso" )
+ column=(type=datetime updatewhereclause=yes name=falta dbname="venliped.falta" )
+ column=(type=char(20) updatewhereclause=yes name=usuario dbname="venliped.usuario" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_pallet dbname="venliped.tipo_pallet" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="venliped.importe" )
+ column=(type=number updatewhereclause=yes name=descuento dbname="venliped.descuento" )
+ column=(type=decimal(6) updatewhereclause=yes name=importedto dbname="venliped.importedto" )
+ column=(type=char(1) updatewhereclause=yes name=clase dbname="venliped.clase" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="venliped.sector" )
+ column=(type=char(5) updatewhereclause=yes name=agente1 dbname="venliped.agente1" )
+ column=(type=char(5) updatewhereclause=yes name=agente2 dbname="venliped.agente2" )
+ column=(type=char(5) updatewhereclause=yes name=agente3 dbname="venliped.agente3" )
+ column=(type=number updatewhereclause=yes name=comision11 dbname="venliped.comision11" )
+ column=(type=number updatewhereclause=yes name=comision12 dbname="venliped.comision12" )
+ column=(type=number updatewhereclause=yes name=comision21 dbname="venliped.comision21" )
+ column=(type=number updatewhereclause=yes name=comision22 dbname="venliped.comision22" )
+ column=(type=number updatewhereclause=yes name=comision31 dbname="venliped.comision31" )
+ column=(type=number updatewhereclause=yes name=comision32 dbname="venliped.comision32" )
+ column=(type=char(1) updatewhereclause=yes name=deposito dbname="venliped.deposito" )
+ column=(type=long updatewhereclause=yes name=orden_preparacion dbname="venliped.orden_preparacion" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(3) updatewhereclause=yes name=calidades_abreviado dbname="calidades.abreviado" )
+ column=(type=char(10) updatewhereclause=yes name=pallets_resumido dbname="pallets.resumido" )
+ column=(type=char(5) updatewhereclause=yes name=unidades_abreviado dbname="unidades.abreviado" )
+ column=(type=char(5) updatewhereclause=yes name=monedas_abreviado1 dbname="monedas.abreviado" )
+ column=(type=char(4099) updatewhereclause=no name=venped_observaciones dbname="venped.observaciones" )
+ column=(type=long updatewhereclause=yes name=venped_veces dbname="venped.veces" )
+ column=(type=char(4) updatewhereclause=yes name=tonochar dbname="venliped.tonochar" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(20) updatewhereclause=yes name=venped_numpedcli dbname="venped.numpedcli" )
+ column=(type=decimal(2) updatewhereclause=yes name=descuento2 dbname="venliped.dtoesp2" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" )
+ column=(type=decimal(0) updatewhereclause=yes name=venliped_numpalet dbname="venliped.numpalet" )
+ column=(type=long updatewhereclause=yes name=venliped_cantidad_prepa dbname="venliped.cantidad_prepa" )
+ column=(type=char(5) updatewhereclause=yes name=venliped_caja dbname="venliped.caja" )
+ column=(type=decimal(4) updatewhereclause=yes name=articulos_pesopieza dbname="articulos.pesopieza" )
+ retrieve="  SELECT venliped.empresa,   
+         venliped.anyo,   
+         venliped.pedido,   
+         venliped.linea,   
+         venliped.serie,   
+         venliped.fpedido,   
+         venliped.fentrega,   
+         venliped.cliente,   
+         venliped.tipo_unidad,   
+         venliped.articulo,   
+         venliped.familia,   
+         venliped.formato,   
+         venliped.modelo,   
+         venliped.calidad,   
+         venliped.tono,   
+         venliped.calibre,   
+         venliped.precio,   
+         venliped.precio_estand,   
+         venliped.cantidad,   
+         venliped.pallets,   
+         venliped.total_cajas,   
+         venliped.cajas,   
+         venliped.dtocomer,   
+         venliped.dtoesp,   
+         venliped.descripcion,   
+         venliped.tipoiva,   
+         venliped.iva,   
+         venliped.linfab,   
+         venliped.provincia,   
+         venliped.pais,   
+         venliped.zona,   
+         venliped.tipolinea,   
+         venliped.texto1,   
+         venliped.texto2,   
+         venliped.texto3,   
+         venliped.texto4,   
+         venliped.referencia,   
+         venliped.montajeartcal,   
+         venliped.situacion,   
+         venliped.divisa,   
+         venliped.metros_lineales,   
+         venliped.peso,   
+         venliped.falta,   
+         venliped.usuario,   
+         venliped.tipo_pallet,   
+         venliped.importe,   
+         venliped.descuento,   
+         venliped.importedto,   
+         venliped.clase,   
+         venliped.sector,   
+         venliped.agente1,   
+         venliped.agente2,   
+         venliped.agente3,   
+         venliped.comision11,   
+         venliped.comision12,   
+         venliped.comision21,   
+         venliped.comision22,   
+         venliped.comision31,   
+         venliped.comision32,   
+         venliped.deposito,   
+         venliped.orden_preparacion,   
+         articulos.descripcion,   
+         calidades.abreviado,   
+         pallets.resumido,   
+         unidades.abreviado,   
+         monedas.abreviado,   
+         venped.observaciones,   
+         venped.veces,   
+         venliped.tonochar,   
+         genter.razon,   
+         venped.numpedcli,   
+         venliped.dtoesp2,   
+         formatos.descripcion,   
+         venliped.numpalet,   
+         venliped.cantidad_prepa,   
+         venliped.caja,   
+         articulos.pesopieza  
+    FROM venliped,   
+         articulos,   
+         calidades,   
+         pallets,   
+         unidades,   
+         monedas,   
+         venped,   
+         genter,   
+         formatos  
+   WHERE ( venliped.empresa *= articulos.empresa) and  
+         ( venliped.articulo *= articulos.codigo) and  
+         ( venliped.empresa *= calidades.empresa) and  
+         ( venliped.calidad *= calidades.codigo) and  
+         ( venliped.tipo_pallet *= pallets.codigo) and  
+         ( venliped.empresa *= pallets.empresa) and  
+         ( venliped.tipo_unidad *= unidades.codigo) and  
+         ( venliped.divisa *= monedas.moneda) and  
+         ( venliped.empresa *= venped.empresa) and  
+         ( venliped.anyo *= venped.anyo) and  
+         ( venliped.pedido *= venped.pedido) and  
+         ( genter.empresa = venliped.empresa ) and  
+         ( genter.codigo = venliped.cliente ) and  
+         ( venliped.empresa = formatos.empresa ) and  
+         ( venliped.formato = formatos.codigo ) and  
+         ( ( venliped.empresa = :empresa ) AND  
+         ( venliped.cliente like :cliente ) AND  
+         ( venliped.fpedido between :fdesde AND :fhasta) AND
+			( venliped.serie in ( :series ) ) AND  
+         ( genter.tipoter = 'C' ) )   
+ORDER BY venliped.empresa ASC,   
+         venliped.anyo ASC,   
+         venliped.fpedido ASC,   
+         venliped.pedido ASC,   
+         venliped.linea ASC   
+" arguments=(("empresa", string),("fdesde", datetime),("fhasta", datetime),("cliente", string),("series", stringlist))  sort="empresa A genter_razon A divisa A anyo A fpedido A pedido A formatos_descripcion A articulos_descripcion A " )
+group(level=1 header.height=80 trailer.height=0 by=("empresa" , "genter_razon" , "divisa" ) header.color="553648127" trailer.color="536870912" )
+group(level=2 header.height=84 trailer.height=4 by=("empresa" , "genter_razon" , "divisa" , "anyo" , "fpedido" , "pedido" ) header.color="536870912" trailer.color="536870912" )
+column(band=header id=72 alignment="0" tabsequence=32766 border="0" color="0" x="1399" y="132" height="64" width="992" format="[general]"  name=venliped_dtoesp2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="14" y="8" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Artículo"border="6" color="0" x="238" y="8" height="56" width="1125"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cl"border="6" color="0" x="1385" y="8" height="56" width="59"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="To"border="6" color="0" x="1463" y="8" height="56" width="91"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="C"border="6" color="0" x="1573" y="8" height="56" width="41"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tp"border="6" color="0" x="1632" y="8" height="56" width="69"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Pl"border="6" color="0" x="1719" y="8" height="56" width="73"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cj"border="6" color="0" x="1810" y="8" height="56" width="91"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1920" y="8" height="56" width="288"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Fec.Ent."border="6" color="0" x="2226" y="8" height="56" width="219"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Posiciones"border="6" color="0" x="2464" y="8" height="56" width="827"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cajas    /    Pz.-Cj."border="6" color="16777215" x="3310" y="8" height="56" width="485"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+text(band=header alignment="2" text="Cant.Prepar."border="6" color="16777215" x="3817" y="8" height="56" width="306"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+text(band=header alignment="2" text="Nº Pallet"border="6" color="16777215" x="4142" y="8" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+text(band=header alignment="2" text="Ubicación"border="6" color="16777215" x="4434" y="8" height="56" width="393"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+column(band=header.1 id=70 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="72" width="2144" format="[general]"  name=genter_razon edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header.2 alignment="0" text="Pedido :"border="0" color="0" x="9" y="8" height="56" width="169"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=3 alignment="1" tabsequence=32766 border="0" color="0" x="192" y="8" height="56" width="183" format="[general]"  name=pedido editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header.2 alignment="1" text="/"border="0" color="0" x="389" y="8" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=6 alignment="0" tabsequence=32766 border="0" color="0" x="430" y="8" height="56" width="206" format="[shortdate] [time]"  name=fpedido editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=header.2 alignment="0" text="Su Referencia :"border="0" color="0" x="658" y="8" height="56" width="347"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=71 alignment="0" tabsequence=32766 border="0" color="0" x="1033" y="8" height="56" width="667" format="[general]"  name=venped_numpedcli edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="2" expression="f_nombre_formato_abr( empresa , formato )"border="0" color="0" x="9" y="12" height="60" width="210" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="224" y1="12" x2="224" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+compute(band=detail alignment="0" expression="if(f_descripcion_almcliartdesc(empresa,cliente,articulo) = ~"~",f_nombre_articulo(empresa,articulo),f_descripcion_almcliartdesc(empresa,cliente,articulo))"border="0" color="0" x="233" y="12" height="60" width="1134" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="1" expression="if( clase = ~"M~",~"Muestras~",~"~")"border="0" color="16711680" x="1147" y="12" height="60" width="219" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="1371" y1="12" x2="1371" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=63 alignment="0" tabsequence=32766 border="0" color="0" x="1381" y="12" height="60" width="64" format="[general]"  name=calidades_abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1449" y1="12" x2="1449" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=69 alignment="2" tabsequence=32766 border="0" color="0" x="1458" y="12" height="60" width="96" format="[general]"  name=tonochar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="1568" y="12" height="60" width="46" format="[general]"  name=calibre editmask.mask="##" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1618" y1="8" x2="1618" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=64 alignment="0" tabsequence=32766 border="0" color="0" x="1627" y="12" height="60" width="73" format="[general]"  name=pallets_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1705" y1="12" x2="1705" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=20 alignment="3" tabsequence=32766 border="0" color="0" x="1714" y="12" height="60" width="78" format="[general]"  name=pallets editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1797" y1="12" x2="1797" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=22 alignment="1" tabsequence=32766 border="0" color="0" x="1806" y="12" height="60" width="96" format="[general]"  name=cajas editmask.mask="###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="1" expression="if (tipo_unidad=~"1~", string(cantidad,f_mascara_decimales(2)),string(cantidad,f_mascara_decimales(0)))"border="0" color="0" x="1915" y="12" height="60" width="224" format=""  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=65 alignment="0" tabsequence=32766 border="0" color="0" x="2144" y="28" height="44" width="64" format="[general]"  name=unidades_abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2213" y1="12" x2="2213" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="2226" y="16" height="56" width="201" format="[shortdate] [time]"  name=fentrega editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2437" y1="12" x2="2437" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+compute(band=detail alignment="2" expression="f_ubicaciones_articulo_calidad( empresa , articulo , calidad , tonochar, calibre  )"border="0" color="0" x="2455" y="16" height="56" width="850" format="[general]"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="0" y1="80" x2="4837" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+line(band=detail x1="1559" y1="12" x2="1559" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="1906" y1="12" x2="1906" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="3314" y1="12" x2="3314" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=21 alignment="1" tabsequence=32766 border="0" color="0" x="3333" y="20" height="48" width="219" format="[general]"  name=total_cajas editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="3575" y1="16" x2="3575" y2="84" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="3835" y1="12" x2="3835" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=74 alignment="1" tabsequence=32766 border="0" color="0" x="3863" y="20" height="48" width="279" format="[general]"  name=venliped_cantidad_prepa editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="4165" y1="12" x2="4165" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="4425" y1="12" x2="4425" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="4837" y1="12" x2="4837" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=74 alignment="2" tabsequence=32766 border="0" color="0" x="4183" y="20" height="52" width="233" format="###,###"  name=venliped_numpalet editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="2" expression="f_piezascaja_articulo(empresa,articulo,venliped_caja)"border="0" color="0" x="3593" y="20" height="52" width="229" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=footer alignment="0" text="(*) Doble click consulta pedido."border="0" color="128" x="320" y="8" height="56" width="914"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_analitica.srf
+global type f_analitica from function_object
+end type
+
+forward prototypes
+global function string f_analitica (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_analitica (integer ejercicio, string empresa, string codigo);String ana
+
+  SELECT contaplan.analitica INTO :ana FROM contaplan  
+   WHERE contaplan.ejercicio = :ejercicio
+	AND   contaplan.empresa   = :empresa
+	AND   contaplan.cuenta    = :codigo USING SQLCA  ;
+		
+IF Trim(ana) = "N" THEN
+	IF Mid(codigo,1,2) = "47" THEN ana = "I"
+END IF
+
+Return ana
+end function
+

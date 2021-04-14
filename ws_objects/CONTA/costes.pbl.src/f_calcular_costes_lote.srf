@@ -1,0 +1,659 @@
+﻿$PBExportHeader$f_calcular_costes_lote.srf
+global type f_calcular_costes_lote from function_object
+end type
+
+forward prototypes
+global function boolean f_calcular_costes_lote (string empresa, string articulo, string lote, string ver, string tipo_operacion, transaction trans_sql, ref decimal coste_fabricacion_real_acumulado, ref decimal coste_fabricacion_teorico_acumulado, ref decimal coste_mp_acumulado, ref decimal coste_packing_acumulado, ref decimal coste_compras_acumulado, string origen, ref decimal coste_fabricacion_mermas_acumulado, ref decimal coste_mp_mermas_acumulado, ref decimal coste_mp_real_acumulado, ref decimal coste_total_mp_mermas, ref decimal factor)
+end prototypes
+
+global function boolean f_calcular_costes_lote (string empresa, string articulo, string lote, string ver, string tipo_operacion, transaction trans_sql, ref decimal coste_fabricacion_real_acumulado, ref decimal coste_fabricacion_teorico_acumulado, ref decimal coste_mp_acumulado, ref decimal coste_packing_acumulado, ref decimal coste_compras_acumulado, string origen, ref decimal coste_fabricacion_mermas_acumulado, ref decimal coste_mp_mermas_acumulado, ref decimal coste_mp_real_acumulado, ref decimal coste_total_mp_mermas, ref decimal factor);boolean fallo = false, calcular_compras
+decimal{6}  velocidad_segs,coste_fabricacion_teorico, coste_fabricacion_real,  coste_compras, coste_packing, coste_mp, coste_historico
+decimal{6} coste_fabricacion_teorico_stock, coste_compras_stock, coste_mp_stock, coste_packing_stock, coste_fabricacion_mermas_stock, coste_mp_mermas_stock
+decimal{6}   coste_fabricacion_mermas, coste_mp_mermas, coste_mp_real
+decimal piezas_hora, coste_std, correccion_velocidad, factor_acumulado
+long  piezas_buenas, piezas_malas,k,i, piezas_totales_encajado, contador_articulos, contador_entradas, piezas_totales, piezas_extra, contador_partes
+string sel, sel_lote_stock, articulo_encajado, articulo_anterior,lote_anterior,ver_anterior,tipo_operacion_anterior, requiere_stock, operacion_stock, uso
+string lineaprod
+datetime fecha_ultimo_parte, fecha_primer_parte, fecha_mov, fecha_articulo_stock
+datastore datos, lote_stock
+string articulo_stock, lotes, operacion, lote_provisional
+long cantidad_pzs
+decimal porcentaje_pzs
+decimal {6} coste_total
+
+
+//LOS LOTES '' LOS CONTROLO EN LA CONSULTA QUE LLAMO A ESTA FUNCIÓN
+
+//FUNCIÓN RECURSIVA QUE VA GRABANDO  Y ACUMULANDO LOS COSTES DEL ARTÍCULO ANTERIOR
+
+/* ESTO SE HACÍA EN EL CÁLCULO DEL HISTÓRICO, ACTUALMENTE COMO SÓLO SE GRABA AL PASAR Y CERRAR PARTES SIEMPRE TENDRÁ LOTE
+
+lote_provisional = ''
+
+contador_partes = 0
+
+select count(*)
+into :contador_partes
+from prodpartes_ot
+where empresa = :empresa
+and articulo = :articulo
+and isnull(lote,0) = :lote
+and version = :ver
+and operacion = :tipo_operacion
+and prodpartes_ot.ajuste <> 'S'
+group by empresa,articulo,lote,version,operacion;
+
+if contador_partes = 0 then
+	
+	select top 1 isnull(lote,'0')
+	into :lote_provisional
+	from prodpartes_ot
+	where empresa = :empresa
+	and articulo = :articulo
+	and version = :ver
+	and operacion = :tipo_operacion
+	and prodpartes_ot.ajuste <> 'S'
+	group by empresa,articulo,lote,version,operacion,fecha
+	order by fecha desc;
+	
+else
+	
+	lote_provisional = lote
+	
+end if	
+
+if lote_provisional = '' then lote_provisional = '0'
+
+*/
+
+lote_provisional = lote
+
+calcular_compras = false
+
+/*MIRO SI ES UN ARTÍCULO COMPRADO O PRODUCIDO*/
+
+select linea
+into :lineaprod
+from prodpartes_ot
+where empresa = :empresa
+and articulo = :articulo
+and lote = :lote;
+
+
+select case when isnull(subcontratacion,'N') = 'N' then 0 else 1 end
+into :calcular_compras
+from prodlineas
+where empresa = :empresa
+and codigo = :lineaprod;
+
+
+//Cálculo del coste de compras
+
+if calcular_compras = true then
+
+		select (comartpro.precio + isnull(comartpro.otros_gastos,0) ) / articulos.cant_compras as coste_compras 
+		into :coste_compras
+		from articulos
+		left outer join venmprima on articulos.empresa = venmprima.empresa  
+							and articulos.codigo_compras = venmprima.codigo 
+		left outer join comartpro on venmprima.empresa = comartpro.empresa  
+							and venmprima.codigo = comartpro.mprima   
+							and comartpro.proveedor = ( select top 1 C2.proveedor   
+														from comartpro  C2   
+														where C2.empresa = comartpro.empresa  
+														and C2.mprima = comartpro.mprima   
+														order by precio asc) 
+														
+		where articulos.empresa = :codigo_empresa
+		and articulos.codigo = :articulo using trans_sql;
+		
+		if isnull(coste_compras) then coste_compras = 0 	
+
+
+else
+	
+	//Cálculo del coste de fabricación
+	
+	SELECT sum(prodpartes_ot.buenas ) / (sum( prodpartes_ot.segundos / 3600  ))
+	into :velocidad_segs
+	from prodpartes_ot
+	where prodpartes_ot.empresa = :empresa
+	and prodpartes_ot.articulo = :articulo
+	and prodpartes_ot.segundos <> 0
+	and prodpartes_ot.segundos is not null
+	and prodpartes_ot.ajuste <> 'S'
+	and isnull(prodpartes_ot.lote,'0') = :lote_provisional
+	and ( prodpartes_ot.seccion <> '8' or ( prodpartes_ot.seccion = '8' and  prodpartes_ot.linea = '19' ) ) using trans_sql;  // No cogemos partes de operaciones manuales excepto de CORTE MANUAL
+	
+	piezas_hora = velocidad_segs //* 3600
+		
+	select coste, correccion_velocidad
+	into :coste_std, :correccion_velocidad
+	from art_ver_tipooperacion
+	where	empresa = :empresa
+	and codigo = :tipo_operacion using trans_sql;
+		
+	if piezas_hora = 0 or correccion_velocidad = 0 or isnull(piezas_hora) or isnull(correccion_velocidad) then 
+		coste_fabricacion_teorico = 0
+	else
+		coste_fabricacion_teorico = ( coste_std / ( piezas_hora * correccion_velocidad ) )
+	end if
+	
+	contador_partes = 0
+
+	select count(*)
+	into :contador_partes
+	from prodpartes_ot
+	where empresa = :empresa
+	and articulo = :articulo
+	and isnull(lote,0) = :lote
+	and prodpartes_ot.ajuste <> 'S'
+	group by empresa,articulo,lote,version,operacion;
+	
+	if contador_partes > 0 then 	//SI NO TIENE PARTES, NO CALCULO EL COSTE MP NI EL DE PACKING
+
+	//Cálculo del coste del packing
+	
+		coste_packing = f_calculo_coste_packing (empresa, articulo )
+		
+		if isnull(coste_packing) then coste_packing = 0
+		
+		////Cálculo del coste de la materia prima de la operación
+		
+		select operacion
+		into :operacion
+		from art_ver_operaciones
+		where empresa = :codigo_empresa
+		and articulo = :articulo
+		and version = :ver
+		and tipo_operacion = :tipo_operacion
+		using sqlca;
+		
+		coste_mp = f_calculo_mp_operacion(empresa,articulo,operacion,ver)
+		
+		if isnull(coste_mp) then coste_mp = 0
+		
+	end if
+	
+	if isnull(coste_packing) then coste_packing = 0
+	
+	if isnull(coste_mp) then coste_mp = 0
+	
+	//Cálculo de las mermas de fabricación
+	
+	select isnull(sum (malas),0), isnull(sum(buenas),0)
+		into :piezas_malas, :piezas_buenas
+		from prodpartes_ot
+		where articulo = :articulo
+		and isnull(lote,0) = :lote_provisional
+		and empresa = :empresa
+		and prodpartes_ot.ajuste <> 'S'
+		using trans_sql;
+		
+	if isnull(piezas_malas) then piezas_malas = 0
+	if isnull(piezas_buenas) then piezas_buenas = 0
+		
+	piezas_totales = piezas_buenas + piezas_malas
+	
+end if
+
+
+//Saco los artículos anteriores y las piezas para hacer un cálculo de las mermas 
+
+sel = " select articulo_ant, version" +&
+		" from art_escandallo " +&
+		" where articulo = '"+articulo+"' "+&
+		" and empresa = '"+codigo_empresa+"' "+&
+		" and articulo_ant <> '0' "
+		
+f_cargar_cursor_transaccion (trans_sql, datos, sel)
+
+if datos.rowcount() > 0 then
+
+	for k= 1 to datos.rowcount()
+		
+		articulo_anterior = datos.object.articulo_ant[k]
+		ver_anterior = datos.object.version[k]
+		
+		tipo_operacion_anterior = ''
+		
+		//COJO LA OPERACIÓN DEL ARTÍCULO
+		
+		select art_ver_operaciones.tipo_operacion
+		into :tipo_operacion_anterior
+      from art_ver_operaciones 
+   	where ( art_ver_operaciones.empresa = :codigo_empresa ) AND  
+      ( art_ver_operaciones.articulo = :articulo_anterior ) AND  
+      ( art_ver_operaciones.version = :ver );
+		
+		
+		select case when count(*) = 0 then 'S' else 'N' end
+		into :requiere_stock
+		from prodpartes_ot
+		where articulo = :articulo_anterior
+		and isnull(lote,'0') = :lote
+		and empresa = :empresa
+		and prodpartes_ot.ajuste <> 'S';
+				
+		if requiere_stock = 'S' then
+			
+			lote_anterior = ''
+			
+			if origen = "planificacion" then
+				
+				//COJO EL LOTE QUE MÁS PIEZAS TIENE Y ÉSE ES EL QUE GRABO EN LOS ARTÍCULOS ANTERIORES (PONDERAR EN UN FUTURO, ES DECIR, CALCULAR EL SUMATORIO DEL COSTE DE CADA UNO DE LOS QUE VIENE POR LAS PIEZAS QUE SE HAN UTILIZADO DE ESE LOTE Y DIVIDIRLO POR LAS PIEZAS TOTALES)
+				
+				/*
+				select lote_stock, articulo_stock
+				into :lote_anterior, :articulo_anterior
+				from articulos_coste_lote_stock
+				where articulo = :articulo 
+				and isnull(lote,0) = :lote 
+				and version = :ver
+				and empresa = :codigo_empresa
+				and operacion = :tipo_operacion
+				and cantidad_pzs = (select max(cantidad_pzs) 
+											from articulos_coste_lote_stock 
+											where empresa = :codigo_empresa 
+											and articulo = :articulo 
+											and isnull(lote,0) = :lote
+											and version = :ver
+											and operacion = :tipo_operacion);
+				*/	
+				
+				select lote_stock, articulo_stock
+				into :lote_anterior, :articulo_anterior
+				from articulos_coste_lote_stock
+				where articulo = :articulo 
+				and isnull(lote,0) = :lote 
+				and cantidad_pzs = (select max(cantidad_pzs) 
+											from articulos_coste_lote_stock 
+											where empresa = :codigo_empresa 
+											and articulo = :articulo 
+											and isnull(lote,0) = :lote);
+				
+				
+			
+				/*
+				
+				sel_lote_stock = "select cantidad_pzs, articulo_stock, lote_stock  "+&
+									  "	from articulos_coste_lote_stock "+&
+									  "	where empresa = '"+codigo_empresa+"' "+&
+									  "	and articulo = '"+articulo+"' "+&
+									  "	and lote = '"+lote+"' "+&
+									  "	and version = '"+ver+"'  "+&
+									  "	and operacion = '"+tipo_operacion+"' "
+									  
+				f_cargar_cursor_transaccion (trans_sql, lote_stock, sel_lote_stock)
+				
+				piezas_totales = piezas_malas + piezas_buenas
+				
+				for i = 1 to lote_stock.rowcount()
+					
+						articulo_stock = lote_stock.object.articulo_stock[i]
+						lotes = lote_stock.object.lote_stock[i]
+						cantidad_pzs = lote_stock.object.cantidad_pzs[i]
+						
+						select operacion
+						into :operacion_stock
+						from art_ver_operaciones
+						where empresa = :codigo_empresa
+						and articulo = :articulo_stock
+						and version = :ver;
+						
+						select isnull(coste_fabricacion_teorico,0),isnull(coste_fabricacion_mermas,0),isnull(coste_mp,0),isnull(coste_mp_mermas,0)
+						into :coste_fabricacion_teorico_stock, :coste_fabricacion_mermas_stock, :coste_mp_stock, :coste_mp_mermas_stock
+						from articulos_coste_lote
+						where empresa = :codigo_empresa
+						and articulo = :articulo_stock
+						and lote = :lotes
+						and operacion = :operacion_stock;
+						
+						porcentaje_pzs = (100 * cantidad_pzs) / piezas_totales
+				
+						coste_fabricacion_teorico +=  ((coste_fabricacion_teorico_stock )  * (porcentaje_pzs/100)  ) 
+						
+						coste_fabricacion_mermas +=  ((coste_fabricacion_mermas_stock )  * (porcentaje_pzs/100)  ) 
+						
+						coste_mp +=  ((coste_mp_stock )  * (porcentaje_pzs/100)  ) 
+						
+						coste_mp_mermas +=  ((coste_mp_mermas_stock )  * (porcentaje_pzs/100)  ) 
+									
+				next
+				
+				*/
+					
+			elseif origen = "historico" then
+				
+				/*BUSCAR EL MOVIMIENTO MÁS PRÓXIMO DEL ARTICULO ANTERIOR DE SALIDA A PRODUCCIÓN (209) DE LA MENOR FECHA DEL PARTE DEL ARTÍCULO Y SUPONEMOS QUE ESE ES EL LOTE Y CANTIDAD QUE SE HA ESCOGIDO PARA FABRICAR EL ARTÍCULO, DESPUÉS CALCULAR EL COSTE
+				DE ESE ARTÍCULO (YA QUE SÓLO SE LLAMA A LA FUNCIÓN CON LOS ARTICULOS DE USO 3*/
+					
+				select min(fecha)
+				into :fecha_primer_parte
+				from prodpartes_ot
+				where empresa = :codigo_empresa
+				and articulo = :articulo
+				and isnull(lote,0) = :lote_provisional
+				and prodpartes_ot.ajuste <> 'S';
+				
+				/*
+				
+				select top 1 isnull(tono,0)
+				into  :lote_anterior
+				from almacenmovimientos
+				where tipomov = 209
+				and empresa = :codigo_empresa
+				and articulo = :articulo_anterior
+				and fecha_mov <= :fecha_primer_parte
+				order by fecha_mov desc;
+				
+				*/
+				
+				select top 1 (isnull(lote,''))
+				into :lote_anterior
+				from prodpartes_ot
+				where articulo = :articulo_anterior
+				and fecha <= :fecha_primer_parte
+				and empresa = :codigo_empresa
+				and prodpartes_ot.ajuste <> 'S'
+				order by fecha desc;
+				
+			end if
+			
+			if lote_anterior = '' then 
+				
+					/*
+					select top 1 isnull(lote,'0')
+					into :lote_anterior
+					from prodpartes_ot
+					where empresa = :empresa
+					and articulo = :articulo
+					and version = :ver
+					and operacion = :tipo_operacion
+					and prodpartes_ot.ajuste <> 'S'
+					group by empresa,articulo,lote,version,operacion,fecha
+					order by fecha desc;
+					
+					if lote_anterior = '' then lote_anterior = lote
+					
+					*/
+					
+					lote_anterior = lote
+						
+			end if
+			
+					
+		else
+			
+			lote_anterior = lote
+			
+		end if
+		
+		fallo = f_calcular_costes_lote (codigo_empresa,articulo_anterior,lote_anterior, ver, tipo_operacion_anterior, +&
+		trans_sql, coste_fabricacion_real_acumulado, coste_fabricacion_teorico_acumulado, coste_mp_acumulado, coste_packing_acumulado, +&
+		coste_compras_acumulado,origen, coste_fabricacion_mermas_acumulado,coste_mp_mermas_acumulado,coste_mp_real_acumulado,coste_total_mp_mermas, factor)
+		
+		if fallo = true then exit
+		
+		factor_acumulado = 1.0
+		
+		select case when isnull(factor,0.0) <> 0.0 then factor else 1 end
+		into :factor_acumulado
+		from art_escandallo
+		where articulo = :articulo
+		and version = :ver
+		and empresa = :empresa
+		using trans_sql;
+		
+		if factor_acumulado = 0.0 then factor_acumulado = 1
+		
+		factor *= factor_acumulado
+		
+		coste_fabricacion_teorico_acumulado += (coste_fabricacion_teorico / factor)
+		
+		if piezas_buenas > 0 then
+			
+			coste_fabricacion_mermas += (coste_fabricacion_real_acumulado * piezas_malas) / piezas_buenas
+			
+		else
+			
+			coste_fabricacion_mermas += 0
+			
+		end if
+		
+		if coste_mp <> 0 or not isnull(coste_mp) then
+			
+			if piezas_buenas > 0 then
+			
+				coste_mp_real = (piezas_totales * coste_mp) / piezas_buenas
+				
+				coste_mp_mermas = coste_mp_real - coste_mp
+				
+			else
+				
+				coste_mp_real = 0
+				
+				coste_mp_mermas = 0
+				
+			end if
+			
+		else
+			
+			coste_mp_real = 0
+			coste_mp_mermas = 0
+			
+		end if
+			
+		coste_total_mp_mermas += piezas_malas * coste_mp_acumulado			//VARIABLE COSTE TOTAL (NO UNITARIO) QUE PASO AL ARTICULO ANTERIOR PARA FACILITAR CÁLCULOS
+		
+		if piezas_buenas  > 0 then
+			coste_mp_mermas_acumulado = coste_total_mp_mermas / piezas_buenas
+		else
+			coste_mp_mermas_acumulado = 0
+		end if
+					
+		/*
+	
+		if coste_mp <> 0 or not isnull(coste_mp) then
+		
+			select sum (buenas )
+			into :piezas_totales_encajado
+			from prodpartes_ot
+			where articulo = :articulo_encajado
+			and version = :ver
+			and empresa = :empresa
+			and lote = :lote;
+			
+			piezas_extra = piezas_buenas - piezas_totales_encajado 
+			
+			if isnull(piezas_totales_encajado) or piezas_totales_encajado = 0 then 
+		
+				coste_mp_mermas  = 0
+			else
+				
+				coste_mp_mermas  = (piezas_Extra *  coste_mp ) / piezas_totales_encajado
+				
+			end if
+			
+		else
+		
+			coste_mp_mermas = 0
+		
+   	end if
+		
+		*/
+			
+		coste_fabricacion_real_acumulado = coste_fabricacion_teorico_acumulado + coste_fabricacion_mermas
+					
+		coste_packing_acumulado +=  (coste_packing / factor)
+			
+		coste_compras_acumulado +=  (coste_compras / factor)
+	
+		coste_mp_acumulado += (coste_mp / factor)
+		
+		coste_fabricacion_mermas_acumulado += coste_fabricacion_mermas
+		
+		
+	next
+	
+else
+	
+	select case when isnull(factor,0.0) <> 0.0 then factor else 1 end
+	into :factor
+	from art_escandallo
+	where articulo = :articulo
+	and version = :ver
+	and empresa = :empresa
+	using trans_sql;
+
+	if factor = 0.0 then factor = 1
+
+	coste_fabricacion_teorico_acumulado = coste_fabricacion_teorico / factor
+	coste_fabricacion_mermas = 0
+	coste_fabricacion_real_acumulado = coste_fabricacion_teorico / factor
+	coste_packing_acumulado = coste_packing / factor
+	
+	if coste_mp <> 0 or not isnull(coste_mp) then
+		
+		if piezas_buenas > 0 then
+		
+			coste_mp_real = (piezas_totales * coste_mp) / piezas_buenas
+			
+			coste_mp_mermas = coste_mp_real - coste_mp
+		else
+			coste_mp_real = 0
+			
+			coste_mp_mermas = 0	
+		end if
+	else
+			
+		coste_mp_real = 0
+		coste_mp_mermas = 0
+		
+	end if
+	
+	/*
+	
+	if coste_mp <> 0 or not isnull(coste_mp) then
+		
+		
+		select sum (buenas )
+		into :piezas_totales_encajado
+		from prodpartes_ot
+		where articulo = :articulo_encajado
+		and version = '1'
+		and empresa = :empresa
+		and lote = :lote;
+		
+		piezas_extra = piezas_buenas - piezas_totales_encajado 
+		
+		if isnull(piezas_totales_encajado) or piezas_totales_encajado = 0 then 
+	
+			coste_mp_mermas  = 0
+		else
+			coste_mp_mermas  = (piezas_Extra *  coste_mp ) / piezas_totales_encajado
+		end if
+		
+	else
+		
+		coste_mp_mermas = 0
+		
+   end if
+	
+	*/
+	
+	coste_mp_real_acumulado = coste_mp_real / factor
+	coste_compras_acumulado = coste_compras / factor
+	coste_packing_acumulado = coste_packing / factor
+	coste_mp_acumulado = coste_mp / factor
+	coste_fabricacion_mermas_acumulado = coste_fabricacion_mermas
+	coste_mp_mermas_acumulado = coste_mp_mermas
+	coste_total_mp_mermas = piezas_malas * coste_mp	
+		
+end if
+
+destroy datos
+
+
+//CALCULO LA FECHA DEL ÚLTIMO PARTE Y LAS PIEZAS TOTALES
+
+select max(fecha)
+into :fecha_ultimo_parte
+from prodpartes_ot
+where empresa = :codigo_empresa
+and articulo = :articulo
+and isnull(lote,0) = :lote
+and prodpartes_ot.ajuste <> 'S';
+
+
+
+if fallo = false then 
+	
+	select count(*) 
+	into :contador_entradas
+	from articulos_coste_lote
+	where articulo = :articulo
+	and isnull(lote,0) = :lote
+	and empresa = :empresa;
+
+	if contador_entradas = 0 then
+		
+	//NO EXISTE ENTRADA EN LA BASE DE DATOS PARA ESE LOTE
+	
+		insert into articulos_coste_lote (empresa,articulo,lote,version,operacion,coste_fabricacion_teorico,coste_fabricacion_teorico_acumulado,coste_fabricacion_mermas,
+						coste_fabricacion_real_acumulado,coste_packing,coste_compras,coste_mp,coste_packing_acumulado,coste_compras_acumulado,coste_mp_acumulado,fecha_ultimo_parte,
+						piezas_totales_lote,coste_mp_mermas,coste_fabricacion_mermas_acumulado,coste_mp_mermas_acumulado,coste_mp_real,coste_mp_real_acumulado,piezas_malas,piezas_buenas, velocidad)
+		values 		(:codigo_empresa,:articulo,:lote,:ver,:tipo_operacion,:coste_fabricacion_teorico,:coste_fabricacion_teorico_acumulado,:coste_fabricacion_mermas,:coste_fabricacion_real_acumulado,
+						:coste_packing,:coste_compras,:coste_mp,:coste_packing_acumulado,:coste_compras_acumulado,:coste_mp_acumulado,:fecha_ultimo_parte,
+						:piezas_totales,:coste_mp_mermas,:coste_fabricacion_mermas_acumulado,:coste_mp_mermas_acumulado,:coste_mp_real,:coste_mp_real_acumulado,:piezas_malas,:piezas_buenas,:velocidad_segs)
+		using sqlca;
+			
+	else
+		
+	
+	//EXISTE ENTRADA EN LA BASE DE DATOS PARA ESE LOTE
+	
+		update articulos_coste_lote 
+		set coste_fabricacion_teorico = :coste_fabricacion_teorico, 
+		coste_fabricacion_teorico_acumulado = :coste_fabricacion_teorico_acumulado, 
+		coste_fabricacion_mermas = :coste_fabricacion_mermas, 
+		coste_fabricacion_real_acumulado =:coste_fabricacion_real_acumulado,
+		coste_packing = :coste_packing,
+		coste_compras = :coste_compras,
+		coste_mp = :coste_mp,
+		coste_packing_acumulado = :coste_packing_acumulado,
+		coste_compras_acumulado = :coste_compras_acumulado,
+		coste_mp_acumulado = :coste_mp_acumulado,
+		fecha_ultimo_parte = :fecha_ultimo_parte,
+		piezas_totales_lote = :piezas_totales,
+		coste_mp_mermas = :coste_mp_mermas,
+		coste_fabricacion_mermas_acumulado = :coste_fabricacion_mermas_acumulado,
+		coste_mp_mermas_acumulado = :coste_mp_mermas_acumulado,
+		coste_mp_real = :coste_mp_real,
+		coste_mp_real_acumulado = :coste_mp_real_acumulado,
+		piezas_malas = :piezas_malas,
+		piezas_buenas = :piezas_buenas,
+		velocidad = :velocidad_segs
+		where articulo = :articulo
+		and lote = :lote
+		using sqlca;
+		
+	end if
+	
+	if sqlca.SQLCode <> 0 then
+			fallo = true
+		end if
+		
+	if fallo then
+		rollback using sqlca;
+		//messagebox("ERROR", "Error en el proceso de guardado del histórico de costes. La aplicación continuará ejecutándose")
+	else
+		commit using sqlca;
+		//messagebox("Éxito", "Éxito en el proceso de guardado del histórico de costes.")
+	end if
+	
+end if
+
+return fallo
+end function
+

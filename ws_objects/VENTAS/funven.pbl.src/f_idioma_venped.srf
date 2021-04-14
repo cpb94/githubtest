@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_idioma_venped.srf
+global type f_idioma_venped from function_object
+end type
+
+forward prototypes
+global function string f_idioma_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_idioma_venped (string empresa, integer anyo, decimal pedido);String var_idioma
+
+
+  SELECT venped.idioma
+    INTO :var_idioma
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido);
+
+
+
+Return var_idioma
+end function
+

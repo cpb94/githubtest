@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_peso_formato.srf
+global type f_peso_formato from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_formato (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function decimal f_peso_formato (string ai_codemp, string ai_codfor);dec peso
+
+SELECT pesopieza
+INTO   :peso
+FROM   formatos  
+WHERE  empresa = :ai_codemp
+AND    codigo  = :ai_codfor
+USING SQLCA;
+
+IF ISNULL(peso) Then peso =0
+
+RETURN peso
+end function
+

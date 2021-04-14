@@ -1,0 +1,49 @@
+﻿$PBExportHeader$dw_produbicacionpantallas.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=88 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=144 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="prodalmacenpantallas.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=codigo dbname="prodalmacenpantallas.codigo" )
+ column=(type=long update=yes updatewhereclause=yes name=capacidad dbname="prodalmacenpantallas.capacidad" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=tipo dbname="prodalmacenpantallas.tipo" values="Normal	A/Ancha	B/L Normal	LN/L Ancha	LA/XL	XL/PV	PV/INK	IN/" )
+ column=(type=char(75) update=yes updatewhereclause=yes name=observaciones dbname="prodalmacenpantallas.observaciones" )
+ column=(type=long updatewhereclause=yes name=total_ubicacion dbname="total_ubicacion" )
+ retrieve="  SELECT prodalmacenpantallas.empresa,   
+         prodalmacenpantallas.codigo,   
+         prodalmacenpantallas.capacidad,   
+         prodalmacenpantallas.tipo,   
+         prodalmacenpantallas.observaciones ,
+			( select sum (n_pantallas)
+			from juegospantallas
+			where empresa = :empresa
+			and ubicacion = prodalmacenpantallas.codigo ) as total_ubicacion
+
+    FROM prodalmacenpantallas
+   WHERE prodalmacenpantallas.empresa = :empresa    
+
+
+
+
+" update="prodalmacenpantallas" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string)) )
+text(band=header alignment="2" text="Ubicación" border="2" color="8388608" x="46" y="16" height="56" width="251" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Tipo" border="2" color="8388608" x="315" y="16" height="56" width="251" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Disponible" border="2" color="8388608" x="585" y="16" height="56" width="265" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Capacidad" border="2" color="8388608" x="878" y="16" height="56" width="256" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Existencias" border="2" color="8388608" x="1157" y="16" height="56" width="302" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Observaciones" border="2" color="8388608" x="1481" y="16" height="56" width="1541" html.valueishtml="0"  name=almlinubica_observaciones_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="2" color="0" x="320" y="4" height="52" width="247" format="[general]" html.valueishtml="0"  name=tipo visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="2" tabsequence=10 border="2" color="0" x="41" y="4" height="52" width="261" format="[general]" html.valueishtml="0"  name=codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="2" color="0" x="1481" y="4" height="52" width="1554" format="[general]" html.valueishtml="0"  name=observaciones visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="if ( isnull(total_ubicacion ) , capacidad, capacidad -  total_ubicacion)"border="2" color="255" x="585" y="4" height="52" width="265" format="###,####,###" html.valueishtml="0"  name=disponible visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="2" color="0" x="869" y="4" height="52" width="261" format="###,####,###" html.valueishtml="0"  name=capacidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="0" x="1147" y="4" height="52" width="306" format="###,####,###" html.valueishtml="0"  name=total_ubicacion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=footer alignment="1" text="Totales:" border="0" color="32768" x="37" y="64" height="56" width="430" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="sum(  disponible  for all )"border="2" color="32768" x="558" y="64" height="52" width="293" format="###,###,###" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="1" expression="sum(  capacidad  for all )"border="2" color="32768" x="869" y="64" height="52" width="261" format="###,###,###" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="1" expression="sum(  total_ubicacion  for all )"border="2" color="32768" x="1147" y="64" height="52" width="306" format="###,###,###" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="2135" y="512" height="76" width="256" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

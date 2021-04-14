@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_unidad_parte_abr.srf
+global type f_nombre_unidad_parte_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_unidad_parte_abr (string arg_empresa, string arg_unidad)
+end prototypes
+
+global function string f_nombre_unidad_parte_abr (string arg_empresa, string arg_unidad);string descripcion_abr		
+
+select descripcion_abr
+into   :descripcion_abr
+from   prodpartes_unidades
+where  empresa = :arg_empresa
+and    codigo  = :arg_unidad;
+
+if isnull(descripcion_abr) then descripcion_abr = ""
+
+descripcion_abr = trim(descripcion_abr)
+
+return descripcion_abr
+end function
+

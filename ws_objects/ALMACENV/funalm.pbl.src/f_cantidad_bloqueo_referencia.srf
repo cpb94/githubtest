@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_cantidad_bloqueo_referencia.srf
+global type f_cantidad_bloqueo_referencia from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_bloqueo_referencia (string empresa, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_cantidad_bloqueo_referencia (string empresa, string referencia, string tipo_pallet);dec numero
+  SELECT sum(almlinubica.existencias)
+  	 INTO :numero
+    FROM almlinubica_bloqueo,   
+         almlinubica  
+   WHERE ( almlinubica_bloqueo.empresa = almlinubica.empresa ) and  
+         ( almlinubica_bloqueo.ubicacion = almlinubica.ubicacion ) and  
+         ( almlinubica_bloqueo.linea = almlinubica.linea ) and  
+         ( almlinubica_bloqueo.referencia = almlinubica.referencia ) and  
+         ( almlinubica_bloqueo.tipo_pallet = almlinubica.tipo_pallet ) and  
+         ( ( almlinubica_bloqueo.empresa   =:empresa ) AND  
+         ( almlinubica_bloqueo.referencia  =:referencia ) AND  
+         ( almlinubica_bloqueo.tipo_pallet =:tipo_pallet) )   ;
+
+IF IsNull(numero) Then numero = 0
+
+return numero
+end function
+

@@ -1,0 +1,130 @@
+﻿$PBExportHeader$mc_aplicaciones_prod_restringido.srm
+forward
+global type mc_aplicaciones_prod_restringido from menu
+end type
+type m_aplicaciones from menu within mc_aplicaciones_prod_restringido
+end type
+type m_1 from menu within m_aplicaciones
+end type
+type m_2 from menu within m_aplicaciones
+end type
+type m_almacen1 from menu within m_aplicaciones
+end type
+type m_utilidades from menu within m_aplicaciones
+end type
+type m_aplicaciones from menu within mc_aplicaciones_prod_restringido
+m_1 m_1
+m_2 m_2
+m_almacen1 m_almacen1
+m_utilidades m_utilidades
+end type
+global type mc_aplicaciones_prod_restringido from menu
+m_aplicaciones m_aplicaciones
+end type
+end forward
+
+global type mc_aplicaciones_prod_restringido from menu
+m_aplicaciones m_aplicaciones
+end type
+global mc_aplicaciones_prod_restringido mc_aplicaciones_prod_restringido
+
+on mc_aplicaciones_prod_restringido.create
+mc_aplicaciones_prod_restringido=this
+call super::create
+this.m_aplicaciones=create m_aplicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_aplicaciones
+end on
+
+on mc_aplicaciones_prod_restringido.destroy
+call super::destroy
+destroy(this.m_aplicaciones)
+end on
+
+type m_aplicaciones from menu within mc_aplicaciones_prod_restringido
+m_1 m_1
+m_2 m_2
+m_almacen1 m_almacen1
+m_utilidades m_utilidades
+end type
+
+on m_aplicaciones.create
+call super::create
+this.text = "Aplicaciones"
+this.m_1=create m_1
+this.m_2=create m_2
+this.m_almacen1=create m_almacen1
+this.m_utilidades=create m_utilidades
+this.Item[UpperBound(this.Item)+1]=this.m_1
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_almacen1
+this.Item[UpperBound(this.Item)+1]=this.m_utilidades
+end on
+
+on m_aplicaciones.destroy
+call super::destroy
+destroy(this.m_1)
+destroy(this.m_2)
+destroy(this.m_almacen1)
+destroy(this.m_utilidades)
+end on
+
+type m_1 from menu within m_aplicaciones
+end type
+
+event clicked;Open (w_produccion)
+end event
+
+on m_1.create
+call super::create
+this.text = "Producción"
+end on
+
+on m_1.destroy
+call super::destroy
+end on
+
+type m_2 from menu within m_aplicaciones
+end type
+
+event clicked;
+end event
+
+on m_2.create
+call super::create
+this.text = "I + D"
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_almacen1 from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_almacenv)
+end on
+
+on m_almacen1.create
+call super::create
+this.text = "Almacen"
+end on
+
+on m_almacen1.destroy
+call super::destroy
+end on
+
+type m_utilidades from menu within m_aplicaciones
+end type
+
+event clicked;IF f_pedir_clave("1") THEN Open (w_utilidad)
+end event
+
+on m_utilidades.create
+call super::create
+this.text = "Utilidades"
+end on
+
+on m_utilidades.destroy
+call super::destroy
+end on
+

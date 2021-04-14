@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_activo_articulo.srf
+global type f_activo_articulo from function_object
+end type
+
+forward prototypes
+global function boolean f_activo_articulo (string empresa, string articulo)
+end prototypes
+
+global function boolean f_activo_articulo (string empresa, string articulo);DateTime var_fecha,var_fecha1
+
+Select articulos.fecha_anulado,articulos.fecha_fin Into :var_fecha,:var_fecha1 From articulos
+Where  articulos.empresa = :codigo_empresa
+And    articulos.codigo  = :articulo;
+If String(var_fecha,"dd-mm-yy") = "00-00-00" and String(var_fecha1,"dd-mm-yy") = "00-00-00"Then Return TRUE
+If ISNull(var_fecha) and  ISNull(var_fecha1) Then Return TRUE
+IF Date(var_fecha) <= today() Then
+	Return FALSE
+ELSE	 
+	IF Date(var_fecha1) <= today() Then
+		Return FALSE
+	ELSE
+		Return TRUE
+	END IF
+END IF
+
+end function
+

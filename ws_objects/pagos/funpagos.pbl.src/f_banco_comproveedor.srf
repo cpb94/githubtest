@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_banco_comproveedor.srf
+global type f_banco_comproveedor from function_object
+end type
+
+forward prototypes
+global function string f_banco_comproveedor (string empresa, string banco)
+end prototypes
+
+global function string f_banco_comproveedor (string empresa, string banco);String  cod_banco
+  
+SELECT comproveedores.banco INTO :cod_banco
+FROM 	comproveedores
+WHERE comproveedores.empresa = :empresa
+AND   comproveedores.codigo   = :banco;
+
+IF IsNull(cod_banco) THEN cod_banco = ""
+	
+RETURN cod_banco
+
+end function
+

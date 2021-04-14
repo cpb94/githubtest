@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_razon_o_compuesto_cliente.srf
+global type f_razon_o_compuesto_cliente from function_object
+end type
+
+forward prototypes
+global function string f_razon_o_compuesto_cliente (string empresa, string codigo)
+end prototypes
+
+global function string f_razon_o_compuesto_cliente (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto
+
+SELECT genter.empresa, genter.codigo,genter.razon
+    INTO :var_empresa,:var_codigo,:var_compuesto
+    FROM genter  
+   WHERE ( genter.empresa = :empresa ) AND  
+	      ( genter.tipoter  = "C" )    AND
+         ( genter.codigo  = :codigo )   ;
+
+        
+IF IsNull(var_compuesto) or Trim(var_compuesto)="" Then
+ var_compuesto=f_compuesto_cliente(empresa,codigo)
+END IF 
+IF IsNull(var_compuesto) Then var_compuesto = ""
+RETURN var_compuesto
+
+end function
+

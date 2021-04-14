@@ -1,0 +1,73 @@
+﻿$PBExportHeader$str_carhistorico.srs
+global type str_carhistorico from structure
+     STRING     empresa
+     DECIMAL {0}     anyo
+     DECIMAL {0}     orden
+     DECIMAL {0}     linea
+     DECIMAL {0}     anyofra
+     STRING     factura
+     DECIMAL {6}     recibo
+     DATETIME     fvto
+     DATETIME     ffra
+     DATETIME     fvto_original
+     DATETIME     fcobro
+     DECIMAL {6}     importe
+     DECIMAL {6}     divisas
+     STRING     monedas
+     STRING     fpago
+     STRING     tipodoc
+     STRING     banco
+     DECIMAL {6}     remesa
+     DATETIME     fremesa
+     STRING     situacion
+     STRING     agente1
+     STRING     pais
+     STRING     cuenta
+     STRING     domiciliacion
+     STRING     Nacional
+     STRING     observaciones
+     STRING     libre
+     STRING     gasto
+     DATETIME     fdevolucion
+     STRING     agrupado
+     DECIMAL {6}     efectoagrupa
+     DECIMAL {0}     anyoagrupa
+     STRING     cliente
+     DECIMAL {0}     anyo_remesa
+     DECIMAL {6}     comision11
+     DECIMAL {6}     comision12
+     STRING     agente2
+     DECIMAL {6}     comision21
+     DECIMAL {6}     comision22
+     STRING     agente3
+     DECIMAL {6}     comision31
+     DECIMAL {6}     comision32
+     DECIMAL {6}     cambio
+     STRING     serie
+     STRING     remesa_total
+     STRING     tipo_remesa
+     DECIMAL {6}     veces
+     DATETIME     fechaimp
+     STRING     nomcli
+     STRING     domicli
+     STRING     poblacli
+     STRING     paiscli
+     STRING     nombanco
+     STRING     dirbanco1
+     STRING     dirbanco2
+     STRING     recibir_dmto
+     DATETIME     fecha_recibido
+     STRING     punteado
+     STRING     clase_efecto
+     DECIMAL {6}     cambio_euros
+     DECIMAL {6}     cambio_asegurado
+     STRING     devuelto_notificado_agente
+     STRING     devuelto_notificado_agente2
+     STRING     devuelto_notificado_agente3
+     STRING     banco_docu
+     DECIMAL {6}     desviacion
+     DECIMAL {6}     cambio_cobro
+     STRING     situacion_anterior
+     STRING     pago_a_cuenta
+end type
+

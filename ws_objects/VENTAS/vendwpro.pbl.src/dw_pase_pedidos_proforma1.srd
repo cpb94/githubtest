@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_pase_pedidos_proforma1.srd
+release 6;
+datawindow(units=1 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 24 print.margin.right = 24 print.margin.top = 24 print.margin.bottom = 24 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=19 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=26 color="536870912" )
+detail(height=17 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venped.empresa" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="venped.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="venped.pedido" )
+ column=(type=long updatewhereclause=yes name=venped_veces dbname="venped.veces" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venped~" )  TABLE(NAME=~"venliped~" ) COLUMN(NAME=~"venped.empresa~") COLUMN(NAME=~"venped.anyo~") COLUMN(NAME=~"venped.pedido~") COLUMN(NAME=~"venped.veces~")    JOIN (LEFT=~"venped.empresa~"    OP =~"=~"RIGHT=~"venliped.empresa~" )    JOIN (LEFT=~"venped.anyo~"    OP =~"=~"RIGHT=~"venliped.anyo~" )    JOIN (LEFT=~"venped.pedido~"    OP =~"=~"RIGHT=~"venliped.pedido~" )WHERE(    EXP1 =~"venped.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venped.cliente~"   OP =~"=~"    EXP2 =~":cliente~" )  GROUP(NAME=~"venped.empresa~") GROUP(NAME=~"venped.anyo~") GROUP(NAME=~"venped.pedido~") GROUP(NAME=~"venped.veces~")) ORDER(NAME=~"venped.empresa~" ASC=yes )  ORDER(NAME=~"venped.anyo~" ASC=yes )  ORDER(NAME=~"venped.pedido~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("cliente", string)) )
+text(band=header alignment="2" text="Pedido"border="6" color="0" x="2" y="2" height="16" width="49"  name=matricula_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="1" expression=" String(pedido,~"###,###~")"border="0" color="0~tIF (venped_veces>0,RGB(0,0,0),RGB(0,0,255))" x="2" y="0" height="15" width="49" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=footer alignment="0" text="(*)DobleClick consulta."border="0" color="128" x="4" y="1" height="24" width="57"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

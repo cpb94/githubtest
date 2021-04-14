@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_idioma_venfac.srf
+global type f_idioma_venfac from function_object
+end type
+
+forward prototypes
+global function string f_idioma_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_idioma_venfac (string empresa, integer anyo, decimal factura);String var_idioma
+
+
+  SELECT venfac.idioma
+    INTO :var_idioma
+    FROM venfac  
+   WHERE (venfac.empresa  = :empresa)
+   AND   (venfac.anyo     = :anyo)
+   AND   (venfac.factura  = :factura);
+
+
+
+Return var_idioma
+end function
+

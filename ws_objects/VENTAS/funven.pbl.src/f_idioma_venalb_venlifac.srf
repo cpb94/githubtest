@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_idioma_venalb_venlifac.srf
+global type f_idioma_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_idioma_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_idioma_venalb_venlifac (string empresa, integer anyo, decimal albaran);String var_idioma
+
+  SELECT max(isnull(venfac.idioma,''))
+    INTO :var_idioma
+    FROM venlifac,venfac
+   WHERE ( venlifac.empresa      = venfac.empresa ) 
+	and   ( venlifac.anyo         = venfac.anyo ) 
+	and   ( venlifac.factura      = venfac.factura )
+	and   ( venlifac.empresa      = :empresa )
+   AND   ( venlifac.anyo_albaran = :anyo )
+   AND   ( venlifac.albaran      = :albaran );
+
+Return var_idioma
+end function
+

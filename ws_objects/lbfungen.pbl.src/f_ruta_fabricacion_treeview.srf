@@ -1,0 +1,234 @@
+﻿$PBExportHeader$f_ruta_fabricacion_treeview.srf
+global type f_ruta_fabricacion_treeview from function_object
+end type
+
+forward prototypes
+global subroutine f_ruta_fabricacion_treeview (string articulo, integer nodo, ref treeview arbol, integer tipo, string ruta)
+end prototypes
+
+global subroutine f_ruta_fabricacion_treeview (string articulo, integer nodo, ref treeview arbol, integer tipo, string ruta);// PARAMETROS
+// recibe el artículo del que hay que extraer el escandallo.
+// recibe el nodo raíz del árbol a partir del cual generaremos la estructura.
+// arbol: Objeto treeview sobre el que construimos la estrucutra del artículo. pasado por referencia.
+
+string sel, articulo_siguiente, articulo_actual, ruta_siguiente, uso_actual, descripcion_actual, tipo_actual, formato_actual, operacion_actual
+String articulo_anterior, operacion_anterior, ruta_anterior
+integer i, nodo_hijo, nodo_raiz, numero_rutas, numero_rutas_reales, tipo_siguiente
+datastore registros 
+long nodo_actual, nodo_padre
+dec factor_actual
+
+sel = " select ruta_fabricacion.articulo, ruta_fabricacion.articulo_anterior, ruta_fabricacion.tipooperacion, tipooperacion.abreviado, "+&
+		" ruta_fabricacion.ruta, ruta_descripcion.descripcion, ruta_fabricacion.prioridad, ruta_fabricacion.factor, formatos.abreviado, articulos.uso, articulos.descripcion  "+&
+		" from ruta_fabricacion  "+&
+		" inner join tipooperacion on ruta_fabricacion.empresa = tipooperacion.empresa and ruta_fabricacion.tipooperacion = tipooperacion.codigo  "+&
+		" inner join ruta_descripcion on ruta_fabricacion.empresa = ruta_descripcion.empresa and ruta_fabricacion.ruta = ruta_descripcion.codigo  "+&
+		" inner join articulos on articulos.empresa = ruta_fabricacion.empresa and articulos.codigo = ruta_fabricacion.articulo  "+&
+		" inner join formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo  "+&
+		" where ruta_fabricacion.empresa = '"+codigo_empresa+"' AND ruta_fabricacion.articulo = '"+articulo+"' order by ruta_fabricacion.prioridad DESC, ruta_fabricacion.tipooperacion ASC, ruta_fabricacion.articulo_anterior DESC;"
+
+f_cargar_cursor_nuevo (sel, registros)
+
+numero_rutas = registros.RowCount()
+
+SELECT COUNT(*) INTO :numero_rutas_reales FROM ruta_fabricacion R1, ruta_fabricacion R2 WHERE R1.empresa = R2.empresa AND R1.articulo = R2.articulo 
+AND R1.empresa = :codigo_empresa AND R1.articulo = :articulo AND R1.articulo_anterior <> R2.articulo_anterior;
+
+if numero_rutas = 0 then //bases de cliente
+	SELECT articulos.uso, articulos.descripcion, formatos.abreviado INTO :uso_actual, :descripcion_actual, :formato_actual 
+	FROM articulos 
+	INNER JOIN formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo 
+	WHERE articulos.empresa = :codigo_empresa AND articulos.codigo = :articulo;
+	if uso_actual = '1' then
+		tipo = 2
+	else
+		tipo = 4
+	end if
+	nodo_actual = arbol.InsertItemFirst(nodo, articulo+" : "+descripcion_actual+" "+formato_actual, tipo)				
+end if
+
+articulo_anterior = "-1"
+operacion_anterior = "-1"
+ruta_anterior = "-1"
+for i = 1 to numero_rutas
+	articulo_actual = registros.object.ruta_fabricacion_articulo[i] 
+	descripcion_actual = registros.object.articulos_descripcion[i] 
+	articulo_siguiente = registros.object.ruta_fabricacion_articulo_anterior[i] 
+	operacion_actual = registros.object.tipooperacion_abreviado[i]
+	ruta_siguiente = registros.object.ruta_descripcion_descripcion[i]
+	factor_actual = registros.object.ruta_fabricacion_factor[i]
+	uso_actual = registros.object.articulos_uso[i]
+	tipo_siguiente = registros.object.ruta_fabricacion_prioridad[i]
+	formato_actual = registros.object.formatos_abreviado[i]
+	
+	//Es necesario añadir la imagen de la ruta principal en el open de la ventana que tiene el treeview
+	if tipo = 1 then
+		tipo_actual = "Ruta Principal "
+		if uso_actual = '1' then
+			tipo = 2
+		end if
+	else
+		tipo = 4
+		if uso_actual = '1' then
+			tipo = 3
+		end if
+		tipo_actual = ""
+	end if
+	
+	choose case uso_actual
+		case '1' 
+			uso_actual = 'BASE'
+		case '2' 
+			uso_actual = 'SEMIELABORADO'
+		case '3'
+			uso_actual = 'ACABADO'
+	end choose	
+
+	if isnull(factor_actual) then
+		factor_actual = 0
+	end if
+	
+	//if operacion_anterior <> operacion_actual and ruta_anterior <> ruta_siguiente then
+	if operacion_anterior <> operacion_actual then
+		nodo_actual = arbol.InsertItemFirst(nodo, articulo_actual+" : "+descripcion_actual+" (F: "+string(factor_actual)+&
+					  " R: "+string(ruta)+")                "+formato_actual+" - "+operacion_actual, tipo)				
+	end if
+	
+
+	if not isnull(articulo_siguiente) and articulo_siguiente <> "0" and articulo_siguiente <> articulo_actual then
+		if i < 200 then
+			if not isnull(nodo_actual) and nodo_actual > 300 then
+				MessageBox("Error", "El artículo tiene un problema en su escandallo (Se han detectado más de 300 nodos). Avise al administrador.")
+			else
+				f_ruta_fabricacion_treeview (articulo_siguiente, nodo_actual, arbol,tipo_siguiente,ruta_siguiente)
+			end if
+		else
+			MessageBox("Error", "El artículo tiene un problema en su escandallo (Demasiados artículos detectados en el mismo nivel). Avise al administrador.")
+		end if
+	end if
+	
+	articulo_siguiente = '0'
+	articulo_anterior = articulo_actual
+	operacion_anterior = operacion_actual
+	ruta_anterior = ruta_siguiente
+next
+
+nodo_raiz = arbol.FindItem(RootTreeItem! , 0)
+arbol.ExpandAll(nodo_raiz)
+
+destroy registros
+
+/*
+// PARAMETROS
+// recibe el artículo del que hay que extraer el escandallo.
+// recibe el nodo raíz del árbol a partir del cual generaremos la estructura.
+// arbol: Objeto treeview sobre el que construimos la estrucutra del artículo. pasado por referencia.
+
+string sel, articulo_siguiente, articulo_actual, ruta_actual, uso_actual, descripcion_actual, tipo_actual, formato_actual, operacion_actual
+String articulo_anterior, operacion_anterior, ruta_anterior
+integer i, nodo_hijo, nodo_raiz, tipo, numero_rutas, numero_rutas_reales
+datastore registros 
+long nodo_actual, nodo_padre
+dec factor_actual
+
+sel = " select ruta_fabricacion.articulo, ruta_fabricacion.articulo_anterior, ruta_fabricacion.tipooperacion, tipooperacion.abreviado, "+&
+		" ruta_fabricacion.ruta, ruta_descripcion.descripcion, ruta_fabricacion.prioridad, ruta_fabricacion.factor, formatos.abreviado, articulos.uso, articulos.descripcion  "+&
+		" from ruta_fabricacion  "+&
+		" inner join tipooperacion on ruta_fabricacion.empresa = tipooperacion.empresa and ruta_fabricacion.tipooperacion = tipooperacion.codigo  "+&
+		" inner join ruta_descripcion on ruta_fabricacion.empresa = ruta_descripcion.empresa and ruta_fabricacion.ruta = ruta_descripcion.codigo  "+&
+		" inner join articulos on articulos.empresa = ruta_fabricacion.empresa and articulos.codigo = ruta_fabricacion.articulo  "+&
+		" inner join formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo  "+&
+		" where ruta_fabricacion.empresa = '"+codigo_empresa+"' AND ruta_fabricacion.articulo = '"+articulo+"' order by ruta_fabricacion.prioridad, ruta_fabricacion.tipooperacion, ruta_fabricacion.articulo_anterior desc;"
+
+f_cargar_cursor_nuevo (sel, registros)
+
+numero_rutas = registros.RowCount()
+
+SELECT COUNT(*) INTO :numero_rutas_reales FROM ruta_fabricacion R1, ruta_fabricacion R2 WHERE R1.empresa = R2.empresa AND R1.articulo = R2.articulo 
+AND R1.empresa = :codigo_empresa AND R1.articulo = :articulo AND R1.articulo_anterior <> R2.articulo_anterior;
+
+if numero_rutas = 0 then //bases de cliente
+	SELECT articulos.uso, articulos.descripcion, formatos.abreviado INTO :uso_actual, :descripcion_actual, :formato_actual 
+	FROM articulos 
+	INNER JOIN formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo 
+	WHERE articulos.empresa = :codigo_empresa AND articulos.codigo = :articulo;
+	if uso_actual = '1' then
+		tipo = 2
+	else
+		tipo = 4
+	end if
+	nodo_actual = arbol.InsertItemFirst(nodo, articulo+" : "+descripcion_actual+" "+formato_actual, tipo)				
+end if
+
+articulo_anterior = "-1"
+operacion_anterior = "-1"
+ruta_anterior = "-1"
+for i = 1 to numero_rutas
+	articulo_actual = registros.object.ruta_fabricacion_articulo[i] 
+	descripcion_actual = registros.object.articulos_descripcion[i] 
+	articulo_siguiente = registros.object.ruta_fabricacion_articulo_anterior[i] 
+	operacion_actual = registros.object.tipooperacion_abreviado[i]
+	ruta_actual = registros.object.ruta_descripcion_descripcion[i]
+	factor_actual = registros.object.ruta_fabricacion_factor[i]
+	uso_actual = registros.object.articulos_uso[i]
+	tipo = registros.object.ruta_fabricacion_prioridad[i]
+	formato_actual = registros.object.formatos_abreviado[i]
+	
+	//Es necesario añadir la imagen de la ruta principal en el open de la ventana que tiene el treeview
+	if tipo = 1 then
+		tipo_actual = "Ruta Principal "
+		if uso_actual = '1' then
+			tipo = 2
+		end if
+	else
+		tipo = 4
+		if uso_actual = '1' then
+			tipo = 3
+		end if
+		tipo_actual = ""
+	end if
+	
+	choose case uso_actual
+		case '1' 
+			uso_actual = 'BASE'
+		case '2' 
+			uso_actual = 'SEMIELABORADO'
+		case '3'
+			uso_actual = 'ACABADO'
+	end choose	
+
+	if isnull(factor_actual) then
+		factor_actual = 0
+	end if
+	
+	if operacion_anterior <> operacion_actual or ruta_anterior <> ruta_actual then
+		nodo_actual = arbol.InsertItemFirst(nodo, articulo_actual+" : "+descripcion_actual+" (F: "+string(factor_actual)+&
+					  " R: "+string(ruta_actual)+")                "+formato_actual+" - "+operacion_actual, tipo)				
+	end if
+	
+
+	if not isnull(articulo_siguiente) and articulo_siguiente <> "0" and articulo_siguiente <> articulo_actual then
+		if i < 200 then
+			if not isnull(nodo_actual) and nodo_actual > 300 then
+				MessageBox("Error", "El artículo tiene un problema en su escandallo (Se han detectado más de 300 nodos). Avise al administrador.")
+			else
+				f_ruta_fabricacion_treeview (articulo_siguiente, nodo_actual, arbol)
+			end if
+		else
+			MessageBox("Error", "El artículo tiene un problema en su escandallo (Demasiados artículos detectados en el mismo nivel). Avise al administrador.")
+		end if
+	end if
+	
+	articulo_siguiente = '0'
+	articulo_anterior = articulo_actual
+	operacion_anterior = operacion_actual
+	ruta_anterior = ruta_actual
+next
+
+nodo_raiz = arbol.FindItem(RootTreeItem! , 0)
+arbol.ExpandAll(nodo_raiz)
+
+destroy registros
+*/
+end subroutine
+

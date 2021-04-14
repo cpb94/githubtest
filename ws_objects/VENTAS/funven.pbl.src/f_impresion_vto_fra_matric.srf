@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_impresion_vto_fra_matric.srf
+global type f_impresion_vto_fra_matric from function_object
+end type
+
+forward prototypes
+global function string f_impresion_vto_fra_matric (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function string f_impresion_vto_fra_matric (string empresa, decimal anyo, decimal factura);
+String montaje,v_mascara,fechas,importes
+str_vencimientos vto
+Integer r,cc,longitud_fec,longitud_imp
+vto  = f_vencimientos_factura(empresa,anyo,factura)
+fechas = ""
+importes = ""
+montaje = ""
+cc = 1
+IF IsNull(vto.efectos) or vto.efectos= 0 Then return ""
+For r = 1 To vto.efectos
+	// *** Pesetas con decimales, excepto en vencimientos y totales de las
+	// facturas.
+	if f_divisa_venfac(empresa,anyo,factura)="1" then
+		v_mascara = "#,###,###,##0"
+	else
+		v_mascara = f_mascara_moneda(f_divisa_venfac(empresa,anyo,factura))
+	end if
+	longitud_imp = len(String(vto.importe[r],v_mascara))
+	longitud_fec = len(String(vto.vencimiento[r],"dd/mm/yy"))
+	//montaje = montaje + String(vto.vencimiento[r],"dd/mm/yy") + "   "+space(10 - longitud)+ String((vto.importe[r]),v_mascara)
+	fechas   = fechas + String(vto.vencimiento[r],"dd/mm/yy") + "   "
+	importes = importes + String((vto.importe[r]),v_mascara)+ "   "
+	if (longitud_imp - longitud_fec) > 0 then
+		fechas = fechas + space(longitud_imp - longitud_fec)
+	else
+		importes = importes + space(longitud_fec - longitud_imp)
+	end if
+// 	IF cc = 1 Then
+//		cc = 2
+//		montaje = montaje + Space(2)
+//	Else
+//		montaje = montaje + char(13)
+//		cc = 1
+//	END IF
+Next
+montaje = fechas+"~n~n~n~n~n~n~n"+importes
+Return montaje
+end function
+

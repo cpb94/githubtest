@@ -1,0 +1,53 @@
+﻿$PBExportHeader$f_precio_articulo_especial.srf
+global type f_precio_articulo_especial from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo_especial (string empresa, string cliente, string articulo, string calidad)
+end prototypes
+
+global function decimal f_precio_articulo_especial (string empresa, string cliente, string articulo, string calidad);Decimal{2} var_precio
+String var_cliente,var_empresa,var_tarifa,var_articulo,var_calidad,var_familia,var_formato
+Datetime   var_fecha
+int numero
+var_precio = 0
+
+SELECT venartcli.precio INTO :var_precio  
+FROM  venartcli  
+WHERE venartcli.empresa  = :empresa
+AND   venartcli.cliente  = :cliente
+AND   venartcli.articulo = :articulo
+AND   venartcli.calidad  = :calidad;
+
+If Sqlca.SqlCode = 100 Then
+	  SELECT articulos.familia,articulos.formato INTO :var_familia,:var_formato  
+	  FROM   articulos  
+	  WHERE  articulos.empresa = :empresa
+	  AND    articulos.codigo  = :articulo;
+		
+		select count(*) 
+		into :numero
+		FROM  venfamforcli  
+		WHERE venfamforcli.empresa = :empresa
+		AND   venfamforcli.cliente = :cliente
+		AND   venfamforcli.familia = :var_familia
+		AND   venfamforcli.formato = :var_formato
+		AND   venfamforcli.calidad = :calidad;
+
+		if isnull(numero) or numero=0 then
+			setnull(var_precio)
+		else
+			
+		  SELECT venfamforcli.precio  INTO :var_precio  
+			FROM  venfamforcli  
+			WHERE venfamforcli.empresa = :empresa
+			AND   venfamforcli.cliente = :cliente
+			AND   venfamforcli.familia = :var_familia
+			AND   venfamforcli.formato = :var_formato
+			AND   venfamforcli.calidad = :calidad;
+		end if
+END IF
+//IF IsNull(var_precio) Then var_precio =0 
+Return var_precio
+end function
+

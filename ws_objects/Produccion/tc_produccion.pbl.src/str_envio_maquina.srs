@@ -1,0 +1,8 @@
+﻿$PBExportHeader$str_envio_maquina.srs
+global type str_envio_maquina from structure
+	string		maquina		descriptor "comment" = "Codigo Tabla prodlineas"
+	string		tipomaquina_disenyo		descriptor "comment" = "Tipo Máquina del Archivo, Tabla archivo_disenyo"
+	string		archivo_disenyo		descriptor "comment" = "Codigo Tabla archivo_disenyo"
+	string		prueba		descriptor "comment" = "Codigo Tabla archivo_disenyo_sistema archivos"
+end type
+

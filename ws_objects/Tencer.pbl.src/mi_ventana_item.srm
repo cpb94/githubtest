@@ -1,0 +1,44 @@
+﻿$PBExportHeader$mi_ventana_item.srm
+forward
+global type mi_ventana_item from menu
+end type
+end forward
+
+global type mi_ventana_item from menu
+end type
+global mi_ventana_item mi_ventana_item
+
+on mi_ventana_item.create
+mi_ventana_item=this
+call super::create
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on mi_ventana_item.destroy
+call super::destroy
+end on
+
+event clicked;Long i
+if this.tag <> "" then
+	i = Long(this.tag)
+	if i <> 1 then
+		ventanas_activas[i].ventana.WindowState = Normal!	
+	end if
+	ventanas_activas[i].ventana.BringToTop = true	
+end if
+end event
+

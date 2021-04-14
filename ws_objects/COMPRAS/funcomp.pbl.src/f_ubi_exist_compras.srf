@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_ubi_exist_compras.srf
+global type f_ubi_exist_compras from function_object
+end type
+
+forward prototypes
+global function boolean f_ubi_exist_compras (string cod_empresa, string cod_almacen, string cod_zona, decimal cod_fila, decimal cod_altura)
+end prototypes
+
+global function boolean f_ubi_exist_compras (string cod_empresa, string cod_almacen, string cod_zona, decimal cod_fila, decimal cod_altura);Decimal{2} numero
+
+  SELECT Count(*)   INTO :numero   FROM comubimapa  
+   WHERE comubimapa.empresa = :cod_empresa
+	AND   comubimapa.almacen = :cod_almacen
+	AND   comubimapa.zona    = :cod_zona
+	AND   comubimapa.fila_desde <= :cod_fila
+	AND   comubimapa.fila_hasta >= :cod_fila
+	AND   comubimapa.altura_desde <= :cod_altura
+	AND   comubimapa.altura_hasta >= :cod_altura  USING SQLCA;
+	IF IsNull(numero) Then numero = 0
+   IF numero = 0 THEN
+      RETURN FALSE
+   ELSE
+      RETURN TRUE
+   END IF
+end function
+

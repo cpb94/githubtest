@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_descripcion_almcliartdesc.srf
+global type f_descripcion_almcliartdesc from function_object
+end type
+
+forward prototypes
+global function string f_descripcion_almcliartdesc (string arg_empresa, string arg_cliente, string arg_articulo)
+end prototypes
+
+global function string f_descripcion_almcliartdesc (string arg_empresa, string arg_cliente, string arg_articulo);string descripcion,sel
+long   total,indice
+Datastore datos
+
+select count(descripcion)
+into :total
+from almcliartdesc
+where empresa=:arg_empresa and
+		cliente=:arg_cliente and
+		articulo=:arg_articulo
+group by empresa,cliente,articulo;
+
+if total = 0 then
+   descripcion=""
+else
+	if total = 1 then
+		select descripcion
+		into :descripcion
+		from almcliartdesc
+		where empresa=:arg_empresa and
+				cliente=:arg_cliente and
+				articulo=:arg_articulo;
+				
+		if isnull(descripcion) then descripcion=""
+	else
+		descripcion = ""
+		sel = "select descripcion "+&
+				"from almcliartdesc "+&
+				"where empresa = '"+arg_empresa+"' and "+&
+				"cliente = '"+arg_cliente+"' and "+&
+				"articulo= '"+arg_articulo+"'"
+				
+//		datos = f_cargar_cursor(sel)		
+		f_cargar_cursor_nuevo(sel, datos)
+		
+		total = datos.rowcount()
+		for indice = 1 to total
+			descripcion = descripcion + trim(datos.object.descripcion[indice]) + " "
+		next
+		descripcion = trim(descripcion)
+		destroy datos
+	end if
+end if
+return descripcion
+end function
+

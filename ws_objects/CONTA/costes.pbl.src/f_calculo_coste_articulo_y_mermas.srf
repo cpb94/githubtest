@@ -1,0 +1,70 @@
+﻿$PBExportHeader$f_calculo_coste_articulo_y_mermas.srf
+global type f_calculo_coste_articulo_y_mermas from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_coste_articulo_y_mermas (string empresa, string articulo, ref decimal coste, ref decimal coste_mermas, boolean solo_coste_fab)
+end prototypes
+
+global function boolean f_calculo_coste_articulo_y_mermas (string empresa, string articulo, ref decimal coste, ref decimal coste_mermas, boolean solo_coste_fab);str_escandallo escandallo[300]
+datastore ds_operaciones
+integer indice, k, nivel
+string  sel,  v_Articulo
+long i
+decimal v_coste_fabricacion, v_coste_mp, factor, v_coste_fab_mermas, v_coste_mp_mermas, v_coste_fabricacion_con_mermas, v_coste_mp_con_mermas
+decimal coste_mp, coste_fab
+
+nivel = 0
+indice = 1
+factor = 1
+f_escandallo_factores(escandallo, articulo, indice, factor, nivel)
+
+coste = 0
+coste_mermas = 0
+
+for k = 1 to indice
+	sel = " select art_Ver_operaciones.articulo, art_Ver_operaciones.coste_fab, art_Ver_operaciones.coste_mp, "+&
+			" art_Ver_operaciones.coste_fab_mermas, art_Ver_operaciones.coste_mp_mermas "+&
+			" from art_Ver_operaciones, art_versiones "+&
+			" where art_Ver_operaciones.empresa = '"+codigo_empresa+"' "+&
+			" and art_Ver_operaciones.empresa = art_versiones.empresa "+&
+			" and art_Ver_operaciones.articulo = art_versiones.articulo "+&
+			" and art_Ver_operaciones.version = art_Versiones.version "+&
+			" and art_Versiones.tipo_version = 'P' "+&
+			" and art_Ver_operaciones.articulo = '"+Escandallo[k].articulo+"' "
+		
+	f_cargar_cursor_nuevo(sel, ds_operaciones)
+	for i = 1 to ds_operaciones.rowcount()
+		v_articulo = ds_operaciones.object.art_ver_operaciones_articulo[i]
+		v_coste_mp = ds_operaciones.object.art_Ver_operaciones_coste_mp[i]
+		v_coste_fabricacion  =  ds_operaciones.object.art_Ver_operaciones_coste_fab[i]
+		v_coste_fab_mermas  =  ds_operaciones.object.art_Ver_operaciones_coste_fab_mermas[i]
+		v_coste_mp_mermas  =  ds_operaciones.object.art_Ver_operaciones_coste_mp_mermas[i]
+
+		if isnull(v_coste_mp) then v_coste_mp = 0
+		if isnull(v_coste_fabricacion)  then v_coste_fabricacion = 0		
+		if isnull(v_coste_fab_mermas ) then v_coste_fab_mermas = 0
+		if isnull(v_coste_mp_mermas )  then v_coste_mp_mermas = 0
+		// Las mermas las dividiremos por el factor, ya que el cálculo del coste se hace para la pieza antes de cortes.
+		coste_mp += ( v_coste_mp / Escandallo[k].factor )
+		coste_fab += ( v_coste_fabricacion / Escandallo[k].factor )
+		if solo_coste_fab then
+			coste_mermas += v_coste_fab_mermas / Escandallo[k].factor
+		else
+			coste_mermas += v_coste_fab_mermas + v_coste_mp_mermas / Escandallo[k].factor
+		end if			
+	next
+	destroy ds_operaciones
+next
+
+
+if solo_coste_fab then
+	coste = coste_fab
+else
+	coste = coste_mp + coste_fab
+end if			
+
+return true
+
+end function
+

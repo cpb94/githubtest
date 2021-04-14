@@ -1,0 +1,39 @@
+﻿$PBExportHeader$str_venmprima.srs
+global type str_venmprima from structure
+     STRING     empresa
+     STRING     codigo
+     STRING     descripcion
+     STRING     tipo_materia
+     STRING     referencia_prove
+     DECIMAL {6}     precio_coste
+     DECIMAL {6}     precio_medio_coste
+     DATETIME     fecha_ultima_entrada
+     DECIMAL {6}     costeyportes
+     DECIMAL {6}     stock_maximo
+     DECIMAL {6}     stock_minimo
+     DECIMAL {6}     stock_optimo
+     DECIMAL {6}     entradas
+     DECIMAL {6}     salidas
+     DECIMAL {6}     existencias
+     DECIMAL {6}     stock_actual
+     STRING     activo
+     DECIMAL {6}     pte_recibir
+     STRING     observaciones
+     DECIMAL {6}     portes
+     STRING     proveedor
+     STRING     familia
+     STRING     tipo_unidad
+     STRING     control_almacen
+     DATETIME     ultima_fcompra
+     STRING     envase
+     STRING     cuenta
+     STRING     almacen_entra
+     STRING     descripcion_vtas
+     DECIMAL {4}     equivalencia_kg
+     STRING     proveedor_obligatorio
+     DECIMAL {6}     densidad
+     STRING     descripcion_produccion
+     STRING     rtp
+     STRING     seccion
+end type
+

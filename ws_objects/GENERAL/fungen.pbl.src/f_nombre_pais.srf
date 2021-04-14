@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_pais.srf
+$PBExportComments$Devuelve el nombre del pais.
+global type f_nombre_pais from function_object
+end type
+
+forward prototypes
+global function string f_nombre_pais (string ra_codpais)
+end prototypes
+
+global function string f_nombre_pais (string ra_codpais);string ls_nombre
+
+  SELECT paises.nombre  
+    INTO :ls_nombre
+    FROM paises  
+   WHERE paises.pais = :ra_codpais
+   ORDER BY paises.pais ASC USING SQLCA;
+IF IsNull(ls_nombre) Then ls_nombre=""
+RETURN ls_nombre
+
+
+
+
+
+
+
+end function
+

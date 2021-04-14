@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_desc_ubicacion.srf
+global type f_desc_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_desc_ubicacion (string empresa, string ubicacion)
+end prototypes
+
+global function string f_desc_ubicacion (string empresa, string ubicacion);String cadena
+
+  SELECT descripcion  
+    INTO :cadena
+    FROM act_ubicacion  
+   WHERE ( act_ubicacion.empresa = :empresa ) AND  
+         ( act_ubicacion.ubicacion = :ubicacion)   ;			
+
+cadena = trim(cadena)
+
+
+IF SQLCA.SQLCode <> 0 THEN
+   cadena=""
+END IF
+RETURN cadena
+end function
+

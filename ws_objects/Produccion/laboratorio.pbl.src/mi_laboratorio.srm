@@ -1,0 +1,1996 @@
+﻿$PBExportHeader$mi_laboratorio.srm
+forward
+global type mi_laboratorio from mc_menu_sheets
+end type
+type m_mantenimientos from menu within m_programas
+end type
+type m_artculostencer from menu within m_mantenimientos
+end type
+type m_aplicacionessegunboquillarodilloy from menu within m_mantenimientos
+end type
+type m_caracteristicas from menu within m_mantenimientos
+end type
+type m_colores from menu within m_mantenimientos
+end type
+type m_-10 from menu within m_mantenimientos
+end type
+type m_clientesdelaboratorio from menu within m_mantenimientos
+end type
+type m_tiposdeacabado from menu within m_mantenimientos
+end type
+type m_-6 from menu within m_mantenimientos
+end type
+type m_parmetros from menu within m_mantenimientos
+end type
+type m_-17 from menu within m_mantenimientos
+end type
+type m_ubicacionespantallas from menu within m_mantenimientos
+end type
+type m_mantenimientos from menu within m_programas
+m_artculostencer m_artculostencer
+m_aplicacionessegunboquillarodilloy m_aplicacionessegunboquillarodilloy
+m_caracteristicas m_caracteristicas
+m_colores m_colores
+m_-10 m_-10
+m_clientesdelaboratorio m_clientesdelaboratorio
+m_tiposdeacabado m_tiposdeacabado
+m_-6 m_-6
+m_parmetros m_parmetros
+m_-17 m_-17
+m_ubicacionespantallas m_ubicacionespantallas
+end type
+type m_-5 from menu within m_programas
+end type
+type m_movimientosdealmacndefrmulas from menu within m_programas
+end type
+type m_entradasdefrmulas from menu within m_movimientosdealmacndefrmulas
+end type
+type m_salidasdefrmulas from menu within m_movimientosdealmacndefrmulas
+end type
+type m_movimientosdealmacndefrmulas from menu within m_programas
+m_entradasdefrmulas m_entradasdefrmulas
+m_salidasdefrmulas m_salidasdefrmulas
+end type
+type m_oficiantcnica from menu within m_programas
+end type
+type m_moldes from menu within m_oficiantcnica
+end type
+type m_platos from menu within m_oficiantcnica
+end type
+type m_formatos from menu within m_oficiantcnica
+end type
+type m_revisarfamiliasformatos from menu within m_oficiantcnica
+end type
+type m_-11 from menu within m_oficiantcnica
+end type
+type m_juegospantallas from menu within m_oficiantcnica
+end type
+type m_pantallas from menu within m_oficiantcnica
+end type
+type m_aplicaciones1 from menu within m_oficiantcnica
+end type
+type m_-12 from menu within m_oficiantcnica
+end type
+type m_frmulas from menu within m_oficiantcnica
+end type
+type m_materiasprimas1 from menu within m_oficiantcnica
+end type
+type m_-15 from menu within m_oficiantcnica
+end type
+type m_codestadístico from menu within m_oficiantcnica
+end type
+type m_g1 from menu within m_codestadístico
+end type
+type m_g2 from menu within m_codestadístico
+end type
+type m_g3 from menu within m_codestadístico
+end type
+type m_g4 from menu within m_codestadístico
+end type
+type m_ct from menu within m_codestadístico
+end type
+type m_en from menu within m_codestadístico
+end type
+type m_rl from menu within m_codestadístico
+end type
+type m_otr from menu within m_codestadístico
+end type
+type m_codestadístico from menu within m_oficiantcnica
+m_g1 m_g1
+m_g2 m_g2
+m_g3 m_g3
+m_g4 m_g4
+m_ct m_ct
+m_en m_en
+m_rl m_rl
+m_otr m_otr
+end type
+type m_cambiopacking from menu within m_oficiantcnica
+end type
+type m_sustitucindematprimas from menu within m_oficiantcnica
+end type
+type m_oficiantcnica from menu within m_programas
+m_moldes m_moldes
+m_platos m_platos
+m_formatos m_formatos
+m_revisarfamiliasformatos m_revisarfamiliasformatos
+m_-11 m_-11
+m_juegospantallas m_juegospantallas
+m_pantallas m_pantallas
+m_aplicaciones1 m_aplicaciones1
+m_-12 m_-12
+m_frmulas m_frmulas
+m_materiasprimas1 m_materiasprimas1
+m_-15 m_-15
+m_codestadístico m_codestadístico
+m_cambiopacking m_cambiopacking
+m_sustitucindematprimas m_sustitucindematprimas
+end type
+type m_procesosoficinatcnica from menu within m_programas
+end type
+type m_sustituirformulasmasivo from menu within m_procesosoficinatcnica
+end type
+type m_generartarifavaloracinstock from menu within m_procesosoficinatcnica
+end type
+type m_procesosoficinatcnica from menu within m_programas
+m_sustituirformulasmasivo m_sustituirformulasmasivo
+m_generartarifavaloracinstock m_generartarifavaloracinstock
+end type
+type m_programas from mc_menu_sheets`m_programas within mi_laboratorio
+m_mantenimientos m_mantenimientos
+m_-5 m_-5
+m_movimientosdealmacndefrmulas m_movimientosdealmacndefrmulas
+m_oficiantcnica m_oficiantcnica
+m_procesosoficinatcnica m_procesosoficinatcnica
+end type
+type m_consultade from menu within m_listados
+end type
+type m_consultaarticulosbasesmoldes from menu within m_listados
+end type
+type m_listadodemoldes from menu within m_listados
+end type
+type m_artculosporformato from menu within m_listados
+end type
+type m_costearticulos from menu within m_listados
+end type
+type m_necesidadesformulacinarticulos from menu within m_listados
+end type
+type m_necesidadesformulacionfechas from menu within m_listados
+end type
+type m_ordenesdeproduccin from menu within m_listados
+end type
+type m_bsquedadeformulassimilares from menu within m_listados
+end type
+type m_cambiosdeversinenarticulos from menu within m_listados
+end type
+type m_-7 from menu within m_listados
+end type
+type m_artculosporpantalla from menu within m_listados
+end type
+type m_artculosporjuegodepantallas from menu within m_listados
+end type
+type m_artculosporfrmula from menu within m_listados
+end type
+type m_listadodeformulas from menu within m_listados
+end type
+type m_listadodefichastcnicasmasivo from menu within m_listados
+end type
+type m_-8 from menu within m_listados
+end type
+type m_consultapartesdeproduccin from menu within m_listados
+end type
+type m_consultadeproduccinporformatos from menu within m_listados
+end type
+type m_-14 from menu within m_listados
+end type
+type m_consultaplanificacin from menu within m_listados
+end type
+type m_consultaplanificacin1 from menu within m_listados
+end type
+type m_ordenesdeproduccin1 from menu within m_listados
+end type
+type m_-9 from menu within m_listados
+end type
+type m_situacindepedidosdeclientes from menu within m_listados
+end type
+type m_-16 from menu within m_listados
+end type
+type m_encajadopaletizado from menu within m_listados
+end type
+type m_escandallo from menu within m_listados
+end type
+type m_listados from mc_menu_sheets`m_listados within mi_laboratorio
+m_consultade m_consultade
+m_consultaarticulosbasesmoldes m_consultaarticulosbasesmoldes
+m_listadodemoldes m_listadodemoldes
+m_artculosporformato m_artculosporformato
+m_costearticulos m_costearticulos
+m_necesidadesformulacinarticulos m_necesidadesformulacinarticulos
+m_necesidadesformulacionfechas m_necesidadesformulacionfechas
+m_ordenesdeproduccin m_ordenesdeproduccin
+m_bsquedadeformulassimilares m_bsquedadeformulassimilares
+m_cambiosdeversinenarticulos m_cambiosdeversinenarticulos
+m_-7 m_-7
+m_artculosporpantalla m_artculosporpantalla
+m_artculosporjuegodepantallas m_artculosporjuegodepantallas
+m_artculosporfrmula m_artculosporfrmula
+m_listadodeformulas m_listadodeformulas
+m_listadodefichastcnicasmasivo m_listadodefichastcnicasmasivo
+m_-8 m_-8
+m_consultapartesdeproduccin m_consultapartesdeproduccin
+m_consultadeproduccinporformatos m_consultadeproduccinporformatos
+m_-14 m_-14
+m_consultaplanificacin m_consultaplanificacin
+m_consultaplanificacin1 m_consultaplanificacin1
+m_ordenesdeproduccin1 m_ordenesdeproduccin1
+m_-9 m_-9
+m_situacindepedidosdeclientes m_situacindepedidosdeclientes
+m_-16 m_-16
+m_encajadopaletizado m_encajadopaletizado
+m_escandallo m_escandallo
+end type
+type m_-13 from menu within m_utilidades
+end type
+type m_portingarticulos from menu within m_utilidades
+end type
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_laboratorio
+m_-13 m_-13
+m_portingarticulos m_portingarticulos
+end type
+end forward
+
+global type mi_laboratorio from mc_menu_sheets
+end type
+global mi_laboratorio mi_laboratorio
+
+on mi_laboratorio.create
+mi_laboratorio=this
+call super::create
+end on
+
+on mi_laboratorio.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_laboratorio
+m_mantenimientos m_mantenimientos
+m_-5 m_-5
+m_movimientosdealmacndefrmulas m_movimientosdealmacndefrmulas
+m_oficiantcnica m_oficiantcnica
+m_procesosoficinatcnica m_procesosoficinatcnica
+end type
+
+on m_programas.create
+call super::create
+this.m_mantenimientos=create m_mantenimientos
+this.m_-5=create m_-5
+this.m_movimientosdealmacndefrmulas=create m_movimientosdealmacndefrmulas
+this.m_oficiantcnica=create m_oficiantcnica
+this.m_procesosoficinatcnica=create m_procesosoficinatcnica
+this.Item[UpperBound(this.Item)+1]=this.m_mantenimientos
+this.Item[UpperBound(this.Item)+1]=this.m_-5
+this.Item[UpperBound(this.Item)+1]=this.m_movimientosdealmacndefrmulas
+this.Item[UpperBound(this.Item)+1]=this.m_oficiantcnica
+this.Item[UpperBound(this.Item)+1]=this.m_procesosoficinatcnica
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_mantenimientos)
+destroy(this.m_-5)
+destroy(this.m_movimientosdealmacndefrmulas)
+destroy(this.m_oficiantcnica)
+destroy(this.m_procesosoficinatcnica)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_laboratorio
+m_consultade m_consultade
+m_consultaarticulosbasesmoldes m_consultaarticulosbasesmoldes
+m_listadodemoldes m_listadodemoldes
+m_artculosporformato m_artculosporformato
+m_costearticulos m_costearticulos
+m_necesidadesformulacinarticulos m_necesidadesformulacinarticulos
+m_necesidadesformulacionfechas m_necesidadesformulacionfechas
+m_ordenesdeproduccin m_ordenesdeproduccin
+m_bsquedadeformulassimilares m_bsquedadeformulassimilares
+m_cambiosdeversinenarticulos m_cambiosdeversinenarticulos
+m_-7 m_-7
+m_artculosporpantalla m_artculosporpantalla
+m_artculosporjuegodepantallas m_artculosporjuegodepantallas
+m_artculosporfrmula m_artculosporfrmula
+m_listadodeformulas m_listadodeformulas
+m_listadodefichastcnicasmasivo m_listadodefichastcnicasmasivo
+m_-8 m_-8
+m_consultapartesdeproduccin m_consultapartesdeproduccin
+m_consultadeproduccinporformatos m_consultadeproduccinporformatos
+m_-14 m_-14
+m_consultaplanificacin m_consultaplanificacin
+m_consultaplanificacin1 m_consultaplanificacin1
+m_ordenesdeproduccin1 m_ordenesdeproduccin1
+m_-9 m_-9
+m_situacindepedidosdeclientes m_situacindepedidosdeclientes
+m_-16 m_-16
+m_encajadopaletizado m_encajadopaletizado
+m_escandallo m_escandallo
+end type
+
+on m_listados.create
+call super::create
+this.m_consultade=create m_consultade
+this.m_consultaarticulosbasesmoldes=create m_consultaarticulosbasesmoldes
+this.m_listadodemoldes=create m_listadodemoldes
+this.m_artculosporformato=create m_artculosporformato
+this.m_costearticulos=create m_costearticulos
+this.m_necesidadesformulacinarticulos=create m_necesidadesformulacinarticulos
+this.m_necesidadesformulacionfechas=create m_necesidadesformulacionfechas
+this.m_ordenesdeproduccin=create m_ordenesdeproduccin
+this.m_bsquedadeformulassimilares=create m_bsquedadeformulassimilares
+this.m_cambiosdeversinenarticulos=create m_cambiosdeversinenarticulos
+this.m_-7=create m_-7
+this.m_artculosporpantalla=create m_artculosporpantalla
+this.m_artculosporjuegodepantallas=create m_artculosporjuegodepantallas
+this.m_artculosporfrmula=create m_artculosporfrmula
+this.m_listadodeformulas=create m_listadodeformulas
+this.m_listadodefichastcnicasmasivo=create m_listadodefichastcnicasmasivo
+this.m_-8=create m_-8
+this.m_consultapartesdeproduccin=create m_consultapartesdeproduccin
+this.m_consultadeproduccinporformatos=create m_consultadeproduccinporformatos
+this.m_-14=create m_-14
+this.m_consultaplanificacin=create m_consultaplanificacin
+this.m_consultaplanificacin1=create m_consultaplanificacin1
+this.m_ordenesdeproduccin1=create m_ordenesdeproduccin1
+this.m_-9=create m_-9
+this.m_situacindepedidosdeclientes=create m_situacindepedidosdeclientes
+this.m_-16=create m_-16
+this.m_encajadopaletizado=create m_encajadopaletizado
+this.m_escandallo=create m_escandallo
+this.Item[UpperBound(this.Item)+1]=this.m_consultade
+this.Item[UpperBound(this.Item)+1]=this.m_consultaarticulosbasesmoldes
+this.Item[UpperBound(this.Item)+1]=this.m_listadodemoldes
+this.Item[UpperBound(this.Item)+1]=this.m_artculosporformato
+this.Item[UpperBound(this.Item)+1]=this.m_costearticulos
+this.Item[UpperBound(this.Item)+1]=this.m_necesidadesformulacinarticulos
+this.Item[UpperBound(this.Item)+1]=this.m_necesidadesformulacionfechas
+this.Item[UpperBound(this.Item)+1]=this.m_ordenesdeproduccin
+this.Item[UpperBound(this.Item)+1]=this.m_bsquedadeformulassimilares
+this.Item[UpperBound(this.Item)+1]=this.m_cambiosdeversinenarticulos
+this.Item[UpperBound(this.Item)+1]=this.m_-7
+this.Item[UpperBound(this.Item)+1]=this.m_artculosporpantalla
+this.Item[UpperBound(this.Item)+1]=this.m_artculosporjuegodepantallas
+this.Item[UpperBound(this.Item)+1]=this.m_artculosporfrmula
+this.Item[UpperBound(this.Item)+1]=this.m_listadodeformulas
+this.Item[UpperBound(this.Item)+1]=this.m_listadodefichastcnicasmasivo
+this.Item[UpperBound(this.Item)+1]=this.m_-8
+this.Item[UpperBound(this.Item)+1]=this.m_consultapartesdeproduccin
+this.Item[UpperBound(this.Item)+1]=this.m_consultadeproduccinporformatos
+this.Item[UpperBound(this.Item)+1]=this.m_-14
+this.Item[UpperBound(this.Item)+1]=this.m_consultaplanificacin
+this.Item[UpperBound(this.Item)+1]=this.m_consultaplanificacin1
+this.Item[UpperBound(this.Item)+1]=this.m_ordenesdeproduccin1
+this.Item[UpperBound(this.Item)+1]=this.m_-9
+this.Item[UpperBound(this.Item)+1]=this.m_situacindepedidosdeclientes
+this.Item[UpperBound(this.Item)+1]=this.m_-16
+this.Item[UpperBound(this.Item)+1]=this.m_encajadopaletizado
+this.Item[UpperBound(this.Item)+1]=this.m_escandallo
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_consultade)
+destroy(this.m_consultaarticulosbasesmoldes)
+destroy(this.m_listadodemoldes)
+destroy(this.m_artculosporformato)
+destroy(this.m_costearticulos)
+destroy(this.m_necesidadesformulacinarticulos)
+destroy(this.m_necesidadesformulacionfechas)
+destroy(this.m_ordenesdeproduccin)
+destroy(this.m_bsquedadeformulassimilares)
+destroy(this.m_cambiosdeversinenarticulos)
+destroy(this.m_-7)
+destroy(this.m_artculosporpantalla)
+destroy(this.m_artculosporjuegodepantallas)
+destroy(this.m_artculosporfrmula)
+destroy(this.m_listadodeformulas)
+destroy(this.m_listadodefichastcnicasmasivo)
+destroy(this.m_-8)
+destroy(this.m_consultapartesdeproduccin)
+destroy(this.m_consultadeproduccinporformatos)
+destroy(this.m_-14)
+destroy(this.m_consultaplanificacin)
+destroy(this.m_consultaplanificacin1)
+destroy(this.m_ordenesdeproduccin1)
+destroy(this.m_-9)
+destroy(this.m_situacindepedidosdeclientes)
+destroy(this.m_-16)
+destroy(this.m_encajadopaletizado)
+destroy(this.m_escandallo)
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within mi_laboratorio
+end type
+
+on m_opciones.create
+call super::create
+end on
+
+on m_opciones.destroy
+call super::destroy
+end on
+
+type m_ordenar from mc_menu_sheets`m_ordenar within m_opciones
+end type
+
+on m_ordenar.create
+call super::create
+end on
+
+on m_ordenar.destroy
+call super::destroy
+end on
+
+type m_-3 from mc_menu_sheets`m_-3 within m_opciones
+end type
+
+on m_-3.create
+call super::create
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_setupimpresora from mc_menu_sheets`m_setupimpresora within m_opciones
+end type
+
+on m_setupimpresora.create
+call super::create
+end on
+
+on m_setupimpresora.destroy
+call super::destroy
+end on
+
+type m_imprimir from mc_menu_sheets`m_imprimir within m_opciones
+end type
+
+on m_imprimir.create
+call super::create
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_-2 from mc_menu_sheets`m_-2 within m_opciones
+end type
+
+on m_-2.create
+call super::create
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_barraherramientas from mc_menu_sheets`m_barraherramientas within m_opciones
+end type
+
+on m_barraherramientas.create
+call super::create
+end on
+
+on m_barraherramientas.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from mc_menu_sheets`m_imprimirpantalla within m_opciones
+end type
+
+on m_imprimirpantalla.create
+call super::create
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_laboratorio
+m_-13 m_-13
+m_portingarticulos m_portingarticulos
+end type
+
+on m_utilidades.create
+call super::create
+this.m_-13=create m_-13
+this.m_portingarticulos=create m_portingarticulos
+this.Item[UpperBound(this.Item)+1]=this.m_-13
+this.Item[UpperBound(this.Item)+1]=this.m_portingarticulos
+end on
+
+on m_utilidades.destroy
+call super::destroy
+destroy(this.m_-13)
+destroy(this.m_portingarticulos)
+end on
+
+type m_agendatelefnica from mc_menu_sheets`m_agendatelefnica within m_utilidades
+end type
+
+on m_agendatelefnica.create
+call super::create
+end on
+
+on m_agendatelefnica.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from mc_menu_sheets`m_mapadecaracteres within m_utilidades
+end type
+
+on m_mapadecaracteres.create
+call super::create
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from mc_menu_sheets`m_calculadora within m_utilidades
+end type
+
+on m_calculadora.create
+call super::create
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from mc_menu_sheets`m_mensajes within m_utilidades
+end type
+
+on m_mensajes.create
+call super::create
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_ventana from mc_menu_sheets`m_ventana within mi_laboratorio
+end type
+
+on m_ventana.create
+call super::create
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_vertical from mc_menu_sheets`m_vertical within m_ventana
+end type
+
+on m_vertical.create
+call super::create
+end on
+
+on m_vertical.destroy
+call super::destroy
+end on
+
+type m_horizontal from mc_menu_sheets`m_horizontal within m_ventana
+end type
+
+on m_horizontal.create
+call super::create
+end on
+
+on m_horizontal.destroy
+call super::destroy
+end on
+
+type m_mosaico from mc_menu_sheets`m_mosaico within m_ventana
+end type
+
+on m_mosaico.create
+call super::create
+end on
+
+on m_mosaico.destroy
+call super::destroy
+end on
+
+type m_cascada from mc_menu_sheets`m_cascada within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+type m_- from mc_menu_sheets`m_- within m_ventana
+end type
+
+on m_-.create
+call super::create
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_iconos from mc_menu_sheets`m_iconos within m_ventana
+end type
+
+on m_iconos.create
+call super::create
+end on
+
+on m_iconos.destroy
+call super::destroy
+end on
+
+type m_ayuda from mc_menu_sheets`m_ayuda within mi_laboratorio
+end type
+
+on m_ayuda.create
+call super::create
+end on
+
+on m_ayuda.destroy
+call super::destroy
+end on
+
+type m_indice from mc_menu_sheets`m_indice within m_ayuda
+end type
+
+on m_indice.create
+call super::create
+end on
+
+on m_indice.destroy
+call super::destroy
+end on
+
+type m_buscarayudasobre from mc_menu_sheets`m_buscarayudasobre within m_ayuda
+end type
+
+on m_buscarayudasobre.create
+call super::create
+end on
+
+on m_buscarayudasobre.destroy
+call super::destroy
+end on
+
+type m_ventanaactual from mc_menu_sheets`m_ventanaactual within m_ayuda
+end type
+
+on m_ventanaactual.create
+call super::create
+end on
+
+on m_ventanaactual.destroy
+call super::destroy
+end on
+
+type m_usodelaayuda from mc_menu_sheets`m_usodelaayuda within m_ayuda
+end type
+
+on m_usodelaayuda.create
+call super::create
+end on
+
+on m_usodelaayuda.destroy
+call super::destroy
+end on
+
+type m_-1 from mc_menu_sheets`m_-1 within m_ayuda
+end type
+
+on m_-1.create
+call super::create
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_acerca from mc_menu_sheets`m_acerca within m_ayuda
+end type
+
+on m_acerca.create
+call super::create
+end on
+
+on m_acerca.destroy
+call super::destroy
+end on
+
+type m_informacindeventana from mc_menu_sheets`m_informacindeventana within m_ayuda
+end type
+
+on m_informacindeventana.create
+call super::create
+end on
+
+on m_informacindeventana.destroy
+call super::destroy
+end on
+
+type m_salir1 from mc_menu_sheets`m_salir1 within mi_laboratorio
+end type
+
+on m_salir1.create
+call super::create
+end on
+
+on m_salir1.destroy
+call super::destroy
+end on
+
+type m_mantenimientos from menu within m_programas
+m_artculostencer m_artculostencer
+m_aplicacionessegunboquillarodilloy m_aplicacionessegunboquillarodilloy
+m_caracteristicas m_caracteristicas
+m_colores m_colores
+m_-10 m_-10
+m_clientesdelaboratorio m_clientesdelaboratorio
+m_tiposdeacabado m_tiposdeacabado
+m_-6 m_-6
+m_parmetros m_parmetros
+m_-17 m_-17
+m_ubicacionespantallas m_ubicacionespantallas
+end type
+
+on m_mantenimientos.create
+call super::create
+this.text = "&Mantenimientos"
+this.m_artculostencer=create m_artculostencer
+this.m_aplicacionessegunboquillarodilloy=create m_aplicacionessegunboquillarodilloy
+this.m_caracteristicas=create m_caracteristicas
+this.m_colores=create m_colores
+this.m_-10=create m_-10
+this.m_clientesdelaboratorio=create m_clientesdelaboratorio
+this.m_tiposdeacabado=create m_tiposdeacabado
+this.m_-6=create m_-6
+this.m_parmetros=create m_parmetros
+this.m_-17=create m_-17
+this.m_ubicacionespantallas=create m_ubicacionespantallas
+this.Item[UpperBound(this.Item)+1]=this.m_artculostencer
+this.Item[UpperBound(this.Item)+1]=this.m_aplicacionessegunboquillarodilloy
+this.Item[UpperBound(this.Item)+1]=this.m_caracteristicas
+this.Item[UpperBound(this.Item)+1]=this.m_colores
+this.Item[UpperBound(this.Item)+1]=this.m_-10
+this.Item[UpperBound(this.Item)+1]=this.m_clientesdelaboratorio
+this.Item[UpperBound(this.Item)+1]=this.m_tiposdeacabado
+this.Item[UpperBound(this.Item)+1]=this.m_-6
+this.Item[UpperBound(this.Item)+1]=this.m_parmetros
+this.Item[UpperBound(this.Item)+1]=this.m_-17
+this.Item[UpperBound(this.Item)+1]=this.m_ubicacionespantallas
+end on
+
+on m_mantenimientos.destroy
+call super::destroy
+destroy(this.m_artculostencer)
+destroy(this.m_aplicacionessegunboquillarodilloy)
+destroy(this.m_caracteristicas)
+destroy(this.m_colores)
+destroy(this.m_-10)
+destroy(this.m_clientesdelaboratorio)
+destroy(this.m_tiposdeacabado)
+destroy(this.m_-6)
+destroy(this.m_parmetros)
+destroy(this.m_-17)
+destroy(this.m_ubicacionespantallas)
+end on
+
+type m_artculostencer from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_articulos_tencer, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_artculostencer.create
+call super::create
+this.text = "Artículos Tencer"
+end on
+
+on m_artculostencer.destroy
+call super::destroy
+end on
+
+type m_aplicacionessegunboquillarodilloy from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodaplicaciones_especif,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_aplicacionessegunboquillarodilloy.create
+call super::create
+this.visible = false
+this.text = "Aplicaciones Segun Familia"
+end on
+
+on m_aplicacionessegunboquillarodilloy.destroy
+call super::destroy
+end on
+
+type m_caracteristicas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodcaracteristicas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_caracteristicas.create
+call super::create
+this.visible = false
+this.text = "Caracteristicas"
+end on
+
+on m_caracteristicas.destroy
+call super::destroy
+end on
+
+type m_colores from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodcolor, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_colores.create
+call super::create
+this.visible = false
+this.text = "Colores"
+end on
+
+on m_colores.destroy
+call super::destroy
+end on
+
+type m_-10 from menu within m_mantenimientos
+end type
+
+on m_-10.create
+call super::create
+this.text = "-"
+end on
+
+on m_-10.destroy
+call super::destroy
+end on
+
+type m_clientesdelaboratorio from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+end event
+
+on m_clientesdelaboratorio.create
+call super::create
+this.text = "Clientes de Laboratorio"
+end on
+
+on m_clientesdelaboratorio.destroy
+call super::destroy
+end on
+
+type m_tiposdeacabado from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_tipoacabado_lab, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_tiposdeacabado.create
+call super::create
+this.text = "Tipos de Acabado"
+end on
+
+on m_tiposdeacabado.destroy
+call super::destroy
+end on
+
+type m_-6 from menu within m_mantenimientos
+end type
+
+on m_-6.create
+call super::create
+this.text = "-"
+end on
+
+on m_-6.destroy
+call super::destroy
+end on
+
+type m_parmetros from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+if f_pedir_clave('4') then
+	OpenSheetWithParm(wi_mant_labcontadores, lstr_param, ParentWindow, 3,original!)
+end if
+end event
+
+on m_parmetros.create
+call super::create
+this.text = "Parámetros"
+end on
+
+on m_parmetros.destroy
+call super::destroy
+end on
+
+type m_-17 from menu within m_mantenimientos
+end type
+
+on m_-17.create
+call super::create
+this.text = "-"
+end on
+
+on m_-17.destroy
+call super::destroy
+end on
+
+type m_ubicacionespantallas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_labubicaciones_pantallas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_ubicacionespantallas.create
+call super::create
+this.text = "Ubicaciones Pantallas"
+end on
+
+on m_ubicacionespantallas.destroy
+call super::destroy
+end on
+
+type m_-5 from menu within m_programas
+end type
+
+on m_-5.create
+call super::create
+this.text = "-"
+end on
+
+on m_-5.destroy
+call super::destroy
+end on
+
+type m_movimientosdealmacndefrmulas from menu within m_programas
+m_entradasdefrmulas m_entradasdefrmulas
+m_salidasdefrmulas m_salidasdefrmulas
+end type
+
+on m_movimientosdealmacndefrmulas.create
+call super::create
+this.visible = false
+this.text = "Movimientos de Almacén de Fórmulas"
+this.m_entradasdefrmulas=create m_entradasdefrmulas
+this.m_salidasdefrmulas=create m_salidasdefrmulas
+this.Item[UpperBound(this.Item)+1]=this.m_entradasdefrmulas
+this.Item[UpperBound(this.Item)+1]=this.m_salidasdefrmulas
+end on
+
+on m_movimientosdealmacndefrmulas.destroy
+call super::destroy
+destroy(this.m_entradasdefrmulas)
+destroy(this.m_salidasdefrmulas)
+end on
+
+type m_entradasdefrmulas from menu within m_movimientosdealmacndefrmulas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_movalmprod, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_entradasdefrmulas.create
+call super::create
+this.text = "Entradas de Fórmulas"
+end on
+
+on m_entradasdefrmulas.destroy
+call super::destroy
+end on
+
+type m_salidasdefrmulas from menu within m_movimientosdealmacndefrmulas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_mov_sal_almprod, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_salidasdefrmulas.create
+call super::create
+this.text = "Salidas de Fórmulas"
+end on
+
+on m_salidasdefrmulas.destroy
+call super::destroy
+end on
+
+type m_oficiantcnica from menu within m_programas
+m_moldes m_moldes
+m_platos m_platos
+m_formatos m_formatos
+m_revisarfamiliasformatos m_revisarfamiliasformatos
+m_-11 m_-11
+m_juegospantallas m_juegospantallas
+m_pantallas m_pantallas
+m_aplicaciones1 m_aplicaciones1
+m_-12 m_-12
+m_frmulas m_frmulas
+m_materiasprimas1 m_materiasprimas1
+m_-15 m_-15
+m_codestadístico m_codestadístico
+m_cambiopacking m_cambiopacking
+m_sustitucindematprimas m_sustitucindematprimas
+end type
+
+on m_oficiantcnica.create
+call super::create
+this.text = "Mant. Oficina Técnica"
+this.m_moldes=create m_moldes
+this.m_platos=create m_platos
+this.m_formatos=create m_formatos
+this.m_revisarfamiliasformatos=create m_revisarfamiliasformatos
+this.m_-11=create m_-11
+this.m_juegospantallas=create m_juegospantallas
+this.m_pantallas=create m_pantallas
+this.m_aplicaciones1=create m_aplicaciones1
+this.m_-12=create m_-12
+this.m_frmulas=create m_frmulas
+this.m_materiasprimas1=create m_materiasprimas1
+this.m_-15=create m_-15
+this.m_codestadístico=create m_codestadístico
+this.m_cambiopacking=create m_cambiopacking
+this.m_sustitucindematprimas=create m_sustitucindematprimas
+this.Item[UpperBound(this.Item)+1]=this.m_moldes
+this.Item[UpperBound(this.Item)+1]=this.m_platos
+this.Item[UpperBound(this.Item)+1]=this.m_formatos
+this.Item[UpperBound(this.Item)+1]=this.m_revisarfamiliasformatos
+this.Item[UpperBound(this.Item)+1]=this.m_-11
+this.Item[UpperBound(this.Item)+1]=this.m_juegospantallas
+this.Item[UpperBound(this.Item)+1]=this.m_pantallas
+this.Item[UpperBound(this.Item)+1]=this.m_aplicaciones1
+this.Item[UpperBound(this.Item)+1]=this.m_-12
+this.Item[UpperBound(this.Item)+1]=this.m_frmulas
+this.Item[UpperBound(this.Item)+1]=this.m_materiasprimas1
+this.Item[UpperBound(this.Item)+1]=this.m_-15
+this.Item[UpperBound(this.Item)+1]=this.m_codestadístico
+this.Item[UpperBound(this.Item)+1]=this.m_cambiopacking
+this.Item[UpperBound(this.Item)+1]=this.m_sustitucindematprimas
+end on
+
+on m_oficiantcnica.destroy
+call super::destroy
+destroy(this.m_moldes)
+destroy(this.m_platos)
+destroy(this.m_formatos)
+destroy(this.m_revisarfamiliasformatos)
+destroy(this.m_-11)
+destroy(this.m_juegospantallas)
+destroy(this.m_pantallas)
+destroy(this.m_aplicaciones1)
+destroy(this.m_-12)
+destroy(this.m_frmulas)
+destroy(this.m_materiasprimas1)
+destroy(this.m_-15)
+destroy(this.m_codestadístico)
+destroy(this.m_cambiopacking)
+destroy(this.m_sustitucindematprimas)
+end on
+
+type m_moldes from menu within m_oficiantcnica
+end type
+
+on m_moldes.create
+call super::create
+this.text = "Moldes"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodmoldes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_moldes.destroy
+call super::destroy
+end on
+
+type m_platos from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodplatos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_platos.create
+call super::create
+this.text = "Platos"
+end on
+
+on m_platos.destroy
+call super::destroy
+end on
+
+type m_formatos from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_formatos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_formatos.create
+call super::create
+this.text = "Formatos"
+end on
+
+on m_formatos.destroy
+call super::destroy
+end on
+
+type m_revisarfamiliasformatos from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_revisa_fam_form, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_revisarfamiliasformatos.create
+call super::create
+this.text = "Revisar Familias / Formatos"
+end on
+
+on m_revisarfamiliasformatos.destroy
+call super::destroy
+end on
+
+type m_-11 from menu within m_oficiantcnica
+end type
+
+on m_-11.create
+call super::create
+this.text = "-"
+end on
+
+on m_-11.destroy
+call super::destroy
+end on
+
+type m_juegospantallas from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_juegospantallas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_juegospantallas.create
+call super::create
+this.text = "Juegos Pantallas"
+end on
+
+on m_juegospantallas.destroy
+call super::destroy
+end on
+
+type m_pantallas from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodpantallas,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_pantallas.create
+call super::create
+this.text = "Pantallas"
+end on
+
+on m_pantallas.destroy
+call super::destroy
+end on
+
+type m_aplicaciones1 from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prodaplicaciones, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_aplicaciones1.create
+call super::create
+this.text = "Aplicaciones"
+end on
+
+on m_aplicaciones1.destroy
+call super::destroy
+end on
+
+type m_-12 from menu within m_oficiantcnica
+end type
+
+on m_-12.create
+call super::create
+this.text = "-"
+end on
+
+on m_-12.destroy
+call super::destroy
+end on
+
+type m_frmulas from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_formulaciones, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_frmulas.create
+call super::create
+this.text = "Fórmulas"
+end on
+
+on m_frmulas.destroy
+call super::destroy
+end on
+
+type m_materiasprimas1 from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_venmprima2, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_materiasprimas1.create
+call super::create
+this.text = "Materias Primas"
+end on
+
+on m_materiasprimas1.destroy
+call super::destroy
+end on
+
+type m_-15 from menu within m_oficiantcnica
+end type
+
+on m_-15.create
+call super::create
+this.text = "-"
+end on
+
+on m_-15.destroy
+call super::destroy
+end on
+
+type m_codestadístico from menu within m_oficiantcnica
+m_g1 m_g1
+m_g2 m_g2
+m_g3 m_g3
+m_g4 m_g4
+m_ct m_ct
+m_en m_en
+m_rl m_rl
+m_otr m_otr
+end type
+
+on m_codestadístico.create
+call super::create
+this.text = "Cod Estadístico"
+this.m_g1=create m_g1
+this.m_g2=create m_g2
+this.m_g3=create m_g3
+this.m_g4=create m_g4
+this.m_ct=create m_ct
+this.m_en=create m_en
+this.m_rl=create m_rl
+this.m_otr=create m_otr
+this.Item[UpperBound(this.Item)+1]=this.m_g1
+this.Item[UpperBound(this.Item)+1]=this.m_g2
+this.Item[UpperBound(this.Item)+1]=this.m_g3
+this.Item[UpperBound(this.Item)+1]=this.m_g4
+this.Item[UpperBound(this.Item)+1]=this.m_ct
+this.Item[UpperBound(this.Item)+1]=this.m_en
+this.Item[UpperBound(this.Item)+1]=this.m_rl
+this.Item[UpperBound(this.Item)+1]=this.m_otr
+end on
+
+on m_codestadístico.destroy
+call super::destroy
+destroy(this.m_g1)
+destroy(this.m_g2)
+destroy(this.m_g3)
+destroy(this.m_g4)
+destroy(this.m_ct)
+destroy(this.m_en)
+destroy(this.m_rl)
+destroy(this.m_otr)
+end on
+
+type m_g1 from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_grupo1, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_g1.create
+call super::create
+this.text = "G1"
+end on
+
+on m_g1.destroy
+call super::destroy
+end on
+
+type m_g2 from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_grupo2, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_g2.create
+call super::create
+this.text = "G2"
+end on
+
+on m_g2.destroy
+call super::destroy
+end on
+
+type m_g3 from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_grupo3, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_g3.create
+call super::create
+this.text = "G3"
+end on
+
+on m_g3.destroy
+call super::destroy
+end on
+
+type m_g4 from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_grupo4, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_g4.create
+call super::create
+this.text = "G4"
+end on
+
+on m_g4.destroy
+call super::destroy
+end on
+
+type m_ct from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_cortes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_ct.create
+call super::create
+this.text = "CT"
+end on
+
+on m_ct.destroy
+call super::destroy
+end on
+
+type m_en from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_encajado, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_en.create
+call super::create
+this.text = "EN"
+end on
+
+on m_en.destroy
+call super::destroy
+end on
+
+type m_rl from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_tipomoldura, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_rl.create
+call super::create
+this.text = "RL"
+end on
+
+on m_rl.destroy
+call super::destroy
+end on
+
+type m_otr from menu within m_codestadístico
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_art_otros, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_otr.create
+call super::create
+this.text = "OTR"
+end on
+
+on m_otr.destroy
+call super::destroy
+end on
+
+type m_cambiopacking from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_cambio_paking_masivo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_cambiopacking.create
+call super::create
+this.text = "Cambio Packing"
+end on
+
+on m_cambiopacking.destroy
+call super::destroy
+end on
+
+type m_sustitucindematprimas from menu within m_oficiantcnica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_formulas_mat_prima, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_sustitucindematprimas.create
+call super::create
+this.text = "Sustitución de Mat. Primas"
+end on
+
+on m_sustitucindematprimas.destroy
+call super::destroy
+end on
+
+type m_procesosoficinatcnica from menu within m_programas
+m_sustituirformulasmasivo m_sustituirformulasmasivo
+m_generartarifavaloracinstock m_generartarifavaloracinstock
+end type
+
+on m_procesosoficinatcnica.create
+call super::create
+this.text = "Procesos Oficina Técnica"
+this.m_sustituirformulasmasivo=create m_sustituirformulasmasivo
+this.m_generartarifavaloracinstock=create m_generartarifavaloracinstock
+this.Item[UpperBound(this.Item)+1]=this.m_sustituirformulasmasivo
+this.Item[UpperBound(this.Item)+1]=this.m_generartarifavaloracinstock
+end on
+
+on m_procesosoficinatcnica.destroy
+call super::destroy
+destroy(this.m_sustituirformulasmasivo)
+destroy(this.m_generartarifavaloracinstock)
+end on
+
+type m_sustituirformulasmasivo from menu within m_procesosoficinatcnica
+end type
+
+on m_sustituirformulasmasivo.create
+call super::create
+this.text = "Sustituir Formulas Masivo"
+end on
+
+on m_sustituirformulasmasivo.destroy
+call super::destroy
+end on
+
+type m_generartarifavaloracinstock from menu within m_procesosoficinatcnica
+end type
+
+on m_generartarifavaloracinstock.create
+call super::create
+this.text = "Generar Tarifa Valoración Stock"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_valoracionbases, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_generartarifavaloracinstock.destroy
+call super::destroy
+end on
+
+type m_consultade from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_articulos_prod, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_consultade.create
+call super::create
+this.text = "Consulta de Artículos"
+end on
+
+on m_consultade.destroy
+call super::destroy
+end on
+
+type m_consultaarticulosbasesmoldes from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_articulos_bases_moldes, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_consultaarticulosbasesmoldes.create
+call super::create
+this.text = "Consulta Articulos / bases / Moldes"
+end on
+
+on m_consultaarticulosbasesmoldes.destroy
+call super::destroy
+end on
+
+type m_listadodemoldes from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_moldes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_listadodemoldes.create
+call super::create
+this.text = "Listado de Moldes"
+end on
+
+on m_listadodemoldes.destroy
+call super::destroy
+end on
+
+type m_artculosporformato from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_formatos_operaciones, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_artculosporformato.create
+call super::create
+this.text = "Artículos por formato"
+end on
+
+on m_artculosporformato.destroy
+call super::destroy
+end on
+
+type m_costearticulos from menu within m_listados
+end type
+
+event clicked;if f_pedir_clave("3") then 
+	str_parametros lstr_param
+	OpenSheetWithParm(wi_con_costes_articulos, lstr_param, ParentWindow, 3,original!)
+end if
+end event
+
+on m_costearticulos.create
+call super::create
+this.visible = false
+this.text = "*&Coste Articulos"
+end on
+
+on m_costearticulos.destroy
+call super::destroy
+end on
+
+type m_necesidadesformulacinarticulos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_cant_form_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_necesidadesformulacinarticulos.create
+call super::create
+this.visible = false
+this.text = "*&Necesidades Formulación Articulos Fechas"
+end on
+
+on m_necesidadesformulacinarticulos.destroy
+call super::destroy
+end on
+
+type m_necesidadesformulacionfechas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_cant_articulos_form, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_necesidadesformulacionfechas.create
+call super::create
+this.visible = false
+this.text = "*Necesidades Formulación Fechas"
+end on
+
+on m_necesidadesformulacionfechas.destroy
+call super::destroy
+end on
+
+type m_ordenesdeproduccin from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_ordenes_laboratorio, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_ordenesdeproduccin.create
+call super::create
+this.visible = false
+this.text = "*Ordenes de Producción(Formulas)"
+end on
+
+on m_ordenesdeproduccin.destroy
+call super::destroy
+end on
+
+type m_bsquedadeformulassimilares from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_form_simil, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_bsquedadeformulassimilares.create
+call super::create
+this.text = "Busqueda de formulas similares"
+end on
+
+on m_bsquedadeformulassimilares.destroy
+call super::destroy
+end on
+
+type m_cambiosdeversinenarticulos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_versiones_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_cambiosdeversinenarticulos.create
+call super::create
+this.visible = false
+this.text = "Cambios de versión en Articulos"
+end on
+
+on m_cambiosdeversinenarticulos.destroy
+call super::destroy
+end on
+
+type m_-7 from menu within m_listados
+end type
+
+on m_-7.create
+call super::create
+this.text = "-"
+end on
+
+on m_-7.destroy
+call super::destroy
+end on
+
+type m_artculosporpantalla from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pantallas_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_artculosporpantalla.create
+call super::create
+this.text = "Artículos por Pantalla"
+end on
+
+on m_artculosporpantalla.destroy
+call super::destroy
+end on
+
+type m_artculosporjuegodepantallas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_juegospantallas_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_artculosporjuegodepantallas.create
+call super::create
+this.text = "Artículos por Juego de Pantallas"
+end on
+
+on m_artculosporjuegodepantallas.destroy
+call super::destroy
+end on
+
+type m_artculosporfrmula from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_formulas_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_artculosporfrmula.create
+call super::create
+this.text = "Artículos por Fórmula"
+end on
+
+on m_artculosporfrmula.destroy
+call super::destroy
+end on
+
+type m_listadodeformulas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_proddetalleformulas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_listadodeformulas.create
+call super::create
+this.text = "Listado de formulas"
+end on
+
+on m_listadodeformulas.destroy
+call super::destroy
+end on
+
+type m_listadodefichastcnicasmasivo from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_ficha_tecnica_masivo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_listadodefichastcnicasmasivo.create
+call super::create
+this.text = "Listado de Fichas Técnicas Masivo"
+end on
+
+on m_listadodefichastcnicasmasivo.destroy
+call super::destroy
+end on
+
+type m_-8 from menu within m_listados
+end type
+
+on m_-8.create
+call super::create
+this.visible = false
+this.text = "-"
+end on
+
+on m_-8.destroy
+call super::destroy
+end on
+
+type m_consultapartesdeproduccin from menu within m_listados
+end type
+
+on m_consultapartesdeproduccin.create
+call super::create
+this.visible = false
+this.text = "Consulta Partes de Producción"
+end on
+
+on m_consultapartesdeproduccin.destroy
+call super::destroy
+end on
+
+type m_consultadeproduccinporformatos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_prod_formato, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultadeproduccinporformatos.create
+call super::create
+this.visible = false
+this.text = "Consulta de Producción por formatos"
+end on
+
+on m_consultadeproduccinporformatos.destroy
+call super::destroy
+end on
+
+type m_-14 from menu within m_listados
+end type
+
+on m_-14.create
+call super::create
+this.visible = false
+this.text = "-"
+end on
+
+on m_-14.destroy
+call super::destroy
+end on
+
+type m_consultaplanificacin from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_planificacion_pendiente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaplanificacin.create
+call super::create
+this.visible = false
+this.text = "Consulta Pedidos a Planificar"
+end on
+
+on m_consultaplanificacin.destroy
+call super::destroy
+end on
+
+type m_consultaplanificacin1 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_articulos_fabricar_rotacion, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaplanificacin1.create
+call super::create
+this.visible = false
+this.text = "Consulta planificación"
+end on
+
+on m_consultaplanificacin1.destroy
+call super::destroy
+end on
+
+type m_ordenesdeproduccin1 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_ordenes_laboratorio, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_ordenesdeproduccin1.create
+call super::create
+this.visible = false
+this.text = "Ordenes de Producción"
+end on
+
+on m_ordenesdeproduccin1.destroy
+call super::destroy
+end on
+
+type m_-9 from menu within m_listados
+end type
+
+on m_-9.create
+call super::create
+this.text = "-"
+end on
+
+on m_-9.destroy
+call super::destroy
+end on
+
+type m_situacindepedidosdeclientes from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_situacion_pedidos_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_situacindepedidosdeclientes.create
+call super::create
+this.text = "Situación de Pedidos de Clientes"
+end on
+
+on m_situacindepedidosdeclientes.destroy
+call super::destroy
+end on
+
+type m_-16 from menu within m_listados
+end type
+
+on m_-16.create
+call super::create
+this.text = "-"
+end on
+
+on m_-16.destroy
+call super::destroy
+end on
+
+type m_encajadopaletizado from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_encajado, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_encajadopaletizado.create
+call super::create
+this.text = "Encajado / Paletizado"
+end on
+
+on m_encajadopaletizado.destroy
+call super::destroy
+end on
+
+type m_escandallo from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_escandallo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_escandallo.create
+call super::create
+this.text = "Escandallo"
+end on
+
+on m_escandallo.destroy
+call super::destroy
+end on
+
+type m_-13 from menu within m_utilidades
+end type
+
+on m_-13.create
+call super::create
+this.text = "-"
+end on
+
+on m_-13.destroy
+call super::destroy
+end on
+
+type m_portingarticulos from menu within m_utilidades
+end type
+
+event clicked;f_porting_articulos_prod()
+end event
+
+on m_portingarticulos.create
+call super::create
+this.text = "Porting Articulos"
+this.enabled = false
+end on
+
+on m_portingarticulos.destroy
+call super::destroy
+end on
+

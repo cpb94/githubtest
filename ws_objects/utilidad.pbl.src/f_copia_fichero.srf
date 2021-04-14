@@ -1,0 +1,100 @@
+﻿$PBExportHeader$f_copia_fichero.srf
+global type f_copia_fichero from function_object
+end type
+
+forward prototypes
+global function boolean f_copia_fichero (string arg_origen, string arg_destino, boolean arg_aviso)
+end prototypes
+
+global function boolean f_copia_fichero (string arg_origen, string arg_destino, boolean arg_aviso);//public function boolean uf_copyfile (string arg_origen, string arg_destino, boolean arg_aviso);
+// **********************************************************
+// uf_CopyFile
+//
+// Purpose: Makes the appropriate 16 or 32 bit call in order
+//          to copy a file
+//
+// Parms:   arg_origen - Source file name and path
+//          arg_destino - Destination file name and path
+//          arg_aviso - True/False warn user on error
+//
+// Returns: True if success or False if fail
+//
+// 4/28/98  P.Mele
+//
+// http://www.pmsys.com/pb  pmele@pmsys.com
+// **********************************************************
+Integer li_from, li_to, li_tmp
+String  ls_data
+Boolean lb_success
+environment lstr_env
+
+// Obtain our system environment
+IF GetEnvironment(lstr_env) <> 1 THEN
+    MessageBox("Error","Error al obtener entorno del sistema!",Exclamation!)
+    Halt
+End If
+
+CHOOSE CASE lstr_env.Win16
+    CASE True
+        // Using Powerscript
+        li_from = FileOpen (arg_origen,StreamMode!,Read!, LockReadWrite!)
+        If li_from<1 Then
+          If arg_aviso Then
+              MessageBox("Error","Error intentando abrir el fichero " + arg_origen + " para copiar de.",Exclamation!)
+          End If
+          Return False
+        End If
+        
+        li_to = FileOpen (arg_destino,StreamMode!,Write!, LockReadWrite!, Replace!)
+        If li_to<1 Then
+          If arg_aviso Then
+              MessageBox("Error","Error intentando abrir el fichero " + arg_destino + " para copiar a.",Exclamation!)
+          End If
+          If FileClose(li_from)=-1 Then
+              If arg_aviso Then
+                  MessageBox("Error","Error intentando cerrar el fichero " + arg_origen + ".",Exclamation!)
+              End If
+          End If
+          Return False
+        End If
+        
+        Do
+          li_tmp = FileRead(li_from,ls_data)
+          If li_tmp<0 Then Exit
+          li_tmp = FileWrite(li_to,ls_data)
+          If li_tmp=-1 Then Exit
+        Loop While li_tmp>=0
+        If li_tmp=-1 Then
+          If arg_aviso Then
+              MessageBox("Error","Error intentando copiar el fichero " + arg_origen + " a " + arg_destino + ".",Exclamation!)
+          End If
+          lb_success = False
+        End If
+        
+        If FileClose(li_from)=-1 Then 
+          If arg_aviso Then
+              MessageBox("Error","Error intentando cerrar el fichero " + arg_origen + ".",Exclamation!)
+          End If
+          lb_success = False
+        End If
+        If FileClose(li_to)=-1 Then
+          If arg_aviso Then
+              MessageBox("Error","Error intentando cerrar el fichero " + arg_destino + ".",Exclamation!)
+          End If
+          lb_success = False
+        End If
+        
+        Return lb_success
+
+
+    Case Else
+        // Using Windows API
+        lb_success = CopyFileA(arg_origen, arg_destino, arg_aviso)
+        If NOT lb_success Then
+            MessageBox("Error","Error intentando copiar el fichero " + arg_origen + " a " + arg_destino + ".",Exclamation!)
+        End If
+        Return lb_success
+End Choose
+
+end function
+

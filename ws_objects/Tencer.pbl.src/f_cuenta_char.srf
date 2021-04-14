@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_cuenta_char.srf
+global type f_cuenta_char from function_object
+end type
+
+forward prototypes
+global function integer f_cuenta_char (string as_source, string as_char)
+end prototypes
+
+global function integer f_cuenta_char (string as_source, string as_char);// Función: f_cuenta_char
+
+// Descripción: Cuenta todas las ocurrencias de as_char en  la cadena as_source
+
+// Ambito: publica
+
+// Argumentos: as_source {cadena de la que se desea borrar las ocurrencias de as_char}
+
+//    as_char   {caracter a ser contado de la cadena as_source}
+
+// Retorna: Integer {numero de ocurrencias encontradas}
+
+//////////////////////////////////////////////////////////////////////////////////////
+
+int li_pos
+
+int ncuenta=0
+
+ 
+
+li_pos = Pos (as_source, as_char, 1)
+
+do while li_pos > 0
+
+	ncuenta+=1
+	
+	as_source = Left (as_source, li_pos - 1) + Right (as_source, Len (as_source) - li_pos)
+	
+	li_pos = Pos (as_source, as_char, 1)
+
+loop
+
+ 
+
+return ncuenta
+end function
+

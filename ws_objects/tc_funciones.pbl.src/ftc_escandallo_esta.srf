@@ -1,0 +1,47 @@
+﻿$PBExportHeader$ftc_escandallo_esta.srf
+global type ftc_escandallo_esta from function_object
+end type
+
+forward prototypes
+global function integer ftc_escandallo_esta (string articulo, string buscado, ref string v_version)
+end prototypes
+
+global function integer ftc_escandallo_esta (string articulo, string buscado, ref string v_version);// PARAMETROS
+// recibe el artículo el deque que se busca en su escandallo
+// recibe el artículo a buscar
+// Recibe la versión sobre la que se buscará
+//Devuelve 1 si encuentra el articulo y 0 si no
+
+string sel, v_articulo
+integer i, resultado = 0
+datastore registros 
+
+if articulo = buscado then
+	return 1
+	destroy registros
+end if
+	
+
+sel = " select articulo_ant "+&
+		" from art_escandallo "+&
+		" where articulo = '"+articulo+"' "+&
+		" and version = '"+v_version+"' ";
+f_cargar_cursor_nuevo (sel, registros)
+
+i = 1
+do while (i <= registros.RowCount() and resultado <> 1)
+	v_articulo = registros.object.articulo_ant[i]	
+	if not isnull(v_articulo) and v_articulo <> "0" and v_articulo <> articulo then
+		if i < 200 then
+			resultado = ftc_escandallo_esta(v_articulo, buscado, v_version)
+		else
+			return 0
+		end if
+	end if
+	i++
+loop
+
+destroy registros
+return resultado
+end function
+

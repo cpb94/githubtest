@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_bultos_venalb_venlifac.srf
+global type f_bultos_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function decimal f_bultos_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_bultos_venalb_venlifac (string empresa, integer anyo, decimal albaran);dec var_bultos
+
+
+  SELECT sum(isnull(venlifac.pallets,0))
+    INTO :var_bultos  
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo_albaran   = :anyo)
+   AND   (venlifac.albaran  = :albaran);
+
+if IsNull(var_bultos) then var_bultos= 0
+
+Return var_bultos
+end function
+

@@ -1,0 +1,1144 @@
+﻿$PBExportHeader$wi_deposito.srm
+forward
+global type wi_deposito from mc_menu_sheets
+end type
+type m_-4 from menu within m_programas
+end type
+type m_gestindedepositos from menu within m_programas
+end type
+type m_famfordepporcliente from menu within m_gestindedepositos
+end type
+type m_conlistclientesdeposito from menu within m_gestindedepositos
+end type
+type m_gestindedepositos from menu within m_programas
+m_famfordepporcliente m_famfordepporcliente
+m_conlistclientesdeposito m_conlistclientesdeposito
+end type
+type m_-5 from menu within m_programas
+end type
+type m_gestionalmcendepositos from menu within m_programas
+end type
+type m_mantalmacenes from menu within m_gestionalmcendepositos
+end type
+type m_manttipomovimientos from menu within m_gestionalmcendepositos
+end type
+type m_entradas from menu within m_gestionalmcendepositos
+end type
+type m_salidas from menu within m_gestionalmcendepositos
+end type
+type m_consultamaterialporcliente from menu within m_gestionalmcendepositos
+end type
+type m_consultamaterialporclienteexport from menu within m_gestionalmcendepositos
+end type
+type m_consultamaterialporarticulo from menu within m_gestionalmcendepositos
+end type
+type m_consulmovportipos from menu within m_gestionalmcendepositos
+end type
+type m_consulmovclientetipo from menu within m_gestionalmcendepositos
+end type
+type m_-6 from menu within m_gestionalmcendepositos
+end type
+type m_consulstockvalorado from menu within m_gestionalmcendepositos
+end type
+type m_consulstockafecha from menu within m_gestionalmcendepositos
+end type
+type m_-7 from menu within m_gestionalmcendepositos
+end type
+type m_consuldescuadresalmacen from menu within m_gestionalmcendepositos
+end type
+type m_gestionalmcendepositos from menu within m_programas
+m_mantalmacenes m_mantalmacenes
+m_manttipomovimientos m_manttipomovimientos
+m_entradas m_entradas
+m_salidas m_salidas
+m_consultamaterialporcliente m_consultamaterialporcliente
+m_consultamaterialporclienteexport m_consultamaterialporclienteexport
+m_consultamaterialporarticulo m_consultamaterialporarticulo
+m_consulmovportipos m_consulmovportipos
+m_consulmovclientetipo m_consulmovclientetipo
+m_-6 m_-6
+m_consulstockvalorado m_consulstockvalorado
+m_consulstockafecha m_consulstockafecha
+m_-7 m_-7
+m_consuldescuadresalmacen m_consuldescuadresalmacen
+end type
+type m_albaranesdeentrada from menu within m_programas
+end type
+type m_consultaalbaranesporcliente from menu within m_programas
+end type
+type m_consultaalbaranesentrefechas from menu within m_programas
+end type
+type m_pasealbaranes from menu within m_programas
+end type
+type m_-8 from menu within m_programas
+end type
+type m_estadisticas from menu within m_programas
+end type
+type m_1 from menu within m_estadisticas
+end type
+type m_rotaciónartculos from menu within m_estadisticas
+end type
+type m_estadisticas from menu within m_programas
+m_1 m_1
+m_rotaciónartculos m_rotaciónartculos
+end type
+type m_programas from mc_menu_sheets`m_programas within wi_deposito
+m_-4 m_-4
+m_gestindedepositos m_gestindedepositos
+m_-5 m_-5
+m_gestionalmcendepositos m_gestionalmcendepositos
+m_albaranesdeentrada m_albaranesdeentrada
+m_consultaalbaranesporcliente m_consultaalbaranesporcliente
+m_consultaalbaranesentrefechas m_consultaalbaranesentrefechas
+m_pasealbaranes m_pasealbaranes
+m_-8 m_-8
+m_estadisticas m_estadisticas
+end type
+type m_stockvaloradoacostesdeproducción from menu within m_listados
+end type
+type m_stockvaloradoportarifa from menu within m_listados
+end type
+type m_3 from menu within m_listados
+end type
+type m_6 from menu within m_listados
+end type
+type m_4 from menu within m_listados
+end type
+type m_2 from menu within m_listados
+end type
+type m_listados from mc_menu_sheets`m_listados within wi_deposito
+m_stockvaloradoacostesdeproducción m_stockvaloradoacostesdeproducción
+m_stockvaloradoportarifa m_stockvaloradoportarifa
+m_3 m_3
+m_6 m_6
+m_4 m_4
+m_2 m_2
+end type
+type m_x from menu within m_utilidades
+end type
+type m_utilidades from mc_menu_sheets`m_utilidades within wi_deposito
+m_x m_x
+end type
+end forward
+
+global type wi_deposito from mc_menu_sheets
+end type
+global wi_deposito wi_deposito
+
+on wi_deposito.create
+wi_deposito=this
+call super::create
+end on
+
+on wi_deposito.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within wi_deposito
+m_-4 m_-4
+m_gestindedepositos m_gestindedepositos
+m_-5 m_-5
+m_gestionalmcendepositos m_gestionalmcendepositos
+m_albaranesdeentrada m_albaranesdeentrada
+m_consultaalbaranesporcliente m_consultaalbaranesporcliente
+m_consultaalbaranesentrefechas m_consultaalbaranesentrefechas
+m_pasealbaranes m_pasealbaranes
+m_-8 m_-8
+m_estadisticas m_estadisticas
+end type
+
+on m_programas.create
+call super::create
+this.m_-4=create m_-4
+this.m_gestindedepositos=create m_gestindedepositos
+this.m_-5=create m_-5
+this.m_gestionalmcendepositos=create m_gestionalmcendepositos
+this.m_albaranesdeentrada=create m_albaranesdeentrada
+this.m_consultaalbaranesporcliente=create m_consultaalbaranesporcliente
+this.m_consultaalbaranesentrefechas=create m_consultaalbaranesentrefechas
+this.m_pasealbaranes=create m_pasealbaranes
+this.m_-8=create m_-8
+this.m_estadisticas=create m_estadisticas
+this.Item[UpperBound(this.Item)+1]=this.m_-4
+this.Item[UpperBound(this.Item)+1]=this.m_gestindedepositos
+this.Item[UpperBound(this.Item)+1]=this.m_-5
+this.Item[UpperBound(this.Item)+1]=this.m_gestionalmcendepositos
+this.Item[UpperBound(this.Item)+1]=this.m_albaranesdeentrada
+this.Item[UpperBound(this.Item)+1]=this.m_consultaalbaranesporcliente
+this.Item[UpperBound(this.Item)+1]=this.m_consultaalbaranesentrefechas
+this.Item[UpperBound(this.Item)+1]=this.m_pasealbaranes
+this.Item[UpperBound(this.Item)+1]=this.m_-8
+this.Item[UpperBound(this.Item)+1]=this.m_estadisticas
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_-4)
+destroy(this.m_gestindedepositos)
+destroy(this.m_-5)
+destroy(this.m_gestionalmcendepositos)
+destroy(this.m_albaranesdeentrada)
+destroy(this.m_consultaalbaranesporcliente)
+destroy(this.m_consultaalbaranesentrefechas)
+destroy(this.m_pasealbaranes)
+destroy(this.m_-8)
+destroy(this.m_estadisticas)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within wi_deposito
+m_stockvaloradoacostesdeproducción m_stockvaloradoacostesdeproducción
+m_stockvaloradoportarifa m_stockvaloradoportarifa
+m_3 m_3
+m_6 m_6
+m_4 m_4
+m_2 m_2
+end type
+
+on m_listados.create
+call super::create
+this.m_stockvaloradoacostesdeproducción=create m_stockvaloradoacostesdeproducción
+this.m_stockvaloradoportarifa=create m_stockvaloradoportarifa
+this.m_3=create m_3
+this.m_6=create m_6
+this.m_4=create m_4
+this.m_2=create m_2
+this.Item[UpperBound(this.Item)+1]=this.m_stockvaloradoacostesdeproducción
+this.Item[UpperBound(this.Item)+1]=this.m_stockvaloradoportarifa
+this.Item[UpperBound(this.Item)+1]=this.m_3
+this.Item[UpperBound(this.Item)+1]=this.m_6
+this.Item[UpperBound(this.Item)+1]=this.m_4
+this.Item[UpperBound(this.Item)+1]=this.m_2
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_stockvaloradoacostesdeproducción)
+destroy(this.m_stockvaloradoportarifa)
+destroy(this.m_3)
+destroy(this.m_6)
+destroy(this.m_4)
+destroy(this.m_2)
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within wi_deposito
+end type
+
+on m_opciones.create
+call super::create
+end on
+
+on m_opciones.destroy
+call super::destroy
+end on
+
+type m_ordenar from mc_menu_sheets`m_ordenar within m_opciones
+end type
+
+on m_ordenar.create
+call super::create
+end on
+
+on m_ordenar.destroy
+call super::destroy
+end on
+
+type m_-3 from mc_menu_sheets`m_-3 within m_opciones
+end type
+
+on m_-3.create
+call super::create
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_setupimpresora from mc_menu_sheets`m_setupimpresora within m_opciones
+end type
+
+on m_setupimpresora.create
+call super::create
+end on
+
+on m_setupimpresora.destroy
+call super::destroy
+end on
+
+type m_imprimir from mc_menu_sheets`m_imprimir within m_opciones
+end type
+
+on m_imprimir.create
+call super::create
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_-2 from mc_menu_sheets`m_-2 within m_opciones
+end type
+
+on m_-2.create
+call super::create
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_barraherramientas from mc_menu_sheets`m_barraherramientas within m_opciones
+end type
+
+on m_barraherramientas.create
+call super::create
+end on
+
+on m_barraherramientas.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from mc_menu_sheets`m_imprimirpantalla within m_opciones
+end type
+
+on m_imprimirpantalla.create
+call super::create
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_utilidades from mc_menu_sheets`m_utilidades within wi_deposito
+m_x m_x
+end type
+
+on m_utilidades.create
+call super::create
+this.m_x=create m_x
+this.Item[UpperBound(this.Item)+1]=this.m_x
+end on
+
+on m_utilidades.destroy
+call super::destroy
+destroy(this.m_x)
+end on
+
+type m_agendatelefnica from mc_menu_sheets`m_agendatelefnica within m_utilidades
+end type
+
+on m_agendatelefnica.create
+call super::create
+end on
+
+on m_agendatelefnica.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from mc_menu_sheets`m_mapadecaracteres within m_utilidades
+end type
+
+on m_mapadecaracteres.create
+call super::create
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from mc_menu_sheets`m_calculadora within m_utilidades
+end type
+
+on m_calculadora.create
+call super::create
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from mc_menu_sheets`m_mensajes within m_utilidades
+end type
+
+on m_mensajes.create
+call super::create
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_ventana from mc_menu_sheets`m_ventana within wi_deposito
+end type
+
+on m_ventana.create
+call super::create
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_vertical from mc_menu_sheets`m_vertical within m_ventana
+end type
+
+on m_vertical.create
+call super::create
+end on
+
+on m_vertical.destroy
+call super::destroy
+end on
+
+type m_horizontal from mc_menu_sheets`m_horizontal within m_ventana
+end type
+
+on m_horizontal.create
+call super::create
+end on
+
+on m_horizontal.destroy
+call super::destroy
+end on
+
+type m_mosaico from mc_menu_sheets`m_mosaico within m_ventana
+end type
+
+on m_mosaico.create
+call super::create
+end on
+
+on m_mosaico.destroy
+call super::destroy
+end on
+
+type m_cascada from mc_menu_sheets`m_cascada within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+type m_- from mc_menu_sheets`m_- within m_ventana
+end type
+
+on m_-.create
+call super::create
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_iconos from mc_menu_sheets`m_iconos within m_ventana
+end type
+
+on m_iconos.create
+call super::create
+end on
+
+on m_iconos.destroy
+call super::destroy
+end on
+
+type m_ayuda from mc_menu_sheets`m_ayuda within wi_deposito
+end type
+
+on m_ayuda.create
+call super::create
+end on
+
+on m_ayuda.destroy
+call super::destroy
+end on
+
+type m_indice from mc_menu_sheets`m_indice within m_ayuda
+end type
+
+on m_indice.create
+call super::create
+end on
+
+on m_indice.destroy
+call super::destroy
+end on
+
+type m_buscarayudasobre from mc_menu_sheets`m_buscarayudasobre within m_ayuda
+end type
+
+on m_buscarayudasobre.create
+call super::create
+end on
+
+on m_buscarayudasobre.destroy
+call super::destroy
+end on
+
+type m_ventanaactual from mc_menu_sheets`m_ventanaactual within m_ayuda
+end type
+
+on m_ventanaactual.create
+call super::create
+end on
+
+on m_ventanaactual.destroy
+call super::destroy
+end on
+
+type m_usodelaayuda from mc_menu_sheets`m_usodelaayuda within m_ayuda
+end type
+
+on m_usodelaayuda.create
+call super::create
+end on
+
+on m_usodelaayuda.destroy
+call super::destroy
+end on
+
+type m_-1 from mc_menu_sheets`m_-1 within m_ayuda
+end type
+
+on m_-1.create
+call super::create
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_acerca from mc_menu_sheets`m_acerca within m_ayuda
+end type
+
+on m_acerca.create
+call super::create
+end on
+
+on m_acerca.destroy
+call super::destroy
+end on
+
+type m_informacindeventana from mc_menu_sheets`m_informacindeventana within m_ayuda
+end type
+
+on m_informacindeventana.create
+call super::create
+end on
+
+on m_informacindeventana.destroy
+call super::destroy
+end on
+
+type m_salir1 from mc_menu_sheets`m_salir1 within wi_deposito
+end type
+
+on m_salir1.create
+call super::create
+end on
+
+on m_salir1.destroy
+call super::destroy
+end on
+
+type m_-4 from menu within m_programas
+end type
+
+on m_-4.create
+call super::create
+this.text = "-"
+end on
+
+on m_-4.destroy
+call super::destroy
+end on
+
+type m_gestindedepositos from menu within m_programas
+m_famfordepporcliente m_famfordepporcliente
+m_conlistclientesdeposito m_conlistclientesdeposito
+end type
+
+on m_gestindedepositos.create
+call super::create
+this.text = "Gestión Ventas Deposito"
+this.m_famfordepporcliente=create m_famfordepporcliente
+this.m_conlistclientesdeposito=create m_conlistclientesdeposito
+this.Item[UpperBound(this.Item)+1]=this.m_famfordepporcliente
+this.Item[UpperBound(this.Item)+1]=this.m_conlistclientesdeposito
+end on
+
+on m_gestindedepositos.destroy
+call super::destroy
+destroy(this.m_famfordepporcliente)
+destroy(this.m_conlistclientesdeposito)
+end on
+
+type m_famfordepporcliente from menu within m_gestindedepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_famfor_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_famfordepporcliente.create
+call super::create
+this.text = "Definir Artículos Depósito por Cliente"
+end on
+
+on m_famfordepporcliente.destroy
+call super::destroy
+end on
+
+type m_conlistclientesdeposito from menu within m_gestindedepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_clientes_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_conlistclientesdeposito.create
+call super::create
+this.text = "Con/List. Clientes Deposito"
+end on
+
+on m_conlistclientesdeposito.destroy
+call super::destroy
+end on
+
+type m_-5 from menu within m_programas
+end type
+
+on m_-5.create
+call super::create
+this.text = "-"
+end on
+
+on m_-5.destroy
+call super::destroy
+end on
+
+type m_gestionalmcendepositos from menu within m_programas
+m_mantalmacenes m_mantalmacenes
+m_manttipomovimientos m_manttipomovimientos
+m_entradas m_entradas
+m_salidas m_salidas
+m_consultamaterialporcliente m_consultamaterialporcliente
+m_consultamaterialporclienteexport m_consultamaterialporclienteexport
+m_consultamaterialporarticulo m_consultamaterialporarticulo
+m_consulmovportipos m_consulmovportipos
+m_consulmovclientetipo m_consulmovclientetipo
+m_-6 m_-6
+m_consulstockvalorado m_consulstockvalorado
+m_consulstockafecha m_consulstockafecha
+m_-7 m_-7
+m_consuldescuadresalmacen m_consuldescuadresalmacen
+end type
+
+on m_gestionalmcendepositos.create
+call super::create
+this.text = "Gestion Almacen Depositos"
+this.m_mantalmacenes=create m_mantalmacenes
+this.m_manttipomovimientos=create m_manttipomovimientos
+this.m_entradas=create m_entradas
+this.m_salidas=create m_salidas
+this.m_consultamaterialporcliente=create m_consultamaterialporcliente
+this.m_consultamaterialporclienteexport=create m_consultamaterialporclienteexport
+this.m_consultamaterialporarticulo=create m_consultamaterialporarticulo
+this.m_consulmovportipos=create m_consulmovportipos
+this.m_consulmovclientetipo=create m_consulmovclientetipo
+this.m_-6=create m_-6
+this.m_consulstockvalorado=create m_consulstockvalorado
+this.m_consulstockafecha=create m_consulstockafecha
+this.m_-7=create m_-7
+this.m_consuldescuadresalmacen=create m_consuldescuadresalmacen
+this.Item[UpperBound(this.Item)+1]=this.m_mantalmacenes
+this.Item[UpperBound(this.Item)+1]=this.m_manttipomovimientos
+this.Item[UpperBound(this.Item)+1]=this.m_entradas
+this.Item[UpperBound(this.Item)+1]=this.m_salidas
+this.Item[UpperBound(this.Item)+1]=this.m_consultamaterialporcliente
+this.Item[UpperBound(this.Item)+1]=this.m_consultamaterialporclienteexport
+this.Item[UpperBound(this.Item)+1]=this.m_consultamaterialporarticulo
+this.Item[UpperBound(this.Item)+1]=this.m_consulmovportipos
+this.Item[UpperBound(this.Item)+1]=this.m_consulmovclientetipo
+this.Item[UpperBound(this.Item)+1]=this.m_-6
+this.Item[UpperBound(this.Item)+1]=this.m_consulstockvalorado
+this.Item[UpperBound(this.Item)+1]=this.m_consulstockafecha
+this.Item[UpperBound(this.Item)+1]=this.m_-7
+this.Item[UpperBound(this.Item)+1]=this.m_consuldescuadresalmacen
+end on
+
+on m_gestionalmcendepositos.destroy
+call super::destroy
+destroy(this.m_mantalmacenes)
+destroy(this.m_manttipomovimientos)
+destroy(this.m_entradas)
+destroy(this.m_salidas)
+destroy(this.m_consultamaterialporcliente)
+destroy(this.m_consultamaterialporclienteexport)
+destroy(this.m_consultamaterialporarticulo)
+destroy(this.m_consulmovportipos)
+destroy(this.m_consulmovclientetipo)
+destroy(this.m_-6)
+destroy(this.m_consulstockvalorado)
+destroy(this.m_consulstockafecha)
+destroy(this.m_-7)
+destroy(this.m_consuldescuadresalmacen)
+end on
+
+type m_mantalmacenes from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_depalmacenes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantalmacenes.create
+call super::create
+this.text = "Mant. Almacenes"
+end on
+
+on m_mantalmacenes.destroy
+call super::destroy
+end on
+
+type m_manttipomovimientos from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_deptipomov, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_manttipomovimientos.create
+call super::create
+this.text = "Mant. Tipo Movimientos"
+end on
+
+on m_manttipomovimientos.destroy
+call super::destroy
+end on
+
+type m_entradas from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_depmovent, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_entradas.create
+call super::create
+this.text = "Entradas"
+end on
+
+on m_entradas.destroy
+call super::destroy
+end on
+
+type m_salidas from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_depmovsal, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_salidas.create
+call super::create
+this.text = "Salidas"
+end on
+
+on m_salidas.destroy
+call super::destroy
+end on
+
+type m_consultamaterialporcliente from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_deplinubica_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultamaterialporcliente.create
+call super::create
+this.text = "Consulta Material Por cliente"
+end on
+
+on m_consultamaterialporcliente.destroy
+call super::destroy
+end on
+
+type m_consultamaterialporclienteexport from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_deplinubica_cliente_exportar, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultamaterialporclienteexport.create
+call super::create
+this.text = "Consulta Material por Cliente (Exportar)"
+end on
+
+on m_consultamaterialporclienteexport.destroy
+call super::destroy
+end on
+
+type m_consultamaterialporarticulo from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_deplinubica_articulo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultamaterialporarticulo.create
+call super::create
+this.text = "Consulta Material Por articulo"
+end on
+
+on m_consultamaterialporarticulo.destroy
+call super::destroy
+end on
+
+type m_consulmovportipos from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_depmovimientos_tipo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consulmovportipos.create
+call super::create
+this.text = "Consul. Mov por tipos"
+end on
+
+on m_consulmovportipos.destroy
+call super::destroy
+end on
+
+type m_consulmovclientetipo from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_depmovimientos_cliente_tipo, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consulmovclientetipo.create
+call super::create
+this.text = "Consul. Mov. cliente/tipo"
+end on
+
+on m_consulmovclientetipo.destroy
+call super::destroy
+end on
+
+type m_-6 from menu within m_gestionalmcendepositos
+end type
+
+on m_-6.create
+call super::create
+this.text = "-"
+end on
+
+on m_-6.destroy
+call super::destroy
+end on
+
+type m_consulstockvalorado from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_deposito_valorado,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consulstockvalorado.create
+call super::create
+this.visible = false
+this.text = "Consul. Stock Valorado"
+end on
+
+on m_consulstockvalorado.destroy
+call super::destroy
+end on
+
+type m_consulstockafecha from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_deposito_fecha,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consulstockafecha.create
+call super::create
+this.visible = false
+this.text = "Consul. Stock a Fecha"
+end on
+
+on m_consulstockafecha.destroy
+call super::destroy
+end on
+
+type m_-7 from menu within m_gestionalmcendepositos
+end type
+
+on m_-7.create
+call super::create
+this.visible = false
+this.text = "-"
+end on
+
+on m_-7.destroy
+call super::destroy
+end on
+
+type m_consuldescuadresalmacen from menu within m_gestionalmcendepositos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_descuadres_articulos_deposito,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consuldescuadresalmacen.create
+call super::create
+this.text = "Consul. Descuadres Almacen"
+end on
+
+on m_consuldescuadresalmacen.destroy
+call super::destroy
+end on
+
+type m_albaranesdeentrada from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_depalb, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_albaranesdeentrada.create
+call super::create
+this.text = "Albaranes consumo deposito"
+end on
+
+on m_albaranesdeentrada.destroy
+call super::destroy
+end on
+
+type m_consultaalbaranesporcliente from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_cliente_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaalbaranesporcliente.create
+call super::create
+this.text = "Consulta Albaranes por cliente"
+end on
+
+on m_consultaalbaranesporcliente.destroy
+call super::destroy
+end on
+
+type m_consultaalbaranesentrefechas from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_entrefechas_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaalbaranesentrefechas.create
+call super::create
+this.text = "Consulta Albaranes entre fechas"
+end on
+
+on m_consultaalbaranesentrefechas.destroy
+call super::destroy
+end on
+
+type m_pasealbaranes from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_pase_albaranes_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_pasealbaranes.create
+call super::create
+this.text = "Pase Albaranes"
+end on
+
+on m_pasealbaranes.destroy
+call super::destroy
+end on
+
+type m_-8 from menu within m_programas
+end type
+
+on m_-8.create
+call super::create
+this.text = "-"
+end on
+
+on m_-8.destroy
+call super::destroy
+end on
+
+type m_estadisticas from menu within m_programas
+m_1 m_1
+m_rotaciónartculos m_rotaciónartculos
+end type
+
+on m_estadisticas.create
+call super::create
+this.text = "Estadisticas"
+this.m_1=create m_1
+this.m_rotaciónartculos=create m_rotaciónartculos
+this.Item[UpperBound(this.Item)+1]=this.m_1
+this.Item[UpperBound(this.Item)+1]=this.m_rotaciónartculos
+end on
+
+on m_estadisticas.destroy
+call super::destroy
+destroy(this.m_1)
+destroy(this.m_rotaciónartculos)
+end on
+
+type m_1 from menu within m_estadisticas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_articulos_fabricar_rotacion_dep,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_1.create
+call super::create
+this.text = "Rotación Articulos Deposito"
+end on
+
+on m_1.destroy
+call super::destroy
+end on
+
+type m_rotaciónartculos from menu within m_estadisticas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_rotacion_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_rotaciónartculos.create
+call super::create
+this.text = "Rotación Artículos"
+end on
+
+on m_rotaciónartculos.destroy
+call super::destroy
+end on
+
+type m_stockvaloradoacostesdeproducción from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_deposito_valorado_coste,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockvaloradoacostesdeproducción.create
+call super::create
+this.text = "Stock Valorado a Costes de Producción"
+end on
+
+on m_stockvaloradoacostesdeproducción.destroy
+call super::destroy
+end on
+
+type m_stockvaloradoportarifa from menu within m_listados
+event clicked ( )
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_deposito_valorado,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockvaloradoportarifa.create
+call super::create
+this.text = "Stock Valorado por Tarifa"
+end on
+
+on m_stockvaloradoportarifa.destroy
+call super::destroy
+end on
+
+type m_3 from menu within m_listados
+end type
+
+on m_3.create
+call super::create
+this.text = "-"
+end on
+
+on m_3.destroy
+call super::destroy
+end on
+
+type m_6 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_rotacion_deposito_importe, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_6.create
+call super::create
+this.text = "Rotación Depósito Por Clientes y Meses ( € )"
+end on
+
+on m_6.destroy
+call super::destroy
+end on
+
+type m_4 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_rotacion_deposito, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_4.create
+call super::create
+this.text = "Rotación Depósito por Clientes y Meses (Pzs.)"
+end on
+
+on m_4.destroy
+call super::destroy
+end on
+
+type m_2 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_deposito_meses, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_2.create
+call super::create
+this.text = "Ventas Depóstito por Clientes y Meses"
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_x from menu within m_utilidades
+end type
+
+event clicked;f_restaura_datos_dep_facturas()
+end event
+
+on m_x.create
+call super::create
+this.text = "x"
+end on
+
+on m_x.destroy
+call super::destroy
+end on
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_total_fac_venfac.srf
+global type f_total_fac_venfac from function_object
+end type
+
+forward prototypes
+global function decimal f_total_fac_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function decimal f_total_fac_venfac (string empresa, integer anyo, decimal factura);dec variable
+
+  SELECT venfac.total_fac  
+    INTO :variable  
+    FROM venfac  
+   WHERE ( venfac.empresa = :empresa ) AND  
+         ( venfac.anyo    = :anyo ) AND  
+         ( venfac.factura = :factura )   ;
+
+Return variable 
+end function
+

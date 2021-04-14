@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_nombre_comusuarios.srf
+global type f_nombre_comusuarios from function_object
+end type
+
+forward prototypes
+global function string f_nombre_comusuarios (string usuario)
+end prototypes
+
+global function string f_nombre_comusuarios (string usuario);String var
+
+Select nombre Into:var from comusuarios
+Where  usuario = :usuario;
+Return var
+end function
+

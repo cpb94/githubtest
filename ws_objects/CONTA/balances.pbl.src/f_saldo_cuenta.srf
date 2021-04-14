@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_saldo_cuenta.srf
+global type f_saldo_cuenta from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuenta (integer ejerc, string emp, string cuenta, datetime fd, datetime fh)
+end prototypes
+
+global function decimal f_saldo_cuenta (integer ejerc, string emp, string cuenta, datetime fd, datetime fh);dec retorno
+cuenta=trim(cuenta)+"%"
+
+  SELECT sum(debe - haber)  
+    INTO :retorno  
+    FROM contaapun  
+   WHERE ( contaapun.ejercicio 	= :ejerc	)	 	AND  
+         ( contaapun.empresa 		= :emp ) 		AND  
+         ( contaapun.cuenta 		like :cuenta) 	AND
+			( contaapun.fapunte 		between :fd AND :fh);
+
+if isnull(retorno) then retorno=0
+return retorno
+end function
+

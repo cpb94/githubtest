@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_proceso349.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=84 color="536870912" )
+summary(height=12 color="-1" )
+footer(height=0 color="-1" )
+detail(height=76 color="16777215" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venfac.empresa" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venfac.cliente" )
+ column=(type=char(2) updatewhereclause=yes name=paises_clave dbname="paises.clave" )
+ column=(type=decimal(4) updatewhereclause=yes name=total_fac_pts dbname="compute_0004" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venfac~" )  TABLE(NAME=~"paises~" ) COLUMN(NAME=~"venfac.empresa~") COLUMN(NAME=~"venfac.cliente~") COLUMN(NAME=~"paises.clave~") COMPUTE(NAME=~"Sum(total_fac_pts)~")    JOIN (LEFT=~"venfac.pais~"    OP =~"=~"RIGHT=~"paises.pais~" )WHERE(    EXP1 =~"venfac.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfac.cliente~"   OP =~"between~"    EXP2 =~":clid and :clih~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfac.ffactura~"   OP =~"between~"    EXP2 =~":fechad and :fechah~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"paises.tipopais~"   OP =~"between~"    EXP2 =~":tpaisd and :tpaish~" )  GROUP(NAME=~"venfac.empresa~") GROUP(NAME=~"venfac.cliente~") GROUP(NAME=~"paises.clave~")) ORDER(NAME=~"venfac.empresa~" ASC=yes ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"fechad~" TYPE = datetime)  ARG(NAME = ~"fechah~" TYPE = datetime)  ARG(NAME = ~"clid~" TYPE = string)  ARG(NAME = ~"clih~" TYPE = string)  ARG(NAME = ~"tpaisd~" TYPE = string)  ARG(NAME = ~"tpaish~" TYPE = string) " arguments=(("arg_empresa", string),("fechad", datetime),("fechah", datetime),("clid", string),("clih", string),("tpaisd", string),("tpaish", string))  sort="empresa A cliente A " )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2802" y="0" height="76" width="1376" format="[general]"  name=total_fac_pts edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="9" y="8" height="64" width="1568"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Totales"border="6" color="0" x="1605" y="8" height="64" width="1198"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

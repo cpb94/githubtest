@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_inicializar_str_rf_parametros_ventanas.srf
+global type f_inicializar_str_rf_parametros_ventanas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_rf_parametros_ventanas (ref str_rf_parametros_ventanas str_rf_parametros_ventanas)
+end prototypes
+
+global function boolean f_inicializar_str_rf_parametros_ventanas (ref str_rf_parametros_ventanas str_rf_parametros_ventanas);boolean lb_correcto = true
+
+if isnull(str_rf_parametros_ventanas.id) then str_rf_parametros_ventanas.id = 0
+if isnull(str_rf_parametros_ventanas.empresa) then str_rf_parametros_ventanas.empresa = ''
+if isnull(str_rf_parametros_ventanas.descripcion) then str_rf_parametros_ventanas.descripcion = ''
+if isnull(str_rf_parametros_ventanas.texto_ventana) then str_rf_parametros_ventanas.texto_ventana = ''
+if isnull(str_rf_parametros_ventanas.tipo_ventana) then str_rf_parametros_ventanas.tipo_ventana = ''
+if isnull(str_rf_parametros_ventanas.ayuda_ventana) then str_rf_parametros_ventanas.ayuda_ventana = ''
+if isnull(str_rf_parametros_ventanas.texto_paso1) then str_rf_parametros_ventanas.texto_paso1 = ''
+if isnull(str_rf_parametros_ventanas.texto_paso2) then str_rf_parametros_ventanas.texto_paso2 = ''
+if isnull(str_rf_parametros_ventanas.texto_paso3) then str_rf_parametros_ventanas.texto_paso3 = ''
+if isnull(str_rf_parametros_ventanas.ayuda_paso1) then str_rf_parametros_ventanas.ayuda_paso1 = ''
+if isnull(str_rf_parametros_ventanas.ayuda_paso2) then str_rf_parametros_ventanas.ayuda_paso2 = ''
+if isnull(str_rf_parametros_ventanas.ayuda_paso3) then str_rf_parametros_ventanas.ayuda_paso3 = ''
+if isnull(str_rf_parametros_ventanas.tipo_movimiento_entrada) then str_rf_parametros_ventanas.tipo_movimiento_entrada = ''
+if isnull(str_rf_parametros_ventanas.sugerir_ubicacion_entrada) then str_rf_parametros_ventanas.sugerir_ubicacion_entrada = ''
+if isnull(str_rf_parametros_ventanas.entrada_ubicacion_fija) then str_rf_parametros_ventanas.entrada_ubicacion_fija = ''
+if isnull(str_rf_parametros_ventanas.almacen_entrada) then str_rf_parametros_ventanas.almacen_entrada = ''
+if isnull(str_rf_parametros_ventanas.zona_entrada) then str_rf_parametros_ventanas.zona_entrada = ''
+if isnull(str_rf_parametros_ventanas.fila_entrada) then str_rf_parametros_ventanas.fila_entrada = 0
+if isnull(str_rf_parametros_ventanas.altura_entrada) then str_rf_parametros_ventanas.altura_entrada = 0
+if isnull(str_rf_parametros_ventanas.tipo_movimiento_salida) then str_rf_parametros_ventanas.tipo_movimiento_salida = ''
+if isnull(str_rf_parametros_ventanas.salida_ubicacion_fija) then str_rf_parametros_ventanas.salida_ubicacion_fija = ''
+if isnull(str_rf_parametros_ventanas.almacen_salida) then str_rf_parametros_ventanas.almacen_salida = ''
+if isnull(str_rf_parametros_ventanas.zona_salida) then str_rf_parametros_ventanas.zona_salida = ''
+if isnull(str_rf_parametros_ventanas.fila_salida) then str_rf_parametros_ventanas.fila_salida = 0
+if isnull(str_rf_parametros_ventanas.altura_salida) then str_rf_parametros_ventanas.altura_salida = 0
+if isnull(str_rf_parametros_ventanas.permitir_en_bulto_con_lineas) then str_rf_parametros_ventanas.permitir_en_bulto_con_lineas = ''
+if isnull(str_rf_parametros_ventanas.tipologia_articulo) then str_rf_parametros_ventanas.tipologia_articulo = ''
+if isnull(str_rf_parametros_ventanas.permitir_en_bulto_de_ubicacion) then str_rf_parametros_ventanas.permitir_en_bulto_de_ubicacion = ''
+if isnull(str_rf_parametros_ventanas.mostrar_contenido_bulto_entrada) then str_rf_parametros_ventanas.mostrar_contenido_bulto_entrada = ''
+if isnull(str_rf_parametros_ventanas.entrada_consume_cajas) then str_rf_parametros_ventanas.entrada_consume_cajas = ''
+
+return lb_correcto
+end function
+

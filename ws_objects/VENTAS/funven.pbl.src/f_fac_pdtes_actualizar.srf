@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_fac_pdtes_actualizar.srf
+global type f_fac_pdtes_actualizar from function_object
+end type
+
+forward prototypes
+global function decimal f_fac_pdtes_actualizar (string empresa, string cliente)
+end prototypes
+
+global function decimal f_fac_pdtes_actualizar (string empresa, string cliente);dec dinero
+  
+  SELECT sum(venfac.total_fac_pts)  
+    INTO :dinero  
+    FROM venfac  
+   WHERE ( venfac.empresa     = :empresa ) AND  
+         ( venfac.cliente     = :cliente ) AND
+			( venfac.actualizada = "N");
+
+if isnull(dinero) then dinero=0
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+	dinero=0
+end if
+
+
+return dinero
+end function
+

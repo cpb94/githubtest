@@ -1,0 +1,18 @@
+﻿$PBExportHeader$report_enunciado_carta.srd
+$PBExportComments$Listado enunciado carta.
+release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=3518 color="536870912" )
+detail(height=2804 color="536870912"  height.autosize=yes)
+table(column=(type=char(4099) updatewhereclause=yes name=texto_carta dbname="mcartas.texto_carta" )
+ column=(type=char(40) updatewhereclause=yes name=nombre dbname="mcartas.nombre" )
+ column=(type=char(40) updatewhereclause=yes name=cargo dbname="mcartas.cargo" )
+ column=(type=char(40) updatewhereclause=yes name=firma dbname="mcartas.firma" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mcartas~" ) COLUMN(NAME=~"mcartas.texto_carta~") COLUMN(NAME=~"mcartas.nombre~") COLUMN(NAME=~"mcartas.cargo~") COLUMN(NAME=~"mcartas.firma~")WHERE( EXP1 =~"mcartas.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"mcartas.codigo~" OP =~"=~" EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) " arguments=(("empresa", string),("codigo", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="0" y="0" height="793" width="15795" format="[general]"  name=texto_carta height.autosize=yes edit.limit=4099 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Times New Roman" font.height="-14" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="bitmap ( ~"\firmas\~"+ Trim(firma) + ~".bmp~" )"border="0" color="0" x="158" y="26" height="2381" width="6270" format="[GENERAL]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=footer id=2 alignment="0" tabsequence=32766 border="0" color="0" x="264" y="1693" height="529" width="8440" format="[general]"  name=nombre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-14" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=footer id=3 alignment="0" tabsequence=32766 border="0" color="0" x="264" y="2328" height="529" width="8440" format="[general]"  name=cargo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Times New Roman" font.height="-14" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="f_ciudad_empresa( empresa )+~"   ~"+STRING(today(),'dd-mm-yyyy')"border="0" color="0" x="238" y="2963" height="502" width="6138" format="[general]"  font.face="Times New Roman" font.height="-14" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

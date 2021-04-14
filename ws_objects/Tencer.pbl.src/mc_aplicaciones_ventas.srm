@@ -1,0 +1,137 @@
+﻿$PBExportHeader$mc_aplicaciones_ventas.srm
+forward
+global type mc_aplicaciones_ventas from menu
+end type
+type m_aplicaciones from menu within mc_aplicaciones_ventas
+end type
+type m_almacen from menu within m_aplicaciones
+end type
+type m_ventas from menu within m_aplicaciones
+end type
+type m_mailing from menu within m_aplicaciones
+end type
+type m_promocion from menu within m_aplicaciones
+end type
+type m_almacen1 from menu within m_aplicaciones
+end type
+type m_depositos from menu within m_aplicaciones
+end type
+type m_aplicaciones from menu within mc_aplicaciones_ventas
+m_almacen m_almacen
+m_ventas m_ventas
+m_mailing m_mailing
+m_promocion m_promocion
+m_almacen1 m_almacen1
+m_depositos m_depositos
+end type
+end forward
+
+global type mc_aplicaciones_ventas from menu
+m_aplicaciones m_aplicaciones
+end type
+global mc_aplicaciones_ventas mc_aplicaciones_ventas
+
+on mc_aplicaciones_ventas.create
+mc_aplicaciones_ventas=this
+this.m_aplicaciones=create m_aplicaciones
+this.Item[]={this.m_aplicaciones}
+end on
+
+on mc_aplicaciones_ventas.destroy
+destroy(this.m_aplicaciones)
+end on
+
+type m_aplicaciones from menu within mc_aplicaciones_ventas
+m_almacen m_almacen
+m_ventas m_ventas
+m_mailing m_mailing
+m_promocion m_promocion
+m_almacen1 m_almacen1
+m_depositos m_depositos
+end type
+
+on m_aplicaciones.create
+this.Text="Aplicaciones"
+this.m_almacen=create m_almacen
+this.m_ventas=create m_ventas
+this.m_mailing=create m_mailing
+this.m_promocion=create m_promocion
+this.m_almacen1=create m_almacen1
+this.m_depositos=create m_depositos
+this.Item[]={this.m_almacen, &
+this.m_ventas, &
+this.m_mailing, &
+this.m_promocion, &
+this.m_almacen1, &
+this.m_depositos}
+end on
+
+on m_aplicaciones.destroy
+destroy(this.m_almacen)
+destroy(this.m_ventas)
+destroy(this.m_mailing)
+destroy(this.m_promocion)
+destroy(this.m_almacen1)
+destroy(this.m_depositos)
+end on
+
+type m_almacen from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_general)
+end on
+
+on m_almacen.create
+this.Text="General"
+end on
+
+type m_ventas from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_ventas)
+end on
+
+on m_ventas.create
+this.Text="Ventas"
+end on
+
+type m_mailing from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_mailing)
+end on
+
+on m_mailing.create
+this.Text="Mailing"
+end on
+
+type m_promocion from menu within m_aplicaciones
+end type
+
+on clicked;open (w_promocion)
+end on
+
+on m_promocion.create
+this.Text="Promocion"
+end on
+
+type m_almacen1 from menu within m_aplicaciones
+end type
+
+event clicked;open(w_ventas_almacen)
+end event
+
+on m_almacen1.create
+this.Text="Almacen"
+end on
+
+type m_depositos from menu within m_aplicaciones
+end type
+
+event clicked;open(w_depositos)
+end event
+
+on m_depositos.create
+this.Text="Depositos"
+end on
+

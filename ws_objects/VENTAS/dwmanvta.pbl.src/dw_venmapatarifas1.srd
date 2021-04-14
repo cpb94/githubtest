@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_venmapatarifas1.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\bmp\MANO.CUR" )
+header(height=89 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) name=empresa dbname="venmapatarifas.empresa" )
+ column=(type=char(5) name=tarifa dbname="venmapatarifas.tarifa" )
+ column=(type=datetime name=fecha dbname="venmapatarifas.fecha" )
+ column=(type=char(4099) name=observaciones dbname="venmapatarifas.observaciones" )
+ column=(type=datetime name=f_alta dbname="venmapatarifas.f_alta" )
+ column=(type=char(15) name=usuario dbname="venmapatarifas.usuario" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmapatarifas~" ) COLUMN(NAME=~"venmapatarifas.empresa~") COLUMN(NAME=~"venmapatarifas.tarifa~") COLUMN(NAME=~"venmapatarifas.fecha~") COLUMN(NAME=~"venmapatarifas.observaciones~") COLUMN(NAME=~"venmapatarifas.f_alta~") COLUMN(NAME=~"venmapatarifas.usuario~")WHERE( EXP1 =~"venmapatarifas.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" LOGIC =~"and~" ) WHERE( EXP1 =~"venmapatarifas.tarifa~" OP =~"=~" EXP2 =~":ra_tarifa~" ) ) ORDER(NAME=~"venmapatarifas.empresa~" ASC=yes ) ORDER(NAME=~"venmapatarifas.tarifa~" ASC=yes ) ORDER(NAME=~"venmapatarifas.fecha~" ASC=no) ARG(NAME = ~"ra_codemp~" TYPE = string) ARG(NAME = ~"ra_tarifa~" TYPE = string) " arguments=(("ra_codemp", string),("ra_tarifa", string)) )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="19" y="12" height="65" width="485"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="128" x="23" y="4" height="65" width="471" format="[shortdate] [time]"  name=fecha editmask.mask="dd-mm-yy"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

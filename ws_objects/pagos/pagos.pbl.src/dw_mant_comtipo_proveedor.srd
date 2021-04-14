@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_mant_comtipo_proveedor.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=220 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="comtipo_proveedor.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="comtipo_proveedor.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="comtipo_proveedor.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=resumido dbname="comtipo_proveedor.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comtipo_proveedor~" ) COLUMN(NAME=~"comtipo_proveedor.empresa~") COLUMN(NAME=~"comtipo_proveedor.codigo~") COLUMN(NAME=~"comtipo_proveedor.descripcion~") COLUMN(NAME=~"comtipo_proveedor.resumido~")WHERE(    EXP1 =~"comtipo_proveedor.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"comtipo_proveedor.codigo~"   OP =~"=~"    EXP2 =~":arg_codigo~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_codigo~" TYPE = string) " update="comtipo_proveedor" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_codigo", string)) )
+text(band=detail alignment="1" text="Descripcion:"border="0" color="0" x="0" y="24" height="64" width="370"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="50" y="128" height="64" width="320"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="393" y="24" height="64" width="1399" format="[general]"  name=descripcion edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="393" y="128" height="64" width="165" format="[general]"  name=resumido edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

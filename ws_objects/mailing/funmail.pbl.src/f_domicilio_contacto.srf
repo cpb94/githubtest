@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_domicilio_contacto.srf
+$PBExportComments$Devuelve el domicilio de un contacto.
+global type f_domicilio_contacto from function_object
+end type
+
+forward prototypes
+global function string f_domicilio_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_domicilio_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_domicilio
+
+SELECT   mcontactos.empresa,mcontactos.codigo,mcontactos.domicilio  
+INTO     :var_empresa,:var_codigo,:var_domicilio
+FROM     mcontactos  
+WHERE   (mcontactos.empresa = :empresa)
+AND     (mcontactos.codigo = :codigo )
+ORDER BY mcontactos.empresa,mcontactos.codigo;
+
+Return var_domicilio;
+
+end function
+

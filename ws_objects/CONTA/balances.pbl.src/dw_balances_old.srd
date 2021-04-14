@@ -1,0 +1,118 @@
+﻿$PBExportHeader$dw_balances_old.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=540 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=160 color="536870912"  height.autosize=yes)
+table(column=(type=decimal(2) updatewhereclause=yes name=saldo dbname="contabalgrup.saldo" )
+ column=(type=decimal(2) updatewhereclause=yes name=csal_for dbname="contabalgrup.sal_for" )
+ column=(type=decimal(2) updatewhereclause=yes name=saldoant dbname="contabalgrup.saldoant" )
+ column=(type=decimal(2) updatewhereclause=yes name=csal_forant dbname="contabalgrup.sal_forant" )
+ column=(type=char(5) updatewhereclause=yes name=contabalgrup_empresa dbname="contabalgrup.empresa" )
+ column=(type=char(10) updatewhereclause=yes name=contabalgrup_codbal dbname="contabalgrup.codbal" )
+ column=(type=char(1) updatewhereclause=yes name=contabalgrup_bloque dbname="contabalgrup.bloque" )
+ column=(type=char(5) updatewhereclause=yes name=contabalgrup_grupo dbname="contabalgrup.grupo" )
+ column=(type=char(50) updatewhereclause=yes name=contabalgrup_titulo dbname="contabalgrup.titulo" )
+ column=(type=long updatewhereclause=yes name=contabalgrup_orden dbname="contabalgrup.orden" )
+ column=(type=char(100) updatewhereclause=yes name=contabalgrup_formula dbname="contabalgrup.formula" )
+ column=(type=char(10) updatewhereclause=yes name=contabalsubgrup_empresa dbname="contabalsubgrup.empresa" )
+ column=(type=char(1) updatewhereclause=yes name=contabalsubgrup_bloque dbname="contabalsubgrup.bloque" )
+ column=(type=char(10) updatewhereclause=yes name=contabalsubgrup_codbal dbname="contabalsubgrup.codbal" )
+ column=(type=char(5) updatewhereclause=yes name=contabalsubgrup_grupo dbname="contabalsubgrup.grupo" )
+ column=(type=char(5) updatewhereclause=yes name=contabalsubgrup_subgrupo dbname="contabalsubgrup.subgrupo" )
+ column=(type=char(50) updatewhereclause=yes name=contabalsubgrup_titulo dbname="contabalsubgrup.titulo" )
+ column=(type=long updatewhereclause=yes name=contabalsubgrup_orden dbname="contabalsubgrup.orden" )
+ column=(type=char(10) updatewhereclause=yes name=contaballin_empresa dbname="contaballin.empresa" )
+ column=(type=char(10) updatewhereclause=yes name=contaballin_codbal dbname="contaballin.codbal" )
+ column=(type=char(1) updatewhereclause=yes name=contaballin_bloque dbname="contaballin.bloque" )
+ column=(type=char(5) updatewhereclause=yes name=contaballin_grupo dbname="contaballin.grupo" )
+ column=(type=char(5) updatewhereclause=yes name=contaballin_subgrupo dbname="contaballin.subgrupo" )
+ column=(type=char(15) updatewhereclause=yes name=contaballin_cuenta dbname="contaballin.cuenta" )
+ column=(type=char(50) updatewhereclause=yes name=contaballin_titulo dbname="contaballin.titulo" )
+ column=(type=long updatewhereclause=yes name=contaballin_nivel dbname="contaballin.nivel" )
+ column=(type=long updatewhereclause=yes name=contaballin_orden dbname="contaballin.orden" )
+ column=(type=decimal(6) updatewhereclause=yes name=contaballin_importe dbname="contaballin.importe" )
+ column=(type=char(5) updatewhereclause=yes name=contaballin_agrupa dbname="contaballin.agrupa" )
+ column=(type=char(50) updatewhereclause=yes name=contaballin_descripcion dbname="contaballin.descripcion" )
+ retrieve="  SELECT 0.00 saldo,   
+         0.00 sal_for,
+			0.00 saldoant,
+			0.00 sal_forant,   
+         contabalgrup.empresa,   
+         contabalgrup.codbal,   
+         contabalgrup.bloque,   
+         contabalgrup.grupo,   
+         contabalgrup.titulo,   
+         contabalgrup.orden,   
+         contabalgrup.formula,   
+         contabalsubgrup.empresa,   
+         contabalsubgrup.bloque,   
+         contabalsubgrup.codbal,   
+         contabalsubgrup.grupo,   
+         contabalsubgrup.subgrupo,   
+         contabalsubgrup.titulo,   
+         contabalsubgrup.orden,   
+         contaballin.empresa,   
+         contaballin.codbal,   
+         contaballin.bloque,   
+         contaballin.grupo,   
+         contaballin.subgrupo,   
+         contaballin.cuenta,   
+         contaballin.titulo,   
+         contaballin.nivel,   
+         contaballin.orden,   
+         contaballin.importe,
+			contaballin.agrupa,
+			contaballin.descripcion
+    FROM contabalgrup,   
+         contaballin,   
+         contabalsubgrup  
+   WHERE ( contabalsubgrup.empresa *= contaballin.empresa) and  
+         ( contabalsubgrup.codbal *= contaballin.codbal) and  
+         ( contabalsubgrup.bloque *= contaballin.bloque) and  
+         ( contabalsubgrup.grupo *= contaballin.grupo) and  
+         ( contabalsubgrup.subgrupo *= contaballin.subgrupo) and  
+         ( contabalgrup.empresa *= contaballin.empresa) and  
+         ( contabalgrup.codbal *= contaballin.codbal) and  
+         ( contabalgrup.bloque *= contaballin.bloque) and  
+         ( contabalgrup.grupo *= contaballin.grupo) and  
+         ( contabalgrup.empresa = contabalsubgrup.empresa ) and  
+         ( contabalgrup.codbal = contabalsubgrup.codbal ) and  
+         ( contabalgrup.bloque = contabalsubgrup.bloque ) and  
+         ( contabalgrup.grupo = contabalsubgrup.grupo ) and  
+         ( ( contabalgrup.empresa = :arg_emp ) AND  
+         ( contabalgrup.codbal = :arg_balance ) )    
+" arguments=(("arg_emp", string),("fd", datetime),("fh", datetime),("arg_balance", string),("anyo1", number),("anyo2", number))  sort="contabalgrup_empresa A contabalgrup_bloque A contabalgrup_orden A contabalsubgrup_orden A " )
+group(level=1 header.height=228 trailer.height=0 by=("contabalgrup_empresa" , "contabalgrup_bloque" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=144 trailer.height=0 by=("contabalgrup_grupo" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=72 trailer.height=0 by=("contabalsubgrup_subgrupo" ) header.color="553648127" trailer.color="536870912" )
+group(level=4 header.height=0 trailer.height=0 by=("contaballin_agrupa" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="3095" y="340" height="52" width="59" format="[general]" visible="1~t0"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="14" y="36" height="340" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_emp")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="2" expression="f_nombre_contabal( arg_emp, arg_balance  )"border="0" color="0" x="14" y="432" height="92" width="3355" format="[general]"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Ejercicio"border="0" color="0" x="2057" y="160" height="60" width="233"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="1" text="Ejercicio"border="0" color="0" x="2601" y="160" height="60" width="229"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="1" expression="string( anyo1 ,~"#,###~")"border="0" color="0" x="2322" y="160" height="60" width="201" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="1" expression="string( anyo2 ,~"#,###~")"border="0" color="0" x="2857" y="160" height="60" width="201" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="2" expression="if ( contabalgrup_codbal = ~"1~",if( contabalgrup_bloque =~"D~",~"D E B E~",~"H A B E R~"),IF( contabalgrup_bloque =~"D~",~"A C T I V O~",~"P A S I V O~"))"border="0" color="0" x="14" y="8" height="88" width="3045" format="[general]"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.2 id=15 alignment="0" tabsequence=32766 border="0" color="0" x="160" y="4" height="60" width="165" format="[general]"  name=contabalsubgrup_grupo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression=" csal_for "border="0" color="0" x="2021" y="76" height="64" width="507" format="###,###,##0.00"  name=saldo_formula visible="1~tIF ( contabalgrup_formula =~"~" or isnull( contabalgrup_formula ),0,1)"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(saldo for group 2)"border="0" color="0" x="2021" y="4" height="60" width="507" format="###,###,##0.00"  name=saldo_grupo visible="1~tIF ( contabalgrup_formula =~"~" or isnull( contabalgrup_formula ),1,0)"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(saldoant for group 2)"border="0" color="0" x="2555" y="4" height="60" width="507" format="###,###,##0.00"  name=saldo_grupo_ant visible="1~tIF ( contabalgrup_formula =~"~" or isnull( contabalgrup_formula ),1,0)"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression=" csal_forant "border="0" color="0" x="2555" y="76" height="60" width="507" format="###,###,##0.00"  name=saldo_formulant visible="1~tIF ( contabalgrup_formula =~"~" or isnull( contabalgrup_formula ),0,1)"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.2 id=9 alignment="0" tabsequence=32766 border="0" color="0" x="338" y="4" height="60" width="1669" format="[general]"  name=contabalgrup_titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.2 id=11 alignment="0" tabsequence=32766 border="0" color="0" x="338" y="76" height="64" width="1669" format="[general]"  name=contabalgrup_formula visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.3 id=16 alignment="0" tabsequence=32766 border="0" color="0" x="334" y="4" height="56" width="114" format="[general]"  name=contabalsubgrup_subgrupo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.3 alignment="1" expression="sum(saldo for group 3)"border="0" color="0" x="2021" y="4" height="56" width="507" format="###,###,##0.00"  name=saldo_subgrupo visible="1~tif( contabalsubgrup_subgrupo =~"~"or isnull(contabalsubgrup_subgrupo) ,0,1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.3 alignment="1" expression="sum(saldoant for group 3)"border="0" color="0" x="2555" y="4" height="56" width="507" format="###,###,##0.00"  name=saldo_subgrupo_ant visible="1~tif( contabalsubgrup_subgrupo =~"~"or isnull(contabalsubgrup_subgrupo) ,0,1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.3 id=17 alignment="0" tabsequence=32766 border="0" color="0" x="462" y="4" height="56" width="1545" format="[general]"  name=contabalsubgrup_titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.4 alignment="1" expression="sum(saldoant for group 4)"border="0" color="0" x="2555" y="4" height="56" width="507" format="###,###,##0.00" visible="1~tif( contabalsubgrup_subgrupo =~"~"or isnull(contabalsubgrup_subgrupo) ,0,1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.4 alignment="1" expression="sum(saldo for group 4)"border="0" color="0" x="2021" y="4" height="56" width="507" format="###,###,##0.00" visible="1~tif( contabalsubgrup_subgrupo =~"~"or isnull(contabalsubgrup_subgrupo) ,0,1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.4 id=29 alignment="0" tabsequence=32766 border="0" color="0" x="384" y="4" height="56" width="133" format="[general]"  name=contaballin_agrupa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.4 id=30 alignment="0" tabsequence=32766 border="0" color="0" x="530" y="4" height="56" width="1477" format="[general]"  name=contaballin_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=24 alignment="1" tabsequence=32766 border="0" color="0" x="503" y="4" height="60" width="270" format="[general]"  name=contaballin_cuenta visible="1~t0" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="786" y="4" height="60" width="1221" format="[general]"  name=contaballin_titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="2021" y="4" height="60" width="507" format="###,###,##0.00"  name=saldo visible="1~tif( contabalsubgrup_subgrupo =~"~" or  contaballin_cuenta =~"~" or isnull(contaballin_cuenta),0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2555" y="4" height="60" width="507" format="###,###,##0.00"  name=saldoant visible="1~tif( contabalsubgrup_subgrupo =~"~" or  contaballin_cuenta =~"~" or isnull(contaballin_cuenta),0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

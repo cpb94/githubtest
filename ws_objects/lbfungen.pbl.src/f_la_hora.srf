@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_la_hora.srf
+$PBExportComments$Retorna la hora.
+global type f_la_hora from function_object
+end type
+
+forward prototypes
+global function string f_la_hora ()
+end prototypes
+
+global function string f_la_hora ();String montaje
+montaje = String(la_hora,"dd-mm-yy  hh:mm:ss")
+Return montaje
+end function
+

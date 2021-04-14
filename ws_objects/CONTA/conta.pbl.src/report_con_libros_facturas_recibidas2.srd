@@ -1,0 +1,56 @@
+﻿$PBExportHeader$report_con_libros_facturas_recibidas2.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=2824 color="536870912" )
+summary(height=2356 color="536870912" )
+footer(height=68 color="536870912" )
+detail(height=0 color="536870912"  height.autosize=yes)
+table(column=(type=decimal(4) updatewhereclause=yes name=registro dbname="contaapun.registro" )
+ column=(type=char(10) updatewhereclause=yes name=factura dbname="contaapun.factura" )
+ column=(type=datetime updatewhereclause=yes name=ffactura dbname="contaapun.ffactura" )
+ column=(type=char(20) updatewhereclause=yes name=clipro dbname="contaapun.clipro" )
+ column=(type=char(20) updatewhereclause=yes name=nif dbname="contaapun.nif" )
+ column=(type=decimal(4) updatewhereclause=yes name=imponible dbname="contaapun.imponible" )
+ column=(type=decimal(4) updatewhereclause=yes name=iva dbname="contaapun.iva" )
+ column=(type=decimal(2) updatewhereclause=yes name=debe dbname="contaapun.debe" )
+ column=(type=decimal(2) updatewhereclause=yes name=haber dbname="contaapun.haber" )
+ column=(type=char(1) updatewhereclause=yes name=tipoter dbname="contaapun.tipoter" )
+ column=(type=char(10) updatewhereclause=yes name=tipoapu dbname="contaapun.tipoapu" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(15) updatewhereclause=yes name=genter_codigo dbname="genter.codigo" )
+ column=(type=datetime updatewhereclause=yes name=contaapun_fregistro dbname="contaapun.fregistro" )
+ retrieve="  SELECT contaapun.registro,   
+         contaapun.factura,   
+         contaapun.ffactura,   
+         contaapun.clipro,   
+         contaapun.nif,   
+         contaapun.imponible,   
+         contaapun.iva,   
+         contaapun.debe,   
+         contaapun.haber,   
+         contaapun.tipoter,   
+         contaapun.tipoapu,   
+         genter.razon,   
+         genter.codigo,   
+         contaapun.fregistro  
+    FROM contaapun,   
+         genter  
+   WHERE ( contaapun.empresa *= genter.empresa) and  
+         ( contaapun.tipoter *= genter.tipoter) and  
+         ( contaapun.clipro *= genter.codigo) and  
+         ( ( contaapun.ejercicio = :ejercicio ) AND  
+         ( contaapun.empresa = :empresa ) AND  
+         ( (contaapun.tipoapu = '2' OR  
+				contaapun.tipoapu = '7' OR
+				contaapun.tipoapu = '9' ) ) AND
+         ( contaapun.fregistro between :fecha_desde and :fecha_hasta ) )  
+  
+ORDER BY contaapun.fregistro, contaapun.registro" arguments=(("ejercicio", number),("empresa", string),("fecha_desde", datetime),("fecha_hasta", datetime)) )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="18" y="464" height="4" width="5" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="~"Desde.: ~" + String( Date(fecha_desde),~"dd-mm-yy~" )+ ~"      Hasta.: ~" + String( Date(fecha_hasta),~"dd-mm-yy~" )"border="0" color="0" x="9" y="572" height="60" width="3296" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="LIBRO REGISTRO DE FACTURAS RECIBIDAS" border="0" color="0" x="9" y="428" height="92" width="3296" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera_legal" x="9" y="4" height="380" width="3305" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  name=dw_1 visible="1"  slideup=directlyabove )
+report(band=header dataobject="dw_con_libros_facturas_recibidas_resumen" x="27" y="744" height="2016" width="3227" border="0" criteria="" nest_arguments=(("ejercicio"),("empresa"),(" fecha_desde "),(" fecha_hasta ")) trail_footer = yes  name=dw_2  tag="report_con_libros_facturas_recibidas_res " visible="1"  slideup=allabove )
+compute(band=footer alignment="2" expression="~"Página ~"+ Page() + ~" de ~" + PageCount()"border="0" color="0" x="9" y="4" height="52" width="3296" format="[general]" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

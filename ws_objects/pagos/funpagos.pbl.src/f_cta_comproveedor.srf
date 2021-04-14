@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cta_comproveedor.srf
+global type f_cta_comproveedor from function_object
+end type
+
+forward prototypes
+global function string f_cta_comproveedor (string empresa, string codigo, string tipo)
+end prototypes
+
+global function string f_cta_comproveedor (string empresa, string codigo, string tipo);string var_cta
+
+SELECT comproveedores_cuenta.cuenta
+INTO   :var_cta  
+FROM   comproveedores_cuenta  
+WHERE  comproveedores_cuenta.empresa = :empresa 
+AND    comproveedores_cuenta.codigo  = :codigo
+AND    comproveedores_cuenta.tipo    = :tipo;
+	
+if isnull(var_cta)	then var_cta = ""
+
+Return var_cta
+
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_calibre_conversion.srf
+global type f_calibre_conversion from function_object
+end type
+
+forward prototypes
+global function string f_calibre_conversion (string arg_empresa, string arg_cliente, integer arg_calibre)
+end prototypes
+
+global function string f_calibre_conversion (string arg_empresa, string arg_cliente, integer arg_calibre);String convierte,ver_cali
+select conversion_tono,ver_calibre
+into :convierte,:ver_cali
+from venclientes
+where empresa = :arg_empresa
+ and  codigo  = :arg_cliente;
+ 
+if ver_cali="S" and convierte="S" then
+	Return String(arg_calibre)
+else
+	Return ""
+end if
+ 
+end function
+

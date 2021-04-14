@@ -1,0 +1,83 @@
+﻿$PBExportHeader$f_menu_insertar_ventana.srf
+global type f_menu_insertar_ventana from function_object
+end type
+
+forward prototypes
+global function integer f_menu_insertar_ventana (window ventana)
+end prototypes
+
+global function integer f_menu_insertar_ventana (window ventana);Long i, j, numero_menus, numero_m_elementos
+String nombre_menu, m_principal
+str_ventanas_activas nueva
+menu menutemp, submenutemp, nuevomenu, temp
+window windowtemp
+
+if isnull(ventana) or isnull(ventana.className()) then
+	return -1
+end if
+
+i = f_menu_ventana_esta_abierta(ventana.className())
+
+//VENTANAS YA ABIERTAS QUE LLAMAN A ACTIVATE (posible actualización de menú necesaria)
+if i <> -1 then
+	//DEVOLVEMOS SU ID DE VENTANA
+	return i
+end if
+
+//VENTANAS NUEVAS
+
+nueva.nombre = ventana.className()
+nueva.ventana = ventana
+nueva.activa = true
+
+For i = 1 To numero_ventanas_activas
+	if ventanas_activas[i].activa = false then
+		ventanas_activas[i] = nueva
+		return i
+	end if
+Next
+
+numero_ventanas_activas ++
+
+ventanas_activas[numero_ventanas_activas] = nueva
+
+return numero_ventanas_activas
+/*
+Long i, j, numero_menus, numero_m_elementos
+String nombre_menu, m_principal
+str_ventanas_activas nueva
+menu menutemp, submenutemp, nuevomenu, temp
+window windowtemp
+
+if isnull(ventana) or isnull(ventana.className()) then
+	return -1
+end if
+
+i = f_menu_ventana_esta_abierta(ventana.className())
+
+//VENTANAS YA ABIERTAS QUE LLAMAN A ACTIVATE (posible actualización de menú necesaria)
+if i <> -1 then
+	//DEVOLVEMOS SU ID DE VENTANA
+	return i
+end if
+
+//VENTANAS NUEVAS
+
+numero_ventanas_activas ++
+
+if ventana.title <> "" then
+	nueva.nombre = ventana.title
+else
+	nueva.nombre = "Ventana " + String(numero_ventanas_activas)
+end if
+
+nueva.ventana = ventana
+
+ventanas_activas[numero_ventanas_activas] = nueva
+
+return numero_ventanas_activas
+*/
+
+
+end function
+

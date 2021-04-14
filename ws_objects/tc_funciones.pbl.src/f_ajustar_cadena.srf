@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_ajustar_cadena.srf
+global type f_ajustar_cadena from function_object
+end type
+
+forward prototypes
+global function string f_ajustar_cadena (string cadena, integer v_longitud)
+end prototypes
+
+global function string f_ajustar_cadena (string cadena, integer v_longitud);int l,i,k
+
+cadena = upper(cadena)
+
+l = len(cadena)
+k = v_longitud - l
+
+if l >= v_longitud then
+	cadena = left(cadena,v_longitud)
+else
+	for i = 1 to k
+		cadena = cadena + " "	
+	next
+end if
+
+return cadena
+
+end function
+

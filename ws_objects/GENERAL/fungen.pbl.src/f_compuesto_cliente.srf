@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_compuesto_cliente.srf
+$PBExportComments$Devuelve el compuesto nombre y apellidos de un cliente.
+global type f_compuesto_cliente from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_cliente (string empresa, string codigo)
+end prototypes
+
+global function string f_compuesto_cliente (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto,var_tipoter
+
+SELECT genter.empresa,genter.tipoter,genter.codigo,genter.nombre,genter.apellidos
+INTO   :var_empresa,:var_tipoter,:var_codigo,:var_nombre,:var_apellido
+FROM   genter
+WHERE (genter.empresa = :empresa )
+AND   (genter.tipoter  = "C" )   
+AND   (genter.codigo  = :codigo )   
+ORDER BY genter.empresa ASC, genter.tipoter Asc,genter.codigo  ASC;
+IF IsNull(var_apellido) Then var_apellido=""
+IF IsNull(var_nombre) Then var_nombre=""         
+If SQLCA.SQLcode=0 Then 
+    var_compuesto = Trim(var_nombre) + " " + Trim(var_apellido)
+Else
+    var_compuesto = ""
+End if
+IF IsNull(var_compuesto) Then var_compuesto = ""
+RETURN var_compuesto
+
+end function
+

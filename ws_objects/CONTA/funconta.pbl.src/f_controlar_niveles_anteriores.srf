@@ -1,0 +1,75 @@
+﻿$PBExportHeader$f_controlar_niveles_anteriores.srf
+global type f_controlar_niveles_anteriores from function_object
+end type
+
+forward prototypes
+global function boolean f_controlar_niveles_anteriores (string empresa, integer ejercicio, string cuenta)
+end prototypes
+
+global function boolean f_controlar_niveles_anteriores (string empresa, integer ejercicio, string cuenta);boolean bien
+Integer v_nivel,v_nivel_ant,longitud_nivel_ant,var_digitos1,var_digitos2,var_digitos3,&
+        var_digitos4,var_digitos5,var_digitos6,var_digitos7,var_digitos8,&
+        var_digitos9,numero
+String  cuenta_nivel_ant
+
+bien        =  TRUE
+v_nivel     =  f_controlar_digitos(empresa,ejercicio,cuenta)
+If v_nivel  = 0 Then  Return  FALSE
+If v_nivel  = 1 Then  Return  TRUE
+v_nivel_ant = v_nivel - 1
+
+SELECT contaparam.digitos1, contaparam.digitos2,   
+       contaparam.digitos3, contaparam.digitos4, contaparam.digitos5,   
+       contaparam.digitos6, contaparam.digitos7, contaparam.digitos8,   
+       contaparam.digitos9  
+INTO :var_digitos1,   :var_digitos2,   
+     :var_digitos3,  :var_digitos4, :var_digitos5,
+     :var_digitos6,  :var_digitos7, :var_digitos8,   
+     :var_digitos9  
+FROM  contaparam  
+WHERE (contaparam.ejercicio = :ejercicio)
+AND   (contaparam.empresa   = :empresa );
+
+CHOOSE CASE v_nivel_ant
+	CASE 1
+	     longitud_nivel_ant = var_digitos1
+	CASE 2
+	     longitud_nivel_ant = var_digitos2
+	CASE 3
+	     longitud_nivel_ant = var_digitos3
+	CASE 4
+	     longitud_nivel_ant = var_digitos4
+	CASE 5
+	     longitud_nivel_ant = var_digitos5
+	CASE 6
+	     longitud_nivel_ant = var_digitos6
+	CASE 7
+	     longitud_nivel_ant = var_digitos7
+	CASE 8
+	     longitud_nivel_ant = var_digitos8
+	CASE 9
+	     longitud_nivel_ant = var_digitos9
+   CASE ELSE
+        Return FALSE
+END CHOOSE
+
+ cuenta_nivel_ant = Mid(cuenta,1,longitud_nivel_ant)
+ numero=0
+ Select count(*)  Into :numero  From contaplan
+ Where  contaplan.ejercicio = :ejercicio
+ And    contaplan.empresa   = :empresa
+ And    contaplan.cuenta    = :cuenta_nivel_ant;
+ IF IsNull(numero) Then numero =0
+ If numero =0 Then   Return FALSE
+ Return  TRUE
+ 
+ 
+
+
+
+
+
+
+
+end function
+

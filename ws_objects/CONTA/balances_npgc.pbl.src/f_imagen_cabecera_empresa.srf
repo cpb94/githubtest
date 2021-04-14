@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_imagen_cabecera_empresa.srf
+global type f_imagen_cabecera_empresa from function_object
+end type
+
+forward prototypes
+global function string f_imagen_cabecera_empresa (string arg_empresa)
+end prototypes
+
+global function string f_imagen_cabecera_empresa (string arg_empresa);return "C:\Tencer_PB12\TencerWowDna.jpg"
+end function
+

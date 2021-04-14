@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_metros_linea_hora.srf
+global type f_metros_linea_hora from function_object
+end type
+
+forward prototypes
+global function decimal f_metros_linea_hora (string empresa, string linea)
+end prototypes
+
+global function decimal f_metros_linea_hora (string empresa, string linea);dec metros
+
+select metros
+into   :metros
+from   prodlineas
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if sqlca.sqlcode <> 0 then
+	metros = 0
+end if
+
+if isnull(metros) then metros = 0
+
+return metros
+end function
+

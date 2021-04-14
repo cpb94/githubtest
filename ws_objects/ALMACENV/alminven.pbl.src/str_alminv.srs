@@ -1,0 +1,38 @@
+﻿$PBExportHeader$str_alminv.srs
+$PBExportComments$Estructura introduccion de inventario.
+global type str_alminv from structure
+	string		empresa
+	string		almacen
+	string		zona
+	integer		fila
+	integer		altura
+	integer		linea
+	string		articulo
+	string		familia
+	string		formato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	decimal {4}	existencias
+	integer		anyo
+	integer		pedido
+	integer		linped
+	string		cliente
+	string		ubicacion
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		observaciones
+	datetime		fecha_inv
+	datetime		fecha_alta
+	string		tipo_pallet
+	integer		anyo_inv
+	integer		cajas
+	integer		pallets
+	datetime		fecha_actualizado
+	string		usuario
+	string		caja
+	string		tonochar
+end type
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_compuesto_linea2_etiquetas_contactos.srf
+$PBExportComments$Devuelve segunda linea a imprimir en las etiquetas de contactos.
+global type f_compuesto_linea2_etiquetas_contactos from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_linea2_etiquetas_contactos (string empresa, string codigo)
+end prototypes
+
+global function string f_compuesto_linea2_etiquetas_contactos (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto,var_razon
+
+var_razon=f_razon_contacto(empresa,codigo)
+var_nombre=f_compuesto_contacto(empresa,codigo)
+If IsNull(var_nombre)    Then   var_nombre = ""
+If IsNull(var_razon)     Then   var_razon     = ""
+
+IF Trim(var_razon)<> ""  and Trim(var_nombre) <> "" Then 
+    var_compuesto = "Att. " + var_nombre
+ELSE
+   IF Trim(var_nombre)<> "" Then   var_compuesto = "Att. " + var_nombre
+   IF Trim(var_razon) <> "" Then   var_compuesto = var_razon  
+END IF
+RETURN var_compuesto
+
+end function
+

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$report_con_proveed.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 2 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=561 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=65 color="536870912" )
+detail(height=269 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="empresas.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"empresas~" ) COLUMN(NAME=~"empresas.empresa~")WHERE(    EXP1 =~"empresas.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_cuenta_desde~" TYPE = string)  ARG(NAME = ~"arg_cuenta_hasta~" TYPE = string) " update="empresas" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_cuenta_desde", string),("arg_cuenta_hasta", string)) )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="28" y="320" height="5" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="1" y="4" height="277" width="3283" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="Listado de Proveedores"border="0" color="0" x="1189" y="428" height="81" width="869"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=detail dataobject="dw_con_proveed2" x="23" y="80" height="137" width="3031" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa"),("arg_cuenta_desde"),("arg_cuenta_hasta")) trail_footer = yes  slideup=directlyabove )
+compute(band=footer alignment="2" expression="'Pagina ' + page() + ' de ' + pageCount()"border="0" color="0" x="5" y="4" height="57" width="3379" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

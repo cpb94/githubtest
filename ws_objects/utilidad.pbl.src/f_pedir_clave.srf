@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_pedir_clave.srf
+global type f_pedir_clave from function_object
+end type
+
+forward prototypes
+global function boolean f_pedir_clave (string codigo)
+end prototypes
+
+global function boolean f_pedir_clave (string codigo);String opcion
+OpenWithParm(w_claves,codigo)
+opcion = message.StringParm
+CHOOSE CASE opcion
+CASE "S"
+     Return TRUE
+CASE "N"
+     MessageBox("Clave Erronea","Acceso Denegado",Exclamation!, OK!,1)
+     Return FALSE
+CASE "C"
+     Return FALSE
+
+END CHOOSE
+
+
+
+end function
+

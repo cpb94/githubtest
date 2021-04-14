@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_ven_reclamaciones_gastos.srs
+global type str_ven_reclamaciones_gastos from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     reclamacion
+     STRING     gasto
+     STRING     proveedor
+     STRING     fra_proveedor
+     DATETIME     fecha_fra_proveedor
+     DECIMAL {4}     importe_fra_proveedor
+end type
+

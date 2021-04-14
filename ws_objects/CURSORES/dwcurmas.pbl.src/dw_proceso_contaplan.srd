@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_contaplan.srd
+$PBExportComments$Cursor (contactos) .
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=long update=yes updatewhereclause=yes key=yes name=ejercicio dbname="contaplan.ejercicio" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="contaplan.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=cuenta dbname="contaplan.cuenta" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=titulo dbname="contaplan.titulo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=analitica dbname="contaplan.analitica" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tipocta dbname="contaplan.tipocta" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=directos dbname="contaplan.directos" )
+ column=(type=long update=yes updatewhereclause=yes name=nivel dbname="contaplan.nivel" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=coste dbname="contaplan.coste" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contaplan~" ) COLUMN(NAME=~"contaplan.ejercicio~") COLUMN(NAME=~"contaplan.empresa~") COLUMN(NAME=~"contaplan.cuenta~") COLUMN(NAME=~"contaplan.titulo~") COLUMN(NAME=~"contaplan.analitica~") COLUMN(NAME=~"contaplan.tipocta~") COLUMN(NAME=~"contaplan.directos~") COLUMN(NAME=~"contaplan.nivel~") COLUMN(NAME=~"contaplan.coste~")WHERE(    EXP1 =~"contaplan.ejercicio~"   OP =~"=~"    EXP2 =~":ejercicio~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaplan.empresa~"   OP =~"=~"    EXP2 =~":empresa~" ) ) ARG(NAME = ~"ejercicio~" TYPE = number)  ARG(NAME = ~"empresa~" TYPE = string) " update="contaplan" updatewhere=1 updatekeyinplace=no arguments=(("ejercicio", number),("empresa", string)) )

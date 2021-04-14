@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_pasar_articulo_coccion_por_horno.srf
+global type f_pasar_articulo_coccion_por_horno from function_object
+end type
+
+forward prototypes
+global function string f_pasar_articulo_coccion_por_horno (string arg_empresa, string arg_articulo, string arg_version, integer arg_coccion)
+end prototypes
+
+global function string f_pasar_articulo_coccion_por_horno (string arg_empresa, string arg_articulo, string arg_version, integer arg_coccion);string    pasar
+long      aplicaciones_de_horno,v_ant_orden_coccion,v_orden_coccion
+
+if arg_coccion = 0 then
+	v_ant_orden_coccion = 0
+	
+	select max(orden)
+	into   :v_orden_coccion
+	from   prodaplicaciones_articulo
+	where  empresa  = :arg_empresa
+	and    articulo = :arg_articulo
+	and    version  = :arg_version;
+	
+	if isnull(v_orden_coccion) then v_orden_coccion = 0
+else
+	if arg_coccion > 1 then
+		v_ant_orden_coccion = f_orden_coccion_articulo_version(arg_empresa,arg_articulo,arg_version,arg_coccion -1)
+	else
+		v_ant_orden_coccion = 0
+	end if
+	v_orden_coccion = f_orden_coccion_articulo_version(arg_empresa,arg_articulo,arg_version,arg_coccion)
+end if
+
+select count(*)
+into   :aplicaciones_de_horno
+from   prodaplicaciones_articulo
+where  empresa  = :arg_empresa
+and    articulo = :arg_articulo
+and    version  = :arg_version
+and    orden    > :v_ant_orden_coccion
+and    orden   <= :v_orden_coccion
+and    aplicacion in 
+		  (select codigo 
+		   from   prodaplicaciones
+			where  empresa    = :arg_empresa
+			and    tipo_linea = 'H'); 
+			
+if isnull(aplicaciones_de_horno) then aplicaciones_de_horno = 0
+
+if aplicaciones_de_horno > 0 then
+	pasar = "S"
+else
+	pasar = "N"
+end if
+
+return pasar
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_pesoenvase_formato_bis.srf
+global type f_pesoenvase_formato_bis from function_object
+end type
+
+forward prototypes
+global function double f_pesoenvase_formato_bis (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function double f_pesoenvase_formato_bis (string ai_codemp, string ai_codfor);dec{4} peso
+
+  SELECT formatos.pesoenvase
+    INTO :peso
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+     USING SQLCA;
+
+IF ISNULL(peso) Then peso =0
+
+RETURN peso
+end function
+

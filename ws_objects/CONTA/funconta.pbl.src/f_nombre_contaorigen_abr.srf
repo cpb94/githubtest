@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_nombre_contaorigen_abr.srf
+global type f_nombre_contaorigen_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contaorigen_abr (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contaorigen_abr (string empresa, string codigo);string	ls_titulo
+  SELECT contaorigen.resumido  INTO :ls_titulo
+    FROM contaorigen 
+   WHERE contaorigen.empresa = :empresa
+   AND   contaorigen.codigo = :codigo   USING SQLCA;
+
+RETURN ls_titulo
+end function
+

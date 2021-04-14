@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_unidad_compras.srf
+global type f_nombre_unidad_compras from function_object
+end type
+
+forward prototypes
+global function string f_nombre_unidad_compras (string codigo)
+end prototypes
+
+global function string f_nombre_unidad_compras (string codigo);string nombre
+
+SELECT abreviado
+INTO   :nombre
+FROM   comunimedida  
+WHERE  codigo = :codigo;
+
+if isnull(nombre) then nombre = ""	
+	
+return nombre
+end function
+

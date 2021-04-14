@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_bultos_venalb.srf
+global type f_bultos_venalb from function_object
+end type
+
+forward prototypes
+global function decimal f_bultos_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_bultos_venalb (string empresa, integer anyo, decimal albaran);dec var_bultos
+
+
+  SELECT venalb.bultos
+    INTO :var_bultos
+    FROM venalb 
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+if IsNull(var_bultos) then var_bultos = 0
+
+Return var_bultos
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_peso_neto_venproformas.srf
+global type f_peso_neto_venproformas from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_neto_venproformas (string empresa, integer anyo, decimal proforma)
+end prototypes
+
+global function decimal f_peso_neto_venproformas (string empresa, integer anyo, decimal proforma);
+Dec{4} var_variable
+
+  SELECT venproformas.peso_neto
+    INTO :var_variable
+    FROM venproformas  
+   WHERE (venproformas.empresa = :empresa)
+   AND   (venproformas.anyo    = :anyo)
+   AND   (venproformas.proforma  = :proforma) ;  
+
+
+
+Return var_variable
+end function
+

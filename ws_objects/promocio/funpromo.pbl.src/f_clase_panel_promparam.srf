@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_clase_panel_promparam.srf
+global type f_clase_panel_promparam from function_object
+end type
+
+forward prototypes
+global function string f_clase_panel_promparam (string arg_empresa)
+end prototypes
+
+global function string f_clase_panel_promparam (string arg_empresa);String argumento
+  SELECT promparam.clase_panel
+    INTO :argumento  
+    FROM promparam  
+   WHERE promparam.empresa = :arg_empresa   ;
+	return argumento
+
+end function
+

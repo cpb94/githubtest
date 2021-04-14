@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_nombre_venformaenvio.srf
+global type f_nombre_venformaenvio from function_object
+end type
+
+forward prototypes
+global function string f_nombre_venformaenvio (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_venformaenvio (string empresa, string codigo);String var_descripcion
+SELECT venformaenvio.descripcion  INTO :var_descripcion    FROM venformaenvio 
+WHERE (venformaenvio.empresa   = :empresa)
+AND   (venformaenvio.codigo  = :codigo);
+Return var_descripcion
+
+end function
+

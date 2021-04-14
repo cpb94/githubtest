@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_pallet_palarticulo_cliente.srf
+global type f_pallet_palarticulo_cliente from function_object
+end type
+
+forward prototypes
+global function string f_pallet_palarticulo_cliente (string empresa, string articulo, string cliente)
+end prototypes
+
+global function string f_pallet_palarticulo_cliente (string empresa, string articulo, string cliente);string  clase,pallet
+Integer numero
+IF len(trim(articulo)) = 0 or Isnull(articulo)Then
+	Return ""
+END IF
+
+	clase = f_tipo_pallet_venclientes(codigo_empresa,cliente)
+	IF Len(Trim(clase)) = 0  Or IsNull(clase) Then 
+		f_mensaje("El cliente "+ cliente,"Este cliente no tiene clase de pallet")
+	END IF
+	
+//	Select count(*) Into :numero From almartpallet
+//	Where  almartpallet.empresa  = :empresa
+//	And    almartpallet.articulo = :articulo
+//	ANd    almartpallet.clase_pallet = :clase;
+//	IF IsNull(numero) Then numero = 0
+	IF numero= 0 Then 
+		Select count(*) Into :numero From palarticulo
+		Where  palarticulo.empresa  = :empresa
+		And    palarticulo.articulo = :articulo;
+		IF IsNull(numero) Then numero = 0
+		IF numero = 0 Then
+			f_grabar_incidencia("f_pallet_palarticulo_cliente","El articulo"+ f_nombre_articulo(empresa,articulo)+ " Tiene pallets asignados  " )
+		ELSE
+			IF numero = 1 Then
+				Select palarticulo.codigo Into :pallet From palarticulo
+  				Where  palarticulo.empresa  = :empresa
+				And    palarticulo.articulo = :articulo;
+				IF SQLCA.SQLCODE <> 0 Then
+					f_mensaje("Error en funcion f_pallet_palarticulo_cliente","Este articulo no pallet asignado")
+				END IF
+					RETURN pallet
+				ELSE
+					Return ""
+			END IF
+			
+		END IF
+	END IF
+	IF numero>1 Then 
+		f_grabar_incidencia("f_pallet_palarticulo_cliente","El articulo"+ f_nombre_articulo(empresa,articulo)+ " Tiene mas de un pallet asignado a la clase " + clase)
+		return ""
+	END IF
+   
+RETURN pallet
+end function
+

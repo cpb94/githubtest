@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_irpf_agente.srf
+global type f_irpf_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_irpf_agente (string cod_empresa, string cod_agente)
+end prototypes
+
+global function decimal f_irpf_agente (string cod_empresa, string cod_agente);dec irpf
+
+SELECT venagentes.irpf
+INTO   :irpf
+FROM   venagentes 
+WHERE  ( venagentes.empresa= :cod_empresa ) AND  
+       ( venagentes.agente= :cod_agente   );
+		 
+if isnull(irpf) then irpf = 0
+
+RETURN irpf
+
+
+end function
+

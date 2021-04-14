@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_numero_orden_linea.srf
+global type f_numero_orden_linea from function_object
+end type
+
+forward prototypes
+global function decimal f_numero_orden_linea (string empresa, string linea, integer anyo)
+end prototypes
+
+global function decimal f_numero_orden_linea (string empresa, string linea, integer anyo);dec{0} existe_contador,ultima_orden
+
+
+select count(*)
+into   :existe_contador
+from   prodcontadorordenes
+where  empresa = :empresa
+and    linea   = :linea
+and    anyo    = :anyo;
+
+if isnull(existe_contador) then existe_contador = 0
+if existe_contador = 0 then
+	insert into prodcontadorordenes
+		(empresa,
+		 linea,
+		 anyo,
+		 orden)
+	values
+		(:empresa,
+		 :linea,
+		 :anyo,
+		 0);
+	if sqlca.sqlcode <> 0 then
+		rollback;
+		messagebox("Atención","Se ha producido un error al grabar en el contador de ordenes.")
+	else
+		commit;
+	end if	
+end if
+
+select orden
+into   :ultima_orden
+from   prodcontadorordenes
+where  empresa = :empresa
+and    linea   = :linea
+and    anyo    = :anyo;
+
+if isnull(ultima_orden) then ultima_orden = 0
+
+ultima_orden ++
+
+update prodcontadorordenes
+set    orden = :ultima_orden
+where  empresa = :empresa
+and    linea   = :linea
+and    anyo    = :anyo;
+
+if sqlca.sqlcode <> 0 then
+	rollback;
+	messagebox("Atención","Se ha producido un error al actualizar en el contador de ordenes.")
+else
+	commit;
+end if	
+
+return ultima_orden
+end function
+

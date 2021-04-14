@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_almparam_nummov.srf
+$PBExportComments$Rutina de calculo del ultimo numero de orden de movimiento (parte del contador y verifica en historico)
+global type f_almparam_nummov from function_object
+end type
+
+forward prototypes
+global function decimal f_almparam_nummov (string arg_empresa, integer arg_anyo)
+end prototypes
+
+global function decimal f_almparam_nummov (string arg_empresa, integer arg_anyo);Dec{0}  alm_anyo,alm_nummov,alm2
+String   alm_empresa,alm_almacen
+
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+
+ in_programa="f_almparam_numorden"
+
+
+ SELECT  almparam.nummov  INTO :alm_nummov  FROM almparam  
+  WHERE almparam.empresa = :arg_empresa
+    AND   almparam.anyo    = :arg_anyo;
+ IF SQLCA.SQLCode = 100 THEN alm_nummov=0
+
+ IF IsNull(alm_nummov) Then alm_nummov = 0
+ alm_nummov=alm_nummov + 1
+
+  SELECT count(*) INTO :alm2  FROM almmovhis
+   WHERE almmovhis.empresa = :arg_empresa
+	AND   almmovhis.anyo    = :arg_anyo 
+	AND   almmovhis.nummov  = :alm_nummov;
+	IF IsNull(alm2) Then alm2 = 0
+
+IF alm2 <>0 THEN
+		 in_incidencia = "He tenido que buscar, ultimo movimiento!!Proceso Lento!!"
+		 f_mensaje("Aviso!!",in_incidencia)
+		 f_grabar_incidencia(in_programa,in_incidencia)
+  		 SELECT max(almmovhis.nummov)  INTO :alm_nummov  FROM almmovhis  
+		 WHERE  almmovhis.empresa = :arg_empresa 
+		 AND    almmovhis.anyo    = :arg_anyo    ;
+	    alm_nummov=alm_nummov + 1
+END IF
+f_actualiza_nummov(arg_empresa,arg_anyo,alm_nummov)
+Return alm_nummov
+end function
+

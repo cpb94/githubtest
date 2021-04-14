@@ -1,0 +1,18 @@
+﻿$PBExportHeader$ftc_usuario_windows.srf
+global type ftc_usuario_windows from function_object
+end type
+
+forward prototypes
+global function string ftc_usuario_windows ()
+end prototypes
+
+global function string ftc_usuario_windows ();ULong lul_buflen=255
+String ls_winusername
+
+ls_winusername = Space(255)
+IF NOT GetUserName(ls_winusername, lul_buflen)  THEN
+    ls_winusername = "User unknown"
+END IF
+return ls_winusername
+end function
+

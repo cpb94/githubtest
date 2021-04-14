@@ -1,0 +1,8 @@
+﻿$PBExportHeader$str_vencimientos.srs
+global type str_vencimientos from structure
+	date		vencimiento[20]
+	decimal {4}	importe[20]
+	decimal {4}	importe_pts[20]
+	decimal {0}	efectos
+end type
+

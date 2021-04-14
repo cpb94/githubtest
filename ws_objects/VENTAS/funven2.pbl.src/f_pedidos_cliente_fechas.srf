@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_pedidos_cliente_fechas.srf
+global type f_pedidos_cliente_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_cliente_fechas (string empresa, string cliente, datetime desde, datetime hasta, integer desde_anyo_alta, integer hasta_anyo_alta)
+end prototypes
+
+global function decimal f_pedidos_cliente_fechas (string empresa, string cliente, datetime desde, datetime hasta, integer desde_anyo_alta, integer hasta_anyo_alta);dec resultado
+string sel
+datastore datos
+long total_regs, i
+
+sel = &
+" select vista_venliped.empresa,   "+&
+"        vista_venliped.anyo,     "+&
+"        vista_venliped.pedido,     "+&
+"        vista_venliped.linea,    "+&
+"			( vista_venliped.neto - vista_venliped.impdtopp ) / vista_venliped.cambio as importe "+&
+" from vista_venliped, articulos  "+&
+" where vista_venliped.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and vista_venliped.articulo = articulos.codigo "+&
+" and year(articulos.fecha_alta) >= '"+string(desde_anyo_alta)+  "' "+&
+" and year(articulos.fecha_alta) <= '"+string(hasta_anyo_alta)+  "' "+&
+" and vista_venliped.fpedido >= '"+string(desde)+  "' "+&
+" and vista_venliped.fpedido <= '"+string(hasta)+  "' "+&
+" and vista_venliped.cliente like '"+cliente+  "' "
+
+f_cargar_cursor_nuevo (sel, datos)
+
+total_regs = datos.rowcount()
+resultado = 0
+for i = 1 to total_Regs
+	resultado = resultado + datos.object.importe[i]
+next
+
+return resultado
+
+
+
+
+end function
+

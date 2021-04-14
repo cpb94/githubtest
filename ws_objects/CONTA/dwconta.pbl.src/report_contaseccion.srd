@@ -1,0 +1,18 @@
+﻿$PBExportHeader$report_contaseccion.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=777 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=73 color="536870912" )
+detail(height=73 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="contaseccion.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=codigo dbname="contaseccion.codigo" )
+ column=(type=char(30) updatewhereclause=yes name=descripcion dbname="contaseccion.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contaseccion~" ) COLUMN(NAME=~"contaseccion.empresa~") COLUMN(NAME=~"contaseccion.codigo~") COLUMN(NAME=~"contaseccion.descripcion~")WHERE(    EXP1 =~"contaseccion.empresa~"   OP =~"=~"    EXP2 =~":empresa~" ) ) ARG(NAME = ~"empresa~" TYPE = string) " update="contaseccion" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string))  sort="codigo A descripcion A " )
+report(band=header dataobject="report_cabecera_legal" x="1" y="0" height="305" width="3347" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  name=cabecera  slideup=directlyabove )
+text(band=header alignment="2" text="Sección"border="1" color="0" x="929" y="700" height="65" width="453"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripción"border="1" color="0" x="1409" y="700" height="65" width="1079"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="0" text="LISTADO DE SECCIONES"border="0" color="128" x="1244" y="456" height="77" width="915"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" font.underline="1" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="933" y="4" height="57" width="453" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1413" y="4" height="57" width="1079" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1367" y="4" height="61" width="686" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

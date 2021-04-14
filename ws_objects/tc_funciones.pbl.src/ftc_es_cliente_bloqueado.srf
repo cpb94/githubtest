@@ -1,0 +1,17 @@
+﻿$PBExportHeader$ftc_es_cliente_bloqueado.srf
+global type ftc_es_cliente_bloqueado from function_object
+end type
+
+forward prototypes
+global function boolean ftc_es_cliente_bloqueado (string empresa, string cliente)
+end prototypes
+
+global function boolean ftc_es_cliente_bloqueado (string empresa, string cliente);Int bloqueados_pedidos
+SELECT bloqueados_pedidos INTO :bloqueados_pedidos FROM venclientes WHERE empresa = :empresa AND codigo = :cliente;
+IF bloqueados_pedidos = 1 Then
+	Return true
+else
+	return false
+END IF
+end function
+

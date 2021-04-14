@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_permiso_usuario.srf
+global type f_permiso_usuario from function_object
+end type
+
+forward prototypes
+global function integer f_permiso_usuario (string programa, string usuario)
+end prototypes
+
+global function integer f_permiso_usuario (string programa, string usuario);
+
+
+/*
+//AHORA SE GESTIONA EN LOS PADRES
+integer nivel_permiso
+select permiso
+into :nivel_permiso
+from utipermisos
+where usuario = :usuario
+and programa = :programa;
+
+if SQLCA.SQLCode <> 0 then
+	nivel_permiso = 2
+end if
+
+return nivel_permiso
+*/
+
+Int permiso
+programa = lower(programa)
+usuario = upper(usuario)
+SELECT P.permiso INTO :permiso FROM uti_permisos_ventana P INNER JOIN uti_ventana V ON P.ventana = V.codigo AND P.empresa = V.empresa WHERE P.empresa = :codigo_empresa AND LOWER(V.nombre) = :programa AND UPPER(P.usuario) = :usuario;
+
+return permiso
+
+end function
+

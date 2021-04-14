@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_preparado_familia_formato.srf
+global type f_preparado_familia_formato from function_object
+end type
+
+forward prototypes
+global function decimal f_preparado_familia_formato (string empresa, string familia, string formato, string calidad[])
+end prototypes
+
+global function decimal f_preparado_familia_formato (string empresa, string familia, string formato, string calidad[]);Dec{4}   var_existencias
+
+SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+INTO   :var_existencias  
+FROM   almacenmovimientos  
+WHERE almacenmovimientos.empresa     = :empresa
+AND   almacenmovimientos.familia     = :familia
+AND   almacenmovimientos.formato     = :formato
+AND   almacenmovimientos.calidad     in (:calidad[1],:calidad[2],:calidad[3],:calidad[4],:calidad[5]);
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :empresa
+AND   almlinubica.familia     = :familia
+AND   almlinubica.formato     = :formato
+AND   almlinubica.calidad     in (:calidad[1],:calidad[2],:calidad[3],:calidad[4],:calidad[5]) 
+AND   almlinubica.pedido  is not null;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

@@ -1,0 +1,57 @@
+﻿$PBExportHeader$ftc_enviar_correo.srf
+global type ftc_enviar_correo from function_object
+end type
+
+forward prototypes
+global function integer ftc_enviar_correo (string ruta)
+end prototypes
+
+global function integer ftc_enviar_correo (string ruta);Int resultado 
+String comando
+
+comando = "C:\Program Files (x86)\Mozilla Thunderbird\thunderbird.exe -compose attachment='"+ruta+"'"
+
+resultado = run(comando,Minimized!)
+
+if resultado <> 1 then
+	comando = "C:\Program Files\Mozilla Thunderbird\thunderbird.exe -compose attachment='"+ruta+"'"
+	resultado = run(comando,Minimized!)
+	
+	if resultado <> 1 then
+		comando = "C:\Archivos de programa\Mozilla Thunderbird\thunderbird.exe -compose attachment='"+ruta+"'"
+		resultado = run(comando,Minimized!)
+	end if
+end if
+
+if resultado <> 1 then
+	comando = '"C:\Program Files (x86)\Microsoft Office\Office12\Outlook.exe" /a "+ruta+"'
+	resultado = run(comando,Minimized!)
+	
+	if resultado <> 1 then
+		comando = '"C:\Program Files (x86)\Microsoft Office\Office13\Outlook.exe" /a "+ruta+"'
+		resultado = run(comando,Minimized!)
+		
+		if resultado <> 1 then
+			comando = '"C:\Program Files (x86)\Microsoft Office\Office14\Outlook.exe" /a "+ruta+"'
+			resultado = run(comando,Minimized!)
+			
+			if resultado <> 1 then
+				comando = '"C:\Program Files (x86)\Microsoft Office\Office11\Outlook.exe" /a "+ruta+"'
+				resultado = run(comando,Minimized!)
+				
+				if resultado <> 1 then
+					comando = '"C:\Program Files (x86)\Microsoft Office\Office10\Outlook.exe" /a "+ruta+"'
+					resultado = run(comando,Minimized!)
+				end if
+			end if
+		end if
+	end if
+	
+	if resultado <> 1 then
+		MessageBox("Error", "No se ha localizado la ruta de su programa de correo.")
+	end if
+end if
+
+return resultado
+end function
+

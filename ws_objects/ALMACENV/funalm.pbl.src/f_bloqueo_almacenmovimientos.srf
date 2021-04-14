@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_bloqueo_almacenmovimientos.srf
+global type f_bloqueo_almacenmovimientos from function_object
+end type
+
+forward prototypes
+global function boolean f_bloqueo_almacenmovimientos (string empresa, string almacen, string zona, integer fila, integer altura, string articulo)
+end prototypes
+
+global function boolean f_bloqueo_almacenmovimientos (string empresa, string almacen, string zona, integer fila, integer altura, string articulo);Integer numero
+  SELECT count(*) INTO :numero FROM almacenmovimientos_bloqueo  
+   WHERE  empresa = :empresa 
+	AND    almacen = :almacen 
+	AND    zona = :zona
+	AND fila = :fila
+	AND altura = :altura
+	and articulo = :articulo;
+IF IsNull(numero) Then numero = 0
+IF numero = 0 Then
+	Return false
+Else
+	Return true
+End If
+
+end function
+

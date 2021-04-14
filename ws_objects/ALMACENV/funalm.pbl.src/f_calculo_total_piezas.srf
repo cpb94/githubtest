@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_calculo_total_piezas.srf
+$PBExportComments$Calcula el total de unidades a partir de un articulo y una cantidad en su tipo de unidad.
+global type f_calculo_total_piezas from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_total_piezas (string cod_empresa, string cod_articulo, string caja, decimal n_total)
+end prototypes
+
+global function decimal f_calculo_total_piezas (string cod_empresa, string cod_articulo, string caja, decimal n_total); String cod_unidad
+ Integer bien,cajas,n_piezascaja,n_cajaspallet
+ decimal{3}  total_cantidad
+ dec{0}  total_cajas
+ Dec n_metroscaja
+ 
+ bien=0
+SELECT articulos.unidad,
+	    almartcajas.piezascaja,
+	    almartcajas.metroscaja   
+INTO  :cod_unidad,
+	   :n_piezascaja,
+	   :n_metroscaja    
+FROM  articulos,almartcajas  
+WHERE (articulos.empresa = :cod_empresa ) AND  
+	   (articulos.codigo  = :cod_articulo ) AND
+	   (almartcajas.empresa = articulos.empresa) AND
+	   (almartcajas.articulo = articulos.codigo) AND
+	   (almartcajas.caja = :caja)
+ORDER BY articulos.empresa ASC,articulos.codigo ASC  USING SQLCA ;
+
+IF SQLCA.SQLCode<> 0 THEN 
+	total_cantidad = n_total
+else	
+	CHOOSE CASE cod_unidad
+	CASE  "1"
+			 total_cajas      = n_total / n_metroscaja
+			 total_cantidad   = total_cajas * n_piezascaja
+		
+	CASE "0"
+			 total_cantidad = n_total
+	CASE  ELSE
+		    total_cantidad = n_total
+	END CHOOSE
+end if
+
+RETURN total_cantidad
+
+
+
+
+
+
+
+
+
+
+end function
+

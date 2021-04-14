@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_peso_bruto_almlincarga_matricula.srf
+global type f_peso_bruto_almlincarga_matricula from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_bruto_almlincarga_matricula (string empresa, decimal anyo, string matricula)
+end prototypes
+
+global function decimal f_peso_bruto_almlincarga_matricula (string empresa, decimal anyo, string matricula);Dec{2}  var_peso_bruto
+  SELECT Sum(peso_bruto)
+    INTO :var_peso_bruto  
+    FROM almlincargas  
+   WHERE ( almlincargas.empresa = :empresa ) AND  
+         ( almlincargas.anyo = :anyo ) AND  
+         ( almlincargas.matricula = :matricula ) ;
+			IF isNull(var_peso_bruto)  then var_peso_bruto = 0
+			Return var_peso_bruto
+
+end function
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_imprimir_ficha_operacion.srf
+global type f_imprimir_ficha_operacion from function_object
+end type
+
+forward prototypes
+global subroutine f_imprimir_ficha_operacion ()
+end prototypes
+
+global subroutine f_imprimir_ficha_operacion ();DataWindow DW
+string articulo, ver
+long ordenoperacion
+
+
+DW = w_planificacion_tencer_wide.dw_1
+
+w_planificacion_tencer_wide.dw_ficha_operacion.SetTransObject(SQLCA)
+
+articulo = DW.object.cod_articulo[DW.GetRow()]
+
+w_planificacion_tencer_wide.dw_ficha_operacion.Retrieve(codigo_empresa,articulo)
+
+f_imprimir_datawindow(w_planificacion_tencer_wide.dw_ficha_operacion)
+end subroutine
+

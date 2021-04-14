@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cobrado_factura_carhistorico.srf
+global type f_cobrado_factura_carhistorico from function_object
+end type
+
+forward prototypes
+global function decimal f_cobrado_factura_carhistorico (string var_empresa, decimal anyo_fra, string factura, decimal recibo)
+end prototypes
+
+global function decimal f_cobrado_factura_carhistorico (string var_empresa, decimal anyo_fra, string factura, decimal recibo);Dec p
+
+Select sum(carhistorico.importe) Into :p From carhistorico
+Where  carhistorico.empresa = :var_empresa
+And    carhistorico.anyofra = :anyo_fra
+And    carhistorico.factura = :factura
+And    carhistorico.recibo  = :recibo
+And    carhistorico.situacion = "9";
+IF IsNUll(p) then p = 0
+Return p
+end function
+

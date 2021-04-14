@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_niveles_contables.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=56 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(1) updatewhereclause=no name=marca dbname="marca" values="	S/	N" )
+ column=(type=long updatewhereclause=no name=nivel dbname="nivel" )
+ column=(type=number updatewhereclause=no name=digitos dbname="digitos" )
+ )
+text(band=header alignment="0" text="Dígitos"border="6" color="0" x="210" y="8" height="44" width="151"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="96" y="4" height="64" width="101" format="##"  name=nivel edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="8" height="56" width="64" format="[general]"  name=marca checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="210" y="4" height="64" width="151" format="##"  name=digitos edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=header filename="E:\bmp\Salir2.bmp" x="14" y="0" height="56" width="78" border="0"  name=salir )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

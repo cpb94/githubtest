@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_datawindow_border_salida.srf
+global type f_datawindow_border_salida from function_object
+end type
+
+forward prototypes
+global subroutine f_datawindow_border_salida (datawindow data)
+end prototypes
+
+global subroutine f_datawindow_border_salida (datawindow data);data.Modify("Datawindow.color=33551093")
+end subroutine
+

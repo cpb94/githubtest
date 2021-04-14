@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_parte_decimal.srf
+global type f_parte_decimal from function_object
+end type
+
+forward prototypes
+global function integer f_parte_decimal (decimal arg_cantidad, string arg_moneda)
+end prototypes
+
+global function integer f_parte_decimal (decimal arg_cantidad, string arg_moneda);dec parte_entera,parte_decimal,dec_moneda,i
+dec multipl	,intermedio
+
+dec_moneda = f_decimales_moneda(arg_moneda)
+
+parte_entera = truncate(arg_cantidad,0)
+intermedio = arg_cantidad - parte_entera 
+
+
+multipl = 1
+
+for i = 1 to dec_moneda
+	multipl = multipl * 10	
+next
+
+intermedio = intermedio * multipl
+
+
+return intermedio 
+end function
+

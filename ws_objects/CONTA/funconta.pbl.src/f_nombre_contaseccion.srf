@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_contaseccion.srf
+global type f_nombre_contaseccion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contaseccion (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contaseccion (string empresa, string codigo);String var_descripcion
+
+SELECT  contaseccion.descripcion  
+	INTO :var_descripcion    
+	FROM  contaseccion  
+	WHERE contaseccion.empresa = :empresa
+	  AND contaseccion.codigo = :codigo
+	USING SQLCA;
+
+IF SQLCA.SQLCode<>0 OR IsNull(var_descripcion) THEN
+	Return ""
+ELSE
+	Return var_descripcion
+END IF
+
+
+end function
+

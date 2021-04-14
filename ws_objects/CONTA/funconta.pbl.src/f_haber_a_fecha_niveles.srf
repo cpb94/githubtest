@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_haber_a_fecha_niveles.srf
+global type f_haber_a_fecha_niveles from function_object
+end type
+
+forward prototypes
+global function any f_haber_a_fecha_niveles (string empresa, string cuenta, datetime fecha_hasta, integer digitos)
+end prototypes
+
+global function any f_haber_a_fecha_niveles (string empresa, string cuenta, datetime fecha_hasta, integer digitos);dec haber
+
+SELECT sum(contaapun.haber) INTO :haber
+FROM  contaapun  
+WHERE contaapun.empresa   = :empresa 
+AND   contaapun.fapunte    < :fecha_hasta 
+AND   substring(contaapun.cuenta,1,:digitos) = :cuenta;
+
+if sqlca.sqlcode <> 0 THEN f_mensaje("Error en d_haber_haber",sqlca.sqlerrtext)
+
+return haber
+end function
+

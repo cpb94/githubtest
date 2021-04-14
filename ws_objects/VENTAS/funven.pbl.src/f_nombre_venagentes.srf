@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_venagentes.srf
+global type f_nombre_venagentes from function_object
+end type
+
+forward prototypes
+global function string f_nombre_venagentes (string ai_empresa, string as_codage)
+end prototypes
+
+global function string f_nombre_venagentes (string ai_empresa, string as_codage);string	ls_nombre_agente
+
+  SELECT venagentes.nombre
+    INTO :ls_nombre_agente  
+    FROM venagentes  
+   WHERE ( venagentes.empresa = :ai_empresa ) AND  
+         ( venagentes.agente  = :as_codage  )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_agente = ""
+
+END IF
+
+RETURN ls_nombre_agente
+end function
+

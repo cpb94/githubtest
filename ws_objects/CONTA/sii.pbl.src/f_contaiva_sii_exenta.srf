@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_contaiva_sii_exenta.srf
+global type f_contaiva_sii_exenta from function_object
+end type
+
+forward prototypes
+global function string f_contaiva_sii_exenta (decimal ejercicio, string ai_codemp, string ai_codigo)
+end prototypes
+
+global function string f_contaiva_sii_exenta (decimal ejercicio, string ai_codemp, string ai_codigo);String	ls
+
+SELECT isnull(contaiva.sii_exenta,'')    
+INTO   :ls   
+FROM   contaiva  
+WHERE  contaiva.ejercicio = :ejercicio
+AND    contaiva.empresa   = :ai_codemp 
+AND    contaiva.tipoiva   = :ai_codigo;
+	
+IF isnull(ls) then ls= ""
+
+RETURN ls
+end function
+

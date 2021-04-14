@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_saldo_cuentanpgc.srf
+$PBExportComments$Saldo entre fechas de una cuenta
+global type f_saldo_cuentanpgc from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuentanpgc (decimal ejercicio, string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta)
+end prototypes
+
+global function decimal f_saldo_cuentanpgc (decimal ejercicio, string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta);Dec debe,haber,saldo
+
+SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe,:haber 
+FROM  contaapun  
+WHERE contaapun.ejercicio 	= :ejercicio
+AND	contaapun.empresa   	= :empresa 
+AND   contaapun.cuenta    	= :cuenta
+AND   contaapun.fapunte 	BETWEEN :fecha_desde AND :fecha_hasta
+AND   contaapun.origen not in ('97',"98");
+
+saldo = debe - haber
+
+//IF saldo < 0 THEN	saldo = saldo * -1
+
+RETURN saldo
+end function
+

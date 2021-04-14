@@ -1,0 +1,72 @@
+﻿$PBExportHeader$f_insert_str_almartcajas.srf
+global type f_insert_str_almartcajas from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_almartcajas (ref str_almartcajas str_almartcajas)
+end prototypes
+
+global function boolean f_insert_str_almartcajas (ref str_almartcajas str_almartcajas);int li_existe_registro
+boolean lb_correcto = true
+
+SELECT isnull(count(*),0) 
+INTO   :li_existe_registro 
+FROM   almartcajas
+WHERE  almartcajas.empresa  = :str_almartcajas.empresa        
+AND    almartcajas.articulo = :str_almartcajas.articulo
+AND    almartcajas.caja     = :str_almartcajas.caja;
+
+if li_existe_registro = 0 then
+	//Insertamos
+	INSERT INTO almartcajas 
+		(almartcajas.empresa,
+       almartcajas.articulo,
+       almartcajas.caja,
+       almartcajas.piezascaja,
+       almartcajas.metroscaja,
+       almartcajas.metroslcaja,
+       almartcajas.pesocaja,
+       almartcajas.metros_reales_caja,
+       almartcajas.peso_real_caja,
+       almartcajas.metros_reales,
+       almartcajas.descripcion,
+       almartcajas.codigo,
+       almartcajas.pordefecto) 
+	VALUES 
+		(:str_almartcajas.empresa,
+       :str_almartcajas.articulo,
+       :str_almartcajas.caja,
+       :str_almartcajas.piezascaja,
+       :str_almartcajas.metroscaja,
+       :str_almartcajas.metroslcaja,
+       :str_almartcajas.pesocaja,
+       :str_almartcajas.metros_reales_caja,
+       :str_almartcajas.peso_real_caja,
+       :str_almartcajas.metros_reales,
+       :str_almartcajas.descripcion,
+       :str_almartcajas.codigo,
+       :str_almartcajas.pordefecto);
+else
+	//Updateamos
+	UPDATE almartcajas
+	SET    almartcajas.piezascaja = :str_almartcajas.piezascaja,
+			 almartcajas.metroscaja = :str_almartcajas.metroscaja,
+			 almartcajas.metroslcaja = :str_almartcajas.metroslcaja,
+			 almartcajas.pesocaja = :str_almartcajas.pesocaja,
+			 almartcajas.metros_reales_caja = :str_almartcajas.metros_reales_caja,
+			 almartcajas.peso_real_caja = :str_almartcajas.peso_real_caja,
+			 almartcajas.metros_reales = :str_almartcajas.metros_reales,
+			 almartcajas.descripcion = :str_almartcajas.descripcion,
+			 almartcajas.codigo = :str_almartcajas.codigo,
+			 almartcajas.pordefecto = :str_almartcajas.pordefecto 
+	WHERE  almartcajas.empresa  = :str_almartcajas.empresa 
+	AND    almartcajas.articulo = :str_almartcajas.articulo 
+	AND    almartcajas.caja     = :str_almartcajas.caja;
+end if
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

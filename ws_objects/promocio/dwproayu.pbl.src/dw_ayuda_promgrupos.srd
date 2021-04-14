@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_ayuda_promgrupos.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=93 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=codigo dbname="promgrupos.codigo" )
+ column=(type=char(40) updatewhereclause=yes name=descripcion dbname="promgrupos.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=resumido dbname="promgrupos.resumido" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="promgrupos.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"promgrupos~" ) COLUMN(NAME=~"promgrupos.codigo~") COLUMN(NAME=~"promgrupos.descripcion~") COLUMN(NAME=~"promgrupos.resumido~") COLUMN(NAME=~"promgrupos.empresa~")WHERE(    EXP1 =~"promgrupos.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"UPPER(promgrupos.descripcion)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ORDER(NAME=~"promgrupos.empresa~" ASC=yes )  ORDER(NAME=~"promgrupos.descripcion~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="promgrupos" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Codigo"border="6" color="0" x="183" y="16" height="65" width="307"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="183" y="4" height="65" width="307" format="[general]"  name=codigo edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Descripcion"border="6" color="0" x="513" y="16" height="65" width="1025"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="513" y="4" height="65" width="1025" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

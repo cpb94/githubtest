@@ -1,0 +1,2584 @@
+﻿$PBExportHeader$mi_compras.srm
+forward
+global type mi_compras from mc_menu_sheets
+end type
+type m_mantenimientos from menu within m_programas
+end type
+type m_proveedores1 from menu within m_mantenimientos
+end type
+type m_materiasprimas from menu within m_mantenimientos
+end type
+type m_tiposdeproductos from menu within m_mantenimientos
+end type
+type m_familias from menu within m_mantenimientos
+end type
+type m_-6 from menu within m_mantenimientos
+end type
+type m_formasdeenvo from menu within m_mantenimientos
+end type
+type m_-10 from menu within m_mantenimientos
+end type
+type m_envases from menu within m_mantenimientos
+end type
+type m_-7 from menu within m_mantenimientos
+end type
+type m_datosusuarios from menu within m_mantenimientos
+end type
+type m_-8 from menu within m_mantenimientos
+end type
+type m_seccionesdecoste from menu within m_mantenimientos
+end type
+type m_subseccionesdecoste from menu within m_mantenimientos
+end type
+type m_-9 from menu within m_mantenimientos
+end type
+type m_tiposdecartas from menu within m_mantenimientos
+end type
+type m_cartas from menu within m_mantenimientos
+end type
+type m_-13 from menu within m_mantenimientos
+end type
+type m_almacenes from menu within m_mantenimientos
+end type
+type m_tiposdemovimiento from menu within m_mantenimientos
+end type
+type m_zonas from menu within m_mantenimientos
+end type
+type m_mapadeubicaciones from menu within m_mantenimientos
+end type
+type m_mantenimientos from menu within m_programas
+m_proveedores1 m_proveedores1
+m_materiasprimas m_materiasprimas
+m_tiposdeproductos m_tiposdeproductos
+m_familias m_familias
+m_-6 m_-6
+m_formasdeenvo m_formasdeenvo
+m_-10 m_-10
+m_envases m_envases
+m_-7 m_-7
+m_datosusuarios m_datosusuarios
+m_-8 m_-8
+m_seccionesdecoste m_seccionesdecoste
+m_subseccionesdecoste m_subseccionesdecoste
+m_-9 m_-9
+m_tiposdecartas m_tiposdecartas
+m_cartas m_cartas
+m_-13 m_-13
+m_almacenes m_almacenes
+m_tiposdemovimiento m_tiposdemovimiento
+m_zonas m_zonas
+m_mapadeubicaciones m_mapadeubicaciones
+end type
+type m_-14 from menu within m_programas
+end type
+type m_movimientosdealmacen from menu within m_programas
+end type
+type m_entradasdealmacn from menu within m_movimientosdealmacen
+end type
+type m_salidasdealmacn from menu within m_movimientosdealmacen
+end type
+type m_traspasosdealmacn from menu within m_movimientosdealmacen
+end type
+type m_movimientosdealmacen from menu within m_programas
+m_entradasdealmacn m_entradasdealmacn
+m_salidasdealmacn m_salidasdealmacn
+m_traspasosdealmacn m_traspasosdealmacn
+end type
+type m_inventarios from menu within m_programas
+end type
+type m_tomainventario from menu within m_inventarios
+end type
+type m_introduccióninventario from menu within m_inventarios
+end type
+type m_actualizacióninventario from menu within m_inventarios
+end type
+type m_-17 from menu within m_inventarios
+end type
+type m_descuadresdeinventario from menu within m_inventarios
+end type
+type m_descuadresdealmacen from menu within m_inventarios
+end type
+type m_inventarios from menu within m_programas
+m_tomainventario m_tomainventario
+m_introduccióninventario m_introduccióninventario
+m_actualizacióninventario m_actualizacióninventario
+m_-17 m_-17
+m_descuadresdeinventario m_descuadresdeinventario
+m_descuadresdealmacen m_descuadresdealmacen
+end type
+type m_-11 from menu within m_programas
+end type
+type m_pedidosproveedores from menu within m_programas
+end type
+type m_consultas from menu within m_programas
+end type
+type m_cpediosporproveedor from menu within m_consultas
+end type
+type m_cpedidospormatprima from menu within m_consultas
+end type
+type m_cpedidospormprimayproveedor from menu within m_consultas
+end type
+type m_cpedidosporfechaentrega from menu within m_consultas
+end type
+type m_cpedidosporf from menu within m_consultas
+end type
+type m_cpedidosporfechasdepedido from menu within m_consultas
+end type
+type m_cpedidosporf1 from menu within m_consultas
+end type
+type m_consultas from menu within m_programas
+m_cpediosporproveedor m_cpediosporproveedor
+m_cpedidospormatprima m_cpedidospormatprima
+m_cpedidospormprimayproveedor m_cpedidospormprimayproveedor
+m_cpedidosporfechaentrega m_cpedidosporfechaentrega
+m_cpedidosporf m_cpedidosporf
+m_cpedidosporfechasdepedido m_cpedidosporfechasdepedido
+m_cpedidosporf1 m_cpedidosporf1
+end type
+type m_-12 from menu within m_programas
+end type
+type m_albarn from menu within m_programas
+end type
+type m_consultasalbaranes from menu within m_programas
+end type
+type m_porproveedor from menu within m_consultasalbaranes
+end type
+type m_porproveedorymateriaprima from menu within m_consultasalbaranes
+end type
+type m_calbaranesporarticuloyfechas from menu within m_consultasalbaranes
+end type
+type m_calbaranespormprima from menu within m_consultasalbaranes
+end type
+type m_calbaranesporfentrega from menu within m_consultasalbaranes
+end type
+type m_calbaranesporfechas from menu within m_consultasalbaranes
+end type
+type m_calbaranesporfentregayproveedor from menu within m_consultasalbaranes
+end type
+type m_consultasalbaranes from menu within m_programas
+m_porproveedor m_porproveedor
+m_porproveedorymateriaprima m_porproveedorymateriaprima
+m_calbaranesporarticuloyfechas m_calbaranesporarticuloyfechas
+m_calbaranespormprima m_calbaranespormprima
+m_calbaranesporfentrega m_calbaranesporfentrega
+m_calbaranesporfechas m_calbaranesporfechas
+m_calbaranesporfentregayproveedor m_calbaranesporfentregayproveedor
+end type
+type m_controlalbaranes from menu within m_programas
+end type
+type m_-5 from menu within m_programas
+end type
+type m_recepcinfacturas from menu within m_programas
+end type
+type m_consultafacturas from menu within m_programas
+end type
+type m_-4 from menu within m_programas
+end type
+type m_historicoderechazos from menu within m_programas
+end type
+type m_x from menu within m_programas
+end type
+type m_rechazarabonarlineasdefacturas from menu within m_x
+end type
+type m_-15 from menu within m_x
+end type
+type m_consultalineasrechazadaspendientes from menu within m_x
+end type
+type m_consultalineasrechazadasabonadas from menu within m_x
+end type
+type m_x from menu within m_programas
+m_rechazarabonarlineasdefacturas m_rechazarabonarlineasdefacturas
+m_-15 m_-15
+m_consultalineasrechazadaspendientes m_consultalineasrechazadaspendientes
+m_consultalineasrechazadasabonadas m_consultalineasrechazadasabonadas
+end type
+type m_informes from menu within m_programas
+end type
+type m_rankingartculos from menu within m_informes
+end type
+type m_rankingproveedores from menu within m_informes
+end type
+type m_informes from menu within m_programas
+m_rankingartculos m_rankingartculos
+m_rankingproveedores m_rankingproveedores
+end type
+type m_programas from mc_menu_sheets`m_programas within mi_compras
+m_mantenimientos m_mantenimientos
+m_-14 m_-14
+m_movimientosdealmacen m_movimientosdealmacen
+m_inventarios m_inventarios
+m_-11 m_-11
+m_pedidosproveedores m_pedidosproveedores
+m_consultas m_consultas
+m_-12 m_-12
+m_albarn m_albarn
+m_consultasalbaranes m_consultasalbaranes
+m_controlalbaranes m_controlalbaranes
+m_-5 m_-5
+m_recepcinfacturas m_recepcinfacturas
+m_consultafacturas m_consultafacturas
+m_-4 m_-4
+m_historicoderechazos m_historicoderechazos
+m_x m_x
+m_informes m_informes
+end type
+type m_cartadepedido from menu within m_listados
+end type
+type m_artculos from menu within m_listados
+end type
+type m_proveedores from menu within m_listados
+end type
+type m_comprasdematprimasporproveedor from menu within m_listados
+end type
+type m_1 from menu within m_listados
+end type
+type m_albaranesporcuenta from menu within m_listados
+end type
+type m_stockmprimas from menu within m_listados
+end type
+type m_stockalmacenmateriasprimas from menu within m_listados
+end type
+type m_stockalmacen from menu within m_listados
+end type
+type m_-0 from menu within m_listados
+end type
+type m_stockvaloradoafecha from menu within m_listados
+end type
+type m_listadorecuentostockafecha from menu within m_listados
+end type
+type m_-18 from menu within m_listados
+end type
+type m_movimientospormateriaprima from menu within m_listados
+end type
+type m_-16 from menu within m_listados
+end type
+type m_necesidadesdemateriasprimassegun from menu within m_listados
+end type
+type m_-19 from menu within m_listados
+end type
+type m_2 from menu within m_listados
+end type
+type m_compartivadecomprasagrupadaporproductos from menu within m_listados
+end type
+type m_comprasyconsumodemprimas from menu within m_listados
+end type
+type m_listados from mc_menu_sheets`m_listados within mi_compras
+m_cartadepedido m_cartadepedido
+m_artculos m_artculos
+m_proveedores m_proveedores
+m_comprasdematprimasporproveedor m_comprasdematprimasporproveedor
+m_1 m_1
+m_albaranesporcuenta m_albaranesporcuenta
+m_stockmprimas m_stockmprimas
+m_stockalmacenmateriasprimas m_stockalmacenmateriasprimas
+m_stockalmacen m_stockalmacen
+m_-0 m_-0
+m_stockvaloradoafecha m_stockvaloradoafecha
+m_listadorecuentostockafecha m_listadorecuentostockafecha
+m_-18 m_-18
+m_movimientospormateriaprima m_movimientospormateriaprima
+m_-16 m_-16
+m_necesidadesdemateriasprimassegun m_necesidadesdemateriasprimassegun
+m_-19 m_-19
+m_2 m_2
+m_compartivadecomprasagrupadaporproductos m_compartivadecomprasagrupadaporproductos
+m_comprasyconsumodemprimas m_comprasyconsumodemprimas
+end type
+type m_agruparubicaciones from menu within m_utilidades
+end type
+type m_restauraalmacenmp from menu within m_utilidades
+end type
+type m_restauraalturaalmacen from menu within m_utilidades
+end type
+type m_actualizaseccinenpedalbfac from menu within m_utilidades
+end type
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_compras
+m_agruparubicaciones m_agruparubicaciones
+m_restauraalmacenmp m_restauraalmacenmp
+m_restauraalturaalmacen m_restauraalturaalmacen
+m_actualizaseccinenpedalbfac m_actualizaseccinenpedalbfac
+end type
+end forward
+
+global type mi_compras from mc_menu_sheets
+end type
+global mi_compras mi_compras
+
+on mi_compras.create
+mi_compras=this
+call super::create
+end on
+
+on mi_compras.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_compras
+m_mantenimientos m_mantenimientos
+m_-14 m_-14
+m_movimientosdealmacen m_movimientosdealmacen
+m_inventarios m_inventarios
+m_-11 m_-11
+m_pedidosproveedores m_pedidosproveedores
+m_consultas m_consultas
+m_-12 m_-12
+m_albarn m_albarn
+m_consultasalbaranes m_consultasalbaranes
+m_controlalbaranes m_controlalbaranes
+m_-5 m_-5
+m_recepcinfacturas m_recepcinfacturas
+m_consultafacturas m_consultafacturas
+m_-4 m_-4
+m_historicoderechazos m_historicoderechazos
+m_x m_x
+m_informes m_informes
+end type
+
+on m_programas.create
+call super::create
+this.m_mantenimientos=create m_mantenimientos
+this.m_-14=create m_-14
+this.m_movimientosdealmacen=create m_movimientosdealmacen
+this.m_inventarios=create m_inventarios
+this.m_-11=create m_-11
+this.m_pedidosproveedores=create m_pedidosproveedores
+this.m_consultas=create m_consultas
+this.m_-12=create m_-12
+this.m_albarn=create m_albarn
+this.m_consultasalbaranes=create m_consultasalbaranes
+this.m_controlalbaranes=create m_controlalbaranes
+this.m_-5=create m_-5
+this.m_recepcinfacturas=create m_recepcinfacturas
+this.m_consultafacturas=create m_consultafacturas
+this.m_-4=create m_-4
+this.m_historicoderechazos=create m_historicoderechazos
+this.m_x=create m_x
+this.m_informes=create m_informes
+this.Item[UpperBound(this.Item)+1]=this.m_mantenimientos
+this.Item[UpperBound(this.Item)+1]=this.m_-14
+this.Item[UpperBound(this.Item)+1]=this.m_movimientosdealmacen
+this.Item[UpperBound(this.Item)+1]=this.m_inventarios
+this.Item[UpperBound(this.Item)+1]=this.m_-11
+this.Item[UpperBound(this.Item)+1]=this.m_pedidosproveedores
+this.Item[UpperBound(this.Item)+1]=this.m_consultas
+this.Item[UpperBound(this.Item)+1]=this.m_-12
+this.Item[UpperBound(this.Item)+1]=this.m_albarn
+this.Item[UpperBound(this.Item)+1]=this.m_consultasalbaranes
+this.Item[UpperBound(this.Item)+1]=this.m_controlalbaranes
+this.Item[UpperBound(this.Item)+1]=this.m_-5
+this.Item[UpperBound(this.Item)+1]=this.m_recepcinfacturas
+this.Item[UpperBound(this.Item)+1]=this.m_consultafacturas
+this.Item[UpperBound(this.Item)+1]=this.m_-4
+this.Item[UpperBound(this.Item)+1]=this.m_historicoderechazos
+this.Item[UpperBound(this.Item)+1]=this.m_x
+this.Item[UpperBound(this.Item)+1]=this.m_informes
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_mantenimientos)
+destroy(this.m_-14)
+destroy(this.m_movimientosdealmacen)
+destroy(this.m_inventarios)
+destroy(this.m_-11)
+destroy(this.m_pedidosproveedores)
+destroy(this.m_consultas)
+destroy(this.m_-12)
+destroy(this.m_albarn)
+destroy(this.m_consultasalbaranes)
+destroy(this.m_controlalbaranes)
+destroy(this.m_-5)
+destroy(this.m_recepcinfacturas)
+destroy(this.m_consultafacturas)
+destroy(this.m_-4)
+destroy(this.m_historicoderechazos)
+destroy(this.m_x)
+destroy(this.m_informes)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_compras
+m_cartadepedido m_cartadepedido
+m_artculos m_artculos
+m_proveedores m_proveedores
+m_comprasdematprimasporproveedor m_comprasdematprimasporproveedor
+m_1 m_1
+m_albaranesporcuenta m_albaranesporcuenta
+m_stockmprimas m_stockmprimas
+m_stockalmacenmateriasprimas m_stockalmacenmateriasprimas
+m_stockalmacen m_stockalmacen
+m_-0 m_-0
+m_stockvaloradoafecha m_stockvaloradoafecha
+m_listadorecuentostockafecha m_listadorecuentostockafecha
+m_-18 m_-18
+m_movimientospormateriaprima m_movimientospormateriaprima
+m_-16 m_-16
+m_necesidadesdemateriasprimassegun m_necesidadesdemateriasprimassegun
+m_-19 m_-19
+m_2 m_2
+m_compartivadecomprasagrupadaporproductos m_compartivadecomprasagrupadaporproductos
+m_comprasyconsumodemprimas m_comprasyconsumodemprimas
+end type
+
+on m_listados.create
+call super::create
+this.text = "&Consultas y listados"
+this.m_cartadepedido=create m_cartadepedido
+this.m_artculos=create m_artculos
+this.m_proveedores=create m_proveedores
+this.m_comprasdematprimasporproveedor=create m_comprasdematprimasporproveedor
+this.m_1=create m_1
+this.m_albaranesporcuenta=create m_albaranesporcuenta
+this.m_stockmprimas=create m_stockmprimas
+this.m_stockalmacenmateriasprimas=create m_stockalmacenmateriasprimas
+this.m_stockalmacen=create m_stockalmacen
+this.m_-0=create m_-0
+this.m_stockvaloradoafecha=create m_stockvaloradoafecha
+this.m_listadorecuentostockafecha=create m_listadorecuentostockafecha
+this.m_-18=create m_-18
+this.m_movimientospormateriaprima=create m_movimientospormateriaprima
+this.m_-16=create m_-16
+this.m_necesidadesdemateriasprimassegun=create m_necesidadesdemateriasprimassegun
+this.m_-19=create m_-19
+this.m_2=create m_2
+this.m_compartivadecomprasagrupadaporproductos=create m_compartivadecomprasagrupadaporproductos
+this.m_comprasyconsumodemprimas=create m_comprasyconsumodemprimas
+this.Item[UpperBound(this.Item)+1]=this.m_cartadepedido
+this.Item[UpperBound(this.Item)+1]=this.m_artculos
+this.Item[UpperBound(this.Item)+1]=this.m_proveedores
+this.Item[UpperBound(this.Item)+1]=this.m_comprasdematprimasporproveedor
+this.Item[UpperBound(this.Item)+1]=this.m_1
+this.Item[UpperBound(this.Item)+1]=this.m_albaranesporcuenta
+this.Item[UpperBound(this.Item)+1]=this.m_stockmprimas
+this.Item[UpperBound(this.Item)+1]=this.m_stockalmacenmateriasprimas
+this.Item[UpperBound(this.Item)+1]=this.m_stockalmacen
+this.Item[UpperBound(this.Item)+1]=this.m_-0
+this.Item[UpperBound(this.Item)+1]=this.m_stockvaloradoafecha
+this.Item[UpperBound(this.Item)+1]=this.m_listadorecuentostockafecha
+this.Item[UpperBound(this.Item)+1]=this.m_-18
+this.Item[UpperBound(this.Item)+1]=this.m_movimientospormateriaprima
+this.Item[UpperBound(this.Item)+1]=this.m_-16
+this.Item[UpperBound(this.Item)+1]=this.m_necesidadesdemateriasprimassegun
+this.Item[UpperBound(this.Item)+1]=this.m_-19
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_compartivadecomprasagrupadaporproductos
+this.Item[UpperBound(this.Item)+1]=this.m_comprasyconsumodemprimas
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_cartadepedido)
+destroy(this.m_artculos)
+destroy(this.m_proveedores)
+destroy(this.m_comprasdematprimasporproveedor)
+destroy(this.m_1)
+destroy(this.m_albaranesporcuenta)
+destroy(this.m_stockmprimas)
+destroy(this.m_stockalmacenmateriasprimas)
+destroy(this.m_stockalmacen)
+destroy(this.m_-0)
+destroy(this.m_stockvaloradoafecha)
+destroy(this.m_listadorecuentostockafecha)
+destroy(this.m_-18)
+destroy(this.m_movimientospormateriaprima)
+destroy(this.m_-16)
+destroy(this.m_necesidadesdemateriasprimassegun)
+destroy(this.m_-19)
+destroy(this.m_2)
+destroy(this.m_compartivadecomprasagrupadaporproductos)
+destroy(this.m_comprasyconsumodemprimas)
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within mi_compras
+end type
+
+on m_opciones.create
+call super::create
+end on
+
+on m_opciones.destroy
+call super::destroy
+end on
+
+type m_ordenar from mc_menu_sheets`m_ordenar within m_opciones
+end type
+
+on m_ordenar.create
+call super::create
+end on
+
+on m_ordenar.destroy
+call super::destroy
+end on
+
+type m_-3 from mc_menu_sheets`m_-3 within m_opciones
+end type
+
+on m_-3.create
+call super::create
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_setupimpresora from mc_menu_sheets`m_setupimpresora within m_opciones
+end type
+
+on m_setupimpresora.create
+call super::create
+end on
+
+on m_setupimpresora.destroy
+call super::destroy
+end on
+
+type m_imprimir from mc_menu_sheets`m_imprimir within m_opciones
+end type
+
+on m_imprimir.create
+call super::create
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_-2 from mc_menu_sheets`m_-2 within m_opciones
+end type
+
+on m_-2.create
+call super::create
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_barraherramientas from mc_menu_sheets`m_barraherramientas within m_opciones
+end type
+
+on m_barraherramientas.create
+call super::create
+end on
+
+on m_barraherramientas.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from mc_menu_sheets`m_imprimirpantalla within m_opciones
+end type
+
+on m_imprimirpantalla.create
+call super::create
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_compras
+m_agruparubicaciones m_agruparubicaciones
+m_restauraalmacenmp m_restauraalmacenmp
+m_restauraalturaalmacen m_restauraalturaalmacen
+m_actualizaseccinenpedalbfac m_actualizaseccinenpedalbfac
+end type
+
+on m_utilidades.create
+call super::create
+this.m_agruparubicaciones=create m_agruparubicaciones
+this.m_restauraalmacenmp=create m_restauraalmacenmp
+this.m_restauraalturaalmacen=create m_restauraalturaalmacen
+this.m_actualizaseccinenpedalbfac=create m_actualizaseccinenpedalbfac
+this.Item[UpperBound(this.Item)+1]=this.m_agruparubicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_restauraalmacenmp
+this.Item[UpperBound(this.Item)+1]=this.m_restauraalturaalmacen
+this.Item[UpperBound(this.Item)+1]=this.m_actualizaseccinenpedalbfac
+end on
+
+on m_utilidades.destroy
+call super::destroy
+destroy(this.m_agruparubicaciones)
+destroy(this.m_restauraalmacenmp)
+destroy(this.m_restauraalturaalmacen)
+destroy(this.m_actualizaseccinenpedalbfac)
+end on
+
+type m_agendatelefnica from mc_menu_sheets`m_agendatelefnica within m_utilidades
+end type
+
+on m_agendatelefnica.create
+call super::create
+end on
+
+on m_agendatelefnica.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from mc_menu_sheets`m_mapadecaracteres within m_utilidades
+end type
+
+on m_mapadecaracteres.create
+call super::create
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from mc_menu_sheets`m_calculadora within m_utilidades
+end type
+
+on m_calculadora.create
+call super::create
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from mc_menu_sheets`m_mensajes within m_utilidades
+end type
+
+on m_mensajes.create
+call super::create
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_ventana from mc_menu_sheets`m_ventana within mi_compras
+end type
+
+on m_ventana.create
+call super::create
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_vertical from mc_menu_sheets`m_vertical within m_ventana
+end type
+
+on m_vertical.create
+call super::create
+end on
+
+on m_vertical.destroy
+call super::destroy
+end on
+
+type m_horizontal from mc_menu_sheets`m_horizontal within m_ventana
+end type
+
+on m_horizontal.create
+call super::create
+end on
+
+on m_horizontal.destroy
+call super::destroy
+end on
+
+type m_mosaico from mc_menu_sheets`m_mosaico within m_ventana
+end type
+
+on m_mosaico.create
+call super::create
+end on
+
+on m_mosaico.destroy
+call super::destroy
+end on
+
+type m_cascada from mc_menu_sheets`m_cascada within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+type m_- from mc_menu_sheets`m_- within m_ventana
+end type
+
+on m_-.create
+call super::create
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_iconos from mc_menu_sheets`m_iconos within m_ventana
+end type
+
+on m_iconos.create
+call super::create
+end on
+
+on m_iconos.destroy
+call super::destroy
+end on
+
+type m_ayuda from mc_menu_sheets`m_ayuda within mi_compras
+end type
+
+on m_ayuda.create
+call super::create
+end on
+
+on m_ayuda.destroy
+call super::destroy
+end on
+
+type m_indice from mc_menu_sheets`m_indice within m_ayuda
+end type
+
+on m_indice.create
+call super::create
+end on
+
+on m_indice.destroy
+call super::destroy
+end on
+
+type m_buscarayudasobre from mc_menu_sheets`m_buscarayudasobre within m_ayuda
+end type
+
+on m_buscarayudasobre.create
+call super::create
+end on
+
+on m_buscarayudasobre.destroy
+call super::destroy
+end on
+
+type m_ventanaactual from mc_menu_sheets`m_ventanaactual within m_ayuda
+end type
+
+on m_ventanaactual.create
+call super::create
+end on
+
+on m_ventanaactual.destroy
+call super::destroy
+end on
+
+type m_usodelaayuda from mc_menu_sheets`m_usodelaayuda within m_ayuda
+end type
+
+on m_usodelaayuda.create
+call super::create
+end on
+
+on m_usodelaayuda.destroy
+call super::destroy
+end on
+
+type m_-1 from mc_menu_sheets`m_-1 within m_ayuda
+end type
+
+on m_-1.create
+call super::create
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_acerca from mc_menu_sheets`m_acerca within m_ayuda
+end type
+
+on m_acerca.create
+call super::create
+end on
+
+on m_acerca.destroy
+call super::destroy
+end on
+
+type m_informacindeventana from mc_menu_sheets`m_informacindeventana within m_ayuda
+end type
+
+on m_informacindeventana.create
+call super::create
+end on
+
+on m_informacindeventana.destroy
+call super::destroy
+end on
+
+type m_salir1 from mc_menu_sheets`m_salir1 within mi_compras
+end type
+
+on m_salir1.create
+call super::create
+end on
+
+on m_salir1.destroy
+call super::destroy
+end on
+
+type m_mantenimientos from menu within m_programas
+m_proveedores1 m_proveedores1
+m_materiasprimas m_materiasprimas
+m_tiposdeproductos m_tiposdeproductos
+m_familias m_familias
+m_-6 m_-6
+m_formasdeenvo m_formasdeenvo
+m_-10 m_-10
+m_envases m_envases
+m_-7 m_-7
+m_datosusuarios m_datosusuarios
+m_-8 m_-8
+m_seccionesdecoste m_seccionesdecoste
+m_subseccionesdecoste m_subseccionesdecoste
+m_-9 m_-9
+m_tiposdecartas m_tiposdecartas
+m_cartas m_cartas
+m_-13 m_-13
+m_almacenes m_almacenes
+m_tiposdemovimiento m_tiposdemovimiento
+m_zonas m_zonas
+m_mapadeubicaciones m_mapadeubicaciones
+end type
+
+on m_mantenimientos.create
+call super::create
+this.text = "Mantenimientos"
+this.m_proveedores1=create m_proveedores1
+this.m_materiasprimas=create m_materiasprimas
+this.m_tiposdeproductos=create m_tiposdeproductos
+this.m_familias=create m_familias
+this.m_-6=create m_-6
+this.m_formasdeenvo=create m_formasdeenvo
+this.m_-10=create m_-10
+this.m_envases=create m_envases
+this.m_-7=create m_-7
+this.m_datosusuarios=create m_datosusuarios
+this.m_-8=create m_-8
+this.m_seccionesdecoste=create m_seccionesdecoste
+this.m_subseccionesdecoste=create m_subseccionesdecoste
+this.m_-9=create m_-9
+this.m_tiposdecartas=create m_tiposdecartas
+this.m_cartas=create m_cartas
+this.m_-13=create m_-13
+this.m_almacenes=create m_almacenes
+this.m_tiposdemovimiento=create m_tiposdemovimiento
+this.m_zonas=create m_zonas
+this.m_mapadeubicaciones=create m_mapadeubicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_proveedores1
+this.Item[UpperBound(this.Item)+1]=this.m_materiasprimas
+this.Item[UpperBound(this.Item)+1]=this.m_tiposdeproductos
+this.Item[UpperBound(this.Item)+1]=this.m_familias
+this.Item[UpperBound(this.Item)+1]=this.m_-6
+this.Item[UpperBound(this.Item)+1]=this.m_formasdeenvo
+this.Item[UpperBound(this.Item)+1]=this.m_-10
+this.Item[UpperBound(this.Item)+1]=this.m_envases
+this.Item[UpperBound(this.Item)+1]=this.m_-7
+this.Item[UpperBound(this.Item)+1]=this.m_datosusuarios
+this.Item[UpperBound(this.Item)+1]=this.m_-8
+this.Item[UpperBound(this.Item)+1]=this.m_seccionesdecoste
+this.Item[UpperBound(this.Item)+1]=this.m_subseccionesdecoste
+this.Item[UpperBound(this.Item)+1]=this.m_-9
+this.Item[UpperBound(this.Item)+1]=this.m_tiposdecartas
+this.Item[UpperBound(this.Item)+1]=this.m_cartas
+this.Item[UpperBound(this.Item)+1]=this.m_-13
+this.Item[UpperBound(this.Item)+1]=this.m_almacenes
+this.Item[UpperBound(this.Item)+1]=this.m_tiposdemovimiento
+this.Item[UpperBound(this.Item)+1]=this.m_zonas
+this.Item[UpperBound(this.Item)+1]=this.m_mapadeubicaciones
+end on
+
+on m_mantenimientos.destroy
+call super::destroy
+destroy(this.m_proveedores1)
+destroy(this.m_materiasprimas)
+destroy(this.m_tiposdeproductos)
+destroy(this.m_familias)
+destroy(this.m_-6)
+destroy(this.m_formasdeenvo)
+destroy(this.m_-10)
+destroy(this.m_envases)
+destroy(this.m_-7)
+destroy(this.m_datosusuarios)
+destroy(this.m_-8)
+destroy(this.m_seccionesdecoste)
+destroy(this.m_subseccionesdecoste)
+destroy(this.m_-9)
+destroy(this.m_tiposdecartas)
+destroy(this.m_cartas)
+destroy(this.m_-13)
+destroy(this.m_almacenes)
+destroy(this.m_tiposdemovimiento)
+destroy(this.m_zonas)
+destroy(this.m_mapadeubicaciones)
+end on
+
+type m_proveedores1 from menu within m_mantenimientos
+end type
+
+event clicked;
+str_parametros lstr_param
+OpenSheetWithParm(w_mant_comproveedores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_proveedores1.create
+call super::create
+this.text = "Proveedores"
+end on
+
+on m_proveedores1.destroy
+call super::destroy
+end on
+
+type m_materiasprimas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_venmprima2, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_materiasprimas.create
+call super::create
+this.text = "Materias Primas"
+end on
+
+on m_materiasprimas.destroy
+call super::destroy
+end on
+
+type m_tiposdeproductos from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_venmateria, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_tiposdeproductos.create
+call super::create
+this.text = "Grupos"
+end on
+
+on m_tiposdeproductos.destroy
+call super::destroy
+end on
+
+type m_familias from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_venfamilias, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_familias.create
+call super::create
+this.text = "Familias"
+end on
+
+on m_familias.destroy
+call super::destroy
+end on
+
+type m_-6 from menu within m_mantenimientos
+end type
+
+on m_-6.create
+call super::create
+this.text = "-"
+end on
+
+on m_-6.destroy
+call super::destroy
+end on
+
+type m_formasdeenvo from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_comforenv, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_formasdeenvo.create
+call super::create
+this.text = "Formas de Envío"
+end on
+
+on m_formasdeenvo.destroy
+call super::destroy
+end on
+
+type m_-10 from menu within m_mantenimientos
+end type
+
+on m_-10.create
+call super::create
+this.text = "-"
+end on
+
+on m_-10.destroy
+call super::destroy
+end on
+
+type m_envases from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_venenvases, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_envases.create
+call super::create
+this.text = "Envases"
+end on
+
+on m_envases.destroy
+call super::destroy
+end on
+
+type m_-7 from menu within m_mantenimientos
+end type
+
+on m_-7.create
+call super::create
+this.text = "-"
+end on
+
+on m_-7.destroy
+call super::destroy
+end on
+
+type m_datosusuarios from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_comusuarios, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_datosusuarios.create
+call super::create
+this.text = "Datos Usuarios"
+end on
+
+on m_datosusuarios.destroy
+call super::destroy
+end on
+
+type m_-8 from menu within m_mantenimientos
+end type
+
+on m_-8.create
+call super::create
+this.text = "-"
+end on
+
+on m_-8.destroy
+call super::destroy
+end on
+
+type m_seccionesdecoste from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_contaseccion, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_seccionesdecoste.create
+call super::create
+this.text = "Secciones de Coste"
+end on
+
+on m_seccionesdecoste.destroy
+call super::destroy
+end on
+
+type m_subseccionesdecoste from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_contacoste, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_subseccionesdecoste.create
+call super::create
+this.text = "Subsecciones de Coste"
+end on
+
+on m_subseccionesdecoste.destroy
+call super::destroy
+end on
+
+type m_-9 from menu within m_mantenimientos
+end type
+
+on m_-9.create
+call super::create
+this.text = "-"
+end on
+
+on m_-9.destroy
+call super::destroy
+end on
+
+type m_tiposdecartas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_tipo_cartas_compras, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_tiposdecartas.create
+call super::create
+this.text = "Tipos de Cartas"
+end on
+
+on m_tiposdecartas.destroy
+call super::destroy
+end on
+
+type m_cartas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_cartas_compras, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_cartas.create
+call super::create
+this.text = "Cartas"
+end on
+
+on m_cartas.destroy
+call super::destroy
+end on
+
+type m_-13 from menu within m_mantenimientos
+end type
+
+on m_-13.create
+call super::create
+this.text = "-"
+end on
+
+on m_-13.destroy
+call super::destroy
+end on
+
+type m_almacenes from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_comalmacen, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_almacenes.create
+call super::create
+this.text = "Almacenes"
+end on
+
+on m_almacenes.destroy
+call super::destroy
+end on
+
+type m_tiposdemovimiento from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_comtipomov, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_tiposdemovimiento.create
+call super::create
+this.text = "Tipos de movimiento"
+end on
+
+on m_tiposdemovimiento.destroy
+call super::destroy
+end on
+
+type m_zonas from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_comubizonas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_zonas.create
+call super::create
+this.text = "Zonas"
+end on
+
+on m_zonas.destroy
+call super::destroy
+end on
+
+type m_mapadeubicaciones from menu within m_mantenimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_comubimapa, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mapadeubicaciones.create
+call super::create
+this.text = "Mapa de Ubicaciones"
+end on
+
+on m_mapadeubicaciones.destroy
+call super::destroy
+end on
+
+type m_-14 from menu within m_programas
+end type
+
+on m_-14.create
+call super::create
+this.text = "-"
+end on
+
+on m_-14.destroy
+call super::destroy
+end on
+
+type m_movimientosdealmacen from menu within m_programas
+m_entradasdealmacn m_entradasdealmacn
+m_salidasdealmacn m_salidasdealmacn
+m_traspasosdealmacn m_traspasosdealmacn
+end type
+
+on m_movimientosdealmacen.create
+call super::create
+this.text = "Movimientos de Almacen"
+this.m_entradasdealmacn=create m_entradasdealmacn
+this.m_salidasdealmacn=create m_salidasdealmacn
+this.m_traspasosdealmacn=create m_traspasosdealmacn
+this.Item[UpperBound(this.Item)+1]=this.m_entradasdealmacn
+this.Item[UpperBound(this.Item)+1]=this.m_salidasdealmacn
+this.Item[UpperBound(this.Item)+1]=this.m_traspasosdealmacn
+end on
+
+on m_movimientosdealmacen.destroy
+call super::destroy
+destroy(this.m_entradasdealmacn)
+destroy(this.m_salidasdealmacn)
+destroy(this.m_traspasosdealmacn)
+end on
+
+type m_entradasdealmacn from menu within m_movimientosdealmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_movalm_compras, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_entradasdealmacn.create
+call super::create
+this.text = "Entradas de Almacén"
+end on
+
+on m_entradasdealmacn.destroy
+call super::destroy
+end on
+
+type m_salidasdealmacn from menu within m_movimientosdealmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_movsalidas_compras, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_salidasdealmacn.create
+call super::create
+this.text = "Salidas de Almacén"
+end on
+
+on m_salidasdealmacn.destroy
+call super::destroy
+end on
+
+type m_traspasosdealmacn from menu within m_movimientosdealmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_movtraspasos_compras, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_traspasosdealmacn.create
+call super::create
+this.text = "Traspasos de Almacén"
+end on
+
+on m_traspasosdealmacn.destroy
+call super::destroy
+end on
+
+type m_inventarios from menu within m_programas
+m_tomainventario m_tomainventario
+m_introduccióninventario m_introduccióninventario
+m_actualizacióninventario m_actualizacióninventario
+m_-17 m_-17
+m_descuadresdeinventario m_descuadresdeinventario
+m_descuadresdealmacen m_descuadresdealmacen
+end type
+
+on m_inventarios.create
+call super::create
+this.text = "Inventarios"
+this.m_tomainventario=create m_tomainventario
+this.m_introduccióninventario=create m_introduccióninventario
+this.m_actualizacióninventario=create m_actualizacióninventario
+this.m_-17=create m_-17
+this.m_descuadresdeinventario=create m_descuadresdeinventario
+this.m_descuadresdealmacen=create m_descuadresdealmacen
+this.Item[UpperBound(this.Item)+1]=this.m_tomainventario
+this.Item[UpperBound(this.Item)+1]=this.m_introduccióninventario
+this.Item[UpperBound(this.Item)+1]=this.m_actualizacióninventario
+this.Item[UpperBound(this.Item)+1]=this.m_-17
+this.Item[UpperBound(this.Item)+1]=this.m_descuadresdeinventario
+this.Item[UpperBound(this.Item)+1]=this.m_descuadresdealmacen
+end on
+
+on m_inventarios.destroy
+call super::destroy
+destroy(this.m_tomainventario)
+destroy(this.m_introduccióninventario)
+destroy(this.m_actualizacióninventario)
+destroy(this.m_-17)
+destroy(this.m_descuadresdeinventario)
+destroy(this.m_descuadresdealmacen)
+end on
+
+type m_tomainventario from menu within m_inventarios
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_toma_inventario_compras,lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_tomainventario.create
+call super::create
+this.text = "Toma Inventario"
+end on
+
+on m_tomainventario.destroy
+call super::destroy
+end on
+
+type m_introduccióninventario from menu within m_inventarios
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_inventario_compras,lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_introduccióninventario.create
+call super::create
+this.text = "Introducción Inventario"
+end on
+
+on m_introduccióninventario.destroy
+call super::destroy
+end on
+
+type m_actualizacióninventario from menu within m_inventarios
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_actualiza_inventario_compras,lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_actualizacióninventario.create
+call super::create
+this.text = "Actualización Inventario"
+end on
+
+on m_actualizacióninventario.destroy
+call super::destroy
+end on
+
+type m_-17 from menu within m_inventarios
+end type
+
+on m_-17.create
+call super::create
+this.text = "-"
+end on
+
+on m_-17.destroy
+call super::destroy
+end on
+
+type m_descuadresdeinventario from menu within m_inventarios
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_descuadres_inventario_mp,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_descuadresdeinventario.create
+call super::create
+this.text = "Descuadres de Inventario"
+end on
+
+on m_descuadresdeinventario.destroy
+call super::destroy
+end on
+
+type m_descuadresdealmacen from menu within m_inventarios
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_descuadres_mp,lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_descuadresdealmacen.create
+call super::create
+this.text = "Descuadres de almacen"
+end on
+
+on m_descuadresdealmacen.destroy
+call super::destroy
+end on
+
+type m_-11 from menu within m_programas
+end type
+
+on m_-11.create
+call super::create
+this.text = "-"
+end on
+
+on m_-11.destroy
+call super::destroy
+end on
+
+type m_pedidosproveedores from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_comcabpedpro, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_pedidosproveedores.create
+call super::create
+this.text = "Pedidos Proveedores"
+end on
+
+on m_pedidosproveedores.destroy
+call super::destroy
+end on
+
+type m_consultas from menu within m_programas
+m_cpediosporproveedor m_cpediosporproveedor
+m_cpedidospormatprima m_cpedidospormatprima
+m_cpedidospormprimayproveedor m_cpedidospormprimayproveedor
+m_cpedidosporfechaentrega m_cpedidosporfechaentrega
+m_cpedidosporf m_cpedidosporf
+m_cpedidosporfechasdepedido m_cpedidosporfechasdepedido
+m_cpedidosporf1 m_cpedidosporf1
+end type
+
+on m_consultas.create
+call super::create
+this.text = "Consultas Pedidos"
+this.m_cpediosporproveedor=create m_cpediosporproveedor
+this.m_cpedidospormatprima=create m_cpedidospormatprima
+this.m_cpedidospormprimayproveedor=create m_cpedidospormprimayproveedor
+this.m_cpedidosporfechaentrega=create m_cpedidosporfechaentrega
+this.m_cpedidosporf=create m_cpedidosporf
+this.m_cpedidosporfechasdepedido=create m_cpedidosporfechasdepedido
+this.m_cpedidosporf1=create m_cpedidosporf1
+this.Item[UpperBound(this.Item)+1]=this.m_cpediosporproveedor
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidospormatprima
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidospormprimayproveedor
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidosporfechaentrega
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidosporf
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidosporfechasdepedido
+this.Item[UpperBound(this.Item)+1]=this.m_cpedidosporf1
+end on
+
+on m_consultas.destroy
+call super::destroy
+destroy(this.m_cpediosporproveedor)
+destroy(this.m_cpedidospormatprima)
+destroy(this.m_cpedidospormprimayproveedor)
+destroy(this.m_cpedidosporfechaentrega)
+destroy(this.m_cpedidosporf)
+destroy(this.m_cpedidosporfechasdepedido)
+destroy(this.m_cpedidosporf1)
+end on
+
+type m_cpediosporproveedor from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_proveedor, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpediosporproveedor.create
+call super::create
+this.text = "C.Pedidos por Proveedor"
+end on
+
+on m_cpediosporproveedor.destroy
+call super::destroy
+end on
+
+type m_cpedidospormatprima from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_mprima, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidospormatprima.create
+call super::create
+this.text = "C.Pedidos por Mat.Prima"
+end on
+
+on m_cpedidospormatprima.destroy
+call super::destroy
+end on
+
+type m_cpedidospormprimayproveedor from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_mprima_prov, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidospormprimayproveedor.create
+call super::create
+this.text = "C.Pedidos por M.Prima y Proveedor"
+end on
+
+on m_cpedidospormprimayproveedor.destroy
+call super::destroy
+end on
+
+type m_cpedidosporfechaentrega from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_fentrega, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidosporfechaentrega.create
+call super::create
+this.text = "C.Pedidos por Fecha Entrega"
+end on
+
+on m_cpedidosporfechaentrega.destroy
+call super::destroy
+end on
+
+type m_cpedidosporf from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_fentrega_prov, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidosporf.create
+call super::create
+this.text = "C.Pedidos por Fecha Entrega y Proveedor"
+end on
+
+on m_cpedidosporf.destroy
+call super::destroy
+end on
+
+type m_cpedidosporfechasdepedido from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_fechas, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidosporfechasdepedido.create
+call super::create
+this.text = "C.Pedidos  por Fechas de Pedido"
+end on
+
+on m_cpedidosporfechasdepedido.destroy
+call super::destroy
+end on
+
+type m_cpedidosporf1 from menu within m_consultas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_fechas_prov, lstr_param, ParentWindow, 3,original!)
+
+
+
+end event
+
+on m_cpedidosporf1.create
+call super::create
+this.text = "C.Pedidos por Fechas de Pedido y Proveedor"
+end on
+
+on m_cpedidosporf1.destroy
+call super::destroy
+end on
+
+type m_-12 from menu within m_programas
+end type
+
+on m_-12.create
+call super::create
+this.text = "-"
+end on
+
+on m_-12.destroy
+call super::destroy
+end on
+
+type m_albarn from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_comlinalb, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_albarn.create
+call super::create
+this.text = "Albarán"
+end on
+
+on m_albarn.destroy
+call super::destroy
+end on
+
+type m_consultasalbaranes from menu within m_programas
+m_porproveedor m_porproveedor
+m_porproveedorymateriaprima m_porproveedorymateriaprima
+m_calbaranesporarticuloyfechas m_calbaranesporarticuloyfechas
+m_calbaranespormprima m_calbaranespormprima
+m_calbaranesporfentrega m_calbaranesporfentrega
+m_calbaranesporfechas m_calbaranesporfechas
+m_calbaranesporfentregayproveedor m_calbaranesporfentregayproveedor
+end type
+
+on m_consultasalbaranes.create
+call super::create
+this.text = "Consultas Albaranes"
+this.m_porproveedor=create m_porproveedor
+this.m_porproveedorymateriaprima=create m_porproveedorymateriaprima
+this.m_calbaranesporarticuloyfechas=create m_calbaranesporarticuloyfechas
+this.m_calbaranespormprima=create m_calbaranespormprima
+this.m_calbaranesporfentrega=create m_calbaranesporfentrega
+this.m_calbaranesporfechas=create m_calbaranesporfechas
+this.m_calbaranesporfentregayproveedor=create m_calbaranesporfentregayproveedor
+this.Item[UpperBound(this.Item)+1]=this.m_porproveedor
+this.Item[UpperBound(this.Item)+1]=this.m_porproveedorymateriaprima
+this.Item[UpperBound(this.Item)+1]=this.m_calbaranesporarticuloyfechas
+this.Item[UpperBound(this.Item)+1]=this.m_calbaranespormprima
+this.Item[UpperBound(this.Item)+1]=this.m_calbaranesporfentrega
+this.Item[UpperBound(this.Item)+1]=this.m_calbaranesporfechas
+this.Item[UpperBound(this.Item)+1]=this.m_calbaranesporfentregayproveedor
+end on
+
+on m_consultasalbaranes.destroy
+call super::destroy
+destroy(this.m_porproveedor)
+destroy(this.m_porproveedorymateriaprima)
+destroy(this.m_calbaranesporarticuloyfechas)
+destroy(this.m_calbaranespormprima)
+destroy(this.m_calbaranesporfentrega)
+destroy(this.m_calbaranesporfechas)
+destroy(this.m_calbaranesporfentregayproveedor)
+end on
+
+type m_porproveedor from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_proveedor, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_porproveedor.create
+call super::create
+this.text = "Por Proveedor"
+end on
+
+on m_porproveedor.destroy
+call super::destroy
+end on
+
+type m_porproveedorymateriaprima from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_mprima_prov, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_porproveedorymateriaprima.create
+call super::create
+this.text = "Por Proveedor y Materia Prima"
+end on
+
+on m_porproveedorymateriaprima.destroy
+call super::destroy
+end on
+
+type m_calbaranesporarticuloyfechas from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_artfec, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_calbaranesporarticuloyfechas.create
+call super::create
+this.text = "C.Albaranes por M.Prima y Fechas"
+end on
+
+on m_calbaranesporarticuloyfechas.destroy
+call super::destroy
+end on
+
+type m_calbaranespormprima from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_articulo, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_calbaranespormprima.create
+call super::create
+this.text = "C.Albaranes por M.Prima"
+end on
+
+on m_calbaranespormprima.destroy
+call super::destroy
+end on
+
+type m_calbaranesporfentrega from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_fentrega, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_calbaranesporfentrega.create
+call super::create
+this.text = "C.Albaranes por F.Entrega"
+end on
+
+on m_calbaranesporfentrega.destroy
+call super::destroy
+end on
+
+type m_calbaranesporfechas from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_fechas, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_calbaranesporfechas.create
+call super::create
+this.text = "C.Albaranes por Fechas"
+end on
+
+on m_calbaranesporfechas.destroy
+call super::destroy
+end on
+
+type m_calbaranesporfentregayproveedor from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_fentrega_prov, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_calbaranesporfentregayproveedor.create
+call super::create
+this.text = "C.Albaranes por F.Entrega y Proveedor"
+end on
+
+on m_calbaranesporfentregayproveedor.destroy
+call super::destroy
+end on
+
+type m_controlalbaranes from menu within m_programas
+end type
+
+on m_controlalbaranes.create
+call super::create
+this.text = "Control Albaranes"
+end on
+
+on m_controlalbaranes.destroy
+call super::destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_confirmacion_alb, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+type m_-5 from menu within m_programas
+end type
+
+on m_-5.create
+call super::create
+this.text = "-"
+end on
+
+on m_-5.destroy
+call super::destroy
+end on
+
+type m_recepcinfacturas from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_facturas_compras, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_recepcinfacturas.create
+call super::create
+this.text = "Recepción Facturas"
+end on
+
+on m_recepcinfacturas.destroy
+call super::destroy
+end on
+
+type m_consultafacturas from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_comlinfac_fechas, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_consultafacturas.create
+call super::create
+this.text = "Consulta Facturas"
+end on
+
+on m_consultafacturas.destroy
+call super::destroy
+end on
+
+type m_-4 from menu within m_programas
+end type
+
+on m_-4.create
+call super::create
+this.text = "-"
+end on
+
+on m_-4.destroy
+call super::destroy
+end on
+
+type m_historicoderechazos from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_rechazos_fechas, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_historicoderechazos.create
+call super::create
+this.text = "Historico de Rechazos"
+end on
+
+on m_historicoderechazos.destroy
+call super::destroy
+end on
+
+type m_x from menu within m_programas
+m_rechazarabonarlineasdefacturas m_rechazarabonarlineasdefacturas
+m_-15 m_-15
+m_consultalineasrechazadaspendientes m_consultalineasrechazadaspendientes
+m_consultalineasrechazadasabonadas m_consultalineasrechazadasabonadas
+end type
+
+on m_x.create
+call super::create
+this.text = "Rechazos / Abonos Facturas"
+this.m_rechazarabonarlineasdefacturas=create m_rechazarabonarlineasdefacturas
+this.m_-15=create m_-15
+this.m_consultalineasrechazadaspendientes=create m_consultalineasrechazadaspendientes
+this.m_consultalineasrechazadasabonadas=create m_consultalineasrechazadasabonadas
+this.Item[UpperBound(this.Item)+1]=this.m_rechazarabonarlineasdefacturas
+this.Item[UpperBound(this.Item)+1]=this.m_-15
+this.Item[UpperBound(this.Item)+1]=this.m_consultalineasrechazadaspendientes
+this.Item[UpperBound(this.Item)+1]=this.m_consultalineasrechazadasabonadas
+end on
+
+on m_x.destroy
+call super::destroy
+destroy(this.m_rechazarabonarlineasdefacturas)
+destroy(this.m_-15)
+destroy(this.m_consultalineasrechazadaspendientes)
+destroy(this.m_consultalineasrechazadasabonadas)
+end on
+
+type m_rechazarabonarlineasdefacturas from menu within m_x
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_comlinfac_rechazos, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_rechazarabonarlineasdefacturas.create
+call super::create
+this.text = "Rechazar / Abonar lineas de Facturas"
+end on
+
+on m_rechazarabonarlineasdefacturas.destroy
+call super::destroy
+end on
+
+type m_-15 from menu within m_x
+end type
+
+on m_-15.create
+call super::create
+this.text = "-"
+end on
+
+on m_-15.destroy
+call super::destroy
+end on
+
+type m_consultalineasrechazadaspendientes from menu within m_x
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_comlinfac_rechazos, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_consultalineasrechazadaspendientes.create
+call super::create
+this.text = "Consulta lineas rechazadas pendientes de abonar"
+end on
+
+on m_consultalineasrechazadaspendientes.destroy
+call super::destroy
+end on
+
+type m_consultalineasrechazadasabonadas from menu within m_x
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_comlinfac_rechazosabonos, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_consultalineasrechazadasabonadas.create
+call super::create
+this.text = "Consulta lineas rechazadas + abonadas"
+end on
+
+on m_consultalineasrechazadasabonadas.destroy
+call super::destroy
+end on
+
+type m_informes from menu within m_programas
+m_rankingartculos m_rankingartculos
+m_rankingproveedores m_rankingproveedores
+end type
+
+on m_informes.create
+call super::create
+this.text = "Informes"
+this.m_rankingartculos=create m_rankingartculos
+this.m_rankingproveedores=create m_rankingproveedores
+this.Item[UpperBound(this.Item)+1]=this.m_rankingartculos
+this.Item[UpperBound(this.Item)+1]=this.m_rankingproveedores
+end on
+
+on m_informes.destroy
+call super::destroy
+destroy(this.m_rankingartculos)
+destroy(this.m_rankingproveedores)
+end on
+
+type m_rankingartculos from menu within m_informes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_ranking_articulos_compras, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_rankingartculos.create
+call super::create
+this.text = "Ranking Artículos"
+end on
+
+on m_rankingartculos.destroy
+call super::destroy
+end on
+
+type m_rankingproveedores from menu within m_informes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_ranking_proveedores, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_rankingproveedores.create
+call super::create
+this.text = "Ranking Proveedores"
+end on
+
+on m_rankingproveedores.destroy
+call super::destroy
+end on
+
+type m_cartadepedido from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_impresion_pedidos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_cartadepedido.create
+call super::create
+this.text = "Carta de Pedido"
+end on
+
+on m_cartadepedido.destroy
+call super::destroy
+end on
+
+type m_artculos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_mprima_materia_familia,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_artculos.create
+call super::create
+this.text = "Materias Primas Por Proveedor"
+end on
+
+on m_artculos.destroy
+call super::destroy
+end on
+
+type m_proveedores from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_proveed, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_proveedores.create
+call super::create
+this.text = "Proveedores"
+end on
+
+on m_proveedores.destroy
+call super::destroy
+end on
+
+type m_comprasdematprimasporproveedor from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_compras_proveedor, lstr_param, ParentWindow, 3,original!)
+//w_con_materias_proveedor
+end event
+
+on m_comprasdematprimasporproveedor.create
+call super::create
+this.text = "Compras M. Primas  Proveedor"
+end on
+
+on m_comprasdematprimasporproveedor.destroy
+call super::destroy
+end on
+
+type m_1 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_importe_albaranes_cuenta_nivel4, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_1.create
+call super::create
+this.text = "Albaranes Pendientes por Cuenta"
+end on
+
+on m_1.destroy
+call super::destroy
+end on
+
+type m_albaranesporcuenta from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_importe_albaranes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_albaranesporcuenta.create
+call super::create
+this.text = "Albaranes Pendientes por Grupo"
+end on
+
+on m_albaranesporcuenta.destroy
+call super::destroy
+end on
+
+type m_stockmprimas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_mp, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockmprimas.create
+call super::create
+this.text = "Stock M. Primas"
+end on
+
+on m_stockmprimas.destroy
+call super::destroy
+end on
+
+type m_stockalmacenmateriasprimas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_mp_por_ubicacion, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockalmacenmateriasprimas.create
+call super::create
+this.text = "Stock Materias Primas Por Ubicación"
+end on
+
+on m_stockalmacenmateriasprimas.destroy
+call super::destroy
+end on
+
+type m_stockalmacen from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_mp_producto, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockalmacen.create
+call super::create
+this.text = "Stock Almacen Materias Primas Por Producto"
+end on
+
+on m_stockalmacen.destroy
+call super::destroy
+end on
+
+type m_-0 from menu within m_listados
+end type
+
+on m_-0.create
+call super::create
+this.text = "-"
+end on
+
+on m_-0.destroy
+call super::destroy
+end on
+
+type m_stockvaloradoafecha from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_mp_valorado, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockvaloradoafecha.create
+call super::create
+this.text = "Stock Valorado a Fecha"
+end on
+
+on m_stockvaloradoafecha.destroy
+call super::destroy
+end on
+
+type m_listadorecuentostockafecha from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_recuento, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_listadorecuentostockafecha.create
+call super::create
+this.text = "Listado Recuento Stock a Fecha"
+end on
+
+on m_listadorecuentostockafecha.destroy
+call super::destroy
+end on
+
+type m_-18 from menu within m_listados
+end type
+
+on m_-18.create
+call super::create
+this.text = "-"
+end on
+
+on m_-18.destroy
+call super::destroy
+end on
+
+type m_movimientospormateriaprima from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_movimientos_mp, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_movimientospormateriaprima.create
+call super::create
+this.text = "Movimientos por Materia Prima"
+end on
+
+on m_movimientospormateriaprima.destroy
+call super::destroy
+end on
+
+type m_-16 from menu within m_listados
+end type
+
+on m_-16.create
+call super::create
+this.text = "-"
+end on
+
+on m_-16.destroy
+call super::destroy
+end on
+
+type m_necesidadesdemateriasprimassegun from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_articulos_fabricar_rotacion_mprima, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_necesidadesdemateriasprimassegun.create
+call super::create
+this.text = "Necesidades de Materias Primas Segun Ventas"
+end on
+
+on m_necesidadesdemateriasprimassegun.destroy
+call super::destroy
+end on
+
+type m_-19 from menu within m_listados
+end type
+
+on m_-19.create
+call super::create
+this.text = "-"
+end on
+
+on m_-19.destroy
+call super::destroy
+end on
+
+type m_2 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_estadistica_comparativa_compras, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_2.create
+call super::create
+this.text = "Estadística Comparativa de Compras"
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_compartivadecomprasagrupadaporproductos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_compras_entre_periodos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_compartivadecomprasagrupadaporproductos.create
+call super::create
+this.text = "Compartiva de Compras Agrupada por Productos y Familias"
+end on
+
+on m_compartivadecomprasagrupadaporproductos.destroy
+call super::destroy
+end on
+
+type m_comprasyconsumodemprimas from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_compras_consumo_mp, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_comprasyconsumodemprimas.create
+call super::create
+this.text = "Compras y Consumo de M. Primas"
+end on
+
+on m_comprasyconsumodemprimas.destroy
+call super::destroy
+end on
+
+type m_agruparubicaciones from menu within m_utilidades
+end type
+
+event clicked;f_agrupa_ubicaciones_compras()
+end event
+
+on m_agruparubicaciones.create
+call super::create
+this.text = "Agrupar Ubicaciones"
+end on
+
+on m_agruparubicaciones.destroy
+call super::destroy
+end on
+
+type m_restauraalmacenmp from menu within m_utilidades
+end type
+
+event clicked;f_restaura_almacen_mp()
+end event
+
+on m_restauraalmacenmp.create
+call super::create
+this.visible = false
+this.text = "Restaura Almacen Mp"
+end on
+
+on m_restauraalmacenmp.destroy
+call super::destroy
+end on
+
+type m_restauraalturaalmacen from menu within m_utilidades
+end type
+
+event clicked;long     indice,total,linea,linea_nueva
+string   sel,mp,almacen,ubicacion,ubicacion_nueva
+datetime fecha_inventario
+datastore ubicaciones
+
+sel = "select almacen from comlinubicahis where empresa = '"+codigo_empresa+"' "+&
+		"and altura = 1 group by almacen"
+		
+//ubicaciones = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, ubicaciones)
+
+total = ubicaciones.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando Comlinubicahis",indice,total)
+		almacen   = ubicaciones.object.almacen[indice]
+		ubicacion = f_componer_ubicacion(almacen,"A",1,0)
+		
+		update comlinubicahis
+		set    ubicacion = :ubicacion,
+				 altura    = 0
+		where  empresa = :codigo_empresa
+		and    almacen = :almacen
+		and    altura  = 1;
+		
+		if sqlca.sqlcode = 0 then
+			commit;
+		else
+			rollback;
+		end if
+	next
+end if
+
+destroy ubicaciones
+
+sel = "select ubicacion,linea,almacen from comlinubica where empresa = '"+codigo_empresa+"' "+&
+		"and altura = 1 "
+		
+//ubicaciones = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, ubicaciones)
+
+total = ubicaciones.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando comlinubica",indice,total)
+		ubicacion = ubicaciones.object.ubicacion[indice]
+		linea     = ubicaciones.object.linea[indice]
+		
+		almacen         = ubicaciones.object.almacen[indice]		
+		ubicacion_nueva = f_componer_ubicacion(almacen,"A",1,0)
+		
+		linea_nueva = 0
+		
+		select max(linea)
+		into   :linea_nueva
+		from   comlinubica
+		where  empresa   = :codigo_empresa
+		and    ubicacion = :ubicacion_nueva;
+		
+		if isnull(linea_nueva) then linea_nueva = 0
+		
+		linea_nueva ++
+		
+		
+		update comlinubica
+		set    ubicacion = :ubicacion_nueva,
+				 linea     = :linea_nueva,
+				 altura    = 0
+		where  empresa   = :codigo_empresa
+		and    ubicacion = :ubicacion
+		and    linea     = :linea;
+		
+		if sqlca.sqlcode = 0 then
+			commit;
+		else
+			rollback;
+		end if
+	next
+end if
+
+destroy ubicaciones
+
+
+sel = "select fecha_inventario,ubicacion,linea,almacen from com_toma_inventario where empresa = '"+codigo_empresa+"' "+&
+		"and altura = 1 "
+		
+//ubicaciones = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, ubicaciones)
+
+total = ubicaciones.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando com_toma_inventario",indice,total)
+		fecha_inventario = ubicaciones.object.fecha_inventario[indice]
+		ubicacion        = ubicaciones.object.ubicacion[indice]
+		linea            = ubicaciones.object.linea[indice]
+		
+		almacen         = ubicaciones.object.almacen[indice]		
+		ubicacion_nueva = f_componer_ubicacion(almacen,"A",1,0)
+		
+		linea_nueva = 0
+		
+		select max(linea)
+		into   :linea_nueva
+		from   com_toma_inventario
+		where  empresa          = :codigo_empresa
+		and    fecha_inventario = :fecha_inventario
+		and    ubicacion        = :ubicacion_nueva;
+		
+		if isnull(linea_nueva) then linea_nueva = 0
+		
+		linea_nueva ++
+		
+		
+		update com_toma_inventario
+		set    ubicacion = :ubicacion_nueva,
+				 linea     = :linea_nueva,
+				 altura    = 0
+		where  empresa          = :codigo_empresa
+		and    ubicacion        = :ubicacion
+		and    fecha_inventario = :fecha_inventario
+		and    linea            = :linea;
+		
+		if sqlca.sqlcode = 0 then
+			commit;
+		else
+			rollback;
+		end if
+	next
+end if
+
+destroy ubicaciones
+
+
+end event
+
+on m_restauraalturaalmacen.create
+call super::create
+this.visible = false
+this.text = "Restaura Altura Almacen"
+end on
+
+on m_restauraalturaalmacen.destroy
+call super::destroy
+end on
+
+type m_actualizaseccinenpedalbfac from menu within m_utilidades
+end type
+
+event clicked;f_actualiza_seccion_compras()
+end event
+
+on m_actualizaseccinenpedalbfac.create
+call super::create
+this.text = "Actualiza Sección En Ped.,Alb.,Fac."
+end on
+
+on m_actualizaseccinenpedalbfac.destroy
+call super::destroy
+end on
+

@@ -1,0 +1,56 @@
+﻿$PBExportHeader$dw_con_utitablas_sin_indices.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=81 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(30) updatewhereclause=yes name=name dbname="sysobjects.name" )
+ column=(type=long updatewhereclause=yes key=yes name=id dbname="sysobjects.id" )
+ column=(type=long updatewhereclause=yes name=uid dbname="sysobjects.uid" )
+ column=(type=char(2) updatewhereclause=yes name=type dbname="sysobjects.type" )
+ column=(type=long updatewhereclause=yes name=userstat dbname="sysobjects.userstat" )
+ column=(type=long updatewhereclause=yes name=sysstat dbname="sysobjects.sysstat" )
+ column=(type=long updatewhereclause=yes name=indexdel dbname="sysobjects.indexdel" )
+ column=(type=long updatewhereclause=yes name=schema_ver dbname="sysobjects.schema_ver" )
+ column=(type=datetime updatewhereclause=yes name=refdate dbname="sysobjects.refdate" )
+ column=(type=datetime updatewhereclause=yes name=crdate dbname="sysobjects.crdate" )
+ column=(type=long updatewhereclause=yes name=version dbname="sysobjects.version" )
+ column=(type=long updatewhereclause=yes name=deltrig dbname="sysobjects.deltrig" )
+ column=(type=long updatewhereclause=yes name=instrig dbname="sysobjects.instrig" )
+ column=(type=long updatewhereclause=yes name=updtrig dbname="sysobjects.updtrig" )
+ column=(type=long updatewhereclause=yes name=seltrig dbname="sysobjects.seltrig" )
+ column=(type=long updatewhereclause=yes name=category dbname="sysobjects.category" )
+ column=(type=long updatewhereclause=yes name=cache dbname="sysobjects.cache" )
+ retrieve="  SELECT sysobjects.name,   
+         sysobjects.id,   
+         sysobjects.uid,   
+         sysobjects.type,   
+         sysobjects.userstat,   
+         sysobjects.sysstat,   
+         sysobjects.indexdel,   
+         sysobjects.schema_ver,   
+         sysobjects.refdate,   
+         sysobjects.crdate,   
+         sysobjects.version,   
+         sysobjects.deltrig,   
+         sysobjects.instrig,   
+         sysobjects.updtrig,   
+         sysobjects.seltrig,   
+         sysobjects.category,   
+         sysobjects.cache  
+    FROM sysobjects  
+   WHERE sysobjects.name like :des 
+AND      (sysobjects.id not in 
+           (SELECT sysindexes.id
+					 FROM sysindexes 
+						Where sysindexes.indid not in (255,0) )
+OR    sysobjects.id in 
+				(SELECT sysindexes.id 
+					FROM sysindexes 
+					WHERE sysindexes.OrigFillFactor <> 50 
+					AND sysindexes.indid not in (255,0))   )
+ORDER BY sysobjects.name ASC   
+" update="sysobjects" updatewhere=0 updatekeyinplace=no arguments=(("des", string)) )
+text(band=header alignment="2" text="Tabla"border="6" color="0" x="252" y="12" height="65" width="778"  name=usuario_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="238" y="4" height="65" width="778" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

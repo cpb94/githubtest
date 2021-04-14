@@ -1,0 +1,136 @@
+﻿$PBExportHeader$f_inicializar_str_venliped.srf
+global type f_inicializar_str_venliped from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venliped (ref str_venliped str_venliped)
+end prototypes
+
+global function boolean f_inicializar_str_venliped (ref str_venliped str_venliped);boolean lb_correcto = true
+
+if isnull(str_venliped.empresa) then str_venliped.empresa = ''
+if isnull(str_venliped.anyo) then str_venliped.anyo = 0
+if isnull(str_venliped.pedido) then str_venliped.pedido = 0
+if isnull(str_venliped.linea) then str_venliped.linea = 0
+if isnull(str_venliped.serie) then str_venliped.serie = ''
+if isnull(str_venliped.cliente) then str_venliped.cliente = ''
+if isnull(str_venliped.tipo_unidad) then str_venliped.tipo_unidad = ''
+if isnull(str_venliped.articulo) then str_venliped.articulo = ''
+if isnull(str_venliped.familia) then str_venliped.familia = ''
+if isnull(str_venliped.formato) then str_venliped.formato = ''
+if isnull(str_venliped.modelo) then str_venliped.modelo = ''
+if isnull(str_venliped.calidad) then str_venliped.calidad = ''
+if isnull(str_venliped.tono) then str_venliped.tono = 0
+if isnull(str_venliped.calibre) then str_venliped.calibre = 0
+if isnull(str_venliped.precio) then str_venliped.precio = 0
+if isnull(str_venliped.precio_estand) then str_venliped.precio_estand = 0
+if isnull(str_venliped.cantidad) then str_venliped.cantidad = 0
+if isnull(str_venliped.pallets) then str_venliped.pallets = 0
+if isnull(str_venliped.total_cajas) then str_venliped.total_cajas = 0
+if isnull(str_venliped.cajas) then str_venliped.cajas = 0
+if isnull(str_venliped.dtocomer) then str_venliped.dtocomer = 0
+if isnull(str_venliped.dtoesp) then str_venliped.dtoesp = 0
+if isnull(str_venliped.descripcion) then str_venliped.descripcion = ''
+if isnull(str_venliped.tipoiva) then str_venliped.tipoiva = ''
+if isnull(str_venliped.iva) then str_venliped.iva = 0
+if isnull(str_venliped.linfab) then str_venliped.linfab = ''
+if isnull(str_venliped.provincia) then str_venliped.provincia = ''
+if isnull(str_venliped.pais) then str_venliped.pais = ''
+if isnull(str_venliped.zona) then str_venliped.zona = ''
+if isnull(str_venliped.tipolinea) then str_venliped.tipolinea = ''
+if isnull(str_venliped.texto1) then str_venliped.texto1 = ''
+if isnull(str_venliped.texto2) then str_venliped.texto2 = ''
+if isnull(str_venliped.texto3) then str_venliped.texto3 = ''
+if isnull(str_venliped.texto4) then str_venliped.texto4 = ''
+if isnull(str_venliped.referencia) then str_venliped.referencia = ''
+if isnull(str_venliped.montajeartcal) then str_venliped.montajeartcal = ''
+if isnull(str_venliped.situacion) then str_venliped.situacion = ''
+if isnull(str_venliped.divisa) then str_venliped.divisa = ''
+if isnull(str_venliped.metros_lineales) then str_venliped.metros_lineales = 0
+if isnull(str_venliped.peso) then str_venliped.peso = 0
+if isnull(str_venliped.usuario) then str_venliped.usuario = ''
+if isnull(str_venliped.tipo_pallet) then str_venliped.tipo_pallet = ''
+if isnull(str_venliped.importe) then str_venliped.importe = 0
+if isnull(str_venliped.descuento) then str_venliped.descuento = 0
+if isnull(str_venliped.importedto) then str_venliped.importedto = 0
+if isnull(str_venliped.clase) then str_venliped.clase = ''
+if isnull(str_venliped.sector) then str_venliped.sector = ''
+if isnull(str_venliped.agente1) then str_venliped.agente1 = ''
+if isnull(str_venliped.agente2) then str_venliped.agente2 = ''
+if isnull(str_venliped.agente3) then str_venliped.agente3 = ''
+if isnull(str_venliped.comision11) then str_venliped.comision11 = 0
+if isnull(str_venliped.comision12) then str_venliped.comision12 = 0
+if isnull(str_venliped.comision21) then str_venliped.comision21 = 0
+if isnull(str_venliped.comision22) then str_venliped.comision22 = 0
+if isnull(str_venliped.comision31) then str_venliped.comision31 = 0
+if isnull(str_venliped.comision32) then str_venliped.comision32 = 0
+if isnull(str_venliped.deposito) then str_venliped.deposito = ''
+if isnull(str_venliped.orden_preparacion) then str_venliped.orden_preparacion = 0
+if isnull(str_venliped.cantidad_prepa) then str_venliped.cantidad_prepa = 0
+if isnull(str_venliped.es_pico) then str_venliped.es_pico = ''
+if isnull(str_venliped.numero_pico) then str_venliped.numero_pico = 0
+if isnull(str_venliped.anyo_ent) then str_venliped.anyo_ent = 0
+if isnull(str_venliped.nummov_ent) then str_venliped.nummov_ent = 0
+if isnull(str_venliped.anyo_sal) then str_venliped.anyo_sal = 0
+if isnull(str_venliped.nummov_sal) then str_venliped.nummov_sal = 0
+if isnull(str_venliped.fila_ent) then str_venliped.fila_ent = 0
+if isnull(str_venliped.altura_ent) then str_venliped.altura_ent = 0
+if isnull(str_venliped.operario_prepa) then str_venliped.operario_prepa = ''
+if isnull(str_venliped.control_incremento) then str_venliped.control_incremento = ''
+if isnull(str_venliped.peso_neto) then str_venliped.peso_neto = 0
+if isnull(str_venliped.precio_aduana) then str_venliped.precio_aduana = 0
+if isnull(str_venliped.control_descuentos) then str_venliped.control_descuentos = ''
+if isnull(str_venliped.control_comisiones) then str_venliped.control_comisiones = ''
+if isnull(str_venliped.importe_aduana) then str_venliped.importe_aduana = 0
+if isnull(str_venliped.bruto) then str_venliped.bruto = 0
+if isnull(str_venliped.precio_neto) then str_venliped.precio_neto = 0
+if isnull(str_venliped.precio_aduana_neto) then str_venliped.precio_aduana_neto = 0
+if isnull(str_venliped.descuento_aduana) then str_venliped.descuento_aduana = 0
+if isnull(str_venliped.neto) then str_venliped.neto = 0
+if isnull(str_venliped.impdtopp) then str_venliped.impdtopp = 0
+if isnull(str_venliped.ref_cli) then str_venliped.ref_cli = ''
+if isnull(str_venliped.transportista) then str_venliped.transportista = ''
+if isnull(str_venliped.almacen_ent) then str_venliped.almacen_ent = ''
+if isnull(str_venliped.tipo_pallet_preparacion) then str_venliped.tipo_pallet_preparacion = ''
+if isnull(str_venliped.almacen_deposito) then str_venliped.almacen_deposito = ''
+if isnull(str_venliped.envio) then str_venliped.envio = ''
+if isnull(str_venliped.numpedcli) then str_venliped.numpedcli = ''
+if isnull(str_venliped.impdtoesp1) then str_venliped.impdtoesp1 = 0
+if isnull(str_venliped.impdtoesp2) then str_venliped.impdtoesp2 = 0
+if isnull(str_venliped.impdtoesp3) then str_venliped.impdtoesp3 = 0
+if isnull(str_venliped.impdtoesp4) then str_venliped.impdtoesp4 = 0
+if isnull(str_venliped.impdtoesp1_aduana) then str_venliped.impdtoesp1_aduana = 0
+if isnull(str_venliped.impdtoesp2_aduana) then str_venliped.impdtoesp2_aduana = 0
+if isnull(str_venliped.impdtoesp3_aduana) then str_venliped.impdtoesp3_aduana = 0
+if isnull(str_venliped.impdtoesp4_aduana) then str_venliped.impdtoesp4_aduana = 0
+if isnull(str_venliped.impdtopp_aduana) then str_venliped.impdtopp_aduana = 0
+if isnull(str_venliped.caja) then str_venliped.caja = ''
+if isnull(str_venliped.tonochar) then str_venliped.tonochar = ''
+if isnull(str_venliped.subfamilia) then str_venliped.subfamilia = ''
+if isnull(str_venliped.subformato) then str_venliped.subformato = ''
+if isnull(str_venliped.cantidad_facturar) then str_venliped.cantidad_facturar = 0
+if isnull(str_venliped.almacen_de_carga) then str_venliped.almacen_de_carga = ''
+if isnull(str_venliped.dtoesp2) then str_venliped.dtoesp2 = 0
+if isnull(str_venliped.numpalet) then str_venliped.numpalet = 0
+if isnull(str_venliped.anyo_proddiaria) then str_venliped.anyo_proddiaria = 0
+if isnull(str_venliped.contador_proddiaria) then str_venliped.contador_proddiaria = 0
+if isnull(str_venliped.idioma) then str_venliped.idioma = ''
+if isnull(str_venliped.cantidad_original) then str_venliped.cantidad_original = 0
+if isnull(str_venliped.linea_desdoblada_de) then str_venliped.linea_desdoblada_de = 0
+if isnull(str_venliped.planificado) then str_venliped.planificado = ''
+if isnull(str_venliped.observaciones) then str_venliped.observaciones = ''
+if isnull(str_venliped.bloqueado) then str_venliped.bloqueado = ''
+if isnull(str_venliped.esta_fabricado) then str_venliped.esta_fabricado = ''
+if isnull(str_venliped.observaciones_pallet) then str_venliped.observaciones_pallet = ''
+if isnull(str_venliped.orden) then str_venliped.orden = 0
+if isnull(str_venliped.tono_imprimir) then str_venliped.tono_imprimir = ''
+if isnull(str_venliped.calibre_imprimir) then str_venliped.calibre_imprimir = ''
+if isnull(str_venliped.id_alm_orden_carga) then str_venliped.id_alm_orden_carga = 0
+if isnull(str_venliped.ordenacion_orden_carga) then str_venliped.ordenacion_orden_carga = 0
+if isnull(str_venliped.bulto_desde_orden_carga) then str_venliped.bulto_desde_orden_carga = 0
+if isnull(str_venliped.bulto_hasta_orden_carga) then str_venliped.bulto_hasta_orden_carga = 0
+if isnull(str_venliped.id_alm_orden_preparacion) then str_venliped.id_alm_orden_preparacion = 0
+
+return lb_correcto
+end function
+

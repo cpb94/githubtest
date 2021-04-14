@@ -1,0 +1,74 @@
+﻿$PBExportHeader$f_cargar_str_almacenmovimientos.srf
+global type f_cargar_str_almacenmovimientos from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_almacenmovimientos (string arg_empresa, datetime arg_fecha_mov, long arg_orden, ref str_almacenmovimientos str_almacenmovimientos)
+end prototypes
+
+global function boolean f_cargar_str_almacenmovimientos (string arg_empresa, datetime arg_fecha_mov, long arg_orden, ref str_almacenmovimientos str_almacenmovimientos);boolean lb_correcto = true
+
+SELECT almacenmovimientos.empresa,
+       almacenmovimientos.fecha_mov,
+       almacenmovimientos.orden,
+       almacenmovimientos.fecha_intr,
+       almacenmovimientos.origen,
+       almacenmovimientos.almacen,
+       almacenmovimientos.zona,
+       almacenmovimientos.fila,
+       almacenmovimientos.altura,
+       almacenmovimientos.articulo,
+       almacenmovimientos.familia,
+       almacenmovimientos.formato,
+       almacenmovimientos.calidad,
+       almacenmovimientos.tono,
+       almacenmovimientos.calibre,
+       almacenmovimientos.tipo_pallet,
+       almacenmovimientos.caja,
+       almacenmovimientos.cantidade,
+       almacenmovimientos.cantidads,
+       almacenmovimientos.tipomov,
+       almacenmovimientos.tipo_unidad,
+       almacenmovimientos.usuario,
+       almacenmovimientos.observaciones,
+       almacenmovimientos.trazabilidad,
+		 almacenmovimientos.id_ubicacion,
+		 almacenmovimientos.id_alm_bultos 
+INTO   :str_almacenmovimientos.empresa,
+       :str_almacenmovimientos.fecha_mov,
+       :str_almacenmovimientos.orden,
+       :str_almacenmovimientos.fecha_intr,
+       :str_almacenmovimientos.origen,
+       :str_almacenmovimientos.almacen,
+       :str_almacenmovimientos.zona,
+       :str_almacenmovimientos.fila,
+       :str_almacenmovimientos.altura,
+       :str_almacenmovimientos.articulo,
+       :str_almacenmovimientos.familia,
+       :str_almacenmovimientos.formato,
+       :str_almacenmovimientos.calidad,
+       :str_almacenmovimientos.tono,
+       :str_almacenmovimientos.calibre,
+       :str_almacenmovimientos.tipo_pallet,
+       :str_almacenmovimientos.caja,
+       :str_almacenmovimientos.cantidade,
+       :str_almacenmovimientos.cantidads,
+       :str_almacenmovimientos.tipomov,
+       :str_almacenmovimientos.tipo_unidad,
+       :str_almacenmovimientos.usuario,
+       :str_almacenmovimientos.observaciones,
+       :str_almacenmovimientos.trazabilidad,
+		 :str_almacenmovimientos.id_ubicacion,
+		 :str_almacenmovimientos.id_alm_bultos 
+FROM  almacenmovimientos
+WHERE almacenmovimientos.empresa = :arg_empresa
+AND   almacenmovimientos.fecha_mov = :arg_fecha_mov
+AND   almacenmovimientos.orden = :arg_orden;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+
+return lb_correcto
+end function
+

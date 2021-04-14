@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_calidad_promparam.srf
+global type f_calidad_promparam from function_object
+end type
+
+forward prototypes
+global function string f_calidad_promparam (string arg_empresa)
+end prototypes
+
+global function string f_calidad_promparam (string arg_empresa);String  var_calidad
+
+  SELECT promparam.calidad INTO :var_calidad  
+    FROM promparam  
+   WHERE promparam.empresa = :arg_empresa   ;
+	
+Return var_calidad;
+
+end function
+

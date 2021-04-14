@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_envio_venclientes.srf
+global type f_envio_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_envio_venclientes (string empresa, string cliente)
+end prototypes
+
+global function string f_envio_venclientes (string empresa, string cliente);String var_empresa,var_codigo,valor
+
+SELECT   venclientes.empresa,venclientes.codigo,venclientes.envio
+INTO     :var_empresa,:var_codigo,:valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente
+ORDER BY venclientes.empresa ASC,venclientes.codigo ASC  ;
+Return valor;
+
+end function
+

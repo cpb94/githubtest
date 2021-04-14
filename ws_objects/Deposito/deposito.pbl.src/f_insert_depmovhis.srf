@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_insert_depmovhis.srf
+global type f_insert_depmovhis from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_depmovhis (str_depmovhis mov)
+end prototypes
+
+global function boolean f_insert_depmovhis (str_depmovhis mov);INSERT INTO depmovhis(empresa,almacen,anyo,nummov,articulo,fechmov,   
+                      tipomov,cantidade,cantidads,precio,codtercero,   
+                      numdoc,situacion,observaciones,punteado,antexist,   
+                      familia,formato,modelo,calidad,tonochar,calibre,   
+                      tipo_unidad,referencia,f_alta,usuario,tipo_pallet,tipo,
+							 caja)  
+VALUES (:mov.empresa,:mov.almacen,:mov.anyo,:mov.nummov,   
+        :mov.articulo,:mov.fechmov,:mov.tipomov,:mov.cantidade,
+        :mov.cantidads,:mov.precio,:mov.codtercero,:mov.numdoc,   
+        :mov.situacion,:mov.observaciones,:mov.punteado,:mov.antexist,   
+        :mov.familia,:mov.formato,:mov.modelo,:mov.calidad,:mov.tonochar,   
+        :mov.calibre,:mov.tipo_unidad,:mov.referencia,:mov.f_alta,   
+        :mov.usuario,:mov.tipo_pallet,:mov.tipo,
+		  :mov.caja);
+        IF Sqlca.SqlCode <> 0 Then
+			 f_mensaje("Error insert depmovhis",sqlca.sqlerrtext+" Almacen.: "+mov.almacen+ "/"+ String(mov.anyo)+"-"+String(mov.nummov))
+          Return FALSE
+        ELSE
+          Return TRUE
+        END IF
+end function
+

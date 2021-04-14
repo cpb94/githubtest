@@ -1,0 +1,26 @@
+﻿$PBExportHeader$str_contaparam.srs
+global type str_contaparam from structure
+     INTEGER     ejercicio
+     STRING     empresa
+     STRING     chequeo
+     STRING     activo
+     STRING     analitica
+     INTEGER     digitos
+     INTEGER     niveles
+     INTEGER     digitos1
+     INTEGER     digitos2
+     INTEGER     digitos3
+     INTEGER     digitos4
+     INTEGER     digitos5
+     INTEGER     digitos6
+     INTEGER     digitos7
+     INTEGER     digitos8
+     INTEGER     digitos9
+     INTEGER     comienzo
+     DATETIME     encurso
+     INTEGER     documento
+     DATETIME     cierre
+     DECIMAL {0}     asiento
+     STRING     tipocta_iva
+end type
+

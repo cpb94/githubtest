@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_sn_mov_entrada_inventario.srf
+global type f_sn_mov_entrada_inventario from function_object
+end type
+
+forward prototypes
+global function string f_sn_mov_entrada_inventario (string empresa, string tipomov)
+end prototypes
+
+global function string f_sn_mov_entrada_inventario (string empresa, string tipomov);String valor
+
+  
+    SELECT almmoventinv.tipomov
+    INTO :valor
+    FROM almmoventinv  
+   WHERE ( almmoventinv.empresa = :empresa ) AND  
+         ( almmoventinv.tipomov = :tipomov )   ;
+   
+    IF SQLCA.SQLCode=0 THEN
+		 valor="S"
+	else
+		valor="N"
+	End if
+
+  return valor
+
+end function
+

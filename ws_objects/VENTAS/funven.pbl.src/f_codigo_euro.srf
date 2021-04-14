@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_codigo_euro.srf
+global type f_codigo_euro from function_object
+end type
+
+forward prototypes
+global function string f_codigo_euro ()
+end prototypes
+
+global function string f_codigo_euro ();RETURN "7"
+end function
+

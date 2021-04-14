@@ -1,0 +1,118 @@
+﻿$PBExportHeader$f_ubicaciones_referencia_tipo_pallet2.srf
+global type f_ubicaciones_referencia_tipo_pallet2 from function_object
+end type
+
+forward prototypes
+global function string f_ubicaciones_referencia_tipo_pallet2 (string empresa, string referencia, string tipo_pallet, integer numero, string impresion)
+end prototypes
+
+global function string f_ubicaciones_referencia_tipo_pallet2 (string empresa, string referencia, string tipo_pallet, integer numero, string impresion);String ubicacion,montaje,calidad,articulo,zona1,zona2
+String ubi[],almacen,zona		 
+Dec{2} altura,fila,reg,v,v1,registros
+Dec linea
+DataStore Data
+Integer contador_ubicaciones
+String compuesto,errores,sys
+articulo   = f_articulo_referencia(referencia)
+calidad    = f_calidad_referencia(referencia)
+compuesto = " Select almacen,zona,fila,altura from almubimapaart "+&
+            " Where almubimapaart.empresa  = '" + empresa + "'" +&
+            " And   almubimapaart.articulo = '" + articulo       + "'" +&
+				" And   almubimapaart.calidad  = '" + calidad        + "'"
+
+//data = f_cargar_cursor(compuesto)				
+f_cargar_cursor_nuevo(compuesto, data)
+
+
+registros = data.RowCount()
+contador_ubicaciones = 0
+
+IF registros <> 0 Then
+	FOR reg = 1 To registros
+   		almacen   = data.GetItemString(reg,"almacen")
+   		zona      = data.GetItemString(reg,"zona")
+   		fila      = data.GetItemNumber(reg,"fila")
+   		altura    = data.GetItemNumber(reg,"altura")
+   		ubicacion = f_componer_ubicacion(almacen,zona,fila,altura)
+		v = 0
+		IF contador_ubicaciones <> 0 Then
+			For v1 = 1 To contador_ubicaciones
+				IF	ubi[contador_ubicaciones] = ubicacion Then v = 1
+			Next
+		END IF
+   		IF v = 0 Then
+			IF impresion = "S" Then
+	   			montaje = montaje  + f_ubicacion2(ubicacion) + char(13)
+			ELSE
+				montaje = Trim(montaje) + Trim(ubicacion)
+			END IF
+	   		contador_ubicaciones = contador_ubicaciones + 1
+			ubi[contador_ubicaciones] = ubicacion
+		END IF
+   		IF contador_ubicaciones = numero then 
+			destroy data
+			Return  montaje
+		END IF
+	NEXT
+ 	IF contador_ubicaciones <> 0 Then 
+		destroy data
+		Return  montaje
+	END IF
+END IF
+
+
+// ubicaciones
+compuesto = " Select ubicacion,linea,existencias from almlinubica "+&
+            " Where almlinubica.empresa  = '" + empresa + "'" +&
+            " And   almlinubica.referencia = '" + referencia   + "'" +&
+				" And   almlinubica.tipo_pallet = '" + tipo_pallet + "'" +&
+				" And   almlinubica.pedido is null" + &
+				" And   almlinubica.externo = 'S' " + &
+				" Order by altura,existencias asc"
+
+//data = f_cargar_cursor(compuesto)
+f_cargar_cursor_nuevo(compuesto, data)
+
+registros = data.Retrieve()
+contador_ubicaciones = 0
+
+IF registros <> 0 Then
+ 	FOR reg = 1 To registros
+   		ubicacion   = data.GetItemString(reg,"ubicacion")
+   		linea       = data.GetItemNumber(reg,"linea")
+		IF Not f_bloqueo_almlinubica(codigo_empresa,ubicacion,linea) Then
+			v = 0
+			IF contador_ubicaciones <> 0 Then
+				For v1 = 1 To contador_ubicaciones
+					IF	ubi[contador_ubicaciones] = ubicacion Then v = 1
+				Next
+			END IF
+   			IF v = 0 Then
+   				IF impresion = "S" Then		
+					if mod(reg,2)=0 then
+		   				montaje = montaje  + " - "+f_ubicacion2(ubicacion) + char(13)
+					else
+						montaje = montaje  + f_ubicacion2(ubicacion) 
+					end if				
+				Else
+					montaje = Trim(montaje) + Trim(ubicacion)
+				END IF
+	   			contador_ubicaciones = contador_ubicaciones + 1
+				ubi[contador_ubicaciones] = ubicacion
+			END IF
+   			IF contador_ubicaciones = numero then 
+				destroy data
+				Return  montaje
+			END IF
+		END IF
+	NEXT
+ 	IF contador_ubicaciones <> 0 Then 
+		destroy data
+		Return  montaje
+	END IF
+END IF
+ 
+destroy data
+Return montaje
+end function
+

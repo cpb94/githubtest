@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_riesgo_cliente_entre_fechas.srf
+global type f_riesgo_cliente_entre_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_riesgo_cliente_entre_fechas (string arg_empresa, string arg_cliente, datetime fecha1, datetime fecha2)
+end prototypes
+
+global function decimal f_riesgo_cliente_entre_fechas (string arg_empresa, string arg_cliente, datetime fecha1, datetime fecha2);dec alb,fac,cobro,nego,devo,gasto
+dec pedidos_pdtes, stock_deposito
+tipo_array vencido
+
+alb = 0
+fac = 0
+cobro = 0
+nego = 0
+
+devo = 0
+gasto = 0
+stock_deposito = 0
+pedidos_pdtes = 0
+
+alb = f_alb_pdtes_facturar_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+fac = f_fac_pdtes_actualizar_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+cobro = f_fac_pdtes_cobro_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+nego = f_negociado_pdtes_cobro_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+//devo = f_fac_devuelto_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+//gasto = f_fac_gasto_entre_fechas (arg_empresa, arg_cliente, fecha1, fecha2)
+
+//stock_deposito = f_importe_stock_deposito_cliente(arg_empresa,arg_cliente)
+//pedidos_pdtes = f_pedidos_pdtes (arg_empresa,arg_cliente)
+
+
+////vencido=f_fac_vencidas(arg_empresa,arg_cliente)
+////venc=dec(vencido.valor[1])+dec(vencido.valor[2])+dec(vencido.valor[3])+dec(vencido.valor[4])
+
+return alb + fac + cobro + nego + devo + gasto + pedidos_pdtes + stock_deposito
+end function
+

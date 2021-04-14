@@ -1,0 +1,80 @@
+﻿$PBExportHeader$report_con_ventas_clientes_articulos_mue.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=784 color="553648127" )
+summary(height=120 color="536870912" )
+footer(height=72 color="536870912" )
+detail(height=0 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcentaje dbname="comodin.porcentaje" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcac dbname="comodin.porcac" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=serie dbname="comodin.serie" )
+ column=(type=char(255) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_facturas dbname="comodin.importe_facturas" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad_piezas dbname="comodin.cantidad_piezas" )
+ column=(type=decimal(4) updatewhereclause=yes name=pm dbname="comodin.pm" )
+ column=(type=char(255) updatewhereclause=yes name=pais dbname="comodin.pais" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_provincia dbname="comodin.nombre_provincia" )
+ column=(type=char(255) updatewhereclause=yes name=provincia dbname="comodin.provincia" )
+ column=(type=decimal(4) updatewhereclause=yes name=cambio dbname="comodin.cambio" )
+ column=(type=datetime updatewhereclause=yes name=fechad dbname="comodin.fechad" )
+ column=(type=datetime updatewhereclause=yes name=fechah dbname="comodin.fechah" )
+ column=(type=decimal(4) updatewhereclause=yes name=precio dbname="comodin.precio" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto1 dbname="comodin.dto1" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto2 dbname="comodin.dto2" )
+ column=(type=char(255) updatewhereclause=yes name=tipo dbname="comodin.tipo" )
+ retrieve="SELECT comodin.empresa,  
+       numerico porcentaje,
+		 numerico porcac,  
+       letras   cliente,
+		 letras   nombre_cliente,   
+       letras   serie,
+		 letras   articulo,
+		 letras   nombre_articulo,
+		 letras   nombre_formato,
+		 numerico importe_facturas,
+		 numerico cantidad_piezas,
+		 numerico pm,
+		 letras   pais,
+		 letras   nombre_provincia,
+		 letras   provincia,
+		 numerico cambio,
+		 fecha    fechad,
+		 fecha    fechah,
+		 numerico precio,
+		 numerico dto1,
+		 numerico dto2,
+		 letras   tipo
+FROM   comodin  
+WHERE  comodin.empresa = :arg_empresa " arguments=(("arg_empresa", string),("fechad", datetime),("fechaa", datetime),("cliente", string),("series", string))  sort="empresa A pais A nombre_provincia A nombre_cliente A " )
+group(level=1 header.height=96 trailer.height=0 by=("empresa" , "pais" , "provincia" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=80 trailer.height=0 by=("empresa" , "pais" , "provincia" , "cliente" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression=" pageCount()"border="0" color="16777215" x="18" y="304" height="12" width="23" format="[general]"  name=total_paginas  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1614" y="708" height="64" width="421"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="2057" y="708" height="64" width="530"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Precio"border="6" color="0" x="2615" y="708" height="64" width="366"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+report(band=header dataobject="report_cabecera" x="9" y="12" height="304" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="PROMOCIÓN"border="0" color="128" x="1097" y="380" height="120" width="1193"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="~"DESDE : ~"+string(fechad,~"dd-mm-yy~")+~" HASTA : ~"+string(fechah,~"dd-mm-yy~")"border="0" color="128" x="974" y="540" height="84" width="2391" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="1" expression="sum(importe_facturas for group 1)"border="0" color="0" x="2057" y="4" height="76" width="549" format="###,###,###,##0.00"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="1" expression="sum( cantidad_piezas for group 1)"border="0" color="0" x="1614" y="4" height="76" width="421" format="###,###,###"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=14 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="80" width="1582" format="[general]"  name=nombre_provincia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="14" y="8" height="52" width="201" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="0" x="229" y="8" height="52" width="247" format="[general]"  name=nombre_formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="489" y="8" height="52" width="1097" format="[general]"  name=nombre_articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="1605" y="8" height="52" width="430" format="[general]"  name=cantidad_piezas editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2057" y="8" height="52" width="553" format="[general]"  name=importe_facturas editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="1" tabsequence=32766 border="0" color="0" x="2633" y="8" height="52" width="366" format="[general]"  name=precio editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="2" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1298" y="8" height="52" width="928" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.2 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="155" y="16" height="60" width="1435" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum( cantidad_piezas for group 2)"border="0" color="0" x="1614" y="16" height="56" width="421" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(importe_facturas for group 2)"border="0" color="0" x="2057" y="16" height="56" width="549" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=summary x1="1115" y1="36" x2="2651" y2="36" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="TOTAL:"border="0" color="0" x="1234" y="56" height="60" width="210"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum(cantidad_piezas for all),~"###,###,###~")"border="0" color="0" x="1600" y="56" height="60" width="425" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum( importe_facturas for all),~"###,###,###,##0.00~")"border="0" color="0" x="2043" y="56" height="60" width="553" format="[general]~tf_mascara_moneda( moneda )"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

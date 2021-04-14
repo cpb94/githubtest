@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_insert_str_art_escandallo.srf
+global type f_insert_str_art_escandallo from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_art_escandallo (ref str_art_escandallo str_art_escandallo)
+end prototypes
+
+global function boolean f_insert_str_art_escandallo (ref str_art_escandallo str_art_escandallo);int li_existe_registro
+boolean lb_correcto = true
+
+SELECT isnull(count(*),0) 
+INTO   :li_existe_registro 
+FROM   art_escandallo
+WHERE  art_escandallo.empresa      = :str_art_escandallo.empresa        
+AND    art_escandallo.articulo     = :str_art_escandallo.articulo
+AND    art_escandallo.version      = :str_art_escandallo.version
+AND    art_escandallo.articulo_ant = :str_art_escandallo.articulo_ant;
+
+if li_existe_registro = 0 then
+	//Insertamos
+	INSERT INTO art_escandallo
+			 (art_escandallo.empresa,
+			  art_escandallo.articulo,
+			  art_escandallo.version,
+			  art_escandallo.articulo_ant,
+			  art_escandallo.factor,
+			  art_escandallo.aprovecha) 
+	VALUES (:str_art_escandallo.empresa,
+			  :str_art_escandallo.articulo,
+			  :str_art_escandallo.version,
+			  :str_art_escandallo.articulo_ant,
+			  :str_art_escandallo.factor,
+			  :str_art_escandallo.aprovecha);
+else
+	//Updateamos
+	UPDATE art_escandallo 
+	SET    art_escandallo.factor       = :str_art_escandallo.factor,
+			 art_escandallo.aprovecha    = :str_art_escandallo.aprovecha 
+	WHERE  art_escandallo.empresa      = :str_art_escandallo.empresa        
+	AND    art_escandallo.articulo     = :str_art_escandallo.articulo
+	AND    art_escandallo.version      = :str_art_escandallo.version
+	AND    art_escandallo.articulo_ant = :str_art_escandallo.articulo_ant;
+end if
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

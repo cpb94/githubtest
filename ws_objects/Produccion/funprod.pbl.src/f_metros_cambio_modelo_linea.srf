@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_metros_cambio_modelo_linea.srf
+global type f_metros_cambio_modelo_linea from function_object
+end type
+
+forward prototypes
+global function decimal f_metros_cambio_modelo_linea (string empresa, string linea)
+end prototypes
+
+global function decimal f_metros_cambio_modelo_linea (string empresa, string linea);dec metros
+
+metros = f_tiempo_cambio_modelo_linea(empresa,linea) * f_metros_linea_hora(empresa,linea)
+
+return metros
+end function
+

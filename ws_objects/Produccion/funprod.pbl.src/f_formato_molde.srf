@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_formato_molde.srf
+global type f_formato_molde from function_object
+end type
+
+forward prototypes
+global function string f_formato_molde (string arg_empresa, string arg_molde)
+end prototypes
+
+global function string f_formato_molde (string arg_empresa, string arg_molde);string formato
+
+select formato 
+into   :formato
+from   prodmoldes 
+where  empresa = :arg_empresa
+and    codigo  = :arg_molde;
+
+if isnull(formato) then formato = ""
+
+return formato
+end function
+

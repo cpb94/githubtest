@@ -1,0 +1,15 @@
+﻿$PBExportHeader$str_alm_bultos.srs
+global type str_alm_bultos from structure
+	decimal { 0 }		id
+	string		empresa
+	string		ean13
+	string		tipo_pallet
+	decimal { 0 }		alto
+	string		usuario
+	datetime		fecha_hora_alta
+	decimal { 0 }		id_ubicacion
+	decimal { 0 }		anyo_orden_carga
+	string		codigo_orden_carga
+	string		observaciones
+end type
+

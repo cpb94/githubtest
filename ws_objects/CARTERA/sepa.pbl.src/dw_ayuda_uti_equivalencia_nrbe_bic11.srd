@@ -1,0 +1,221 @@
+﻿$PBExportHeader$dw_ayuda_uti_equivalencia_nrbe_bic11.srd
+
+release 9;
+
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no )
+
+header(height=76 color="536870912" )
+
+summary(height=0 color="536870912" )
+
+footer(height=0 color="536870912" )
+
+detail(height=88 color="536870912" )
+
+table(column=(type=char(6) updatewhereclause=yes name=nrbe dbname="NRBE" )
+
+ column=(type=char(11) updatewhereclause=yes name=bic11 dbname="BIC11" )
+
+ column=(type=long updatewhereclause=yes name=orden dbname="ORDEN" )
+
+ column=(type=long updatewhereclause=yes name=bancos dbname="BANCOS" )
+
+ column=(type=long updatewhereclause=yes name=proveedores dbname="PROVEEDORES" )
+
+ column=(type=long updatewhereclause=yes name=clientes dbname="CLIENTES" )
+
+ column=(type=long updatewhereclause=yes name=empleados dbname="EMPLEADOS" )
+
+ retrieve="SELECT NRBE,
+
+		 BIC11,
+
+		 ORDEN,
+
+		 SUM(BANCOS) BANCOS,
+
+		 SUM(PROVEEDORES) PROVEEDORES,
+
+       SUM(CLIENTES) CLIENTES,
+
+		 SUM(EMPLEADOS) EMPLEADOS
+
+FROM   (
+
+SELECT NRBE,
+
+		 BIC11,
+
+		 1 AS ORDEN,
+
+		 -1 AS BANCOS,
+
+		 -1 AS PROVEEDORES,
+
+       -1 AS CLIENTES,
+
+		 -1 AS EMPLEADOS
+
+FROM   UTI_EQUIVALENCIA_NRBE_BIC11
+
+WHERE  UPPER(UTI_EQUIVALENCIA_NRBE_BIC11.NRBE) like :criterio   
+
+UNION 
+
+SELECT CARBANCOS.ENTIDAD,
+
+		 '',
+
+		 2 AS ORDEN,
+
+		 COUNT(*) AS BANCOS,
+
+		 0 AS PROVEEDORES,
+
+       0 AS CLIENTES,
+
+		 0 AS EMPLEADOS
+
+FROM   CARBANCOS
+
+WHERE  CARBANCOS.ENTIDAD NOT IN(SELECT NRBE FROM UTI_EQUIVALENCIA_NRBE_BIC11)
+
+AND    ISNULL(CARBANCOS.ENTIDAD,'') <> ''
+
+AND    UPPER(CARBANCOS.ENTIDAD) like :criterio   
+
+GROUP BY CARBANCOS.ENTIDAD
+
+UNION 
+
+SELECT COMPROVEEDORES.ENTIDAD,
+
+		 '',
+
+		 2 AS ORDEN,
+
+		 0 AS BANCOS,
+
+		 COUNT(*) AS PROVEEDORES,
+
+       0 AS CLIENTES,
+
+		 0 AS EMPLEADOS
+
+FROM   COMPROVEEDORES
+
+WHERE  COMPROVEEDORES.ENTIDAD NOT IN(SELECT NRBE FROM UTI_EQUIVALENCIA_NRBE_BIC11)
+
+AND    ISNULL(COMPROVEEDORES.ENTIDAD,'') <> ''
+
+AND    UPPER(COMPROVEEDORES.ENTIDAD) like :criterio   
+
+GROUP BY COMPROVEEDORES.ENTIDAD
+
+UNION 
+
+SELECT VENDOMICILIACION.ENTIDAD,
+
+		 '',
+
+		 2 AS ORDEN,
+
+		 0 AS BANCOS,
+
+		 0 AS PROVEEDORES,
+
+       COUNT(*) AS CLIENTES,
+
+		 0 AS EMPLEADOS
+
+FROM   VENDOMICILIACION,VENCLIENTES
+
+WHERE  VENDOMICILIACION.EMPRESA = VENCLIENTES.EMPRESA
+
+AND    VENDOMICILIACION.CLIENTE = VENCLIENTES.CODIGO
+
+AND    VENDOMICILIACION.CODIGO  = VENCLIENTES.DOMICILIACION
+
+AND    VENDOMICILIACION.ENTIDAD NOT IN(SELECT NRBE FROM UTI_EQUIVALENCIA_NRBE_BIC11)
+
+AND    ISNULL(VENDOMICILIACION.ENTIDAD,'') <> ''
+
+AND    UPPER(VENDOMICILIACION.ENTIDAD) like :criterio   
+
+GROUP BY VENDOMICILIACION.ENTIDAD
+
+UNION 
+
+SELECT NOMEMPLEADOS.ENTIDAD_BANCO,
+
+		 '',
+
+		 2 AS ORDEN,
+
+		 0 AS BANCOS,
+
+		 0 AS PROVEEDORES,
+
+       0 AS CLIENTES,
+
+		 COUNT(*) AS EMPLEADOS
+
+FROM   NOMEMPLEADOS
+
+WHERE  NOMEMPLEADOS.ENTIDAD_BANCO NOT IN(SELECT NRBE FROM UTI_EQUIVALENCIA_NRBE_BIC11)
+
+AND    ISNULL(NOMEMPLEADOS.ENTIDAD_BANCO,'') <> ''
+
+AND    UPPER(NOMEMPLEADOS.ENTIDAD_BANCO) like :criterio   
+
+AND    NOMEMPLEADOS.F_BAJA IS NULL
+
+GROUP BY NOMEMPLEADOS.ENTIDAD_BANCO) AS RESULTADO
+
+GROUP BY NRBE,
+
+		 BIC11,
+
+		 ORDEN;
+
+
+
+
+
+" arguments=(("criterio", string))  sort="orden A bic11 A nrbe A " )
+
+text(band=header alignment="2" text="NRBE" border="6" color="0" x="165" y="8" height="64" width="320" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+text(band=header alignment="2" text="BIC 11" border="6" color="0" x="512" y="8" height="64" width="517" html.valueishtml="0"  name=abreviado_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+text(band=header alignment="2" text="Bancos" border="6" color="0" x="1047" y="8" height="64" width="366" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+text(band=header alignment="2" text="Proveedores" border="6" color="0" x="1431" y="8" height="64" width="366" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+text(band=header alignment="2" text="Clientes" border="6" color="0" x="1815" y="8" height="64" width="366" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+text(band=header alignment="2" text="Empleados" border="6" color="0" x="2199" y="8" height="64" width="366" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+
+column(band=detail id=1 alignment="2" tabsequence=32766 border="5" color="0" x="165" y="8" height="64" width="320" format="[general]" html.valueishtml="0"  name=nrbe visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+column(band=detail id=2 alignment="2" tabsequence=32766 border="5" color="0" x="512" y="8" height="64" width="517" format="[general]" html.valueishtml="0"  name=bic11 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+column(band=detail id=4 alignment="2" tabsequence=32766 border="5" color="0" x="1047" y="8" height="64" width="366" format="[general]" html.valueishtml="0"  name=bancos visible="1~tif(bancos > 0 , 1 , 0 )" editmask.mask="###,##0" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+column(band=detail id=5 alignment="2" tabsequence=32766 border="5" color="0" x="1431" y="8" height="64" width="366" format="[general]" html.valueishtml="0"  name=proveedores visible="1~tif(proveedores > 0 , 1 , 0 )" editmask.mask="###,##0" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+column(band=detail id=6 alignment="2" tabsequence=32766 border="5" color="0" x="1815" y="8" height="64" width="366" format="[general]" html.valueishtml="0"  name=clientes visible="1~tif(clientes > 0 , 1 , 0 )" editmask.mask="###,##0" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+column(band=detail id=7 alignment="2" tabsequence=32766 border="5" color="0" x="2199" y="8" height="64" width="366" format="[general]" html.valueishtml="0"  name=empleados visible="1~tif(empleados > 0 , 1 , 0 )" editmask.mask="###,##0" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" )
+
+htmltable(border="0" )
+
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+
+import.xml()
+
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+
+ 

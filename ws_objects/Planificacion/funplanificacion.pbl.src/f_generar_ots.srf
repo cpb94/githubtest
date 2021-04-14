@@ -1,0 +1,172 @@
+﻿$PBExportHeader$f_generar_ots.srf
+global type f_generar_ots from function_object
+end type
+
+forward prototypes
+global function boolean f_generar_ots (string p_articulo, string p_version, string p_operacion, integer p_pedido, integer p_linped, integer p_anyo, decimal p_cantidad, date p_fentrega, string p_ajuste, string art_encajado, decimal factor_acum, integer nivel, long argl_lote, integer argi_calibre)
+end prototypes
+
+global function boolean f_generar_ots (string p_articulo, string p_version, string p_operacion, integer p_pedido, integer p_linped, integer p_anyo, decimal p_cantidad, date p_fentrega, string p_ajuste, string art_encajado, decimal factor_acum, integer nivel, long argl_lote, integer argi_calibre);datastore operaciones
+date v_f_entrega
+boolean bien = True
+dec i,j, total_lineaspedido, total_operaciones, ordent, v_ordenoperacion, v_cantidad
+int maximo_orden, plazo_entrega = 21
+dec{2} v_factor
+string v_tipo_operacion,  v_base, v_formato, v_lineaprod = "1"
+string v_descripcion_formato, seleccion,ls_lote
+
+string ls_cod_pallet,ls_cod_caja
+
+if p_pedido <> 0 then
+	//Solamente sacare la caja y el pallet del articulo reflejado en el pedido, el resto son semielaborados a los que les asignare la caja y el pallet que tienen asignado por defecto
+	select isnull(venliped.tipo_pallet,''),
+			 isnull(venliped.caja,'')
+	into   :ls_cod_pallet,
+			 :ls_cod_caja 
+	from   venliped
+	where  venliped.empresa  = :codigo_empresa
+	and    venliped.anyo     = :p_anyo
+	and    venliped.pedido   = :p_pedido
+	and    venliped.linea    = :p_linped
+	and    venliped.articulo = :p_articulo;
+
+end if
+
+if trim(ls_cod_pallet) = '' or ls_cod_caja = '' then
+	select isnull(palarticulo.codigo,''),
+			 isnull(almartcajas.caja,'') 
+	into   :ls_cod_pallet,
+			 :ls_cod_caja 
+	from   palarticulo,
+			 almartcajas 
+	where  palarticulo.empresa    = almartcajas.empresa 
+	and    palarticulo.articulo   = almartcajas.articulo 
+	and    palarticulo.caja       = almartcajas.caja 
+	and    palarticulo.empresa    = :codigo_empresa
+	and    palarticulo.articulo   = :p_articulo
+	and    palarticulo.pordefecto = 'S'
+	and    almartcajas.pordefecto = 'S';
+end if
+
+if p_operacion = '' or isnull( p_operacion)  then
+	seleccion = " select tipo_operacion, orden, formato, factor "+ &
+					" from art_ver_operaciones"+ &
+					" where empresa = "+codigo_empresa+ &
+					" and version = '"+p_version+"' "+&
+					" and articulo = '"+p_articulo+"' "+&
+					" order by orden ;"
+else
+	seleccion = " select tipo_operacion, orden, formato, factor "+ &
+					" from art_ver_operaciones"+ &
+					" where empresa = "+codigo_empresa+ &
+					" and version = '"+p_version+"' "+&
+					" and articulo = '"+p_articulo+"' "+&
+					" and orden = '"+p_operacion+"' "+&
+					" order by orden ;"
+end if
+					
+f_cargar_cursor_nuevo(seleccion,operaciones)
+/*
+select base 
+into :v_base
+from art_versiones
+where empresa = :codigo_empresa
+and articulo = :p_articulo
+and version = :p_version;
+	*/
+// Extraemos la base de la tabla art_escandallo en lugar de sacarla de art_Versiones.
+select TOP 1 articulo_ant
+into :v_base
+from art_escandallo
+where art_escandallo.empresa = :codigo_empresa
+and articulo = :p_articulo
+and version = :p_version
+order by articulo_ant
+USING SQLCA;
+
+	
+for j = 1 to operaciones.RowCount()
+	v_factor = operaciones.object.factor[j]
+	if v_factor = 0 or isnull(v_factor) then
+		v_factor = 1
+	end if
+	
+	v_cantidad = p_cantidad / v_factor
+	v_tipo_operacion = operaciones.object.tipo_operacion[j]
+	v_ordenoperacion = dec(operaciones.object.orden[j])
+	v_formato = operaciones.object.formato[j]
+	
+	select max(orden)
+	into :maximo_orden
+	from planificacion
+	where lineaprod = "1"
+	and empresa = :codigo_empresa
+	USING SQLCA;
+	
+	if isnull (maximo_orden) then
+		maximo_orden = 0
+	end if
+	
+	maximo_orden = maximo_orden + 1	
+	
+	ordent = 0
+	select OT
+	into :ordenT
+	from ordenest
+	USING SQLCA;
+	
+	ordent = ordent +1
+	
+	f_velocidad_art_ver_op(codigo_empresa, p_articulo, p_version, string(v_ordenoperacion), v_tipo_operacion )
+	
+	ls_lote = string(argl_lote,"####################")
+	
+	// Cuando trabajemos con las estructuras nuevas, sustituiremos :v_factor por :v_factor * :factor_acum
+	insert into planificacion
+	(empresa,pedido,linped,anyo,orden,lineaprod, OT,tipo_operacion, cod_articulo, base,cantidad,formato,
+	f_entrega,ordenoperacion,version, ajuste, factor, art_encajado, nivel, lote, calibre, cod_pallet, cod_caja)
+	values 
+	(:codigo_empresa,:P_pedido, :P_linped, :P_anyo, :maximo_orden , :v_lineaprod, :ordent, :v_tipo_operacion, 
+	:p_articulo, :v_base, :v_cantidad, :v_formato, :p_fentrega, :v_ordenoperacion,:p_version, :p_ajuste, :v_factor * :factor_acum, :art_encajado, :nivel, :ls_lote, :argi_calibre, :ls_cod_pallet, :ls_cod_caja)
+	USING SQLCA;
+	
+	if SQLCA.SQLCode <> 0 then 
+		bien = false
+	end if;			
+	
+	update ordenest
+	set ot = :ordent
+	USING SQLCA;
+	
+	if SQLCA.SQLCode <> 0 then 
+		bien = false
+	end if;			
+next
+
+update venliped
+set planificado = "S"
+where empresa = :codigo_empresa
+and pedido = :p_pedido
+and linea = :p_linped
+and anyo = :p_anyo
+and bloqueado = '0'
+USING SQLCA;
+
+if SQLCA.SQLCode <> 0 then 
+bien = false
+end if;				
+
+if bien then 
+	commit USING SQLCA;
+else
+	rollback USING SQLCA;
+end if;			
+
+destroy operaciones
+
+return bien
+	
+
+
+end function
+

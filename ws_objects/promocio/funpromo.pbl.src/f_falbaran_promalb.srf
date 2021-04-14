@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_falbaran_promalb.srf
+global type f_falbaran_promalb from function_object
+end type
+
+forward prototypes
+global function datetime f_falbaran_promalb (string empresa, decimal anyo, integer albaran)
+end prototypes
+
+global function datetime f_falbaran_promalb (string empresa, decimal anyo, integer albaran);DateTime variable
+  
+  SELECT promalb.falbaran
+    INTO :variable  
+    FROM promalb  
+   WHERE ( promalb.empresa = :empresa ) AND  
+         ( promalb.anyo = :anyo ) AND  
+         ( promalb.albaran = :albaran )   ;
+Return variable
+end function
+

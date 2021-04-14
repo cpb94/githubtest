@@ -1,0 +1,35 @@
+﻿$PBExportHeader$str_almlinubica.srs
+$PBExportComments$Estructura lines de ubicacion.
+global type str_almlinubica from structure
+	string		empresa
+	string		almacen
+	string		zona
+	integer		fila
+	integer		altura
+	long		linea
+	string		articulo
+	string		familia
+	string		subfamilia
+	string		formato
+	string		subformato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	decimal { 4 }		existencias
+	integer		anyo
+	decimal { 0 }		pedido
+	decimal { 0 }		linped
+	string		cliente
+	string		ubicacion
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		observaciones
+	string		tipo_pallet
+	string		sector
+	string		externo
+	string		caja
+	string		tonochar
+end type
+

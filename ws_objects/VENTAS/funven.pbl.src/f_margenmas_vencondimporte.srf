@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_margenmas_vencondimporte.srf
+global type f_margenmas_vencondimporte from function_object
+end type
+
+forward prototypes
+global function decimal f_margenmas_vencondimporte (string cod_empresa, string codigo)
+end prototypes
+
+global function decimal f_margenmas_vencondimporte (string cod_empresa, string codigo);Dec{4} param
+
+ SELECT    vencondimporte.margenmas
+    INTO   :param
+    FROM vencondimporte 
+   WHERE ( vencondimporte.empresa= :cod_empresa ) AND  
+         ( vencondimporte.codigo  = :codigo   )   ;
+			IF IsNull(param) Then param =  0
+
+RETURN param
+//
+
+end function
+

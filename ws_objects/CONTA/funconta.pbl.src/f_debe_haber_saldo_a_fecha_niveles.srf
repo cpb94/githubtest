@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_debe_haber_saldo_a_fecha_niveles.srf
+global type f_debe_haber_saldo_a_fecha_niveles from function_object
+end type
+
+forward prototypes
+global function decimal f_debe_haber_saldo_a_fecha_niveles (string empresa, string cuenta, datetime fecha_hasta, integer digitos)
+end prototypes
+
+global function decimal f_debe_haber_saldo_a_fecha_niveles (string empresa, string cuenta, datetime fecha_hasta, integer digitos);dec saldo
+
+SELECT (sum(contaapun.debe) - sum(contaapun.haber)) INTO :saldo 
+FROM  contaapun  
+WHERE contaapun.empresa   = :empresa 
+AND   contaapun.fapunte    < :fecha_hasta 
+AND   substring(contaapun.cuenta,1,:digitos) = :cuenta;
+
+if sqlca.sqlcode <> 0 THEN f_mensaje("Error en d_debe_haber",sqlca.sqlerrtext)
+
+return saldo
+end function
+

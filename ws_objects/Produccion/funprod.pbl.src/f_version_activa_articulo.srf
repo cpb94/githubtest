@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_version_activa_articulo.srf
+global type f_version_activa_articulo from function_object
+end type
+
+forward prototypes
+global function string f_version_activa_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_version_activa_articulo (string empresa, string articulo);string version_activa
+
+select version into :version_activa
+from prodartversionactiva
+where empresa =  :empresa
+and   articulo = :articulo;
+
+if isnull(version_activa) then version_activa = ""
+
+return version_activa
+end function
+

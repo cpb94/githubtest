@@ -1,0 +1,147 @@
+﻿$PBExportHeader$f_valor_stock_p.srf
+global type f_valor_stock_p from function_object
+end type
+
+forward prototypes
+global function decimal f_valor_stock_p (string empresa)
+end prototypes
+
+global function decimal f_valor_stock_p (string empresa);dec valor_stock_muelle
+
+
+//SELECT isnull(max(ventarifas_precios_packs.precio),0) as precio 
+//INTO   :precio_min
+//FROM   ventarifas, 
+//       ventarifas_precios_packs 
+//WHERE ( ventarifas_precios_packs.empresa = ventarifas.empresa ) 
+//and   ( ventarifas_precios_packs.ventarifas_codigo = ventarifas.codigo ) 
+//and   ( ventarifas_precios_packs.ventarifas_activa = ventarifas.activa ) 
+//and   ( ( ventarifas.empresa = :empresa ) 
+//AND   ( ventarifas_precios_packs.articulos_codigo = :articulo ) 
+//AND   ( ventarifas_precios_packs.calidades_codigo = :calidad ) );
+
+//select sum( (CASE WHEN articulos.unidad = '0' 
+//			THEN (almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+//			ELSE (((almacenmovimientos.cantidade - almacenmovimientos.cantidads) / av.piezascaja) * av.metroscaja) END)  * 			
+//				( CASE WHEN ventarifas_precios_packs.precio <> 0 or ventarifas_precios_packs.precio is not null           
+//					THEN ventarifas_precios_packs.precio
+//					ELSE ventarifas_precios.precio END ) )  importe
+//
+//into :valor_stock_muelle			
+//from almacenmovimientos 
+//LEFT OUTER JOIN ventarifas_precios ON almacenmovimientos.empresa = ventarifas_precios.empresa and almacenmovimientos.articulo = ventarifas_precios.articulos_codigo 
+//INNER JOIN almartcajas av ON almacenmovimientos.empresa = av.empresa AND almacenmovimientos.articulo = av.articulo AND almacenmovimientos.caja = av.caja 
+//INNER JOIN articulos ON almacenmovimientos.empresa = articulos.empresa AND almacenmovimientos.articulo = articulos.codigo 
+//LEFT OUTER JOIN ventarifas_precios_packs ON almacenmovimientos.empresa = ventarifas_precios_packs.empresa and almacenmovimientos.articulo = ventarifas_precios_packs.articulos_codigo 
+//where almacenmovimientos.empresa = '1'
+//and av.piezascaja <> 0 
+//and almacenmovimientos.almacen = '1'
+//and almacenmovimientos.zona = 'P'
+//and articulos.promocion <> 'S'
+//and ( ventarifas_precios.ventarifas_codigo = (SELECT top 1 v.ventarifas_codigo 
+//															FROM ventarifas_precios v 
+//															WHERE v.empresa = almacenmovimientos.empresa 
+//															and v.articulos_codigo = almacenmovimientos.articulo 
+//															and v.calidades_codigo = almacenmovimientos.calidad 
+//															and v.ventarifas_codigo <> '5'
+//															order by v.precio asc) OR ventarifas_precios.ventarifas_codigo is null)
+//and ( ventarifas_precios_packs.ventarifas_codigo = (SELECT top 1 v2.ventarifas_codigo 
+//															FROM ventarifas_precios_packs v2 
+//															WHERE v2.empresa = almacenmovimientos.empresa 
+//															and v2.articulos_codigo = almacenmovimientos.articulo 
+//															and v2.calidades_codigo = almacenmovimientos.calidad 
+//															and v2.ventarifas_codigo <> '5'
+//															order by v2.precio asc) OR ventarifas_precios_packs.ventarifas_codigo is null)
+//
+//															
+//and 0 <> (select sum(mov.cantidade - mov.cantidads) 
+//				from almacenmovimientos mov 
+//				where mov.articulo = almacenmovimientos.articulo 
+//				and mov.almacen = '1'
+//				and mov.zona = 'P'
+//				and mov.calidad =almacenmovimientos.calidad );
+
+
+///Mejora de SQL 25/09/20 MAG
+
+//select sum((CASE WHEN arti.unidad = '0' THEN (alm.cantidade - alm.cantidads) 
+//					ELSE (((alm.cantidade - alm.cantidads) / av.piezascaja) * av.metroscaja) END) * 			
+//							(CASE WHEN isnull(pack.precio, 0) <> 0 THEN pack.precio
+//								ELSE tar.precio END)) importe
+//						
+//into :valor_stock_muelle
+//
+//from	(select * from almacenmovimientos where empresa = :empresa and almacen = '1' and zona = 'P') as alm
+//
+//		INNER JOIN (select * from almartcajas where empresa = :empresa and piezascaja <> 0) as av
+//			ON alm.articulo = av.articulo AND alm.caja = av.caja 
+//
+//		INNER JOIN (select * from articulos where empresa = :empresa and promocion <> 'S') as arti
+//			ON alm.articulo = arti.codigo 
+//
+//		left join (select min(precio) as precio, articulos_codigo, calidades_codigo 
+//					from ventarifas_precios where empresa = :empresa and ventarifas_codigo <> '5' group by articulos_codigo, calidades_codigo) as tar
+//			on tar.articulos_codigo = alm.articulo and tar.calidades_codigo = alm.calidad
+//
+//		left join (select min(precio) as precio, articulos_codigo, calidades_codigo 
+//					from ventarifas_precios_packs where empresa = :empresa and ventarifas_codigo <> '5' group by articulos_codigo, calidades_codigo) as pack
+//			on pack.articulos_codigo = alm.articulo and pack.calidades_codigo = alm.calidad
+//
+//
+//where 0 <> (select sum(mov.cantidade - mov.cantidads) 
+//				from almacenmovimientos mov 
+//				where mov.articulo = alm.articulo 
+//				and mov.almacen = '1'
+//				and mov.zona = 'P'
+//				and mov.calidad =alm.calidad );
+//
+
+//CAMBIO SEGUN DM. 17/10/20 MAG
+
+select sum(neto)
+into   :valor_stock_muelle
+from   venliped
+where  empresa = :empresa
+and	 situacion = 'P'
+and	 isnull(articulo, '') <> '';
+
+if isnull(valor_stock_muelle) then
+	valor_stock_muelle = 0
+end if
+
+return valor_stock_muelle
+
+
+/*
+dec valor_stock_muelle
+
+select sum( (CASE WHEN articulos.unidad = '0' 
+			THEN (almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+			ELSE (((almacenmovimientos.cantidade - almacenmovimientos.cantidads) / av.piezascaja) * av.metroscaja) END)  * venlintarifas.precio) importe
+into :valor_stock_muelle			
+from almacenmovimientos 
+INNER JOIN venlintarifas ON almacenmovimientos.empresa = venlintarifas.empresa and almacenmovimientos.articulo = venlintarifas.articulo 
+INNER JOIN almartcajas av ON almacenmovimientos.empresa = av.empresa AND almacenmovimientos.articulo = av.articulo AND almacenmovimientos.caja = av.caja 
+INNER JOIN articulos ON almacenmovimientos.empresa = articulos.empresa AND almacenmovimientos.articulo = articulos.codigo 
+where almacenmovimientos.empresa = '1'
+and av.piezascaja <> 0 
+and almacenmovimientos.almacen = '1'
+and almacenmovimientos.zona = 'P'
+and venlintarifas.tarifa = (SELECT top 1 v.tarifa FROM venlintarifas v WHERE v.empresa = almacenmovimientos.empresa and v.articulo = almacenmovimientos.articulo and v.calidad = almacenmovimientos.calidad order by precio desc)
+and 0 <> (select sum(mov.cantidade - mov.cantidads) 
+		from almacenmovimientos mov 
+		where mov.articulo = almacenmovimientos.articulo 
+		and mov.almacen = '1'
+		and mov.zona = 'P'
+		and mov.calidad =almacenmovimientos.calidad );
+
+if isnull(valor_stock_muelle) then
+	valor_stock_muelle = 0
+end if
+
+return valor_stock_muelle
+
+
+*/
+end function
+

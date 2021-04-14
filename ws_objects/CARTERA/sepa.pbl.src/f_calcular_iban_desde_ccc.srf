@@ -1,0 +1,253 @@
+﻿$PBExportHeader$f_calcular_iban_desde_ccc.srf
+global type f_calcular_iban_desde_ccc from function_object
+
+end type
+
+forward prototypes
+
+global function string f_calcular_iban_desde_ccc (string arg_entidad, string arg_oficina, string arg_control, string arg_cuenta)
+
+end prototypes
+
+global function string f_calcular_iban_desde_ccc (string arg_entidad, string arg_oficina, string arg_control, string arg_cuenta);string ls_ccc,ls_iban,ls_codigo_pais,ls_letra,ls_equivalente_codigo_pais,ls_digito_control
+
+int    li_equivalente_letra,li_letra
+
+long   ll_modulo97,ll_digito_de_control
+
+
+
+//Creamos un iban provisional añadiendo el codigo del pais y 00 como digitos de control
+
+ls_iban = 'ES00'+arg_entidad+arg_oficina+arg_control+arg_cuenta
+
+//Pasamos los 4 primeros caracteres al final del iban
+
+ls_iban = right(ls_iban,len(ls_iban)-4)+left(ls_iban,4)
+
+//Obtenemos las dos letras equivalentes al pais
+
+ls_codigo_pais = mid(ls_iban,len(ls_iban)-3,2)
+
+
+
+//Convertimos cada letra a su equivalente en numero
+
+ls_equivalente_codigo_pais = ''
+
+
+
+for li_letra = 1 to 2
+
+	ls_letra = mid(ls_codigo_pais,li_letra,1)
+
+	
+
+	choose case ls_letra
+
+		case 'A'
+
+			li_equivalente_letra = 10
+
+		case 'B'
+
+			li_equivalente_letra = 11
+
+		case 'C'
+
+			li_equivalente_letra = 12
+
+		case 'D'
+
+			li_equivalente_letra = 13
+
+		case 'E'
+
+			li_equivalente_letra = 14
+
+		case 'F'
+
+			li_equivalente_letra = 15
+
+		case 'G'
+
+			li_equivalente_letra = 16
+
+		case 'H'
+
+			li_equivalente_letra = 17
+
+		case 'I'
+
+			li_equivalente_letra = 18
+
+		case 'J'
+
+			li_equivalente_letra = 19		
+
+		case 'K'
+
+			li_equivalente_letra = 20
+
+		case 'L'
+
+			li_equivalente_letra = 21
+
+		case 'M'
+
+			li_equivalente_letra = 22
+
+		case 'N'
+
+			li_equivalente_letra = 26
+
+		case 'O'
+
+			li_equivalente_letra = 24
+
+		case 'P'
+
+			li_equivalente_letra = 25
+
+		case 'Q'
+
+			li_equivalente_letra = 26
+
+		case 'R'
+
+			li_equivalente_letra = 27
+
+		case 'S'
+
+			li_equivalente_letra = 28
+
+		case 'T'
+
+			li_equivalente_letra = 29		
+
+		case 'U'
+
+			li_equivalente_letra = 30
+
+		case 'V'
+
+			li_equivalente_letra = 31
+
+		case 'W'
+
+			li_equivalente_letra = 32
+
+		case 'X'
+
+			li_equivalente_letra = 33
+
+		case 'Y'
+
+			li_equivalente_letra = 34
+
+		case 'Z'
+
+			li_equivalente_letra = 35
+
+	end choose
+
+	
+
+	ls_equivalente_codigo_pais += string(li_equivalente_letra,"00")
+
+next
+
+
+
+//Sustituimos el codigo del pais por el equivalente en numero
+
+ls_iban = left(ls_iban,len(ls_iban)-4)+ls_equivalente_codigo_pais+right(ls_iban,2)
+
+
+
+//calculamos el modulo 97
+
+//No se puede realizar en una sola operacion
+
+//Lo haremos en grupode de 9 digitos
+
+ll_modulo97 = mod(long(left(ls_iban,9)),97)
+
+
+
+ls_iban = right(ls_iban,len(ls_iban) -9)
+
+
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+
+if len(string(ll_modulo97,"#0")) = 1 then
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,8)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -8)
+
+else
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,7)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -7)
+
+end if
+
+
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+
+if len(string(ll_modulo97,"#0")) = 1 then
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,8)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -8)
+
+else
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,7)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -7)
+
+end if
+
+
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+
+if len(string(ll_modulo97,"#0")) = 1 then
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,8)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -8)
+
+else
+
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_iban,7)),97)
+
+	ls_iban = right(ls_iban,len(ls_iban) -7)
+
+end if
+
+
+
+//Y sacamos la diferencia entre 98 y el modulo que seria el digito de control
+
+ll_digito_de_control = 98 - ll_modulo97
+
+//Le aplicamos la mascara
+
+ls_digito_control = string(ll_digito_de_control,"00")
+
+//Y ya componemos el iban definitivo
+
+ls_iban = 'ES'+ls_digito_control+arg_entidad+arg_oficina+arg_control+arg_cuenta
+
+
+
+return ls_iban
+
+end function
+

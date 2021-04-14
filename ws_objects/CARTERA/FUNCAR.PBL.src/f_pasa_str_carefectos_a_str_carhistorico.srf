@@ -1,0 +1,79 @@
+﻿$PBExportHeader$f_pasa_str_carefectos_a_str_carhistorico.srf
+global type f_pasa_str_carefectos_a_str_carhistorico from function_object
+end type
+
+forward prototypes
+global subroutine f_pasa_str_carefectos_a_str_carhistorico (str_carefectos arg_str_carefectos, ref str_carhistorico arg_str_carhistorico)
+end prototypes
+
+global subroutine f_pasa_str_carefectos_a_str_carhistorico (str_carefectos arg_str_carefectos, ref str_carhistorico arg_str_carhistorico);arg_str_carhistorico.empresa                     = arg_str_carefectos.empresa
+arg_str_carhistorico.anyo                        = arg_str_carefectos.anyo
+arg_str_carhistorico.orden                       = arg_str_carefectos.orden
+arg_str_carhistorico.anyofra                     = arg_str_carefectos.anyofra
+arg_str_carhistorico.factura                     = arg_str_carefectos.factura
+arg_str_carhistorico.recibo                      = arg_str_carefectos.recibo
+arg_str_carhistorico.fvto                        = arg_str_carefectos.fvto
+arg_str_carhistorico.fvto_original               = arg_str_carefectos.fvto_original
+arg_str_carhistorico.ffra                        = arg_str_carefectos.ffra
+arg_str_carhistorico.fcobro                      = arg_str_carefectos.fcobro
+arg_str_carhistorico.importe                     = arg_str_carefectos.importe
+arg_str_carhistorico.divisas                     = arg_str_carefectos.divisas
+arg_str_carhistorico.monedas                     = arg_str_carefectos.monedas
+arg_str_carhistorico.fpago                       = arg_str_carefectos.fpago
+arg_str_carhistorico.tipodoc                     = arg_str_carefectos.tipodoc
+arg_str_carhistorico.banco                       = arg_str_carefectos.banco
+arg_str_carhistorico.remesa                      = arg_str_carefectos.remesa
+arg_str_carhistorico.fremesa                     = arg_str_carefectos.fremesa
+arg_str_carhistorico.situacion                   = arg_str_carefectos.situacion
+arg_str_carhistorico.agente1                     = arg_str_carefectos.agente1
+arg_str_carhistorico.pais                        = arg_str_carefectos.pais
+arg_str_carhistorico.cuenta                      = arg_str_carefectos.cuenta
+arg_str_carhistorico.domiciliacion               = arg_str_carefectos.domiciliacion
+arg_str_carhistorico.nacional                    = arg_str_carefectos.nacional
+arg_str_carhistorico.observaciones               = arg_str_carefectos.observaciones
+arg_str_carhistorico.libre                       = arg_str_carefectos.libre
+arg_str_carhistorico.gasto                       = arg_str_carefectos.gasto
+arg_str_carhistorico.fdevolucion                 = arg_str_carefectos.fdevolucion
+arg_str_carhistorico.agrupado                    = arg_str_carefectos.agrupado
+arg_str_carhistorico.efectoagrupa                = arg_str_carefectos.efectoagrupa
+arg_str_carhistorico.anyoagrupa                  = arg_str_carefectos.anyoagrupa
+arg_str_carhistorico.cliente                     = arg_str_carefectos.cliente
+arg_str_carhistorico.anyo_remesa                 = arg_str_carefectos.anyo_remesa
+arg_str_carhistorico.comision11                  = arg_str_carefectos.comision11
+arg_str_carhistorico.comision12                  = arg_str_carefectos.comision12
+arg_str_carhistorico.agente2                     = arg_str_carefectos.agente2
+arg_str_carhistorico.comision21                  = arg_str_carefectos.comision21
+arg_str_carhistorico.comision22                  = arg_str_carefectos.comision22
+arg_str_carhistorico.agente3                     = arg_str_carefectos.agente3
+arg_str_carhistorico.comision31                  = arg_str_carefectos.comision31
+arg_str_carhistorico.comision32                  = arg_str_carefectos.comision32
+arg_str_carhistorico.cambio                      = arg_str_carefectos.cambio
+arg_str_carhistorico.serie                       = arg_str_carefectos.serie
+arg_str_carhistorico.remesa_total                = arg_str_carefectos.remesa_total
+arg_str_carhistorico.tipo_remesa                 = arg_str_carefectos.tipo_remesa
+arg_str_carhistorico.veces                       = arg_str_carefectos.veces
+arg_str_carhistorico.fechaimp                    = arg_str_carefectos.fechaimp
+arg_str_carhistorico.nomcli                      = arg_str_carefectos.nomcli
+arg_str_carhistorico.domicli                     = arg_str_carefectos.domicli
+arg_str_carhistorico.poblacli                    = arg_str_carefectos.poblacli
+arg_str_carhistorico.paiscli                     = arg_str_carefectos.paiscli
+arg_str_carhistorico.nombanco                    = arg_str_carefectos.nombanco
+arg_str_carhistorico.dirbanco1                   = arg_str_carefectos.dirbanco1
+arg_str_carhistorico.dirbanco2                   = arg_str_carefectos.dirbanco2
+arg_str_carhistorico.recibir_dmto                = arg_str_carefectos.recibir_dmto
+arg_str_carhistorico.fecha_recibido              = arg_str_carefectos.fecha_recibido
+arg_str_carhistorico.punteado                    = arg_str_carefectos.punteado
+arg_str_carhistorico.clase_efecto                = arg_str_carefectos.clase_efecto
+arg_str_carhistorico.cambio_euros                = arg_str_carefectos.cambio_euros
+arg_str_carhistorico.cambio_asegurado            = arg_str_carefectos.cambio_asegurado
+arg_str_carhistorico.devuelto_notificado_agente  = arg_str_carefectos.devuelto_notificado_agente
+arg_str_carhistorico.devuelto_notificado_agente2 = arg_str_carefectos.devuelto_notificado_agente2
+arg_str_carhistorico.devuelto_notificado_agente3 = arg_str_carefectos.devuelto_notificado_agente3
+arg_str_carhistorico.banco_docu                  = arg_str_carefectos.banco_docu
+//arg_str_carhistorico.desviacion,
+//arg_str_carhistorico.cambio_cobro,
+arg_str_carhistorico.situacion_anterior          = arg_str_carefectos.situacion
+arg_str_carhistorico.pago_a_cuenta               = arg_str_carefectos.pago_a_cuenta
+
+end subroutine
+

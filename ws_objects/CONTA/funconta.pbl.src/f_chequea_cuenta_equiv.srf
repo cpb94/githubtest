@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_chequea_cuenta_equiv.srf
+global type f_chequea_cuenta_equiv from function_object
+end type
+
+forward prototypes
+global subroutine f_chequea_cuenta_equiv (decimal arg_ejercicio, string arg_empresa, string arg_cuenta)
+end prototypes
+
+global subroutine f_chequea_cuenta_equiv (decimal arg_ejercicio, string arg_empresa, string arg_cuenta);
+string ls_cuenta_equiv,ls_programa,ls_incidencia
+
+select contaplan_equivalencia.cuenta_equiv into :ls_cuenta_equiv
+from contaplan_equivalencia
+where contaplan_equivalencia.cuenta_vieja =:arg_cuenta
+and   contaplan_equivalencia.ejercicio =:arg_ejercicio
+and   contaplan_equivalencia.empresa =:arg_empresa
+using sqlca;
+
+
+if not f_nulo_blanco(ls_cuenta_equiv) and &
+			trim(ls_cuenta_equiv) <> "D" then
+			
+			ls_programa="f_chequea_cuenta_equiv"
+			ls_incidencia = " Apunte a la cuenta: " + arg_cuenta + " su equivalencia: " + ls_cuenta_equiv
+			f_grabar_incidencia(ls_programa,ls_incidencia)
+			
+end if
+
+
+
+
+end subroutine
+

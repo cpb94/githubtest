@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_misma_fecha_ejercicio_anterior.srf
+global type f_misma_fecha_ejercicio_anterior from function_object
+end type
+
+forward prototypes
+global function date f_misma_fecha_ejercicio_anterior (date arg_fecha)
+end prototypes
+
+global function date f_misma_fecha_ejercicio_anterior (date arg_fecha);date ld_misma_fecha_ejercicio_anterior,ld_dia_posterior
+int  li_ejercicio,li_mes,li_dia,li_mes_dia_posterior,li_dia_posterior
+
+li_ejercicio = year(arg_fecha)
+li_mes       = month(arg_fecha)
+li_dia       = day(arg_fecha)
+
+if li_mes = 2 and (li_dia = 28 or li_dia = 29) then
+	ld_dia_posterior = relativedate(arg_fecha,1)
+	
+	li_mes_dia_posterior = month(ld_dia_posterior)
+	li_dia_posterior     = day(ld_dia_posterior)
+	
+	if li_mes_dia_posterior = li_mes then
+		//Hemos elegido el 28 de un mes de febrero bisiesto
+		//La fecha anterior sera 28 tambien
+		ld_misma_fecha_ejercicio_anterior = mdy(li_mes,li_dia,li_ejercicio -1)
+	else
+		//Hemos elegido el ultimo dia de febrero
+		//La fecha anterior sera tambien el ultimo dia de febrero
+		ld_misma_fecha_ejercicio_anterior = mdy(li_mes_dia_posterior,li_dia_posterior,li_ejercicio -1)
+		
+		ld_misma_fecha_ejercicio_anterior = relativedate(ld_misma_fecha_ejercicio_anterior,-1)
+	end if
+else
+	ld_misma_fecha_ejercicio_anterior = mdy(li_mes,li_dia,li_ejercicio -1)
+end if
+
+return ld_misma_fecha_ejercicio_anterior
+end function
+

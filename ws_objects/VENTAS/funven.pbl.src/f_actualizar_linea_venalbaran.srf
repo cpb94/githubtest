@@ -1,0 +1,304 @@
+﻿$PBExportHeader$f_actualizar_linea_venalbaran.srf
+global type f_actualizar_linea_venalbaran from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_linea_venalbaran (string empresa, decimal periodo, decimal albaran, decimal linea)
+end prototypes
+
+global function boolean f_actualizar_linea_venalbaran (string empresa, decimal periodo, decimal albaran, decimal linea);str_venlialb linalb
+str_venalb   ped 
+STring v_mascara
+DateTime var_falbaran
+Integer  reg,reg1 ,bien
+Dec{0}  ultima,parcial_pallets
+Dec{2}  parcial_cantidad,parcial_cajas,acumulado,var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,control_descuento
+Dec{4}  impdto,importe,importedto1,importedto2,importedto3,importedto4,importedtopp,importedtoesp,control_bruto,control_importedto,control_importe
+Dec{6}  control_precio
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,var_calculo_dtoesp,ls_tarifa,ls_gestionar_en_piezas_ventipolin
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+Integer procesos
+
+bien = 0
+
+linalb.empresa   = empresa
+linalb.anyo      = periodo
+linalb.albaran  = albaran
+linalb.linea = linea
+
+SELECT venalb.dtoesp1,venalb.dtoesp2,venalb.dtoesp3,venalb.dtoesp4,   
+       venalb.dtopp,venalb.tipodto1,venalb.tipodto2,venalb.tipodto3,   
+       venalb.tipodto4,venalb.divisa,venalb.calculo_dto,
+	 	 venalb.falbaran,venalb.calculo_dtoesp,venalb.tarifa
+INTO   :var_dto1,:var_dto2,:var_dto3,:var_dto4,:var_dtopp,
+		 :var_tipodto1,:var_tipodto2,:var_tipodto3,:var_tipodto4,
+		 :linalb.divisa,:var_calculo_dto,:var_falbaran,
+		 :var_calculo_dtoesp,:ls_tarifa
+FROM  venalb  
+WHERE venalb.empresa  = :empresa
+AND   venalb.anyo     = :periodo 
+AND   venalb.albaran  = :albaran;
+
+IF SQLCA.SQLCODE = 100 Then 
+	bien = 1
+	f_mensaje("Error base de datos","No existe albaran"+String(albaran))
+END IF
+			
+v_mascara = f_mascara_moneda(linalb.divisa)
+
+int li_decimales_precio
+string ls_mascara_moneda_tarifa
+
+li_decimales_precio       = f_ventarifas_decimales_precios(codigo_empresa,ls_tarifa)
+ls_mascara_moneda_tarifa  = f_mascara_decimales(li_decimales_precio)
+
+//Select dtoesp,tipolinea,precio_aduana,precio,cantidad,dtoesp2
+//Into   :linalb.dtoesp,:linalb.tipolinea,:linalb.precio_aduana,:linalb.precio,
+//       :linalb.cantidad,:linalb.dtoesp2
+//From   venlialb
+//Where  venlialb.empresa       = :empresa
+//And    venlialb.anyo          = :periodo
+//And    venlialb.albaran       = :albaran
+//And    venlialb.linea = :linea;
+//IF SQLCA.SQLCODE = 100 Then 
+//	bien = 1
+//	f_mensaje("Error base de datos","No existe linea albaran"+String(periodo)+" "+String(albaran)+" "+String(linea))
+//END IF
+
+if not(f_cargar_str_venlialb(empresa,periodo,albaran,linea,linalb)) then
+	bien = 1
+	f_mensaje("Error base de datos","No existe linea albaran"+String(periodo)+" "+String(albaran)+" "+String(linea))
+end if
+
+linalb.control_comisiones = f_comision_ventipolin(linalb.empresa,linalb.tipolinea)
+linalb.control_descuentos = f_descuento_ventipolin(linalb.empresa,linalb.tipolinea)
+ls_gestionar_en_piezas_ventipolin = f_gestionar_en_piezas_ventipolin(linalb.empresa,linalb.tipolinea)
+
+if ls_gestionar_en_piezas_ventipolin = 'S' then
+	linalb.cantidad      = linalb.cantidad_pzs
+	linalb.precio        = linalb.precio_pzs
+	linalb.precio_aduana = linalb.precio_pzs
+end if
+
+ IF IsNull(linalb.dtoesp) Then linalb.dtoesp= 0
+ if isnull(linalb.dtoesp2) then linalb.dtoesp2=0
+ IF IsNull(var_dto1)  Then var_dto1  = 0
+ IF IsNull(var_dto2)  Then var_dto2  = 0
+ IF IsNull(var_dto3)  Then var_dto3  = 0
+ IF IsNull(var_dto4)  Then var_dto4  = 0
+ IF IsNull(linalb.dtoesp)  Then linalb.dtoesp  = 0
+ IF IsNull(var_dtopp) Then var_dtopp = 0
+
+linalb.impdtopp  =0
+linalb.precio_neto = linalb.precio
+linalb.precio_aduana_neto = linalb.precio_aduana
+
+For procesos = 1 To 2
+
+   IF procesos = 1 then control_precio = linalb.precio_neto
+   IF procesos = 2 then control_precio = linalb.precio_aduana_neto
+	
+	control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+	IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((control_bruto * linalb.dtoesp /100),v_mascara))
+			acumulado = control_bruto - importedtoesp
+			importedtoesp = importedtoesp + Dec(String((acumulado * linalb.dtoesp2 /100),v_mascara))
+			acumulado = control_bruto - importedtoesp
+	ELSE
+		// David 31-07-07. No quiero que grabe el precio con el descuento aplicado. Además hay problemas con los decimales.
+//		control_precio = control_precio - &
+//		Dec(String((control_precio * linalb.dtoesp)/100,v_mascara))
+//		control_precio = control_precio - &
+//		dec(string((control_precio * linalb.dtoesp2)/100,v_mascara))
+		
+		control_precio = control_precio - ( control_precio * linalb.dtoesp) /100 
+		control_precio = control_precio - (control_precio * linalb.dtoesp2)/100
+			
+		control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+		acumulado = control_bruto
+	END IF
+
+	acumulado = acumulado
+	
+	IF linalb.control_descuentos = "N" Then
+		linalb.descuento = 0
+	ELSE
+	 
+	   IF var_tipodto1  = "L" Then 
+		   IF var_calculo_dto = "N" Then
+					importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+					acumulado = acumulado - importedto1
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto1)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+					 ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+	    	END IF
+	 END IF
+	 IF var_tipodto2  = "L" Then 
+	 	  IF var_calculo_dto = "N" Then
+					importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+					acumulado = acumulado - importedto2
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto2)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto3  = "L" Then 
+			IF var_calculo_dto = "N" Then
+				importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+				acumulado = acumulado - importedto3
+			ELSE
+				control_precio = control_precio - &
+				Dec(String((control_precio * var_dto3)/100,ls_mascara_moneda_tarifa))
+				control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+				IF var_calculo_dtoesp = "N" Then
+					importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+				ELSE
+					importedtoesp = 0
+				END IF
+				acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto4  = "L" Then 
+				IF var_calculo_dto = "N" Then
+					importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+					acumulado = acumulado - importedto4
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto4)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+				END IF
+	  END IF
+	END IF
+	
+	//linalb.impdtopp = Dec(String((acumulado * var_dtopp/100),v_mascara))
+	
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - control_importedto
+	
+	If control_bruto = 0 then
+		control_descuento  = 0
+	ELse
+		control_descuento  = (control_importedto/control_bruto)* 100
+   End if
+//David: Lo quito porque no cuadra el importe con el calculo de los descuentos por separado	
+//   control_importedto    = Dec(String(control_bruto * control_descuento / 100,v_mascara))
+//	control_importe       = control_bruto - control_importedto
+	
+
+
+	//----------------------------//
+	// control descuentos en pie//
+	//--------------------------//
+	importedto1= 0
+	importedto2= 0
+	importedto3= 0
+	importedto4= 0
+	IF var_tipodto1 = "P" Then
+	   	importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+			acumulado = acumulado - importedto1
+	END IF
+	IF var_tipodto2 = "P" Then
+			importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+			acumulado = acumulado - importedto2	 
+	END IF			
+	IF var_tipodto3 = "P" Then			
+			importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+			acumulado = acumulado - importedto3
+	END IF			
+	IF var_tipodto4 = "P" Then
+			importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+			//26-02-2018 El dto 4 pasa a ser el PP
+			//acumulado = acumulado - importedto4
+	END IF
+
+	//26-02-2018 El dto 4 pasa a ser el PP
+	importedtopp  = importedto4 //Dec(String((acumulado * var_dtopp /100),v_mascara)) 
+	importedto4   = 0
+	
+   control_importedto = control_importedto + importedto1 + importedto2 + importedto3 + importedto4
+
+	IF procesos = 1 Then
+		linalb.descuento       = control_descuento
+		linalb.bruto           = control_bruto
+	   linalb.importedto      = control_importedto
+	   linalb.importe         = control_importe
+		linalb.precio_neto     = control_precio
+ 		linalb.neto            = acumulado
+		linalb.impdtopp        = importedtopp
+		linalb.impdtoesp1      = importedto1
+		linalb.impdtoesp2      = importedto2
+		linalb.impdtoesp3      = importedto3
+		linalb.impdtoesp4      = importedto4
+	END IF
+	IF procesos = 2 Then
+		linalb.descuento_aduana       = control_descuento
+	   linalb.importe_aduana         = control_importe
+		linalb.precio_aduana_neto     = control_precio
+		linalb.impdtoesp1_aduana      = importedto1
+		linalb.impdtoesp2_aduana      = importedto2
+		linalb.impdtoesp3_aduana      = importedto3
+		linalb.impdtoesp4_aduana      = importedto4
+		linalb.impdtopp_aduana        = importedtopp
+	END IF
+Next
+
+
+  UPDATE venlialb  
+     SET importe            = :linalb.importe,   
+         descuento          = :linalb.descuento,   
+         importedto         = :linalb.importedto,   
+         precio_neto        = :linalb.precio_neto,   
+         precio_aduana_neto = :linalb.precio_aduana_neto,   
+         descuento_aduana   = :linalb.descuento_aduana,   
+         importe_aduana     = :linalb.importe_aduana,   
+         bruto              = :linalb.bruto  ,
+			neto               = :linalb.neto,
+			impdtopp           = :linalb.impdtopp ,
+			falbaran           = :var_falbaran,
+			impdtoesp1         = :linalb.impdtoesp1,
+			impdtoesp2         = :linalb.impdtoesp2,
+			impdtoesp3         = :linalb.impdtoesp3,
+			impdtoesp4         = :linalb.impdtoesp4,			
+			impdtoesp1_aduana  = :linalb.impdtoesp1_aduana,
+			impdtoesp2_aduana  = :linalb.impdtoesp2_aduana,
+			impdtoesp3_aduana  = :linalb.impdtoesp3_aduana,
+			impdtoesp4_aduana  = :linalb.impdtoesp4_aduana,
+			impdtopp_aduana    = :linalb.impdtopp,
+			dtoesp2				 = :linalb.dtoesp2
+   WHERE venlialb.empresa   = :linalb.empresa
+	AND   venlialb.anyo      = :linalb.anyo
+	AND   venlialb.albaran   = :linalb.albaran
+   AND   venlialb.linea = :linea    ;
+  			IF SQLCA.SQLCODE <>0 Then 
+				f_mensaje("Error base de datos","Error al modificar lineas de albaranes")
+				bien = 1
+			END IF
+
+IF bien = 1 Then
+	Return FALSE
+Else
+		Return TRUE
+END IF
+
+end function
+

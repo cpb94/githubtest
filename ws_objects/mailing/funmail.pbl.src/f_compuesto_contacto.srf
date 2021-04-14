@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_compuesto_contacto.srf
+$PBExportComments$Devuelve el nombre compuesto de un contacto (apellido nombre).
+global type f_compuesto_contacto from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_compuesto_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto
+
+SELECT mcontactos.empresa,mcontactos.codigo,mcontactos.nombre,mcontactos.apellidos
+INTO   :var_empresa,:var_codigo,:var_nombre,:var_apellido
+FROM   mcontactos  
+WHERE (mcontactos.empresa = :empresa )
+AND   (mcontactos.codigo  = :codigo )   
+ORDER BY mcontactos.empresa ASC, mcontactos.codigo  ASC;
+IF IsNull(var_apellido) Then var_apellido=""
+IF IsNull(var_nombre) Then var_nombre=""         
+If SQLCA.SQLcode=0 Then 
+    var_compuesto = Trim(var_nombre) + " " + Trim(var_apellido)
+Else
+    var_compuesto = ""
+End if
+RETURN var_compuesto
+
+end function
+

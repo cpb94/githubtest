@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_simul_remesas_bancos.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\BMP\Mano.cur" )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=61 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="carbancos.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=banco dbname="carbancos.banco" )
+ column=(type=char(40) updatewhereclause=yes name=nombre dbname="carbancos.nombre" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carbancos~" ) COLUMN(NAME=~"carbancos.empresa~") COLUMN(NAME=~"carbancos.banco~") COLUMN(NAME=~"carbancos.nombre~")WHERE(    EXP1 =~"carbancos.empresa~"   OP =~"=~"    EXP2 =~":empresa~" ) ) ARG(NAME = ~"empresa~" TYPE = string) " update="carbancos" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string)) )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="0" x="10" y="4" height="53" width="165"  name=banco  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=0 border="0" color="0" x="225" y="4" height="53" width="1322"  name=nombre  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_anular_nummov.srf
+$PBExportComments$Esta Rutina Modifica un movimiento a situacion ="A" recibe como parametros empresa,lamacen,anyo y nº movimiento.
+global type f_anular_nummov from function_object
+end type
+
+forward prototypes
+global function boolean f_anular_nummov (string mov_empresa, string mov_almacen, decimal mov_anyo, decimal mov_nummov)
+end prototypes
+
+global function boolean f_anular_nummov (string mov_empresa, string mov_almacen, decimal mov_anyo, decimal mov_nummov);Integer bien 
+String mov_situacion
+Dec num
+
+Select count(*) Into :num FROM almmovhis
+   WHERE (almmovhis.empresa = :mov_empresa ) AND  
+         (almmovhis.almacen = :mov_almacen ) AND  
+         (almmovhis.anyo    = :mov_anyo ) AND  
+         (almmovhis.nummov  = :mov_nummov ) ;
+			IF num = 0 Then Return FALSE
+			IF IsNull(num) Then Return FALSE
+
+ mov_situacion  = "A"
+  UPDATE almmovhis  
+     SET situacion = :mov_situacion  
+   WHERE (almmovhis.empresa = :mov_empresa ) AND  
+         (almmovhis.almacen = :mov_almacen ) AND  
+         (almmovhis.anyo    = :mov_anyo ) AND  
+         (almmovhis.nummov  = :mov_nummov )  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien = 1
+
+
+  UPDATE almlinubicahis
+     SET situacion = :mov_situacion  
+   WHERE (almlinubicahis.empresa = :mov_empresa ) AND  
+         (almlinubicahis.almacen = :mov_almacen ) AND  
+         (almlinubicahis.anyo    = :mov_anyo ) AND  
+         (almlinubicahis.nummov  = :mov_nummov )  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien = 1
+
+If  bien = 1 then
+  RETURN FALSE
+ELSE
+  RETURN TRUE
+END IF
+end function
+

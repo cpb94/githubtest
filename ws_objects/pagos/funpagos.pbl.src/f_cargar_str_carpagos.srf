@@ -1,0 +1,77 @@
+﻿$PBExportHeader$f_cargar_str_carpagos.srf
+global type f_cargar_str_carpagos from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_carpagos (STRING arg_empresa, DECIMAL {0} arg_anyo, DECIMAL {0} arg_orden,  ref str_carpagos str_carpagos)
+end prototypes
+
+global function boolean f_cargar_str_carpagos (STRING arg_empresa, DECIMAL {0} arg_anyo, DECIMAL {0} arg_orden,  ref str_carpagos str_carpagos);boolean lb_correcto = true
+
+SELECT carpagos.empresa,
+       carpagos.anyo,
+       carpagos.orden,
+       carpagos.anyofra,
+       carpagos.fra,
+       carpagos.recibo,
+       carpagos.ffra,
+       carpagos.fvto,
+       carpagos.fpago,
+       carpagos.importe,
+       carpagos.divisas,
+       carpagos.moneda,
+       carpagos.banco,
+       carpagos.proveedor,
+       carpagos.tipodoc,
+       carpagos.codpago,
+       carpagos.situacion,
+       carpagos.cuenta,
+       carpagos.femi,
+       carpagos.num_talon,
+       carpagos.asignar_banco,
+       carpagos.tipodoc_pago,
+       carpagos.cambio,
+       carpagos.punteado,
+       carpagos.concepto,
+       carpagos.observaciones,
+       carpagos.anyoagrupa,
+       carpagos.efectoagrupa,
+       carpagos.agrupado
+INTO   :str_carpagos.empresa,
+       :str_carpagos.anyo,
+       :str_carpagos.orden,
+       :str_carpagos.anyofra,
+       :str_carpagos.fra,
+       :str_carpagos.recibo,
+       :str_carpagos.ffra,
+       :str_carpagos.fvto,
+       :str_carpagos.fpago,
+       :str_carpagos.importe,
+       :str_carpagos.divisas,
+       :str_carpagos.moneda,
+       :str_carpagos.banco,
+       :str_carpagos.proveedor,
+       :str_carpagos.tipodoc,
+       :str_carpagos.codpago,
+       :str_carpagos.situacion,
+       :str_carpagos.cuenta,
+       :str_carpagos.femi,
+       :str_carpagos.num_talon,
+       :str_carpagos.asignar_banco,
+       :str_carpagos.tipodoc_pago,
+       :str_carpagos.cambio,
+       :str_carpagos.punteado,
+       :str_carpagos.concepto,
+       :str_carpagos.observaciones,
+       :str_carpagos.anyoagrupa,
+       :str_carpagos.efectoagrupa,
+       :str_carpagos.agrupado
+FROM carpagos
+WHERE carpagos.empresa = :arg_empresa AND carpagos.anyo = :arg_anyo AND carpagos.orden = :arg_orden;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

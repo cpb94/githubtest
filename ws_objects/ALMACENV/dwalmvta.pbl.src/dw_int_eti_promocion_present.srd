@@ -1,0 +1,9 @@
+﻿$PBExportHeader$dw_int_eti_promocion_present.srd
+release 5;
+datawindow(units=2 timer_interval=0 color=16777215 processing=2 print.documentname="" print.orientation = 2 print.margin.left = 0 print.margin.right = 0 print.margin.top = 0 print.margin.bottom = 0 print.paper.source = 0 print.paper.size = 9 print.prompt=no label.name="Laser Business Card 2.00 x 3.50 5371" label.width=3920 label.height=1620 label.rows=7 label.rows.spacing=0 label.columns=2 label.columns.spacing=130 label.topdown=no label.sheet=yes label.shape=roundrectangle label.ellipse_height=0 label.ellipse_width=0 pointer="\BMP\MANO.CUR" )
+detail(height=1625 color="536870912" )
+table(column=(type=char(200) updatewhereclause=no name=texto dbname="texto" )
+ )
+compute(band=detail alignment="0" expression=" pageCount()"border="0" color="16777215" x="2020" y="93" height="10" width="10" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1552" y="239" height="1208" width="2250" format="[general]"  name=texto edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="page() "border="0" color="16777215" x="83" y="83" height="10" width="10" format="[general]"  name=pagina  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

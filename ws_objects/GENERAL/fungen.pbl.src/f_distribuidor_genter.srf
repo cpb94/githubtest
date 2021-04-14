@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_distribuidor_genter.srf
+global type f_distribuidor_genter from function_object
+end type
+
+forward prototypes
+global function string f_distribuidor_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_distribuidor_genter (string ai_empresa, string as_tipoter, string as_codcli);string	codigo,cod1,cod2,cod3
+
+  SELECT genter.empresa,genter.tipoter,genter.codigo,genter.distribuidor 
+   INTO :cod1,:cod2,:cod3,:codigo
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+   ORDER BY genter.empresa,genter.tipoter,genter.codigo
+    USING SQLCA;
+IF IsNull(codigo) Then codigo = ""
+RETURN codigo
+end function
+

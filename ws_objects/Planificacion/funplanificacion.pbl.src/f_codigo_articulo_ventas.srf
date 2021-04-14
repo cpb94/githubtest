@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_codigo_articulo_ventas.srf
+global type f_codigo_articulo_ventas from function_object
+end type
+
+forward prototypes
+global function string f_codigo_articulo_ventas (string arg_codigo_compras)
+end prototypes
+
+global function string f_codigo_articulo_ventas (string arg_codigo_compras);string codigo_ventas
+
+select codigo
+into :codigo_ventas
+from articulos
+where codigo_compras = :arg_codigo_compras;
+
+return codigo_ventas
+end function
+

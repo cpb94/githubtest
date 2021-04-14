@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipo_linea.srf
+global type f_tipo_linea from function_object
+end type
+
+forward prototypes
+global function string f_tipo_linea (string empresa, string linea)
+end prototypes
+
+global function string f_tipo_linea (string empresa, string linea);string v_tipo_linea
+
+select tipo_linea
+into   :v_tipo_linea
+from   prodlineas
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(v_tipo_linea) then v_tipo_linea = ""
+
+return v_tipo_linea
+end function
+

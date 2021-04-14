@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_tipo_llamadas.srf
+$PBExportComments$Devuelve el texto de un tipo de llamada.
+global type f_nombre_tipo_llamadas from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipo_llamadas (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_tipo_llamadas (string empresa, string codigo);String var_nombre
+  SELECT mtiposllamadas.descripcion  
+    INTO :var_nombre  
+    FROM mtiposllamadas  
+   WHERE ( mtiposllamadas.empresa = :empresa ) AND  
+         ( mtiposllamadas.codigo = :codigo )   ;
+Return var_nombre;
+
+end function
+

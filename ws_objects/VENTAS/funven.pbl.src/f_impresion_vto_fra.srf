@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_impresion_vto_fra.srf
+global type f_impresion_vto_fra from function_object
+end type
+
+forward prototypes
+global function string f_impresion_vto_fra (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function string f_impresion_vto_fra (string empresa, decimal anyo, decimal factura);String montaje,v_mascara
+str_vencimientos vto
+Integer r,cc,longitud
+vto  = f_vencimientos_factura(empresa,anyo,factura)
+montaje = ""
+cc = 1
+IF IsNull(vto.efectos) or vto.efectos= 0 Then return ""
+For r = 1 To vto.efectos
+	// *** Pesetas con decimales, excepto en vencimientos y totales de las
+	// facturas.
+	if f_divisa_venfac(empresa,anyo,factura)="1" then
+		v_mascara = "#,###,###,##0"
+	else
+		v_mascara = f_mascara_moneda(f_divisa_venfac(empresa,anyo,factura))
+	end if
+	longitud = len(String((vto.importe[r]),v_mascara))
+	montaje = montaje + String(vto.vencimiento[r],"dd/mm/yy") + " "+space(20 - longitud)+ String((vto.importe[r]),v_mascara)
+
+	montaje = montaje + char(13)
+	cc = 1
+Next
+Return montaje
+
+
+
+/*
+String montaje,v_mascara
+str_vencimientos vto
+Integer r,cc,longitud
+vto  = f_vencimientos_factura(empresa,anyo,factura)
+montaje = ""
+cc = 1
+IF IsNull(vto.efectos) or vto.efectos= 0 Then return ""
+For r = 1 To vto.efectos
+	// *** Pesetas con decimales, excepto en vencimientos y totales de las
+	// facturas.
+	if f_divisa_venfac(empresa,anyo,factura)="1" then
+		v_mascara = "#,###,###,##0"
+	else
+		v_mascara = f_mascara_moneda(f_divisa_venfac(empresa,anyo,factura))
+	end if
+	longitud = len(String((vto.importe[r]),v_mascara))
+	montaje = montaje +space(20) + String(vto.vencimiento[r],"dd/mm/yy") + " "+space(20 - longitud)+ String((vto.importe[r]),v_mascara)
+// 	IF cc = 1 Then
+//		cc = 2
+//		montaje = montaje + Space(2)
+//	Else
+		montaje = montaje + char(13)
+		cc = 1
+//	END IF
+Next
+Return montaje
+*/
+end function
+

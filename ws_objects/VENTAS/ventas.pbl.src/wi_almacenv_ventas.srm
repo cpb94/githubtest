@@ -1,0 +1,403 @@
+﻿$PBExportHeader$wi_almacenv_ventas.srm
+forward
+global type wi_almacenv_ventas from mc_menu_sheets
+end type
+type m_-4 from menu within m_programas
+end type
+type m_ordenesdecarga from menu within m_programas
+end type
+type m_preparacionordenesdecarga from menu within m_ordenesdecarga
+end type
+type m_contordenesporcliente from menu within m_ordenesdecarga
+end type
+type m_consultahistroricoordenesclientes from menu within m_ordenesdecarga
+end type
+type m_ordenesdecarga from menu within m_programas
+m_preparacionordenesdecarga m_preparacionordenesdecarga
+m_contordenesporcliente m_contordenesporcliente
+m_consultahistroricoordenesclientes m_consultahistroricoordenesclientes
+end type
+type m_transportes from menu within m_programas
+end type
+type m_manttipotransportes from menu within m_transportes
+end type
+type m_transportes from menu within m_programas
+m_manttipotransportes m_manttipotransportes
+end type
+type m_gestmovimientos from menu within m_listados
+end type
+type m_porarticulosytipo from menu within m_gestmovimientos
+end type
+type m_portiposentrefechas from menu within m_gestmovimientos
+end type
+type m_gestmovimientos from menu within m_listados
+m_porarticulosytipo m_porarticulosytipo
+m_portiposentrefechas m_portiposentrefechas
+end type
+type m_controlalmacen from menu within m_listados
+end type
+type m_controldestockporartculo from menu within m_controlalmacen
+end type
+type m_consultareservasporartculo from menu within m_controlalmacen
+end type
+type m_seguiminetodeubicacinporartculo from menu within m_controlalmacen
+end type
+type m_materialreservado from menu within m_controlalmacen
+end type
+type m_controlalmacen from menu within m_listados
+m_controldestockporartculo m_controldestockporartculo
+m_consultareservasporartculo m_consultareservasporartculo
+m_seguiminetodeubicacinporartculo m_seguiminetodeubicacinporartculo
+m_materialreservado m_materialreservado
+end type
+type m_consultadeartculos from menu within m_listados
+end type
+type m_porformatos from menu within m_consultadeartculos
+end type
+type m_porfamilias from menu within m_consultadeartculos
+end type
+type m_porproveedor from menu within m_consultadeartculos
+end type
+type m_porartculos from menu within m_consultadeartculos
+end type
+type m_consultadeartculos from menu within m_listados
+m_porformatos m_porformatos
+m_porfamilias m_porfamilias
+m_porproveedor m_porproveedor
+m_porartculos m_porartculos
+end type
+end forward
+
+global type wi_almacenv_ventas from mc_menu_sheets
+end type
+global wi_almacenv_ventas wi_almacenv_ventas
+
+on wi_almacenv_ventas.create
+wi_almacenv_ventas=this
+call super::create
+end on
+
+on wi_almacenv_ventas.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within wi_almacenv_ventas
+m_-4 m_-4
+m_ordenesdecarga m_ordenesdecarga
+m_transportes m_transportes
+end type
+
+on m_programas.create
+call super::create
+this.Microhelp="Modulo Almacen"
+this.m_-4=create m_-4
+this.m_ordenesdecarga=create m_ordenesdecarga
+this.m_transportes=create m_transportes
+this.Item[UpperBound(this.item)+1]=this.m_-4
+this.Item[UpperBound(this.item)+1]=this.m_ordenesdecarga
+this.Item[UpperBound(this.item)+1]=this.m_transportes
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_-4)
+destroy(this.m_ordenesdecarga)
+destroy(this.m_transportes)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within wi_almacenv_ventas
+m_gestmovimientos m_gestmovimientos
+m_controlalmacen m_controlalmacen
+m_consultadeartculos m_consultadeartculos
+end type
+
+on m_listados.create
+call super::create
+this.Text="&Consultas y listados"
+this.m_gestmovimientos=create m_gestmovimientos
+this.m_controlalmacen=create m_controlalmacen
+this.m_consultadeartculos=create m_consultadeartculos
+this.Item[UpperBound(this.item)+1]=this.m_gestmovimientos
+this.Item[UpperBound(this.item)+1]=this.m_controlalmacen
+this.Item[UpperBound(this.item)+1]=this.m_consultadeartculos
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_gestmovimientos)
+destroy(this.m_controlalmacen)
+destroy(this.m_consultadeartculos)
+end on
+
+type m_-4 from menu within m_programas
+end type
+
+on m_-4.create
+this.Text="-"
+end on
+
+type m_ordenesdecarga from menu within m_programas
+m_preparacionordenesdecarga m_preparacionordenesdecarga
+m_contordenesporcliente m_contordenesporcliente
+m_consultahistroricoordenesclientes m_consultahistroricoordenesclientes
+end type
+
+on m_ordenesdecarga.create
+this.Text="Ordenes de carga"
+this.m_preparacionordenesdecarga=create m_preparacionordenesdecarga
+this.m_contordenesporcliente=create m_contordenesporcliente
+this.m_consultahistroricoordenesclientes=create m_consultahistroricoordenesclientes
+this.Item[]={this.m_preparacionordenesdecarga, &
+this.m_contordenesporcliente, &
+this.m_consultahistroricoordenesclientes}
+end on
+
+on m_ordenesdecarga.destroy
+destroy(this.m_preparacionordenesdecarga)
+destroy(this.m_contordenesporcliente)
+destroy(this.m_consultahistroricoordenesclientes)
+end on
+
+type m_preparacionordenesdecarga from menu within m_ordenesdecarga
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_almcargas, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_preparacionordenesdecarga.create
+this.Text="Preparacion ordenes de carga."
+end on
+
+type m_contordenesporcliente from menu within m_ordenesdecarga
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_ordenes_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_contordenesporcliente.create
+this.Text="Cont. Ordenes por cliente"
+end on
+
+type m_consultahistroricoordenesclientes from menu within m_ordenesdecarga
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_ordenes_cliente_historico, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultahistroricoordenesclientes.create
+this.Text="Consulta historico ordenes clientes"
+end on
+
+type m_transportes from menu within m_programas
+m_manttipotransportes m_manttipotransportes
+end type
+
+on m_transportes.create
+this.Text="Transportes"
+this.m_manttipotransportes=create m_manttipotransportes
+this.Item[]={this.m_manttipotransportes}
+end on
+
+on m_transportes.destroy
+destroy(this.m_manttipotransportes)
+end on
+
+type m_manttipotransportes from menu within m_transportes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_almtipotransportes,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_manttipotransportes.create
+this.Text="Mant. Tipo Transportes"
+end on
+
+type m_gestmovimientos from menu within m_listados
+m_porarticulosytipo m_porarticulosytipo
+m_portiposentrefechas m_portiposentrefechas
+end type
+
+on m_gestmovimientos.create
+this.Text="Consul. &Movimientos"
+this.Microhelp="Consultas movimientos  almacen"
+this.m_porarticulosytipo=create m_porarticulosytipo
+this.m_portiposentrefechas=create m_portiposentrefechas
+this.Item[]={this.m_porarticulosytipo, &
+this.m_portiposentrefechas}
+end on
+
+on m_gestmovimientos.destroy
+destroy(this.m_porarticulosytipo)
+destroy(this.m_portiposentrefechas)
+end on
+
+type m_porarticulosytipo from menu within m_gestmovimientos
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_movarticulos_tipo,lstr_param,ParentWindow,3,original!)
+end on
+
+on m_porarticulosytipo.create
+this.Text="Por A&rticulos y tipo"
+end on
+
+type m_portiposentrefechas from menu within m_gestmovimientos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_movimientos_tipo,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_portiposentrefechas.create
+this.Text="Por tipos entre fechas"
+end on
+
+type m_controlalmacen from menu within m_listados
+m_controldestockporartculo m_controldestockporartculo
+m_consultareservasporartculo m_consultareservasporartculo
+m_seguiminetodeubicacinporartculo m_seguiminetodeubicacinporartculo
+m_materialreservado m_materialreservado
+end type
+
+on m_controlalmacen.create
+this.Text="Control Almacen"
+this.m_controldestockporartculo=create m_controldestockporartculo
+this.m_consultareservasporartculo=create m_consultareservasporartculo
+this.m_seguiminetodeubicacinporartculo=create m_seguiminetodeubicacinporartculo
+this.m_materialreservado=create m_materialreservado
+this.Item[]={this.m_controldestockporartculo, &
+this.m_consultareservasporartculo, &
+this.m_seguiminetodeubicacinporartculo, &
+this.m_materialreservado}
+end on
+
+on m_controlalmacen.destroy
+destroy(this.m_controldestockporartculo)
+destroy(this.m_consultareservasporartculo)
+destroy(this.m_seguiminetodeubicacinporartculo)
+destroy(this.m_materialreservado)
+end on
+
+type m_controldestockporartculo from menu within m_controlalmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_controldestockporartculo.create
+this.Text="Control de stock por artículo"
+end on
+
+on m_controldestockporartculo.destroy
+end on
+
+type m_consultareservasporartculo from menu within m_controlalmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_reservas_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_consultareservasporartculo.create
+this.Text="Consulta reservas por artículo"
+end on
+
+type m_seguiminetodeubicacinporartculo from menu within m_controlalmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_movart_ubica,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_seguiminetodeubicacinporartculo.create
+this.Text="Seguimiento de ubicación por artículo"
+end on
+
+type m_materialreservado from menu within m_controlalmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_ubicaciones_reservas,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_materialreservado.create
+this.Text="Material Reservado"
+end on
+
+type m_consultadeartculos from menu within m_listados
+m_porformatos m_porformatos
+m_porfamilias m_porfamilias
+m_porproveedor m_porproveedor
+m_porartculos m_porartculos
+end type
+
+on m_consultadeartculos.create
+this.Text="Consulta de Artículos"
+this.m_porformatos=create m_porformatos
+this.m_porfamilias=create m_porfamilias
+this.m_porproveedor=create m_porproveedor
+this.m_porartculos=create m_porartculos
+this.Item[]={this.m_porformatos, &
+this.m_porfamilias, &
+this.m_porproveedor, &
+this.m_porartculos}
+end on
+
+on m_consultadeartculos.destroy
+destroy(this.m_porformatos)
+destroy(this.m_porfamilias)
+destroy(this.m_porproveedor)
+destroy(this.m_porartculos)
+end on
+
+type m_porformatos from menu within m_consultadeartculos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_formatos_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_porformatos.create
+this.Text="Por formatos"
+end on
+
+type m_porfamilias from menu within m_consultadeartculos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_familias_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_porfamilias.create
+this.Text="Por familias"
+end on
+
+type m_porproveedor from menu within m_consultadeartculos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_proveedor_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_porproveedor.create
+this.Text="Por proveedor"
+end on
+
+type m_porartculos from menu within m_consultadeartculos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_con_articulos,lstr_param,ParentWindow,3,original!)
+end event
+
+on m_porartculos.create
+this.Text="Por artículos"
+end on
+

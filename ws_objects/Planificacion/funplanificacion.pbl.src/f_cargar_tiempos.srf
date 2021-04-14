@@ -1,0 +1,61 @@
+﻿$PBExportHeader$f_cargar_tiempos.srf
+global type f_cargar_tiempos from function_object
+end type
+
+forward prototypes
+global subroutine f_cargar_tiempos ()
+end prototypes
+
+global subroutine f_cargar_tiempos ();// EXTRAEMOS LA VELOCIDAD DE CADA ARTICULO-VERSION-OPERACION POR LINEA
+
+datastore lineas
+string sel
+dec i, total_lineas, v_velocidad, v_ot, v_velocidad_actual
+boolean bien
+
+sel = "select planificacion.ot, planificacion.cod_articulo, planificacion.velocidad, prodvelocidades.velocidad "+&
+		"from planificacion, prodvelocidades "+&
+		"where planificacion.empresa = '"+codigo_empresa+"' "+&
+		"and prodvelocidades.empresa = '"+codigo_empresa+"' "+&
+		"and planificacion.cod_articulo =  prodvelocidades.articulo "+&
+		"and planificacion.version =  prodvelocidades.version "+&
+		"and planificacion.ordenoperacion = prodvelocidades.operacion "+&
+		"and planificacion.lineaprod =  prodvelocidades.linea "
+						
+//lineas = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel,lineas)
+
+total_lineas = lineas.Rowcount()
+
+bien = true
+//for i = 1 to total_lineas	
+i = 1
+do while (bien and  i < total_lineas)
+	v_velocidad = lineas.object.prodvelocidades_velocidad[i]
+	v_ot = lineas.object.planificacion_ot[i]
+	v_velocidad_actual = lineas.object.planificacion_velocidad[i]
+
+	if v_velocidad_actual = 999999 or  isnull(v_velocidad_actual) then
+		update planificacion
+		set velocidad = :v_velocidad
+		where empresa = :codigo_empresa
+		and ot = :v_ot;
+	end if
+	
+	if SQLCA.SQLCode <> 0 then
+		bien = false;
+	end if
+	f_mensaje_proceso("Cargando Velocidades: ",i,total_lineas)
+	i++
+loop
+
+if not bien then
+	rollback;
+	messagebox ("ERROR", 'Error cargando velocidades')
+else
+	commit;
+end if
+
+destroy lineas
+end subroutine
+

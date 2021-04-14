@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_almtipomov_salida.srf
+global type f_nombre_almtipomov_salida from function_object
+end type
+
+forward prototypes
+global function string f_nombre_almtipomov_salida (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_nombre_almtipomov_salida (string ai_empresa, string as_tipo);string	ls_nombre_tipo
+
+    SELECT almtipomov.descripcion  
+    INTO :ls_nombre_tipo  
+    FROM almtipomov  
+   WHERE ( almtipomov.empresa      = :ai_empresa ) AND  
+         ( almtipomov.tipomov      = :as_tipo ) AND
+         ( almtipomov.codigo_real  = "S" )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_tipo = ""
+
+END IF
+
+RETURN ls_nombre_tipo
+end function
+

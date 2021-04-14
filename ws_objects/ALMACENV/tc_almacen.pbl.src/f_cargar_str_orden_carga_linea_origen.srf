@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_cargar_str_orden_carga_linea_origen.srf
+global type f_cargar_str_orden_carga_linea_origen from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_orden_carga_linea_origen (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo, INTEGER arg_linea, STRING arg_almacen, STRING arg_zona, INTEGER arg_fila, INTEGER arg_altura,  ref str_orden_carga_linea_origen str_orden_carga_linea_origen)
+end prototypes
+
+global function boolean f_cargar_str_orden_carga_linea_origen (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo, INTEGER arg_linea, STRING arg_almacen, STRING arg_zona, INTEGER arg_fila, INTEGER arg_altura,  ref str_orden_carga_linea_origen str_orden_carga_linea_origen);boolean lb_correcto = true
+
+SELECT orden_carga_linea_origen.empresa,
+       orden_carga_linea_origen.anyo,
+       orden_carga_linea_origen.codigo,
+       orden_carga_linea_origen.linea,
+       orden_carga_linea_origen.almacen,
+       orden_carga_linea_origen.zona,
+       orden_carga_linea_origen.fila,
+       orden_carga_linea_origen.altura,
+       orden_carga_linea_origen.cantidad,
+       orden_carga_linea_origen.tono,
+       orden_carga_linea_origen.calibre,
+       orden_carga_linea_origen.calidad
+INTO   :str_orden_carga_linea_origen.empresa,
+       :str_orden_carga_linea_origen.anyo,
+       :str_orden_carga_linea_origen.codigo,
+       :str_orden_carga_linea_origen.linea,
+       :str_orden_carga_linea_origen.almacen,
+       :str_orden_carga_linea_origen.zona,
+       :str_orden_carga_linea_origen.fila,
+       :str_orden_carga_linea_origen.altura,
+       :str_orden_carga_linea_origen.cantidad,
+       :str_orden_carga_linea_origen.tono,
+       :str_orden_carga_linea_origen.calibre,
+       :str_orden_carga_linea_origen.calidad
+FROM orden_carga_linea_origen
+WHERE orden_carga_linea_origen.empresa = :arg_empresa AND orden_carga_linea_origen.anyo = :arg_anyo AND orden_carga_linea_origen.codigo = :arg_codigo AND orden_carga_linea_origen.linea = :arg_linea AND orden_carga_linea_origen.almacen = :arg_almacen AND orden_carga_linea_origen.zona = :arg_zona AND orden_carga_linea_origen.fila = :arg_fila AND orden_carga_linea_origen.altura = :arg_altura;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

@@ -1,0 +1,115 @@
+﻿$PBExportHeader$f_calculo_peso.srf
+$PBExportComments$Calcula el peso de una linea de pedido recibiendo empresa,formato,tipo_pallet,cajas,total_cajas,pallets,cantidad, tipo_unidad.
+global type f_calculo_peso from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_peso (string empresa, string articulo, string tipo_pallet, integer cajas, integer total_cajas, integer pallets, decimal cantidad, string caja)
+end prototypes
+
+global function decimal f_calculo_peso (string empresa, string articulo, string tipo_pallet, integer cajas, integer total_cajas, integer pallets, decimal cantidad, string caja);Dec{4}     var_pesopieza,var_pesoenvase,var_pesopallet,var_totalpeso,var_pesocaja
+String     tipo_unidad,var_sector
+
+// Variables gestion incidencias
+   String in_programa,in_incidencia
+  
+in_programa="f_calculo_peso"
+in_incidencia ="El Articulo nulo (Argumento) "
+IF len(articulo) = 0 Then
+	f_grabar_incidencia(in_programa,in_incidencia)
+  	return 0
+END IF
+ 
+SELECT ( isnull(almartcajas.pesocaja,0) - isnull(almcajas.pesoenvase,0) ) / isnull(almartcajas.piezascaja,0) as piezascaja,
+		 isnull(almcajas.pesoenvase,0) as pesoenvase,
+		 isnull(almartcajas.pesocaja,0) as pesocaja,
+       articulos.unidad,
+		 articulos.sector
+INTO	:var_pesopieza,
+		:var_pesoenvase,
+		:var_pesocaja,
+		:tipo_unidad,
+		:var_sector
+FROM   articulos,almartcajas,almcajas  
+WHERE articulos.empresa    = :empresa
+AND   articulos.codigo     = :articulo
+AND   almartcajas.empresa  = articulos.empresa
+AND   almartcajas.articulo = articulos.codigo
+AND   almartcajas.caja     = :caja
+AND   almcajas.empresa     = almartcajas.empresa
+AND   almcajas.codigo      = :caja;
+
+IF sqlca.sqlcode <>0 Then
+     in_incidencia ="(Problemas lectura articulo) El Articulo..: " + f_nombre_articulo(empresa,articulo) + " No existe"
+     f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+var_pesopallet = 0
+if var_sector="S" then
+
+		if isnull(var_pesoenvase) then var_pesoenvase=0
+
+		in_incidencia ="El Tipo_Pallet nulo (Argumento) "
+		IF len(tipo_pallet) = 0 Then
+			f_grabar_incidencia(in_programa,in_incidencia)
+			return 0
+      END IF
+
+		SELECT pallets.peso  INTO   :var_pesopallet  
+		FROM   pallets  
+		WHERE pallets.empresa = :empresa
+		AND   pallets.codigo  = :tipo_pallet;
+		IF sqlca.sqlcode =100 Then
+			  in_incidencia ="El Tipo Pallet..: " + tipo_pallet + " No existe"
+			  f_grabar_incidencia(in_programa,in_incidencia)
+			  var_pesopallet = 0
+		END IF
+		IF var_pesopallet = 0 Then
+			  in_incidencia ="El Tipo Pallet..: " + f_nombre_pallet(empresa,tipo_pallet) + " No tiene peso"
+			  f_grabar_incidencia(in_programa,in_incidencia)
+		END IF
+		IF var_pesoenvase=0 or IsNull(var_pesoenvase) THEN
+			IF f_sector_articulo(empresa,articulo) = "S" Then
+					in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso envase"
+					f_grabar_incidencia(in_programa,in_incidencia)
+			END IF
+      END IF
+		IF var_pesopallet=0 or IsNull(var_pesopallet) THEN
+			IF f_sector_articulo(empresa,articulo) = "S" Then
+			  in_incidencia ="El Peso Pallet..: " + f_nombre_pallet(empresa,tipo_pallet) + " No existe"
+			  f_grabar_incidencia(in_programa,in_incidencia)
+			END IF
+      END IF
+
+		IF var_pesocaja=0 or IsNull(var_pesocaja) THEN
+			IF f_sector_articulo(empresa,articulo) = "S" Then
+				in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso caja"
+				f_grabar_incidencia(in_programa,in_incidencia)
+			END IF
+		END IF
+
+End if
+
+IF var_pesopieza=0 or IsNull(var_pesopieza) THEN
+   in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso pieza"
+   f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+IF tipo_unidad = "1" Then
+    var_totalpeso = (var_pesocaja * total_cajas) +(var_pesopallet * pallets)
+END IF
+
+IF tipo_unidad = "0" Then
+   var_totalpeso = (var_pesopieza  * cantidad) + (var_pesoenvase * cajas) + &
+                   (var_pesopallet * pallets)
+	
+END IF
+
+IF tipo_unidad <>"1" and tipo_unidad <> "0" THEN
+     in_incidencia ="El Tipo Unidad No contenplado"
+     f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+Return var_totalpeso                
+end function
+

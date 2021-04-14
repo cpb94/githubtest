@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_calculo_piezas_cajas.srf
+global type f_calculo_piezas_cajas from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_piezas_cajas (string cod_empresa, string cod_articulo, string caja, integer n_cajas)
+end prototypes
+
+global function decimal f_calculo_piezas_cajas (string cod_empresa, string cod_articulo, string caja, integer n_cajas); Integer n_piezascaja
+ decimal{0} total_cantidad
+ string cadena
+
+ SELECT   almartcajas.piezascaja
+    INTO :n_piezascaja
+    FROM almartcajas  
+   WHERE almartcajas.empresa  = :cod_empresa
+	AND   almartcajas.articulo = :cod_articulo
+	AND   almartcajas.caja     = :caja;
+	
+
+     total_cantidad=n_cajas*n_piezascaja
+
+Return total_cantidad
+end function
+

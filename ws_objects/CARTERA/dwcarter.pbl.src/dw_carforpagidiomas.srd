@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_carforpagidiomas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=345 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="carforpagidiomas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="carforpagidiomas.codigo" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=idioma dbname="carforpagidiomas.idioma" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=texto1 dbname="carforpagidiomas.texto1" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=texto2 dbname="carforpagidiomas.texto2" )
+ column=(type=char(60) update=yes updatewhereclause=yes name=texto3 dbname="carforpagidiomas.texto3" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carforpagidiomas~" ) COLUMN(NAME=~"carforpagidiomas.empresa~") COLUMN(NAME=~"carforpagidiomas.codigo~") COLUMN(NAME=~"carforpagidiomas.idioma~") COLUMN(NAME=~"carforpagidiomas.texto1~") COLUMN(NAME=~"carforpagidiomas.texto2~") COLUMN(NAME=~"carforpagidiomas.texto3~")WHERE( EXP1 =~"carforpagidiomas.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"carforpagidiomas.codigo~" OP =~"=~" EXP2 =~":codigo~" LOGIC =~"and~" ) WHERE( EXP1 =~"carforpagidiomas.idioma~" OP =~"=~" EXP2 =~":idioma~" ) ) ORDER(NAME=~"carforpagidiomas.empresa~" ASC=yes ) ORDER(NAME=~"carforpagidiomas.codigo~" ASC=yes ) ORDER(NAME=~"carforpagidiomas.idioma~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) ARG(NAME = ~"idioma~" TYPE = string) " update="carforpagidiomas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string),("idioma", string)) )
+text(band=detail alignment="1" text="Texto:"border="0" color="0" x="110" y="36" height="65" width="183"  name=texto1_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="5" color="0" x="325" y="36" height="65" width="1751" format="[general]"  name=texto1 edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="5" color="0" x="325" y="108" height="65" width="1751" format="[general]"  name=texto2 edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=60 border="5" color="0" x="325" y="180" height="65" width="1751" format="[general]"  name=texto3 edit.limit=60 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

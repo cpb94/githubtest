@@ -1,0 +1,70 @@
+﻿$PBExportHeader$dw_con_stock_deposito_valorado.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 9 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=356 color="536870912" )
+summary(height=164 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=depmovhis_articulo dbname="depmovhis.articulo" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=formatos_abreviado dbname="formatos.abreviado" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g2 dbname="art_codestadistico.g2" )
+ column=(type=decimal(0) updatewhereclause=yes name=articulos_stocksugerido dbname="articulos.stocksugerido" )
+ column=(type=number updatewhereclause=yes name=stock_piezas dbname="stock_piezas" )
+ column=(type=number updatewhereclause=yes name=stock_metros dbname="stock_metros" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlintarifas_precio dbname="venlintarifas.precio" )
+ column=(type=number updatewhereclause=yes name=importe_total dbname="importe_total" )
+ retrieve="    select depmovhis.articulo, articulos.descripcion, formatos.abreviado, art_codestadistico.g2,  articulos.stocksugerido,
+sum (depmovhis.cantidade - depmovhis.cantidads) as stock_piezas,
+round(sum(((formatos.largo * formatos.ancho ) / 10000) * (depmovhis.cantidade - depmovhis.cantidads)), 0) as stock_metros,
+venlintarifas.precio, sum (depmovhis.cantidade - depmovhis.cantidads) * venlintarifas.precio as importe_total
+from depmovhis, articulos	, formatos , art_codestadistico, venlintarifas
+where  depmovhis.fechmov <= :fecha_stock
+and depmovhis.empresa  = :empresa
+and depmovhis.situacion <> 'A'
+and articulos.empresa = :empresa
+and formatos.empresa = :empresa
+and venlintarifas.empresa = :empresa
+and venlintarifas.articulo = articulos.codigo
+and venlintarifas.tarifa = :tarifa
+and venlintarifas.calidad = 1
+and art_codestadistico.empresa = :empresa
+and art_codestadistico.codigo= articulos.codigo
+and formatos.codigo = articulos.formato
+and articulos.codigo = depmovhis.articulo
+group by depmovhis.articulo,  articulos.descripcion,  formatos.abreviado, art_codestadistico.g2, articulos.stocksugerido,venlintarifas.precio
+having sum (depmovhis.cantidade - depmovhis.cantidads) <> 0
+order by art_codestadistico.g2, formatos.abreviado;
+" arguments=(("empresa", string),("fecha_stock", datetime),("tarifa", string))  sort="empresa A " )
+compute(band=header alignment="0" expression="~"Fecha : ~""border="0" color="0" x="2569" y="52" height="56" width="219" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="string( today(), ~"dd/mm/yyyy~" )"border="0" color="0" x="2811" y="52" height="56" width="315" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  slideleft=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="~"Hora   : ~""border="0" color="0" x="2569" y="112" height="56" width="219" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="1" expression="String(now(), ~"hh:mm:ss~")"border="0" color="0" x="2811" y="112" height="56" width="315" format="[GENERAL]" html.valueishtml="0"  name=compute_5 visible="1"  slideleft=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Artículo" border="6" color="8388608" x="142" y="292" height="56" width="1207" html.valueishtml="0"  name=t_2 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Formato" border="6" color="8388608" x="1371" y="292" height="56" width="329" html.valueishtml="0"  name=t_3 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Piezas" border="6" color="8388608" x="1728" y="292" height="56" width="302" html.valueishtml="0"  name=t_4 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Metros" border="6" color="8388608" x="2053" y="292" height="56" width="293" html.valueishtml="0"  name=t_5 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Precio" border="6" color="8388608" x="2368" y="292" height="56" width="192" html.valueishtml="0"  name=t_precio visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Valor" border="6" color="8388608" x="2583" y="292" height="56" width="306" html.valueishtml="0"  name=t_valor visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="G2" border="6" color="8388608" x="2912" y="296" height="52" width="91" html.valueishtml="0"  name=t_g2 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="1" text="Stock Depósito a Fecha:" border="0" color="8388608" x="599" y="36" height="100" width="1143" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="160" y="8" height="52" width="201" format="[general]" html.valueishtml="0"  name=depmovhis_articulo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="375" y="8" height="52" width="978" format="[general]" html.valueishtml="0"  name=articulos_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1371" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=formatos_abreviado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1728" y="8" height="52" width="302" format="###,###,###,###" html.valueishtml="0"  name=stock_piezas visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2057" y="8" height="52" width="293" format="###,###,###,###" html.valueishtml="0"  name=stock_metros visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="2368" y="8" height="52" width="192" format="###,##0.00" html.valueishtml="0"  name=venlintarifas_precio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2583" y="8" height="52" width="306" format="###,###,###,##0.00" html.valueishtml="0"  name=importe_total visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="2912" y="8" height="52" width="91" format="[general]" html.valueishtml="0"  name=art_codestadistico_g2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=summary x1="1225" y1="24" x2="3031" y2="24"  name=l_1 visible="1" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=summary alignment="2" text="Total :" border="0" color="8388608" x="1486" y="44" height="64" width="183" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(  stock_piezas  for all )"border="0" color="8388608" x="1728" y="44" height="60" width="302" format="###,###,###" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(  stock_metros  for all )"border="0" color="8388608" x="2057" y="44" height="60" width="293" format="###,###,###" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression=" SUM(  importe_total for all) "border="0" color="8388608" x="2583" y="44" height="60" width="306" format="###,###,###,##0.00" html.valueishtml="0"  name=suma_importes visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[general]" html.valueishtml="0"  name=compute_9 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[general]" html.valueishtml="0"  name=compute_10 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="919" y="124" height="76" width="256" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="fecha_stock  "border="0" color="8388608" x="1801" y="36" height="100" width="558" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="" border="0" color="128" x="608" y="160" height="64" width="1765" html.valueishtml="0"  name=t_tarifa visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

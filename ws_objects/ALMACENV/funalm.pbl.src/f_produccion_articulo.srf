@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_produccion_articulo.srf
+global type f_produccion_articulo from function_object
+end type
+
+forward prototypes
+global function boolean f_produccion_articulo (string empresa, string articulo)
+end prototypes
+
+global function boolean f_produccion_articulo (string empresa, string articulo);DateTime var_fecha
+Select articulos.fecha_fin Into :var_fecha From articulos
+Where  articulos.empresa = :codigo_empresa
+And    articulos.codigo  = :articulo;
+If String(var_fecha,"dd-mm-yy") = "00-00-00" Then Return TRUE
+If ISNull(var_fecha) Then Return TRUE
+IF Date(var_fecha) <= today() Then
+	Return FALSE
+ELSE	 
+	Return TRUE
+END IF
+
+end function
+

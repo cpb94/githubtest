@@ -1,0 +1,218 @@
+﻿$PBExportHeader$mc_aplicaciones_sin_conta.srm
+forward
+global type mc_aplicaciones_sin_conta from menu
+end type
+type m_aplicaciones from menu within mc_aplicaciones_sin_conta
+end type
+type m_almacen from menu within m_aplicaciones
+end type
+type m_almacen1 from menu within m_aplicaciones
+end type
+type m_ventas from menu within m_aplicaciones
+end type
+type m_mailing from menu within m_aplicaciones
+end type
+type m_promocion from menu within m_aplicaciones
+end type
+type m_utilidades from menu within m_aplicaciones
+end type
+type m_deposito from menu within m_aplicaciones
+end type
+type m_conectar from menu within m_aplicaciones
+end type
+type m_aplicaciones from menu within mc_aplicaciones_sin_conta
+m_almacen m_almacen
+m_almacen1 m_almacen1
+m_ventas m_ventas
+m_mailing m_mailing
+m_promocion m_promocion
+m_utilidades m_utilidades
+m_deposito m_deposito
+m_conectar m_conectar
+end type
+global type mc_aplicaciones_sin_conta from menu
+m_aplicaciones m_aplicaciones
+end type
+end forward
+
+global type mc_aplicaciones_sin_conta from menu
+m_aplicaciones m_aplicaciones
+end type
+global mc_aplicaciones_sin_conta mc_aplicaciones_sin_conta
+
+on mc_aplicaciones_sin_conta.create
+mc_aplicaciones_sin_conta=this
+call super::create
+this.m_aplicaciones=create m_aplicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_aplicaciones
+end on
+
+on mc_aplicaciones_sin_conta.destroy
+call super::destroy
+destroy(this.m_aplicaciones)
+end on
+
+type m_aplicaciones from menu within mc_aplicaciones_sin_conta
+m_almacen m_almacen
+m_almacen1 m_almacen1
+m_ventas m_ventas
+m_mailing m_mailing
+m_promocion m_promocion
+m_utilidades m_utilidades
+m_deposito m_deposito
+m_conectar m_conectar
+end type
+
+on m_aplicaciones.create
+call super::create
+this.text = "Aplicaciones"
+this.m_almacen=create m_almacen
+this.m_almacen1=create m_almacen1
+this.m_ventas=create m_ventas
+this.m_mailing=create m_mailing
+this.m_promocion=create m_promocion
+this.m_utilidades=create m_utilidades
+this.m_deposito=create m_deposito
+this.m_conectar=create m_conectar
+this.Item[UpperBound(this.Item)+1]=this.m_almacen
+this.Item[UpperBound(this.Item)+1]=this.m_almacen1
+this.Item[UpperBound(this.Item)+1]=this.m_ventas
+this.Item[UpperBound(this.Item)+1]=this.m_mailing
+this.Item[UpperBound(this.Item)+1]=this.m_promocion
+this.Item[UpperBound(this.Item)+1]=this.m_utilidades
+this.Item[UpperBound(this.Item)+1]=this.m_deposito
+this.Item[UpperBound(this.Item)+1]=this.m_conectar
+end on
+
+on m_aplicaciones.destroy
+call super::destroy
+destroy(this.m_almacen)
+destroy(this.m_almacen1)
+destroy(this.m_ventas)
+destroy(this.m_mailing)
+destroy(this.m_promocion)
+destroy(this.m_utilidades)
+destroy(this.m_deposito)
+destroy(this.m_conectar)
+end on
+
+type m_almacen from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_general)
+end on
+
+on m_almacen.create
+call super::create
+this.text = "General"
+end on
+
+on m_almacen.destroy
+call super::destroy
+end on
+
+type m_almacen1 from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_almacenv)
+end on
+
+on m_almacen1.create
+call super::create
+this.text = "Almacen"
+end on
+
+on m_almacen1.destroy
+call super::destroy
+end on
+
+type m_ventas from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_ventas)
+end on
+
+on m_ventas.create
+call super::create
+this.text = "Ventas"
+end on
+
+on m_ventas.destroy
+call super::destroy
+end on
+
+type m_mailing from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_mailing)
+end on
+
+on m_mailing.create
+call super::create
+this.text = "Mailing"
+end on
+
+on m_mailing.destroy
+call super::destroy
+end on
+
+type m_promocion from menu within m_aplicaciones
+end type
+
+on clicked;open (w_promocion)
+end on
+
+on m_promocion.create
+call super::create
+this.text = "Promocion"
+end on
+
+on m_promocion.destroy
+call super::destroy
+end on
+
+type m_utilidades from menu within m_aplicaciones
+end type
+
+event clicked;IF f_pedir_clave("1") THEN Open (w_utilidad)
+end event
+
+on m_utilidades.create
+call super::create
+this.text = "Utilidades"
+end on
+
+on m_utilidades.destroy
+call super::destroy
+end on
+
+type m_deposito from menu within m_aplicaciones
+end type
+
+event clicked;Open(w_depositos)
+end event
+
+on m_deposito.create
+call super::create
+this.text = "Deposito"
+end on
+
+on m_deposito.destroy
+call super::destroy
+end on
+
+type m_conectar from menu within m_aplicaciones
+end type
+
+event clicked;f_inicio(TRUE)
+end event
+
+on m_conectar.create
+call super::create
+this.text = "Conectar"
+end on
+
+on m_conectar.destroy
+call super::destroy
+end on
+

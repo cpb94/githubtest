@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_busquedas_uti_parametros.srf
+global type f_busquedas_uti_parametros from function_object
+end type
+
+forward prototypes
+global function string f_busquedas_uti_parametros (string codigo)
+end prototypes
+
+global function string f_busquedas_uti_parametros (string codigo);String var
+  SELECT uti_parametros.busquedas  
+    INTO :var  
+    FROM uti_parametros  
+   WHERE uti_parametros.empresa = :codigo   ;
+	IF SQLCA.SQLCODE = 100 Then var = "1"
+	
+	Return var
+
+end function
+

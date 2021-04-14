@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_alm_orden_carga_fecha.srf
+global type f_alm_orden_carga_fecha from function_object
+end type
+
+forward prototypes
+global function datetime f_alm_orden_carga_fecha (long arg_id)
+end prototypes
+
+global function datetime f_alm_orden_carga_fecha (long arg_id);datetime ldt_alm_orden_carga_fecha
+
+select alm_orden_carga.fecha
+into  :ldt_alm_orden_carga_fecha
+from   alm_orden_carga
+where  alm_orden_carga.id = :arg_id;
+
+return ldt_alm_orden_carga_fecha
+end function
+

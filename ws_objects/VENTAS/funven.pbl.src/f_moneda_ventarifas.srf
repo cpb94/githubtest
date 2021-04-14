@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_moneda_ventarifas.srf
+global type f_moneda_ventarifas from function_object
+end type
+
+forward prototypes
+global function string f_moneda_ventarifas (string empresa, string codigo)
+end prototypes
+
+global function string f_moneda_ventarifas (string empresa, string codigo);String  var_parametro
+  SELECT ventarifas.moneda  
+    INTO :var_parametro  
+    FROM ventarifas  
+   WHERE ( ventarifas.empresa = :empresa ) AND  
+         ( ventarifas.codigo = :codigo )   ;
+			
+			
+if isnull(var_parametro) then var_parametro=""		
+Return var_parametro
+
+end function
+

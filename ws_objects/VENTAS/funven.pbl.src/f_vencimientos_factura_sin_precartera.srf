@@ -1,0 +1,95 @@
+﻿$PBExportHeader$f_vencimientos_factura_sin_precartera.srf
+global type f_vencimientos_factura_sin_precartera from function_object
+end type
+
+forward prototypes
+global function str_vencimientos f_vencimientos_factura_sin_precartera (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function str_vencimientos f_vencimientos_factura_sin_precartera (string empresa, decimal anyo, decimal factura);String var_codpago,var_divisa,var_precartera,cliente,var_cartera
+Dec    var_total_fac,reg,dias,acumulado,var_importe,var_efectos,var_primero, var_cad,g,importe_precartera,var_total_fac_pts,importe_precartera_pts,acumulado_pts,var_importe_pts
+String var_tipodoc,var_cliente,moneda_empresa
+Date   var_ffactura,var_ffactura1,var_vencimiento
+DateTime  var_fecha, fecha_lb
+Dec       var_cadencia[9]
+Integer   a_dias[20]
+
+str_vencimientos   vto
+var_cliente = f_cliente_venfac(empresa,anyo,factura)
+moneda_empresa = f_moneda_empresa(empresa)
+vto.efectos = 0
+vto.importe[1] =0
+SetNull(vto.vencimiento[1])
+
+Select venfac.cliente,venfac.codpago,venfac.total_fac,venfac.ffactura,venfac.divisa,
+		 venfac.precartera,venfac.cartera,venfac.total_fac_pts, fecha_lb
+Into  :cliente,:var_codpago,:var_total_fac,:var_fecha,:var_divisa,
+		:var_precartera,:var_cartera,:var_total_fac_pts, :fecha_lb
+From   venfac
+Where  venfac.empresa   =  :codigo_empresa
+And    venfac.anyo      =  :anyo
+And    venfac.factura   =  :factura;
+IF SQLCA.SQLCODE <> 0 Then Return vto
+IF IsNull(var_precartera) Then var_precartera = "N"
+var_ffactura   = Date(var_fecha)
+var_ffactura1  = Date(var_fecha)
+if not isnull(fecha_lb) and fecha_lb > var_fecha then //FECHA DE LOADING BOARD (Carga), que es la utilizada para algunos clientes para determinar los vencimientos (Sonia 07/2015)
+	var_ffactura   = Date(fecha_lb) 
+	var_ffactura1  = Date(fecha_lb)
+end if
+
+
+ SELECT carforpag.efectos,   carforpag.primero,   carforpag.cadencia,   
+        carforpag.tipodoc,  carforpag.cadencia1, carforpag.cadencia2,   
+        carforpag.cadencia3,carforpag.cadencia4, carforpag.cadencia5,   
+        carforpag.cadencia6,carforpag.cadencia7, carforpag.cadencia8,   
+        carforpag.cadencia9  
+  INTO :var_efectos,   :var_primero,   :var_cad,   :var_tipodoc,   
+       :var_cadencia[1], :var_cadencia[2], :var_cadencia[3],  :var_cadencia[4],   
+       :var_cadencia[5], :var_cadencia[6], :var_cadencia[7],  :var_cadencia[8],   
+       :var_cadencia[9] 
+	FROM   carforpag  
+   WHERE  carforpag.empresa = :empresa
+	AND    carforpag.forma   = :var_codpago ;
+	IF SQLCA.SQLCODE = 0 Then
+	acumulado =0
+	acumulado_pts =0
+	var_importe     = Dec(String(var_total_fac/var_efectos,f_mascara_moneda(var_divisa)))
+	var_importe_pts = Dec(String(var_total_fac_pts/var_efectos,f_mascara_moneda(moneda_empresa)))
+	vto.efectos = var_efectos
+	IF var_primero = 0 Then
+		FOR reg = 1 To var_efectos
+			 a_dias[reg] = var_cadencia[reg]
+		NEXT
+	ELSE
+		FOR reg = 1 To var_efectos
+			IF reg = 1 Then 
+				a_dias[reg] = var_primero
+			ELSE
+				a_dias[reg] = var_cad
+			END IF
+		NEXT
+	END IF
+	FOR reg = 1 To var_efectos			
+		IF reg <> 1 Then var_ffactura1 = vto.vencimiento[reg - 1]
+		var_vencimiento = RelativeDate(var_ffactura1,a_dias[reg])
+		
+		var_vencimiento = f_vencimiento_ajuste1(empresa,var_cliente,var_vencimiento)
+		
+		var_vencimiento = f_vencimiento_vacaciones(empresa,var_cliente,var_vencimiento)
+		//-----------------------------------//
+		vto.vencimiento[reg] = var_vencimiento
+		IF reg = var_efectos Then
+			var_importe = var_total_fac - acumulado			
+			var_importe_pts = var_total_fac_pts - acumulado_pts
+		END IF
+		acumulado = acumulado + var_importe
+		acumulado_pts = acumulado_pts + var_importe_pts
+		vto.importe[reg] = var_importe
+		vto.importe_pts[reg] = var_importe_pts
+	NEXT
+	END IF	
+Return vto
+
+end function
+

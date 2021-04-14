@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_con_distribuidores_provincias1.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\bmp\MANO.CUR" )
+header(height=81 color="536870912" )
+summary(height=1 color="33551088" )
+footer(height=61 color="33551088" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=provincia dbname="genter.provincia" )
+ column=(type=char(50) updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(30) updatewhereclause=yes name=provincias_nombre dbname="provincias.nombre" )
+ column=(type=char(15) updatewhereclause=yes name=genter_codigo dbname="genter.codigo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"genter~" )  TABLE(NAME=~"provincias~" ) COLUMN(NAME=~"genter.provincia~") COLUMN(NAME=~"genter.razon~") COLUMN(NAME=~"provincias.nombre~") COLUMN(NAME=~"genter.codigo~")    JOIN (LEFT=~"genter.pais~"    OP =~"=~"RIGHT=~"provincias.pais~"    OUTER1 =~"genter.pais~" )    JOIN (LEFT=~"genter.provincia~"    OP =~"=~"RIGHT=~"provincias.provincia~"    OUTER1 =~"genter.provincia~" )WHERE(    EXP1 =~"genter.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.tipoter~"   OP =~"=~"    EXP2 =~"'C'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.distribuidor~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.pais~"   OP =~"=~"    EXP2 =~":pais~" ) ) ORDER(NAME=~"provincias.nombre~" ASC=yes )  ORDER(NAME=~"genter.razon~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"pais~" TYPE = string) " arguments=(("empresa", string),("pais", string)) )
+text(band=header alignment="2" text="Provincia"border="6" color="0" x="161" y="8" height="65" width="444"  name=provincia_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Distribuidores"border="6" color="0" x="618" y="8" height="65" width="938"  name=razon_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="151" y="4" height="65" width="444" format="[general]"  name=provincias_nombre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="609" y="4" height="65" width="951" format="[general]"  name=razon edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33551088" x="1578" y="4" height="61" width="343" format="[general]"  name=genter_codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="(*) Doble clicked para consultar."border="0" color="128" x="759" y="4" height="57" width="791"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )

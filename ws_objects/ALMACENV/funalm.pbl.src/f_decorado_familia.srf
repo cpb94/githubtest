@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_decorado_familia.srf
+$PBExportComments$Devualve si una familia es decorado o no .
+global type f_decorado_familia from function_object
+end type
+
+forward prototypes
+global function string f_decorado_familia (string ai_codemp, string ai_codfam)
+end prototypes
+
+global function string f_decorado_familia (string ai_codemp, string ai_codfam);string	ls_decorado
+
+  SELECT  familias.decorado  INTO :ls_decorado     FROM familias  
+   WHERE (familias.empresa = :ai_codemp )
+   AND   (familias.codigo  = :ai_codfam )   
+     USING SQLCA;
+
+RETURN ls_decorado
+end function
+

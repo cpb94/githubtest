@@ -1,0 +1,373 @@
+﻿$PBExportHeader$f_movimiento_almacen_sin_almacenmovimientos.srf
+global type f_movimiento_almacen_sin_almacenmovimientos from function_object
+end type
+
+forward prototypes
+global function boolean f_movimiento_almacen_sin_almacenmovimientos (ref str_movimiento_almacen arg_movimiento)
+end prototypes
+
+global function boolean f_movimiento_almacen_sin_almacenmovimientos (ref str_movimiento_almacen arg_movimiento);string  ls_sel
+long    ll_indice,ll_total_bultos,ll_piezas_pallet,ll_piezascaja,ll_cajaspallet,ll_id_linea_igual
+dec     ld_cantidad_pendiente_salida,ld_cantidad_pendiente_entrada
+boolean lb_correcto = true
+
+datastore ds_bultos
+
+str_almacenmovimientos lstr_almacenmovimientos
+str_alm_bultos lstr_alm_bultos
+str_alm_bultos_lineas lstr_alm_bultos_lineas
+
+//Cargamos la estructura del movimiento
+lstr_almacenmovimientos.empresa    = arg_movimiento.empresa
+lstr_almacenmovimientos.fecha_mov  = datetime(arg_movimiento.fecha)
+lstr_almacenmovimientos.orden      = 0
+lstr_almacenmovimientos.fecha_intr = datetime(today(),now())
+lstr_almacenmovimientos.origen     = ""
+if arg_movimiento.id_ubicacion <> 0 then
+	lstr_almacenmovimientos.id_ubicacion = arg_movimiento.id_ubicacion
+	
+	select almubimapa_codbar.almacen, 
+			 almubimapa_codbar.zona, 
+			 almubimapa_codbar.fila, 
+			 almubimapa_codbar.altura
+	into  :lstr_almacenmovimientos.almacen,
+			:lstr_almacenmovimientos.zona,
+			:lstr_almacenmovimientos.fila,
+			:lstr_almacenmovimientos.altura 
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :lstr_almacenmovimientos.empresa
+	and   almubimapa_codbar.id      = :lstr_almacenmovimientos.id_ubicacion;
+	
+else
+	lstr_almacenmovimientos.almacen = arg_movimiento.almacen
+	lstr_almacenmovimientos.zona    = arg_movimiento.zona
+	lstr_almacenmovimientos.fila    = arg_movimiento.fila
+	lstr_almacenmovimientos.altura  = arg_movimiento.altura
+
+	select isnull(almubimapa_codbar.id,0) 
+	into  :lstr_almacenmovimientos.id_ubicacion
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :lstr_almacenmovimientos.empresa
+	and   almubimapa_codbar.almacen = :lstr_almacenmovimientos.almacen
+	and   almubimapa_codbar.zona    = :lstr_almacenmovimientos.zona
+	and	almubimapa_codbar.fila    = :lstr_almacenmovimientos.fila
+	and	almubimapa_codbar.altura  = :lstr_almacenmovimientos.altura;
+
+	if lstr_almacenmovimientos.id_ubicacion = 0 then
+		lb_correcto = false
+		messagebox("¡Error!","No existe ID para la ubicación seleccionada.~nInforme del error al departamento de sistemas.")
+	end if
+
+end if
+lstr_almacenmovimientos.articulo   = arg_movimiento.articulo
+lstr_almacenmovimientos.familia    = ""
+lstr_almacenmovimientos.formato    = ""
+lstr_almacenmovimientos.calidad    = arg_movimiento.calidad
+lstr_almacenmovimientos.tono       = arg_movimiento.tono
+lstr_almacenmovimientos.calibre    = arg_movimiento.calibre
+lstr_almacenmovimientos.tipo_pallet = arg_movimiento.tipo_pallet
+lstr_almacenmovimientos.caja        = arg_movimiento.caja 
+
+if arg_movimiento.cantidad > 0 then
+	lstr_almacenmovimientos.cantidade = arg_movimiento.cantidad
+	lstr_almacenmovimientos.cantidads = 0
+else
+	lstr_almacenmovimientos.cantidade = 0
+	lstr_almacenmovimientos.cantidads = (arg_movimiento.cantidad * -1)		
+end if
+
+lstr_almacenmovimientos.tipomov      = arg_movimiento.tipo_movimiento
+lstr_almacenmovimientos.tipo_unidad  = ""
+lstr_almacenmovimientos.usuario      = nombre_usuario
+lstr_almacenmovimientos.observaciones = arg_movimiento.observaciones 
+lstr_almacenmovimientos.trazabilidad  = ""
+if arg_movimiento.id_alm_bultos <> 0 then
+	lstr_almacenmovimientos.id_alm_bultos = arg_movimiento.id_alm_bultos
+else
+	lstr_almacenmovimientos.id_alm_bultos = 0
+end if
+
+SELECT articulos.familia,
+		 articulos.formato,
+		 articulos.unidad 
+INTO   :lstr_almacenmovimientos.familia,
+		 :lstr_almacenmovimientos.formato,   
+		 :lstr_almacenmovimientos.tipo_unidad 
+FROM   articulos  
+WHERE  articulos.empresa= :lstr_almacenmovimientos.empresa 
+AND    articulos.codigo = :lstr_almacenmovimientos.articulo;
+
+//Fin de Cargamos la estructura del movimiento
+
+//Hacemos la gestion de entrada o salida en el bulto
+SELECT isnull(almartcajas.piezascaja,0)
+INTO   :ll_piezascaja 
+FROM   almartcajas  
+WHERE  almartcajas.empresa   = :lstr_almacenmovimientos.empresa
+AND    almartcajas.articulo  = :lstr_almacenmovimientos.articulo
+AND    almartcajas.caja      = :lstr_almacenmovimientos.caja;
+	
+SELECT isnull(palarticulo.cajaspallet,0) 
+INTO   :ll_cajaspallet
+FROM   palarticulo
+WHERE  palarticulo.empresa  = :lstr_almacenmovimientos.empresa
+AND    palarticulo.articulo = :lstr_almacenmovimientos.articulo
+AND    palarticulo.codigo   = :lstr_almacenmovimientos.tipo_pallet
+AND    palarticulo.caja     = :lstr_almacenmovimientos.caja;
+
+ll_piezas_pallet = ll_piezascaja * ll_cajaspallet
+
+if arg_movimiento.cantidad > 0 then
+	//Dividimos la entrada en bultos si introducimos mas de un pallet	
+	//Entrada
+	if lstr_almacenmovimientos.id_alm_bultos = 0 then
+		ld_cantidad_pendiente_entrada = arg_movimiento.cantidad
+		do
+			//Creamos un nuevo bulto
+			lstr_alm_bultos.empresa            = arg_movimiento.empresa
+			lstr_alm_bultos.ean13              = ""
+			lstr_alm_bultos.tipo_pallet        = arg_movimiento.tipo_pallet
+			lstr_alm_bultos.alto               = 0
+			lstr_alm_bultos.usuario            = nombre_usuario
+			lstr_alm_bultos.fecha_hora_alta    = datetime(today(),now())
+			lstr_alm_bultos.id_ubicacion       = lstr_almacenmovimientos.id_ubicacion
+			lstr_alm_bultos.anyo_orden_carga   = arg_movimiento.orden_carga_anyo
+			lstr_alm_bultos.codigo_orden_carga = arg_movimiento.orden_carga_codigo
+	
+			if not(f_insert_alm_bultos(lstr_alm_bultos)) then
+				lb_correcto = false	
+			else
+				lstr_almacenmovimientos.id_alm_bultos = lstr_alm_bultos.id
+			end if
+			
+			if ld_cantidad_pendiente_entrada > ll_piezas_pallet then
+				lstr_almacenmovimientos.cantidade = ll_piezas_pallet
+				ld_cantidad_pendiente_entrada = ld_cantidad_pendiente_entrada - ll_piezas_pallet
+			else
+				lstr_almacenmovimientos.cantidade = ld_cantidad_pendiente_entrada
+				ld_cantidad_pendiente_entrada = 0
+			end if
+			
+			lstr_alm_bultos_lineas.id                = 0
+			lstr_alm_bultos_lineas.id_alm_bultos     = lstr_alm_bultos.id
+			lstr_alm_bultos_lineas.empresa           = lstr_alm_bultos.empresa
+			lstr_alm_bultos_lineas.articulo          = lstr_almacenmovimientos.articulo
+			lstr_alm_bultos_lineas.calidad           = lstr_almacenmovimientos.calidad
+			lstr_alm_bultos_lineas.tono              = lstr_almacenmovimientos.tono
+			lstr_alm_bultos_lineas.calibre           = lstr_almacenmovimientos.calibre
+			lstr_alm_bultos_lineas.caja              = lstr_almacenmovimientos.caja
+			lstr_alm_bultos_lineas.cantidad          = lstr_almacenmovimientos.cantidade
+			lstr_alm_bultos_lineas.linea_orden_carga = arg_movimiento.orden_carga_linea
+			
+			if not(f_insert_alm_bultos_lineas(lstr_alm_bultos_lineas)) then
+				lb_correcto = false
+			else
+				lstr_almacenmovimientos.id_alm_bultos = lstr_alm_bultos.id
+//				if not(f_insert_almacenmovimientos(lstr_almacenmovimientos)) then
+//					lb_correcto = false
+//				end if				
+			end if			
+			
+		loop while ld_cantidad_pendiente_entrada > 0
+		
+	else
+		if not(f_cargar_str_alm_bultos(arg_movimiento.id_alm_bultos,lstr_alm_bultos)) then
+			lb_correcto = false
+		else
+			if lstr_alm_bultos.id_ubicacion <> lstr_almacenmovimientos.id_ubicacion then
+				//Hemos cambiado la ubicación del bulto
+				lstr_alm_bultos.id_ubicacion = lstr_almacenmovimientos.id_ubicacion
+				
+				update alm_bultos
+				set    alm_bultos.id_ubicacion = :lstr_alm_bultos.id_ubicacion
+				where  alm_bultos.id           = :lstr_alm_bultos.id;
+				
+				if sqlca.sqlcode <> 0 then
+					lb_correcto = false
+				end if
+			end if
+			
+			if lstr_alm_bultos.anyo_orden_carga <> arg_movimiento.orden_carga_anyo or lstr_alm_bultos.codigo_orden_carga <> arg_movimiento.orden_carga_codigo then
+				//Hemos cambiado la orden de carga del bulto
+				lstr_alm_bultos.anyo_orden_carga   = arg_movimiento.orden_carga_anyo
+				lstr_alm_bultos.codigo_orden_carga = arg_movimiento.orden_carga_codigo
+				
+				update alm_bultos
+				set    alm_bultos.anyo_orden_carga   = :lstr_alm_bultos.anyo_orden_carga,
+						 alm_bultos.codigo_orden_carga = :lstr_alm_bultos.codigo_orden_carga 
+				where  alm_bultos.id           = :lstr_alm_bultos.id;
+				
+				if sqlca.sqlcode <> 0 then
+					lb_correcto = false
+				end if
+			end if
+			
+			lstr_alm_bultos_lineas.id                = 0
+			lstr_alm_bultos_lineas.id_alm_bultos     = lstr_alm_bultos.id
+			lstr_alm_bultos_lineas.empresa           = lstr_alm_bultos.empresa
+			lstr_alm_bultos_lineas.articulo          = arg_movimiento.articulo
+			lstr_alm_bultos_lineas.calidad           = arg_movimiento.calidad
+			lstr_alm_bultos_lineas.tono              = arg_movimiento.tono
+			lstr_alm_bultos_lineas.calibre           = arg_movimiento.calibre
+			lstr_alm_bultos_lineas.caja              = arg_movimiento.caja
+			lstr_alm_bultos_lineas.cantidad          = arg_movimiento.cantidad
+			lstr_alm_bultos_lineas.linea_orden_carga = arg_movimiento.orden_carga_linea
+			
+			select isnull(max(alm_bultos_lineas.id),0)
+			into   :ll_id_linea_igual
+			from   alm_bultos_lineas
+			where  alm_bultos_lineas.id_alm_bultos     = :lstr_alm_bultos_lineas.id_alm_bultos
+			and    alm_bultos_lineas.empresa           = :lstr_alm_bultos.empresa
+			and    alm_bultos_lineas.articulo          = :lstr_alm_bultos_lineas.articulo
+			and    alm_bultos_lineas.calidad           = :lstr_alm_bultos_lineas.calidad
+			and    alm_bultos_lineas.tono              = :lstr_alm_bultos_lineas.tono
+			and    alm_bultos_lineas.calibre           = :lstr_alm_bultos_lineas.calibre
+			and    alm_bultos_lineas.caja              = :lstr_alm_bultos_lineas.caja
+			and    alm_bultos_lineas.linea_orden_carga = :lstr_alm_bultos_lineas.linea_orden_carga;
+			
+			if ll_id_linea_igual > 0 then
+				lstr_alm_bultos_lineas.id = ll_id_linea_igual
+				
+				update alm_bultos_lineas
+				set    alm_bultos_lineas.cantidad = alm_bultos_lineas.cantidad + :lstr_alm_bultos_lineas.cantidad 
+				where  alm_bultos_lineas.id = :lstr_alm_bultos_lineas.id;
+				
+				if sqlca.sqlcode <> 0 then
+					lb_correcto = false
+				end if
+			else
+				if not(f_insert_alm_bultos_lineas(lstr_alm_bultos_lineas)) then
+					lb_correcto = false
+				end if			
+			end if
+
+			if lb_correcto then
+				lstr_almacenmovimientos.id_alm_bultos = lstr_alm_bultos.id
+//				if not(f_insert_almacenmovimientos(lstr_almacenmovimientos)) then
+//					lb_correcto = false
+//				end if				
+			end if
+			
+		end if
+	end if
+	
+else
+	//Salida
+	if lstr_almacenmovimientos.id_alm_bultos = 0 then
+		//Si no recibimos el bulto del que hacemos la salida cogemos todos los bultos dependiendo de si pertenecen a un orden de carga o no
+		ls_sel = "SELECT   alm_bultos.id, "+&
+					"			 alm_bultos_lineas.id, "+&
+					"			 alm_bultos_lineas.cantidad "+&
+					"FROM     alm_bultos, "+&
+					"			 alm_bultos_lineas "+&
+					"WHERE    ( alm_bultos.id                       = alm_bultos_lineas.id_alm_bultos ) "+&
+					"AND      ( ( alm_bultos.empresa                = '"+lstr_almacenmovimientos.empresa+"' ) "+&
+					"AND      ( alm_bultos.id_ubicacion             = "+string(lstr_almacenmovimientos.id_ubicacion,"#########0")+" ) "+&
+					"AND      ( alm_bultos_lineas.articulo          = '"+lstr_almacenmovimientos.articulo+"' ) "+&
+					"AND      ( alm_bultos_lineas.calidad           = '"+lstr_almacenmovimientos.calidad+"' ) "+&
+					"AND      ( alm_bultos_lineas.tono              = '"+lstr_almacenmovimientos.tono+"' ) "+&
+					"AND      ( alm_bultos_lineas.calibre           = "+string(lstr_almacenmovimientos.calibre,"#0")+" ) "+&
+					"AND      ( alm_bultos.tipo_pallet              = '"+lstr_almacenmovimientos.tipo_pallet+"' ) "+&
+					"AND      ( alm_bultos_lineas.caja              = '"+lstr_almacenmovimientos.caja+"' ) "+&
+					"AND      ( alm_bultos.anyo_orden_carga         = "+string(arg_movimiento.orden_carga_anyo,"###0")+" ) "+&
+					"AND      ( alm_bultos.codigo_orden_carga       = '"+arg_movimiento.orden_carga_codigo+"' ) "+&
+					"AND      ( isnull(alm_bultos_lineas.linea_orden_carga,0) = "+string(arg_movimiento.orden_carga_linea,"#####0")+" ) ) "+&
+					"ORDER BY alm_bultos.id ASC, "+&
+					"			 alm_bultos_lineas.id ASC"		
+
+	else
+		//Si ya recibimos el bulto del que hacemos la salida filtramos por ese id
+		ls_sel = "SELECT   alm_bultos.id, "+&
+					"			 alm_bultos_lineas.id, "+&
+					"			 alm_bultos_lineas.cantidad "+&
+					"FROM     alm_bultos, "+&
+					"			 alm_bultos_lineas "+&
+					"WHERE    ( alm_bultos.id                       = alm_bultos_lineas.id_alm_bultos ) "+&
+					"AND      ( ( alm_bultos.empresa                = '"+lstr_almacenmovimientos.empresa+"' ) "+&
+					"AND      ( alm_bultos.id                       = "+string(lstr_almacenmovimientos.id_alm_bultos,"#########0")+" ) "+&
+					"AND      ( alm_bultos.id_ubicacion             = "+string(lstr_almacenmovimientos.id_ubicacion,"#########0")+" ) "+&
+					"AND      ( alm_bultos_lineas.articulo          = '"+lstr_almacenmovimientos.articulo+"' ) "+&
+					"AND      ( alm_bultos_lineas.calidad           = '"+lstr_almacenmovimientos.calidad+"' ) "+&
+					"AND      ( alm_bultos_lineas.tono              = '"+lstr_almacenmovimientos.tono+"' ) "+&
+					"AND      ( alm_bultos_lineas.calibre           = "+string(lstr_almacenmovimientos.calibre,"#0")+" ) "+&
+					"AND      ( alm_bultos.tipo_pallet              = '"+lstr_almacenmovimientos.tipo_pallet+"' ) "+&
+					"AND      ( alm_bultos_lineas.caja              = '"+lstr_almacenmovimientos.caja+"' ) "+&
+					"AND      ( alm_bultos.anyo_orden_carga         = "+string(arg_movimiento.orden_carga_anyo,"###0")+" ) "+&
+					"AND      ( alm_bultos.codigo_orden_carga       = '"+arg_movimiento.orden_carga_codigo+"' ) "+&
+					"AND      ( isnull(alm_bultos_lineas.linea_orden_carga,0) = "+string(arg_movimiento.orden_carga_linea,"#####0")+" ) ) "+&
+					"ORDER BY alm_bultos.id ASC, "+&
+					"			 alm_bultos_lineas.id ASC"
+
+	end if
+	
+	ll_total_bultos = f_cargar_cursor_transaccion(sqlca,ds_bultos,ls_sel)
+	
+	//Pasamos la cantidad pendiente a positivo
+	ld_cantidad_pendiente_salida = arg_movimiento.cantidad * -1
+	
+	if ll_total_bultos > 0 then
+		ll_indice = 1
+		do
+			lstr_alm_bultos_lineas.id_alm_bultos = ds_bultos.object.alm_bultos_id[ll_indice]
+			lstr_alm_bultos_lineas.id            = ds_bultos.object.alm_bultos_lineas_id[ll_indice]
+			lstr_alm_bultos_lineas.cantidad      = ds_bultos.object.alm_bultos_lineas_cantidad[ll_indice]
+			
+			if lstr_alm_bultos_lineas.cantidad >= ld_cantidad_pendiente_salida then
+				lstr_almacenmovimientos.cantidads = ld_cantidad_pendiente_salida
+				lstr_alm_bultos_lineas.cantidad   = lstr_alm_bultos_lineas.cantidad - ld_cantidad_pendiente_salida
+				ld_cantidad_pendiente_salida      = 0
+			else
+				lstr_almacenmovimientos.cantidads = lstr_alm_bultos_lineas.cantidad
+				ld_cantidad_pendiente_salida      = ld_cantidad_pendiente_salida - lstr_alm_bultos_lineas.cantidad
+				lstr_alm_bultos_lineas.cantidad   = 0
+			end if
+									
+			if lstr_alm_bultos_lineas.cantidad = 0 then
+				delete alm_bultos_lineas
+				where  alm_bultos_lineas.id = :lstr_alm_bultos_lineas.id;
+				
+				if sqlca.sqlcode <> 0 then
+					messagebox("¡Error!",sqlca.sqlerrtext)
+					lb_correcto = false					
+				end if
+			else
+				update alm_bultos_lineas
+				set    alm_bultos_lineas.cantidad = :lstr_alm_bultos_lineas.cantidad 
+				where  alm_bultos_lineas.id = :lstr_alm_bultos_lineas.id;
+				
+				if sqlca.sqlcode <> 0 then
+					messagebox("¡Error!",sqlca.sqlerrtext)
+					lb_correcto = false					
+				end if				
+			end if
+			
+			lstr_almacenmovimientos.id_alm_bultos = lstr_alm_bultos_lineas.id_alm_bultos
+			
+//			if not(f_insert_almacenmovimientos(lstr_almacenmovimientos)) then
+//				lb_correcto = false
+//			end if			
+			
+			ll_indice ++
+			
+		loop while ld_cantidad_pendiente_salida > 0 and ll_indice <= ll_total_bultos
+		
+		if ld_cantidad_pendiente_salida > 0 then
+			lb_correcto = false
+			messagebox("Error","No hay suficiente cantidad para hacer la salida")		
+		end if
+	else
+		lb_correcto = false
+		messagebox("Error","No se han encontrado bultos para realizar la salida")
+	end if
+	
+	destroy ds_bultos
+end if
+//Fin de Hacemos la gestion de entrada o salida en el bulto
+
+if lb_correcto and arg_movimiento.id_alm_bultos = 0 then
+	arg_movimiento.id_alm_bultos = lstr_almacenmovimientos.id_alm_bultos
+end if
+
+return lb_correcto
+end function
+

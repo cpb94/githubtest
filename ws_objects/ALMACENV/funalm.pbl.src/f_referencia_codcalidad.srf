@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_referencia_codcalidad.srf
+$PBExportComments$Devuelve el codigo de la calidad a partir de la referencia
+global type f_referencia_codcalidad from function_object
+end type
+
+forward prototypes
+global function string f_referencia_codcalidad (string referencia)
+end prototypes
+
+global function string f_referencia_codcalidad (string referencia);string	ls_codcalidad
+//ls_codcalidad =  String(Integer(Mid(referencia,11,2)))
+ls_codcalidad =  String(Integer(Mid(referencia,14,2)))
+
+RETURN ls_codcalidad
+end function
+

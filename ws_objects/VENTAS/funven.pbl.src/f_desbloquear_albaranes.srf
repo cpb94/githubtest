@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_desbloquear_albaranes.srf
+global type f_desbloquear_albaranes from function_object
+end type
+
+forward prototypes
+global subroutine f_desbloquear_albaranes (string titulo)
+end prototypes
+
+global subroutine f_desbloquear_albaranes (string titulo);f_desbloquear("GESTION ALBARANES","ALBARANES",titulo)
+COMMIT;
+end subroutine
+

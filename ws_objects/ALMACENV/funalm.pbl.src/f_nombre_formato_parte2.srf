@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_formato_parte2.srf
+global type f_nombre_formato_parte2 from function_object
+end type
+
+forward prototypes
+global function decimal f_nombre_formato_parte2 (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function decimal f_nombre_formato_parte2 (string ai_codemp, string ai_codfor);dec{2}	ls_nombre_formato
+
+  SELECT formatos.largo
+    INTO :ls_nombre_formato  
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_formato=0
+END IF
+
+RETURN ls_nombre_formato
+end function
+

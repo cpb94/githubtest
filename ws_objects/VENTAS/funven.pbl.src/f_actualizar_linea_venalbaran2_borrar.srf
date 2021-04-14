@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_actualizar_linea_venalbaran2_borrar.srf
+global type f_actualizar_linea_venalbaran2_borrar from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_linea_venalbaran2_borrar (string empresa, decimal periodo, decimal albaran)
+end prototypes
+
+global function boolean f_actualizar_linea_venalbaran2_borrar (string empresa, decimal periodo, decimal albaran);Dec{0}   var_anyo,var_albaran
+String   var_empresa
+Dec{4}   var_importe,var_peso,var_peso_neto,var_bruto,var_importe_dto,var_impdtopp,var_importe_neto
+			
+
+ SELECT sum(venlialb.peso),       sum(venlialb.peso_neto),
+		  sum(venlialb.importedto), sum(venlialb.impdtopp),
+		  sum(venlialb.bruto), 	    sum(venlialb.neto)
+ INTO   :var_peso,     :var_peso_neto, :var_importe_dto,
+		  :var_impdtopp, :var_bruto, 	   :var_importe_neto
+ FROM   venlialb  
+ WHERE (venlialb.empresa  = :codigo_empresa )
+ AND   (venlialb.anyo     = :periodo )
+ AND   (venlialb.albaran  = :albaran );
+ IF SQLCA.SQLCODE <> 0 Then f_mensaje("Error Datos",sqlca.sqlErrtext)
+	
+	
+	
+  UPDATE venalb 
+  SET    venalb.peso          = :var_peso  ,
+         venalb.peso_neto     = :var_peso_neto,  
+	      venalb.bruto         = :var_bruto,
+	      venalb.total_neto    = :var_importe_neto - :var_impdtopp
+   WHERE venalb.empresa       = :codigo_empresa
+   AND   venalb.anyo          = :periodo
+   AND   venalb.albaran       = :albaran;
+	IF SQLCA.SQLCODE <> 0 Then 
+		f_mensaje("Error Datos",sqlca.sqlErrtext)
+		Return FALSE
+	ELSE
+		return TRUE
+	END IF
+
+
+end function
+

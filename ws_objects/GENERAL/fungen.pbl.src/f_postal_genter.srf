@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_postal_genter.srf
+global type f_postal_genter from function_object
+end type
+
+forward prototypes
+global function string f_postal_genter (string empresa, string tipoter, string codigo)
+end prototypes
+
+global function string f_postal_genter (string empresa, string tipoter, string codigo);String postal
+
+SELECT genter.cod_postal
+INTO   :postal
+FROM   genter  
+WHERE genter.empresa = :empresa 
+AND   genter.tipoter = :tipoter 
+AND   genter.codigo  = :codigo ;
+
+IF IsNull(postal) Then postal = ""
+Return postal
+
+
+end function
+

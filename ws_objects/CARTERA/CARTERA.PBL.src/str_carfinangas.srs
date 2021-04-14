@@ -1,0 +1,19 @@
+﻿$PBExportHeader$str_carfinangas.srs
+global type str_carfinangas from structure
+	string		empresa
+	integer		anyo
+	string		bancofinan
+	integer		contador
+	integer		num_prorroga
+	string		aboliqteo
+	integer		liquidacion
+	string		codgas
+	decimal {0}	porcentaje
+	decimal {2}	importe_min
+	decimal {2}	cambio
+	decimal {5}	divisas
+	decimal {2}	importe
+	string		cuenta
+	string		moneda
+end type
+

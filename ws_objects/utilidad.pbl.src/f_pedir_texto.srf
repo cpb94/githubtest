@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_pedir_texto.srf
+global type f_pedir_texto from function_object
+end type
+
+forward prototypes
+global function string f_pedir_texto (string titulo, string mensaje, string texto)
+end prototypes
+
+global function string f_pedir_texto (string titulo, string mensaje, string texto);str_parametros param
+param.s_argumentos[1]=titulo
+param.s_argumentos[2]=mensaje
+param.s_argumentos[3]=texto
+openwithparm(w_pedir_texto,param)
+
+return message.stringparm
+end function
+

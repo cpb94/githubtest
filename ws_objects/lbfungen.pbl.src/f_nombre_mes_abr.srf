@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_nombre_mes_abr.srf
+global type f_nombre_mes_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mes_abr (integer mes)
+end prototypes
+
+global function string f_nombre_mes_abr (integer mes);String xmes
+CHOOSE CASE mes
+CASE 1 
+    xmes ="Ene"
+CASE 2 
+    xmes ="Feb"
+CASE 3 
+    xmes ="Mar"
+CASE 4 
+    xmes ="Abr"
+CASE 5 
+    xmes ="May"
+CASE 6 
+    xmes ="Jun"
+CASE 7 
+    xmes ="Jul"
+CASE 8 
+    xmes ="Ago"
+CASE 9 
+    xmes ="Sep"
+CASE 10 
+    xmes ="Oct"
+CASE 11 
+    xmes ="Nov"
+CASE 12 
+    xmes ="Dic"
+
+END CHOOSE
+
+xmes=upper(xmes)
+Return Trim(xmes)
+
+end function
+

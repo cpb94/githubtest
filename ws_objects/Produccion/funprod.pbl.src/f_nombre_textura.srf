@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_textura.srf
+global type f_nombre_textura from function_object
+end type
+
+forward prototypes
+global function string f_nombre_textura (string textura)
+end prototypes
+
+global function string f_nombre_textura (string textura);string descripcion
+
+select descripcion into :descripcion
+from prodtexturas where
+textura = :textura
+using sqlca;
+
+if sqlca.sqlcode <> 0 then
+	descripcion = ""
+end if
+
+return descripcion
+end function
+

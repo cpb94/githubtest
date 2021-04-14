@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_ventarifa.srf
+global type f_nombre_ventarifa from function_object
+end type
+
+forward prototypes
+global function string f_nombre_ventarifa (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_ventarifa (string empresa, string codigo);String   var_descripcion  
+SELECT ventarifas.descripcion  
+    INTO :var_descripcion  
+    FROM ventarifas  
+   WHERE ( ventarifas.empresa = :empresa ) AND  
+         ( ventarifas.codigo = :codigo )   ;
+
+Return   var_descripcion
+
+end function
+

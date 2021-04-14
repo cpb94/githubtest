@@ -1,0 +1,12 @@
+﻿$PBExportHeader$report_imt_fac_recibidas_vto.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no rows_per_detail = 3 )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=fvto dbname="carpagos.fvto" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="carpagos.importe" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carpagos~" ) COLUMN(NAME=~"carpagos.fvto~") COLUMN(NAME=~"carpagos.importe~")WHERE(    EXP1 =~"carpagos.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.proveedor~"   OP =~"=~"    EXP2 =~":proveedor~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.anyofra~"   OP =~"=~"    EXP2 =~":anyo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.fra~"   OP =~"=~"    EXP2 =~":factura~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"proveedor~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number)  ARG(NAME = ~"factura~" TYPE = string) " arguments=(("empresa", string),("proveedor", string),("anyo", number),("factura", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="106" y="4" height="77" width="220" format="[shortdate] [time]" row_in_detail=1  name=fvto_1 editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Vto:"border="0" color="0" x="1" y="8" height="57" width="101"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

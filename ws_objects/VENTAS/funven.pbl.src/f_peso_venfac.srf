@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_peso_venfac.srf
+global type f_peso_venfac from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function decimal f_peso_venfac (string empresa, integer anyo, decimal factura);Dec{4} var_variable, var_variable2
+
+var_variable2 = 0
+
+  SELECT venfac.peso, venfac.peso_bascula_kg  INTO  :var_variable, :var_variable2   FROM venfac  
+   WHERE (venfac.empresa  = :empresa)
+   AND   (venfac.anyo     = :anyo)
+   AND   (venfac.factura  = :factura) ;  
+
+if not isnull(var_variable2) and var_variable2 > 0 then 
+	var_variable = var_variable2
+end if
+	
+Return var_variable
+end function
+

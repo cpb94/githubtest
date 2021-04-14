@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_convertir_unid_art_a_cantidad_parte.srf
+global type f_convertir_unid_art_a_cantidad_parte from function_object
+end type
+
+forward prototypes
+global function decimal f_convertir_unid_art_a_cantidad_parte (string arg_empresa, string arg_articulo, string arg_unidad_parte, decimal arg_cantidad)
+end prototypes
+
+global function decimal f_convertir_unid_art_a_cantidad_parte (string arg_empresa, string arg_articulo, string arg_unidad_parte, decimal arg_cantidad);long   equivalencia_piezas,cantidad_piezas
+dec    cantidad_articulo
+string unidad
+
+unidad = f_unidad_articulo(arg_empresa,arg_articulo)
+
+equivalencia_piezas = f_equivalente_pz_unidad_parte_articulo(arg_empresa,arg_unidad_parte,arg_articulo)
+
+if unidad = "0" then
+	cantidad_articulo = arg_cantidad
+else
+	cantidad_articulo = f_conversion_cantidad_piezas_old(arg_empresa,arg_articulo,arg_cantidad)
+end if
+
+cantidad_articulo = cantidad_articulo / equivalencia_piezas
+
+return cantidad_articulo
+end function
+

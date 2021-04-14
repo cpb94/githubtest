@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_banda_impresa_bulto.srf
+global type f_banda_impresa_bulto from function_object
+end type
+
+forward prototypes
+global function integer f_banda_impresa_bulto (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea)
+end prototypes
+
+global function integer f_banda_impresa_bulto (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea);long veces
+
+select max(banda_impresa)
+into	 :veces
+from   venliped_reservas
+where	 empresa = :arg_empresa
+and	 anyo	   = :arg_anyo
+and    pedido  = :arg_pedido
+and    linea   = :arg_linea;
+
+if isnull(veces) then veces = 0
+
+return veces
+end function
+

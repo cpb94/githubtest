@@ -1,0 +1,164 @@
+﻿$PBExportHeader$f_importe_comision_impagados_agente.srf
+global type f_importe_comision_impagados_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_comision_impagados_agente (string empresa, string agente)
+end prototypes
+
+global function decimal f_importe_comision_impagados_agente (string empresa, string agente);string  sel,comision_fija
+long    indice,total,anyofra,factura
+dec     importe_impagado,total_fac_pts,base_comision_pts,comision_impagado
+dec     comision1,comision2,relacion_totfra_basecom
+dec     base_comision_impagado,importe_comision1_impagado,importe_comision2_impagado
+boolean bien = true
+datastore impagados
+
+comision_impagado = 0
+
+sel = "select anyofra,factura,sum(importe) importe_impagado "+&
+		"from   carefectos "+&
+		"where  empresa   = '"+empresa+"' "+&
+		"and    agente1   = '"+agente+"' "+&
+		"and    situacion = '2' "+&
+		"and    gasto    <> 'S' "+&
+		"and    devuelto_notificado_agente <> 'S' "+&
+		"group  by anyofra,factura"
+
+//impagados = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, impagados)
+total     = impagados.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		anyofra          = impagados.object.anyofra[indice]
+		factura          = dec(impagados.object.factura[indice])
+		importe_impagado = impagados.object.importe_impagado[indice]
+		
+		select total_fac_pts,base_comision_pts,
+				 comision11,comision12,comision_fija1
+		into   :total_fac_pts,:base_comision_pts,
+				 :comision1,:comision2,:comision_fija
+		from   venfac 
+		where  empresa = :empresa
+		and    anyo    = :anyofra
+		and    factura = :factura;
+		
+		if sqlca.sqlcode <> 0 then
+			messagebox("","1")
+			bien = false			
+		else
+			if total_fac_pts <> 0 then
+				if comision_fija <> "S" then
+					relacion_totfra_basecom    = total_fac_pts / base_comision_pts
+					base_comision_impagado     = importe_impagado / relacion_totfra_basecom
+					importe_comision1_impagado = (base_comision_impagado / 100 ) * comision1
+					importe_comision2_impagado = ((base_comision_impagado - importe_comision1_impagado) / 100 ) * comision2
+					comision_impagado          = comision_impagado +(importe_comision1_impagado+importe_comision2_impagado)
+				end if
+			end if
+		end if
+	next
+end if
+
+sel = "select anyofra,factura,sum(importe) importe_impagado "+&
+		"from   carefectos "+&
+		"where  empresa   = '"+empresa+"' "+&
+		"and    agente2   = '"+agente+"' "+&
+		"and    situacion = '2' "+&
+		"and    gasto    <> 'S' "+&
+		"and    devuelto_notificado_agente2 <> 'S' "+&
+		"group  by anyofra,factura"
+
+//impagados = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, impagados)
+total     = impagados.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		anyofra          = impagados.object.anyofra[indice]
+		factura          = dec(impagados.object.factura[indice])
+		importe_impagado = impagados.object.importe_impagado[indice]
+		
+		select total_fac_pts,base_comision_pts,
+				 comision21,comision22,comision_fija2
+		into   :total_fac_pts,:base_comision_pts,
+				 :comision1,:comision2,:comision_fija
+		from   venfac 
+		where  empresa = :empresa
+		and    anyo    = :anyofra
+		and    factura = :factura;
+		
+		if sqlca.sqlcode <> 0 then
+			bien = false		
+			messagebox("","2")
+		else
+			if total_fac_pts <> 0 then
+				if comision_fija <> "S" then
+					relacion_totfra_basecom    = total_fac_pts / base_comision_pts
+					base_comision_impagado     = importe_impagado / relacion_totfra_basecom
+					importe_comision1_impagado = (base_comision_impagado / 100 ) * comision1
+					importe_comision2_impagado = ((base_comision_impagado - importe_comision1_impagado) / 100 ) * comision2
+					comision_impagado          = comision_impagado +(importe_comision1_impagado+importe_comision2_impagado)
+				end if
+			end if
+		end if
+	next
+end if
+
+sel = "select anyofra,factura,sum(importe) importe_impagado "+&
+		"from   carefectos "+&
+		"where  empresa   = '"+empresa+"' "+&
+		"and    agente3   = '"+agente+"' "+&
+		"and    situacion = '2' "+&
+		"and    gasto    <> 'S' "+&
+		"and    devuelto_notificado_agente3 <> 'S' "+&
+		"group  by anyofra,factura"
+
+//impagados = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, impagados)
+total     = impagados.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		anyofra          = impagados.object.anyofra[indice]
+		factura          = dec(impagados.object.factura[indice])
+		importe_impagado = impagados.object.importe_impagado[indice]
+		
+		select total_fac_pts,base_comision_pts,
+				 comision31,comision32,comision_fija3
+		into   :total_fac_pts,:base_comision_pts,
+				 :comision1,:comision2,:comision_fija
+		from   venfac 
+		where  empresa = :empresa
+		and    anyo    = :anyofra
+		and    factura = :factura;
+		
+		if sqlca.sqlcode <> 0 then
+			bien = false		
+			messagebox("","3")
+		else
+			if total_fac_pts <> 0 then
+				if comision_fija <> "S" then
+					relacion_totfra_basecom    = total_fac_pts / base_comision_pts
+					base_comision_impagado     = importe_impagado / relacion_totfra_basecom
+					importe_comision1_impagado = (base_comision_impagado / 100 ) * comision1
+					importe_comision2_impagado = ((base_comision_impagado - importe_comision1_impagado) / 100 ) * comision2
+					comision_impagado          = comision_impagado +(importe_comision1_impagado+importe_comision2_impagado)
+				end if
+			end if
+		end if
+	next
+end if
+
+destroy impagados		
+
+if bien then
+	return comision_impagado
+else
+	messagebox("Atención","Se ha producido un error al calcular el importe de comisión de los impagados.")
+	return 0
+end if
+
+end function
+

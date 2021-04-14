@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_poliza_segcompanyia.srf
+global type f_poliza_segcompanyia from function_object
+end type
+
+forward prototypes
+global function string f_poliza_segcompanyia (string empresa, string codigo)
+end prototypes
+
+global function string f_poliza_segcompanyia (string empresa, string codigo);String variable
+
+  SELECT  segcompanyias.poliza   INTO :variable  
+    FROM  segcompanyias  
+   WHERE (segcompanyias.empresa = :empresa )
+	AND   (segcompanyias.codigo  = :codigo  );
+
+Return variable;
+end function
+

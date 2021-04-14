@@ -1,0 +1,393 @@
+﻿$PBExportHeader$dw_proceso_venlifac_dto_agrupado.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=128 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venlifac.empresa" dbalias=".empresa" )
+ column=(type=long updatewhereclause=yes name=anyo_albaran dbname="venlifac.anyo_albaran" dbalias=".anyo_albaran" )
+ column=(type=decimal(0) updatewhereclause=yes name=albaran dbname="venlifac.albaran" dbalias=".albaran" )
+ column=(type=char(5) updatewhereclause=yes name=serie dbname="venlifac.serie" dbalias=".serie" )
+ column=(type=datetime updatewhereclause=yes name=falbaran dbname="venlifac.falbaran" dbalias=".falbaran" )
+ column=(type=datetime updatewhereclause=yes name=fentrega dbname="venlifac.fentrega" dbalias=".fentrega" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venlifac.cliente" dbalias=".cliente" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="venlifac.tipo_unidad" dbalias=".tipo_unidad" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="venlifac.articulo" dbalias=".articulo" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="venlifac.familia" dbalias=".familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="venlifac.formato" dbalias=".formato" )
+ column=(type=char(5) updatewhereclause=yes name=modelo dbname="venlifac.modelo" dbalias=".modelo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="venlifac.calidad" dbalias=".calidad" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="venlifac.calibre" dbalias=".calibre" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio dbname="venlifac.precio" dbalias=".precio" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_estand dbname="venlifac.precio_estand" dbalias=".precio_estand" )
+ column=(type=decimal(6) updatewhereclause=yes name=dtocomer dbname="venlifac.dtocomer" dbalias=".dtocomer" )
+ column=(type=decimal(6) updatewhereclause=yes name=dtoesp dbname="venlifac.dtoesp" dbalias=".dtoesp" )
+ column=(type=char(140) updatewhereclause=yes name=descripcion dbname="venlifac.descripcion" dbalias=".descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=tipoiva dbname="venlifac.tipoiva" dbalias=".tipoiva" )
+ column=(type=decimal(6) updatewhereclause=yes name=iva dbname="venlifac.iva" dbalias=".iva" )
+ column=(type=char(5) updatewhereclause=yes name=linfab dbname="venlifac.linfab" dbalias=".linfab" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="venlifac.provincia" dbalias=".provincia" )
+ column=(type=char(5) updatewhereclause=yes name=pais dbname="venlifac.pais" dbalias=".pais" )
+ column=(type=char(5) updatewhereclause=yes name=zona dbname="venlifac.zona" dbalias=".zona" )
+ column=(type=char(5) updatewhereclause=yes name=tipolinea dbname="venlifac.tipolinea" dbalias=".tipolinea" )
+ column=(type=char(40) updatewhereclause=yes name=texto1 dbname="venlifac.texto1" dbalias=".texto1" )
+ column=(type=char(40) updatewhereclause=yes name=texto2 dbname="venlifac.texto2" dbalias=".texto2" )
+ column=(type=char(40) updatewhereclause=yes name=texto3 dbname="venlifac.texto3" dbalias=".texto3" )
+ column=(type=char(40) updatewhereclause=yes name=texto4 dbname="venlifac.texto4" dbalias=".texto4" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="venlifac.referencia" dbalias=".referencia" )
+ column=(type=char(20) updatewhereclause=yes name=montajeartcal dbname="venlifac.montajeartcal" dbalias=".montajeartcal" )
+ column=(type=char(1) updatewhereclause=yes name=situacion dbname="venlifac.situacion" dbalias=".situacion" )
+ column=(type=char(5) updatewhereclause=yes name=divisa dbname="venlifac.divisa" dbalias=".divisa" )
+ column=(type=char(20) updatewhereclause=yes name=usuario dbname="venlifac.usuario" dbalias=".usuario" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_pallet dbname="venlifac.tipo_pallet" dbalias=".tipo_pallet" )
+ column=(type=decimal(6) updatewhereclause=yes name=descuento dbname="venlifac.descuento" dbalias=".descuento" )
+ column=(type=char(1) updatewhereclause=yes name=clase dbname="venlifac.clase" dbalias=".clase" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="venlifac.sector" dbalias=".sector" )
+ column=(type=char(5) updatewhereclause=yes name=agente1 dbname="venlifac.agente1" dbalias=".agente1" )
+ column=(type=char(5) updatewhereclause=yes name=agente2 dbname="venlifac.agente2" dbalias=".agente2" )
+ column=(type=char(5) updatewhereclause=yes name=agente3 dbname="venlifac.agente3" dbalias=".agente3" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision11 dbname="venlifac.comision11" dbalias=".comision11" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision12 dbname="venlifac.comision12" dbalias=".comision12" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision21 dbname="venlifac.comision21" dbalias=".comision21" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision22 dbname="venlifac.comision22" dbalias=".comision22" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision31 dbname="venlifac.comision31" dbalias=".comision31" )
+ column=(type=decimal(6) updatewhereclause=yes name=comision32 dbname="venlifac.comision32" dbalias=".comision32" )
+ column=(type=char(1) updatewhereclause=yes name=deposito dbname="venlifac.deposito" dbalias=".deposito" )
+ column=(type=long updatewhereclause=yes name=orden_preparacion dbname="venlifac.orden_preparacion" dbalias=".orden_preparacion" )
+ column=(type=long updatewhereclause=yes name=cantidad_prepa dbname="venlifac.cantidad_prepa" dbalias=".cantidad_prepa" )
+ column=(type=char(1) updatewhereclause=yes name=es_pico dbname="venlifac.es_pico" dbalias=".es_pico" )
+ column=(type=long updatewhereclause=yes name=numero_pico dbname="venlifac.numero_pico" dbalias=".numero_pico" )
+ column=(type=long updatewhereclause=yes name=anyo_ent dbname="venlifac.anyo_ent" dbalias=".anyo_ent" )
+ column=(type=decimal(6) updatewhereclause=yes name=nummov_ent dbname="venlifac.nummov_ent" dbalias=".nummov_ent" )
+ column=(type=long updatewhereclause=yes name=anyo_sal dbname="venlifac.anyo_sal" dbalias=".anyo_sal" )
+ column=(type=decimal(6) updatewhereclause=yes name=nummov_sal dbname="venlifac.nummov_sal" dbalias=".nummov_sal" )
+ column=(type=long updatewhereclause=yes name=fila_ent dbname="venlifac.fila_ent" dbalias=".fila_ent" )
+ column=(type=long updatewhereclause=yes name=altura_ent dbname="venlifac.altura_ent" dbalias=".altura_ent" )
+ column=(type=char(5) updatewhereclause=yes name=operario_prepa dbname="venlifac.operario_prepa" dbalias=".operario_prepa" )
+ column=(type=char(1) updatewhereclause=yes name=control_incremento dbname="venlifac.control_incremento" dbalias=".control_incremento" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_aduana dbname="venlifac.precio_aduana" dbalias=".precio_aduana" )
+ column=(type=char(1) updatewhereclause=yes name=control_descuentos dbname="venlifac.control_descuentos" dbalias=".control_descuentos" )
+ column=(type=char(1) updatewhereclause=yes name=control_comisiones dbname="venlifac.control_comisiones" dbalias=".control_comisiones" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_neto dbname="venlifac.precio_neto" dbalias=".precio_neto" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_aduana_neto dbname="venlifac.precio_aduana_neto" dbalias=".precio_aduana_neto" )
+ column=(type=decimal(6) updatewhereclause=yes name=descuento_aduana dbname="venlifac.descuento_aduana" dbalias=".descuento_aduana" )
+ column=(type=char(20) updatewhereclause=yes name=ref_cli dbname="venlifac.ref_cli" dbalias=".ref_cli" )
+ column=(type=char(5) updatewhereclause=yes name=transportista dbname="venlifac.transportista" dbalias=".transportista" )
+ column=(type=char(5) updatewhereclause=yes name=almacen_ent dbname="venlifac.almacen_ent" dbalias=".almacen_ent" )
+ column=(type=decimal(0) updatewhereclause=yes name=anyo_pedido_origen dbname="venlifac.anyo_pedido_origen" dbalias=".anyo_pedido_origen" )
+ column=(type=decimal(0) updatewhereclause=yes name=pedido_origen dbname="venlifac.pedido_origen" dbalias=".pedido_origen" )
+ column=(type=datetime updatewhereclause=yes name=fcarga dbname="venlifac.fcarga" dbalias=".fcarga" )
+ column=(type=datetime updatewhereclause=yes name=ffactura dbname="venlifac.ffactura" dbalias=".ffactura" )
+ column=(type=decimal(0) updatewhereclause=yes name=anyo dbname="venlifac.anyo" dbalias=".anyo" )
+ column=(type=decimal(0) updatewhereclause=yes name=factura dbname="venlifac.factura" dbalias=".factura" )
+ column=(type=char(5) updatewhereclause=yes name=envio dbname="venlifac.envio" dbalias=".envio" )
+ column=(type=char(1) updatewhereclause=yes name=compras dbname="venlifac.compras" dbalias=".compras" )
+ column=(type=char(1) updatewhereclause=yes name=listar_aduana dbname="venlifac.listar_aduana" dbalias=".listar_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes name=cambio dbname="venlifac.cambio" dbalias=".cambio" )
+ column=(type=char(20) updatewhereclause=yes name=contenedor dbname="venlifac.contenedor" dbalias=".contenedor" )
+ column=(type=char(20) updatewhereclause=yes name=numpedcli dbname="venlifac.numpedcli" dbalias=".numpedcli" )
+ column=(type=long updatewhereclause=yes name=mes dbname="venlifac.mes" dbalias=".mes" )
+ column=(type=char(5) updatewhereclause=yes name=caja dbname="venlifac.caja" dbalias=".caja" )
+ column=(type=char(20) updatewhereclause=yes name=tonochar dbname="venlifac.tonochar" dbalias=".tonochar" )
+ column=(type=long updatewhereclause=yes name=paldesde dbname="venlifac.paldesde" dbalias=".paldesde" )
+ column=(type=long updatewhereclause=yes name=palhasta dbname="venlifac.palhasta" dbalias=".palhasta" )
+ column=(type=decimal(2) updatewhereclause=yes name=dtoesp2 dbname="venlifac.dtoesp2" dbalias=".dtoesp2" )
+ column=(type=long updatewhereclause=yes identity=yes name=numpalet dbname="numpalet" )
+ column=(type=char(250) updatewhereclause=yes name=observ_lin dbname="venlifac.observ_lin" dbalias=".observ_lin" )
+ column=(type=char(20) updatewhereclause=yes name=precinto dbname="venlifac.precinto" dbalias=".precinto" )
+ column=(type=char(20) updatewhereclause=yes name=tono_imprimir dbname="venlifac.tono_imprimir" dbalias=".tono_imprimir" )
+ column=(type=char(5) updatewhereclause=yes name=calibre_imprimir dbname="venlifac.calibre_imprimir" dbalias=".calibre_imprimir" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=peso_neto dbname="peso_neto" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=cantidad dbname="cantidad" )
+ column=(type=long updatewhereclause=yes identity=yes name=pallets dbname="pallets" )
+ column=(type=long updatewhereclause=yes identity=yes name=total_cajas dbname="total_cajas" )
+ column=(type=long updatewhereclause=yes identity=yes name=cajas dbname="cajas" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=metros_lineales dbname="metros_lineales" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=peso dbname="peso" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=importe dbname="importe" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=importedto dbname="importedto" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=importe_aduana dbname="importe_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=bruto dbname="bruto" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=neto dbname="neto" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtopp dbname="impdtopp" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp1 dbname="impdtoesp1" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp2 dbname="impdtoesp2" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp3 dbname="impdtoesp3" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp4 dbname="impdtoesp4" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp1_aduana dbname="impdtoesp1_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp2_aduana dbname="impdtoesp2_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp3_aduana dbname="impdtoesp3_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtoesp4_aduana dbname="impdtoesp4_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=impdtopp_aduana dbname="impdtopp_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=cantidad_pzs dbname="cantidad_pzs" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_pzs dbname="venlifac.precio_pzs" dbalias=".precio_pzs" )
+ retrieve="  SELECT venlifac.empresa,   
+         venlifac.anyo_albaran,   
+         venlifac.albaran,   
+/*         venlifac.linea,   */
+         venlifac.serie,   
+         venlifac.falbaran,   
+         venlifac.fentrega,   
+         venlifac.cliente,   
+         venlifac.tipo_unidad,   
+         venlifac.articulo,   
+         venlifac.familia,   
+         venlifac.formato,   
+         venlifac.modelo,   
+         venlifac.calidad,   
+         venlifac.calibre,   
+         venlifac.precio,   
+         venlifac.precio_estand,   
+         venlifac.dtocomer,   
+         venlifac.dtoesp,   
+         venlifac.descripcion,   
+         venlifac.tipoiva,   
+         venlifac.iva,   
+         venlifac.linfab,   
+         venlifac.provincia,   
+         venlifac.pais,   
+         venlifac.zona,   
+         venlifac.tipolinea,   
+         venlifac.texto1,   
+         venlifac.texto2,   
+         venlifac.texto3,   
+         venlifac.texto4,   
+         venlifac.referencia,   
+         venlifac.montajeartcal,   
+         venlifac.situacion,   
+         venlifac.divisa,   
+/*         venlifac.falta,   */
+         venlifac.usuario,   
+         venlifac.tipo_pallet,   
+         venlifac.descuento,   
+         venlifac.clase,   
+         venlifac.sector,   
+         venlifac.agente1,   
+         venlifac.agente2,   
+         venlifac.agente3,   
+         venlifac.comision11,   
+         venlifac.comision12,   
+         venlifac.comision21,   
+         venlifac.comision22,   
+         venlifac.comision31,   
+         venlifac.comision32,   
+         venlifac.deposito,   
+         venlifac.orden_preparacion,   
+         venlifac.cantidad_prepa,   
+         venlifac.es_pico,   
+         venlifac.numero_pico,   
+         venlifac.anyo_ent,   
+         venlifac.nummov_ent,   
+         venlifac.anyo_sal,   
+         venlifac.nummov_sal,   
+         venlifac.fila_ent,   
+         venlifac.altura_ent,   
+         venlifac.operario_prepa,   
+         venlifac.control_incremento,   
+         venlifac.precio_aduana,   
+         venlifac.control_descuentos,   
+         venlifac.control_comisiones,   
+         venlifac.precio_neto,   
+         venlifac.precio_aduana_neto,   
+         venlifac.descuento_aduana,   
+         venlifac.ref_cli,   
+         venlifac.transportista,   
+         venlifac.almacen_ent,   
+         venlifac.anyo_pedido_origen,   
+         venlifac.pedido_origen,   
+         venlifac.fcarga,   
+         venlifac.ffactura,   
+         venlifac.anyo,   
+         venlifac.factura,   
+  /*       venlifac.linea_factura,   */
+         venlifac.envio,   
+         venlifac.compras,   
+         venlifac.listar_aduana,   
+         venlifac.cambio,   
+         venlifac.contenedor,   
+         venlifac.numpedcli,   
+         venlifac.mes,   
+         venlifac.caja,   
+         venlifac.tonochar,   
+         venlifac.paldesde,   
+         venlifac.palhasta,   
+         venlifac.dtoesp2,   
+/*         venlifac.numpalet, */
+		0 numpalet,
+		venlifac.observ_lin,
+		venlifac.precinto, 
+		venlifac.tono_imprimir,     
+		venlifac.calibre_imprimir, 
+         sum ( venlifac.peso_neto) as peso_neto,   
+         sum (venlifac.cantidad) as cantidad,   
+         sum (venlifac.pallets) as pallets,   
+         sum (venlifac.total_cajas) as total_cajas,   
+         sum (venlifac.cajas) as cajas,   
+         sum ( venlifac.metros_lineales) as metros_lineales,   
+         sum ( venlifac.peso) as peso,   
+         sum (venlifac.importe) as importe,   
+         sum (venlifac.importedto) as importedto,   
+         sum (venlifac.importe_aduana) as importe_aduana,   
+         sum (venlifac.bruto) as bruto,   
+         sum ( venlifac.neto) as neto,   
+         sum (venlifac.impdtopp) as impdtopp,   
+         sum (venlifac.impdtoesp1) as impdtoesp1,   
+         sum (venlifac.impdtoesp2) as impdtoesp2,   
+         sum (venlifac.impdtoesp3) as impdtoesp3,   
+         sum (venlifac.impdtoesp4) as impdtoesp4,   
+         sum (venlifac.impdtoesp1_aduana) as impdtoesp1_aduana,   
+         sum (venlifac.impdtoesp2_aduana) as impdtoesp2_aduana,   
+         sum (venlifac.impdtoesp3_aduana) as impdtoesp3_aduana,   
+         sum (venlifac.impdtoesp4_aduana) as impdtoesp4_aduana,   
+         sum (venlifac.impdtopp_aduana) as impdtopp_aduana,
+		   sum(venlifac.cantidad_pzs) as cantidad_pzs,
+		venlifac.precio_pzs
+    FROM venlifac  
+   WHERE ( venlifac.empresa = :var_empresa  ) AND  
+         ( venlifac.anyo = :var_anyo  ) AND  
+         ( venlifac.factura = :var_factura ) AND  
+        ( venlifac.control_descuentos = :dto )  
+GROUP BY venlifac.empresa,   
+         venlifac.anyo_albaran,   
+         venlifac.albaran,   
+/*         venlifac.linea,   */
+         venlifac.serie,   
+         venlifac.falbaran,   
+         venlifac.fentrega,   
+         venlifac.cliente,   
+         venlifac.tipo_unidad,   
+         venlifac.articulo,   
+         venlifac.familia,   
+         venlifac.formato,   
+         venlifac.modelo,   
+         venlifac.calidad,   
+         venlifac.calibre,   
+         venlifac.precio,   
+         venlifac.precio_estand,   
+         venlifac.dtocomer,   
+         venlifac.dtoesp,   
+         venlifac.descripcion,   
+         venlifac.tipoiva,   
+         venlifac.iva,   
+         venlifac.linfab,   
+         venlifac.provincia,   
+         venlifac.pais,   
+         venlifac.zona,   
+         venlifac.tipolinea,   
+         venlifac.texto1,   
+         venlifac.texto2,   
+         venlifac.texto3,   
+         venlifac.texto4,   
+         venlifac.referencia,   
+         venlifac.montajeartcal,   
+         venlifac.situacion,   
+         venlifac.divisa,   
+/*         venlifac.falta,   */
+         venlifac.usuario,   
+         venlifac.tipo_pallet,   
+         venlifac.descuento,   
+         venlifac.clase,   
+         venlifac.sector,   
+         venlifac.agente1,   
+         venlifac.agente2,   
+         venlifac.agente3,   
+         venlifac.comision11,   
+         venlifac.comision12,   
+         venlifac.comision21,   
+         venlifac.comision22,   
+         venlifac.comision31,   
+         venlifac.comision32,   
+         venlifac.deposito,   
+         venlifac.orden_preparacion,   
+         venlifac.cantidad_prepa,   
+         venlifac.es_pico,   
+         venlifac.numero_pico,   
+         venlifac.anyo_ent,   
+         venlifac.nummov_ent,   
+         venlifac.anyo_sal,   
+         venlifac.nummov_sal,   
+         venlifac.fila_ent,   
+         venlifac.altura_ent,   
+         venlifac.operario_prepa,   
+         venlifac.control_incremento,   
+         venlifac.precio_aduana,   
+         venlifac.control_descuentos,   
+         venlifac.control_comisiones,   
+         venlifac.precio_neto,   
+         venlifac.precio_aduana_neto,   
+         venlifac.descuento_aduana,   
+         venlifac.ref_cli,   
+         venlifac.transportista,   
+         venlifac.almacen_ent,   
+         venlifac.anyo_pedido_origen,   
+         venlifac.pedido_origen,   
+         venlifac.fcarga,   
+         venlifac.ffactura,   
+         venlifac.anyo,   
+         venlifac.factura,   
+/*         venlifac.linea_factura,   */
+         venlifac.envio,   
+         venlifac.compras,   
+         venlifac.listar_aduana,   
+         venlifac.cambio,   
+         venlifac.contenedor,   
+         venlifac.numpedcli,   
+         venlifac.mes,   
+         venlifac.caja,   
+         venlifac.tonochar,   
+         venlifac.paldesde,   
+         venlifac.palhasta,   
+         venlifac.dtoesp2,   
+/*         venlifac.numpalet,*/
+		venlifac.observ_lin,
+		venlifac.precinto,
+		venlifac.tono_imprimir,     
+		venlifac.calibre_imprimir,
+/*		venlifac.cantidad_pzs,*/
+		venlifac.precio_pzs
+
+ORDER BY venlifac.empresa ASC,   
+         venlifac.anyo_albaran ASC,   
+         venlifac.albaran ASC /*,   
+         venlifac.linea ASC   */
+" arguments=(("var_empresa", string),("var_anyo", number),("var_factura", number),("dto", string)) )
+column(band=detail id=77 alignment="0" tabsequence=32766 border="0" color="0" x="0" y="0" height="76" width="165" format="[general]" html.valueishtml="0"  name=envio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=78 alignment="0" tabsequence=32766 border="0" color="0" x="165" y="0" height="76" width="73" format="[general]" html.valueishtml="0"  name=compras visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=79 alignment="0" tabsequence=32766 border="0" color="0" x="238" y="0" height="76" width="73" format="[general]" html.valueishtml="0"  name=listar_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=80 alignment="0" tabsequence=32766 border="0" color="0" x="311" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=cambio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=81 alignment="0" tabsequence=32766 border="0" color="0" x="1728" y="0" height="76" width="658" format="[general]" html.valueishtml="0"  name=contenedor visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=82 alignment="0" tabsequence=32766 border="0" color="0" x="2386" y="0" height="76" width="658" format="[general]" html.valueishtml="0"  name=numpedcli visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=83 alignment="0" tabsequence=32766 border="0" color="0" x="3045" y="0" height="76" width="165" format="[general]" html.valueishtml="0"  name=mes visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=107 alignment="0" tabsequence=32766 border="0" color="0" x="3209" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtoesp1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=108 alignment="0" tabsequence=32766 border="0" color="0" x="4626" y="0" height="76" width="1422" format="[general]" html.valueishtml="0"  name=impdtoesp2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=109 alignment="0" tabsequence=32766 border="0" color="0" x="6048" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtoesp3 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=110 alignment="0" tabsequence=32766 border="0" color="0" x="7465" y="0" height="76" width="1422" format="[general]" html.valueishtml="0"  name=impdtoesp4 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=111 alignment="0" tabsequence=32766 border="0" color="0" x="8887" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtoesp1_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=112 alignment="0" tabsequence=32766 border="0" color="0" x="10304" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtoesp2_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=113 alignment="0" tabsequence=32766 border="0" color="0" x="11721" y="0" height="76" width="1422" format="[general]" html.valueishtml="0"  name=impdtoesp3_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=114 alignment="0" tabsequence=32766 border="0" color="0" x="13143" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtoesp4_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=115 alignment="0" tabsequence=32766 border="0" color="0" x="14560" y="0" height="76" width="1417" format="[general]" html.valueishtml="0"  name=impdtopp_aduana visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=84 alignment="0" tabsequence=32766 border="0" color="0" x="15977" y="0" height="76" width="160" format="[general]" html.valueishtml="0"  name=caja visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=85 alignment="0" tabsequence=32766 border="0" color="0" x="16137" y="0" height="76" width="128" format="[general]" html.valueishtml="0"  name=tonochar visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=86 alignment="0" tabsequence=32766 border="0" color="0" x="16265" y="0" height="76" width="165" format="[General]" html.valueishtml="0"  name=paldesde visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=87 alignment="0" tabsequence=32766 border="0" color="0" x="16430" y="0" height="76" width="165" format="[General]" html.valueishtml="0"  name=palhasta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=88 alignment="0" tabsequence=32766 border="0" color="0" x="16594" y="0" height="76" width="1376" format="[general]" html.valueishtml="0"  name=dtoesp2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=90 alignment="0" tabsequence=32766 border="0" color="0" x="19346" y="0" height="76" width="4622" format="[general]" html.valueishtml="0"  name=observ_lin visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=91 alignment="0" tabsequence=32766 border="0" color="0" x="23968" y="0" height="76" width="640" format="[general]" html.valueishtml="0"  name=precinto visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=89 alignment="0" tabsequence=32766 border="0" color="0" x="24608" y="0" height="76" width="96" format="[general]" html.valueishtml="0"  name=numpalet visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=92 alignment="0" tabsequence=32766 border="0" color="0" x="24704" y="0" height="76" width="640" format="[general]" html.valueishtml="0"  name=tono_imprimir visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=93 alignment="0" tabsequence=32766 border="0" color="0" x="25344" y="0" height="76" width="160" format="[general]" html.valueishtml="0"  name=calibre_imprimir visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=116 alignment="0" tabsequence=32766 border="0" color="0" x="25504" y="0" height="76" width="576" format="[general]" html.valueishtml="0"  name=cantidad_pzs visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=117 alignment="0" tabsequence=32766 border="0" color="0" x="26080" y="0" height="76" width="576" format="[general]" html.valueishtml="0"  name=precio_pzs visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

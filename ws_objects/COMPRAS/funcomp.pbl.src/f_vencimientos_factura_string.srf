@@ -1,0 +1,92 @@
+﻿$PBExportHeader$f_vencimientos_factura_string.srf
+global type f_vencimientos_factura_string from function_object
+end type
+
+forward prototypes
+global function str_vencimientos f_vencimientos_factura_string (string empresa, string anyo, string factura)
+end prototypes
+
+global function str_vencimientos f_vencimientos_factura_string (string empresa, string anyo, string factura);String var_codpago,var_divisa
+Dec{4}    var_total_fac,reg,dias,acumulado,var_importe
+Dec    var_efectos,var_primero, var_cadencia
+String var_tipodoc
+Date  var_ffactura,var_ffactura1,var_vencimiento
+DateTime  var_fecha
+Dec var_cadencia1,var_cadencia2,var_cadencia3,var_cadencia4
+Dec var_cadencia5,var_cadencia6,var_cadencia7,var_cadencia8,var_cadencia9 
+str_vencimientos   vto
+Integer a_dias[20]
+vto.efectos = 0
+vto.importe[1] =0
+SetNull(vto.vencimiento[1])
+
+
+/* LO HE COMENTADO POR QUE ESTÁ TODO MAL EN LA CONSULTA A VENFAC EXTRAE CAMPOS QUE NO EXISTEN
+
+
+Select venfac.forma_pago,venfac.total_factura,venfac.fecha_factura,venfac.moneda
+Into  :var_codpago,:var_total_fac,:var_fecha,:var_divisa
+From   venfac
+Where  venfac.empresa   =  :codigo_empresa
+And    venfac.anyo      =  :anyo
+And    venfac.factura   =  :factura;
+
+IF SQLCA.SQLCODE <> 0 Then Return vto
+IF var_total_fac = 0 OR IsNull(var_total_fac) THEN RETURN vto
+
+var_ffactura   = Date(var_fecha)
+var_ffactura1  = Date(var_fecha)
+
+ SELECT carforpag.efectos,   carforpag.primero,   carforpag.cadencia,   
+        carforpag.tipodoc,  carforpag.cadencia1, carforpag.cadencia2,   
+        carforpag.cadencia3,carforpag.cadencia4, carforpag.cadencia5,   
+        carforpag.cadencia6,carforpag.cadencia7, carforpag.cadencia8,   
+        carforpag.cadencia9  
+    INTO :var_efectos,   :var_primero,   :var_cadencia,   :var_tipodoc,   
+         :var_cadencia1, :var_cadencia2, :var_cadencia3,  :var_cadencia4,   
+         :var_cadencia5, :var_cadencia6, :var_cadencia7,  :var_cadencia8,   
+         :var_cadencia9 
+	FROM   carforpag  
+   WHERE  carforpag.empresa = :empresa
+	AND    carforpag.forma   = :var_codpago ;
+	IF SQLCA.SQLCODE = 0 Then
+		acumulado =0
+		var_importe = Dec(String(var_total_fac/var_efectos,f_mascara_moneda(var_divisa)))
+		vto.efectos = var_efectos
+		IF var_primero = 0 Then
+			FOR reg = 1 To var_efectos
+				IF reg = 1 Then a_dias[reg] = var_cadencia1
+				IF reg = 2 Then a_dias[reg] = var_cadencia2
+				IF reg = 3 Then a_dias[reg] = var_cadencia3
+				IF reg = 4 Then a_dias[reg] = var_cadencia4
+				IF reg = 5 Then a_dias[reg] = var_cadencia5
+				IF reg = 6 Then a_dias[reg] = var_cadencia6
+				IF reg = 7 Then a_dias[reg] = var_cadencia7
+				IF reg = 8 Then a_dias[reg] = var_cadencia8
+				IF reg = 9 Then a_dias[reg] = var_cadencia9
+			NEXT
+		ELSE
+			FOR reg = 1 To var_efectos
+				IF reg = 1 Then 
+					a_dias[reg] = var_primero
+				ELSE
+					a_dias[reg] = var_cadencia
+				END IF
+			NEXT
+		END IF
+		FOR reg = 1 To var_efectos			
+			IF reg <> 1 Then var_ffactura1 = vto.vencimiento[reg - 1]
+			var_vencimiento = RelativeDate(var_ffactura1,a_dias[reg])
+			vto.vencimiento[reg] = var_vencimiento
+			IF reg = var_efectos Then
+				var_importe = var_total_fac - acumulado			
+			END IF
+			acumulado = acumulado + var_importe
+			vto.importe[reg] = var_importe
+		NEXT
+	END IF	
+	*/
+Return vto
+
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_peso_promclasemedidas.srf
+global type f_peso_promclasemedidas from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_promclasemedidas (string empresa, string clase, string medida)
+end prototypes
+
+global function decimal f_peso_promclasemedidas (string empresa, string clase, string medida);Dec{4} param
+  SELECT promclasemedidas.peso
+    INTO :param  
+    FROM promclasemedidas  
+   WHERE ( promclasemedidas.empresa = :empresa ) AND  
+         ( promclasemedidas.clase_panel = :clase ) AND  
+         ( promclasemedidas.tipo_medida = :medida )   ;
+IF SQLCA.SQLCODE = 100 Then param = 0
+Return param
+end function
+

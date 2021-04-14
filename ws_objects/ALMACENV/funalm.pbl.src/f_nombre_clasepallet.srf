@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_clasepallet.srf
+global type f_nombre_clasepallet from function_object
+end type
+
+forward prototypes
+global function string f_nombre_clasepallet (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_clasepallet (string empresa, string codigo);string valor
+  
+  SELECT almclasepallet.descripcion  
+    INTO :valor  
+    FROM almclasepallet  
+   WHERE ( almclasepallet.empresa = :empresa ) AND  
+         ( almclasepallet.codigo  = :codigo )   ;
+
+return valor
+end function
+

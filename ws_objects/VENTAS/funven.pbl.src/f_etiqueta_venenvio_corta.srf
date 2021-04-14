@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_etiqueta_venenvio_corta.srf
+global type f_etiqueta_venenvio_corta from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_venenvio_corta (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_etiqueta_venenvio_corta (string empresa, string cliente, string envio);String var_pais,var_provincia,var_cod_postal,var_localidad,var_domicilio,var_cl_domicilio,var_nu_domicilio
+String montaje,pais,provincia
+
+SELECT venenvio.pais,
+		 venenvio.provincia,   
+       venenvio.codpostal,
+		 venenvio.localidad,
+		 venenvio.domicilio  
+INTO   :var_pais,
+		 :var_provincia,
+		 :var_cod_postal,   
+       :var_localidad,
+		 :var_domicilio  
+FROM   venenvio  
+WHERE  ( venenvio.empresa = :empresa ) AND  
+       ( venenvio.cliente = :cliente ) AND  
+       ( venenvio.codigo  = :envio );
+
+IF IsNull(var_domicilio) Then var_domicilio =  ""
+   
+IF var_domicilio='' then
+	SELECT pais,
+			 provincia,   
+			 cod_postal,
+			 localidad,
+			 domicilio,
+			 cl_domicilio,
+			 nu_domicilio
+	INTO  :var_pais,
+			:var_provincia,
+			:var_cod_postal,   
+			:var_localidad,
+			:var_domicilio,
+			:var_cl_domicilio,
+			:var_nu_domicilio
+	FROM  genter
+	WHERE ( empresa = :empresa ) AND  
+			( codigo = :cliente ) AND  
+			( tipoter = 'C' );	
+END IF
+
+IF IsNull(var_localidad)    Then  var_localidad    = ""
+IF IsNull(var_domicilio)    Then  var_domicilio    = ""
+IF IsNull(var_pais)         Then  var_pais         = ""
+IF IsNull(var_provincia)    Then  var_provincia    = ""
+IF IsNull(var_cod_postal)   Then  var_cod_postal   = ""			
+IF Isnull(var_cl_domicilio) Then  var_cl_domicilio = ""
+IF Isnull(var_nu_domicilio) Then  var_nu_domicilio = ""
+
+pais=f_nombre_pais(var_pais)
+provincia=f_nombre_provincia(var_pais,var_provincia)
+
+montaje  = Trim(var_cl_domicilio) + " " + Trim(var_domicilio) +  " " + Trim(var_nu_domicilio) + "-" + Trim(var_cod_postal) + " " + Trim(var_localidad) +	" " + Trim(provincia)			  
+  
+Return montaje
+end function
+

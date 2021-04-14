@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_matricula_venalb.srf
+global type f_matricula_venalb from function_object
+end type
+
+forward prototypes
+global function string f_matricula_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_matricula_venalb (string empresa, integer anyo, decimal albaran);String var_matricula
+
+
+  SELECT venalb.matricula
+    INTO :var_matricula  
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+if IsNull(var_matricula) then var_matricula= ""
+
+Return var_matricula
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_pieza.srf
+global type f_nombre_pieza from function_object
+end type
+
+forward prototypes
+global function string f_nombre_pieza (string empresa, string solicitud, string coleccion, string pieza)
+end prototypes
+
+global function string f_nombre_pieza (string empresa, string solicitud, string coleccion, string pieza);string descripcion
+
+select descripcion
+into :descripcion
+from despiezascolsol, art_grupo2
+where despiezascolsol.empresa = :empresa
+and art_grupo2.empresa = :empresa
+and despiezascolsol.funcion = art_grupo2.codigo
+and despiezascolsol.solicitud = :solicitud
+and despiezascolsol.coleccion = :coleccion
+and despiezascolsol.codigo = :pieza;
+
+return descripcion
+end function
+

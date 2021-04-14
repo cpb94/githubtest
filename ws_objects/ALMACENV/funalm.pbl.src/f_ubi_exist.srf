@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_ubi_exist.srf
+$PBExportComments$Verifica si la ubicacion esta defina el mapa de ubicaciones a partir de almacen, zona, fila, altura devualve TRUE o FALSE
+global type f_ubi_exist from function_object
+end type
+
+forward prototypes
+global function boolean f_ubi_exist (string cod_empresa, string cod_almacen, string cod_zona, decimal cod_fila, decimal cod_altura)
+end prototypes
+
+global function boolean f_ubi_exist (string cod_empresa, string cod_almacen, string cod_zona, decimal cod_fila, decimal cod_altura);Decimal{2} numero
+
+  SELECT Count(*)   INTO :numero   FROM almubimapa  
+   WHERE almubimapa.empresa = :cod_empresa
+	AND   almubimapa.almacen = :cod_almacen
+	AND   almubimapa.zona    = :cod_zona
+	AND   almubimapa.fila_desde <= :cod_fila
+	AND   almubimapa.fila_hasta >= :cod_fila
+	AND   almubimapa.altura_desde <= :cod_altura
+	AND   almubimapa.altura_hasta >= :cod_altura  USING SQLCA;
+	IF IsNull(numero) Then numero = 0
+   IF numero = 0 THEN
+      RETURN FALSE
+   ELSE
+      RETURN TRUE
+   END IF
+end function
+

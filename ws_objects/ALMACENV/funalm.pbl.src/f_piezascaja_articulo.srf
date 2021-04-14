@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_piezascaja_articulo.srf
+global type f_piezascaja_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_piezascaja_articulo (string empresa, string articulo, string caja)
+end prototypes
+
+global function decimal f_piezascaja_articulo (string empresa, string articulo, string caja);Dec{4} var_piezas
+
+SELECT almartcajas.piezascaja INTO :var_piezas
+FROM   almartcajas
+Where  almartcajas.empresa   = :empresa
+And    almartcajas.articulo  = :articulo
+And    almartcajas.caja      = :caja;
+if IsNull(var_piezas) Then var_piezas = 0
+IF var_piezas =  0 Then f_grabar_incidencia("f_piezascaja_articulo"," El articulo " + articulo + "No tiene piezas caja")
+Return var_piezas;
+
+end function
+

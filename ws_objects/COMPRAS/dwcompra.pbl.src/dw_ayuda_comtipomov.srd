@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_ayuda_comtipomov.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=92 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=tipomov dbname="comtipomov.tipomov" )
+ column=(type=char(30) updatewhereclause=yes name=descripcion dbname="comtipomov.descripcion" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="comtipomov.empresa" )
+ column=(type=char(1) updatewhereclause=yes name=interno dbname="comtipomov.interno" )
+ column=(type=char(1) updatewhereclause=yes name=codigo_real dbname="comtipomov.codigo_real" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comtipomov~" ) COLUMN(NAME=~"comtipomov.tipomov~") COLUMN(NAME=~"comtipomov.descripcion~") COLUMN(NAME=~"comtipomov.empresa~") COLUMN(NAME=~"comtipomov.interno~") COLUMN(NAME=~"comtipomov.codigo_real~")WHERE(    EXP1 =~"comtipomov.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"upper(comtipomov.descripcion)~"   OP =~"like~"    EXP2 =~":nombre~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"nombre~" TYPE = string) " update="comtipomov" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("nombre", string))  sort="number(tipomov) A " )
+text(band=header alignment="2" text="Código"border="6" color="33554432" x="187" y="20" height="64" width="261"  name=tipomov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Descripción"border="6" color="33554432" x="471" y="20" height="64" width="1056"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="471" y="4" height="76" width="1056"  name=descripcion  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="187" y="4" height="76" width="261"  name=tipomov  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

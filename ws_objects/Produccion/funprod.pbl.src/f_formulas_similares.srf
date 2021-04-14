@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_formulas_similares.srf
+global type f_formulas_similares from function_object
+end type
+
+forward prototypes
+global function str_resultado_form_simil f_formulas_similares (string empresa, string articulo1, real cantidad1, string articulo2, real cantidad2, string articulo3, real cantidad3)
+end prototypes
+
+global function str_resultado_form_simil f_formulas_similares (string empresa, string articulo1, real cantidad1, string articulo2, real cantidad2, string articulo3, real cantidad3);string sel,v_formulacion
+datastore contenedor
+long total1,indice1,n
+real peso_form,cant_kg
+string articulo[3]
+real cantidad[3]
+str_resultado_form_simil resul
+int indres = 1
+int coincidencia = 0
+
+articulo[1] = articulo1
+articulo[2] = articulo2
+articulo[3] = articulo3
+cantidad[1] = cantidad1
+cantidad[2] = cantidad2
+cantidad[3] = cantidad3
+
+for indice1 = 1 to 1000
+	resul.kk[indice1] = ""
+next
+
+//sel = "SELECT FORMULACION,COUNT(MP) COINCIDENCIAS FROM PRODDETFORMULA "+&
+//		"WHERE EMPRESA = '"+empresa+"' AND MP IN ('"+articulo1+"','"+articulo2+"','"+articulo3+"') GROUP "+& 
+//		"BY FORMULACION ORDER BY COINCIDENCIAS DESC"
+
+sel = "SELECT FORMULACION FROM PRODDETFORMULA "+&
+		"WHERE EMPRESA = '"+empresa+"' AND MP IN ('"+articulo1+"','"+articulo2+"','"+articulo3+"')" 
+
+//contenedor = f_cargar_cursor (sel)
+f_cargar_cursor_nuevo(sel, contenedor)
+//contenedor.setfilter("")
+//contenedor.setfilter("COINCIDENCIAS = 3")
+total1 = contenedor.rowcount()
+if total1 > 0 then
+	coincidencia = 1
+	for indice1 = 1 to total1
+		v_formulacion = contenedor.getitemstring(indice1,"formulacion")
+	//	peso_form = f_peso_total_formula(empresa,v_formulacion)
+	//	if peso_form = 0 then peso_form = 1
+	//	coincidencia = 0
+	//	for n = 1 to 3
+	//		select cantidad into :cant_kg
+	//		from proddetformula where empresa = :empresa and
+	//		formulacion = :v_formulacion and mp = :articulo[n];	
+	//		if ((cant_kg / peso_form) * 1000) >= (cantidad[n] -((cantidad[n]/100)*10)) and ((cant_kg / peso_form) * 1000) <= (cantidad[n] +((cantidad[n]/100)*10)) then 
+	//			coincidencia = coincidencia +1
+	//		end if
+	//	next
+		if coincidencia > 0 and indres <= 1000 then // Solo queremos un maximo de 10000
+			resul.kk[indres] = v_formulacion
+			indres = indres +1
+		end if
+	next
+end if
+
+destroy contenedor
+
+return resul
+end function
+

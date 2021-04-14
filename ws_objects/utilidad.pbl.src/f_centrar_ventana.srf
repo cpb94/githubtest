@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_centrar_ventana.srf
+global type f_centrar_ventana from function_object
+end type
+
+forward prototypes
+global subroutine f_centrar_ventana (window ventana)
+end prototypes
+
+global subroutine f_centrar_ventana (window ventana);environment env
+integer rtn
+
+
+rtn = GetEnvironment(env)
+IF rtn <> 1 THEN RETURN
+ventana.x = (PixelsToUnits(env.ScreenWidth, XPixelsToUnits!) - ventana.Width) / 2
+ventana.y = (PixelsToUnits(env.ScreenHeight, YPixelsToUnits!) - 2*ventana.Height) / 2
+end subroutine
+

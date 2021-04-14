@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_familia_formato.srf
+global type f_familia_formato from function_object
+end type
+
+forward prototypes
+global function string f_familia_formato (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function string f_familia_formato (string ai_codemp, string ai_codfor);string	ls_familia_formato
+
+  SELECT formatos.familia
+    INTO :ls_familia_formato  
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_familia_formato=""
+END IF
+
+RETURN ls_familia_formato
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipo_libro.srf
+global type f_tipo_libro from function_object
+end type
+
+forward prototypes
+global function STRING f_tipo_libro (integer ejercicio, string empresa, string libro)
+end prototypes
+
+global function STRING f_tipo_libro (integer ejercicio, string empresa, string libro);string variable
+
+  SELECT contalibros.tipo  
+    INTO :variable  
+    FROM contalibros  
+   WHERE ( contalibros.ejercicio = :ejercicio ) AND  
+         ( contalibros.empresa = :empresa ) AND  
+         ( contalibros.codigo = :libro )   ;
+
+Return variable
+end function
+

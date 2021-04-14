@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_ubicacion_ref_pallet_caja_cantidad.srf
+global type f_ubicacion_ref_pallet_caja_cantidad from function_object
+end type
+
+forward prototypes
+global function string f_ubicacion_ref_pallet_caja_cantidad (string empresa, string referencia, string tipo_pallet, string caja, decimal cantidad)
+end prototypes
+
+global function string f_ubicacion_ref_pallet_caja_cantidad (string empresa, string referencia, string tipo_pallet, string caja, decimal cantidad);String ubicacion,montaje,calidad,articulo,zona1,zona2
+String ubi,almacen,zona		 
+Dec{2} altura,fila,reg,v,v1,registros,ex
+Dec linea
+DataStore Data
+Integer contador_ubicaciones
+String compuesto,errores,sys
+
+
+// ubicaciones
+compuesto = " Select ubicacion,linea,existencias from almlinubica "+&
+            " Where almlinubica.empresa     = '" + empresa + "'" +&
+            " And   almlinubica.referencia  = '" + referencia   + "'" +&
+				" And   almlinubica.tipo_pallet = '" + tipo_pallet + "'" +&
+				" And   almlinubica.caja        = '" + caja + "'" +&
+				" And   almlinubica.pedido      is null" + &
+				" And   almlinubica.externo     = 'S' " + &
+				" Order by altura,existencias asc"
+				
+//data = f_cargar_cursor(compuesto)
+f_cargar_cursor_nuevo(compuesto, data)
+
+registros = data.Retrieve()
+contador_ubicaciones = 0
+IF registros <> 0 Then
+ FOR reg = 1 To registros
+	ubicacion   = data.GetItemString(reg,"ubicacion")
+   linea       = data.GetItemNumber(reg,"linea")
+   ex          = data.GetItemNumber(reg,"existencias")
+	
+	ex       = dec(string(ex,      '###,###,##.##'))
+	cantidad = dec(string(cantidad,'###,###,##.##'))
+	
+	IF ex >= cantidad Then
+		IF Not f_bloqueo_almlinubica(codigo_empresa,ubicacion,linea) Then
+			v = 0
+			destroy data
+			Return ubicacion
+		END IF
+	END IF
+Next
+END IF
+f_mensaje("Control Stock","No Hay Suficiente Stock en una ubicación (Agrupar Ubicaciones) Articulo:" + f_nombre_articulo(empresa,f_articulo_referencia(referencia)) )
+setnull(ubicacion)
+destroy data
+
+RETURN ubicacion
+
+end function
+

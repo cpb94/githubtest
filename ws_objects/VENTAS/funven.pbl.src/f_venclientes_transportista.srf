@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_venclientes_transportista.srf
+global type f_venclientes_transportista from function_object
+end type
+
+forward prototypes
+global function string f_venclientes_transportista (string empresa, string cliente)
+end prototypes
+
+global function string f_venclientes_transportista (string empresa, string cliente);String ls_transportista
+
+SELECT venclientes.transportista
+INTO     :ls_transportista
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente;
+
+if isnull(ls_transportista) then ls_transportista = ""
+
+Return ls_transportista
+
+end function
+

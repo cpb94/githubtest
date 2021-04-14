@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_deposito_venclientes.srf
+global type f_deposito_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_deposito_venclientes (string empresa, string cliente)
+end prototypes
+
+global function string f_deposito_venclientes (string empresa, string cliente);String valor
+
+SELECT   venclientes.deposito
+INTO     :valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente;
+Return valor;
+
+end function
+

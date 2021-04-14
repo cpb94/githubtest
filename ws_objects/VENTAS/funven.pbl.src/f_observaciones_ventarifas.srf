@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_observaciones_ventarifas.srf
+global type f_observaciones_ventarifas from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_ventarifas (string empresa, string codigo, datetime fecha)
+end prototypes
+
+global function string f_observaciones_ventarifas (string empresa, string codigo, datetime fecha);String  var_parametro
+  SELECT venmapatarifas.observaciones 
+    INTO :var_parametro  
+    FROM venmapatarifas  
+   WHERE ( venmapatarifas.empresa = :empresa ) AND  
+         ( venmapatarifas.tarifa = :codigo ) AND 
+         ( venmapatarifas.fecha = :fecha )   ;
+Return var_parametro
+
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_descripcion_venmprima.srf
+global type f_descripcion_venmprima from function_object
+end type
+
+forward prototypes
+global function string f_descripcion_venmprima (string empresa, string mprima)
+end prototypes
+
+global function string f_descripcion_venmprima (string empresa, string mprima);String descrip
+  SELECT venmprima.descripcion 
+  INTO :descrip
+  FROM venmprima  
+  WHERE venmprima.empresa = :empresa  
+	AND   venmprima.codigo  = :mprima   ;
+
+Return descrip
+end function
+

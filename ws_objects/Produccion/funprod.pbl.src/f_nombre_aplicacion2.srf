@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_aplicacion2.srf
+global type f_nombre_aplicacion2 from function_object
+end type
+
+forward prototypes
+global function string f_nombre_aplicacion2 (string empresa, string aplicacion)
+end prototypes
+
+global function string f_nombre_aplicacion2 (string empresa, string aplicacion);string v_nom
+
+select descripcion
+into :v_nom
+from prodaplicaciones
+where empresa = :empresa
+and codigo =:aplicacion;
+
+if sqlca.sqlcode <> 0 then
+//	f_mensaje("Selección de la aplicación","Error: "+sqlca.sqlerrtext)
+	v_nom = ""
+end if
+
+if isnull(v_nom) then v_nom = ""
+if mid(v_nom,1,7) <> "COCCION" then v_nom = ""
+
+return v_nom
+end function
+

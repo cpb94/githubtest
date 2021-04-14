@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_control_precartera.srf
+global type f_control_precartera from function_object
+end type
+
+forward prototypes
+global function string f_control_precartera (string empresa, string cuenta)
+end prototypes
+
+global function string f_control_precartera (string empresa, string cuenta);Dec{0}   numero
+
+  SELECT count(*)   INTO :numero    FROM carefectos  
+   WHERE carefectos.empresa   = :empresa 
+	AND   carefectos.cuenta    = :cuenta
+	AND   carefectos.situacion = "4";
+	IF IsNull(numero) Then numero = 0
+	IF numero = 0 Then
+		Return "N"
+	ELSE
+		Return "S"
+	END IF
+
+
+
+end function
+

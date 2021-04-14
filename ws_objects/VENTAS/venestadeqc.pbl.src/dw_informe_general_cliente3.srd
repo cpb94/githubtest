@@ -1,0 +1,66 @@
+﻿$PBExportHeader$dw_informe_general_cliente3.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=204 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(1) updatewhereclause=yes name=destrabajo2_laboratorio dbname="destrabajo2.laboratorio" )
+ column=(type=char(20) updatewhereclause=yes name=desmodelo_funcion dbname="desmodelo.funcion" )
+ column=(type=char(5) updatewhereclause=yes name=destrabajo2_relieve dbname="destrabajo2.relieve" )
+ column=(type=char(50) updatewhereclause=yes name=art_tipomoldura_descripcion dbname="art_tipomoldura.descripcion" )
+ column=(type=char(50) updatewhereclause=yes name=art_grupo2_descripcion dbname="art_grupo2.descripcion" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ retrieve="  SELECT destrabajo2.laboratorio,
+			desmodelo.funcion,   
+         destrabajo2.relieve,   
+         art_tipomoldura.descripcion,   
+         art_grupo2.descripcion,
+			genter.razon
+    FROM desmodelo,   
+         desserie,   
+         destrabajo2,   
+         art_tipomoldura,   
+         art_grupo2,
+			genter
+   WHERE ( destrabajo2.empresa = desmodelo.empresa ) and  
+         ( destrabajo2.modelo = desmodelo.modelo ) and  
+         ( destrabajo2.empresa = desserie.empresa ) and  
+         ( destrabajo2.serie = desserie.codigo ) and  
+         ( desmodelo.empresa = art_grupo2.empresa ) and  
+         ( desmodelo.funcion = art_grupo2.codigo ) and  
+         ( destrabajo2.empresa = art_tipomoldura.empresa ) and  
+         ( destrabajo2.relieve = art_tipomoldura.codigo ) and  
+         ( ( desmodelo.empresa = :empresa ) AND  
+         ( desserie.cliente = :cliente ) AND  
+         ( destrabajo2.fecha_solicitud >= :fdesde ) AND  
+         ( destrabajo2.fecha_solicitud <= :fhasta ) ) AND
+			( genter.empresa =:empresa ) AND
+			( genter.codigo = desserie.cliente ) and
+			( genter.tipoter = 'C' )
+order by  destrabajo2.laboratorio,
+			desmodelo.funcion,   
+         destrabajo2.relieve  
+" arguments=(("empresa", string),("cliente", string),("fdesde", datetime),("fhasta", datetime))  sort="destrabajo2_laboratorio A desmodelo_funcion A destrabajo2_relieve A " )
+group(level=1 header.height=64 trailer.height=0 by=("empresa" , "destrabajo2_laboratorio" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=64 trailer.height=0 by=("empresa" , "destrabajo2_laboratorio" , "desmodelo_funcion" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=64 trailer.height=0 by=("empresa" , "destrabajo2_laboratorio" , "desmodelo_funcion" , "destrabajo2_relieve" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Trabajos" border="2" color="16777215" x="50" y="140" height="56" width="997" html.valueishtml="0"  name=despiezascolsol_funcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="0" )
+text(band=header alignment="0" text="Periodo" border="0" color="0" x="55" y="80" height="44" width="622" html.valueishtml="0"  name=actual visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="1" text="Periodo" border="0" color="0" x="709" y="80" height="44" width="338" html.valueishtml="0"  name=pav_rev visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="0" expression=" if (  destrabajo2_laboratorio = 'S', 'LABORATORIO','DISEÑO') "border="2" color="16777215" x="50" y="8" height="48" width="997" format="[GENERAL]" html.valueishtml="0"  name=lab_dis visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8421376" )
+compute(band=header.1 alignment="1" expression=" count(  desmodelo_funcion  for group 1 ) "border="0" color="16777215" x="846" y="12" height="36" width="206" format="[GENERAL]" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.2 id=5 alignment="0" tabsequence=32766 border="2" color="33554432" x="87" y="8" height="48" width="960" format="[general]" html.valueishtml="0"  name=art_grupo2_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=header.2 alignment="1" expression=" count(  desmodelo_funcion  for group 2 ) "border="0" color="33554432" x="841" y="12" height="40" width="201" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.3 id=4 alignment="0" tabsequence=32766 border="2" color="33554432" x="133" y="8" height="48" width="914" format="[general]" html.valueishtml="0"  name=art_tipomoldura_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217752" )
+compute(band=header.3 alignment="1" expression="count(   destrabajo2_relieve for group 3 ) "border="0" color="33554432" x="841" y="12" height="40" width="201" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="896" y="56" height="48" width="681" format="[general]" html.valueishtml="0"  name=art_tipomoldura_descripcion_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="288" y="60" height="48" width="576" format="[general]" html.valueishtml="0"  name=art_grupo2_descripcion_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="  destrabajo2_relieve  "border="0" color="0" x="846" y="164" height="44" width="201" format="[General]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="16711680" x="2729" y="0" height="56" width="23" format="[general]" html.valueishtml="0"  name=destrabajo2_laboratorio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="16711680" x="2752" y="0" height="56" width="462" format="[general]" html.valueishtml="0"  name=desmodelo_funcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="16711680" x="3214" y="0" height="56" width="114" format="[general]" html.valueishtml="0"  name=destrabajo2_relieve visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="1371" y="208" height="76" width="256" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=0 border="0" color="33554432" x="3328" y="0" height="48" width="901" html.valueishtml="0"  name=genter_razon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

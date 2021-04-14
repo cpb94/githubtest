@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_ayuda_primas_prove.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=157 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=21 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=codigo dbname="venmprima.codigo" )
+ column=(type=char(30) updatewhereclause=yes name=descripcion dbname="venmprima.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=proveedor dbname="venmprima.proveedor" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=empresa dbname="venmprima.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmprima~" ) COLUMN(NAME=~"venmprima.codigo~") COLUMN(NAME=~"venmprima.descripcion~") COLUMN(NAME=~"venmprima.proveedor~") COLUMN(NAME=~"venmprima.empresa~")WHERE(    EXP1 =~"venmprima.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"(venmprima.proveedor~"   OP =~"=~"    EXP2 =~":proveedor~"    LOGIC =~"or~" ) WHERE(    EXP1 =~"venmprima.proveedor~"   OP =~"=~"    EXP2 =~"'')~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"proveedor~" TYPE = string) " update="venmprima" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("proveedor", string)) )
+text(band=header alignment="2" text="Mat.Prima"border="6" color="0" x="78" y="84" height="65" width="1317"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=header alignment="0" expression="f_nombre_proveedor( empresa , proveedor )"border="0" color="128" x="334" y="8" height="57" width="1061" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="0" text="Proveedor:"border="0" color="0" x="37" y="8" height="57" width="284"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="78" y="4" height="65" width="494" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="586" y="4" height="65" width="814" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

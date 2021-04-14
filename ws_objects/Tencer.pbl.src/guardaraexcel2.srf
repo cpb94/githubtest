@@ -1,0 +1,180 @@
+﻿$PBExportHeader$guardaraexcel2.srf
+global type guardaraexcel2 from function_object
+end type
+
+forward prototypes
+global subroutine guardaraexcel2 (datawindow dwdatos, string spruta)
+end prototypes
+
+global subroutine guardaraexcel2 (datawindow dwdatos, string spruta);// GuardarAExcel2( dw_1, "c:\Report.xls")
+// GuardarAExcel2( dw_1, "c:\Report.html")
+
+// Esta función activa CSS en el datawindow que se debe generar en formato Excel, haciendo esto
+// se mantinen la apariencia visual del dw en el excel.
+
+// **********************************
+// CONSIDERACIONES A TENER EN CUENTA 
+// **********************************
+// - Si existen controles de tipo column o compute superpuestos (unos encima del otro) el SaveAs solo
+//   grabará el que esté por encima. Utilizar la función setPosition() si es posible:
+//     > Ejemplo: dw.setPosition( 'campo_t', 'header', true )
+// - Los objetos deben de estar en el Layer: Band
+//	- AYUDA para aplicar formatos especiales:
+//     > http://codesnipers.com/?q=excel-compatible-html
+//     > https://stigmortenmyre.no/mso/html/excel/xlconformulas.htm
+
+String ls_GenerateCSS
+String ls_Border
+String ls_NoWrap
+String ls_Fila
+String ls_Valor
+String ls_Temp
+String ls_CabeceraHTML
+String ls_PieHTML
+String ls_NumToStr
+
+Long i
+Long ll_TRow
+Long ll_Pos
+Long ll_PosIni
+Long ll_PosFin
+Long ll_Row
+Long ll_Temp
+
+Boolean lb_Actualizar
+
+ls_CabeceraHTML = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">'
+ls_PieHTML = '</html>'
+ls_NumToStr = 'x:str'
+
+
+// Guardar formato CSS actual del datawindow
+ls_GenerateCSS = dwDatos.Describe("DataWindow.HTMLTable.GenerateCSS")
+ls_Border = dwDatos.Describe("DataWindow.HTMLTable.border")
+ls_NoWrap = dwDatos.Describe("DataWindow.HTMLTable.nowrap")
+
+// Aplicar fomato CSS al datawindow
+dwDatos.Modify("DataWindow.HTMLTable.GenerateCSS='1'")
+dwDatos.Modify("DataWindow.HTMLTable.border='0'")
+dwDatos.Modify("DataWindow.HTMLTable.nowrap='1'")
+
+// Grabar el fichero .xls
+dwDatos.SaveAs( spRuta, HTMLTable!, TRUE )
+
+return
+
+// Importar el fichero .xls al d_FilaFichero
+datastore dsHTML
+dsHTML = CREATE datastore
+dsHTML.DataObject = "d_FilaFichero"
+dsHTML.ImportFile( Text!, spRuta )
+
+// Procesar línea a línea para:
+//   - Añadir en la cabecera: <!DOCTYPE html>
+//   - Reemplazar "{;" por "{"
+//   - Si hay visibility:hidden reemplazar su valor por espacios, excel no tiene compatibilidad con esto y lo muestra
+//			Ejemplo: Original:    <TD NOWRAP CLASS=htmldw9C370 Style='visibility:hidden;'>0202002003</TD>
+//						Reemplazado: <TD NOWRAP CLASS=htmldw9C370 Style='visibility:hidden;'>          </TD>
+//   - Solución de número entre paréntesis, excel lo convierte a número negativo.
+//   - Mantener los ceros a al izquierda, excel los conviete a números.
+//   - Quitar referencias a imágenes que no se incluyen:
+//       Ejemplo: Original:    <TD NOWRAP CLASS=htmldw152FC><IMG SRC="" border="0" CLASS=htmldw152FC  onClick="{return htmldw.itemClicked(0,-1,'compute_11',0,-1);}" ></TD>
+//                Reemplazado: <TD NOWRAP CLASS=htmldw152FC></TD>
+//   - Evitar que texto con / lo convierta a fecha
+
+dsHTML.InsertRow(1)
+dsHTML.setItem( 1, 'fila', ls_CabeceraHTML )
+
+dsHTML.InsertRow(0)
+ll_TRow = dsHTML.RowCount()
+dsHTML.setItem( ll_TRow, 'fila', ls_PieHTML )
+
+For i = 1 to ll_TRow
+	lb_Actualizar = False
+	ls_Fila = dsHTML.getItemString( i, 'fila' )
+	
+	// Activación del CSS que está desactivado por defecto
+	If Pos( ls_Fila, '{;' ) > 0 Then
+		ls_Fila = f_global_replace( ls_Fila, '{;', '{' )
+		lb_Actualizar = True
+	End If
+	
+	// Visibilidad
+	If Pos( ls_Fila, 'visibility:hidden' ) > 0 or Pos( ls_Fila, 'visibility: hidden' ) > 0 Then
+		ll_PosIni = Pos( ls_Fila, '>' )
+		ll_PosFin = Pos( ls_Fila, '</' )
+		If ll_PosIni > 0 and ll_PosFin > 0 Then
+			ls_Valor = Mid( ls_Fila, ll_PosIni + 1, (ll_PosFin - ll_PosIni) - 1 )
+			If Len( Trim( ls_Valor ) ) > 0 Then
+				ls_Fila = f_global_replace( ls_Fila, ls_Valor, Space( Len( ls_Valor ) ) )
+				lb_Actualizar = True
+			End If
+		End If
+	End If
+	
+	// Solución de número entre paréntesis, excel lo convierte a número negativo.
+	ll_PosIni = Pos( ls_Fila, '>(' )
+	ll_PosFin = Pos( ls_Fila, ')</' )
+	If ll_PosIni > 0 and ll_PosFin > 0 Then
+		ls_Valor = Mid( ls_Fila, ll_PosIni + 2, (ll_PosFin - ll_PosIni) - 2 )
+		If isNumber( ls_Valor ) Then
+			ls_Fila = f_global_replace( ls_Fila, ">(", ">&nbsp;(" )
+			lb_Actualizar = True
+		End If
+	End If
+	
+	// Aplicar formato para matener ceros a la izquierda
+	ll_PosIni = Pos( ls_Fila, '>0' )
+	ll_PosFin = Pos( ls_Fila, '</' )
+	If ll_PosIni > 0 and ll_PosFin > 0 Then
+		ls_Valor = Mid( ls_Fila, ll_PosIni + 1, (ll_PosFin - ll_PosIni) - 1 )
+		If isNumber( ls_Valor ) Then
+			If Dec( ls_Valor ) > 0 Then
+				ls_Fila = f_global_replace( ls_Fila, ">0", " " + ls_NumToStr + ">0" )
+				lb_Actualizar = True
+			End If
+		End If
+	End If
+	
+	// Quitar referencia a imágenes que no se incluyen:
+	ll_PosIni = Pos( ls_Fila, '<IMG SRC=""' )
+	ll_PosFin = Pos( ls_Fila, '</' )
+	If ll_PosIni > 0 and ll_PosFin > 0 Then
+		ls_Valor = Mid( ls_Fila, ll_PosIni, (ll_PosFin - ll_PosIni) )
+		If Len( Trim( ls_Valor ) ) > 0 Then
+			ls_Fila = f_global_replace( ls_Fila, ls_Valor, "" )
+			lb_Actualizar = True
+		End If
+	End If
+	
+	//Evitar que texto con / lo convierta a fecha
+	ll_PosIni = Pos( ls_Fila, '>' )
+	ll_PosFin = Pos( ls_Fila, '</' )
+	If ll_PosIni > 0 and ll_PosFin > 0 Then
+		ls_Valor = Mid( ls_Fila, ll_PosIni + 1, (ll_PosFin - ll_PosIni) - 1 )
+		If f_cuenta_char( ls_Valor, '/' ) = 1 Then
+			ls_Fila = f_global_replace( ls_Fila, ">"+ls_Valor, " " + ls_NumToStr + ">"+ls_Valor )
+			lb_Actualizar = True
+		End If
+	End If
+	
+	
+	If lb_Actualizar Then
+		dsHTML.setItem( i, 'fila', ls_Fila )
+	End If
+Next
+
+
+// Guardar el d_FilaFichero como Txt con extensión .xls
+dsHTML.SaveAs( spRuta, Text!, FALSE )
+
+// Restaurar el formato CSS original del datawindow
+dwDatos.Modify("DataWindow.HTMLTable.GenerateCSS='" + ls_GenerateCSS + "'")
+dwDatos.Modify("DataWindow.HTMLTable.border='" + ls_Border + "'")
+dwDatos.Modify("DataWindow.HTMLTable.nowrap='" + ls_NoWrap + "'")
+
+
+DESTROY dsHTML
+Return 
+end subroutine
+

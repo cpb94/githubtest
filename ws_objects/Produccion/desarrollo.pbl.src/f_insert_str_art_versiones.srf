@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_insert_str_art_versiones.srf
+global type f_insert_str_art_versiones from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_art_versiones (ref str_art_versiones str_art_versiones)
+end prototypes
+
+global function boolean f_insert_str_art_versiones (ref str_art_versiones str_art_versiones);int li_existe_registro
+boolean lb_correcto = true
+
+SELECT isnull(count(*),0) 
+INTO   :li_existe_registro 
+FROM   art_versiones
+WHERE  art_versiones.empresa  = :str_art_versiones.empresa        
+AND    art_versiones.articulo = :str_art_versiones.articulo
+AND    art_versiones.version  = :str_art_versiones.version;
+
+if li_existe_registro = 0 then
+	//Insertamos
+	INSERT INTO art_versiones
+			 (art_versiones.empresa,
+			  art_versiones.articulo,
+			  art_versiones.version,
+			  art_versiones.base,
+			  art_versiones.descripcion,
+			  art_versiones.observaciones,
+			  art_versiones.aprovechar_base,
+			  art_versiones.tipo_version) 
+	VALUES (:str_art_versiones.empresa,
+			  :str_art_versiones.articulo,
+			  :str_art_versiones.version,
+			  :str_art_versiones.base,
+			  :str_art_versiones.descripcion,
+			  :str_art_versiones.observaciones,
+			  :str_art_versiones.aprovechar_base,
+			  :str_art_versiones.tipo_version);
+else
+	//Updateamos
+	UPDATE art_versiones 
+	SET    art_versiones.base            = :str_art_versiones.base,
+			 art_versiones.descripcion     = :str_art_versiones.descripcion,
+			 art_versiones.observaciones   = :str_art_versiones.observaciones,
+			 art_versiones.aprovechar_base = :str_art_versiones.aprovechar_base,
+			 art_versiones.tipo_version    = :str_art_versiones.tipo_version 
+	WHERE  art_versiones.empresa  = :str_art_versiones.empresa        
+	AND    art_versiones.articulo = :str_art_versiones.articulo
+	AND    art_versiones.version  = :str_art_versiones.version;
+end if
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

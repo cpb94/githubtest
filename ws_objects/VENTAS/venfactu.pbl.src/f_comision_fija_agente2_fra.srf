@@ -1,0 +1,57 @@
+﻿$PBExportHeader$f_comision_fija_agente2_fra.srf
+global type f_comision_fija_agente2_fra from function_object
+end type
+
+forward prototypes
+global function decimal f_comision_fija_agente2_fra (string empresa, long anyo, long factura)
+end prototypes
+
+global function decimal f_comision_fija_agente2_fra (string empresa, long anyo, long factura);dec comision_m2,comision_pz
+dec m2_comision,pz_comision
+dec importe_comision_m2
+dec importe_comision_pz
+
+select comision21,comision22
+into   :comision_m2,:comision_pz
+from   venfac
+where  empresa = :empresa
+and    anyo    = :anyo
+and    factura = :factura;
+
+if isnull(comision_m2) then comision_m2 = 0
+if isnull(comision_pz) then comision_pz = 0
+
+if comision_m2 <> 0 then
+	select sum(cantidad)
+	into   :m2_comision
+	from   venlifac
+	where  empresa = :empresa
+	and    anyo    = :anyo
+	and    factura = :factura
+	and    control_comisiones = 'S'
+	and    tipo_unidad        = '1';
+	
+	if isnull(m2_comision) then m2_comision = 0
+	importe_comision_m2 = m2_comision * comision_m2
+else
+	importe_comision_m2 = 0
+end if
+if comision_pz <> 0 then
+	select sum(cantidad)
+	into   :pz_comision
+	from   venlifac
+	where  empresa = :empresa
+	and    anyo    = :anyo
+	and    factura = :factura
+	and    control_comisiones = 'S'
+	and    tipo_unidad        = '0';
+	
+	if isnull(pz_comision) then pz_comision = 0
+	importe_comision_pz = pz_comision * comision_pz
+else
+	importe_comision_pz = 0
+end if
+	
+return importe_comision_m2 + importe_comision_pz 
+end function
+

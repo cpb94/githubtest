@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_pack.srf
+global type f_nombre_pack from function_object
+end type
+
+forward prototypes
+global function string f_nombre_pack (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_nombre_pack (string ra_codemp, string ra_codart); string ls_nombre_articulo
+
+ SELECT venpacks.descripcion  
+    INTO :ls_nombre_articulo  
+    FROM venpacks  
+   WHERE ( venpacks.empresa = :ra_codemp ) AND  
+         ( venpacks.codigo = :ra_codart )  
+  USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_articulo = ""
+END IF
+Return Trim(ls_nombre_articulo)
+
+end function
+

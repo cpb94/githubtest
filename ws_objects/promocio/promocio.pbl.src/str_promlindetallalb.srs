@@ -1,0 +1,41 @@
+﻿$PBExportHeader$str_promlindetallalb.srs
+global type str_promlindetallalb from structure
+	string		empresa
+	decimal {0}	anyo
+	decimal {0}	albaran
+	decimal {0}	linea
+	decimal {0}	orden
+	string		panel
+	string		articulo
+	string		calidad
+	string		montajeartcal
+	decimal {0}	piezas
+	string		usuario
+	string		usuario_pedido
+	string		observaciones
+	decimal {2}	peso
+	decimal {0}	coste
+	decimal {0}	venta
+	string		pais
+	string		cliente
+	string		tipo
+	string		reposicion
+	string		situacion
+	datetime		f_albaran
+	datetime		f_entrega
+	string		agente1
+	string		agente2
+	string		agente3
+	string		tipo_expositor
+	string		expositor
+	datetime		f_entrega_real
+	decimal {0}	anyo_pedido
+	decimal {0}	pedido
+	decimal {0}	linea_pedido
+	string		activo
+	decimal {0}	orden_pedido
+	datetime		f_reposicion
+	datetime		f_retirada
+	datetime		f_pedido
+end type
+

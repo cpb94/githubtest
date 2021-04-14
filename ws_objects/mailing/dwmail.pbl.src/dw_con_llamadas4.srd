@@ -1,0 +1,20 @@
+﻿$PBExportHeader$dw_con_llamadas4.srd
+$PBExportComments$Datawindow consultas de llamadas.
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\bmp\MANO.CUR" )
+header(height=81 color="536870912" )
+summary(height=101 color="536870912" )
+footer(height=17 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="mllamadas.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="mllamadas.provincia" )
+ column=(type=long updatewhereclause=yes name=compute_0003 dbname="compute_0003" )
+ column=(type=char(5) updatewhereclause=yes name=campanya dbname="mllamadas.campanya" )
+ column=(type=char(5) updatewhereclause=yes name=pais dbname="mllamadas.pais" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mllamadas~" ) COLUMN(NAME=~"mllamadas.empresa~") COLUMN(NAME=~"mllamadas.provincia~") COMPUTE(NAME=~"count(*)~") COLUMN(NAME=~"mllamadas.campanya~") COLUMN(NAME=~"mllamadas.pais~")WHERE(    EXP1 =~"mllamadas.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mllamadas.campanya~"   OP =~"=~"    EXP2 =~":campanya~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mllamadas.fecha~"   OP =~">=~"    EXP2 =~":fdesde~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mllamadas.fecha~"   OP =~"<=~"    EXP2 =~":fhasta~" )  GROUP(NAME=~"mllamadas.empresa~") GROUP(NAME=~"mllamadas.campanya~") GROUP(NAME=~"mllamadas.pais~") GROUP(NAME=~"mllamadas.provincia~")) ORDER(NAME=~"mllamadas.empresa~" ASC=yes )  ORDER(NAME=~"mllamadas.campanya~" ASC=yes )  ORDER(NAME=~"3~" ASC=no) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"campanya~" TYPE = string)  ARG(NAME = ~"fdesde~" TYPE = datetime)  ARG(NAME = ~"fhasta~" TYPE = datetime) " arguments=(("empresa", string),("campanya", string),("fdesde", datetime),("fhasta", datetime)) )
+text(band=header alignment="0" text="Provincia                        "border="6" color="128" x="87" y="12" height="65" width="874"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Llamadas"border="6" color="128" x="979" y="12" height="65" width="284"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_provincia( pais , provincia ) "border="0" color="0" x="87" y="4" height="69" width="874" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1002" y="4" height="69" width="261" format="[general]"  name=compute_0003 editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=summary alignment="0" text="Total llamadas ...."border="0" color="128" x="197" y="28" height="65" width="522"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(  compute_0003 ) "border="0" color="128" x="997" y="28" height="65" width="266" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

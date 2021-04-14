@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_utitipoprograma.srf
+global type f_nombre_utitipoprograma from function_object
+end type
+
+forward prototypes
+global function string f_nombre_utitipoprograma (string codigo)
+end prototypes
+
+global function string f_nombre_utitipoprograma (string codigo);String var_descripcion
+
+  SELECT utitipoprograma.descripcion  
+    INTO :var_descripcion  
+    FROM utitipoprograma  
+   WHERE utitipoprograma.codigo = :codigo   ;
+
+
+
+
+Return var_descripcion
+end function
+

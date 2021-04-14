@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_codpostal_agente.srf
+global type f_codpostal_agente from function_object
+end type
+
+forward prototypes
+global function string f_codpostal_agente (string cod_empresa, string cod_agente)
+end prototypes
+
+global function string f_codpostal_agente (string cod_empresa, string cod_agente);String ls_codpostal
+
+ SELECT    venagentes.codpostal
+    INTO   :ls_codpostal
+    FROM venagentes 
+   WHERE ( venagentes.empresa= :cod_empresa ) AND  
+         ( venagentes.agente  = :cod_agente)   ;
+
+RETURN ls_codpostal
+
+
+end function
+

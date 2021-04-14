@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_carbancos_digcontrol.srf
+global type f_carbancos_digcontrol from function_object
+end type
+
+forward prototypes
+global function string f_carbancos_digcontrol (string empresa, string banco)
+end prototypes
+
+global function string f_carbancos_digcontrol (string empresa, string banco);String  control
+  
+SELECT carbancos.control INTO :control FROM carbancos
+WHERE carbancos.empresa = :empresa
+AND   carbancos.banco   = :banco;
+
+IF IsNull(control) THEN control = ""
+	
+RETURN control
+
+end function
+

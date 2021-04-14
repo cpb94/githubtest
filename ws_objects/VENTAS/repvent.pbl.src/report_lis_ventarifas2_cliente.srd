@@ -1,0 +1,22 @@
+﻿$PBExportHeader$report_lis_ventarifas2_cliente.srd
+release 5;
+datawindow(units=3 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=79 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=449 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="vendecotar.empresa" )
+ column=(type=char(20) updatewhereclause=yes key=yes name=base dbname="vendecotar.base" )
+ column=(type=char(20) updatewhereclause=yes key=yes name=decorado dbname="vendecotar.decorado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendecotar~" ) COLUMN(NAME=~"vendecotar.empresa~") COLUMN(NAME=~"vendecotar.base~") COLUMN(NAME=~"vendecotar.decorado~")WHERE(    EXP1 =~" ( vendecotar.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( vendecotar.base~"   OP =~"=~"    EXP2 =~":arg_base )~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_base~" TYPE = string)  ARG(NAME = ~"arg_tarifa~" TYPE = string)  ARG(NAME = ~"arg_fecha~" TYPE = datetime)  ARG(NAME = ~"arg_cliente~" TYPE = string) " update="vendecotar" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_base", string),("arg_tarifa", string),("arg_fecha", datetime),("arg_cliente", string)) )
+text(band=detail alignment="0" text="                                  "border="0" color="8421504" x="4365" y="0" height="608" width="3148"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="0" expression=" ~" ~"+ f_nombre_articulo(empresa,decorado)  "border="0" color="0" x="7567" y="0" height="449" width="4497" format="[general]"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="2" expression="f_nombre_formato_abr(empresa,f_formato_articulo(empresa,decorado))"border="0" color="0" x="12117" y="0" height="449" width="2143" format="[GENERAL]"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="1" expression="  if( f_unidad_articulo(empresa,decorado)=~"0~", String( f_precio_listar_cliente(empresa,arg_tarifa,arg_fecha,decorado,~"1~",arg_cliente) ,
+f_mascara_precios_moneda(f_moneda_ventarifas(empresa,arg_tarifa)))+~"  ~",~"~" ) 
+
+"border="0" color="0" x="14313" y="0" height="449" width="2434" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="1" expression="  if( f_unidad_articulo(empresa,decorado)=~"1~", String(f_precio_listar_cliente(empresa,arg_tarifa,arg_fecha,decorado,~"1~",arg_cliente) ,
+f_mascara_precios_moneda(f_moneda_ventarifas(empresa,arg_tarifa)))+~"  ~",~"~" ) 
+
+"border="0" color="0" x="16801" y="0" height="449" width="2248" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )

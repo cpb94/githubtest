@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_clase_promlinped.srf
+global type f_clase_promlinped from function_object
+end type
+
+forward prototypes
+global function string f_clase_promlinped (string ra_codemp, integer ra_anyo, decimal ra_pedido, decimal ra_linea)
+end prototypes
+
+global function string f_clase_promlinped (string ra_codemp, integer ra_anyo, decimal ra_pedido, decimal ra_linea);String clase
+
+
+ SELECT promlinped.clase_panel   INTO :clase   FROM promlinped
+   WHERE promlinped.empresa = :ra_codemp 
+	AND   promlinped.anyo    = :ra_anyo 
+	AND   promlinped.pedido  = :ra_pedido 
+	AND   promlinped.linea   = :ra_linea;
+
+  if isnull(clase) then clase =""
+Return clase
+
+end function
+

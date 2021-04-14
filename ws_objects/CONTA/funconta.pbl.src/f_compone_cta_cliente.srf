@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_compone_cta_cliente.srf
+global type f_compone_cta_cliente from function_object
+end type
+
+forward prototypes
+global function string f_compone_cta_cliente (string var_empresa, integer var_ejercicio, string var_codigo, string var_pais, string var_provincia)
+end prototypes
+
+global function string f_compone_cta_cliente (string var_empresa, integer var_ejercicio, string var_codigo, string var_pais, string var_provincia);integer var_digitos,Xx
+string  var_cuenta,ceros
+
+if f_tipo_pais(var_pais)='N' then	
+	ceros="4300"	
+	ceros=ceros + string(long(var_provincia),'00')
+	ceros=ceros + string(long(var_codigo),'0000')
+	var_cuenta=ceros
+/*	SELECT contaparam.digitos	
+	INTO :var_digitos
+	FROM contaparam  
+	WHERE ( contaparam.empresa = :var_empresa ) AND  
+			( contaparam.ejercicio = :var_ejercicio )   ;
+
+
+
+	if var_digitos<>0 then
+		For Xx=1 to var_digitos - 2
+	       ceros=ceros+"0"
+		Next 
+		var_cuenta = String(Dec(ceros)+long(var_codigo))
+	else
+		var_cuenta = ""
+	end if	*/
+else
+	ceros="4301"		
+	ceros=ceros + string(long(var_pais),'00')
+	ceros=ceros + string(long(var_codigo),'0000')
+	var_cuenta=ceros	
+end if
+return var_cuenta
+
+end function
+

@@ -1,0 +1,157 @@
+﻿$PBExportHeader$dw_con_pedidos_por_cantidad_y_g2.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=372 color="536870912" )
+summary(height=248 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="553648127" )
+table(column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=venliped_empresa dbname="venliped.empresa" )
+ column=(type=datetime updatewhereclause=yes name=fpedido dbname="venliped.fpedido" )
+ column=(type=decimal(2) updatewhereclause=yes name=venliped_cantidad_original dbname="venliped.cantidad" )
+ column=(type=char(10) updatewhereclause=yes name=formatos_abreviado dbname="formatos.abreviado" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g2 dbname="art_codestadistico.g2" )
+ column=(type=number updatewhereclause=yes name=importe_moneda dbname="importe_moneda" )
+ retrieve="select 	articulos.descripcion,
+			venliped.empresa,   
+			venliped.fpedido,
+         venliped.cantidad,
+			formatos.abreviado,
+			art_codestadistico.g2,
+         ( venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 )  ) / venped.cambio as importe_moneda
+
+from venliped, articulos, formatos, venped, art_codestadistico
+where venliped.empresa = :empresa 
+and articulos.empresa = :empresa
+and formatos.empresa = :empresa   
+and articulos.empresa = art_codestadistico.empresa
+and articulos.codigo = art_codestadistico.codigo
+and venped.empresa = :empresa   
+and venped.anyo = venliped.anyo
+and venped.pedido = venliped.pedido
+and venliped.articulo = articulos.codigo
+and articulos.formato = formatos.codigo
+and venliped.fpedido >= :fdesde
+and venliped.fpedido <= :fhasta
+and venliped.cliente like :cliente
+and venliped.cantidad >= :cantidad1
+and venliped.cantidad <= :cantidad2
+
+union
+
+select 	articulos.descripcion,
+			venlialb.empresa,
+			venlialb.fpedido_origen,
+			venlialb.cantidad,
+			formatos.abreviado,
+			art_codestadistico.g2,
+         ( venlialb.cantidad * venlialb.precio * ( 1 -  venlialb.dtoesp / 100 ) * ( 1 -  venlialb.dtoesp2 / 100 )  ) / venalb.cambio as importe_moneda
+
+from venlialb, articulos, formatos, venalb, art_codestadistico
+where venlialb.empresa = :empresa    
+and articulos.empresa = :empresa
+and formatos.empresa = :empresa   
+and venalb.empresa = :empresa
+and articulos.empresa = art_codestadistico.empresa
+and articulos.codigo = art_codestadistico.codigo
+and venalb.anyo = venlialb.anyo
+and venalb.albaran = venlialb.albaran
+and venlialb.articulo = articulos.codigo
+and articulos.formato = formatos.codigo
+and venlialb.fpedido_origen >= :fdesde
+and venlialb.fpedido_origen <= :fhasta
+and venlialb.cliente like :cliente
+and venlialb.cantidad >= :cantidad1
+and venlialb.cantidad <= :cantidad2
+
+union
+
+select 	articulos.descripcion,
+			venlifac.empresa, 
+			venlifac.fpedido_origen,
+			venlifac.cantidad,
+			formatos.abreviado,
+			art_codestadistico.g2,
+         (venlifac.cantidad * venlifac.precio * ( 1 -  venlifac.dtoesp / 100 ) * ( 1 -  venlifac.dtoesp2 / 100 )   ) / venfac.cambio as importe_moneda
+
+from venlifac, articulos, formatos, venfac, art_codestadistico
+where venlifac.empresa = :empresa    
+and articulos.empresa = :empresa
+and formatos.empresa = :empresa   
+and venfac.empresa = :empresa
+and articulos.empresa = art_codestadistico.empresa
+and articulos.codigo = art_codestadistico.codigo
+and venfac.anyo = venlifac.anyo
+and venfac.factura = venlifac.factura
+and venlifac.articulo = articulos.codigo
+and ( venlifac.factura_deposito <> 'S' or venlifac.factura_deposito is null )
+and articulos.formato = formatos.codigo
+and venlifac.fpedido_origen >= :fdesde
+and venlifac.fpedido_origen <= :fhasta
+and venlifac.cliente like :cliente
+and venlifac.cantidad >= :cantidad1
+and venlifac.cantidad <= :cantidad2
+
+
+/*
+  SELECT venliped.anyo,   
+         venliped.pedido,   
+         venliped.fpedido,   
+         venliped.descripcion,   
+         formatos.abreviado,   
+         venliped.tono,   
+         venliped.calibre,   
+         venliped.cantidad,   
+         venped.numpedcli,   
+         venliped.fentrega,   
+         venliped.fentrega_inicial,   
+         venliped.fecha_entrega2,   
+         venliped.fecha_entrega3,   
+         venliped.fecha_entrega4,   
+         venliped.fecha_entrega5,   
+         art_codestadistico.G2  
+    FROM venliped LEFT OUTER JOIN venped ON venliped.empresa = venped.empresa AND venliped.anyo = venped.anyo AND venliped.pedido = venped.pedido,   
+         articulos,   
+         genter,   
+         formatos,   
+         art_codestadistico  
+   WHERE ( venliped.empresa = articulos.empresa ) and  
+         ( venliped.articulo = articulos.codigo ) and  
+         ( genter.empresa = venliped.empresa ) and  
+         ( genter.codigo = venliped.cliente ) and  
+         ( articulos.empresa = formatos.empresa ) and  
+         ( articulos.formato = formatos.codigo ) and  
+         ( articulos.empresa = art_codestadistico.empresa ) and  
+         ( articulos.codigo = art_codestadistico.codigo ) and  
+         ( ( venliped.empresa = :empresa ) AND  
+         ( venliped.cliente like :cliente ) AND  
+         ( venliped.fpedido between :fdesde and :fhasta ) AND  
+         ( venliped.serie in ( :series ) ) AND  
+         ( genter.tipoter = 'C' ) AND  
+         ( venliped.cantidad >= :cantidad1 ) AND  
+         ( venliped.cantidad <= :cantidad2 ) )   
+ORDER BY venliped.fpedido ASC,   
+         venliped.pedido ASC   
+*/" arguments=(("empresa", string),("fdesde", datetime),("fhasta", datetime),("cliente", string),("series", stringlist),("cantidad1", number),("cantidad2", number))  sort="empresa A fpedido A " )
+compute(band=header alignment="1" expression="today()"border="0" color="0" x="3054" y="76" height="48" width="229" format="dd/mm/yy" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="1" expression="today()"border="0" color="0" x="3054" y="128" height="48" width="229" format="hh:mm:ss" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="" border="0" color="0" x="174" y="44" height="132" width="2793" html.valueishtml="0"  name=titulo visible="1"  font.face="Arial" font.height="-20" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1600" y="4" height="56" width="274" format="" html.valueishtml="0"  name=formatos_abreviado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1893" y="4" height="56" width="439" format="###,###,###,##0" html.valueishtml="0"  name=venliped_cantidad_original visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="151" y="8" height="56" width="1413" format="[general]" html.valueishtml="0"  name=articulos_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2359" y="4" height="56" width="553" format="###,###,###,##0.00" html.valueishtml="0"  name=importe_moneda visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="2944" y="4" height="56" width="91" format="[general]" html.valueishtml="0"  name=art_codestadistico_g2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Total Pedidos:" border="0" color="16711680" x="1513" y="104" height="56" width="357" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="rowcount()"border="0" color="16711680" x="1897" y="104" height="56" width="434" format="###,##0" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="0" text="Totales:" border="0" color="128" x="1513" y="24" height="56" width="357" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression=" sum(   venliped_cantidad_original for all ) "border="0" color="128" x="1897" y="24" height="56" width="434" format="###,###,###,##0" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum(  importe_moneda  for all )"border="0" color="128" x="2354" y="24" height="56" width="567" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="1449" y="496" height="76" width="256" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="" border="0" color="0" x="174" y="208" height="64" width="2793" html.valueishtml="0"  name=cliente visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cantidad" border="2" color="0" x="1897" y="308" height="60" width="434" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Formato" border="2" color="0" x="1605" y="308" height="60" width="274" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Artículo" border="2" color="0" x="155" y="308" height="60" width="1408" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Importe" border="2" color="0" x="2359" y="308" height="56" width="553" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="G2" border="2" color="0" x="2939" y="308" height="56" width="101" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

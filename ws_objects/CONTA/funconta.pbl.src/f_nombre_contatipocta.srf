@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_contatipocta.srf
+global type f_nombre_contatipocta from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contatipocta (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contatipocta (string empresa, string codigo);String var_descripcion 
+
+ SELECT contatipocta.descripcion  
+    INTO :var_descripcion  
+    FROM contatipocta  
+   WHERE ( contatipocta.empresa = :empresa ) AND  
+         ( contatipocta.codigo = :codigo )   ;
+
+Return var_descripcion
+
+end function
+

@@ -1,0 +1,27 @@
+﻿$PBExportHeader$str_almubimapa_codbar.srs
+global type str_almubimapa_codbar from structure
+     DECIMAL {0}     id
+     STRING     empresa
+     STRING     almacen
+     STRING     zona
+     INTEGER     fila
+     INTEGER     altura
+     STRING     code39
+     DECIMAL {0}     color_fondo
+     DECIMAL {0}     color_texto
+     STRING     ean13
+     STRING     activo
+     STRING     clasificacion_abc
+     DECIMAL {0}     largo_cm
+     DECIMAL {0}     ancho_cm
+     DECIMAL {0}     alto_cm
+     DECIMAL {0}     peso_maximo_kg
+     STRING     apilado_en_bloque
+     DECIMAL {0}     id_alm_bultos
+     STRING     gestionar_en_piezas
+     DECIMAL {0}     tipo_ubicacion
+     STRING     permitir_reservas
+     DECIMAL {0}     distancia
+     STRING     sugerida
+end type
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_partida_sn_pais.srf
+global type f_partida_sn_pais from function_object
+end type
+
+forward prototypes
+global function string f_partida_sn_pais (string pais)
+end prototypes
+
+global function string f_partida_sn_pais (string pais);String var_valor
+
+  SELECT paises.nom_partida
+    INTO :var_valor  
+    FROM paises  
+   WHERE paises.pais = :pais;
+	If IsNull(var_valor) Then var_valor = ""
+Return var_valor
+
+end function
+

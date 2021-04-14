@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_companyia_cliente_concedido.srf
+global type f_companyia_cliente_concedido from function_object
+end type
+
+forward prototypes
+global function string f_companyia_cliente_concedido (string empresa, string cliente)
+end prototypes
+
+global function string f_companyia_cliente_concedido (string empresa, string cliente);String cad='',sel
+Integer num
+Datastore dd
+
+Select count(*) Into :num From venriesgoclientes
+Where  venriesgoclientes.empresa   = :empresa
+And    venriesgoclientes.cliente   = :cliente
+And    venriesgoclientes.concedido = "S";
+
+if IsNull(num) then num = 0
+if num>0 then
+	sel = " SELECT companyia FROM venriesgoclientes "+&
+			" WHERE empresa = '" + empresa + "'" +&
+			" AND   cliente = '" + cliente + "'"
+			
+	dd = f_cargar_cursor(sel)
+	if dd.rowcount() > 0 then
+		cad = dd.GetItemString(1,"companyia")
+	else 
+		cad = ""
+	end if
+
+	//IF IsNUll(cad) then cad = ""
+
+
+	Destroy dd
+end if
+Return cad
+end function
+

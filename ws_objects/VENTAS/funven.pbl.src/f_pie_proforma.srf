@@ -1,0 +1,247 @@
+﻿$PBExportHeader$f_pie_proforma.srf
+global type f_pie_proforma from function_object
+end type
+
+forward prototypes
+global function string f_pie_proforma (string empresa, integer anyo, decimal proforma)
+end prototypes
+
+global function string f_pie_proforma (string empresa, integer anyo, decimal proforma);Dec{0} var_anyo,var_proforma,resto,re,var_paginas,var_ejercicio,var_total,var_total2,contador,var_total_fac,lineado,bi
+long va,va2
+constant long ln =10
+Dec longitud,unidades,espacios
+String  textpie[],pie,pie1,pie2,pie3,letra,var_articulo,tipo_iva,tipo_recargo,puntos,mascara,var_moneda,espacios_importes,mascara_importes,mascara_dto,importe_txt,texto,textolinea,abr_divisa,dto_txt
+String textopie2,cadena,texto_iva,texto_recargo
+Integer reg,reg1
+Dec{4}  var_cantidad,acumulado,dto1,impdto1,dto2,impdto2,dto3,impdto3,&
+		  dto4,impdto4,dtopp,impdtopp,aculumado,dtoesp,precio,cantidad,bruto,importe,iva,recargo,importeiva,importerecargo
+
+DateTime var_fproforma
+String   var_tipo_unidad,textdto1,textdto2,textdto3,textdto4,tipodto1,&
+         tipodto2,tipodto3,tipodto4,tipo_cliente,linea
+			
+Dec{4}   importedto1,importedto2,importedto3,importedto4,importedtopp
+lineado = 47
+var_total = 0
+puntos= "........................................"
+contador    = 0
+acumulado   = 0
+importedto1 = 0
+importedto2 = 0
+importedto3 = 0
+importedto4 = 0
+importedtopp= 0 
+var_anyo      = anyo
+var_proforma  = proforma
+Select dtoesp1,tipodto1,explicaciondto1,
+		 dtoesp2,tipodto2,explicaciondto2,
+		 dtoesp3,tipodto3,explicaciondto3,
+		 dtoesp4,tipodto4,explicaciondto4,
+		 dtopp,tipoiva,divisa
+Into   :dto1,:tipodto1,:textdto1,
+       :dto2,:tipodto2,:textdto2,
+       :dto3,:tipodto3,:textdto3,
+       :dto4,:tipodto4,:textdto4,:dtopp,
+		 :tipo_iva,:var_moneda
+From   venproformas
+Where  empresa = :codigo_empresa
+And    anyo    = :var_anyo
+And    proforma= :var_proforma;
+var_ejercicio = f_ejercicio_activo(codigo_empresa)
+mascara = f_mascara_moneda(var_moneda)
+abr_divisa = f_nombre_moneda_abr(var_moneda)
+
+  SELECT contaiva.iva,contaiva.recargo,contaiva.descripcion  
+    INTO :iva,:tipo_recargo,:texto_iva  
+    FROM contaiva  
+   WHERE ( contaiva.ejercicio = :var_ejercicio ) AND  
+         ( contaiva.empresa = :codigo_empresa ) AND  
+         ( contaiva.tipoiva = :tipo_iva )   ;
+			
+  IF Not IsNull(tipo_recargo) and Trim(tipo_recargo) <> "" Then
+  		SELECT  contaiva.iva,contaiva.descripcion INTO :recargo,:texto_recargo
+   	 FROM   contaiva  
+   	WHERE ( contaiva.ejercicio = :var_ejercicio ) AND  
+      	   ( contaiva.empresa = :codigo_empresa ) AND  
+         	( contaiva.tipoiva = :tipo_recargo )   ;			
+  END IF
+DataStore dw_proceso
+String sel
+sel = " select * from venliproformas "+&
+		" where empresa = '"+codigo_empresa+"'"+&
+		" and   anyo ="+String(var_anyo)+&
+		" and   proforma="+String(var_proforma)+&
+		" and control_descuentos ='S'"
+//dw_proceso = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, dw_proceso)
+reg = dw_proceso.RowCount()
+IF reg <> 0 Then
+	For reg1 = 1 to reg
+
+		acumulado = 0
+		contador  = contador + 1
+		tipo_cliente = dw_proceso.GetItemString(reg1,"tipo_cliente")
+		dtoesp       = dw_proceso.GetItemNumber(contador,"dtoesp")
+		cantidad     = dw_proceso.GetItemNumber(contador,"cantidad")
+		precio       = dw_proceso.GetItemNumber(contador,"precio")
+		bruto        = Dec(String(cantidad * precio,mascara))
+		bruto = bruto - (Dec(String(bruto * dtoesp /100,mascara)))
+		acumulado = bruto
+  		impdto1 = 0
+		impdto2 = 0
+		impdto3 = 0
+		impdto4 = 0
+		impdtopp = 0
+		
+		IF dto1 <> 0 Then
+			impdto1 =  Dec(String(acumulado * dto1 / 100,mascara))
+			acumulado = acumulado - impdto1
+			IF tipodto1 = "L" Then  impdto1 = 0
+   	END IF
+		IF dto2 <> 0 Then
+			impdto2 =  Dec(String(acumulado * dto2 / 100,mascara))
+			acumulado = acumulado - impdto2
+			IF tipodto2 = "L" Then  impdto2 = 0
+   	END IF
+		IF dto3 <> 0 Then
+			impdto3 =  Dec(String(acumulado * dto3 / 100,mascara))
+			acumulado = acumulado - impdto3
+			IF tipodto3 = "L" Then  impdto3 = 0
+   	END IF
+		IF dto4 <> 0 Then
+			impdto4 =  Dec(String(acumulado * dto4 / 100,mascara))
+			acumulado = acumulado - impdto4
+			IF tipodto4 = "L" Then  impdto4 = 0
+   	END IF
+		
+		   impdtopp =  Dec(String(acumulado * dtopp / 100,mascara))
+		   acumulado = acumulado - impdtopp
+	      importedto1  = importedto1  + impdto1			 
+	      importedto2  = importedto2  + impdto2			 
+	      importedto3  = importedto3  + impdto3			 
+	      importedto4  = importedto4  + impdto4			 
+	      importedtopp = importedtopp + impdtopp			 
+		  var_cantidad=dw_proceso.GetItemNumber(reg1,"cantidad")
+		  var_total = var_total + dw_proceso.GetItemNumber(reg1,"importe")
+	Next
+
+sel = " select * from venliproformas "+&
+		" where empresa = '"+codigo_empresa+"'"+&
+		" and   anyo ="+String(var_anyo)+&
+		" and   proforma="+String(var_proforma)+&
+		" and control_descuentos ='N'"
+//dw_proceso = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, dw_proceso)
+reg = dw_proceso.RowCount()
+IF reg <> 0 Then
+	var_total2 = 0
+	For reg1 = 1 to reg
+		var_cantidad=dw_proceso.GetItemNumber(reg1,"cantidad")
+		var_total = var_total + dw_proceso.GetItemNumber(reg1,"importe")
+		var_total2 = var_total2 + dw_proceso.GetItemNumber(reg1,"importe")
+		impdtopp =  dw_proceso.GetItemNumber(reg1,"importe") * dtopp / 100
+   	importedtopp = importedtopp + impdtopp			 
+	Next
+END IF
+IF IsNull(iva)     Then iva = 0
+IF IsNull(recargo) Then recargo = 0
+bi = (var_total - importedto1 - importedto2 - importedto3 - importedto4 - importedtopp )
+importeiva      = Dec(String(bi * iva / 100,mascara))
+importerecargo  = Dec(String(bi * recargo / 100,mascara))
+var_total_fac = bi + importerecargo + importeiva
+
+espacios_importes="@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
+mascara_importes=f_mascara_precios_moneda(var_moneda)
+mascara_dto="#0"
+
+
+
+
+importe_txt=String(var_total,mascara_importes)
+textolinea = String("Total Bruto"+puntos,espacios_importes)+&
+             + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+texto =  RightTrim(textolinea)
+                  
+
+
+IF tipodto1 = "P" Then
+  dto_txt     = String(dto1,mascara_dto)
+  importe_txt = "-" + Trim(String(importedto1,mascara_importes))
+  textolinea = String(textdto1+ " "+dto_txt+"%"+puntos,espacios_importes)+ &
+               + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+  texto = Trim(texto) + RightTrim(textolinea)
+END IF
+
+
+
+IF tipodto2 = "P" Then
+  dto_txt     = String(dto2,mascara_dto)
+  importe_txt = "-" + Trim(String(importedto2,mascara_importes))
+  textolinea = String(textdto2+ " "+dto_txt+"%"+puntos,espacios_importes)+ &
+               + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+  texto = Trim(texto) + RightTrim(textolinea)
+END IF
+
+
+
+
+IF tipodto3 = "P" Then
+  dto_txt     = String(dto3,mascara_dto)
+  importe_txt = "-" + Trim(String(importedto3,mascara_importes))
+  textolinea = String(textdto3+ " "+dto_txt+"%"+puntos,espacios_importes)+ &
+               + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+  texto = Trim(texto) + RightTrim(textolinea)
+END IF
+
+
+
+
+IF tipodto4 = "P" Then
+  dto_txt     = String(dto4,mascara_dto)
+  importe_txt = "-" + Trim(String(importedto4,mascara_importes))
+  textolinea = String(textdto4+ " "+dto_txt+"%"+puntos,espacios_importes)+ &
+               + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+  texto = Trim(texto) + RightTrim(textolinea)
+END IF
+
+
+
+IF var_total2 <> 0 Then
+	importe_txt =String(var_total2,mascara_importes)
+	textolinea = String("Conceptos Varios" + puntos ,espacios_importes)+ &
+					 + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) +" " + abr_divisa + Char(13)
+	texto = Trim(texto) +  + RightTrim(textolinea)
+END IF
+
+
+importe_txt =String(var_total_fac - importeiva - importerecargo,mascara_importes)
+textolinea = String("Base Imponible"+puntos,espacios_importes)+ &
+             + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa + Char(13)
+texto = Trim(texto) +  RightTrim(textolinea)
+
+
+
+
+
+
+
+
+dto_txt = String(iva,mascara_dto)
+importe_txt= "+" + String(importeiva,mascara_importes)
+textolinea = String("Iva"+dto_txt+"%"+puntos,espacios_importes)+ &
+             + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa+ Char(13)
+texto = Trim(texto) + RightTrim(textolinea)
+
+
+
+importe_txt= String(var_total_fac,mascara_importes)
+textolinea = String("Total proforma"+puntos,espacios_importes)+ &
+            + Space(ln -len(Trim(importe_txt)))+Trim(importe_txt) + " " + abr_divisa+ Char(13)
+texto = Trim(texto) +  RightTrim(textolinea)
+END IF
+
+destroy dw_proceso
+Return texto
+
+end function
+

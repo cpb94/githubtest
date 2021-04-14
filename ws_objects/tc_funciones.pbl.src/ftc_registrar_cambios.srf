@@ -1,0 +1,36 @@
+﻿$PBExportHeader$ftc_registrar_cambios.srf
+global type ftc_registrar_cambios from function_object
+end type
+
+forward prototypes
+global function boolean ftc_registrar_cambios (ref str_registro_sistema registro)
+end prototypes
+
+global function boolean ftc_registrar_cambios (ref str_registro_sistema registro);/*
+Boolean resultado = false
+str_colisiones pa_colisiones
+String codigo
+Datetime fecha
+fecha = Datetime(Today(), Now())
+
+pa_colisiones.empresa = codigo_empresa
+pa_colisiones.tabla = "registro_sistema"
+pa_colisiones.campo = "codigo"
+pa_colisiones.filtro = ""
+pa_colisiones.buscar_huecos = false //No pueden existir huecos
+
+codigo = f_colisiones (registro.trans, pa_colisiones)
+
+INSERT INTO registro_sistema (empresa, codigo, fecha, tabla, accion, clave, valor, usuario_tencer, usuario_windows) 
+VALUES (:codigo_empresa, :codigo, :fecha, :registro.tabla, :registro.accion, :registro.clave, :registro.valor, :nombre_usuario, :registro.usuario_windows) USING registro.trans;
+
+if registro.trans.SQLCode <> 0 THEN         
+	return false
+else
+	return true
+end if
+*/
+
+RETURN TRUE
+end function
+

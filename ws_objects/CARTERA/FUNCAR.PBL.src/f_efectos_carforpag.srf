@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_efectos_carforpag.srf
+global type f_efectos_carforpag from function_object
+end type
+
+forward prototypes
+global function decimal f_efectos_carforpag (string empresa, string codigo)
+end prototypes
+
+global function decimal f_efectos_carforpag (string empresa, string codigo);Dec var
+SELECT carforpag.efectos    INTO :var
+    FROM carforpag  
+   WHERE ( carforpag.empresa = :empresa ) AND  
+         ( carforpag.forma = :codigo )   ;
+
+Return var
+
+end function
+

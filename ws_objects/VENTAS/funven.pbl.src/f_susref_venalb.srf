@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_susref_venalb.srf
+global type f_susref_venalb from function_object
+end type
+
+forward prototypes
+global function string f_susref_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_susref_venalb (string empresa, integer anyo, decimal albaran);String var_susref,sel
+
+if not isnull(albaran ) and albaran <> 0 then
+	datastore dd
+	sel ="SELECT distinct venlialb.numpedcli "+&
+		  " FROM venlialb "+& 
+		  " WHERE venlialb.empresa = '" +empresa+"'"+& 
+		  " AND   venlialb.anyo    = " + String(anyo,"####") +&
+		  " AND   venlialb.albaran  = " + String(albaran,"#########")
+	
+	//dd=f_cargar_cursor(sel)
+	f_cargar_cursor_nuevo(sel, dd)
+	integer cont
+	string aux
+	var_susref=""
+	for cont=1 to dd.RowCount()
+		aux = dd.GetitemString(cont,"numpedcli")
+		if IsNull(aux) then aux=""
+		if var_susref="" then
+			var_susref = aux
+		else
+			var_susref = var_susref + "/" + aux
+		end if
+	next
+	
+	destroy dd
+else 
+	var_susref = ''
+end if
+	
+Return var_susref
+end function
+

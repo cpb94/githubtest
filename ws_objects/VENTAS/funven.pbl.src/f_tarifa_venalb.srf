@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_tarifa_venalb.srf
+global type f_tarifa_venalb from function_object
+end type
+
+forward prototypes
+global function string f_tarifa_venalb (string empresa, integer anyo, integer albaran)
+end prototypes
+
+global function string f_tarifa_venalb (string empresa, integer anyo, integer albaran);String var_empresa,var_tarifa
+Integer var_anyo,var_albaran
+
+  SELECT venalb.empresa,venalb.anyo,venalb.albaran,venalb.tarifa  
+    INTO :var_empresa,:var_anyo,:var_albaran,:var_tarifa  
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran)   
+ORDER BY venalb.empresa ASC,venalb.anyo ASC,venalb.albaran ASC;
+
+
+Return var_tarifa
+end function
+

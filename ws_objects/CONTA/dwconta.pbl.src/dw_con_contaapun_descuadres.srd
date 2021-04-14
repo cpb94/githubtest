@@ -1,0 +1,70 @@
+﻿$PBExportHeader$dw_con_contaapun_descuadres.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=76 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=decimal(4) update=yes updatewhereclause=yes name=asiento dbname="contaapun.asiento" )
+ column=(type=decimal(4) updatewhereclause=yes name=tdebe dbname="tdebe" )
+ column=(type=decimal(4) updatewhereclause=yes name=thaber dbname="thaber" )
+ column=(type=decimal(4) updatewhereclause=yes name=saldo dbname="saldo" )
+ column=(type=char(5) updatewhereclause=yes name=origen dbname="contaapun.origen" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="contaapun.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=ejercicio dbname="contaapun.ejercicio" )
+ column=(type=datetime updatewhereclause=yes name=fapunte dbname="contaapun.fapunte" )
+ column=(type=decimal(2) updatewhereclause=yes name=nuevo_asiento dbname="contaapun.nuevo_asiento" )
+ column=(type=long updatewhereclause=yes name=mes dbname="contaapun.mes" )
+ column=(type=char(40) updatewhereclause=yes name=contaorigen_descripcion dbname="contaorigen.descripcion" )
+ retrieve="  SELECT contaapun.asiento,   
+         sum(debe) tdebe ,sum(haber) thaber,   
+	sum(debe)  - sum(haber) saldo,
+         contaapun.origen,   
+         contaapun.empresa,   
+         contaapun.ejercicio,   
+         contaapun.fapunte,   
+         0.00 nuevo_asiento,   
+         contaapun.mes,   
+         contaorigen.descripcion  
+    FROM contaapun,   
+         contaorigen  
+   WHERE ( contaapun.empresa *= contaorigen.empresa) and  
+         ( contaapun.origen *= contaorigen.codigo) and  
+         ( ( contaapun.ejercicio = :ejercicio  ) AND  
+         ( contaapun.empresa = :empresa  ) )   
+GROUP BY contaapun.ejercicio,   
+         contaapun.empresa,   
+         contaapun.fapunte,   
+         contaapun.origen,   
+		contaorigen.descripcion,
+         contaapun.asiento,   
+         contaapun.mes  
+having  sum(debe)  - sum(haber)  <> 0
+
+ORDER BY contaapun.ejercicio ASC,   
+         contaapun.empresa ASC,   
+         contaapun.fapunte DESC,   
+         contaapun.origen ASC,   
+		contaorigen.descripcion ASC,
+         contaapun.asiento ASC   
+" arguments=(("ejercicio", number),("empresa", string)) )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="9" y="12" height="64" width="320"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Asiento"border="6" color="0" x="951" y="12" height="64" width="261"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Nuevo As. "border="6" color="0" x="1230" y="12" height="64" width="306"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Debe"border="6" color="0" x="1554" y="12" height="64" width="361"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Haber"border="6" color="0" x="1934" y="12" height="64" width="402"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Saldo"border="6" color="0" x="2354" y="12" height="64" width="379"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Origen"border="6" color="0" x="352" y="12" height="64" width="581"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="9" y="4" height="60" width="325" format="[shortdate] [time]"  name=fapunte editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="951" y="4" height="60" width="261" format="[general]"  name=asiento editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="1" tabsequence=10 border="5" color="0" x="1230" y="4" height="60" width="306" format=""  name=nuevo_asiento editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1554" y="4" height="60" width="379" format="###,###,##0.00"  name=tdebe edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="1947" y="4" height="60" width="393" format="###,###,##0.00"  name=thaber edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="352" y="4" height="56" width="581" format="[general]"  name=contaorigen_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="/* sum( saldo  for all) */"border="0" color="0" x="2272" y="4" height="64" width="375" format="###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(thaber for all)"border="0" color="0" x="1856" y="4" height="64" width="393" format="###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(tdebe for all)"border="0" color="0" x="1449" y="4" height="64" width="379" format="###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="* Doble click para conectar"border="0" color="128" x="41" y="4" height="68" width="800"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=0 border="0" color="0" x="2359" y="4" height="56" width="389" format="###,###,##0.00"  name=saldo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+
+sparse(names="fapunte")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

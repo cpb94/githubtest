@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_precio_minimo.srf
+global type f_precio_minimo from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_minimo ()
+global function decimal f_precio_minimo (string empresa, string articulo, string calidad)
+end prototypes
+
+global function decimal f_precio_minimo ();dec{6} precio_min
+
+return precio_min
+end function
+
+global function decimal f_precio_minimo (string empresa, string articulo, string calidad);dec{6} precio_min
+
+
+SELECT isnull(MIN(ventarifas_precios_packs.precio),0) as precio 
+INTO   :precio_min
+FROM   ventarifas, 
+       ventarifas_precios_packs 
+WHERE ( ventarifas_precios_packs.empresa = ventarifas.empresa ) 
+and   ( ventarifas_precios_packs.ventarifas_codigo = ventarifas.codigo ) 
+and   ( ventarifas_precios_packs.ventarifas_activa = ventarifas.activa ) 
+and   ( ( ventarifas.empresa = :empresa ) 
+AND   ( ventarifas_precios_packs.articulos_codigo = :articulo ) 
+AND   ( ventarifas_precios_packs.calidades_codigo = :calidad ) );
+
+if isnull(precio_min) or precio_min = 0 then
+	SELECT ventarifas_precios.precio 
+	into :precio_min 
+	FROM ventarifas_precios
+	WHERE ventarifas_precios.empresa = :empresa 
+	AND ventarifas_precios.articulos_codigo = :articulo
+	and ventarifas_precios.ventarifas_codigo <> '5'
+	and ventarifas_precios.articulos_codigo = (	select top 1 v.articulos_codigo 
+																from ventarifas_precios V
+																where v.empresa = :empresa 
+																and v.articulos_codigo = :articulo
+																and v.ventarifas_codigo <> '5'
+																order by v.precio asc);
+end if
+
+return precio_min
+end function
+

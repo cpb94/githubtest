@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_dividir_efecto.srf
+global type f_dividir_efecto from function_object
+end type
+
+forward prototypes
+global function decimal f_dividir_efecto (integer anyo, long orden, decimal nuevo_importe, integer nuevo_anyo, long nuevo_efecto)
+end prototypes
+
+global function decimal f_dividir_efecto (integer anyo, long orden, decimal nuevo_importe, integer nuevo_anyo, long nuevo_efecto);dec importe
+//messagebox("anyo "+string(anyo),"orden "+string(orden))
+//messagebox("nuevo_efecto"+string(nuevo_efecto),"nuevo_importe "+string(nuevo_importe))
+str_carefectos carefectos
+
+if f_cargar_str_carefectos(codigo_empresa,anyo,orden,carefectos) then
+
+	carefectos.recibo ++
+	carefectos.importe = nuevo_importe / carefectos.cambio //anteimporte - carefectos.importe
+	carefectos.divisas = nuevo_importe  //carefectos.importe / carefectos.cambio
+	carefectos.anyo    = nuevo_anyo
+	carefectos.orden   = nuevo_efecto
+	
+	IF Not f_insert_carefectos(carefectos) Then 
+		carefectos.orden = 0
+		messagebox("Error","Se ha producido un error al dividir un efecto1")
+	end if
+else			
+	carefectos.orden = 0
+	messagebox("Atención","Se ha producido un error al dividir el efecto2")
+end if
+
+return carefectos.orden
+end function
+

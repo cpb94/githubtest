@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_dni_venalb_venlifac.srf
+global type f_dni_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_dni_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_dni_venalb_venlifac (string empresa, integer anyo, decimal albaran);String var_DNI
+
+
+  SELECT venlifac.DNI
+    INTO :var_dni 
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo_albaran    = :anyo)
+   AND   (venlifac.albaran  = :albaran)
+	group by empresa,anyo_albaran,albaran,dni;
+
+if IsNull(var_dni) then var_dni= ""
+
+Return var_dni
+end function
+

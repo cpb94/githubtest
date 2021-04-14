@@ -1,0 +1,64 @@
+﻿$PBExportHeader$dw_proceso_almlinubica_compras.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=152 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="comlinubica.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=almacen dbname="comlinubica.almacen" )
+ column=(type=char(1) updatewhereclause=yes name=zona dbname="comlinubica.zona" )
+ column=(type=long updatewhereclause=yes name=fila dbname="comlinubica.fila" )
+ column=(type=long updatewhereclause=yes name=altura dbname="comlinubica.altura" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=linea dbname="comlinubica.linea" )
+ column=(type=char(20) updatewhereclause=yes name=mp dbname="comlinubica.mp" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="comlinubica.familia" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="comlinubica.calidad" )
+ column=(type=number updatewhereclause=yes name=existencias dbname="comlinubica.existencias" )
+ column=(type=char(20) updatewhereclause=yes key=yes name=ubicacion dbname="comlinubica.ubicacion" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="comlinubica.tipo_unidad" )
+ column=(type=datetime updatewhereclause=yes name=f_alta dbname="comlinubica.f_alta" )
+ column=(type=char(5) updatewhereclause=yes name=envase dbname="comlinubica.envase" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio dbname="comlinubica.precio" )
+ retrieve="  SELECT comlinubica.empresa,   
+         comlinubica.almacen,   
+         comlinubica.zona,   
+         comlinubica.fila,   
+         comlinubica.altura,   
+         comlinubica.linea,   
+         comlinubica.mp,   
+         comlinubica.familia,   
+         comlinubica.calidad,   
+         comlinubica.existencias,   
+         comlinubica.ubicacion,   
+         comlinubica.tipo_unidad,   
+         comlinubica.f_alta,   
+         comlinubica.envase,   
+         comlinubica.precio
+    FROM comlinubica  
+   WHERE ( comlinubica.empresa = :cod_emp ) AND  
+         ( comlinubica.ubicacion = :cod_ubicacion ) AND
+         ( comlinubica.mp = :m_prima) 
+ORDER BY comlinubica.empresa ASC,   
+         comlinubica.altura ASC,   
+         comlinubica.existencias ASC   
+" update="comlinubica" updatewhere=0 updatekeyinplace=no arguments=(("cod_emp", string),("cod_ubicacion", string),("m_prima", string)) )
+text(band=header alignment="0" text="Lineas de ubicacion"border="6" color="0" x="14" y="12" height="64" width="613"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Total registros"border="5" color="0" x="14" y="84" height="56" width="375"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="rowcount()"border="5" color="0" x="398" y="80" height="64" width="224" format="[GENERAL]"  name=total  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="626" y="0" height="76" width="160" format="[general]"  name=empresa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="786" y="0" height="76" width="160" format="[general]"  name=almacen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="946" y="0" height="76" width="32" format="[general]"  name=zona edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="978" y="0" height="76" width="96" format="[general]"  name=fila edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1074" y="0" height="76" width="96" format="[general]"  name=altura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1170" y="0" height="76" width="1376" format="[general]"  name=linea edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="2546" y="0" height="76" width="640" format="[general]"  name=mp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3186" y="0" height="76" width="160" format="[general]"  name=familia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="3346" y="0" height="76" width="160" format="[general]"  name=calidad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="3506" y="0" height="76" width="1376" format="[general]"  name=existencias edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="4882" y="0" height="76" width="640" format="[general]"  name=ubicacion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="5522" y="0" height="76" width="160" format="[general]"  name=tipo_unidad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="5682" y="0" height="76" width="608" format="[shortdate] [time]"  name=f_alta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="6290" y="0" height="76" width="160" format="[general]"  name=envase edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="6450" y="0" height="76" width="1376" format="[general]"  name=precio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

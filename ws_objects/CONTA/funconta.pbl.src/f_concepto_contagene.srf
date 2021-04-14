@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_concepto_contagene.srf
+$PBExportComments$Devuelve el codigo concepto para el tipo de apunte
+global type f_concepto_contagene from function_object
+end type
+
+forward prototypes
+global function string f_concepto_contagene (string empresa, string codigo)
+end prototypes
+
+global function string f_concepto_contagene (string empresa, string codigo);string cc
+
+cc = ""
+
+SELECT contagene.concepto INTO :cc FROM contagene    
+WHERE  contagene.empresa = :empresa
+AND    contagene.codigo  = :codigo    ;
+
+return cc
+end function
+

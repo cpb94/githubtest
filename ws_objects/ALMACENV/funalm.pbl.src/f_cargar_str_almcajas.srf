@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_cargar_str_almcajas.srf
+global type f_cargar_str_almcajas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_almcajas (STRING arg_empresa, STRING arg_codigo,  ref str_almcajas str_almcajas)
+end prototypes
+
+global function boolean f_cargar_str_almcajas (STRING arg_empresa, STRING arg_codigo,  ref str_almcajas str_almcajas);boolean lb_correcto = true
+
+SELECT almcajas.empresa,
+       almcajas.codigo,
+       almcajas.descripcion,
+       almcajas.pesoenvase,
+       almcajas.descripcion_abr,
+       almcajas.codigo_compras
+INTO   :str_almcajas.empresa,
+       :str_almcajas.codigo,
+       :str_almcajas.descripcion,
+       :str_almcajas.pesoenvase,
+       :str_almcajas.descripcion_abr,
+       :str_almcajas.codigo_compras
+FROM almcajas
+WHERE almcajas.empresa = :arg_empresa AND almcajas.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_condicion_vencondentrega.srf
+global type f_condicion_vencondentrega from function_object
+end type
+
+forward prototypes
+global function string f_condicion_vencondentrega (string empresa, string codigo)
+end prototypes
+
+global function string f_condicion_vencondentrega (string empresa, string codigo);String var_descripcion 
+
+ SELECT vencondentrega.condicion
+    INTO :var_descripcion  
+    FROM vencondentrega  
+   WHERE ( vencondentrega.empresa = :empresa ) AND  
+         ( vencondentrega.codigo = :codigo )   
+ORDER BY vencondentrega.descripcion ASC  ;
+
+Return var_descripcion
+end function
+

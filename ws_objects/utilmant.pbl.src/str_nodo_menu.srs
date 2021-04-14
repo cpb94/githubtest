@@ -1,0 +1,7 @@
+﻿$PBExportHeader$str_nodo_menu.srs
+global type str_nodo_menu from structure
+	string		programa
+	integer		permiso
+	character		esgrupo
+end type
+

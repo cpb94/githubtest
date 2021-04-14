@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_cargar_cursor.srf
+global type f_cargar_cursor from function_object
+end type
+
+forward prototypes
+global function datastore f_cargar_cursor (string compuesto)
+end prototypes
+
+global function datastore f_cargar_cursor (string compuesto);STring  sys,errores
+DataStore data
+Data  = CREATE u_datastore
+sys = trans_cursor.SyntaxFromSQL(compuesto ,"",errores)
+COMMIT using trans_cursor;
+IF Len(errores) > 0 Then
+	f_mensaje("Error  al generar SYS",errores+" "+compuesto)
+END IF
+data.Create(sys,errores)
+IF Len(errores) > 0 Then
+	f_mensaje("Error  al CREAR DATAWINDOW ",errores+" "+sys)
+END IF
+data.SetTransObject(sqlca)
+data.Retrieve() 
+Return data
+
+
+
+
+
+
+//STring  sys,errores
+//DataStore data
+//data=create datastore
+//data.dataobject='dw_comodin'
+//data.SetTransObject(sqlca)
+//data.Modify("datawindow.table.select=~""+compuesto+"~"")
+//
+////COMMIT using trans_cursor;
+//data.Retrieve() 
+//f_mensaje(" ",String(data.RowCOunt()))
+//Return data
+//
+//
+//
+end function
+

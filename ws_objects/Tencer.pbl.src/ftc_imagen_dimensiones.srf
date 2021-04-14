@@ -1,0 +1,58 @@
+﻿$PBExportHeader$ftc_imagen_dimensiones.srf
+global type ftc_imagen_dimensiones from function_object
+end type
+
+forward prototypes
+global subroutine ftc_imagen_dimensiones (string fichero, ref long ancho, ref long alto)
+end prototypes
+
+global subroutine ftc_imagen_dimensiones (string fichero, ref long ancho, ref long alto);Long separador
+String ancho_texto, alto_texto
+String ls_path, ls_file, ls_test, ldt_ret
+Blob temp
+Long longitud, i
+String letra
+Blob temp2
+OLEObject obj_shell, obj_folder, obj_item
+
+obj_shell = CREATE OLEObject
+obj_shell.ConnectToNewObject( 'shell.application' )
+
+ls_path = Left( fichero, LastPos( fichero, "\" ) )
+ls_file = Mid( fichero, LastPos( fichero, "\" ) + 1 )
+
+IF FileExists( fichero ) THEN
+    obj_folder = obj_shell.NameSpace( ls_path )
+    
+    IF IsValid( obj_folder ) THEN
+        obj_item = obj_folder.ParseName( ls_file )
+        
+        IF IsValid( obj_item ) THEN
+            temp = obj_folder.GetDetailsOf( obj_item, 31 )
+				//Leer caracter a caracter para quitar los nulos que inserta (Documentación http://msdn.microsoft.com/es-es/library/windows/desktop/ms221069(v=vs.85).aspx)
+				longitud = Len(temp)
+				For i = 1 To longitud -1
+					temp2 = BlobMid(temp, i, 2)
+					letra = String(temp2)
+					choose case letra 
+						case "0","1","2","3","4","5","6","7","8","9","x"
+						ls_test = ls_test + 	letra
+					end choose
+				Next
+
+				separador = pos(ls_test, "x")
+				ancho_texto = f_reemplazar(mid(ls_test, 1, separador - 1)," ", "")
+				alto_texto = f_reemplazar(mid(ls_test, separador + 1)," ", "")
+				ancho = Long(ancho_texto)
+				alto = Long(alto_texto)	
+        END IF
+    END IF
+END IF
+
+
+
+DESTROY obj_shell
+DESTROY obj_folder
+DESTROY obj_item
+end subroutine
+

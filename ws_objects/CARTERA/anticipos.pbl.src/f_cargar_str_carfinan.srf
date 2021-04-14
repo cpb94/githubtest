@@ -1,0 +1,77 @@
+﻿$PBExportHeader$f_cargar_str_carfinan.srf
+global type f_cargar_str_carfinan from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_carfinan (STRING arg_empresa, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, INTEGER arg_anyo,  ref str_carfinan str_carfinan)
+end prototypes
+
+global function boolean f_cargar_str_carfinan (STRING arg_empresa, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, INTEGER arg_anyo,  ref str_carfinan str_carfinan);boolean lb_correcto = true
+
+SELECT carfinan.empresa,
+       carfinan.bancofinan,
+       carfinan.contador,
+       carfinan.num_prorroga,
+       carfinan.refbanco,
+       carfinan.ordencarga,
+       carfinan.fvalor,
+       carfinan.moneda,
+       carfinan.divisasfinan,
+       carfinan.plazo,
+       carfinan.vencimiento,
+       carfinan.plazoreal,
+       carfinan.cliente,
+       carfinan.situacion,
+       carfinan.prorroga_activa,
+       carfinan.banco_abono,
+       carfinan.facabono,
+       carfinan.divisa_abono,
+       carfinan.importe_abono,
+       carfinan.cambio_abono,
+       carfinan.anyo,
+       carfinan.moneda_abono,
+       carfinan.anyo_fac,
+       carfinan.serie_fac,
+       carfinan.factura,
+       carfinan.fpago,
+       carfinan.fanticipo,
+       carfinan.fecha_abono,
+       carfinan.pdte_liquidar
+INTO   :str_carfinan.empresa,
+       :str_carfinan.bancofinan,
+       :str_carfinan.contador,
+       :str_carfinan.num_prorroga,
+       :str_carfinan.refbanco,
+       :str_carfinan.ordencarga,
+       :str_carfinan.fvalor,
+       :str_carfinan.moneda,
+       :str_carfinan.divisasfinan,
+       :str_carfinan.plazo,
+       :str_carfinan.vencimiento,
+       :str_carfinan.plazoreal,
+       :str_carfinan.cliente,
+       :str_carfinan.situacion,
+       :str_carfinan.prorroga_activa,
+       :str_carfinan.banco_abono,
+       :str_carfinan.facabono,
+       :str_carfinan.divisa_abono,
+       :str_carfinan.importe_abono,
+       :str_carfinan.cambio_abono,
+       :str_carfinan.anyo,
+       :str_carfinan.moneda_abono,
+       :str_carfinan.anyo_fac,
+       :str_carfinan.serie_fac,
+       :str_carfinan.factura,
+       :str_carfinan.fpago,
+       :str_carfinan.fanticipo,
+       :str_carfinan.fecha_abono,
+       :str_carfinan.pdte_liquidar
+FROM carfinan
+WHERE carfinan.empresa = :arg_empresa AND carfinan.bancofinan = :arg_bancofinan AND carfinan.contador = :arg_contador AND carfinan.num_prorroga = :arg_num_prorroga AND carfinan.anyo = :arg_anyo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

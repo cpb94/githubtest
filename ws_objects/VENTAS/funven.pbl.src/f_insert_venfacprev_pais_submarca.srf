@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_insert_venfacprev_pais_submarca.srf
+global type f_insert_venfacprev_pais_submarca from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_venfacprev_pais_submarca (str_venfacprev_pais_submarca arg_str_venfacprev_pais_submarca)
+end prototypes
+
+global function boolean f_insert_venfacprev_pais_submarca (str_venfacprev_pais_submarca arg_str_venfacprev_pais_submarca);int ll_existe_registro
+boolean lb_correcto
+
+select isnull(count(*),0)
+into   :ll_existe_registro
+from   venfacprev_pais_submarca
+where  venfacprev_pais_submarca.empresa           = :arg_str_venfacprev_pais_submarca.empresa
+and    venfacprev_pais_submarca.ejercicio         = :arg_str_venfacprev_pais_submarca.ejercicio
+and    venfacprev_pais_submarca.paises_pais       = :arg_str_venfacprev_pais_submarca.paises_pais
+and    venfacprev_pais_submarca.familias_codigo   = :arg_str_venfacprev_pais_submarca.familias_codigo
+and    venfacprev_pais_submarca.marcas_codigo     = :arg_str_venfacprev_pais_submarca.marcas_codigo
+and    venfacprev_pais_submarca.submarcas_codigo  = :arg_str_venfacprev_pais_submarca.submarcas_codigo
+and    venfacprev_pais_submarca.venagentes_agente = :arg_str_venfacprev_pais_submarca.venagentes_agente;
+
+if ll_existe_registro = 0 then
+	insert into venfacprev_pais_submarca
+		(venfacprev_pais_submarca.empresa,
+		 venfacprev_pais_submarca.ejercicio,
+		 venfacprev_pais_submarca.paises_pais,
+		 venfacprev_pais_submarca.familias_codigo,
+		 venfacprev_pais_submarca.marcas_codigo,
+		 venfacprev_pais_submarca.submarcas_codigo,
+		 venfacprev_pais_submarca.prevision_precio_medio,
+		 venfacprev_pais_submarca.prevision_importe,
+		 venfacprev_pais_submarca.prevision_metros,
+		 venfacprev_pais_submarca.venagentes_agente)
+	values
+		(:arg_str_venfacprev_pais_submarca.empresa,
+		 :arg_str_venfacprev_pais_submarca.ejercicio,
+		 :arg_str_venfacprev_pais_submarca.paises_pais,
+		 :arg_str_venfacprev_pais_submarca.familias_codigo,
+		 :arg_str_venfacprev_pais_submarca.marcas_codigo,
+		 :arg_str_venfacprev_pais_submarca.submarcas_codigo,
+		 :arg_str_venfacprev_pais_submarca.prevision_precio_medio,
+		 :arg_str_venfacprev_pais_submarca.prevision_importe,
+		 :arg_str_venfacprev_pais_submarca.prevision_metros,
+		 :arg_str_venfacprev_pais_submarca.venagentes_agente);	
+else
+	update venfacprev_pais_submarca
+	set    venfacprev_pais_submarca.prevision_precio_medio = :arg_str_venfacprev_pais_submarca.prevision_precio_medio,
+			 venfacprev_pais_submarca.prevision_importe      = :arg_str_venfacprev_pais_submarca.prevision_importe,
+			 venfacprev_pais_submarca.prevision_metros       = :arg_str_venfacprev_pais_submarca.prevision_metros
+	where  venfacprev_pais_submarca.empresa           = :arg_str_venfacprev_pais_submarca.empresa
+	and    venfacprev_pais_submarca.ejercicio         = :arg_str_venfacprev_pais_submarca.ejercicio
+	and    venfacprev_pais_submarca.paises_pais       = :arg_str_venfacprev_pais_submarca.paises_pais
+	and    venfacprev_pais_submarca.familias_codigo   = :arg_str_venfacprev_pais_submarca.familias_codigo
+	and    venfacprev_pais_submarca.marcas_codigo     = :arg_str_venfacprev_pais_submarca.marcas_codigo
+	and    venfacprev_pais_submarca.submarcas_codigo  = :arg_str_venfacprev_pais_submarca.submarcas_codigo
+	and    venfacprev_pais_submarca.venagentes_agente = :arg_str_venfacprev_pais_submarca.venagentes_agente;
+end if
+
+if sqlca.sqlcode <> 0 then 
+	lb_correcto = false
+else
+	lb_correcto = true
+end if
+
+return lb_correcto
+end function
+

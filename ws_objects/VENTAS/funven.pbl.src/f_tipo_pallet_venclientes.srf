@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipo_pallet_venclientes.srf
+global type f_tipo_pallet_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_tipo_pallet_venclientes (string empresa, string cliente)
+end prototypes
+
+global function string f_tipo_pallet_venclientes (string empresa, string cliente);String valor
+
+SELECT venclientes.tipo_pallet
+INTO     :valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo  = :cliente;
+
+Return valor;
+
+end function
+

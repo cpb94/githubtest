@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_formato_nominal.srf
+global type f_nombre_formato_nominal from function_object
+end type
+
+forward prototypes
+global function string f_nombre_formato_nominal (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function string f_nombre_formato_nominal (string ai_codemp, string ai_codfor);string	ls_ancho, ls_largo, ls_formato
+
+  SELECT formatos.ancho,  formatos.largo
+    INTO :ls_ancho, :ls_largo
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_formato=""
+else
+	ls_formato = ls_ancho+" X "+ls_largo
+END IF
+
+RETURN ls_formato
+end function
+

@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_prod_articulo_calidad_fecha2.srf
+global type f_prod_articulo_calidad_fecha2 from function_object
+end type
+
+forward prototypes
+global function decimal f_prod_articulo_calidad_fecha2 (string arg_empresa, string arg_articulo, datetime arg_fecha, string arg_turno)
+end prototypes
+
+global function decimal f_prod_articulo_calidad_fecha2 (string arg_empresa, string arg_articulo, datetime arg_fecha, string arg_turno);Dec{2} var_prod
+var_prod = 0
+
+SELECT  sum(malas)  
+INTO    :var_prod  
+FROM    prodpartes
+WHERE  (prodpartes.empresa      = :arg_empresa )
+       AND (prodpartes.articulo = :arg_articulo)
+		 AND (prodpartes.grupoparte = "H1")
+		 AND (prodpartes.terminado  = "S" )
+		 AND (prodpartes.turno = :arg_turno)
+		 AND (prodpartes.fecha = :arg_fecha);
+		 
+IF IsNull(var_prod) Then var_prod = 0
+
+Return  var_prod
+
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_situacion_carfinanefe.srf
+global type f_situacion_carfinanefe from function_object
+end type
+
+forward prototypes
+global function long f_situacion_carfinanefe (string empresa, string banco, long contador, long anyo)
+end prototypes
+
+global function long f_situacion_carfinanefe (string empresa, string banco, long contador, long anyo);long retorno
+
+select situacion
+into	 :retorno
+from carfinan
+where empresa = :empresa and
+		bancofinan = :banco and
+		contador = :contador and
+		num_prorroga = 0 and
+		anyo = :anyo ;
+
+
+return retorno
+end function
+

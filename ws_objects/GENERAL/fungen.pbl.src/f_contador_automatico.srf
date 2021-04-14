@@ -1,0 +1,134 @@
+﻿$PBExportHeader$f_contador_automatico.srf
+global type f_contador_automatico from function_object
+end type
+
+forward prototypes
+global function long f_contador_automatico (string arg_contador, long arg_inicial)
+end prototypes
+
+global function long f_contador_automatico (string arg_contador, long arg_inicial);long   ll_contador,ll_donde
+int    li_existe_tabla
+string ls_exec,ls_sel
+transaction trans_contador
+datastore ids_contador    
+
+trans_contador = create transaction
+
+trans_contador.AutoCommit    = sqlca.AutoCommit
+trans_contador.Database      = sqlca.Database
+trans_contador.DBMS          = sqlca.DBMS
+trans_contador.DBParm        = sqlca.DBParm
+trans_contador.DBPass        = sqlca.DBPass
+trans_contador.Lock          = sqlca.Lock
+trans_contador.LogID         = sqlca.LogID
+trans_contador.LogPass       = sqlca.LogPass
+trans_contador.ServerName    = sqlca.ServerName
+trans_contador.SQLCode       = sqlca.SQLCode
+trans_contador.SQLDBCode     = sqlca.SQLDBCode
+trans_contador.SQLErrText    = sqlca.SQLErrText
+trans_contador.SQLNRows      = sqlca.SQLNRows
+trans_contador.SQLReturnData = sqlca.SQLReturnData
+trans_contador.UserID        = sqlca.UserID
+
+connect using trans_contador;
+
+if trans_contador.sqlcode <> 0 then
+	MessageBox ("No Puedo conectar a la Base de Datos",trans_contador.sqlerrtext)
+	ll_contador = 0
+else
+	select isnull(count(*),0)
+	into   :li_existe_tabla
+	from   sysobjects
+	where  sysobjects.name = :arg_contador
+	using  trans_contador;
+	
+	if li_existe_tabla = 0 then
+		ls_exec = "CREATE TABLE "+arg_contador+" ( id numeric(10) identity NOT NULL , usuario varchar(250) NOT NULL CONSTRAINT pk_"+arg_contador+" PRIMARY KEY NONCLUSTERED (id) ) "
+		//ls_exec = "CREATE TABLE "+arg_contador+" ( id numeric(10) identity NOT NULL , fecha datetime NOT NULL , usuario varchar(250) CONSTRAINT pk_"+arg_contador+" PRIMARY KEY NONCLUSTERED (id) ) "
+		
+		
+		EXECUTE IMMEDIATE :ls_exec USING trans_contador;
+		
+		if trans_contador.sqlcode <> 0 then		
+			messagebox("¡Error!",trans_contador.sqlerrtext)
+			rollback using trans_contador;
+			ll_contador = 0
+		else
+			ls_exec = "DBCC CHECKIDENT ("+arg_contador+", RESEED, "+string(arg_inicial,"#########0")+")"
+			execute immediate :ls_exec using trans_contador;			
+			
+			commit using trans_contador;
+			//Proceso para obtener el contador
+			ls_sel = "select id,usuario from "+arg_contador//+" where 0 = 1"
+			//ls_sel = "select id,fecha,usuario from "+arg_contador+" where 0 = 1"
+			
+			f_cargar_cursor_transaccion(trans_contador,ids_contador,ls_sel)
+		
+			ll_donde = ids_contador.insertrow(0)
+			//ids_contador.object.fecha[ll_donde] = datetime(today(),now())
+			ids_contador.object.usuario[ll_donde] = nombre_usuario
+			
+			if ids_contador.update(true) = 1 then
+				commit using trans_contador;
+				ll_contador = ids_contador.object.id[ll_donde]
+				
+//				ls_exec = "delete "+arg_contador+" where id < "+string(ll_contador,"#########0")				
+//				execute immediate :ls_exec using trans_contador;
+//								
+//				if trans_contador.sqlcode <> 0 then				
+//					rollback using trans_contador;
+//				else
+//					commit using trans_contador;
+//				end if
+			else
+				messagebox("trans_contador.sqlerrtext",trans_contador.sqlerrtext)
+				rollback using trans_contador;
+				ll_contador = 0//ids_contador.object.id[ll_donde]
+			end if
+			
+			destroy ids_contador					
+		end if
+	else
+		//Proceso para obtener el contador
+		ls_sel = "select id,usuario from "+arg_contador//+" where 0 = 1"
+		//ls_sel = "select id,fecha,usuario from "+arg_contador+" where 0 = 1"
+		
+		f_cargar_cursor_transaccion(trans_contador,ids_contador,ls_sel)
+		
+		ll_donde = ids_contador.insertrow(0)
+		//ids_contador.object.fecha[ll_donde] = datetime(today(),now())
+		ids_contador.object.usuario[ll_donde] = nombre_usuario
+		
+		if ids_contador.update(true) = 1 then			
+			commit using trans_contador;
+			ll_contador = ids_contador.object.id[ll_donde]
+
+			messagebox("ll_donde",string(ll_donde))
+			messagebox("ll_contador",string(ll_contador))
+
+//			ls_exec = "delete "+arg_contador+" where id < "+string(ll_contador,"#########0")			
+//			execute immediate :ls_exec using trans_contador;
+//
+//			if trans_contador.sqlcode <> 0 then				
+//				rollback using trans_contador;
+//			else
+//				commit using trans_contador;
+//			end if
+		else
+			messagebox("trans_contador.sqlerrtext",trans_contador.sqlerrtext)
+			rollback using trans_contador;
+			ll_contador = 0 //ids_contador.object.id[ll_donde]
+		end if
+		
+		destroy ids_contador		
+	end if
+	
+end if
+
+disconnect using trans_contador;
+
+destroy trans_contador
+
+return ll_contador
+end function
+

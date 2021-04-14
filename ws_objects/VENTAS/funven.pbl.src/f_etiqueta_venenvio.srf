@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_etiqueta_venenvio.srf
+global type f_etiqueta_venenvio from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_venenvio (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_etiqueta_venenvio (string empresa, string cliente, string envio);String   var_nombre,var_pais,var_provincia,&
+	      var_cod_postal,var_localidad,var_domicilio,var_cl_domicilio='',var_nu_domicilio=''
+		
+String   montaje,pais,provincia,var_telefono,var_prefijo
+
+SetNull(var_prefijo)
+
+SELECT venenvio.descripcion,venenvio.pais,venenvio.provincia,   
+       venenvio.codpostal,venenvio.localidad,venenvio.domicilio,venenvio.telefono
+INTO   :var_nombre,:var_pais,:var_provincia,:var_cod_postal,   
+       :var_localidad,:var_domicilio,:var_telefono  
+FROM   venenvio  
+WHERE  ( venenvio.empresa = :empresa ) AND  
+       ( venenvio.cliente = :cliente ) AND  
+       ( venenvio.codigo  = :envio );
+//			IF sqlca.sqlcode = 100 Then Return ""
+
+IF IsNull(var_nombre)    Then  var_nombre     =  ""
+   
+IF var_nombre='' then
+	SELECT razon,pais,provincia,   
+			 cod_postal,localidad,domicilio,cl_domicilio,nu_domicilio,telefono,prefijo_provincia
+	INTO  :var_nombre,  :var_pais,:var_provincia,:var_cod_postal,   
+			:var_localidad,    :var_domicilio  ,:var_cl_domicilio,:var_nu_domicilio,:var_telefono,:var_prefijo
+	FROM  genter
+	WHERE ( empresa = :empresa ) AND  
+			( codigo = :cliente ) AND  
+			( tipoter = 'C' );	
+END IF
+
+IF IsNull(var_nombre)       Then  var_nombre       = ""
+IF IsNull(var_localidad)    Then  var_localidad    = ""
+IF IsNull(var_domicilio)    Then  var_domicilio    = ""
+IF IsNull(var_pais)         Then  var_pais         = ""
+IF IsNull(var_provincia)    Then  var_provincia    = ""
+IF IsNull(var_cod_postal)   Then  var_cod_postal   = ""			
+if isnull(var_cl_domicilio) then  var_cl_domicilio = ''
+if isnull(var_nu_domicilio) then  var_nu_domicilio = ''
+if isnull(var_telefono)     then  var_telefono = ''
+if isnull(var_prefijo)      then  var_prefijo = ''
+
+pais=f_nombre_pais(var_pais)
+provincia=f_nombre_provincia(var_pais,var_provincia)
+
+//montaje  = "Dirección envio del material:  " + char(13) + & 
+//			  + char(13) + &
+//			  Space(2) + var_nombre + char(13) + &
+//			  Space(2) + Trim(var_cl_domicilio) + " " + var_domicilio +  " " + Trim(var_nu_domicilio) + char(13) + &
+//			  Space(2) + var_cod_postal + " " + var_localidad + char(13) + &
+//			  Space(2) + provincia + " ("+pais+")"	
+			  
+montaje  = Space(2) + var_nombre + char(13) + &
+			  Space(2) + Trim(var_cl_domicilio) + " " + var_domicilio +  " " + Trim(var_nu_domicilio) + char(13) + &
+			  Space(2) + var_cod_postal + " " + var_localidad + char(13) + &
+			  Space(2) + provincia + " ("+pais+")" + char(13) + &
+			  Space(2) + var_prefijo + " " + var_telefono
+  
+Return montaje
+end function
+

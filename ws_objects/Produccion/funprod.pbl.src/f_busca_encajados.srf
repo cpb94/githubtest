@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_busca_encajados.srf
+global type f_busca_encajados from function_object
+end type
+
+forward prototypes
+global subroutine f_busca_encajados (string articulo_ant, ref string encajados[])
+end prototypes
+
+global subroutine f_busca_encajados (string articulo_ant, ref string encajados[]);// Función que devuelve todos los encajados que están por encima del artículo que recibe como parámetro.
+// articulo_ant: Artículo del que buscamos los encajados
+// encajado[]
+
+datastore regs
+string sel,  uso, articulo
+integer i, pos, continua_estructura
+
+SELECT uso INTO :uso FROM articulos WHERE empresa = '1' AND codigo = :articulo_ant;
+
+if uso = '3' then
+	pos = upperbound (encajados) + 1
+	encajados[pos] = articulo_ant
+end if
+
+f_busca_encajados_rec ( articulo_ant, encajados[])
+end subroutine
+

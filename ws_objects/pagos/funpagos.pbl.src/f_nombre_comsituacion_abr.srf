@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_comsituacion_abr.srf
+global type f_nombre_comsituacion_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_comsituacion_abr (string empresa, string situ)
+end prototypes
+
+global function string f_nombre_comsituacion_abr (string empresa, string situ);String  abre
+  
+SELECT comsituacion.abreviado INTO :abre FROM comsituacion
+WHERE comsituacion.empresa 	= :empresa
+AND   comsituacion.situacion  = :situ;
+
+RETURN abre
+
+end function
+

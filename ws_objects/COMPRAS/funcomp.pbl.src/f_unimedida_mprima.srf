@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_unimedida_mprima.srf
+global type f_unimedida_mprima from function_object
+end type
+
+forward prototypes
+global function string f_unimedida_mprima (string empresa, string codigo)
+end prototypes
+
+global function string f_unimedida_mprima (string empresa, string codigo);string unimed
+
+  SELECT venmprima.tipo_unidad INTO :unimed FROM venmprima  
+   WHERE ( venmprima.empresa = :codigo_empresa ) AND  
+         ( venmprima.codigo = :codigo )   ;
+			
+	if sqlca.sqlcode<>0 or isnull(unimed) then unimed=" "
+	
+return unimed
+end function
+

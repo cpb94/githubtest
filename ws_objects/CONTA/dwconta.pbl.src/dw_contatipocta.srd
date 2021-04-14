@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_contatipocta.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=293 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="contatipocta.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="contatipocta.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="contatipocta.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="contatipocta.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contatipocta~" ) COLUMN(NAME=~"contatipocta.empresa~") COLUMN(NAME=~"contatipocta.codigo~") COLUMN(NAME=~"contatipocta.descripcion~") COLUMN(NAME=~"contatipocta.resumido~")WHERE( EXP1 =~"contatipocta.empresa~" OP =~"=~" EXP2 =~":cod_empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"contatipocta.codigo~" OP =~"=~" EXP2 =~":codigo~" ) ) ORDER(NAME=~"contatipocta.empresa~" ASC=yes ) ORDER(NAME=~"contatipocta.codigo~" ASC=yes ) ARG(NAME = ~"cod_empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) " update="contatipocta" updatewhere=0 updatekeyinplace=no arguments=(("cod_empresa", string),("codigo", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="421" y="48" height="65" width="837" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Texto:"border="0" color="33554432" x="74" y="48" height="65" width="307"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="74" y="164" height="65" width="307"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="421" y="164" height="65" width="279" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

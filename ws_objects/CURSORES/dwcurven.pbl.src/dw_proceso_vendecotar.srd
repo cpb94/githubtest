@@ -1,0 +1,11 @@
+﻿$PBExportHeader$dw_proceso_vendecotar.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=5 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=5 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="vendecotar.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=base dbname="vendecotar.base" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=decorado dbname="vendecotar.decorado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendecotar~" ) COLUMN(NAME=~"vendecotar.empresa~") COLUMN(NAME=~"vendecotar.base~") COLUMN(NAME=~"vendecotar.decorado~")WHERE(    EXP1 =~"vendecotar.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendecotar.base~"   OP =~"=~"    EXP2 =~":base~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"base~" TYPE = string) " update="vendecotar" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("base", string)) )

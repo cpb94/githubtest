@@ -1,0 +1,51 @@
+﻿$PBExportHeader$report_balance_analitica_resumen.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=712 color="536870912" )
+summary(height=64 color="536870912" )
+footer(height=60 color="536870912" )
+detail(height=0 color="553648127" )
+table(column=(type=char(20) updatewhereclause=yes name=coste dbname="costesapu.coste" )
+ column=(type=char(20) updatewhereclause=yes name=cuenta dbname="costesapu.cuenta" )
+ column=(type=decimal(4) updatewhereclause=yes name=debe dbname="debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=haber dbname="haber" )
+ column=(type=decimal(4) updatewhereclause=yes name=saldo dbname="saldo" )
+ retrieve="  SELECT   coste,cuenta,
+           Sum(costesapu.debe) debe,   
+           Sum(costesapu.haber) haber,   
+			  Sum(costesapu.debe - costesapu.haber) saldo
+    FROM   costesapu
+          
+   WHERE ( costesapu.empresa = :arg_empresa )
+   AND   ( costesapu.fapunte between :arg_fecha_desde AND :arg_fecha_hasta )
+   AND   ( costesapu.coste between :cta1 AND :cta2 )
+Group BY   coste ,cuenta
+
+" arguments=(("arg_empresa", string),("arg_fecha_desde", datetime),("arg_fecha_hasta", datetime),("digitos", number),("cta1", string),("cta2", string)) )
+group(level=1 header.height=0 trailer.height=68 by=("nivel1" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="0" y="4" height="456" width="3365" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="2" expression="~" BALANCE DE ANALITICA   FECHAS   ~"   +  String( arg_fecha_desde ,~"dd-mm-yy~") + ~" - ~"+  String( arg_fecha_hasta ,~"dd-mm-yy~")"border="0" color="0" x="0" y="476" height="84" width="3365" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="0" y="568" height="56" width="183" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Coste"border="1" color="0" x="219" y="632" height="64" width="1477"  name=fechmov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Debe"border="1" color="0" x="1723" y="632" height="64" width="512"  name=cantidade_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Haber"border="1" color="0" x="2263" y="632" height="64" width="489"  name=cantidads_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Saldo"border="1" color="0" x="2784" y="632" height="64" width="517"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_costesplan(Year(Date(arg_fecha_desde)),arg_empresa,coste)"border="0" color="0" x="553" y="8" height="56" width="617" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="219" y="8" height="56" width="320" format="[general]"  name=coste edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="mid( coste, 1, digitos )"border="0" color="0" x="0" y="4" height="60" width="174" format="[general]"  name=nivel1 visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2208" y="4" height="60" width="375" format="[general]"  name=debe editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2615" y="4" height="60" width="352" format="[general]"  name=haber editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2999" y="4" height="60" width="338" format="[general]"  name=saldo editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1225" y="4" height="56" width="306" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_contaplan(Year(Date(arg_fecha_desde)),arg_empresa,cuenta)"border="0" color="0" x="1545" y="4" height="56" width="617" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="0" expression="mid( coste, 1, digitos )"border="0" color="0" x="224" y="0" height="64" width="302" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_costesplan(Year(Date(arg_fecha_desde)),arg_empresa,mid( coste, 1, digitos ))"border="0" color="0" x="553" y="0" height="64" width="1134" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="1" text="Totales . . . :"border="0" color="0" x="1303" y="4" height="60" width="366"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Páginas ' + page() + ' de ' + pageCount()"border="0" color="0" x="1856" y="4" height="52" width="773" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(debe for group 1)"border="0" color="0" x="1719" y="0" height="68" width="512" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(haber for group 1)"border="0" color="0" x="2272" y="0" height="68" width="475" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(saldo for group 1)"border="0" color="0" x="2793" y="0" height="68" width="498" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression=" sum(debe  for all)"border="0" color="0" x="1682" y="4" height="56" width="553" format="###,###,##0.00"  name=total_debe  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(haber for all)"border="0" color="0" x="2263" y="4" height="52" width="489" format="###,###,##0.00"  name=total_haber  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(saldo for all)"border="0" color="0" x="2784" y="4" height="52" width="521" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

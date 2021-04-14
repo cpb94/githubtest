@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_flistado_venped.srf
+global type f_flistado_venped from function_object
+end type
+
+forward prototypes
+global function datetime f_flistado_venped (string empresa, integer anyo, integer pedido)
+end prototypes
+
+global function datetime f_flistado_venped (string empresa, integer anyo, integer pedido);String var_empresa
+Datetime flistado
+Integer var_anyo,var_pedido
+
+  SELECT venped.empresa,venped.anyo,venped.pedido,venped.flistado 
+    INTO :var_empresa,:var_anyo,:var_pedido,:flistado
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido)   
+ORDER BY venped.empresa ASC,venped.anyo ASC,venped.pedido ASC;
+
+
+Return flistado
+end function
+

@@ -1,0 +1,115 @@
+﻿$PBExportHeader$f_colisiones2.srf
+global type f_colisiones2 from function_object
+end type
+
+forward prototypes
+global function long f_colisiones2 (string empresa, string arg_tabla, string arg_campo, string arg_filtro, boolean rellenar_huecos)
+end prototypes
+
+global function long f_colisiones2 (string empresa, string arg_tabla, string arg_campo, string arg_filtro, boolean rellenar_huecos);// PARÁMETROS
+// empresa: Código de empresa.
+// arg_tabla: 	Tabla en la que buscaremos el siguiente código disponible
+// arg_campo: 	Campo sobre el que buscaremos hacemos la búsqueda del valor máximo.
+// arg_filtro: Filtro para añadir a la consulta SQL.
+// rellenar_huecos: Indica si deseamos rellenar huecos (true) o no (false)
+
+
+// codigo_para_bloqueo: Esta variable guardará siempre el valor máximo de la tabla 'arg_tabla'. No interesa meter en uti_colisiones el valor del hueco encontrado.
+
+
+
+datastore valor_maximo, total_registros, valor_minimo
+string sel
+long maximo, total, nuevo_codigo, maximo_uti_colisiones
+long nuevo_bloqueo
+datetime v_fecha
+boolean exito
+int rtn = 1
+
+// Por si se produce algun cuelgue.
+delete from uti_colisiones
+where empresa = :empresa 
+and tabla = :arg_tabla
+and usuario = :nombre_usuario using trans_ts;
+
+if trans_Ts.sqlcode <> 0 then
+	rtn = -1
+	messagebox ("Error", "Error borrando en uti_colisiones")
+end if
+
+
+if rtn = 1 then
+	select max(codigo)
+	into :maximo_uti_colisiones
+	from uti_colisiones
+	where empresa = :empresa 
+	and tabla = :arg_tabla using trans_ts;
+	
+	sel = " select max(convert(integer,"+arg_campo+")) as maximo "+&
+			" from "+arg_tabla+&
+			" where empresa = '"+empresa+"'"
+			
+	f_cargar_cursor_transaccion (trans_ts, valor_maximo, sel)
+	maximo = valor_maximo.object.maximo[1]
+	
+	if  not isnull(maximo_uti_colisiones) then 
+		if maximo > maximo_uti_colisiones then
+			nuevo_bloqueo = maximo
+		else
+			nuevo_bloqueo =  maximo_uti_colisiones
+		end if
+		nuevo_bloqueo ++
+		nuevo_codigo = nuevo_bloqueo
+	else
+		sel = " select count(*) as total "+&
+				" from "+arg_tabla+&
+				" where empresa = '"+empresa+"'"
+				
+		f_cargar_cursor_transaccion (trans_ts, total_registros, sel)
+		total = total_registros.object.total[1]
+		
+		if total < maximo and rellenar_huecos = true then
+			sel = "  select min(convert(integer,T1."+arg_campo+")) as minimo "+&
+					"  from "+arg_tabla+"  T1  "+&
+					" where convert(integer,T1."+arg_campo+")+ 1 not IN (select convert(integer,T2."+arg_campo+")  from "+arg_tabla+" T2 ) ";
+			
+			f_cargar_cursor_transaccion (trans_ts, valor_minimo, sel)
+			nuevo_codigo = valor_minimo.object.minimo[1] + 1
+			nuevo_bloqueo = 		maximo
+		else 
+			nuevo_codigo = maximo + 1
+			nuevo_bloqueo = nuevo_codigo
+		end if
+	end if
+	v_fecha = datetime(today(), now())
+	
+	insert into uti_colisiones (empresa, tabla, codigo, usuario, fecha) 
+	values ( :empresa, :arg_tabla, :nuevo_bloqueo, :nombre_usuario, :v_fecha) 
+	using trans_ts;
+	
+	if trans_ts.SQLCode <> 0 then
+		rtn = -1
+	end if
+	
+end if		
+
+	
+if rtn = -1	then
+	exito = false
+	ROLLBACK USING trans_ts;
+	messagebox ("Error", "No se pudo generar un nuevo código para la tabla "+arg_tabla)
+	nuevo_codigo = 0
+else 
+	exito = true
+	COMMIT USING trans_ts;
+end if 
+	
+destroy valor_maximo
+destroy total_registros
+destroy valor_minimo
+return nuevo_codigo
+
+	
+
+end function
+

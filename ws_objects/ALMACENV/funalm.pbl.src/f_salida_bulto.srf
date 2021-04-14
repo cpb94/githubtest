@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_salida_bulto.srf
+global type f_salida_bulto from function_object
+end type
+
+forward prototypes
+global function boolean f_salida_bulto (string arg_empresa)
+end prototypes
+
+global function boolean f_salida_bulto (string arg_empresa);boolean lb_correcto = true
+
+return lb_correcto
+end function
+

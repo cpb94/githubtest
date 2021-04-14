@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_stock_articulo_calidad.srf
+global type f_stock_articulo_calidad from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_articulo_calidad (string empresa, string articulo, string calidad)
+end prototypes
+
+global function decimal f_stock_articulo_calidad (string empresa, string articulo, string calidad);Dec{4}   var_existencias
+
+
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE (almlinubica.empresa     = :empresa)
+AND   (almlinubica.articulo    = :articulo)
+AND   (almlinubica.calidad     = :calidad);
+
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

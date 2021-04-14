@@ -1,0 +1,57 @@
+﻿$PBExportHeader$f_calculo_importe_deposito.srf
+global type f_calculo_importe_deposito from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_importe_deposito (datetime fecha_stock, string tarifa, ref decimal cantidad, ref decimal metros)
+end prototypes
+
+global function decimal f_calculo_importe_deposito (datetime fecha_stock, string tarifa, ref decimal cantidad, ref decimal metros);dec importe
+string articulo, des_Articulo, formato , g2
+
+//select depmovhis.articulo, articulos.descripcion, formatos.abreviado, art_codestadistico.g2,  
+//sum (depmovhis.cantidade - depmovhis.cantidads) as stock_piezas,
+//round(sum(((formatos.largo * formatos.ancho ) / 10000) * (depmovhis.cantidade - depmovhis.cantidads)), 0) as stock_metros,
+//venlintarifas.precio, sum (depmovhis.cantidade - depmovhis.cantidads) * venlintarifas.precio as importe_total
+//into :tarifa, :articulo, :des_Articulo, :formato , :g2, :cantidad, :metros, :importe
+//from depmovhis, articulos	, formatos , art_codestadistico, venlintarifas
+//where  depmovhis.fechmov <= :fecha_stock
+//and depmovhis.empresa  = :codigo_empresa
+//and depmovhis.situacion <> 'A'
+//and articulos.empresa = :codigo_empresa
+//and formatos.empresa = :codigo_empresa
+//and venlintarifas.empresa = :codigo_empresa
+//and venlintarifas.articulo = articulos.codigo
+//and venlintarifas.tarifa = :tarifa
+//and venlintarifas.calidad = 1
+//and art_codestadistico.empresa = :codigo_empresa
+//and art_codestadistico.codigo= articulos.codigo
+//and formatos.codigo = articulos.formato
+//and articulos.codigo = depmovhis.articulo
+//group by depmovhis.articulo,  articulos.descripcion,  formatos.abreviado, art_codestadistico.g2, venlintarifas.precio
+//having sum (depmovhis.cantidade - depmovhis.cantidads) <> 0
+//order by art_codestadistico.g2, formatos.abreviado;
+
+select sum (depmovhis.cantidade - depmovhis.cantidads) as stock_piezas,
+round(sum(((formatos.largo * formatos.ancho ) / 10000) * (depmovhis.cantidade - depmovhis.cantidads)), 0) as stock_metros,
+sum ((depmovhis.cantidade - depmovhis.cantidads) * venlintarifas.precio) as importe_total
+into :cantidad, :metros, :importe
+from depmovhis, articulos	, formatos , art_codestadistico, venlintarifas
+where  depmovhis.fechmov <= :fecha_stock
+and depmovhis.empresa  = :codigo_empresa
+and depmovhis.situacion <> 'A'
+and articulos.empresa = :codigo_empresa
+and formatos.empresa = :codigo_empresa
+and venlintarifas.empresa = :codigo_empresa
+and venlintarifas.articulo = articulos.codigo
+and venlintarifas.tarifa = :tarifa
+and venlintarifas.calidad = 1
+and art_codestadistico.empresa = :codigo_empresa
+and art_codestadistico.codigo= articulos.codigo
+and formatos.codigo = articulos.formato
+and articulos.codigo = depmovhis.articulo;
+
+
+return importe
+end function
+

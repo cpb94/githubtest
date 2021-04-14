@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_coleccion_articulo.srf
+global type f_coleccion_articulo from function_object
+end type
+
+forward prototypes
+global function string f_coleccion_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_coleccion_articulo (string empresa, string articulo);String var_resultado
+
+SELECT articulos.coleccion  
+INTO   :var_resultado
+FROM   articulos
+Where  articulos.empresa = :empresa
+And    articulos.codigo  = :articulo;
+
+if isnull(var_resultado) then var_resultado = ""
+
+Return var_resultado
+
+end function
+

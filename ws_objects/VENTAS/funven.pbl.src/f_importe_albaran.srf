@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_importe_albaran.srf
+global type f_importe_albaran from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_albaran (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_importe_albaran (string empresa, integer anyo, decimal albaran);String  mascara_importes,var_tipo_recargo
+str_venalb venalb
+Integer longitud,unidades,espacios,lineado
+Dec{2} total,var_ejercicio,var_iva,var_recargo,var_importe_iva,var_importe_recargo,v_impdtopp,v_dtopp
+
+  SELECT venalb.total_neto,venalb.divisa,venalb.tipoiva,venalb.impdtopp
+  INTO   :total, :venalb.divisa,:venalb.tipoiva,:v_impdtopp
+  FROM   venalb  
+  WHERE (venalb.empresa = :empresa)
+  AND   (venalb.anyo    = :anyo)
+  AND   (venalb.albaran  = :albaran);
+  iF SQLCA.SQLCODE <> 0 Then f_mensaje(STring(albaran)+" Error f_importe_albaram ",String(sqlca.sqlcode) + "  "+sqlca.sqlerrtext)
+  IF IsNull(v_impdtopp) Then v_impdtopp = 0
+  total = total - v_impdtopp
+
+var_ejercicio = f_ejercicio_activo(empresa)
+
+SELECT   contaiva.iva,contaiva.recargo INTO :var_iva,:var_tipo_recargo  
+   FROM  contaiva  
+   WHERE contaiva.ejercicio = :var_ejercicio
+	AND   contaiva.empresa   = :empresa 
+	AND   contaiva.tipoiva   = :venalb.tipoiva;
+	
+IF Not IsNull(var_tipo_recargo) and Trim(var_tipo_recargo)<> "" Then	
+	SELECT   contaiva.iva,contaiva.recargo INTO :var_recargo,:var_tipo_recargo  
+   FROM     contaiva  
+   WHERE    contaiva.ejercicio = :var_ejercicio
+	AND      contaiva.empresa   = :codigo_empresa 
+	AND      contaiva.tipoiva   = :var_tipo_recargo;
+END IF
+
+
+ var_importe_iva     = Dec(String(total * var_iva / 100,f_mascara_moneda(venalb.divisa)))
+ var_importe_recargo = Dec(String((total - var_importe_iva) * var_recargo / 100,f_mascara_moneda(venalb.divisa)))
+ total = total + var_importe_iva + var_importe_recargo
+Return total
+
+end function
+

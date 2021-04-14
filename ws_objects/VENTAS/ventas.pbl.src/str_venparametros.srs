@@ -1,0 +1,20 @@
+﻿$PBExportHeader$str_venparametros.srs
+global type str_venparametros from structure
+     STRING     impresora_1
+     STRING     empresa
+     STRING     almacen
+     STRING     zona
+     STRING     tarifa
+     STRING     almacen_cargas
+     STRING     calidad_defecto
+     STRING     naturaleza_mercancia_cmr
+     INTEGER     dias_disponibilidad_con_stock
+     INTEGER     dias_disponibilidad_sin_stock
+     STRING     mostrar_disponibilidad_en_prof
+     STRING     vgm_persona_autorizada
+     STRING     vgm_metodo_utilizado_por_defecto
+     STRING     vgm_imagen_sello
+     STRING     vgm_imagen_firma
+     STRING     cuenta_irpf
+end type
+

@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_controlar_digitos.srf
+global type f_controlar_digitos from function_object
+end type
+
+forward prototypes
+global function integer f_controlar_digitos (string empresa, integer ejercicio, string cuenta)
+end prototypes
+
+global function integer f_controlar_digitos (string empresa, integer ejercicio, string cuenta);Integer longitud_cta,var_nivel,var_digitos1,var_digitos2,var_digitos3,&
+        var_digitos4,var_digitos5,var_digitos6,var_digitos7,var_digitos8,&
+        var_digitos9
+
+SELECT contaparam.digitos1, contaparam.digitos2,   
+       contaparam.digitos3, contaparam.digitos4, contaparam.digitos5,   
+       contaparam.digitos6, contaparam.digitos7, contaparam.digitos8,   
+       contaparam.digitos9  
+INTO :var_digitos1,   :var_digitos2,   
+     :var_digitos3,  :var_digitos4, :var_digitos5,
+     :var_digitos6,  :var_digitos7, :var_digitos8,   
+     :var_digitos9  
+FROM  contaparam  
+WHERE (contaparam.ejercicio = :ejercicio)
+AND   (contaparam.empresa   = :empresa );
+
+longitud_cta = len(cuenta)
+
+CHOOSE CASE longitud_cta
+	CASE var_digitos1
+	     var_nivel =1
+   CASE var_digitos2
+	     var_nivel =2
+   CASE var_digitos3
+	     var_nivel =3
+   CASE var_digitos4
+	     var_nivel =4
+   CASE var_digitos5
+	     var_nivel =5
+   CASE var_digitos6
+	     var_nivel =6
+   CASE var_digitos7
+	     var_nivel =7
+   CASE var_digitos8
+	     var_nivel =8
+   CASE var_digitos9
+	     var_nivel =9
+   CASE ELSE
+        var_nivel =0
+END CHOOSE
+Return var_nivel
+
+
+
+end function
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_requiere_pantalla_aplicacion.srf
+global type f_requiere_pantalla_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_requiere_pantalla_aplicacion (string empresa, string aplicacion)
+end prototypes
+
+global function string f_requiere_pantalla_aplicacion (string empresa, string aplicacion);string requiere_pantalla
+
+select requiere_pantalla
+into   :requiere_pantalla
+from   prodaplicaciones
+where  empresa = :empresa
+and    codigo  = :aplicacion;
+
+if isnull(requiere_pantalla) then requiere_pantalla = ""
+if trim(requiere_pantalla) =  "" then
+	requiere_pantalla = "N"
+end if
+
+return requiere_pantalla
+end function
+

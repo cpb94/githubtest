@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_comalmacen_abr.srf
+global type f_nombre_comalmacen_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_comalmacen_abr (string ra_codemp, string ra_codalm)
+end prototypes
+
+global function string f_nombre_comalmacen_abr (string ra_codemp, string ra_codalm);string	ls_nombre
+
+ SELECT comalmacen.resumido  
+    INTO :ls_nombre
+    FROM comalmacen  
+   WHERE ( comalmacen.empresa      = :ra_codemp ) AND  
+         ( comalmacen.codigo       = :ra_codalm )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre = ""
+
+END IF
+
+RETURN ls_nombre 
+end function
+

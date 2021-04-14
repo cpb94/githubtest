@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_entrada_unid_artic_prodtipopartes.srf
+global type f_entrada_unid_artic_prodtipopartes from function_object
+end type
+
+forward prototypes
+global function string f_entrada_unid_artic_prodtipopartes (string empresa, string linea)
+end prototypes
+
+global function string f_entrada_unid_artic_prodtipopartes (string empresa, string linea);string entrada_en_unidad_articulo
+
+select entrada_en_unidad_articulo
+into   :entrada_en_unidad_articulo
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+return entrada_en_unidad_articulo
+end function
+

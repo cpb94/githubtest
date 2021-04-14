@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_nombre_numero_mil.srf
+global type f_nombre_numero_mil from function_object
+end type
+
+forward prototypes
+global function string f_nombre_numero_mil (long numero, integer genero)
+end prototypes
+
+global function string f_nombre_numero_mil (long numero, integer genero);string m="MIL"
+string s_numero
+s_numero=string(numero,"000000")
+
+integer i
+integer dig[1 to 6]
+
+for i=1 to 6
+	dig[i]=integer(mid(s_numero,i,1))
+next
+
+string nombre,nombre1,nombre2
+nombre1=f_nombre_numero_cen(dig[1],dig[2],dig[3],genero)
+nombre2=f_nombre_numero_cen(dig[4],dig[5],dig[6],genero)
+
+choose case nombre1
+	case "CERO" 
+		nombre1=""
+	case "UN","UNA"
+		nombre1=m+" "
+		choose case nombre2
+			case "CERO" 
+				nombre2=""
+		end choose
+	case else
+		nombre1=nombre1+" "+m+" "
+		choose case nombre2
+			case "CERO" 
+				nombre2=""
+		end choose
+end choose
+
+nombre=nombre1+nombre2
+return Trim(nombre)
+
+end function
+

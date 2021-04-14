@@ -1,0 +1,69 @@
+﻿$PBExportHeader$f_nombre_numero.srf
+global type f_nombre_numero from function_object
+end type
+
+forward prototypes
+global function string f_nombre_numero (decimal numero, integer genero)
+end prototypes
+
+global function string f_nombre_numero (decimal numero, integer genero);string s_numero,nombre,M[0 to 9],s_resto
+numero = abs(numero)
+s_numero=string(numero,"##################")
+
+m[0]=""
+m[1]=" MILLON"
+m[2]=" BILLON"
+m[3]=" TRILLON"
+m[4]=" CUATRILLON"
+m[5]=" QUINTILLON"
+m[6]=" SEXTILLON"
+m[7]=" SEPTILLON"
+m[8]=" OCTILLON"
+m[9]=" NOVILLON"
+
+integer i,cociente,resto
+
+cociente=int(len(s_numero)/6)
+resto=mod(len(s_numero),6)
+s_resto=mid(s_numero,1,resto)
+if isnull(s_resto) or long(s_resto)=0 then
+else
+	if long(s_resto)=1 then
+		if m[cociente]="" then
+			nombre=f_nombre_numero_dec(0,1,genero)+m[cociente]
+		else
+			nombre=f_nombre_numero_dec(0,1,0)+m[cociente]
+		end if
+	else
+		if m[cociente]="" then
+			nombre=f_nombre_numero_mil(long(s_resto),genero)+m[cociente]
+		else
+			nombre=f_nombre_numero_mil(long(s_resto),0)+m[cociente]
+		end if
+	if cociente>0 then nombre=nombre+"ES"
+	end if
+end if
+s_numero=right(s_numero,6*cociente)
+
+
+string parte[10]
+if cociente<>0 then
+	for i=1 to cociente
+		parte[i]=mid(s_numero,1 +6*(i - 1),6)
+		string n
+		if m[cociente - i]="" then
+			n=f_nombre_numero_mil(long(parte[i]),genero)
+		else
+			n=f_nombre_numero_mil(long(parte[i]),0)
+		end if
+		if n="CERO" then
+			n=""
+		else
+			nombre=nombre+" "+n+m[cociente - i]
+			if cociente - i >0 then nombre=nombre+"ES"
+		end if
+	NEXT
+end if
+return Trim(nombre)
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_comtipo_proveedor_abr.srf
+global type f_nombre_comtipo_proveedor_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_comtipo_proveedor_abr (string cod_empresa, string cod_codigo)
+end prototypes
+
+global function string f_nombre_comtipo_proveedor_abr (string cod_empresa, string cod_codigo);String ls_nombre 
+
+SELECT resumido
+INTO   :ls_nombre 
+FROM   comtipo_proveedor
+WHERE  empresa	= :cod_empresa
+AND    codigo  = :cod_codigo USING SQLCA;
+ 
+if isnull(ls_nombre) then ls_nombre = ""
+
+RETURN ls_nombre
+
+
+end function
+

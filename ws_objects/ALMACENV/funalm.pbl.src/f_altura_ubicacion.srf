@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_altura_ubicacion.srf
+global type f_altura_ubicacion from function_object
+end type
+
+forward prototypes
+global function decimal f_altura_ubicacion (string ubicacion)
+end prototypes
+
+global function decimal f_altura_ubicacion (string ubicacion);Dec{0}	ls_parametro
+ls_parametro = Dec(Mid(ubicacion,15,2))
+RETURN ls_parametro
+end function
+

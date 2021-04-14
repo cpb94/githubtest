@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_actualizar_coste_lote_planificacion.srf
+global type f_actualizar_coste_lote_planificacion from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_coste_lote_planificacion (string empresa, string articulo, transaction trans_sql, string lote, string ver, string tipo_operacion, string lineaprod)
+end prototypes
+
+global function boolean f_actualizar_coste_lote_planificacion (string empresa, string articulo, transaction trans_sql, string lote, string ver, string tipo_operacion, string lineaprod);boolean fallo, calcular_compras
+
+
+decimal{8} coste_fabricacion_real_acumulado, coste_fabricacion_teorico_acumulado, coste_mp_acumulado, coste_packing_acumulado, coste_compras_acumulado,coste_fabricacion_mermas_acumulado
+decimal{8} coste_mp_mermas_acumulado, coste_mp_real, coste_total_mp_mermas, factor
+
+coste_fabricacion_real_acumulado = 0
+coste_fabricacion_teorico_acumulado = 0
+coste_mp_acumulado = 0
+coste_packing_acumulado = 0
+coste_compras_acumulado = 0
+
+calcular_compras = false
+
+//Función que calcula los costes de los lotes en tiempo real. Pasamos los parámetros a la función recursiva
+
+select case when isnull(subcontratacion,'N') = 'N' then 0 else 1 end
+into :calcular_compras
+from prodlineas
+where empresa = :empresa
+and codigo = :lineaprod;
+
+factor = 1.00
+
+
+fallo= f_calcular_costes_lote(empresa,articulo,lote,ver,tipo_operacion,trans_sql,coste_fabricacion_real_acumulado,coste_fabricacion_teorico_acumulado,coste_mp_acumulado,coste_packing_acumulado,coste_compras_acumulado,'planificacion',coste_fabricacion_mermas_acumulado,coste_mp_mermas_acumulado, coste_mp_real, coste_total_mp_mermas, factor)
+
+
+return fallo
+
+
+
+
+
+
+
+
+end function
+

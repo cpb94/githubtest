@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_pais_envio.srf
+global type f_pais_envio from function_object
+end type
+
+forward prototypes
+global function string f_pais_envio (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_pais_envio (string empresa, string cliente, string envio);String var_pais
+
+SELECT	pais
+INTO		:var_pais
+FROM		venenvio
+WHERE		empresa	=	:empresa
+AND		cliente	= 	:cliente
+AND		codigo	= 	:envio;
+
+if isnull(var_pais) then var_pais = ""
+
+Return var_pais
+end function
+

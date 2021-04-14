@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_cantidad_almtoma.srf
+$PBExportComments$Esta Rutina devuel el numero de existencia en la toma a una referencia a nun tipo de pallet en concreto, recibe como parametros empresa,fecha inventario,referencia,tipo de pallet.
+global type f_cantidad_almtoma from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_almtoma (string empresa, datetime fecha, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_cantidad_almtoma (string empresa, datetime fecha, string referencia, string tipo_pallet);Decimal{4} existencias  
+SELECT sum(almtoma.existencias) INTO :existencias  FROM almtoma  
+   WHERE almtoma.empresa     = :empresa 
+	AND   almtoma.fecha_inv   = :fecha 
+	AND   almtoma.referencia  = :referencia 
+	AND   almtoma.tipo_pallet = :tipo_pallet;
+	IF IsNull(existencias) Then  existencias=0
+	
+Return existencias
+
+end function
+

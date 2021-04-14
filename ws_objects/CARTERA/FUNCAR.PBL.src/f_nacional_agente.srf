@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nacional_agente.srf
+global type f_nacional_agente from function_object
+end type
+
+forward prototypes
+global function string f_nacional_agente (string cod_empresa, string cod_agente)
+end prototypes
+
+global function string f_nacional_agente (string cod_empresa, string cod_agente);String ls_nacional
+
+ SELECT    venagentes.nacional
+    INTO   :ls_nacional
+    FROM venagentes 
+   WHERE ( venagentes.empresa= :cod_empresa ) AND  
+         ( venagentes.agente= :cod_agente   )   ;
+
+RETURN ls_nacional
+//
+
+end function
+

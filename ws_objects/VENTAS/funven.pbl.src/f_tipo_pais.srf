@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipo_pais.srf
+global type f_tipo_pais from function_object
+end type
+
+forward prototypes
+global function string f_tipo_pais (string pais)
+end prototypes
+
+global function string f_tipo_pais (string pais);String variable
+
+  SELECT paises.tipopais  
+    INTO :variable  
+    FROM paises  
+   WHERE paises.pais = :pais   ;
+	
+	if isnull(variable) then variable = ""
+	
+	Return variable
+
+end function
+

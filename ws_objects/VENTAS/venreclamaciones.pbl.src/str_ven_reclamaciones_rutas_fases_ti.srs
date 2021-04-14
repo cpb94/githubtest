@@ -1,0 +1,13 @@
+﻿$PBExportHeader$str_ven_reclamaciones_rutas_fases_ti.srs
+global type str_ven_reclamaciones_rutas_fases_ti from structure
+     STRING     empresa
+     STRING     codigo_ven_reclamaciones_tipos
+     STRING     codigo_ven_reclamaciones_causa
+     STRING     fase
+     STRING     situacion
+     STRING     fase_siguiente
+     STRING     situacion_siguiente
+     INTEGER     orden
+     STRING     cierra_reclamacion
+end type
+

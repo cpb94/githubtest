@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_stock_tarifa5_importe.srf
+global type f_stock_tarifa5_importe from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_tarifa5_importe (string empresa, integer anyo, integer mes)
+end prototypes
+
+global function decimal f_stock_tarifa5_importe (string empresa, integer anyo, integer mes);decimal importe
+
+ SELECT sum((almmovhis.cantidade-almmovhis.cantidads) *  (venlintarifas.precio / monedas.euros ) ) as importe
+ into :importe
+ FROM almmovhis,   
+         articulos,   
+         formatos,   
+         monedas,   
+         venlintarifas,   
+         ventarifas  
+  WHERE ( almmovhis.empresa = :empresa ) and  
+         ( articulos.empresa = :empresa ) and  
+         ( formatos.empresa = :empresa ) and  
+         ( venlintarifas.empresa = :empresa ) and  
+         ( ventarifas.empresa = :empresa ) and  
+         ( almmovhis.articulo = articulos.codigo ) and  
+         ( articulos.formato = formatos.codigo ) and  
+         ( venlintarifas.tarifa = ventarifas.codigo ) and  
+         ( articulos.codigo = venlintarifas.articulo ) and  
+         ( ventarifas.moneda = monedas.moneda ) and  
+		((year(almmovhis.fechmov) < :anyo) or (year(almmovhis.fechmov) = :anyo) and (month(almmovhis.fechmov) <= :mes)) and
+         ventarifas.codigo = '5'    ;
+
+return importe
+end function
+

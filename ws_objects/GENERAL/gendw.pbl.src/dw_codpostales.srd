@@ -1,0 +1,19 @@
+﻿$PBExportHeader$dw_codpostales.srd
+$PBExportComments$Datawindow mantenimiento codigos postales.
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=420 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=pais dbname="codpostales.pais" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=codpostal dbname="codpostales.codpostal" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=provincia dbname="codpostales.provincia" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=ciudad dbname="codpostales.ciudad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"codpostales~" ) COLUMN(NAME=~"codpostales.pais~") COLUMN(NAME=~"codpostales.codpostal~") COLUMN(NAME=~"codpostales.provincia~") COLUMN(NAME=~"codpostales.ciudad~")WHERE( EXP1 =~"codpostales.pais~" OP =~"=~" EXP2 =~":ra_pais~" LOGIC =~"and~" ) WHERE( EXP1 =~"codpostales.codpostal~" OP =~"=~" EXP2 =~":ra_cospostal~" ) ) ARG(NAME = ~"ra_pais~" TYPE = string) ARG(NAME = ~"ra_cospostal~" TYPE = string) " update="codpostales" updatewhere=0 updatekeyinplace=no arguments=(("ra_pais", string),("ra_cospostal", string)) )
+column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="425" y="108" height="72" width="850" format="[general]"  name=ciudad edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Población:"border="0" color="0" x="73" y="108" height="64" width="311"  name=ciudad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Provincia:"border="0" color="0" x="91" y="268" height="64" width="293"  name=provincia_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="425" y="264" height="72" width="206" format="[general]"  name=provincia edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=detail filename="c:\BMP\CARPETA.BMP" x="667" y="268" height="64" width="73" border="6"  name=pb_provincia pointer="\bmp\MANO.CUR" )
+compute(band=detail alignment="0" expression="f_nombre_provincia( pais , provincia )"border="0" color="128" x="795" y="268" height="64" width="823" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

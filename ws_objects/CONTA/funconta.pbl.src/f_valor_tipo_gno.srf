@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_valor_tipo_gno.srf
+global type f_valor_tipo_gno from function_object
+end type
+
+forward prototypes
+global function string f_valor_tipo_gno (string as_valor, string as_tipo, integer ai_decimales)
+end prototypes
+
+global function string f_valor_tipo_gno (string as_valor, string as_tipo, integer ai_decimales);string ls_ret,ls_valor,ls_tipo
+
+ls_valor = trim(as_valor)
+ls_tipo = trim(as_tipo)
+//
+CHOOSE CASE ls_tipo
+	CASE "CH","VA" // Char y Varchar
+		// Quitamos las comillas dobles
+		ls_valor = f_sust(ls_valor,'"',"")
+		// Quitamos las comillas simples
+		ls_valor = f_sust(ls_valor,"'","")
+		ls_ret = '"' + ls_valor + '"'
+
+	CASE "DA" // Date
+		ls_valor = Mid(ls_valor,1,10)
+		ls_ret = '"' + string(date(ls_valor),formato_fecha_cursores) + '"'
+	CASE "TI" // Time
+		ls_ret = '"' + string(ls_valor,"hh:mm") + '"'
+	CASE "DT" // DateTime
+		ls_ret = '"' + trim(ls_valor) + '"'
+	CASE ELSE
+		if Isnumber(ls_valor) then
+			// Separador de decimales en windows es la coma
+			ls_valor = f_sust(ls_valor,".",",")
+			ls_ret = string(round(dec(ls_valor),ai_decimales))
+			// Cambiamos las comas por puntos como separador de decimales BD
+			ls_ret = f_sust(ls_ret,",",".")
+		else
+			ls_ret = ls_valor
+		end if
+END CHOOSE
+
+return ls_ret
+end function
+

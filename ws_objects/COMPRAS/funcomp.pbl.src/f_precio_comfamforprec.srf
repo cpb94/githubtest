@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_precio_comfamforprec.srf
+global type f_precio_comfamforprec from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_comfamforprec (string empresa, string proveedor, string familia, string formato, string calidad)
+end prototypes
+
+global function decimal f_precio_comfamforprec (string empresa, string proveedor, string familia, string formato, string calidad);Real v_precio
+
+SELECT precio_compra
+  INTO :v_precio
+  FROM comfamforprec
+ WHERE comfamforprec.empresa   =:empresa
+   AND comfamforprec.proveedor =:proveedor
+	AND comfamforprec.familia	 =:familia
+	AND comfamforprec.formato	 =:formato
+	AND comfamforprec.calidad   =:calidad;
+	
+	if IsNull(v_precio) then v_precio = 0
+	
+
+return v_precio
+end function
+

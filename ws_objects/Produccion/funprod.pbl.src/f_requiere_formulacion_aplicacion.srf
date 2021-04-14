@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_requiere_formulacion_aplicacion.srf
+global type f_requiere_formulacion_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_requiere_formulacion_aplicacion (string empresa, string aplicacion)
+end prototypes
+
+global function string f_requiere_formulacion_aplicacion (string empresa, string aplicacion);string requiere_formulacion
+
+select requiere_formulacion
+into   :requiere_formulacion
+from   prodaplicaciones
+where  empresa = :empresa
+and    codigo =:aplicacion;
+
+if isnull(requiere_formulacion) then requiere_formulacion = ""
+if trim(requiere_formulacion) =  "" then
+	requiere_formulacion = "N"
+end if
+
+return requiere_formulacion
+end function
+

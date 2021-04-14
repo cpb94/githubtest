@@ -1,0 +1,40 @@
+﻿$PBExportHeader$dw_venfamilias.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=492 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venfamilias.empresa" )
+ column=(type=char(10) update=yes updatewhereclause=yes key=yes name=familia dbname="venfamilias.familia" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="venfamilias.descripcion" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=abreviado dbname="venfamilias.abreviado" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=imprimir_nombre dbname="venfamilias.imprimir_nombre" values="SI	Si/NO	No/" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=tipo_materia dbname="venfamilias.tipo_materia" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=cuenta dbname="venfamilias.cuenta" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=correccion_mp dbname="venfamilias.correccion_mp" )
+ retrieve="SELECT  venfamilias.empresa ,
+           venfamilias.familia ,
+           venfamilias.descripcion ,
+           venfamilias.abreviado ,
+           venfamilias.imprimir_nombre ,
+           venfamilias.tipo_materia ,
+           venfamilias.cuenta ,
+           venfamilias.correccion_mp     
+        FROM venfamilias      
+        WHERE ( venfamilias.empresa = :empresa ) and         
+ 				( venfamilias.tipo_materia = :producto ) and          
+				( venfamilias.familia = :familia )   " update="venfamilias" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("producto", string),("familia", string)) )
+bitmap(band=detail filename="c:\BMP\Carpeta.bmp" x="1061" y="216" height="56" width="78" border="6"  name=pb_cuenta pointer="\BMP\Mano.cur" visible="1" )
+compute(band=detail alignment="0" expression="f_nombre_contaplan(f_ejercicio_activo( empresa ), empresa , cuenta )"border="2" color="0" x="1166" y="216" height="56" width="951" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=detail alignment="2" text="Descripción:" border="0" color="0" x="183" y="52" height="56" width="370" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Abreviado:" border="0" color="0" x="238" y="132" height="56" width="315" html.valueishtml="0"  name=abreviado_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Cuenta Contable:" border="0" color="0" x="50" y="216" height="56" width="503" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Imprimir_Nombre:" border="0" color="0" x="18" y="292" height="56" width="535" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="0" color="0" x="590" y="52" height="56" width="1083" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=40 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="0" color="0" x="590" y="132" height="56" width="603" format="[general]" html.valueishtml="0"  name=abreviado visible="1" edit.limit=15 edit.case=upper edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="1" tabsequence=30 border="0" color="0" x="590" y="212" height="56" width="439" format="[general]" html.valueishtml="0"  name=cuenta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="0" color="0" x="590" y="292" height="56" width="201" format="" html.valueishtml="0"  name=imprimir_nombre visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="2" text="Corrección MP:" border="0" color="0" x="14" y="372" height="56" width="535" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=50 border="0" color="0" x="581" y="372" height="56" width="315" format="###,##0.000" html.valueishtml="0"  name=correccion_mp visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

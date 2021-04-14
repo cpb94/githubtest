@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_analitica_contaplan.srf
+$PBExportComments$Devuelve si la cuenta va a analitica
+global type f_analitica_contaplan from function_object
+end type
+
+forward prototypes
+global function string f_analitica_contaplan (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_analitica_contaplan (integer ejercicio, string empresa, string codigo);String var_anali
+
+  SELECT contaplan.analitica INTO :var_anali FROM contaplan  
+  WHERE  contaplan.ejercicio = :ejercicio
+  AND    contaplan.empresa   = :empresa 
+  AND    contaplan.cuenta    = :codigo;
+
+Return var_anali
+end function
+

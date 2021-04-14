@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_opciones.srf
+$PBExportComments$Esta funcion  visualizas una ventana con tantos botenes como argumentos recibo   funcion similar  al messagebox.
+global type f_opciones from function_object
+end type
+
+forward prototypes
+global function integer f_opciones (tipo_array valores)
+end prototypes
+
+global function integer f_opciones (tipo_array valores);Integer opcion
+OpenWithParm(w_opciones,valores)
+opcion = message.DoubleParm
+RETURN opcion
+end function
+

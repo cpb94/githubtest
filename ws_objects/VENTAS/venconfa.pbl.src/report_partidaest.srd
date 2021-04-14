@@ -1,0 +1,34 @@
+﻿$PBExportHeader$report_partidaest.srd
+release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=yes )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=502 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=articulos_partidaest dbname="articulos.partidaest" )
+ column=(type=char(30) updatewhereclause=yes name=venpartidas_valor1 dbname="venpartidas.valor1" )
+ column=(type=char(50) updatewhereclause=yes name=venpartidas_descripcion dbname="venpartidas.descripcion" )
+ column=(type=decimal(-1) updatewhereclause=yes name=compute_0004 dbname="compute_0004" )
+ retrieve="  SELECT articulos.partidaest,   
+         venpartidas.valor1,   
+         venpartidas.descripcion,
+			sum(venlifac.importe)  
+    FROM venlifac,   
+         articulos,   
+         venpartidas  
+   WHERE ( venlifac.empresa = articulos.empresa ) and  
+         ( venlifac.articulo = articulos.codigo ) and  
+         ( articulos.empresa = venpartidas.empresa ) and  
+         ( articulos.partidaest = venpartidas.codigo ) and  
+         ( venlifac.empresa = :empresa ) AND  
+         ( venlifac.anyo = :anyo_factura ) AND  
+         ( venlifac.factura = :factura ) AND  
+         ( venlifac.tipolinea <> ~"5~" ) AND  
+         ( venlifac.tipolinea <> ~"14~" ) AND  
+         ( venlifac.tipolinea <> ~"15~" ) AND  
+         ( venlifac.tipolinea <> ~"16~" )   
+GROUP BY articulos.partidaest,venpartidas.valor1,venpartidas.descripcion   
+" arguments=(("empresa", string),("anyo_factura", number),("factura", number)) )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="105" y="27" height="370" width="2725" format="[general]"  name=venpartidas_valor1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="2963" y="27" height="370" width="2804" format="[general]"  name=venpartidas_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=0 border="0" color="0" x="5900" y="27" height="370" width="3069"  name=compute_0004 editmask.mask="###,###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

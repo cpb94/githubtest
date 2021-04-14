@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_numero_venriesgoclientes.srf
+global type f_numero_venriesgoclientes from function_object
+end type
+
+forward prototypes
+global function string f_numero_venriesgoclientes (string arg_empresa, string arg_companyia, string arg_cliente)
+end prototypes
+
+global function string f_numero_venriesgoclientes (string arg_empresa, string arg_companyia, string arg_cliente);String var_numero
+
+SELECT numero  
+INTO   :var_numero  
+FROM   venriesgoclientes  
+WHERE (empresa   = :arg_empresa)
+AND  	(companyia = :arg_companyia)
+AND  	(cliente   = :arg_cliente);
+
+if isnull(var_numero) then var_numero = ""
+
+Return var_numero;
+end function
+

@@ -1,0 +1,13 @@
+﻿$PBExportHeader$report_carta_cheques4.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 0 print.margin.right = 0 print.margin.top = 0 print.margin.bottom = 0 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1176 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="empresas.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"empresas~" ) COLUMN(NAME=~"empresas.empresa~")WHERE(    EXP1 =~"empresas.empresa~"   OP =~"=~"    EXP2 =~":emp~" ) ) ARG(NAME = ~"emp~" TYPE = string)  ARG(NAME = ~"banco~" TYPE = string)  ARG(NAME = ~"dia~" TYPE = datetime) " update="empresas" updatewhere=0 updatekeyinplace=no arguments=(("emp", string),("banco", string),("dia", datetime)) )
+rectangle(band=detail x="2043" y="40" height="356" width="997" brush.hatch="6" brush.color="16777215" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+compute(band=detail alignment="0" expression=" f_completo_banco (  empresa , banco  ) "border="0" color="0" x="2098" y="104" height="228" width="910" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="Trim(f_ciudad_empresa(empresa )) + ~", ~" + f_nombre_fecha( dia )"border="0" color="0" x="933" y="592" height="64" width="2057" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="~"Relación de cheque(s) enviado(s) por ~"+ f_nombre_empresa(emp)+~" a ~" + f_nombre_banco(emp,banco) +~" para su abono en nuestra cuenta número : ~" +f_nuestracta_banco(emp,banco)"border="0" color="0" x="142" y="752" height="236" width="2862" format="[general]"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

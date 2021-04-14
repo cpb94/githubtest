@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_pedidos_pendiente_cargar.srf
+global type f_pedidos_pendiente_cargar from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_pendiente_cargar (string arg_empresa, string arg_cliente)
+end prototypes
+
+global function decimal f_pedidos_pendiente_cargar (string arg_empresa, string arg_cliente);dec dinero
+
+select sum(venped.total_neto*cambio + ((venped.total_neto * venped.iva)/100)*cambio)
+into :dinero
+from venped
+where venped.empresa=:arg_empresa and venped.es_proforma = 'N' and
+		venped.cliente=:arg_cliente and
+		exists(	select * 
+					from venliped 
+					where empresa=venped.empresa and
+							anyo=venped.anyo and 
+							pedido=venped.pedido);
+		
+if isnull(dinero) then dinero=0
+
+return dinero
+end function
+

@@ -1,0 +1,70 @@
+﻿$PBExportHeader$f_insert_carpagosdetagrupado.srf
+global type f_insert_carpagosdetagrupado from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carpagosdetagrupado (str_carpagosdetagrupado car)
+end prototypes
+
+global function boolean f_insert_carpagosdetagrupado (str_carpagosdetagrupado car);INSERT INTO carpagosdetagrupado
+		( empresa,   
+		  anyo,   
+		  orden,   
+		  anyo_agrupado,
+		  orden_agrupado,		  
+		  anyofra,   
+		  fra,   
+		  recibo,   
+		  ffra,   
+		  fvto,   
+		  fpago,   
+		  importe,   
+		  divisas,   
+		  moneda,   
+		  banco,   
+		  proveedor,   
+		  tipodoc,   
+		  codpago,   
+		  situacion,
+		  cuenta,
+		  asignar_banco,
+		  tipodoc_pago,
+		  cambio,
+		  punteado,
+		  concepto,
+		  observaciones)  
+VALUES (:car.empresa,   
+		  :car.anyo,   
+		  :car.orden,   
+		  :car.anyo_agrupado,
+		  :car.orden_agrupado,
+		  :car.anyofra,   
+		  :car.fra,   
+		  :car.recibo,   
+		  :car.ffra,   
+		  :car.fvto,   
+		  :car.fpago,   
+		  :car.importe,   
+		  :car.divisas,   
+		  :car.moneda,   
+		  :car.banco,   
+		  :car.proveedor,   
+		  :car.tipodoc,   
+		  :car.codpago,   
+		  :car.situacion,
+		  :car.cuenta,
+		  :car.asignar_banco,
+		  :car.tipodoc_pago,
+		  :car.cambio,
+		  :car.punteado,
+		  :car.concepto,
+		  :car.observaciones);
+		  
+IF SQLCA.SQLCODE <> 0 Then
+	f_mensaje("Error en f_insert_carpagosdetagrupado",sqlca.sqlerrtext)
+	Return false
+ELSE
+	Return true
+END IF
+end function
+

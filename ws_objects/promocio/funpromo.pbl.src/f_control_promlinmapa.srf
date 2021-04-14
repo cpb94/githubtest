@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_control_promlinmapa.srf
+global type f_control_promlinmapa from function_object
+end type
+
+forward prototypes
+global function string f_control_promlinmapa (string empresa, string mapa, string panel)
+end prototypes
+
+global function string f_control_promlinmapa (string empresa, string mapa, string panel);Integer numero
+numero  = 0 
+ SELECT count(*)  
+    INTO :numero  
+    FROM   promlinmapa
+   WHERE ( promlinmapa.empresa  = :empresa ) AND  
+         ( promlinmapa.codigo   = :mapa ) AND  
+         ( promlinmapa.panel    = :panel )   ;
+IF IsNull(numero) Then  numero = 0
+If numero = 0 Then
+   Return ""
+Else
+   Return "X"
+End If
+ 
+
+end function
+

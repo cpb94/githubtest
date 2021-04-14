@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_caja_articulo_pallet.srf
+global type f_caja_articulo_pallet from function_object
+end type
+
+forward prototypes
+global function string f_caja_articulo_pallet (string empresa, string articulo, string pallet)
+end prototypes
+
+global function string f_caja_articulo_pallet (string empresa, string articulo, string pallet);string caja
+long cuantos
+
+caja = ""
+
+select count(caja)
+into   :cuantos
+from   palarticulo
+where empresa = :empresa
+and  articulo = :articulo
+and    codigo = :pallet;
+
+if isnull(cuantos) then cuantos = 0
+
+if cuantos = 1 then
+	
+	select caja
+	into   :caja
+	from   palarticulo
+	where empresa = :empresa
+	and  articulo = :articulo
+	and    codigo = :pallet;
+	
+	if isnull(caja) then caja = ""
+end if
+
+return caja
+end function
+

@@ -1,0 +1,86 @@
+﻿$PBExportHeader$f_calculo_coste_fab_articulo.srf
+global type f_calculo_coste_fab_articulo from function_object
+end type
+
+forward prototypes
+global function any f_calculo_coste_fab_articulo (string empresa, string articulo, string ruta)
+end prototypes
+
+global function any f_calculo_coste_fab_articulo (string empresa, string articulo, string ruta);boolean fallo
+long j, total_regs
+integer ordenoperacion
+string sel, tipo_operacion, seccion
+datastore datos
+dec velocidad_segs, coste_std, correccion_velocidad, coste_fabricacion
+datetime hoy, antes
+dec segundos
+string operario, linea, turno, operacion, orientacion
+datetime fecha
+long contador, i
+dec longitud_horno = 29.4
+dec ancho, largo, ciclo, piezas_hora_horno, piezas_fila, piezas, piezas_hora
+
+fallo = false
+
+hoy = datetime(today())
+antes = datetime(RelativeDate ( today(), -365 ))
+	
+sel = " select distinct art_ver_operaciones.articulo, art_ver_operaciones.version, art_ver_operaciones.orden, art_ver_operaciones.tipo_operacion "+&
+		" from art_ver_operaciones "+&
+		" where art_ver_operaciones.empresa = '"+codigo_empresa+"' "+&
+		" and art_Ver_operaciones.articulo = '"+articulo+"' "
+
+total_regs = f_cargar_cursor_transaccion(sqlca,datos,sel)
+
+for j = 1 to total_regs
+	ruta = datos.object.version[j]
+	tipo_operacion = datos.object.tipo_operacion[j]
+	ordenoperacion = integer(datos.object.orden[j])
+
+	// Consultamos los partes de toda la historia.
+	select isnull(sum(prodpartes_ot.buenas) / sum(prodpartes_ot.segundos) , 0)
+	into :velocidad_segs
+	from prodpartes_ot, prodlineas
+	where prodpartes_ot.empresa = :codigo_empresa
+	and prodlineas.empresa = :codigo_empresa
+	and prodpartes_ot.linea = prodlineas.codigo
+	and prodpartes_ot.articulo = :articulo
+	and prodpartes_ot.version = :ruta
+	and prodpartes_ot.ordenoperacion = :ordenoperacion 
+	and prodpartes_ot.segundos <> 0
+	and prodpartes_ot.segundos is not null
+	and prodpartes_ot.seccion <> '8'  // Sección de operaciones manuales excluída
+	and prodpartes_ot.linea <> '49';  // Línea de pruebas
+	
+	piezas_hora = velocidad_Segs * 3600
+	
+	select coste, correccion_velocidad
+	into :coste_std, :correccion_velocidad
+	from art_ver_tipooperacion
+	where	empresa = :codigo_empresa
+	and codigo = :tipo_operacion ;
+	
+	if piezas_hora = 0 or correccion_velocidad = 0 or velocidad_Segs = 0 then 
+		coste_fabricacion = 0
+	else
+		coste_fabricacion = ( coste_std /  ( piezas_hora * correccion_velocidad ) )
+	end if
+	
+	update art_ver_operaciones
+	set coste_fab = :coste_fabricacion
+	where empresa = :codigo_empresa
+	and articulo = :articulo
+	and version = :ruta
+	and orden = :ordenoperacion ;
+
+	if SQLCA.SQLCode <> 0 then
+		f_mensaje("Atención","Hubo un error al cáclular el coste de fabricación. ")
+		fallo = true
+	end if
+	
+//	f_mensaje_proceso (string(j)+" / "+string(total_regs), j , total_regs)
+next
+destroy datos
+return fallo
+end function
+

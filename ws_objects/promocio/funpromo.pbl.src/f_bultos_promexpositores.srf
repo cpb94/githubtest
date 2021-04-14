@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_bultos_promexpositores.srf
+global type f_bultos_promexpositores from function_object
+end type
+
+forward prototypes
+global function integer f_bultos_promexpositores (string empresa, string tipo_expositor, string reposicion)
+end prototypes
+
+global function integer f_bultos_promexpositores (string empresa, string tipo_expositor, string reposicion);Integer bultos
+  SELECT count(*)  
+    INTO :bultos  
+    FROM promembexpositores  
+   WHERE ( promembexpositores.empresa = :empresa ) AND  
+         ( promembexpositores.codigo  = :tipo_expositor);
+IF IsNull(bultos) Then  bultos = 0
+if bultos<>0 and reposicion="S" then bultos = bultos - 1
+
+Return bultos
+end function
+

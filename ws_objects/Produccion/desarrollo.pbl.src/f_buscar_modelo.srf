@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_buscar_modelo.srf
+global type f_buscar_modelo from function_object
+end type
+
+forward prototypes
+global function integer f_buscar_modelo ()
+end prototypes
+
+global function integer f_buscar_modelo ();long modelo
+boolean exito
+integer intentos
+
+connect using SQLCA;
+
+select max(convert(integer,modelo))
+into :modelo
+from desmodelo
+where empresa = :codigo_empresa;
+
+if isnull(modelo ) then
+	modelo = 0
+end if
+
+modelo ++
+exito = false
+intentos = 1
+do while (exito = false and intentos < 50)
+	insert into desparametros (empresa, modelo)
+		values ( :codigo_empresa, :modelo);
+//	update desparametros set modelo = :modelo
+//	where empresa = :codigo_empresa;
+	
+	if SQLCA.SQLCode = -1 then
+		exito = false
+		modelo ++
+		intentos ++
+	else 
+		exito = true
+		commit using SQLCA;
+	end if 
+loop
+
+if exito or intentos < 50 then
+	return modelo			
+else
+	return 0
+end if
+
+
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_envase_mprima.srf
+$PBExportComments$Devuelve el envase de la materia prima
+global type f_envase_mprima from function_object
+end type
+
+forward prototypes
+global function string f_envase_mprima (string empresa, string codigo)
+end prototypes
+
+global function string f_envase_mprima (string empresa, string codigo);String envase
+
+SELECT envase 
+INTO   :envase
+FROM   venmprima  
+WHERE  empresa = :codigo_empresa
+AND    codigo  = :codigo ;
+
+if isnull(envase) then envase = ""
+
+return envase
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_conversion_pesetas.srf
+global type f_conversion_pesetas from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_pesetas (decimal importe, decimal cambio_euros)
+end prototypes
+
+global function decimal f_conversion_pesetas (decimal importe, decimal cambio_euros);dec importe_pts
+string mascara
+
+mascara = f_mascara_moneda (f_codigo_pts())
+
+importe_pts = (f_conversion_euros(importe,cambio_euros) * f_cambio_euros(f_codigo_pts()))
+
+importe_pts = round(importe_pts,0)
+
+importe_pts = dec(string(importe_pts,mascara))
+
+return importe_pts
+end function
+

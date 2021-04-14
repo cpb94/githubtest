@@ -1,0 +1,117 @@
+﻿$PBExportHeader$dw_mant_ven_cmr2_original.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" pointer="\BMP\Mano.cur" )
+header(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=4 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=68 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venalb.empresa" )
+ column=(type=decimal(0) updatewhereclause=yes name=anyo dbname="venalb.anyo" )
+ column=(type=decimal(0) updatewhereclause=yes name=albaran dbname="venalb.albaran" )
+ column=(type=datetime updatewhereclause=yes name=falbaran dbname="venalb.falbaran" )
+ column=(type=decimal(6) updatewhereclause=yes name=peso dbname="venalb.peso" )
+ column=(type=decimal(0) updatewhereclause=yes name=bultos dbname="bultos" )
+ column=(type=char(1) updatewhereclause=yes name=marcado dbname="marcado" values="	S/	N" )
+ column=(type=char(1) updatewhereclause=yes name=ventaspromocion dbname="ventaspromocion" values="Ventas	V/Promoción	P/" )
+ retrieve="  SELECT venalb.empresa,   
+         venalb.anyo,   
+         venalb.albaran,   
+         venalb.falbaran,   
+         venalb.peso,   
+         isnull(sum(venlialb.pallets),0) as bultos,   
+         case when isnull(count(ven_cmr_lineas.codigo),0) > 0 then 'S' else 'N' end as marcado,   
+         'V' as ventaspromocion  
+    FROM venalb,
+			ven_cmr_lineas,
+         venlialb  
+   WHERE ( venalb.empresa = venlialb.empresa ) and  
+         ( venalb.anyo = venlialb.anyo ) and  
+         ( venalb.albaran = venlialb.albaran ) and  
+			( venalb.empresa *= ven_cmr_lineas.empresa ) and
+			( venalb.anyo *= ven_cmr_lineas.ejercicio_albaran ) and 
+			( venalb.albaran *= ven_cmr_lineas.albaran ) and
+         ( ( venalb.empresa = :arg_empresa ) AND  
+         ( venalb.cliente = :arg_cliente ) AND  
+			( venalb.falbaran = :arg_fecha ) AND 
+         ( ven_cmr_lineas.ejercicio = :arg_ejercicio ) AND  
+         ( ven_cmr_lineas.codigo = :arg_cmr ) AND  
+         ( ven_cmr_lineas.ventaspromocion = 'V' ) )   
+GROUP BY venalb.empresa,   
+         venalb.anyo,   
+         venalb.albaran,   
+         venalb.falbaran,   
+         venalb.peso   
+UNION
+  SELECT venlifac.empresa,   
+         venlifac.anyo_albaran,   
+         venlifac.albaran,   
+         venlifac.falbaran,   
+         sum(venlifac.peso),   
+         isnull(sum(venlifac.pallets),0) as bultos,   
+         case when isnull(count(ven_cmr_lineas.codigo),0) > 0 then 'S' else 'N' end as marcado,   
+         'V' as ventaspromocion  
+    FROM venlifac,
+			ven_cmr_lineas
+   WHERE ( venlifac.empresa *= ven_cmr_lineas.empresa ) and
+			( venlifac.anyo_albaran *= ven_cmr_lineas.ejercicio_albaran ) and 
+			( venlifac.albaran *= ven_cmr_lineas.albaran ) and
+			( ( venlifac.empresa = :arg_empresa ) AND  
+         ( venlifac.cliente = :arg_cliente ) AND  
+			( venlifac.falbaran = :arg_fecha ) AND 
+         ( ven_cmr_lineas.ejercicio = :arg_ejercicio ) AND  
+         ( ven_cmr_lineas.codigo = :arg_cmr ) AND  
+         ( ven_cmr_lineas.ventaspromocion = 'V' ) )   
+GROUP BY venlifac.empresa,   
+         venlifac.anyo_albaran,   
+         venlifac.albaran,   
+         venlifac.falbaran
+UNION
+  SELECT prom_cabecera_albaran.empresa,   
+         prom_cabecera_albaran.anyo,   
+         prom_cabecera_albaran.albaran,   
+         prom_cabecera_albaran.fecha_albaran,   
+         prom_cabecera_albaran.peso_bruto,   
+         prom_cabecera_albaran.bultos,   
+         case when isnull(count(ven_cmr_lineas.codigo),0) > 0 then 'S' else 'N' end as marcado,   
+         'P' as ventaspromocion  
+    FROM prom_cabecera_albaran,
+			ven_cmr_lineas
+   WHERE ( prom_cabecera_albaran.empresa *= ven_cmr_lineas.empresa ) and
+			( prom_cabecera_albaran.anyo *= ven_cmr_lineas.ejercicio_albaran ) and 
+			( prom_cabecera_albaran.albaran *= ven_cmr_lineas.albaran ) and
+			( ( prom_cabecera_albaran.empresa = :arg_empresa ) AND  
+         ( prom_cabecera_albaran.cliente = :arg_cliente ) AND 
+			( prom_cabecera_albaran.fecha_albaran = :arg_fecha ) AND  
+         ( ven_cmr_lineas.ejercicio = :arg_ejercicio ) AND  
+         ( ven_cmr_lineas.codigo = :arg_cmr ) AND  
+         ( ven_cmr_lineas.ventaspromocion = 'P' ) )   
+GROUP BY prom_cabecera_albaran.empresa,   
+         prom_cabecera_albaran.anyo,   
+         prom_cabecera_albaran.albaran,   
+         prom_cabecera_albaran.fecha_albaran,   
+         prom_cabecera_albaran.peso_bruto,   
+         prom_cabecera_albaran.bultos" arguments=(("arg_empresa", string),("arg_cliente", string),("arg_ejercicio", number),("arg_cmr", string),("arg_fecha", datetime))  sort="marcado D ventaspromocion D anyo A albaran A " )
+text(band=header alignment="2" text="M" border="2" color="128" x="14" y="12" height="56" width="69" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Fecha" border="2" color="128" x="873" y="12" height="56" width="329" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Peso" border="2" color="128" x="1221" y="12" height="56" width="329" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Bultos" border="2" color="128" x="1568" y="12" height="56" width="329" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Albarán" border="2" color="128" x="101" y="12" height="56" width="754" html.valueishtml="0"  name=codigo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="101" y="4" height="56" width="119" format="[general]" html.valueishtml="0"  name=anyo visible="1" editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="261" y="4" height="56" width="210" format="[general]" html.valueishtml="0"  name=albaran visible="1" editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=10 border="0" color="0" x="14" y="4" height="56" width="69" format="[general]" html.valueishtml="0"  name=marcado visible="1" checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=detail alignment="2" text="/" border="0" color="0" x="229" y="4" height="56" width="23" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="1073741824" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="873" y="4" height="52" width="329" format="[shortdate] [time]" html.valueishtml="0"  name=falbaran visible="1" editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1221" y="4" height="52" width="329" format="[general]" html.valueishtml="0"  name=peso visible="1" editmask.mask="###,###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1568" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=bultos visible="1" editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="485" y="4" height="56" width="375" format="[general]" html.valueishtml="0"  name=ventaspromocion visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

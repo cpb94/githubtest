@@ -1,0 +1,123 @@
+﻿$PBExportHeader$f_calculo_coste_mp_y_fabricacion.srf
+global type f_calculo_coste_mp_y_fabricacion from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_coste_mp_y_fabricacion (string articulo, boolean coste_estructural, ref decimal v_coste_total_operaciones, ref decimal v_coste_total_mp)
+end prototypes
+
+global function boolean f_calculo_coste_mp_y_fabricacion (string articulo, boolean coste_estructural, ref decimal v_coste_total_operaciones, ref decimal v_coste_total_mp);str_escandallo escandallo[300]
+datastore ds_operaciones
+integer indice, k
+string  sel, formato, v_Articulo, v_tipooper, v_cliente, v_tarifa
+long actual, i, v_ordenoperacion
+decimal factor, velocidad, correccion_velocidad, v_coste, v_velocidad_std, v_largo, v_ancho 
+decimal v_coste_operacion, v_factor_operacion, v_precio_metro, v_coste_mp, v_precio_Venta, coste_estr
+date v_fecha
+integer nivel
+
+nivel = 0
+
+v_fecha = RelativeDate ( today(), -365 )
+
+v_coste_total_operaciones = 0
+
+if coste_estructural then
+	select coste_estructura
+	into :coste_estr
+	from empresas
+	where empresa = :codigo_empresa;
+else
+	coste_estr = 0
+end if
+
+for k = 1 to 300
+	setnull(Escandallo[k].articulo)
+	setnull(Escandallo[k].version)
+	setnull(Escandallo[k].factor)
+next
+
+indice = 1
+factor = 1
+f_escandallo_factores(escandallo, articulo, indice, factor, nivel)
+
+for k = 1 to indice
+	sel = " select art_ver_operaciones.articulo, art_ver_operaciones.version, art_ver_operaciones.orden , "+& 
+			" art_ver_operaciones.factor, art_ver_operaciones.tipo_operacion as tipooper, "+&
+			" formatos.ancho, formatos.largo, formatos.abreviado, art_ver_tipooperacion.velocidad_std, "+& 
+			" art_ver_tipooperacion.descripcion_abr, art_ver_tipooperacion.coste, articulos.cliente, "+&
+			" art_ver_tipooperacion.correccion_velocidad  as correccion, factormp.precio_metro, "+&
+			" ((formatos.ancho * formatos.largo) / 10000 ) * factormp.precio_metro as coste_mp "+&
+			" from art_ver_operaciones, art_ver_tipooperacion, articulos, formatos, factormp "+&
+			" where art_ver_tipooperacion.empresa = '"+codigo_empresa+"' "+&
+			" and art_ver_operaciones.empresa =  '"+codigo_empresa+"' "+&
+			" and formatos.empresa =  '"+codigo_empresa+"' "+&
+			" and articulos.empresa =  '"+codigo_empresa+"' "+&
+			" and factormp.empresa =  '"+codigo_empresa+"' "+&
+			" and art_ver_operaciones.tipo_operacion = art_Ver_tipooperacion.codigo "+&
+			" and art_ver_operaciones.coste *= factormp.factor "+&
+			" and art_ver_operaciones.tipo_operacion *= factormp.operacion "+&
+			" and art_ver_operaciones.articulo = '"+escandallo[k].articulo+"' "+&
+			" and art_ver_operaciones.articulo = articulos.codigo "+&
+			" and art_ver_operaciones.formato = formatos.codigo "+&
+			" and art_ver_operaciones.version = '1' "+&
+			" order by art_ver_operaciones.orden"
+		
+	f_cargar_cursor_nuevo(sel, ds_operaciones)
+	
+	for i = 1 to ds_operaciones.rowcount()
+		v_articulo = ds_operaciones.object.art_ver_operaciones_articulo[i]
+		v_ordenoperacion = long(ds_operaciones.object.art_ver_operaciones_orden[i])
+		correccion_velocidad = ds_operaciones.object.art_ver_tipooperacion_correccion[i]
+		v_coste = ds_operaciones.object.art_ver_tipooperacion_coste[i] 
+		v_tipooper = ds_operaciones.object.art_ver_operaciones_tipooper[i]
+		v_factor_operacion = ds_operaciones.object.art_ver_operaciones_factor[i]
+		v_precio_metro = ds_operaciones.object.factormp_precio_metro[i]
+		v_coste_mp = ds_operaciones.object.coste_mp[i]
+		v_cliente = ds_operaciones.object.articulos_cliente[i]
+		v_velocidad_std = ds_operaciones.object.art_ver_tipooperacion_velocidad_Std[i]
+		
+		if v_tipooper = '3' or v_tipooper = '8' or v_tipooper = '20' then
+			v_largo = ds_operaciones.object.formatos_largo[i]
+			v_ancho = ds_operaciones.object.formatos_ancho[i]
+			
+			velocidad = v_velocidad_std / (v_largo * v_ancho / 10000 )
+			
+		else			
+		// Quitamos todos los partes de operaciones manuales (8), para que no desvirtúen las velocidades de artículos que circulan por distintas rutas.
+			SELECT sum((prodpartes_ot.buenas +prodpartes_ot.malas)) / (sum( prodpartes_ot.segundos / 3600  ))
+			INTO :velocidad
+			FROM prodpartes_ot, art_ver_tipooperacion, articulos
+			WHERE prodpartes_ot.empresa *= art_ver_tipooperacion.empresa AND
+			prodpartes_ot.operacion *= art_ver_tipooperacion.codigo AND
+			prodpartes_ot.empresa = articulos.empresa AND
+			prodpartes_ot.articulo = articulos.codigo AND
+			prodpartes_ot.empresa = 1 AND 
+			prodpartes_ot.fecha >= :v_fecha AND  
+			prodpartes_ot.articulo = :v_articulo AND
+			prodpartes_ot.seccion <> '8' and  
+			prodpartes_ot.ordenoperacion = :v_ordenoperacion AND  
+			prodpartes_ot.segundos > 0 AND
+			prodpartes_ot.version =1 ;			
+		end if
+		if velocidad = 0 or isnull(velocidad) then
+			velocidad = v_velocidad_std * escandallo[k].factor * v_factor_operacion
+		else
+			velocidad = velocidad * escandallo[k].factor * v_factor_operacion
+		end if
+		
+		v_coste_operacion  =  ( v_coste / ( velocidad * correccion_velocidad ) )  
+		v_coste_mp = v_coste_mp / ( v_factor_operacion * escandallo[k].factor )
+		v_coste_total_operaciones += v_coste_operacion
+		
+		if isnull (v_coste_mp ) then
+			v_coste_mp = 0
+		end if
+		
+		v_coste_total_mp += v_coste_mp
+	next
+	destroy ds_operaciones
+next
+return true
+end function
+

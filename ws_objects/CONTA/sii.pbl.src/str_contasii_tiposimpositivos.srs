@@ -1,0 +1,21 @@
+﻿$PBExportHeader$str_contasii_tiposimpositivos.srs
+global type str_contasii_tiposimpositivos from structure
+	string		empresa
+	decimal { 0 }		ejercicio
+	string		factura
+	string		tipoter
+	string		tercero
+	string		entrega_o_servicio
+	string		tipoiva
+	decimal { 2 }		tipoimpositivo
+	string		exenta
+	string		tiponoexenta
+	string		causaexencion
+	decimal { 6 }		baseimponible
+	decimal { 6 }		cuota
+	decimal { 2 }		tiporecargoequivalencia
+	decimal { 6 }		cuotarecargo
+	string		isp
+	decimal{6}		cuota_deducible
+end type
+

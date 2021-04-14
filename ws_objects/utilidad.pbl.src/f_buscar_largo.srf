@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_buscar_largo.srf
+global type f_buscar_largo from function_object
+end type
+
+forward prototypes
+global subroutine f_buscar_largo (editmask asle_campo, str_parametros astr_parametros)
+end prototypes
+
+global subroutine f_buscar_largo (editmask asle_campo, str_parametros astr_parametros);// Lanza la ventana de ayuda para Busquedas de codigos
+String ll_clave
+astr_parametros.s_criterio_busqueda = asle_campo.Text
+OpenWithParm(w_busquedas_largo,astr_parametros)
+ll_clave = Message.StringParm		// Devuelve el valor que enuentra ...
+IF ll_clave <> "" THEN		
+	asle_campo.text = ll_clave
+END IF
+IF trim(ll_clave) = "" or isnull(ll_clave) THEN		
+	asle_campo.text = ""
+END IF
+
+Return
+end subroutine
+

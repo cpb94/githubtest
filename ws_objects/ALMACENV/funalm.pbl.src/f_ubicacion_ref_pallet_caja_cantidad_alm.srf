@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_ubicacion_ref_pallet_caja_cantidad_alm.srf
+global type f_ubicacion_ref_pallet_caja_cantidad_alm from function_object
+end type
+
+forward prototypes
+global function integer f_ubicacion_ref_pallet_caja_cantidad_alm (string empresa, string tipo_pallet, string caja, decimal cantidad, string articulo, readonly string almacen, ref string zona, ref integer fila, ref integer altura, integer calibre, string tono, string calidad, string formato)
+end prototypes
+
+global function integer f_ubicacion_ref_pallet_caja_cantidad_alm (string empresa, string tipo_pallet, string caja, decimal cantidad, string articulo, readonly string almacen, ref string zona, ref integer fila, ref integer altura, integer calibre, string tono, string calidad, string formato);String ubicacion,montaje,zona1,zona2
+String ubi		 
+Dec{2} reg,v,v1,registros,ex
+Dec linea
+DataStore Data
+Integer contador_ubicaciones
+String  compuesto,errores,sys
+
+// ubicaciones
+compuesto = " SELECT zona, fila, altura, SUM(cantidade - cantidads) as existencias from almacenmovimientos "+&
+	      	    " WHERE empresa     = '" + empresa + "'" +&
+				" AND articulo = '" + articulo  + "'" +&
+				" AND calidad = '" + calidad  + "'" +&
+				" AND tono = '" + tono  + "'" +&
+				" AND calibre = " + String(calibre)+&
+				" AND tipo_pallet = '" + tipo_pallet + "'" +&
+				" AND caja = '" + caja + "'" +&				
+				" AND almacen = '" + almacen + "'"+&
+				" AND formato = '" + formato + "' "+&
+				" AND NOT (almacen = '1' AND zona = 'P' AND fila >= 10)" 
+//No se puede seleccionar zonas del muelle de distribución (que pueden estar reservadas)
+				
+if not isnull(zona) and zona <> "" then
+	compuesto = compuesto + " AND zona = '" + zona + "'"
+end if
+
+compuesto = compuesto + " GROUP BY zona, fila, altura " +&
+				" ORDER BY altura, SUM(cantidade - cantidads) asc"
+				
+//data = f_cargar_cursor(compuesto)
+f_cargar_cursor_nuevo(compuesto, data)
+registros = data.Retrieve()
+contador_ubicaciones = 0
+IF registros <> 0 Then
+ FOR reg = 1 To registros
+    ex          = data.GetItemNumber(reg,"existencias")
+	ex       = dec(string(ex,      '###,###,###.##'))
+	cantidad = dec(string(cantidad,'###,###,###.##'))
+	IF ex >= cantidad Then
+		IF Not f_bloqueo_almacenmovimientos(codigo_empresa,almacen,zona,fila,altura,articulo) Then
+			zona = data.GetItemString(reg,"zona")
+		    fila = data.GetItemNumber(reg,"fila")
+			altura = data.GetItemNumber(reg,"altura")
+			v = 0
+			destroy data
+			return 1 //OK, Se ha encontrado ubicación
+		END IF
+	END IF
+Next
+END IF
+f_mensaje("Control Stock","No Hay Suficiente Stock en "+f_nombre_almacen(codigo_empresa,almacen)+" Articulo:" + articulo )
+destroy data
+return 0
+end function
+

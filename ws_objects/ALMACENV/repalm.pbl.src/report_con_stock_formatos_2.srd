@@ -1,0 +1,75 @@
+﻿$PBExportHeader$report_con_stock_formatos_2.srd
+release 6;
+datawindow(units=1 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 24 print.margin.right = 24 print.margin.top = 24 print.margin.bottom = 24 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=173 color="536870912" )
+summary(height=20 color="536870912" )
+footer(height=17 color="536870912" )
+detail(height=17 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="almlinubica.empresa" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="almlinubica.calibre" )
+ column=(type=number updatewhereclause=yes name=total dbname="total" )
+ column=(type=char(5) updatewhereclause=yes name=almlinubica_calidad dbname="almlinubica.calidad" )
+ column=(type=char(20) updatewhereclause=yes name=almlinubica_articulo dbname="almlinubica.articulo" )
+ column=(type=decimal(2) updatewhereclause=yes name=reservado dbname="almlinubica.reservado" )
+ column=(type=decimal(2) updatewhereclause=yes name=preparado dbname="almlinubica.preparado" )
+ column=(type=char(1) updatewhereclause=yes name=marca dbname="marca" values="	S/	N" )
+ column=(type=char(4) updatewhereclause=yes name=tonochar dbname="almlinubica.tonochar" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" )
+ retrieve="  SELECT almlinubica.empresa,   
+         almlinubica.calibre,   
+         sum(existencias)  total,   
+         almlinubica.calidad,   
+         almlinubica.articulo,   
+         0.00 reservado,   
+         0.00 preparado,   
+         'N'  marca,   
+         almlinubica.tonochar,
+			formatos.descripcion   
+    FROM almlinubica,   
+         articulos,   
+         formatos  
+   WHERE ( almlinubica.empresa = :arg_emp  ) AND  
+         ( almlinubica.calidad in ( :calidades ) ) AND  
+         ( almlinubica.tipo_unidad = :tipounidad ) AND
+			( almlinubica.articulo = articulos.codigo ) AND
+			( articulos.formato = formatos.codigo )
+GROUP BY almlinubica.empresa,   
+         almlinubica.articulo,   
+         almlinubica.calidad,   
+         almlinubica.tonochar,   
+         almlinubica.calibre,
+			formatos.descripcion
+ 
+" arguments=(("arg_emp", string),("calidades", stringlist),("tipounidad", string))  sort="empresa A almlinubica_calidad A formatos_descripcion A " )
+group(level=1 header.height=0 trailer.height=18 by=("empresa" , "almlinubica_calidad" ) header.color="553648127" trailer.color="536870912" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="16777215" x="4" y="108" height="1" width="1" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=header dataobject="report_cabecera" x="0" y="2" height="104" width="723" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_emp")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO STOCK POR CALIDADES"border="0" color="0" x="198" y="114" height="20" width="338"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="8" y="154" height="16" width="55"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Articulo"border="6" color="0" x="68" y="154" height="16" width="233"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Ca"border="6" color="0" x="306" y="154" height="16" width="33"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="To"border="6" color="0" x="343" y="154" height="16" width="21"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Disponible"border="6" color="0" x="369" y="154" height="16" width="60"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Reservado"border="6" color="0" x="433" y="154" height="16" width="60"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Preparado"border="6" color="0" x="497" y="154" height="16" width="60"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Total"border="6" color="0" x="562" y="154" height="16" width="60"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="341" y="2" height="14" width="22" format="[general]"  name=tonochar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="  total - reservado - preparado"border="0" color="0" x="367" y="2" height="14" width="60" format="###,###,###,##0.00"  name=disponible  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="432" y="2" height="14" width="60" format="###,###,###,##0.00"  name=reservado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="496" y="2" height="14" width="60" format="###,###,###,##0.00"  name=preparado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="561" y="2" height="14" width="60" format="###,###,###,##0.00"  name=total edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="0" expression="f_nombre_calidad_abr( empresa , almlinubica_calidad )"border="0" color="0" x="305" y="2" height="14" width="33" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_articulo( empresa , almlinubica_articulo )"border="0" color="0" x="68" y="2" height="14" width="234" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="~"Total ~"+f_nombre_calidad( empresa , almlinubica_calidad )+ ~" :~""border="0" color="0" x="226" y="1" height="14" width="136" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=trailer.1 alignment="1" expression="sum(  total - reservado - preparado for group 1)"border="0" color="0" x="366" y="1" height="15" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=trailer.1 alignment="1" expression="sum(reservado for group 1)"border="0" color="0" x="431" y="1" height="15" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=trailer.1 alignment="1" expression="sum(preparado for group 1)"border="0" color="0" x="495" y="1" height="15" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=trailer.1 alignment="1" expression="sum(total for group 1)"border="0" color="0" x="560" y="1" height="15" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=summary alignment="0" text="Total general ...."border="0" color="16711680" x="257" y="5" height="13" width="87"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(  disponible for all)"border="0" color="16711680" x="356" y="5" height="13" width="70" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(reservado for all)"border="0" color="16711680" x="432" y="5" height="13" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(preparado for all)"border="0" color="16711680" x="496" y="5" height="13" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=summary alignment="1" expression="sum(total for all)"border="0" color="16711680" x="561" y="5" height="13" width="60" format="###,###,###,##0.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="317" y="2" height="12" width="150" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=0 border="0" color="0" x="7" y="2" height="14" width="57"  name=formatos_descripcion  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

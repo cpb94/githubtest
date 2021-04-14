@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_valor1_partidas_venfac.srf
+global type f_valor1_partidas_venfac from function_object
+end type
+
+forward prototypes
+global function string f_valor1_partidas_venfac (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function string f_valor1_partidas_venfac (string empresa, decimal anyo, decimal factura);integer registros,cont
+String sel,resp,serie
+datastore dd
+
+sel =" SELECT DISTINCT  valor1,valor2 "+&
+  	  " FROM venpartidas "+&
+ 	  " WHERE venpartidas.empresa = '" + codigo_empresa +"' " +&
+     " AND venpartidas.codigo IN (SELECT venpartidasfamilias.partida " +&
+										 " FROM venpartidasfamilias " +&
+										 " WHERE venpartidasfamilias.familia in (SELECT familia FROM venlifac "+&
+																" WHERE venlifac.empresa = '" + codigo_empresa + "'"+&
+																" AND   venlifac.anyo = "    + String(anyo,"####") +&
+																" AND   venlifac.factura = " + String(factura,"######") +"))" 
+//dd = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, dd)
+
+resp = ""
+registros = dd.rowcount()
+
+SELECT venfac.serie
+  INTO :serie
+  FROM venfac
+ WHERE venfac.empresa =:codigo_empresa
+   AND venfac.anyo    =:anyo
+	AND venfac.factura =:factura;
+	
+for cont = 1 to registros
+	if serie = "2" then
+		if cont = 1 then 
+			resp = dd.GetItemString(cont,"valor2")
+		else
+			resp = resp + "/" + dd.GetItemString(cont,"valor2")		
+		end if
+	else
+		if cont = 1 then 
+			resp = dd.GetItemString(cont,"valor1")
+		else
+			resp = resp + "/" + dd.GetItemString(cont,"valor1")		
+		end if
+	end if
+next
+Destroy dd
+
+return resp
+end function
+

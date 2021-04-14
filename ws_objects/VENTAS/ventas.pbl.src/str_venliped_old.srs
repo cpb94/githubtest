@@ -1,0 +1,126 @@
+﻿$PBExportHeader$str_venliped_old.srs
+global type str_venliped_old from structure
+	string		empresa
+	integer		anyo
+	decimal { 4 }		pedido
+	decimal { 4 }		linea
+	string		serie
+	datetime		fpedido
+	datetime		fentrega
+	datetime		fentrega_inicial
+	datetime		fecha_entrega2
+	datetime		fecha_entrega3
+	datetime		fecha_entrega4
+	datetime		fecha_entrega5
+	string		cliente
+	string		tipo_unidad
+	string		articulo
+	string		familia
+	string		subfamilia
+	string		formato
+	string		subformato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	decimal { 4 }		precio
+	decimal { 4 }		precio_estand
+	decimal { 4 }		cantidad
+	integer		pallets
+	integer		total_cajas
+	integer		cajas
+	decimal { 4 }		dtocomer
+	decimal { 4 }		dtoesp
+	string		descripcion
+	string		tipoiva
+	decimal { 4 }		iva
+	string		linfab
+	string		provincia
+	string		pais
+	string		zona
+	string		tipolinea
+	string		texto1
+	string		texto2
+	string		texto3
+	string		texto4
+	string		referencia
+	string		montajeartcal
+	string		situacion
+	string		divisa
+	decimal { 4 }		metros_lineales
+	decimal { 4 }		peso
+	datetime		falta
+	string		usuario
+	string		tipo_pallet
+	decimal { 4 }		importe
+	decimal { 4 }		descuento
+	decimal { 4 }		importedto
+	string		clase
+	string		sector
+	string		agente1
+	string		agente2
+	string		agente3
+	decimal { 4 }		comision11
+	decimal { 4 }		comision12
+	decimal { 4 }		comision21
+	decimal { 4 }		comision22
+	decimal { 4 }		comision31
+	decimal { 4 }		comision32
+	string		deposito
+	integer		orden_preparacion
+	integer		cantidad_prepa
+	string		es_pico
+	integer		numero_pico
+	integer		anyo_ent
+	decimal { 4 }		nummov_ent
+	integer		anyo_sal
+	decimal { 4 }		nummov_sal
+	integer		fila_ent
+	integer		altura_ent
+	string		operario_prepa
+	string		control_incremento
+	decimal { 4 }		peso_neto
+	decimal { 4 }		precio_aduana
+	string		control_descuentos
+	string		control_comisiones
+	decimal { 4 }		importe_aduana
+	decimal { 4 }		bruto
+	decimal { 4 }		precio_neto
+	decimal { 4 }		precio_aduana_neto
+	decimal { 4 }		descuento_aduana
+	decimal { 4 }		neto
+	decimal { 4 }		impdtopp
+	string		ref_cli
+	string		transportista
+	string		almacen_ent
+	string		tipo_pallet_preparacion
+	string		almacen_deposito
+	string		envio
+	string		numpedcli
+	decimal { 4 }		impdtoesp1
+	decimal { 4 }		impdtoesp2
+	decimal { 4 }		impdtoesp3
+	decimal { 4 }		impdtoesp4
+	decimal { 4 }		impdtoesp1_aduana
+	decimal { 4 }		impdtoesp2_aduana
+	decimal { 4 }		impdtoesp3_aduana
+	decimal { 4 }		impdtoesp4_aduana
+	decimal { 4 }		impdtopp_aduana
+	string		caja
+	string		tonochar
+	decimal { 4 }		cantidad_facturar
+	string		almacen_de_carga
+	decimal { 2 }		dtoesp2
+	decimal { 10 }		numpalet
+	decimal { 4 }		anyo_proddiaria
+	decimal { 16 }		contador_proddiaria
+	string		idioma
+	decimal { 4 }		cantidad_original
+	decimal { 4 }		linea_desdoblada_de
+	string		planificado
+	datetime		fecha_intr
+	string		observaciones
+	string		bloqueado
+	integer		orden
+end type
+

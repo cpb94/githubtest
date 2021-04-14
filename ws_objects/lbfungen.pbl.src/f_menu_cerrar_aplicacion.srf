@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_menu_cerrar_aplicacion.srf
+global type f_menu_cerrar_aplicacion from function_object
+end type
+
+forward prototypes
+global function integer f_menu_cerrar_aplicacion (boolean es_ventana_inicio)
+end prototypes
+
+global function integer f_menu_cerrar_aplicacion (boolean es_ventana_inicio);Long i, retorno
+Window wtemp
+
+i = numero_ventanas_activas
+Do while i > 0 and retorno <> -1
+	if i = 1 and es_ventana_inicio = true then
+		//Nada
+	else	
+		if ventanas_activas[i].activa = true then
+			wtemp = ventanas_activas[i].ventana
+			retorno = close(wtemp)
+		end if
+	end if
+	i --
+Loop
+
+return retorno
+end function
+

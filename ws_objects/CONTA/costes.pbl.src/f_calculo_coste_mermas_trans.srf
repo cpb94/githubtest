@@ -1,0 +1,112 @@
+﻿$PBExportHeader$f_calculo_coste_mermas_trans.srf
+global type f_calculo_coste_mermas_trans from function_object
+end type
+
+forward prototypes
+global function any f_calculo_coste_mermas_trans (string empresa, string articulo, string ruta, transaction trans_sql)
+end prototypes
+
+global function any f_calculo_coste_mermas_trans (string empresa, string articulo, string ruta, transaction trans_sql);// El parámetro ruta no se gasta por el momento 10-06-2008
+
+string tipo_operacion, sel,  articulo2, version2, articulos_escandallo
+datastore datos
+long k
+integer ordenoperacion2
+dec  buenas2, malas2, piezas_totales_encajado, coste_fab, coste_mp, piezas_extra , coste_fab_mermas, coste_mp_mermas
+dec coste_total_fab_mermas, coste_total_mp_mermas, factor, factor_escandallo
+boolean fallo = false
+str_escandallo escandallo[100]
+integer indice, nivel
+
+
+sel = " select articulo, version, ordenoperacion, operacion, factor, sum (buenas * factor ) as buenas, sum(malas * factor) as malas " +&
+		" from prodpartes_ot " +&
+		" where art_encajado = '"+articulo+"' "+&
+		" and prodpartes_ot.fecha >= '01-09-2006' " +&
+		" and prodpartes_ot.ot_terminada = 'S' " +&
+		" and version = '1'"+&
+		" group by articulo, version, ordenoperacion, operacion, factor "
+f_cargar_cursor_trans (trans_sql, sel, datos )
+
+coste_total_fab_mermas = 0
+coste_total_mp_mermas = 0
+for k = 1 to datos.rowcount()
+	articulo2 = datos.object.articulo[k]		
+	version2 = datos.object.version[k]		
+	ordenoperacion2 = datos.object.ordenoperacion[k]		
+	buenas2 = datos.object.buenas[k]		
+	malas2 = datos.object.malas[k]		
+	tipo_operacion = datos.object.operacion[k]	
+	factor = datos.object.factor[k]	
+	
+	select sum (buenas )
+	into :piezas_totales_encajado
+	from prodpartes_ot
+	where articulo = :articulo
+	and version = '1'
+	and empresa = :empresa
+	and prodpartes_ot.ot_terminada = 'S' 
+	and prodpartes_ot.fecha >= '01-09-2006' using trans_sql;
+	
+	select coste_fab, coste_mp 
+	into :coste_fab, :coste_mp
+	from art_ver_operaciones
+	where empresa = :empresa
+	and articulo = :articulo2
+	and version = :version2
+	and orden = :ordenoperacion2 using trans_sql;
+	
+	if buenas2 + malas2 > 0 then
+		piezas_extra = buenas2 - piezas_totales_encajado 
+		
+		if isnull(piezas_totales_encajado) or piezas_totales_encajado = 0 then 
+			coste_fab_mermas = 0
+			coste_mp_mermas  = 0
+		else
+			coste_fab_mermas = piezas_Extra * ( coste_fab / factor) / piezas_totales_encajado
+			coste_mp_mermas  = piezas_Extra * ( coste_mp / factor) / piezas_totales_encajado
+		end if
+	else
+		coste_fab_mermas = 0
+		coste_mp_mermas = 0
+	end if
+	
+	if not isnull(coste_fab_mermas ) then
+		coste_total_fab_mermas = coste_total_fab_mermas + coste_fab_mermas
+	end if
+	if not isnull(coste_mp_mermas ) then
+		coste_total_mp_mermas = coste_total_mp_mermas + coste_mp_mermas
+	end if
+next
+
+
+
+if coste_total_fab_mermas < 0 then
+	messagebox("Atencion", "El coste de mermas de fabricación es negativo")
+	coste_total_fab_mermas = 0
+end if
+if coste_total_mp_mermas <0 then
+	messagebox("Atencion", "El coste de mermas de MP es negativo")
+	coste_total_mp_mermas = 0
+end if
+		
+		
+update art_ver_operaciones
+set coste_fab_mermas = :coste_total_fab_mermas, coste_mp_mermas = :coste_total_mp_mermas
+where empresa = :empresa
+and articulo = :articulo
+and version = '1'
+and orden = '1' using trans_sql;
+
+if trans_sql.SQLCode <> 0 then
+	f_mensaje("Atención","Hubo un error al cálcular el coste de fabricación de las mermas. ")
+	fallo = true
+end if
+
+destroy datos
+
+return fallo
+
+
+end function
+

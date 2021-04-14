@@ -1,0 +1,13 @@
+﻿$PBExportHeader$str_albaranes_a_generar.srs
+global type str_albaranes_a_generar from structure
+	integer		anyo
+	long		albaran
+	decimal { 0 }		peso_neto_real
+	decimal { 0 }		peso_bruto_real
+	decimal { 0 }		peso_neto_modificado
+	decimal { 0 }		peso_bruto_modificado
+	long		pallets_reales
+	long		pallets_modificados
+	long		lineas_pedidos
+end type
+

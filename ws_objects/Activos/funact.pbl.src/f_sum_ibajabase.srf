@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_sum_ibajabase.srf
+global type f_sum_ibajabase from function_object
+end type
+
+forward prototypes
+global function decimal f_sum_ibajabase (string empresa, decimal elemento, datetime fecha)
+end prototypes
+
+global function decimal f_sum_ibajabase (string empresa, decimal elemento, datetime fecha);Decimal total
+
+SELECT sum(ibajabase) 
+INTO :total
+from act_bajas
+   WHERE act_bajas.empresa = :empresa
+   AND act_bajas.elemento = :elemento
+   AND act_bajas.fechaba = :fecha;
+	
+If isnull(total) then total = 0
+
+Return total
+
+end function
+

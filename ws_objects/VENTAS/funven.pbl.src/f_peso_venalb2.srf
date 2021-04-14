@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_peso_venalb2.srf
+global type f_peso_venalb2 from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_venalb2 (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_peso_venalb2 (string empresa, integer anyo, decimal albaran);Dec{4} var_variable
+
+  SELECT venalb2.peso  INTO  :var_variable   FROM venalb2  
+   WHERE (venalb2.empresa  = :empresa)
+   AND   (venalb2.anyo     = :anyo)
+   AND   (venalb2.albaran  = :albaran) ;  
+Return var_variable
+end function
+

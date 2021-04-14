@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_codpago_comprov.srf
+global type f_codpago_comprov from function_object
+end type
+
+forward prototypes
+global function string f_codpago_comprov (string empresa, string codigo)
+end prototypes
+
+global function string f_codpago_comprov (string empresa, string codigo);STring var
+
+  SELECT comproveedores.forma_pago INTO :var   FROM comproveedores  
+   WHERE comproveedores.empresa = :empresa 
+	AND   comproveedores.codigo  = :codigo ;
+Return var
+
+end function
+

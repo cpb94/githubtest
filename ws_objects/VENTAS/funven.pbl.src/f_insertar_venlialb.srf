@@ -1,0 +1,289 @@
+﻿$PBExportHeader$f_insertar_venlialb.srf
+global type f_insertar_venlialb from function_object
+end type
+
+forward prototypes
+global function boolean f_insertar_venlialb (str_venlialb linalb)
+end prototypes
+
+global function boolean f_insertar_venlialb (str_venlialb linalb);Dec{4}  impdto,importe,acumulado,importedto1,importedto2,importedto3,importedto4,importedtopp,importedtoesp,control_precio,control_bruto,control_importedto,control_importe
+Dec{2}  var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,control_descuento
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,ls_gestionar_en_piezas_ventipolin
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+Integer procesos
+dec     ld_m2_caja
+long    ll_piezas_caja
+
+
+if isnull(linalb.cantidad_pzs) then linalb.cantidad_pzs = 0
+if isnull(linalb.precio_pzs) then linalb.precio_pzs = 0
+
+linalb.sector = "N"
+linalb.control_descuentos         = f_descuento_ventipolin(codigo_empresa,linalb.tipolinea)
+linalb.control_comisiones         = f_comision_ventipolin(codigo_empresa,linalb.tipolinea)
+ls_gestionar_en_piezas_ventipolin = f_gestionar_en_piezas_ventipolin(linalb.empresa,linalb.tipolinea)
+
+IF IsNull(linalb.articulo) or Trim(linalb.articulo) = "" Then
+	linalb.peso         = 0
+	linalb.peso_neto    = 0
+	linalb.cantidad_pzs = linalb.cantidad
+	linalb.precio_pzs   = linalb.precio	
+ELSE
+	if ls_gestionar_en_piezas_ventipolin = 'S' then
+		linalb.peso       = f_calculo_peso_pzs(linalb.empresa,linalb.articulo,linalb.tipo_pallet,linalb.cajas,linalb.total_cajas,linalb.pallets,linalb.cantidad_pzs,linalb.caja)
+		linalb.peso_neto  = f_calculo_peso_neto_pzs(linalb.empresa,linalb.articulo,linalb.cajas,linalb.total_cajas,linalb.cantidad_pzs,linalb.caja)		
+	else	
+		linalb.peso      = f_calculo_peso(linalb.empresa,linalb.articulo,linalb.tipo_pallet,linalb.cajas,linalb.total_cajas,linalb.pallets,linalb.cantidad,linalb.caja)
+		linalb.peso_neto = f_calculo_peso_neto(linalb.empresa,linalb.articulo,linalb.cajas,linalb.total_cajas,linalb.cantidad,linalb.caja)
+	end if		
+	
+	linalb.sector    = f_sector_articulo(codigo_empresa,linalb.articulo)
+	
+	if linalb.cantidad_pzs = 0 then
+		if linalb.tipo_unidad = '1' then
+			linalb.cantidad_pzs = f_conversion_cantidad_piezas( linalb.empresa, linalb.articulo, linalb.caja, linalb.cantidad)
+		else
+			linalb.cantidad_pzs = linalb.cantidad
+		end if
+	end if
+	
+	if linalb.precio_pzs = 0 then
+		if linalb.tipo_unidad = '1' then
+			ld_m2_caja     = f_metroscaja_articulo(linalb.empresa,linalb.articulo,linalb.caja)
+			ll_piezas_caja = f_piezascaja_articulo(linalb.empresa,linalb.articulo,linalb.caja)
+			
+			if ll_piezas_caja <> 0 and ld_m2_caja <> 0 then	
+				linalb.precio_pzs = (linalb.precio * ld_m2_caja) / ll_piezas_caja
+			else
+				linalb.precio_pzs = linalb.precio
+			end if			
+		else
+			linalb.precio_pzs = linalb.precio	
+		end if		
+	end if
+	
+END IF
+
+linalb.precio_neto         = linalb.precio
+linalb.precio_aduana_neto  = linalb.precio_aduana
+
+IF IsNull(linalb.peso) Then linalb.peso = 0
+IF IsNull(linalb.peso_neto) Then linalb.peso_neto = 0
+
+linalb.control_comisiones = f_comision_ventipolin(linalb.empresa,linalb.tipolinea)
+linalb.control_descuentos = f_descuento_ventipolin(linalb.empresa,linalb.tipolinea)
+
+  SELECT venalb.dtoesp1,       venalb.dtoesp2,   
+         venalb.dtoesp3,       venalb.dtoesp4,   
+         venalb.dtopp,         venalb.tipodto1,   
+         venalb.tipodto2,      venalb.tipodto3,   
+         venalb.tipodto4,      venalb.divisa,
+			venalb.calculo_dto,   			venalb.transportista, venalb.envio,
+			venalb.consumo_deposito
+    INTO :var_dto1,        :var_dto2,      :var_dto3,  :var_dto4,   
+         :var_dtopp,       :var_tipodto1,  :var_tipodto2,   
+         :var_tipodto3,    :var_tipodto4,  :linalb.divisa,
+			:var_calculo_dto, :linalb.transportista,
+			:linalb.envio,:linalb.consumo_deposito
+    FROM venalb  
+   WHERE (venalb.empresa  = :linalb.empresa ) AND  
+         (venalb.anyo     = :linalb.anyo ) AND  
+         (venalb.albaran = :linalb.albaran );
+			
+			
+// David 15-06-04
+IF linalb.control_descuentos = "N" Then
+	linalb.descuento = 0
+	linalb.impdtoesp1 = 0
+	linalb.impdtoesp2 = 0
+	linalb.impdtoesp1_aduana = 0
+	linalb.impdtoesp2_aduana = 0
+	var_dto1 = 0
+	var_dto2 = 0
+	var_dto3 = 0
+	var_dto4 = 0
+end if
+// Fin David 15-06-04
+			
+IF  IsNull(linalb.dtoesp) Then linalb.dtoesp= 0
+if  isnull(linalb.dtoesp2) then linalb.dtoesp2=0
+IF IsNull(var_dto1)  Then var_dto1  = 0
+IF IsNull(var_dto2)  Then var_dto2  = 0
+IF IsNull(var_dto3)  Then var_dto3  = 0
+IF IsNull(var_dto4)  Then var_dto4  = 0
+IF IsNull(var_dtopp) Then var_dtopp = 0
+	linalb.impdtopp  =0
+For procesos = 1 To 2
+
+   IF procesos = 1 then control_precio = linalb.precio_neto
+   IF procesos = 2 then control_precio = linalb.precio_aduana_neto
+	
+	control_bruto = Dec(String(linalb.cantidad * control_precio, f_mascara_precios_fra_moneda(linalb.divisa)))
+	control_bruto = Dec(String(control_bruto,f_mascara_precios_fra_moneda(linalb.divisa)))
+	IF var_calculo_dto = "N" Then
+		importedtoesp = Dec(String((control_bruto * linalb.dtoesp /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+		acumulado = control_bruto - importedtoesp
+		importedtoesp = importedtoesp + Dec(String((acumulado * linalb.dtoesp2 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+		acumulado = control_bruto - importedtoesp
+	ELSE
+		acumulado = control_bruto
+	END IF
+	
+	IF linalb.control_descuentos = "N" Then
+		linalb.descuento = 0
+	ELSE
+	 IF var_tipodto1  = "L" Then 
+			importedto1 = Dec(String((acumulado * var_dto1 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto1
+	 END IF
+	 IF var_tipodto2  = "L" Then 
+			importedto2 = Dec(String((acumulado * var_dto2 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto2
+	 END IF
+	 IF var_tipodto3  = "L" Then 	
+		   importedto3 = Dec(String((acumulado * var_dto3 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto3
+	 END IF
+	 IF var_tipodto4  = "L" Then 	
+			importedto4  = Dec(String((acumulado * var_dto4 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto4
+	 END IF
+	 
+   
+	END IF
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - linalb.importedto
+	If control_bruto = 0 then
+		control_descuento  = 0
+	ELse
+		control_descuento  = (control_importedto/control_bruto)* 100
+	END IF
+//David: Lo quito porque no cuadra el importe con el calculo de los descuentos por separado
+//	control_importedto    = Dec(String(control_bruto * control_descuento / 100,f_mascara_precios_fra_moneda(linalb.divisa)))
+//	control_importe       = control_bruto - control_importedto
+	
+	IF var_calculo_dto = "S" Then
+		control_precio = control_precio - &
+		Dec(String((control_precio * control_descuento)/100,f_mascara_precios_fra_moneda(linalb.divisa)))
+		control_descuento = linalb.dtoesp
+		control_bruto = Dec(String(linalb.cantidad * control_precio,f_mascara_precios_fra_moneda(linalb.divisa)))
+	   importedtoesp = Dec(String((control_bruto * linalb.dtoesp /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+		control_importedto    = importedtoesp
+	   control_importe       = control_bruto - importedtoesp
+	END IF
+	
+	IF procesos = 1 Then
+		linalb.descuento       = control_descuento
+		linalb.bruto           = control_bruto
+	   linalb.importedto      = control_importedto
+	   linalb.importe         = control_importe
+		linalb.precio_neto   = control_precio
+	IF var_tipodto1  = "P" Then 
+			importedto1 = Dec(String((acumulado * var_dto1 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto1
+	 END IF
+	 IF var_tipodto2  = "P" Then 
+			importedto2 = Dec(String((acumulado * var_dto2 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto2
+	 END IF
+	 IF var_tipodto3  = "P" Then 	
+		   importedto3 = Dec(String((acumulado * var_dto3 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto3
+	 END IF
+	 IF var_tipodto4  = "P" Then 	
+			importedto4  = Dec(String((acumulado * var_dto4 /100),f_mascara_precios_fra_moneda(linalb.divisa)))
+			acumulado = acumulado - importedto4
+	 END IF
+ 		linalb.neto  = acumulado
+		linalb.impdtopp  = Dec(String((acumulado * var_dtopp /100),f_mascara_precios_fra_moneda(linalb.divisa))) 
+		
+	END IF
+	IF procesos = 2 Then
+		linalb.descuento_aduana       = control_descuento
+	   linalb.importe_aduana         = control_importe
+		linalb.precio_aduana_neto     = control_precio
+	END IF
+Next
+
+INSERT INTO venlialb
+		(empresa,									anyo,										albaran,									linea,
+		 serie,										falbaran,								fentrega,         					fentrega_inicial,
+		 cliente,									tipo_unidad,							articulo,								familia,
+		 formato,									modelo,									calidad,									tonochar,
+		 calibre,									precio,									precio_estand, 						cantidad,
+		 pallets,									total_cajas,							cajas,									dtocomer,
+		 dtoesp,										descripcion,							tipoiva,									iva,
+		 linfab,										provincia,								pais,        					  		zona,
+		 tipolinea,								 	texto1,									texto2,									texto3,
+		 texto4,								      referencia,								montajeartcal,							situacion,
+		 divisa,										metros_lineales,						peso,										falta,
+		 usuario,									tipo_pallet,							caja,     					     		importe,
+		 descuento,									importedto,								clase,									sector,
+		 agente1,									agente2,									agente3,									comision11,
+		 comision12,								comision21,								comision22,								comision31,
+		 comision32,								deposito,								orden_preparacion,					cantidad_prepa,
+		 es_pico,									numero_pico,							anyo_ent,								nummov_ent,
+		 anyo_sal,									nummov_sal,								fila_ent,								altura_ent,
+		 operario_prepa,					 		control_incremento,					peso_neto,								precio_aduana,
+		 control_descuentos,						control_comisiones,					importe_aduana,						bruto,
+		 precio_neto,								precio_aduana_neto, 					descuento_aduana,						neto,
+		 impdtopp,									ref_cli,									transportista,							almacen_ent,
+		 anyo_pedido_origen,						pedido_origen,	   					fcarga,									almacen_deposito,
+		 ubicacion,									envio,									contenedor,								agrupa_exp,
+		 consumo_deposito,						numpedcli,								precinto,								matricula,
+		 automatico,								linea_pedido_origen,					anyo_alb_comp,							albaran_comp,
+		 lin_alb_comp,								anyo_alb_otra, 						albaran_otra,							lin_alb_otra,
+		 subfamilia,								subformato,								cantidad_pedido,						almacen_de_carga,
+		 dtoesp2,									fpedido_origen,				     	numpalet,				 				anyo_proddiaria,
+		 contador_proddiaria,					idioma,									cantidad_original,					linea_desdoblada_de,
+		 planificado,								fecha_linped,							albaran_deposito,						peso_bruto_venalb, 
+		 peso_neto_venalb,						expedicion_anyo_venalb,				expedicion_codigo_venalb,			bultos_venalb, 
+		 observaciones_venalb,					forma_envio_venalb,					conductor_venalb,						tono_imprimir,
+		 calibre_imprimir,						id_alm_orden_carga,					ordenacion_orden_carga,				bulto_desde_orden_carga,
+		 bulto_hasta_orden_carga,				cantidad_pzs,							precio_pzs,								id_alm_orden_preparacion)  
+  VALUES 
+  		(:linalb.empresa,							:linalb.anyo,							:linalb.albaran,						:linalb.linea,   
+       :linalb.serie,							:linalb.falbaran,						:linalb.fentrega,						:linalb.fentrega_inicial,	
+		 :linalb.cliente,   				  		:linalb.tipo_unidad,					:linalb.articulo,						:linalb.familia,
+		 :linalb.formato,							:linalb.modelo,						:linalb.calidad,						:linalb.tonochar,
+		 :linalb.calibre,							:linalb.precio,						:linalb.precio_estand,				:linalb.cantidad,
+		 :linalb.pallets,							:linalb.total_cajas,					:linalb.cajas,							:linalb.dtocomer,
+		 :linalb.dtoesp,							:linalb.descripcion,					:linalb.tipoiva,						:linalb.iva,
+		 :linalb.linfab,   						:linalb.provincia,					:linalb.pais,							:linalb.zona,
+		 :linalb.tipolinea,   					:linalb.texto1,						:linalb.texto2,						:linalb.texto3,
+		 :linalb.texto4,   					   :linalb.referencia,					:linalb.montajeartcal,				:linalb.situacion,
+		 :linalb.divisa,							:linalb.metros_lineales,			:linalb.peso,	  			       	:linalb.falta,
+		 :linalb.usuario,							:linalb.tipo_pallet,					:linalb.caja, 	         			:linalb.importe,
+		 :linalb.descuento,						:linalb.importedto,    				:linalb.clase,							:linalb.sector,
+		 :linalb.agente1,							:linalb.agente2,       				:linalb.agente3,						:linalb.comision11,
+		 :linalb.comision12,						:linalb.comision21,					:linalb.comision22,					:linalb.comision31,
+		 :linalb.comision32,						:linalb.deposito,						:linalb.orden_preparacion,			:linalb.cantidad_prepa,
+		 :linalb.es_pico,							:linalb.numero_pico,					:linalb.anyo_ent,						:linalb.nummov_ent,
+		 :linalb.anyo_sal,						:linalb.nummov_sal,					:linalb.fila_ent,						:linalb.altura_ent,
+		 :linalb.operario_prepa,				:linalb.control_incremento,		:linalb.peso_neto,					:linalb.precio_aduana,
+		 :linalb.control_descuentos,			:linalb.control_comisiones,		:linalb.importe_aduana,				:linalb.bruto,
+		 :linalb.precio_neto,					:linalb.precio_aduana_neto,		:linalb.descuento_aduana,			:linalb.neto,
+		 :linalb.impdtopp,						:linalb.ref_cli,						:linalb.transportista,				:linalb.almacen_ent,
+		 :linalb.anyo_pedido_origen,			:linalb.pedido_origen,				:linalb.fcarga,						:linalb.almacen_deposito,
+		 :linalb.ubicacion,						:linalb.envio,							:linalb.contenedor,					:linalb.agrupa_exp,
+		 :linalb.consumo_deposito,				:linalb.numpedcli,					:linalb.precinto,						:linalb.matricula,
+		 :linalb.automatico,						:linalb.linea_pedido_origen,		:linalb.anyo_alb_comp,				:linalb.albaran_comp,
+		 :linalb.lin_alb_comp,					:linalb.anyo_alb_otra, 				:linalb.albaran_otra, 				:linalb.lin_alb_otra,
+		 :linalb.subfamilia,						:linalb.subformato,					:linalb.cantidad_pedido,			:linalb.almacen_de_carga,
+		 :linalb.dtoesp2,							:linalb.fpedido_origen,				:linalb.numpalet,						:linalb.anyo_proddiaria,
+		 :linalb.contador_proddiaria,			:linalb.idioma,						:linalb.cantidad_original,			:linalb.linea_desdoblada_de,
+		 :linalb.planificado,					:linalb.fecha_linped,				:linalb.albaran_deposito, 			:linalb.peso_bruto_venalb,
+		 :linalb.peso_neto_venalb,				:linalb.expedicion_anyo_venalb,	:linalb.expedicion_codigo_venalb,:linalb.bultos_venalb,
+		 :linalb.observaciones_venalb,		:linalb.forma_envio_venalb, 		:linalb.conductor_venalb,			:linalb.tono_imprimir,
+		 :linalb.calibre_imprimir,				:linalb.id_alm_orden_carga,		:linalb.ordenacion_orden_carga,	:linalb.bulto_desde_orden_carga,
+		 :linalb.bulto_hasta_orden_carga,	:linalb.cantidad_pzs,				:linalb.precio_pzs,					:linalb.id_alm_orden_preparacion);
+			 
+IF SQLCA.SQLCODE <> 0 Then
+	f_mensaje("Error en base de datos (Funcion Insertar linea)",sqlca.sqlerrtext)
+	RETURN FALSE
+ELSE
+	RETURN TRUE
+END IF
+
+end function
+

@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_pedidos_pendientes_familia.srf
+global type f_pedidos_pendientes_familia from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_pendientes_familia (string empresa, string familia)
+end prototypes
+
+global function decimal f_pedidos_pendientes_familia (string empresa, string familia);dec resultado
+string sel
+datastore datos
+long total_regs, i
+
+sel = &
+" select venliped.empresa,   "+&
+"        venliped.anyo,     "+&
+"        venliped.pedido,     "+&
+"        venliped.linea,    "+&
+"			( venliped.neto -  venliped.impdtopp ) / venped.cambio as importe "+&
+" from venliped "+&
+" inner join articulos on  venliped.empresa = articulos.empresa and venliped.articulo = articulos.codigo "+&
+" inner join venped on  venliped.empresa = venped.empresa and venliped.anyo = venped.anyo and venliped.pedido = venped.pedido"+&
+" where venliped.empresa = '"+codigo_empresa+  "' "+&
+" and venped.es_proforma = 'N' "+&
+" and articulos.promocion = 'N' "+&
+" and venliped.familia like '"+familia+  "' "
+
+f_cargar_cursor_nuevo (sel, datos)
+
+total_regs = datos.rowcount()
+resultado = 0
+for i = 1 to total_Regs
+	resultado = resultado + datos.object.importe[i]
+next
+
+return resultado
+
+
+
+
+end function
+

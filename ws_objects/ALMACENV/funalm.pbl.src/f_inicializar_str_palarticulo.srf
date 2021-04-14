@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_inicializar_str_palarticulo.srf
+global type f_inicializar_str_palarticulo from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_palarticulo ( ref str_palarticulo str_palarticulo)
+end prototypes
+
+global function boolean f_inicializar_str_palarticulo ( ref str_palarticulo str_palarticulo);boolean lb_correcto = true
+
+if isnull(str_palarticulo.empresa) then str_palarticulo.empresa = ''
+if isnull(str_palarticulo.articulo) then str_palarticulo.articulo = ''
+if isnull(str_palarticulo.codigo) then str_palarticulo.codigo = ''
+if isnull(str_palarticulo.caja) then str_palarticulo.caja = ''
+if isnull(str_palarticulo.cajaspallet) then str_palarticulo.cajaspallet = 0
+if isnull(str_palarticulo.planospallet) then str_palarticulo.planospallet = 0
+if isnull(str_palarticulo.alturas) then str_palarticulo.alturas = 0
+if isnull(str_palarticulo.pordefecto) then str_palarticulo.pordefecto = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_operacion.srf
+global type f_nombre_operacion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_operacion (string ra_unidad)
+end prototypes
+
+global function string f_nombre_operacion (string ra_unidad);string ls_nombre
+
+  SELECT descripcion_abr
+    INTO :ls_nombre
+    FROM art_ver_tipooperacion 
+   WHERE codigo = :ra_unidad 
+   USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+end function
+

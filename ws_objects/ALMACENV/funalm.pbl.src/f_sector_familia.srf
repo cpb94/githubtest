@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_sector_familia.srf
+global type f_sector_familia from function_object
+end type
+
+forward prototypes
+global function string f_sector_familia (string ai_codemp, string ai_codfam)
+end prototypes
+
+global function string f_sector_familia (string ai_codemp, string ai_codfam);string	ls_sector
+
+  SELECT  familias.sector  INTO :ls_sector     FROM familias  
+   WHERE (familias.empresa = :ai_codemp )
+   AND   (familias.codigo  = :ai_codfam )   
+     USING SQLCA;
+
+RETURN ls_sector
+end function
+

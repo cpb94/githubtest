@@ -1,0 +1,12 @@
+﻿$PBExportHeader$report_costesmapa2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912"  height.autosize=yes)
+table(column=(type=char(15) updatewhereclause=yes name=coste dbname="costesmapa.coste" )
+ column=(type=decimal(2) updatewhereclause=yes name=reparto dbname="costesmapa.reparto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"costesmapa~" ) COLUMN(NAME=~"costesmapa.coste~") COLUMN(NAME=~"costesmapa.reparto~")WHERE(    EXP1 =~"costesmapa.ejercicio~"   OP =~"=~"    EXP2 =~":ejercicio~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"costesmapa.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"costesmapa.cuenta~"   OP =~"=~"    EXP2 =~":cuenta~" ) ) ORDER(NAME=~"costesmapa.reparto~" ASC=yes ) ARG(NAME = ~"ejercicio~" TYPE = number)  ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cuenta~" TYPE = string) " retrieve.asneeded=yes arguments=(("ejercicio", number),("empresa", string),("cuenta", string)) )
+column(band=detail id=1 alignment="0" tabsequence=0 border="0" color="0" x="1" y="16" height="65" width="421"  name=coste  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=0 border="0" color="0" x="878" y="16" height="65" width="321"  name=reparto  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

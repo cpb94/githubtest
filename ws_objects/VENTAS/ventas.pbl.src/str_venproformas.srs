@@ -1,0 +1,77 @@
+﻿$PBExportHeader$str_venproformas.srs
+global type str_venproformas from structure
+	string		empresa
+	integer		anyo
+	decimal {4}	proforma
+	datetime		fproforma
+	datetime		falta
+	string		cliente
+	string		observaciones
+	string		codpago
+	string		agente1
+	string		agente2
+	decimal {4}	comision1
+	decimal {4}	comision2
+	decimal {4}	comision11
+	decimal {4}	comision22
+	decimal {4}	dtopp
+	decimal {4}	dtoesp1
+	decimal {4}	dtoesp2
+	decimal {4}	dtoesp3
+	decimal {4}	dtoesp4
+	string		tipodto1
+	string		tipodto2
+	string		tipodto3
+	string		tipodto4
+	string		explicaciondto1
+	string		explicaciondto2
+	string		explicaciondto3
+	string		explicaciondto4
+	string		tipoiva
+	decimal {4}	iva
+	string		numpedcli
+	string		idioma
+	string		divisa
+	decimal {4}	cambio
+	string		tarifa
+	datetime		ftarifa
+	datetime		fbloqueo
+	string		serie
+	string		zona
+	string		forma_envio
+	string		cod_entrega
+	string		usuario
+	string		tipo_portes
+	string		periodo_fac
+	decimal {4}	peso_neto
+	string		usuario_proforma
+	string		agente3
+	decimal {4}	comision31
+	decimal {4}	comision32
+	string		textcomercial1
+	string		textcomercial2
+	string		textaduanaesp1
+	string		textaduanaesp2
+	string		textaduanaext1
+	string		textaduanaext2
+	string		tipo_cliente
+	string		textopie1
+	string		textopie2
+	string		condicion
+	decimal {4}	peso
+	string		banco_de_cobro
+	decimal {4}	porcentaje_aduana
+	decimal {4}	anyo_origen
+	decimal {4}	proforma_origen
+	string		activa
+	decimal {4}	bruto
+	decimal {4}	importe_dto
+	decimal {4}	total_neto
+	string		calculo_dto
+	string		envio
+	string		correspondencia
+	string		domiciliacion
+	string		transportista
+	string		calculo_dtoesp
+end type
+

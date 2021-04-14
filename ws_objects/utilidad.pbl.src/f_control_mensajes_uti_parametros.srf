@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_control_mensajes_uti_parametros.srf
+global type f_control_mensajes_uti_parametros from function_object
+end type
+
+forward prototypes
+global function string f_control_mensajes_uti_parametros (string codigo)
+end prototypes
+
+global function string f_control_mensajes_uti_parametros (string codigo);String var
+  SELECT uti_parametros.control_mensajes
+    INTO :var  
+    FROM uti_parametros  
+   WHERE uti_parametros.empresa = :codigo   ;
+	IF SQLCA.SQLCODE = 100 Then var = "S"
+	IF Trim(var) = "" Then var = "S"
+	
+	Return var
+
+end function
+

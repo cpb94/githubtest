@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_cargar_str_venparametros.srf
+global type f_cargar_str_venparametros from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_venparametros (STRING arg_empresa,  ref str_venparametros str_venparametros)
+end prototypes
+
+global function boolean f_cargar_str_venparametros (STRING arg_empresa,  ref str_venparametros str_venparametros);boolean lb_correcto = true
+
+SELECT venparametros.impresora_1,
+       venparametros.empresa,
+       venparametros.almacen,
+       venparametros.zona,
+       venparametros.tarifa,
+       venparametros.almacen_cargas,
+       venparametros.calidad_defecto,
+       venparametros.naturaleza_mercancia_cmr,
+       venparametros.dias_disponibilidad_con_stock,
+       venparametros.dias_disponibilidad_sin_stock,
+       venparametros.mostrar_disponibilidad_en_prof,
+       venparametros.vgm_persona_autorizada,
+       venparametros.vgm_metodo_utilizado_por_defecto,
+       venparametros.vgm_imagen_sello,
+       venparametros.vgm_imagen_firma,
+       venparametros.cuenta_irpf
+INTO   :str_venparametros.impresora_1,
+       :str_venparametros.empresa,
+       :str_venparametros.almacen,
+       :str_venparametros.zona,
+       :str_venparametros.tarifa,
+       :str_venparametros.almacen_cargas,
+       :str_venparametros.calidad_defecto,
+       :str_venparametros.naturaleza_mercancia_cmr,
+       :str_venparametros.dias_disponibilidad_con_stock,
+       :str_venparametros.dias_disponibilidad_sin_stock,
+       :str_venparametros.mostrar_disponibilidad_en_prof,
+       :str_venparametros.vgm_persona_autorizada,
+       :str_venparametros.vgm_metodo_utilizado_por_defecto,
+       :str_venparametros.vgm_imagen_sello,
+       :str_venparametros.vgm_imagen_firma,
+       :str_venparametros.cuenta_irpf
+FROM venparametros
+WHERE venparametros.empresa = :arg_empresa;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

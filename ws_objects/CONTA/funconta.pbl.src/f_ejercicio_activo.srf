@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_ejercicio_activo.srf
+global type f_ejercicio_activo from function_object
+end type
+
+forward prototypes
+global function integer f_ejercicio_activo (string empresa)
+end prototypes
+
+global function integer f_ejercicio_activo (string empresa);Integer var_ejercicio 
+
+ SELECT contaparam.ejercicio  
+    INTO :var_ejercicio  
+    FROM contaparam  
+   WHERE ( contaparam.empresa = :codigo_empresa ) AND  
+         ( contaparam.activo = 'S' )   
+ORDER BY contaparam.ejercicio ASC  ;
+
+Return var_ejercicio
+
+end function
+

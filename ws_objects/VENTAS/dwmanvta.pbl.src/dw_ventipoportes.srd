@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_ventipoportes.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=9 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=321 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="ventipoportes.empresa" )
+ column=(type=char(5) update=yes key=yes name=codigo dbname="ventipoportes.codigo" )
+ column=(type=char(30) update=yes name=descripcion dbname="ventipoportes.descripcion" )
+ column=(type=char(10) update=yes name=resumido dbname="ventipoportes.resumido" )
+ retrieve="SELECT ventipoportes.empresa, ventipoportes.codigo, ventipoportes.descripcion, ventipoportes.resumido FROM ventipoportes WHERE (ventipoportes.empresa = :empresa ) AND ( ventipoportes.codigo = :codigo ) ORDER BY ventipoportes.empresa ASC, ventipoportes.codigo ASC " update="ventipoportes" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="42" y="76" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="37" y="184" height="65" width="357"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="430" y="76" height="65" width="997" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="430" y="184" height="65" width="238" format="[general]"  name=resumido edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

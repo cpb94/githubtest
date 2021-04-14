@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_localidad_agente.srf
+global type f_localidad_agente from function_object
+end type
+
+forward prototypes
+global function string f_localidad_agente (string cod_empresa, string cod_agente)
+end prototypes
+
+global function string f_localidad_agente (string cod_empresa, string cod_agente);String ls_localidad
+
+ SELECT    venagentes.localidad
+    INTO   :ls_localidad
+    FROM venagentes 
+   WHERE ( venagentes.empresa= :cod_empresa ) AND  
+         ( venagentes.agente  = :cod_agente)   ;
+
+RETURN ls_localidad
+
+
+end function
+

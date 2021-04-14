@@ -1,0 +1,69 @@
+﻿$PBExportHeader$report_con_stock_especificaciones.srd
+release 6;
+datawindow(units=1 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 24 print.margin.right = 24 print.margin.top = 24 print.margin.bottom = 24 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=200 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=18 color="536870912" )
+detail(height=65 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=char(40) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=char(5) updatewhereclause=yes name=unidad dbname="comodin.unidad" )
+ column=(type=char(10) updatewhereclause=yes name=nombre_unidad dbname="comodin.nombre_unidad" )
+ column=(type=decimal(2) updatewhereclause=yes name=stock_calidades_seleccionadas dbname="comodin.stock_calidades_seleccionadas" )
+ column=(type=decimal(2) updatewhereclause=yes name=pedidos_calidades_seleccionada dbname="comodin.pedidos_calidades_seleccionada" )
+ column=(type=decimal(2) updatewhereclause=yes name=stock_calidades_no_seleccionad dbname="comodin.stock_calidades_no_seleccionad" )
+ column=(type=decimal(2) updatewhereclause=yes name=pedidos_calidades_no_seleccion dbname="comodin.pedidos_calidades_no_seleccion" )
+ column=(type=decimal(2) updatewhereclause=yes name=cantidad_fabricar dbname="comodin.cantidad_fabricar" )
+ column=(type=char(40) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="comodin.formato" )
+ column=(type=char(1) updatewhereclause=yes name=planificar dbname="comodin.planificar" values=" 	 / 	 " )
+ column=(type=decimal(2) updatewhereclause=yes name=pedidos_pendientes_planificar dbname="comodin.pedidos_pendientes_planificar" )
+ column=(type=char(5) updatewhereclause=yes name=version dbname="comodin.version" )
+ retrieve="  SELECT comodin.empresa,   
+         ~"                    ~" articulo,   
+         ~"                                        ~" nombre_articulo,   
+         ~"     ~" unidad,   
+         ~"          ~" nombre_unidad,   
+         0.00 stock_calidades_seleccionadas,   
+         0.00 pedidos_calidades_seleccionadas,   
+         0.00 stock_calidades_no_seleccionadas,   
+         0.00 pedidos_calidades_no_seleccionadas,   
+         0.00 cantidad_fabricar,   
+         ~"                                        ~" nombre_formato,   
+         ~"     ~" formato,   
+         ~"N~" planificar,   
+         0.00 pedidos_pendientes_planificar,   
+         ~"     ~" version  
+    FROM comodin  
+   WHERE comodin.empresa = :arg_empresa    
+
+" arguments=(("arg_empresa", string))  sort="empresa A nombre_formato A nombre_articulo A " )
+group(level=1 header.height=27 trailer.height=5 by=("empresa" , "nombre_formato" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="1" y="1" height="104" width="735" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="16777215" x="4" y="108" height="1" width="1" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Fabricar"border="6" color="0" x="662" y="184" height="14" width="69"  name=cantidad_fabricar_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="LISTADO DE PEDIDOS PENDIENTES DE SERVIR A PLANIFICAR"border="0" color="128" x="75" y="125" height="23" width="595"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Versión"border="6" color="0" x="593" y="184" height="14" width="64"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Ped.OtraCal"border="6" color="0" x="525" y="184" height="14" width="64"  name=pedidos_calidades_no_seleccion_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stk.OtraCal"border="6" color="0" x="459" y="184" height="14" width="61"  name=stock_calidades_no_seleccionad_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stock STD"border="6" color="0" x="273" y="184" height="14" width="59"  name=stock_calidades_seleccionadas_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Ped.STD"border="6" color="0" x="337" y="184" height="14" width="56"  name=pedidos_calidades_seleccionada_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Planif."border="6" color="0" x="398" y="184" height="14" width="56"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Articulo"border="6" color="0" x="2" y="184" height="14" width="268"  name=nombre_articulo_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=11 alignment="0" tabsequence=32766 border="0" color="0" x="2" y="3" height="20" width="201" format="[general]"  name=nombre_formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=detail dataobject="report_detalle_pedidos" x="2" y="21" height="30" width="608" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("articulo")) trail_footer = yes  slideup=directlyabove )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="3" y="2" height="14" width="28" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=20 border="2" color="0" x="662" y="2" height="14" width="50" format="[general]~tf_mascara_unidad(unidad)"  name=cantidad_fabricar edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=30 border="0" color="0" x="717" y="2" height="14" width="14" format="[general]" protect="0~tif(trim( version ) <> '' and not isnull( version ) and  cantidad_fabricar > 0 , 0 , 1)"  name=planificar checkbox.text=" " checkbox.on=" " checkbox.off=" " checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_observaciones_version_articulo( empresa , articulo , version )"border="0" color="0" x="613" y="2" height="14" width="46" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=10 border="0" color="0" x="592" y="2" height="14" width="18" format="[general]"  name=version edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="525" y="2" height="14" width="64" format="[general]~tf_mascara_unidad(unidad)"  name=pedidos_calidades_no_seleccion edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="459" y="2" height="14" width="61" format="[general]~tf_mascara_unidad(unidad)"  name=stock_calidades_no_seleccionad edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="273" y="2" height="14" width="59" format="[general]~tf_mascara_unidad(unidad)"  name=stock_calidades_seleccionadas edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="337" y="2" height="14" width="56" format="[general]~tf_mascara_unidad(unidad)"  name=pedidos_calidades_seleccionada edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=32766 border="0" color="0" x="398" y="2" height="14" width="56" format="[general]~tf_mascara_unidad(unidad)"  name=pedidos_pendientes_planificar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="35" y="2" height="14" width="235" format="[general]"  name=nombre_articulo edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="1" y1="2" x2="732" y2="2" pen.style="0" pen.width="2" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="292" y="3" height="12" width="150" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,120 @@
+﻿$PBExportHeader$dw_mant_reclamaciones2_new.srd
+release 9;
+datawindow(units=0 timer_interval=0 color=12639424 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes hidegrayline=no pointer="\bmp\MANO.CUR" )
+header(height=76 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_empresa dbname="ven_reclamaciones_detalle.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_cliente dbname="ven_reclamaciones_detalle.cliente" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_reclamacion dbname="ven_reclamaciones_detalle.reclamacion" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_anyo dbname="ven_reclamaciones_detalle.anyo" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_albaran dbname="ven_reclamaciones_detalle.albaran" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_linea_albaran dbname="ven_reclamaciones_detalle.linea_albaran" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=ven_reclamaciones_detalle_cantidad dbname="ven_reclamaciones_detalle.cantidad" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=ven_reclamaciones_detalle_descripcion dbname="ven_reclamaciones_detalle.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_empresa dbname="vista_venlialb_reclamaciones.empresa" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_anyo_albaran dbname="vista_venlialb_reclamaciones.anyo_albaran" )
+ column=(type=decimal(0) updatewhereclause=yes name=vista_venlialb_reclamaciones_albaran dbname="vista_venlialb_reclamaciones.albaran" )
+ column=(type=datetime updatewhereclause=yes name=vista_venlialb_reclamaciones_falbaran dbname="vista_venlialb_reclamaciones.falbaran" )
+ column=(type=char(15) updatewhereclause=yes name=vista_venlialb_reclamaciones_cliente dbname="vista_venlialb_reclamaciones.cliente" )
+ column=(type=char(20) updatewhereclause=yes name=vista_venlialb_reclamaciones_articulo dbname="vista_venlialb_reclamaciones.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_calidad dbname="vista_venlialb_reclamaciones.calidad" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_calibre dbname="vista_venlialb_reclamaciones.calibre" )
+ column=(type=decimal(6) updatewhereclause=yes name=vista_venlialb_reclamaciones_cantidad dbname="vista_venlialb_reclamaciones.cantidad" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_pallets dbname="vista_venlialb_reclamaciones.pallets" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_total_cajas dbname="vista_venlialb_reclamaciones.total_cajas" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_cajas dbname="vista_venlialb_reclamaciones.cajas" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_divisa dbname="vista_venlialb_reclamaciones.divisa" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_tipo_pallet dbname="vista_venlialb_reclamaciones.tipo_pallet" )
+ column=(type=decimal(6) updatewhereclause=yes name=vista_venlialb_reclamaciones_importe dbname="vista_venlialb_reclamaciones.importe" )
+ column=(type=decimal(6) updatewhereclause=yes name=vista_venlialb_reclamaciones_descuento dbname="vista_venlialb_reclamaciones.descuento" )
+ column=(type=decimal(0) updatewhereclause=yes name=vista_venlialb_reclamaciones_anyo dbname="vista_venlialb_reclamaciones.anyo" )
+ column=(type=decimal(0) updatewhereclause=yes name=vista_venlialb_reclamaciones_factura dbname="vista_venlialb_reclamaciones.factura" )
+ column=(type=datetime updatewhereclause=yes name=vista_venlialb_reclamaciones_ffactura dbname="vista_venlialb_reclamaciones.ffactura" )
+ column=(type=decimal(6) updatewhereclause=yes name=vista_venlialb_reclamaciones_precio_neto dbname="vista_venlialb_reclamaciones.precio_neto" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_tipo_unidad dbname="vista_venlialb_reclamaciones.tipo_unidad" )
+ column=(type=char(50) updatewhereclause=yes name=vista_venlialb_reclamaciones_descripcion dbname="vista_venlialb_reclamaciones.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_tipolinea dbname="vista_venlialb_reclamaciones.tipolinea" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_tono dbname="vista_venlialb_reclamaciones.tono" )
+ column=(type=char(1) updatewhereclause=yes name=reclamacion dbname="reclamacion" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=ven_reclamaciones_detalle_reclamacion dbname="ven_reclamaciones_detalle.reclamacion" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=ven_reclamaciones_detalle_descripcion dbname="ven_reclamaciones_detalle.descripcion" )
+ column=(type=long updatewhereclause=yes name=vista_venlialb_reclamaciones_linea dbname="vista_venlialb_reclamaciones.linea" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_formato dbname="vista_venlialb_reclamaciones.formato" )
+ column=(type=char(5) updatewhereclause=yes name=vista_venlialb_reclamaciones_operario_prepa dbname="vista_venlialb_reclamaciones.operario_prepa" )
+ column=(type=decimal(0) updatewhereclause=yes name=vista_venlialb_reclamaciones_linea_factura dbname="vista_venlialb_reclamaciones.linea_factura" )
+ retrieve="SELECT
+ven_reclamaciones_detalle.empresa ,
+ven_reclamaciones_detalle.cliente ,
+ven_reclamaciones_detalle.reclamacion ,
+ven_reclamaciones_detalle.anyo ,
+ven_reclamaciones_detalle.albaran ,
+ven_reclamaciones_detalle.linea_albaran ,
+ven_reclamaciones_detalle.cantidad ,
+ven_reclamaciones_detalle.descripcion ,  
+vista_venlialb_reclamaciones.empresa ,
+           vista_venlialb_reclamaciones.anyo_albaran ,
+           vista_venlialb_reclamaciones.albaran ,
+           vista_venlialb_reclamaciones.falbaran ,
+           vista_venlialb_reclamaciones.cliente ,
+           vista_venlialb_reclamaciones.articulo ,
+           vista_venlialb_reclamaciones.calidad ,
+           vista_venlialb_reclamaciones.calibre ,
+           vista_venlialb_reclamaciones.cantidad ,
+           vista_venlialb_reclamaciones.pallets ,
+           vista_venlialb_reclamaciones.total_cajas ,
+           vista_venlialb_reclamaciones.cajas ,
+           vista_venlialb_reclamaciones.divisa ,
+           vista_venlialb_reclamaciones.tipo_pallet ,
+           vista_venlialb_reclamaciones.importe ,
+           vista_venlialb_reclamaciones.descuento ,
+           vista_venlialb_reclamaciones.anyo ,
+           vista_venlialb_reclamaciones.factura ,
+           vista_venlialb_reclamaciones.ffactura ,
+           vista_venlialb_reclamaciones.precio_neto ,
+           vista_venlialb_reclamaciones.tipo_unidad ,
+           vista_venlialb_reclamaciones.descripcion ,
+           vista_venlialb_reclamaciones.tipolinea ,
+           vista_venlialb_reclamaciones.tono ,
+           'N' reclamacion,
+           ven_reclamaciones_detalle.reclamacion ,
+           ven_reclamaciones_detalle.descripcion ,
+           vista_venlialb_reclamaciones.linea ,
+           vista_venlialb_reclamaciones.formato ,
+           vista_venlialb_reclamaciones.operario_prepa ,
+           vista_venlialb_reclamaciones.linea_factura  
+        FROM vista_venlialb_reclamaciones LEFT OUTER JOIN ven_reclamaciones_detalle ON vista_venlialb_reclamaciones.empresa = ven_reclamaciones_detalle.empresa AND vista_venlialb_reclamaciones.anyo_albaran = ven_reclamaciones_detalle.anyo AND vista_venlialb_reclamaciones.albaran = ven_reclamaciones_detalle.albaran AND vista_venlialb_reclamaciones.linea = ven_reclamaciones_detalle.linea_albaran ,
+           articulos    
+        WHERE ( vista_venlialb_reclamaciones.empresa = articulos.empresa ) and          ( vista_venlialb_reclamaciones.articulo = articulos.codigo ) and          ( ( vista_venlialb_reclamaciones.empresa = :arg_empresa ) and          ( vista_venlialb_reclamaciones.cliente = :arg_cliente ) and          ( ven_reclamaciones_detalle.reclamacion =:arg_reclamacion ) )  " update="ven_reclamaciones_detalle" updatewhere=0 updatekeyinplace=yes arguments=(("arg_empresa", string),("arg_cliente", string),("arg_reclamacion", string))  sort="vista_venlialb_reclamaciones_empresa A vista_venlialb_reclamaciones_anyo_albaran A vista_venlialb_reclamaciones_albaran A vista_venlialb_reclamaciones_linea A ven_reclamaciones_detalle_reclamacion A " )
+text(band=header alignment="2" text="Albaran/Fecha" border="6" color="0" x="9" y="8" height="56" width="576" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Pallet" border="6" color="0" x="2555" y="8" height="56" width="137" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Calib" border="6" color="0" x="2409" y="8" height="56" width="128" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tono" border="6" color="0" x="2263" y="8" height="56" width="128" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Factura/Fecha" border="6" color="0" x="608" y="8" height="56" width="576" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Calid" border="6" color="0" x="2117" y="8" height="56" width="128" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="2715" y="8" height="56" width="334" html.valueishtml="0"  name=cantidad_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Unidades Afectadas" border="6" color="0" x="3072" y="12" height="56" width="512" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Articulo" border="6" color="0" x="1207" y="8" height="56" width="882" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="/" border="0" color="0" x="279" y="8" height="56" width="18" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="0" x="622" y="8" height="56" width="224" format="######" html.valueishtml="0"  name=vista_venlialb_reclamaciones_factura visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="23" y="8" height="56" width="224" format="######" html.valueishtml="0"  name=vista_venlialb_reclamaciones_albaran visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="320" y="8" height="56" width="274" format="dd-mm-yyyy" html.valueishtml="0"  name=vista_venlialb_reclamaciones_falbaran visible="1" editmask.useformat=yes editmask.mask="dd-mm-yyyy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="/" border="0" color="0" x="878" y="8" height="56" width="18" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="914" y="8" height="56" width="274" format="dd-mm-yyyy" html.valueishtml="0"  name=vista_venlialb_reclamaciones_ffactura visible="1" editmask.useformat=yes editmask.mask="dd-mm-yyyy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_pallet_abr( ven_reclamaciones_detalle_empresa , vista_venlialb_reclamaciones_tipo_pallet  ) "border="0" color="0" x="2560" y="8" height="56" width="137" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="2414" y="8" height="56" width="128" format="[general]" html.valueishtml="0"  name=vista_venlialb_reclamaciones_calibre visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=32 alignment="0" tabsequence=32766 border="0" color="0" x="2267" y="8" height="56" width="128" format="[general]" html.valueishtml="0"  name=vista_venlialb_reclamaciones_tono visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression=" f_nombre_calidad_abr( ven_reclamaciones_detalle_empresa ,  vista_venlialb_reclamaciones_calidad ) "border="0" color="0" x="2121" y="8" height="56" width="128" format="[general]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="0" x="2715" y="8" height="56" width="256" format="###,###.00" html.valueishtml="0"  name=vista_venlialb_reclamaciones_cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression=" f_nombre_unidad_abr(  vista_venlialb_reclamaciones_tipo_unidad  ) "border="0" color="0" x="2994" y="16" height="48" width="64" format="[general]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=34 alignment="0" tabsequence=32766 border="0" color="0" x="11982" y="0" height="56" width="114" format="[general]" html.valueishtml="0"  name=ven_reclamaciones_detalle_reclamacion_1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=35 alignment="0" tabsequence=32766 border="0" color="0" x="12096" y="0" height="56" width="1152" format="[general]" html.valueishtml="0"  name=ven_reclamaciones_detalle_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=10 border="5" color="0" x="3077" y="4" height="56" width="512" format="###,###.00" html.valueishtml="0"  name=ven_reclamaciones_detalle_cantidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" f_nombre_unidad_abr(  vista_venlialb_reclamaciones_tipo_unidad  ) "border="0" color="0" x="3611" y="8" height="56" width="73" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" if(isnull(  vista_venlialb_reclamaciones_articulo ) or trim(  vista_venlialb_reclamaciones_articulo ) = ~"~" ,  vista_venlialb_reclamaciones_descripcion  , f_nombre_articulo( ven_reclamaciones_detalle_empresa ,  vista_venlialb_reclamaciones_articulo  )+~" ~"+f_nombre_formato_abr( ven_reclamaciones_detalle_empresa , vista_venlialb_reclamaciones_formato  ))"border="0" color="0" x="1198" y="8" height="56" width="882" format="[general]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" )
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )

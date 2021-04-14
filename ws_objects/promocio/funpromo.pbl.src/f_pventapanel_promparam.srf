@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pventapanel_promparam.srf
+global type f_pventapanel_promparam from function_object
+end type
+
+forward prototypes
+global function decimal f_pventapanel_promparam (string arg_empresa)
+end prototypes
+
+global function decimal f_pventapanel_promparam (string arg_empresa);Dec  argumento
+
+SELECT promparam.pventapanelmano  
+INTO   :argumento  
+FROM   promparam  
+WHERE  promparam.empresa = :arg_empresa;
+
+if isnull(argumento) then argumento = 0
+
+return argumento
+
+end function
+

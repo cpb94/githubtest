@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_proceso_almubimapaart.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=5 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almubimapaart.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=almacen dbname="almubimapaart.almacen" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=zona dbname="almubimapaart.zona" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=fila dbname="almubimapaart.fila" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=altura dbname="almubimapaart.altura" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=articulo dbname="almubimapaart.articulo" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=calidad dbname="almubimapaart.calidad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almubimapaart~" ) COLUMN(NAME=~"almubimapaart.empresa~") COLUMN(NAME=~"almubimapaart.almacen~") COLUMN(NAME=~"almubimapaart.zona~") COLUMN(NAME=~"almubimapaart.fila~") COLUMN(NAME=~"almubimapaart.altura~") COLUMN(NAME=~"almubimapaart.articulo~") COLUMN(NAME=~"almubimapaart.calidad~")WHERE(    EXP1 =~"almubimapaart.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almubimapaart.articulo~"   OP =~"=~"    EXP2 =~":articulo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almubimapaart.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"articulo~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " update="almubimapaart" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("articulo", string),("calidad", string)) )

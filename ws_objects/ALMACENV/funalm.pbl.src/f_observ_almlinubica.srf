@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_observ_almlinubica.srf
+$PBExportComments$Devuelve TRUE si tiene albuna observacion.
+global type f_observ_almlinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_observ_almlinubica (string empresa, string referencia, string tipo_pallet)
+end prototypes
+
+global function boolean f_observ_almlinubica (string empresa, string referencia, string tipo_pallet);Integer Numero
+SELECT count(*) INTO   :numero
+FROM   almlinubica_observaciones 
+WHERE (almlinubica_observaciones.empresa     = :empresa)
+AND   (almlinubica_observaciones.referencia  = :referencia)
+AND   (almlinubica_observaciones.tipo_pallet = :tipo_pallet);
+
+
+IF IsNull(numero) Then numero = 0
+
+IF numero = 0 Then
+ REturn FALSE
+ELSE
+ Return TRUE
+END IF
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_carsituacion_abr.srf
+global type f_nombre_carsituacion_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_carsituacion_abr (string cod_empresa, string cod_codigo)
+end prototypes
+
+global function string f_nombre_carsituacion_abr (string cod_empresa, string cod_codigo);String ls_nombre 
+
+SELECT carsituacion.resumido INTO :ls_nombre FROM carsituacion 
+WHERE  carsituacion.empresa= :cod_empresa
+AND    carsituacion.codigo = :cod_codigo USING SQLCA;
+ 
+ 
+RETURN ls_nombre
+
+
+end function
+

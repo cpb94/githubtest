@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_ayuda_clientes_deposito.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=112 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=20 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=genter_codigo dbname="genter.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="genter.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"genter~" )  TABLE(NAME=~"venclientes~" ) COLUMN(NAME=~"genter.codigo~") COLUMN(NAME=~"genter.razon~") COLUMN(NAME=~"genter.empresa~")    JOIN (LEFT=~"genter.empresa~"    OP =~"=~"RIGHT=~"venclientes.empresa~" )    JOIN (LEFT=~"genter.codigo~"    OP =~"=~"RIGHT=~"venclientes.codigo~" )WHERE(    EXP1 =~"genter.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.tipoter~"   OP =~"=~"    EXP2 =~"'C'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"upper(genter.razon)~"   OP =~"like~"    EXP2 =~":criterio~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venclientes.deposito~"   OP =~"=~"    EXP2 =~"'S'~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Código"border="6" color="0" x="183" y="20" height="64" width="325"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Nombre"border="6" color="0" x="526" y="20" height="64" width="1659"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="12632256" x="2295" y="4" height="60" width="165" format="[general]"  name=empresa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="169" y="8" height="56" width="357" format="[general]"  name=genter_codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="549" y="4" height="56" width="1650" format="[general]"  name=genter_razon edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

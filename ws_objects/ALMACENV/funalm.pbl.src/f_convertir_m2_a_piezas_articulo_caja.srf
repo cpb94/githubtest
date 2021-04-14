@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_convertir_m2_a_piezas_articulo_caja.srf
+global type f_convertir_m2_a_piezas_articulo_caja from function_object
+end type
+
+forward prototypes
+global function long f_convertir_m2_a_piezas_articulo_caja (string as_empresa, string as_articulo, string as_caja, decimal ad_m2)
+end prototypes
+
+global function long f_convertir_m2_a_piezas_articulo_caja (string as_empresa, string as_articulo, string as_caja, decimal ad_m2);decimal ld_metros_caja
+int     li_piezas_caja
+long    ll_piezas
+
+select isnull(almartcajas.metroscaja,0),
+		 isnull(almartcajas.piezascaja,0)
+into   :ld_metros_caja,
+		 :li_piezas_caja
+from   almartcajas
+where  almartcajas.empresa  = :as_empresa
+and    almartcajas.articulo = :as_articulo
+and    almartcajas.caja     = :as_caja;
+
+if ld_metros_caja <> 0 then
+	ll_piezas = ( ad_m2 / ld_metros_caja ) * li_piezas_caja
+else
+	ll_piezas = 0
+end if
+
+return ll_piezas
+end function
+

@@ -1,0 +1,12 @@
+﻿$PBExportHeader$report_con_dto_cliente5.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=69 color="536870912" )
+table(column=(type=decimal(4) updatewhereclause=yes name=pallets dbname="vendtofamforcli.pallets" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto dbname="vendtofamforcli.dto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendtofamforcli~" ) COLUMN(NAME=~"vendtofamforcli.pallets~") COLUMN(NAME=~"vendtofamforcli.dto~")WHERE(    EXP1 =~"vendtofamforcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.formato~"   OP =~"=~"    EXP2 =~":formato~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"formato~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " arguments=(("empresa", string),("cliente", string),("familia", string),("formato", string),("calidad", string)) )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="1" y="4" height="65" width="129" format="[general]"  name=pallets editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="151" y="4" height="65" width="165" format="[general]"  name=dto editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

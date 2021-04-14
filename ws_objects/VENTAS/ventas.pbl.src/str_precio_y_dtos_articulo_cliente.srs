@@ -1,0 +1,7 @@
+﻿$PBExportHeader$str_precio_y_dtos_articulo_cliente.srs
+global type str_precio_y_dtos_articulo_cliente from structure
+	decimal		precio
+	decimal		descuento1
+	decimal		descuento2
+end type
+

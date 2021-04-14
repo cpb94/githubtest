@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_idioma_usuarios.srf
+global type f_idioma_usuarios from function_object
+end type
+
+forward prototypes
+global function string f_idioma_usuarios (string usuario)
+end prototypes
+
+global function string f_idioma_usuarios (string usuario);String idioma
+  SELECT usuarios.v_idioma  
+    INTO :idioma  
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :usuario   ;
+	return idioma
+
+end function
+

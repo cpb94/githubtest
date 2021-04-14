@@ -1,0 +1,116 @@
+﻿$PBExportHeader$dw_ayuda_articulos_almcliartdesc.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=12632256 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=84 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=76 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(20) updatewhereclause=yes name=codigo dbname="articulos.codigo" )
+ column=(type=char(140) updatewhereclause=yes name=descripcion dbname="articulos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="articulos.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="articulos.familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="articulos.formato" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="articulos.sector" )
+ column=(type=char(30) updatewhereclause=yes name=proveedor dbname="articulos.proveedor" )
+ column=(type=char(1) updatewhereclause=yes name=articulos_bloqueado dbname="articulos.bloqueado" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="articulos.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=subfamilia dbname="articulos.subfamilia" )
+ column=(type=datetime updatewhereclause=yes name=articulos_fecha_anulado dbname="articulos.fecha_anulado" )
+ column=(type=char(30) updatewhereclause=yes name=familias_descripcion dbname="familias.descripcion" )
+ column=(type=char(15) updatewhereclause=yes name=genter_codigo dbname="genter.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(5) updatewhereclause=yes name=formatos_codigo dbname="formatos.codigo" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=articulos_uso dbname="articulos.uso" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_tipooperacion_descripcion_abr dbname="art_ver_tipooperacion.descripcion_abr" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_tipooperacion_descripcion_abr dbname="art_ver_tipooperacion.descripcion_abr" )
+ retrieve="  SELECT articulos.codigo,   
+         articulos.descripcion,   
+         articulos.empresa,   
+         articulos.familia,   
+         articulos.formato,   
+         articulos.sector,   
+         articulos.proveedor,   
+         articulos.bloqueado,   
+         articulos.cliente,   
+         articulos.subfamilia,
+			articulos.fecha_anulado,   
+         familias.descripcion,   
+         genter.codigo,   
+         genter.razon,
+			formatos.codigo,
+			formatos.descripcion,
+			articulos.uso, 
+			art_ver_tipooperacion.descripcion_abr,
+oanterior.descripcion_abr 
+    FROM articulos 
+	INNER JOIN familias ON articulos.empresa = familias.empresa AND familias.codigo = articulos.familia 
+	INNER JOIN formatos ON formatos.codigo = articulos.formato 
+    LEFT OUTER JOIN genter ON articulos.empresa = genter.empresa AND articulos.cliente = genter.codigo AND genter.tipoter = 'C' 
+	LEFT OUTER JOIN art_ver_tipooperacion ON articulos.empresa = art_ver_tipooperacion.empresa AND articulos.tipo_operacion = art_ver_tipooperacion.codigo 
+	LEFT OUTER JOIN art_escandallo e1 ON articulos.empresa = e1.empresa AND articulos.codigo = e1.articulo AND e1.articulo_ant = (SELECT TOP 1 articulo_ant FROM art_escandallo WHERE empresa = articulos.empresa AND articulo = articulos.codigo) AND e1.version = (SELECT TOP 1 version FROM art_escandallo WHERE empresa = articulos.empresa AND articulo = articulos.codigo)
+	LEFT OUTER JOIN articulos anterior ON e1.empresa = anterior.empresa AND e1.articulo_ant = anterior.codigo 
+	LEFT OUTER JOIN art_ver_tipooperacion oanterior ON anterior.empresa = oanterior.empresa AND anterior.tipo_operacion = oanterior.codigo	 
+   WHERE
+         ( articulos.empresa = :empresa ) and
+			( upper(articulos.descripcion) like :ra_criterio ) and
+			( upper(formatos.descripcion) like :ra_criterio2 ) 
+
+union
+
+  SELECT articulos.codigo,   
+         articulos.descripcion,   
+         articulos.empresa,   
+         articulos.familia,   
+         articulos.formato,   
+         articulos.sector,   
+         articulos.proveedor,   
+         articulos.bloqueado,   
+         articulos.cliente,   
+         articulos.subfamilia,   
+			articulos.fecha_anulado,   
+         familias.descripcion,   
+         genter.codigo,   
+         genter.razon,
+			formatos.codigo,
+			formatos.descripcion,
+			articulos.uso,
+			art_ver_tipooperacion.descripcion_abr,
+oanterior.descripcion_abr 
+    FROM articulos   
+    INNER JOIN familias ON articulos.empresa = familias.empresa AND familias.codigo = articulos.familia 
+	INNER JOIN formatos ON formatos.codigo = articulos.formato 
+    LEFT OUTER JOIN genter ON articulos.empresa = genter.empresa AND articulos.cliente = genter.codigo AND genter.tipoter = 'C' 
+LEFT OUTER JOIN art_ver_tipooperacion ON articulos.empresa = art_ver_tipooperacion.empresa AND articulos.tipo_operacion = art_ver_tipooperacion.codigo 
+	LEFT OUTER JOIN art_escandallo e1 ON articulos.empresa = e1.empresa AND articulos.codigo = e1.articulo AND e1.articulo_ant = (SELECT TOP 1 articulo_ant FROM art_escandallo WHERE empresa = articulos.empresa AND articulo = articulos.codigo) AND e1.version = (SELECT TOP 1 version FROM art_escandallo WHERE empresa = articulos.empresa AND articulo = articulos.codigo)
+	LEFT OUTER JOIN articulos anterior ON e1.empresa = anterior.empresa AND e1.articulo_ant = anterior.codigo 
+	LEFT OUTER JOIN art_ver_tipooperacion oanterior ON anterior.empresa = oanterior.empresa AND anterior.tipo_operacion = oanterior.codigo	
+   WHERE  ( articulos.empresa = :empresa ) and
+			( upper(articulos.descripcion) like :ra_criterio ) and
+			( upper(formatos.descripcion) like :ra_criterio2 ) 
+" arguments=(("empresa", string),("ra_criterio", string),("ra_criterio2", string))  sort="long( codigo ) A " )
+text(band=header alignment="2" text="Código" border="2" color="33554432" x="110" y="12" height="64" width="197" html.valueishtml="0"  name=t_4 visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Descripción" border="2" color="33554432" x="544" y="12" height="64" width="1079" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Format" border="2" color="33554432" x="320" y="12" height="64" width="206" html.valueishtml="0"  name=codigo_t visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Oper. / Ant." border="2" color="33554432" x="1637" y="12" height="64" width="293" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Cliente" border="2" color="33554432" x="1943" y="12" height="64" width="1106" html.valueishtml="0"  name=t_2 visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Uso" border="2" color="33554432" x="3063" y="12" height="64" width="119" html.valueishtml="0"  name=t_5 visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="119" y="4" height="60" width="183" format="[general]" html.valueishtml="0"  name=codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif(articulos_uso = '3', rgb(255,128,128) ,rgb(255,255,255))" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="f_nombre_formato_abr( empresa , formato )"border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="320" y="4" height="60" width="201" format="[general]" html.valueishtml="0"  name=nom_for visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="544" y="4" height="60" width="1079" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=17 alignment="2" tabsequence=32766 border="0" color="8388608" x="3072" y="4" height="60" width="114" format="[general]" html.valueishtml="0"  name=articulos_uso visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="1943" y="4" height="56" width="1111" format="[general]" html.valueishtml="0"  name=genter_razon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="1792" y="4" height="60" width="133" format="[general]" html.valueishtml="0"  name=art_ver_tipooperacion_descripcion_abr_1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="1641" y="4" height="60" width="133" format="[general]" html.valueishtml="0"  name=art_ver_tipooperacion_descripcion_abr visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+
+sparse(names="codigo")htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

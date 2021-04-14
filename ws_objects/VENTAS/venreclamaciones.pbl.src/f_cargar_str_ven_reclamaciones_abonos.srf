@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_abonos.srf
+global type f_cargar_str_ven_reclamaciones_abonos from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_abonos (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, DECIMAL {0} arg_anyo, DECIMAL {0} arg_factura,  ref str_ven_reclamaciones_abonos str_ven_reclamaciones_abonos)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_abonos (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, DECIMAL {0} arg_anyo, DECIMAL {0} arg_factura,  ref str_ven_reclamaciones_abonos str_ven_reclamaciones_abonos);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_abonos.empresa,
+       ven_reclamaciones_abonos.cliente,
+       ven_reclamaciones_abonos.reclamacion,
+       ven_reclamaciones_abonos.anyo,
+       ven_reclamaciones_abonos.factura
+INTO   :str_ven_reclamaciones_abonos.empresa,
+       :str_ven_reclamaciones_abonos.cliente,
+       :str_ven_reclamaciones_abonos.reclamacion,
+       :str_ven_reclamaciones_abonos.anyo,
+       :str_ven_reclamaciones_abonos.factura
+FROM ven_reclamaciones_abonos
+WHERE ven_reclamaciones_abonos.empresa = :arg_empresa AND ven_reclamaciones_abonos.cliente = :arg_cliente AND ven_reclamaciones_abonos.reclamacion = :arg_reclamacion AND ven_reclamaciones_abonos.anyo = :arg_anyo AND ven_reclamaciones_abonos.factura = :arg_factura;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

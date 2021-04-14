@@ -1,0 +1,42 @@
+﻿$PBExportHeader$dw_facturacion_clientes_crosstab.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 HTMLDW=no print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" )
+header[2](height=68 color="536870912" )
+summary(height=64 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=razon dbname="razon" )
+ column=(type=number updatewhereclause=yes name=compute_0003 dbname="compute_0003" )
+ retrieve="  SELECT venfac.cliente,   
+         genter.razon,   
+         venfac.total_neto / venfac.cambio,   
+         venfac.ffactura  
+
+    FROM venfac,   
+         genter  
+   WHERE ( venfac.empresa = genter.empresa ) and  
+         ( venfac.cliente = genter.codigo ) and  
+         ( ( genter.tipoter = 'C' ) ) AND  
+         venfac.anyo = :anyo   and
+		month(venfac.ffactura) < :mes
+			and venfac.cliente like :cliente
+ORDER BY venfac.ffactura ASC   
+" arguments=(("anyo", number),("mes", number),("cliente", string))  sort="grand_sum_compute_0003 D " )
+text(band=header[1] alignment="0" text="Sum Of Compute 0003" border="0" color="33554432" x="9" y="4" height="56" width="759" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[1] alignment="0" text="obj_1" border="0" color="33554432" x="777" y="4" height="56" width="242" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="@col" border="0" color="16777215" x="777" y="4" height="56" width="242" html.valueishtml="0"  name=compute_0003_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" )
+text(band=header[2] alignment="2" text="Total Cliente" border="0" color="16777215" x="1029" y="4" height="56" width="338" html.valueishtml="0"  name=grand_sum_compute_0003_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" )
+text(band=header[2] alignment="2" text="%" border="0" color="16777215" x="1376" y="4" height="56" width="142" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" )
+text(band=header[2] alignment="2" text="Cliente" border="0" color="16777215" x="9" y="4" height="56" width="759" html.valueishtml="0"  name=razon_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="33554432" x="9" y="8" height="52" width="759" format="[general]" html.valueishtml="0"  name=razon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="33554432" x="777" y="8" height="52" width="242" format="###,###,###,###,##0.00" html.valueishtml="0"  name=compute_0003 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0 crosstab.repeat=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217752" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="2" color="33554432" x="1029" y="8" height="52" width="338" format="###,###,###,###,##0.00" html.valueishtml="0"  name=grand_sum_compute_0003 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=detail alignment="2" expression="( grand_sum_compute_0003  *100 )  / total "border="2" color="33554432" x="1376" y="8" height="52" width="142" format="##0.0" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=summary alignment="1" expression="sum(grand_sum_compute_0003 for all )"border="2" color="33554432" x="1029" y="4" height="56" width="338" format="###,###,###,###,##0.00" html.valueishtml="0"  name=total visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=summary alignment="1" expression="sum(compute_0003 for all )"border="2" color="33554432" x="777" y="4" height="56" width="242" format="###,###,###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+compute(band=summary alignment="1" expression="~"Total Meses:  ~""border="0" color="16777215" x="9" y="4" height="56" width="759" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" )
+compute(band=footer alignment="0" expression="pageCount()"border="0" color="0" x="9" y="560" height="76" width="759" format="[General]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "month(ffactura)" rows = "razon" values = "sum(compute_0003 for crosstab)" sourcenames = "cliente, razon, compute_0003, ffactura")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

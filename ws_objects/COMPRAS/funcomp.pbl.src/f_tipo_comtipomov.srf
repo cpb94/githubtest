@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipo_comtipomov.srf
+global type f_tipo_comtipomov from function_object
+end type
+
+forward prototypes
+global function string f_tipo_comtipomov (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_tipo_comtipomov (string ai_empresa, string as_tipo);string	tipo
+
+    SELECT comtipomov.tipo
+    INTO :tipo
+    FROM comtipomov
+   WHERE ( comtipomov.empresa      = :ai_empresa ) AND  
+         ( comtipomov.tipomov      = :as_tipo )
+    USING SQLCA;
+
+RETURN tipo
+end function
+

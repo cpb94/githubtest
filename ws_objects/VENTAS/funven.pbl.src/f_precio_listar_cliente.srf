@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_precio_listar_cliente.srf
+global type f_precio_listar_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_listar_cliente (string empresa, string tarifa, datetime fecha, string articulo, string calidad, string cliente)
+end prototypes
+
+global function decimal f_precio_listar_cliente (string empresa, string tarifa, datetime fecha, string articulo, string calidad, string cliente);String familia,formato
+Dec{4}   precio
+Select familia,formato Into :familia,:formato From articulos
+Where  articulos.empresa   = :empresa
+And    articulos.codigo    = :articulo;
+precio = 0 
+
+  SELECT venartcli.precio   INTO :precio    FROM venartcli  
+   WHERE (venartcli.empresa   = :empresa)
+	AND   (venartcli.cliente   = :cliente)
+	AND   (venartcli.articulo  = :articulo)
+	AND   (venartcli.calidad   = :calidad);
+	IF SQLCA.SQLCODE = 0 Then Return precio
+
+  SELECT venfamforcli.precio  INTO :precio FROM venfamforcli  
+   WHERE (venfamforcli.empresa  = :empresa)
+	AND   (venfamforcli.cliente  = :cliente)
+	AND   (venfamforcli.familia  = :familia) 
+	AND   (venfamforcli.calidad  = :calidad) 
+	AND   (venfamforcli.formato  = :formato);
+	IF SQLCA.SQLCODE = 0 Then Return precio
+	
+	SELECT venlintarifas.precio INTO :precio  FROM venlintarifas  
+   WHERE (venlintarifas.empresa   = :empresa)
+	AND   (venlintarifas.tarifa    = :tarifa)
+	AND   (venlintarifas.fecha     = :fecha)
+	AND   (venlintarifas.articulo  = :articulo)
+	AND   (venlintarifas.calidad   = :calidad);
+	IF SQLCA.SQLCODE = 0 Then Return precio
+
+	
+return precio 
+end function
+

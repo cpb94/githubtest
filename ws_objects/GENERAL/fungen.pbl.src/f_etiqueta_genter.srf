@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_etiqueta_genter.srf
+global type f_etiqueta_genter from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_genter (string empresa, string tipoter, string codigo)
+end prototypes
+
+global function string f_etiqueta_genter (string empresa, string tipoter, string codigo);String   var_nombre, var_pais, var_provincia,&
+	      var_cod_postal,      var_localidad,  var_domicilio  
+		
+String    montaje,nom,pais,provincia
+
+   SELECT genter.razon,genter.pais,genter.provincia,genter.cod_postal,
+	       genter.localidad
+   INTO   :var_nombre,:var_pais,:var_provincia,:var_cod_postal,   
+          :var_localidad
+   FROM   genter  
+   WHERE  genter.empresa = :empresa
+	AND    genter.tipoter = :tipoter
+	AND    genter.codigo  = :codigo;
+	IF sqlca.sqlcode = 100 Then Return ""
+
+var_domicilio = f_domicilio_genter(empresa,tipoter,codigo)
+IF IsNull(var_nombre)    Then  var_nombre     =  ""
+IF IsNull(var_localidad) Then  var_localidad  =  ""
+IF IsNull(var_domicilio) Then  var_domicilio  =  ""
+IF IsNull(var_pais)      Then  var_pais       =  ""
+IF IsNull(var_provincia) Then  var_provincia  =  ""
+IF IsNull(var_cod_postal) Then  var_cod_postal  =  ""
+
+nom  = Trim(var_nombre) 
+   
+
+
+pais      = f_nombre_pais(var_pais)
+provincia = f_nombre_provincia(var_pais,var_provincia)
+
+montaje  = var_nombre + "           " + codigo + char(13) + & 
+			  var_domicilio + char(13) + &
+           var_cod_postal + " " + var_localidad + char(13) + &
+			  provincia + " ("+pais+")"
+			  
+  
+				  
+ Return montaje
+end function
+

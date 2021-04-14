@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_numero_contador.srf
+$PBExportComments$Devuelve numero del contador de documentos
+global type f_numero_contador from function_object
+end type
+
+forward prototypes
+global function integer f_numero_contador (string empresa, string anyo, string codigo)
+end prototypes
+
+global function integer f_numero_contador (string empresa, string anyo, string codigo);Integer 	numero
+String	anyo_ant,des,abr
+
+SELECT venparam.contador 
+INTO  :numero FROM venparam
+WHERE venparam.empresa = :empresa
+AND   venparam.anyo    = :anyo
+AND   venparam.codigo  = :codigo USING SQLCA;
+
+IF SQLCA.SQLCode = 100 THEN
+	anyo_ant = String(Dec(anyo)+1)
+	SELECT venparam.descripcion,venparam.abreviado 
+	INTO  :des,:abr FROM venparam
+	WHERE venparam.empresa = :empresa
+	AND   venparam.anyo    = :anyo_ant
+	AND   venparam.codigo  = :codigo USING SQLCA;
+	INSERT INTO venparam (empresa,anyo,codigo,descripcion,abreviado,contador)
+				VALUES (:empresa,:anyo,:codigo,:des,:abr,0);
+	numero = 0
+	SQLCA.SQLCode = 0
+END IF
+
+IF SQLCA.SQLCode <> 0 THEN
+	numero = 0
+ELSE
+	numero = numero + 1
+	UPDATE venparam SET contador = :numero
+	WHERE venparam.empresa = :empresa
+	AND   venparam.anyo    = :anyo
+	AND   venparam.codigo  = :codigo USING SQLCA;
+END IF
+
+
+RETURN numero
+
+
+end function
+

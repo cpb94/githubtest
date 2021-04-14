@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cartipodoc_recibir_dcto.srf
+global type f_cartipodoc_recibir_dcto from function_object
+end type
+
+forward prototypes
+global function string f_cartipodoc_recibir_dcto (string cod_empresa, string cod_tipodoc)
+end prototypes
+
+global function string f_cartipodoc_recibir_dcto (string cod_empresa, string cod_tipodoc);String ls_nombre 
+
+ SELECT  cartipodoc.recibir_dmto
+    INTO :ls_nombre  
+
+    FROM cartipodoc 
+   WHERE cartipodoc.empresa= :cod_empresa 
+	AND   cartipodoc.tipodoc= :cod_tipodoc ;
+	
+   IF isnull(ls_nombre) then ls_nombre="N"
+RETURN ls_nombre
+
+
+end function
+

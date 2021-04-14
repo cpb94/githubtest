@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_cuenta_clientes.srf
+global type f_cuenta_clientes from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_clientes (string cod_empresa, string cod_cliente)
+end prototypes
+
+global function string f_cuenta_clientes (string cod_empresa, string cod_cliente);String ls_cuenta
+
+SELECT cuenta
+INTO   :ls_cuenta  
+FROM   genter
+WHERE ( empresa = :cod_empresa ) AND  
+	   ( codigo  = :cod_cliente ) AND
+		( tipoter = "C");
+
+if isnull(ls_cuenta) then ls_cuenta = ""
+ls_cuenta = trim(ls_cuenta)
+
+RETURN ls_cuenta
+
+
+end function
+

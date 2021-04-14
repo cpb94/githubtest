@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_grupo2.srf
+global type f_nombre_grupo2 from function_object
+end type
+
+forward prototypes
+global function string f_nombre_grupo2 (string arg_empresa, string codigo)
+end prototypes
+
+global function string f_nombre_grupo2 (string arg_empresa, string codigo);string descripcion
+
+select descripcion 
+into   :descripcion
+from   art_grupo2 
+where  empresa = :arg_empresa
+and    descripcion_Abr  = :codigo;
+
+if isnull(descripcion) then descripcion = ""
+
+return trim(descripcion)
+end function
+

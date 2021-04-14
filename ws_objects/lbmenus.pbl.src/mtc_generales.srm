@@ -1,0 +1,801 @@
+﻿$PBExportHeader$mtc_generales.srm
+forward
+global type mtc_generales from menu
+end type
+type m_programas from menu within mtc_generales
+end type
+type m_0 from menu within m_programas
+end type
+type m_parametrosempresas from menu within m_programas
+end type
+type m_paises from menu within m_programas
+end type
+type m_provincias from menu within m_programas
+end type
+type m_idiomas from menu within m_programas
+end type
+type m_monedas from menu within m_programas
+end type
+type m_históricodivisas from menu within m_programas
+end type
+type m_clientesproveedores from menu within m_programas
+end type
+type m_contactosclientesproveedores from menu within m_programas
+end type
+type m_códigospostales from menu within m_programas
+end type
+type m_subclientes from menu within m_programas
+end type
+type m_etiquetas from menu within m_programas
+end type
+type m_texturas from menu within m_programas
+end type
+type m_programas from menu within mtc_generales
+m_0 m_0
+m_parametrosempresas m_parametrosempresas
+m_paises m_paises
+m_provincias m_provincias
+m_idiomas m_idiomas
+m_monedas m_monedas
+m_históricodivisas m_históricodivisas
+m_clientesproveedores m_clientesproveedores
+m_contactosclientesproveedores m_contactosclientesproveedores
+m_códigospostales m_códigospostales
+m_subclientes m_subclientes
+m_etiquetas m_etiquetas
+m_texturas m_texturas
+end type
+type m_consultasylistados from menu within mtc_generales
+end type
+type m_distribuidoresporprovincia from menu within m_consultasylistados
+end type
+type m_clientesporpaís from menu within m_consultasylistados
+end type
+type m_clientesporprovincia from menu within m_consultasylistados
+end type
+type m_subdistribuidoresporprovincia from menu within m_consultasylistados
+end type
+type m_clientesporagente from menu within m_consultasylistados
+end type
+type m_consultasylistados from menu within mtc_generales
+m_distribuidoresporprovincia m_distribuidoresporprovincia
+m_clientesporpaís m_clientesporpaís
+m_clientesporprovincia m_clientesporprovincia
+m_subdistribuidoresporprovincia m_subdistribuidoresporprovincia
+m_clientesporagente m_clientesporagente
+end type
+global type mtc_generales from menu
+m_programas m_programas
+m_consultasylistados m_consultasylistados
+end type
+end forward
+
+global type mtc_generales from menu
+m_programas m_programas
+m_consultasylistados m_consultasylistados
+end type
+global mtc_generales mtc_generales
+
+on mtc_generales.create
+mtc_generales=this
+call super::create
+this.text = "mtc_generales"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_programas=create m_programas
+this.m_consultasylistados=create m_consultasylistados
+this.Item[UpperBound(this.Item)+1]=this.m_programas
+this.Item[UpperBound(this.Item)+1]=this.m_consultasylistados
+end on
+
+on mtc_generales.destroy
+call super::destroy
+destroy(this.m_programas)
+destroy(this.m_consultasylistados)
+end on
+
+type m_programas from menu within mtc_generales
+m_0 m_0
+m_parametrosempresas m_parametrosempresas
+m_paises m_paises
+m_provincias m_provincias
+m_idiomas m_idiomas
+m_monedas m_monedas
+m_históricodivisas m_históricodivisas
+m_clientesproveedores m_clientesproveedores
+m_contactosclientesproveedores m_contactosclientesproveedores
+m_códigospostales m_códigospostales
+m_subclientes m_subclientes
+m_etiquetas m_etiquetas
+m_texturas m_texturas
+end type
+
+on m_programas.create
+call super::create
+this.text = "Programas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_0=create m_0
+this.m_parametrosempresas=create m_parametrosempresas
+this.m_paises=create m_paises
+this.m_provincias=create m_provincias
+this.m_idiomas=create m_idiomas
+this.m_monedas=create m_monedas
+this.m_históricodivisas=create m_históricodivisas
+this.m_clientesproveedores=create m_clientesproveedores
+this.m_contactosclientesproveedores=create m_contactosclientesproveedores
+this.m_códigospostales=create m_códigospostales
+this.m_subclientes=create m_subclientes
+this.m_etiquetas=create m_etiquetas
+this.m_texturas=create m_texturas
+this.Item[UpperBound(this.Item)+1]=this.m_0
+this.Item[UpperBound(this.Item)+1]=this.m_parametrosempresas
+this.Item[UpperBound(this.Item)+1]=this.m_paises
+this.Item[UpperBound(this.Item)+1]=this.m_provincias
+this.Item[UpperBound(this.Item)+1]=this.m_idiomas
+this.Item[UpperBound(this.Item)+1]=this.m_monedas
+this.Item[UpperBound(this.Item)+1]=this.m_históricodivisas
+this.Item[UpperBound(this.Item)+1]=this.m_clientesproveedores
+this.Item[UpperBound(this.Item)+1]=this.m_contactosclientesproveedores
+this.Item[UpperBound(this.Item)+1]=this.m_códigospostales
+this.Item[UpperBound(this.Item)+1]=this.m_subclientes
+this.Item[UpperBound(this.Item)+1]=this.m_etiquetas
+this.Item[UpperBound(this.Item)+1]=this.m_texturas
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_0)
+destroy(this.m_parametrosempresas)
+destroy(this.m_paises)
+destroy(this.m_provincias)
+destroy(this.m_idiomas)
+destroy(this.m_monedas)
+destroy(this.m_históricodivisas)
+destroy(this.m_clientesproveedores)
+destroy(this.m_contactosclientesproveedores)
+destroy(this.m_códigospostales)
+destroy(this.m_subclientes)
+destroy(this.m_etiquetas)
+destroy(this.m_texturas)
+end on
+
+type m_0 from menu within m_programas
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_empresas")
+end event
+
+on m_0.create
+call super::create
+this.text = "Empresas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_0.destroy
+call super::destroy
+end on
+
+type m_parametrosempresas from menu within m_programas
+end type
+
+on m_parametrosempresas.create
+call super::create
+this.text = "Parámetros Empresas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_parametrosempresas.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_mant_paramemp")
+end event
+
+type m_paises from menu within m_programas
+end type
+
+on m_paises.create
+call super::create
+this.text = "Países"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_paises.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_paises")
+end event
+
+type m_provincias from menu within m_programas
+end type
+
+on m_provincias.create
+call super::create
+this.text = "Provincias"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_provincias.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_provincias")
+end event
+
+type m_idiomas from menu within m_programas
+end type
+
+on m_idiomas.create
+call super::create
+this.text = "Idiomas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_idiomas.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_idiomas")
+end event
+
+type m_monedas from menu within m_programas
+end type
+
+on m_monedas.create
+call super::create
+this.text = "Monedas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_monedas.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_divisas")
+end event
+
+type m_históricodivisas from menu within m_programas
+end type
+
+on m_históricodivisas.create
+call super::create
+this.text = "Histórico Divisas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_históricodivisas.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_hisdivisas")
+end event
+
+type m_clientesproveedores from menu within m_programas
+end type
+
+on m_clientesproveedores.create
+call super::create
+this.text = "Clientes/Proveedores"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_clientesproveedores.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_clipro")
+end event
+
+type m_contactosclientesproveedores from menu within m_programas
+end type
+
+on m_contactosclientesproveedores.create
+call super::create
+this.text = "Contactos Clientes/Proveedores"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_contactosclientesproveedores.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_telefonos")
+end event
+
+type m_códigospostales from menu within m_programas
+end type
+
+on m_códigospostales.create
+call super::create
+this.text = "Códigos Postales"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_códigospostales.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_codpostales")
+end event
+
+type m_subclientes from menu within m_programas
+end type
+
+on m_subclientes.create
+call super::create
+this.text = "Subclientes"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_subclientes.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_distribuidores")
+end event
+
+type m_etiquetas from menu within m_programas
+end type
+
+on m_etiquetas.create
+call super::create
+this.text = "Etiquetas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_etiquetas.destroy
+call super::destroy
+end on
+
+type m_texturas from menu within m_programas
+end type
+
+on m_texturas.create
+call super::create
+this.text = "Texturas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_texturas.destroy
+call super::destroy
+end on
+
+type m_consultasylistados from menu within mtc_generales
+m_distribuidoresporprovincia m_distribuidoresporprovincia
+m_clientesporpaís m_clientesporpaís
+m_clientesporprovincia m_clientesporprovincia
+m_subdistribuidoresporprovincia m_subdistribuidoresporprovincia
+m_clientesporagente m_clientesporagente
+end type
+
+on m_consultasylistados.create
+call super::create
+this.text = "Consultas y Listados"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_distribuidoresporprovincia=create m_distribuidoresporprovincia
+this.m_clientesporpaís=create m_clientesporpaís
+this.m_clientesporprovincia=create m_clientesporprovincia
+this.m_subdistribuidoresporprovincia=create m_subdistribuidoresporprovincia
+this.m_clientesporagente=create m_clientesporagente
+this.Item[UpperBound(this.Item)+1]=this.m_distribuidoresporprovincia
+this.Item[UpperBound(this.Item)+1]=this.m_clientesporpaís
+this.Item[UpperBound(this.Item)+1]=this.m_clientesporprovincia
+this.Item[UpperBound(this.Item)+1]=this.m_subdistribuidoresporprovincia
+this.Item[UpperBound(this.Item)+1]=this.m_clientesporagente
+end on
+
+on m_consultasylistados.destroy
+call super::destroy
+destroy(this.m_distribuidoresporprovincia)
+destroy(this.m_clientesporpaís)
+destroy(this.m_clientesporprovincia)
+destroy(this.m_subdistribuidoresporprovincia)
+destroy(this.m_clientesporagente)
+end on
+
+type m_distribuidoresporprovincia from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_distribuidores")
+end event
+
+on m_distribuidoresporprovincia.create
+call super::create
+this.text = "Distribuidores por Provincia"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_distribuidoresporprovincia.destroy
+call super::destroy
+end on
+
+type m_clientesporpaís from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_clientes")
+end event
+
+on m_clientesporpaís.create
+call super::create
+this.text = "Clientes por País"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_clientesporpaís.destroy
+call super::destroy
+end on
+
+type m_clientesporprovincia from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_clientes_provincia")
+end event
+
+on m_clientesporprovincia.create
+call super::create
+this.text = "Clientes por Provincia"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_clientesporprovincia.destroy
+call super::destroy
+end on
+
+type m_subdistribuidoresporprovincia from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_distribuidores_provincias")
+end event
+
+on m_subdistribuidoresporprovincia.create
+call super::create
+this.text = "Subdistribuidores por Provincia"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_subdistribuidoresporprovincia.destroy
+call super::destroy
+end on
+
+type m_clientesporagente from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_clientes_agente")
+end event
+
+on m_clientesporagente.create
+call super::create
+this.text = "Clientes por Agente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_clientesporagente.destroy
+call super::destroy
+end on
+

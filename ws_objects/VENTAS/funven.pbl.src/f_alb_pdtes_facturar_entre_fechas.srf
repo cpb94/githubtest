@@ -1,0 +1,102 @@
+﻿$PBExportHeader$f_alb_pdtes_facturar_entre_fechas.srf
+global type f_alb_pdtes_facturar_entre_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_alb_pdtes_facturar_entre_fechas (string empresa, string cliente, datetime fecha1, datetime fecha2)
+end prototypes
+
+global function decimal f_alb_pdtes_facturar_entre_fechas (string empresa, string cliente, datetime fecha1, datetime fecha2);dec dinero1=0,dinero2=0
+string moneda
+if not isnull(fecha2) then  
+	SELECT sum((venalb.total_neto - (venalb.total_neto * venalb.dtopp / 100)) + (venalb.total_neto - (venalb.total_neto * venalb.dtopp / 100)) * venalb.iva / 100)  
+	INTO :dinero1
+	FROM venalb  
+	WHERE ( venalb.empresa = :empresa ) AND  
+			( venalb.cliente = :cliente )   and
+			( not venalb.dtopp is null) and
+			venalb.deposito <> 'S' and
+			venalb.falbaran >= :fecha1 and
+			venalb.falbaran < :fecha2 ;
+	
+	if isnull(dinero1) then dinero1=0
+	
+	if sqlca.sqlcode<>0 then
+		if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero1=0
+	else
+		moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+		dinero1=dinero1 * f_cambio_moneda(moneda)
+	end if
+	
+	
+	SELECT sum((venalb.total_neto ) +  (venalb.total_neto  * venalb.iva / 100))  
+	INTO :dinero2
+	FROM venalb  
+	WHERE ( venalb.empresa = :empresa ) AND  
+			( venalb.cliente = :cliente )   and
+			( venalb.dtopp is null) and
+			venalb.deposito <> 'S' and
+			venalb.falbaran >= :fecha1 and
+			venalb.falbaran < :fecha2 ;
+	
+	if isnull(dinero2) then dinero2=0
+	
+	if sqlca.sqlcode<>0 then
+		if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero2=0
+	else
+		moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+		dinero2 = dinero2 * f_cambio_moneda(moneda)
+	end if
+	
+	if isnull(dinero1) then dinero1 = 0
+	if isnull(dinero2) then dinero2 = 0
+else
+	SELECT sum((venalb.total_neto - (venalb.total_neto * venalb.dtopp / 100)) +  &
+				  (venalb.total_neto - (venalb.total_neto * venalb.dtopp / 100)) * venalb.iva / 100)  
+	INTO :dinero1
+	FROM venalb  
+	WHERE ( venalb.empresa = :empresa ) AND  
+			( venalb.cliente = :cliente )   and
+			( not venalb.dtopp is null) and
+			venalb.deposito <> 'S' and
+			venalb.falbaran >= :fecha1 ;
+	
+	if isnull(dinero1) then dinero1=0
+	
+	if sqlca.sqlcode<>0 then
+		if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero1=0
+	else
+		moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+		dinero1=dinero1 * f_cambio_moneda(moneda)
+	end if
+	
+	
+	SELECT sum((venalb.total_neto ) +  (venalb.total_neto  * venalb.iva / 100))  
+	INTO :dinero2
+	FROM venalb  
+	WHERE ( venalb.empresa = :empresa ) AND  
+			( venalb.cliente = :cliente )   and
+			( venalb.dtopp is null) and
+			venalb.deposito <> 'S' and
+			venalb.falbaran >= :fecha1 ;
+	
+	if isnull(dinero2) then dinero2=0
+	
+	if sqlca.sqlcode<>0 then
+		if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero2=0
+	else
+		moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+		dinero2 = dinero2 * f_cambio_moneda(moneda)
+	end if
+	
+	if isnull(dinero1) then dinero1 = 0
+	if isnull(dinero2) then dinero2 = 0
+	
+end if
+return dinero1+dinero2
+end function
+

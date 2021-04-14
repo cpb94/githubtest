@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_conversion_fecha.srf
+$PBExportComments$Devuelve la fecha en texto.
+global type f_conversion_fecha from function_object
+end type
+
+forward prototypes
+global function string f_conversion_fecha (datetime fecha)
+end prototypes
+
+global function string f_conversion_fecha (datetime fecha);date fecha_1
+String conversion,xmes
+Integer mes,dia,anyo
+fecha_1 = date(fecha)
+mes     = Month(fecha_1)
+dia     = Day(fecha_1)
+anyo    = Year(fecha_1)
+xmes=f_nombre_mes(mes)
+conversion = String(dia) + " de " + Trim(xmes) + " de " + String(anyo)
+Return conversion
+end function
+

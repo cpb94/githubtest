@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_cargar_str_alm_orden_carga.srf
+global type f_cargar_str_alm_orden_carga from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_alm_orden_carga (DECIMAL {0} arg_id,  ref str_alm_orden_carga str_alm_orden_carga)
+end prototypes
+
+global function boolean f_cargar_str_alm_orden_carga (DECIMAL {0} arg_id,  ref str_alm_orden_carga str_alm_orden_carga);boolean lb_correcto = true
+
+SELECT alm_orden_carga.id,
+       alm_orden_carga.empresa,
+       alm_orden_carga.fecha,
+       alm_orden_carga.usuario,
+       alm_orden_carga.cliente,
+       alm_orden_carga.envio,
+       alm_orden_carga.observaciones,
+       alm_orden_carga.almtipotransportes_codigo,
+       alm_orden_carga.peso_maximo,
+       alm_orden_carga.fecha_alta
+INTO   :str_alm_orden_carga.id,
+       :str_alm_orden_carga.empresa,
+       :str_alm_orden_carga.fecha,
+       :str_alm_orden_carga.usuario,
+       :str_alm_orden_carga.cliente,
+       :str_alm_orden_carga.envio,
+       :str_alm_orden_carga.observaciones,
+       :str_alm_orden_carga.almtipotransportes_codigo,
+       :str_alm_orden_carga.peso_maximo,
+       :str_alm_orden_carga.fecha_alta
+FROM alm_orden_carga
+WHERE alm_orden_carga.id = :arg_id;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

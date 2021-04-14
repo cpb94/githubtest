@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_calculo_mp_operacion.srf
+global type f_calculo_mp_operacion from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_mp_operacion (string empresa, string articulo, string operacion, string ver)
+end prototypes
+
+global function decimal f_calculo_mp_operacion (string empresa, string articulo, string operacion, string ver);	dec coste_mp_operacion
+	string tipo_operacion
+	dec{4} coste_mp_m2, largo, ancho, area_pieza
+	
+
+SELECT sum( CASE 
+				WHEN (prodaplicaciones.coste_euros_m2 is null or prodaplicaciones.coste_euros_m2 = 0 )
+				THEN  prodformula.coste_kg_formula * art_ver_op_aplicaciones.gramaje	
+				ELSE prodaplicaciones.coste_euros_m2 * (( formatos.ancho * formatos.largo) / 10000)
+			END)
+INTO :coste_mp_operacion						
+FROM art_ver_op_aplicaciones
+INNER JOIN prodaplicaciones on art_ver_op_aplicaciones.empresa = prodaplicaciones.empresa and art_ver_op_aplicaciones.tipoaplicacion = prodaplicaciones.codigo
+INNER JOIN prodformula on art_ver_op_aplicaciones.empresa = prodformula.empresa and art_ver_op_aplicaciones.formula = prodformula.formula
+INNER JOIN articulos on art_ver_op_aplicaciones.empresa =  articulos.empresa and  art_ver_op_aplicaciones.articulo = articulos.codigo
+INNER JOIN formatos on  articulos.empresa =  formatos.empresa and  articulos.formato = formatos.codigo
+WHERE art_ver_op_aplicaciones.empresa = :empresa
+AND art_ver_op_aplicaciones.articulo = :articulo
+AND art_ver_op_aplicaciones.operacion = :operacion
+AND art_ver_op_aplicaciones.version = :ver;
+
+update art_ver_operaciones
+set coste_mp = :coste_mp_operacion 
+where empresa = :empresa
+and articulo = :articulo
+and version = :ver
+and operacion = :operacion;
+
+return coste_mp_operacion
+
+
+end function
+

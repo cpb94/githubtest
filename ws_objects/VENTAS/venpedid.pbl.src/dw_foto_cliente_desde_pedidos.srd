@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_foto_cliente_desde_pedidos.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33417450 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=100 color="536870912" )
+footer(height=100 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad dbname="comodin.cantidad" )
+ column=(type=char(255) updatewhereclause=yes name=concepto dbname="comodin.concepto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comodin~" ) COLUMN(NAME=~"comodin.empresa~") COMPUTE(NAME=~"numerico cantidad~") COMPUTE(NAME=~"letras concepto~")WHERE(    EXP1 =~"comodin.empresa~"   OP =~"=~"    EXP2 =~":arg_emp~" ) ) ARG(NAME = ~"arg_emp~" TYPE = string)  ARG(NAME = ~"arg_moneda~" TYPE = string) " arguments=(("arg_emp", string),("arg_moneda", string)) )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="9" y="4" height="76" width="1198" format="[general]" html.valueishtml="0"  name=concepto visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="0" x="1234" y="8" height="56" width="512" format="###,###,###,###,###" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=summary alignment="1" text="Total:" border="0" color="128" x="1006" y="24" height="72" width="201" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(cantidad for all)"border="5" color="128" x="1234" y="24" height="64" width="512" format="###,###,###,###,###" html.valueishtml="0"  name=total visible="0"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15793151" )
+text(band=summary alignment="1" text="text" border="2" color="0" x="1234" y="24" height="56" width="517" html.valueishtml="0"  name=t_total visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="30337023" )
+button(band=footer text="Aceptar"filename=""action="0" border="0" color="0" x="1426" y="4" height="88" width="320" vtextalign="0" htextalign="0"  name=cb_aceptar pointer="\bmp\mano.cur" visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

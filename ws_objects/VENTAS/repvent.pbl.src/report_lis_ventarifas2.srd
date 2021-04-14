@@ -1,0 +1,27 @@
+﻿$PBExportHeader$report_lis_ventarifas2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=12 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="vendecotar.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=base dbname="vendecotar.base" )
+ column=(type=char(20) updatewhereclause=yes name=decorado dbname="vendecotar.decorado" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlintarifas_precio dbname="venlintarifas.precio" )
+ column=(type=char(30) updatewhereclause=yes name=venlintarifas_descripcion dbname="venlintarifas.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendecotar~" )  TABLE(NAME=~"venlintarifas~" ) COLUMN(NAME=~"vendecotar.empresa~") COLUMN(NAME=~"vendecotar.base~") COLUMN(NAME=~"vendecotar.decorado~") COLUMN(NAME=~"venlintarifas.precio~") COLUMN(NAME=~"venlintarifas.descripcion~")    JOIN (LEFT=~"vendecotar.empresa~"    OP =~"=~"RIGHT=~"venlintarifas.empresa~" )    JOIN (LEFT=~"vendecotar.decorado~"    OP =~"=~"RIGHT=~"venlintarifas.articulo~" )WHERE(    EXP1 =~"( ( vendecotar.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( vendecotar.base~"   OP =~"=~"    EXP2 =~":arg_base )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.tarifa~"   OP =~"=~"    EXP2 =~":arg_tarifa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.fecha~"   OP =~"=~"    EXP2 =~":arg_fecha )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.tipo_linea~"   OP =~"in~"    EXP2 =~"('2','3') )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.calidad~"   OP =~"=~"    EXP2 =~"'1' )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venlintarifas.listar~"   OP =~"=~"    EXP2 =~"'S' ) )~" ) ) ORDER(NAME=~"venlintarifas.descripcion~" ASC=yes ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_base~" TYPE = string)  ARG(NAME = ~"arg_tarifa~" TYPE = string)  ARG(NAME = ~"arg_fecha~" TYPE = datetime)  ARG(NAME = ~"impre~" TYPE = string) " arguments=(("arg_empresa", string),("arg_base", string),("arg_tarifa", string),("arg_fecha", datetime),("impre", string)) )
+text(band=detail alignment="0" text="                                  "border="0" color="8421504" x="581" y="0" height="92" width="539"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="0" expression="~" ~"+ venlintarifas_descripcion "border="0" color="0" x="1134" y="0" height="68" width="777" format="[general]"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="2" expression="f_nombre_formato_abr(empresa,f_formato_articulo(empresa,decorado))"border="0" color="0" x="1920" y="0" height="68" width="375" format="[GENERAL]"  font.face="Times New Roman" font.height="-10" font.weight="400"  font.family="1" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="1" expression="if (impre=~"S~",
+ if( f_unidad_articulo(empresa,decorado)=~"0~", String( venlintarifas_precio ,
+f_mascara_precios_moneda(f_moneda_ventarifas(empresa,arg_tarifa)))+~"  ~",~"~" ) ,~"~")
+
+"border="0" color="0" x="2309" y="0" height="68" width="421" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="1" expression="if (impre=~"S~",
+ if( f_unidad_articulo(empresa,decorado)=~"1~", String( venlintarifas_precio ,
+f_mascara_precios_moneda(f_moneda_ventarifas(empresa,arg_tarifa)))+~"  ~",~"~" ) ,~"~")
+
+"border="0" color="0" x="2738" y="0" height="68" width="379" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

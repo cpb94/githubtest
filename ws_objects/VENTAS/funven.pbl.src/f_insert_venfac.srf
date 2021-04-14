@@ -1,0 +1,340 @@
+﻿$PBExportHeader$f_insert_venfac.srf
+global type f_insert_venfac from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_venfac (str_venfac fac)
+end prototypes
+
+global function boolean f_insert_venfac (str_venfac fac);dec var_cambio_euros
+Long esta_asegurado
+String asegurado
+
+fac.mes = Month(Date(fac.ffactura))
+var_cambio_euros = f_cambio_euros(fac.divisa)
+If Trim(fac.calculo_dtoesp) = "" Then fac.calculo_dtoesp = "N"
+IF f_control_dtoesp_carforpag(fac.empresa,fac.codpago) = "N" Then fac.dtoesp = 0
+String  cab[],destino[],pie[],control[]
+String  textcomercial1,textcomercial2,textaduanaesp1,textaduanaesp2,&
+		  textaduanaext1,textaduanaext2 
+		  
+  		  textcomercial1 = fac.textcomercial1 
+		  textcomercial2 = fac.textcomercial2 
+		  textaduanaesp1 = fac.textaduanaesp1 
+		  textaduanaesp2 = fac.textaduanaesp2 
+		  textaduanaext1 = fac.textaduanaext1 
+  		  textaduanaext2 = fac.textaduanaext2 
+
+		  fac.textcomercial1 = ""
+		  fac.textcomercial2 = ""
+	  	  fac.textaduanaesp1 = ""
+		  fac.textaduanaesp2 = ""
+		  fac.textaduanaext1 = ""
+  		  fac.textaduanaext2 = ""
+  		  fac.destino1			= ""
+		  fac.destino2			= ""
+ 		  fac.destino3			= ""
+
+		  
+Select pais,provincia Into :fac.pais,:fac.provincia From genter
+Where  empresa = :fac.empresa
+And    tipoter = "C"
+ANd    codigo  = :fac.cliente;
+
+SELECT venclientes.textopais1,venclientes.textopais2,venclientes.textopais3,venclientes.dtoesp
+INTO :control[1],:control[2],:control[3],:fac.dtoesp  
+FROM venclientes  
+WHERE venclientes.empresa  = :fac.empresa
+AND   venclientes.codigo   = :fac.cliente;
+			
+SELECT ventextoscliente.cab1,     ventextoscliente.destino1,   
+	ventextoscliente.pie1,     ventextoscliente.cab2,   
+	ventextoscliente.destino2, ventextoscliente.pie2,   
+	ventextoscliente.cab3,     ventextoscliente.destino3,   
+	ventextoscliente.pie3  
+INTO :cab[1], :destino[1], :pie[1],     :cab[2], :destino[2],   
+	:pie[2], :cab[3],     :destino[3], :pie[3]  
+FROM ventextoscliente  
+WHERE ventextoscliente.empresa = :fac.empresa
+AND   ventextoscliente.cliente = :fac.cliente;
+
+	IF sqlca.sqlcode = 100 Then
+		/* Esto se deberia hacer al imprimir la factura Paco Marin 12-02-2020
+		SELECT ventextospais.cab1, ventextospais.destino1, ventextospais.pie1,   
+		ventextospais.cab2, ventextospais.destino2, ventextospais.pie2,   
+		ventextospais.cab3, ventextospais.destino3, ventextospais.pie3  
+		INTO :cab[1],:destino[1],:pie[1],:cab[2],:destino[2],:pie[2],:cab[3],:destino[3],:pie[3]  
+		FROM ventextospais  
+		WHERE ventextospais.empresa = :fac.empresa
+		AND   ventextospais.pais    = :fac.pais; 
+					
+  		IF control[1] = "S" Then
+		  fac.textcomercial1 = cab[1]
+		  fac.textcomercial2 = pie[1]
+  		  fac.destino1			= destino[1]
+		END IF
+		IF control[2] = "S" Then
+		  fac.textaduanaesp1 = cab[2]
+		  fac.textaduanaesp2 = pie[2]
+  		  fac.destino2			= destino[2]
+		END IF
+		IF control[3] = "S" Then		
+		  fac.textaduanaext1 = cab[3]
+  		  fac.destino3			= destino[3]
+		  fac.textaduanaext2 = pie[3]
+		END IF
+		*/
+	ELSE
+		  fac.textcomercial1 = cab[1]
+		  fac.textcomercial2 = pie[1]
+  		  fac.destino1			= destino[1]
+		  fac.textaduanaesp1 = cab[2]
+		  fac.textaduanaesp2 = pie[2]
+  		  fac.destino2			= destino[2]
+		  fac.textaduanaext1 = cab[3]
+  		  fac.destino3			= destino[3]
+		  fac.textaduanaext2 = pie[3]
+	END IF
+	
+			//-----------------------------------------------//
+			// Respeto los textos del albaran si los hubiese-//
+			//-----------------------------------------------//
+		  IF Trim(textcomercial1)<> "" Then fac.textcomercial1 =textcomercial1
+  		  IF Trim(textcomercial2)<> "" Then fac.textcomercial2 =textcomercial2
+	 	  IF Trim(textaduanaesp1)<> "" Then fac.textaduanaesp1 =textaduanaesp1
+	 	  IF Trim(textaduanaesp2)<> "" Then fac.textaduanaesp2 =textaduanaesp2
+	 	  IF Trim(textaduanaext1)<> "" Then fac.textaduanaext1 =textaduanaext1
+	 	  IF Trim(textaduanaext2)<> "" Then fac.textaduanaext2 =textaduanaext2
+fac.actualizada = "N"
+IF IsNull(fac.dtoesp) Then fac.dtoesp = 0
+IF IsNull(fac.serie)  then fac.serie  = ""
+if trim(fac.serie) = "" then fac.serie = f_serie_venclientes(codigo_empresa,fac.cliente)
+
+// Riesgos asegurados - Pedro 21/07/2015
+
+esta_asegurado = 0
+SELECT COUNT(*) INTO :esta_asegurado
+FROM venriesgoclientes
+WHERE empresa = :codigo_empresa AND cliente = :fac.cliente AND :fac.ffactura >= fecha_concedido AND riesgo_concedido > 0;
+if esta_asegurado > 0 then
+	asegurado = 'S'
+else
+	asegurado = 'N'
+end if
+//FIN Riesgos asegurados
+
+INSERT INTO venfac  
+         ( empresa,   
+           anyo_albaran,   
+           albaran,   
+           falbaran,  
+		observaciones_alb,			  
+           fentrega,   
+           falta,   
+           cliente,   
+           flistado,   
+           observaciones,   
+           codpago,   
+           agente1,   
+           agente2,   
+           comision11,   
+           comision21,   
+           comision12,   
+           comision22,   
+           dtopp,   
+           dtoesp1,   
+           dtoesp2,   
+           dtoesp3,   
+           dtoesp4,   
+           tipodto1,   
+           tipodto2,   
+           tipodto3,   
+           tipodto4,   
+           explicaciondto1,   
+           explicaciondto2,   
+           explicaciondto3,   
+           explicaciondto4,   
+           tipoiva,   
+           iva,   
+           numpedcli,   
+           idioma,   
+           divisa,   
+           cambio,   
+           tarifa,   
+           ftarifa,   
+           fbloqueo,   
+           transportista,   
+           serie,   
+           zona,   
+           envio,   
+           correspondencia,   
+           domiciliacion,   
+           forma_envio,   
+           cod_entrega,   
+           usuario,   
+           tipo_portes,   
+           periodo_fac,   
+           peso,   
+           usuario_pedido,   
+           agente3,   
+           comision31,   
+           comision32,   
+           veces,   
+           textcomercial1,   
+           textcomercial2,   
+           textaduanaesp1,   
+           textaduanaesp2,   
+           textaduanaext1,   
+           textaduanaext2,   
+           textopie1,   
+           textopie2,   
+           condicion,   
+           peso_neto,   
+           banco_de_cobro,   
+           porcentaje_aduana,   
+           bruto,   
+           importe_dto,   
+           total_neto,   
+           calculo_dto,   
+           anyo_pedido_origen,   
+           pedido_origen,   
+           fcarga,   
+           anyo,   
+           factura,   
+           agrupa,   
+           ffactura,   
+           actualizada,
+			  cartera,
+			  precartera,
+			  destino1,
+			  destino2,
+			  destino3,
+			  total_fac_pts,
+			  importe_iva_pts,
+			  provincia,
+			  pais,
+			  contenedor,
+			  dtoesp,
+			  marcada,
+			  generar_recibos,
+			  calculo_dtoesp,
+			  mes,
+			  precinto,
+			  matricula,
+			  cambio_euros,
+			  comision_fija1,
+			  comision_fija2,
+			  comision_fija3,
+			  almacen_deposito,
+			  expedicion_anyo,
+			  expedicion_codigo,
+			  asegurado)  
+  VALUES ( :fac.empresa,   
+           :fac.anyo_albaran,   
+           :fac.albaran,   
+           :fac.falbaran, 
+		 :fac.observaciones_alb,		  
+           :fac.fentrega,   
+           :fac.falta,   
+           :fac.cliente,   
+           :fac.flistado,   
+           :fac.observaciones,   
+           :fac.codpago,   
+           :fac.agente1,   
+           :fac.agente2,   
+           :fac.comision11,   
+           :fac.comision21,   
+           :fac.comision12,   
+           :fac.comision22,   
+           :fac.dtopp,   
+           :fac.dtoesp1,   
+           :fac.dtoesp2,   
+           :fac.dtoesp3,   
+           :fac.dtoesp4,   
+           :fac.tipodto1,   
+           :fac.tipodto2,   
+           :fac.tipodto3,   
+           :fac.tipodto4,   
+           :fac.explicaciondto1,   
+           :fac.explicaciondto2,   
+           :fac.explicaciondto3,   
+           :fac.explicaciondto4,   
+           :fac.tipoiva,   
+           :fac.iva,   
+           :fac.numpedcli,   
+           :fac.idioma,   
+           :fac.divisa,   
+           :fac.cambio,   
+           :fac.tarifa,   
+           :fac.ftarifa,   
+           :fac.fbloqueo,   
+           :fac.transportista,   
+           :fac.serie,   
+           :fac.zona,   
+           :fac.envio,   
+           :fac.correspondencia,   
+           :fac.domiciliacion,   
+           :fac.forma_envio,   
+           :fac.cod_entrega,   
+           :fac.usuario,   
+           :fac.tipo_portes,   
+           :fac.periodo_fac,   
+           :fac.peso,   
+           :fac.usuario_pedido,   
+           :fac.agente3,   
+           :fac.comision31,   
+           :fac.comision32,   
+           :fac.veces,   
+           :fac.textcomercial1,   
+           :fac.textcomercial2,   
+           :fac.textaduanaesp1,   
+           :fac.textaduanaesp2,   
+           :fac.textaduanaext1,   
+           :fac.textaduanaext2,   
+           :fac.textopie1,   
+           :fac.textopie2,   
+           :fac.condicion,   
+           :fac.peso_neto,   
+           :fac.banco_de_cobro,   
+           :fac.porcentaje_aduana,   
+           :fac.bruto,   
+           :fac.importe_dto,   
+           :fac.total_neto,   
+           :fac.calculo_dto,   
+           :fac.anyo_pedido_origen,   
+           :fac.pedido_origen,   
+           :fac.fcarga,   
+           :fac.anyo,   
+           :fac.factura,   
+           :fac.agrupa,   
+           :fac.ffactura,   
+           :fac.actualizada,
+			  :fac.cartera,
+			  :fac.precartera,
+			  :fac.destino1,
+			  :fac.destino2,
+			  :fac.destino3,
+			  :fac.total_fac_pts,
+			  :fac.importe_iva_pts,
+			  :fac.provincia,
+			  :fac.pais,
+			  :fac.contenedor,
+			  :fac.dtoesp,
+			  :fac.marcada,
+			  :fac.generar_recibos,
+			  :fac.calculo_dtoesp,
+			  :fac.mes,
+			  :fac.precinto,
+			  :fac.matricula,
+			  :var_cambio_euros,
+			  :fac.comision_fija1,
+			  :fac.comision_fija2,
+			  :fac.comision_fija3,
+			  :fac.almacen_deposito,
+			  :fac.expedicion_anyo,
+			  :fac.expedicion_codigo,
+			  :asegurado);
+			  IF sqlca.sqlcode <> 0 Then Return FALSE
+			  Return TRUE
+end function
+

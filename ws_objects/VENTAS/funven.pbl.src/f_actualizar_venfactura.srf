@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_actualizar_venfactura.srf
+global type f_actualizar_venfactura from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_venfactura (string empresa, decimal periodo, decimal factura)
+end prototypes
+
+global function boolean f_actualizar_venfactura (string empresa, decimal periodo, decimal factura);IF Not f_actualizar_venfactura_peso(empresa,periodo,factura,"S") Then Return FALSE
+Return TRUE
+end function
+

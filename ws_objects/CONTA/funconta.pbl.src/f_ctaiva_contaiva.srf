@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_ctaiva_contaiva.srf
+global type f_ctaiva_contaiva from function_object
+end type
+
+forward prototypes
+global function string f_ctaiva_contaiva (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_ctaiva_contaiva (integer ejercicio, string empresa, string codigo);String parametro
+SELECT contaiva.ctaiva  INTO :parametro   FROM contaiva  
+WHERE (contaiva.ejercicio = :ejercicio)
+AND   (contaiva.empresa   = :empresa)
+AND   (contaiva.tipoiva   = :codigo);
+Return parametro
+
+end function
+

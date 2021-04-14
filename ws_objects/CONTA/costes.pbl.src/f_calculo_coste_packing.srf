@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_calculo_coste_packing.srf
+global type f_calculo_coste_packing from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_coste_packing (string empresa, string articulo)
+end prototypes
+
+global function decimal f_calculo_coste_packing (string empresa, string articulo);integer piezascaja
+dec preciocaja
+
+SELECT almartcajas.piezascaja ,A.precio
+into :piezasCaja, :precioCaja
+FROM almcajas
+inner join almartcajas on almcajas.empresa = almcajas.empresa and almcajas.codigo = almartcajas.caja
+inner join venmprima on almcajas.empresa = venmprima.empresa and almcajas.codigo_compras = venmprima.codigo
+left outer join comartpro A on almcajas.empresa = A.empresa and almcajas.codigo_compras = 
+			( select top 1 B.mprima from comartpro B where B.empresa = A.empresa and B.mprima = A.mprima and A.precio <> 0 and A.precio is not null order by A.precio desc)
+where almartcajas.empresa = :empresa and almartcajas.articulo = :articulo and pordefecto = 'S';
+
+if piezasCaja <> 0 then
+	return  precioCaja / piezasCaja 
+else
+	return 0
+end if
+
+end function
+

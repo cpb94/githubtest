@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_negociado_pdtes_cobro.srf
+global type f_negociado_pdtes_cobro from function_object
+end type
+
+forward prototypes
+global function decimal f_negociado_pdtes_cobro (string empresa, string cliente)
+end prototypes
+
+global function decimal f_negociado_pdtes_cobro (string empresa, string cliente);
+dec dinero
+
+  SELECT sum(carefectos.importe)
+    INTO :dinero  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.cliente = :cliente ) AND  
+         ( carefectos.situacion in ('5','6') ) AND  
+	       ( carefectos.fvto >= getdate() )   ;
+			
+if isnull(dinero) then dinero=0
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+	dinero=0
+end if
+
+return dinero
+end function
+

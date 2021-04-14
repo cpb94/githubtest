@@ -1,0 +1,20 @@
+﻿$PBExportHeader$dw_imagen.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=512 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="articulos.empresa" )
+ column=(type=char(20) updatewhereclause=yes key=yes name=codigo dbname="articulos.codigo" )
+ column=(type=char(100) updatewhereclause=yes name=imagen dbname="articulos.imagen" )
+ retrieve="SELECT articulos.empresa,   
+       articulos.codigo,   
+       articulos.imagen  
+FROM   articulos   
+WHERE  articulos.empresa = :cod_empresa AND
+		 articulos.codigo  = :codigo
+" update="articulos" updatewhere=0 updatekeyinplace=yes arguments=(("cod_empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Imagen:"border="0" color="33554432" x="14" y="20" height="56" width="238"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="270" y="24" height="48" width="800" format="[general]"  name=imagen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+button(band=detail text=""filename=""action="0" border="0" color="0" x="14" y="92" height="404" width="1065" vtextalign="0" htextalign="0"  name=imagen_articulo  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

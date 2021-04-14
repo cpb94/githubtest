@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_desc_empresa.srf
+global type f_desc_empresa from function_object
+end type
+
+forward prototypes
+global function string f_desc_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_desc_empresa (string ai_codigo_empresa);string	ls_nombre_empresa
+
+  SELECT empresas.nombre  
+    INTO :ls_nombre_empresa 
+    FROM empresas  
+   WHERE empresas.empresa = :ai_codigo_empresa;
+ 
+ 
+ls_nombre_empresa = trim(ls_nombre_empresa) 
+ 
+IF SQLCA.SQLCode <> 0 THEN
+   ls_nombre_empresa=""
+END IF
+RETURN ls_nombre_empresa
+end function
+

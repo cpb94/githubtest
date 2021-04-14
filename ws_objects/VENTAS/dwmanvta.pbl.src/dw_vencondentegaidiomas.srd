@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_vencondentegaidiomas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=265 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="vencondentregaidioma.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="vencondentregaidioma.codigo" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=idioma dbname="vencondentregaidioma.idioma" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="vencondentregaidioma.resumido" )
+ column=(type=char(70) update=yes updatewhereclause=yes name=descripcion dbname="vencondentregaidioma.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vencondentregaidioma~" ) COLUMN(NAME=~"vencondentregaidioma.empresa~") COLUMN(NAME=~"vencondentregaidioma.codigo~") COLUMN(NAME=~"vencondentregaidioma.idioma~") COLUMN(NAME=~"vencondentregaidioma.resumido~") COLUMN(NAME=~"vencondentregaidioma.descripcion~")WHERE(    EXP1 =~"vencondentregaidioma.empresa~"   OP =~"=~"    EXP2 =~":ra_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vencondentregaidioma.codigo~"   OP =~"=~"    EXP2 =~":ra_codigo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vencondentregaidioma.idioma~"   OP =~"=~"    EXP2 =~":ra_idioma~" ) ) ARG(NAME = ~"ra_empresa~" TYPE = string)  ARG(NAME = ~"ra_codigo~" TYPE = string)  ARG(NAME = ~"ra_idioma~" TYPE = string) " update="vencondentregaidioma" updatewhere=0 updatekeyinplace=no arguments=(("ra_empresa", string),("ra_codigo", string),("ra_idioma", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="14" y="132" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=10 border="5" color="0" x="394" y="124" height="73" width="2195" format=""  name=descripcion edit.limit=70 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

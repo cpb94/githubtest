@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_vencliente_imprimir_partidas_estad.srf
+global type f_vencliente_imprimir_partidas_estad from function_object
+end type
+
+forward prototypes
+global function boolean f_vencliente_imprimir_partidas_estad (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function boolean f_vencliente_imprimir_partidas_estad (string arg_empresa, string arg_codigo);string  ls_pais,ls_provincia
+boolean lb_imprimir_pe
+
+select genter.pais,
+		 genter.provincia 
+into   :ls_pais,
+		 :ls_provincia 
+from   genter 
+where  genter.empresa = :arg_empresa
+and    genter.tipoter = 'C'
+and    genter.codigo  = :arg_codigo;
+
+if ls_pais <> '11' or (ls_pais = '11' and (ls_provincia = '35' or ls_provincia = '38')) then
+	lb_imprimir_pe = true
+else
+	lb_imprimir_pe = false
+end if
+
+return lb_imprimir_pe
+end function
+

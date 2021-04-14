@@ -1,0 +1,38 @@
+﻿$PBExportHeader$ftc_linea_en_orden_carga.srf
+global type ftc_linea_en_orden_carga from function_object
+end type
+
+forward prototypes
+global function boolean ftc_linea_en_orden_carga (decimal anyo, decimal pedido, decimal linea)
+end prototypes
+
+global function boolean ftc_linea_en_orden_carga (decimal anyo, decimal pedido, decimal linea);Long en_orden_carga
+
+select isnull(venliped.id_alm_orden_carga,0)
+into   :en_orden_carga
+from   venliped
+where  venliped.empresa = :codigo_empresa
+and    venliped.anyo    = :anyo
+and    venliped.pedido  = :pedido
+and    venliped.linea   = :linea;
+
+if en_orden_carga = 0 then
+
+	SELECT isnull(COUNT(*) ,0)
+	INTO   :en_orden_carga 
+	FROM   orden_carga_linea 
+	WHERE  empresa         = :codigo_empresa 
+	AND    venliped_anyo   = :anyo 
+	AND    venliped_pedido = :pedido  
+	AND    venliped_linea  = :linea;
+	
+end if
+
+if en_orden_carga > 0 then
+	return true
+else
+	return false
+end if
+
+end function
+

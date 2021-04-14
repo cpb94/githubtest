@@ -1,0 +1,102 @@
+﻿$PBExportHeader$f_imprimir_etiqueta_labeljoy_original.srf
+global type f_imprimir_etiqueta_labeljoy_original from function_object
+end type
+
+forward prototypes
+global function boolean f_imprimir_etiqueta_labeljoy_original (string arg_articulo, string arg_calidad, string arg_lote, integer arg_calibre, string arg_caja, string arg_etiqueta, long arg_etiquetas, string arg_tono_cliente, integer arg_calibre_cliente, string arg_pedido_cliente)
+end prototypes
+
+global function boolean f_imprimir_etiqueta_labeljoy_original (string arg_articulo, string arg_calidad, string arg_lote, integer arg_calibre, string arg_caja, string arg_etiqueta, long arg_etiquetas, string arg_tono_cliente, integer arg_calibre_cliente, string arg_pedido_cliente);string  ls_ruta_etiquetas,ls_etiqueta,ls_codigo_etiqueta,ls_ejecutar,ls_calidad,ls_ean13_articulo,ls_ean128
+long    ll_resultado
+boolean lb_correcto
+
+delete almetiquetas_imprimir;
+commit;
+
+select isnull(articulos.ean13,'')
+into   :ls_ean13_articulo
+from   articulos
+where  articulos.empresa = :codigo_empresa 
+and    articulos.codigo  = :arg_articulo;
+
+//(01)Ean13
+//(10)Numero de Lote
+//(30)Cantidad
+//(91)Calidad
+//(92)Calibre
+
+if isnull(arg_lote) then arg_lote = ""
+if isnull(arg_calibre) then arg_calibre = 0
+
+ls_ean128  = "(01)"+ls_ean13_articulo+&
+				 "(10)"+arg_lote+&
+				 "(92)"+string(arg_calibre,"0")
+
+insert into almetiquetas_imprimir
+	(almetiquetas_imprimir.empresa,
+	 almetiquetas_imprimir.articulo,
+	 almetiquetas_imprimir.caja,
+	 almetiquetas_imprimir.lote,
+	 almetiquetas_imprimir.calibre,
+	 almetiquetas_imprimir.etiquetas,
+	 almetiquetas_imprimir.calidad,
+	 almetiquetas_imprimir.tono_cliente,
+	 almetiquetas_imprimir.calibre_cliente,
+	 almetiquetas_imprimir.pedido_cliente,
+	 almetiquetas_imprimir.ean128)
+values
+	(:codigo_empresa,
+	 :arg_articulo,
+	 :arg_caja,
+	 :arg_lote,
+	 :arg_calibre,
+	 :arg_etiquetas,
+	 :arg_calidad,
+	 :arg_tono_cliente,
+	 :arg_calibre_cliente ,
+	 :arg_pedido_cliente ,
+ 	 :ls_ean128);
+
+if sqlca.sqlcode = 0 then
+	commit;
+	
+	select isnull(ruta_etiquetas,'')
+	into  :ls_ruta_etiquetas
+	from  empresas
+	where empresa = :codigo_empresa;	
+	
+	if trim(arg_etiqueta) = "" then	
+		select isnull(articulos_etiqueta.etiqueta,'')
+		into   :ls_codigo_etiqueta 
+		from   articulos_etiqueta	
+		where  articulos_etiqueta.empresa  = :codigo_empresa
+		and    articulos_etiqueta.articulo = :arg_articulo;
+	else
+		ls_codigo_etiqueta = arg_etiqueta
+	end if
+	
+	select isnull(almetiquetas.ruta,'')
+	into   :ls_etiqueta
+	from   almetiquetas 
+	where  almetiquetas.empresa = :codigo_empresa 
+	and    almetiquetas.codigo  = :ls_codigo_etiqueta;			
+	
+	ls_ejecutar = ls_ruta_etiquetas+ls_etiqueta
+
+//	ls_ejecutar = 	'"C:\Program Files (x86)\Labeljoy 5\labeljoy5.exe" '+ '"'+ls_ejecutar+'"'
+	
+//	ls_ejecutar = "C:\Program Files (x86)\Labeljoy 5\Ejemplos\ESTANDAR.lpa"
+			
+//	ll_resultado = shellexecutea(Handle(This),"print",ls_ejecutar,0,0,1) 
+	ll_resultado = shellexecutea(Handle(This),"open",ls_ejecutar,0,0,1) 
+	
+	lb_correcto = true
+else
+	rollback;
+	
+	lb_correcto = false
+end if
+
+return lb_correcto
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_temp_superior_articulo.srf
+global type f_temp_superior_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_temp_superior_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function decimal f_temp_superior_articulo (string arg_empresa, string arg_articulo);dec var_temp_superior
+
+select temp_superior
+into   :var_temp_superior
+from   articulos  
+where  empresa = :arg_empresa
+and    codigo  = :arg_articulo;
+
+if isnull(var_temp_superior) then var_temp_superior = 0
+
+return var_temp_superior
+end function
+

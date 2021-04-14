@@ -1,0 +1,62 @@
+﻿$PBExportHeader$f_cargar_imagen_nuevo.srf
+global type f_cargar_imagen_nuevo from function_object
+end type
+
+forward prototypes
+global function string f_cargar_imagen_nuevo (string modelo)
+end prototypes
+
+global function string f_cargar_imagen_nuevo (string modelo);string solicitud, trabajo, imagen, ruta, ref_dis, ref_dis2
+
+
+select rutaimagenes
+into :ruta
+from empresas
+where empresa = :codigo_empresa;
+
+imagen = ""
+	
+imagen = ruta+modelo+".bmp"
+
+return imagen
+
+
+
+
+
+
+//string solicitud, trabajo, imagen, ruta, ref_dis, ref_dis2
+//
+//
+//select rutaimagenes
+//into :ruta
+//from empresas
+//where empresa = :codigo_empresa;
+//
+//imagen = ""
+//	
+////imagen = ruta+"P"+string(modelo)+".bmp"
+//
+////if not FileExists(imagen) then
+//	imagen = ruta+"M"+string(modelo)+".bmp"
+//	if not FileExists(imagen) then
+//		imagen = ruta+string(modelo)+".bmp"
+//	
+//		if not FileExists(imagen) then
+//			select ref_disenyo, ref_disenyo2
+//			into :ref_dis, :ref_dis2
+//			from articulos_lab
+//			where empresa = :codigo_empresa
+//			and codigo = :modelo;
+//			imagen = ruta+"M"+ref_dis+ref_dis2+".bmp"
+//			if not FileExists(imagen) then
+//				imagen = ruta+ref_dis+ref_dis2+".bmp"
+//			end if
+//	
+//		end if
+//	end if
+////end if
+//
+//return imagen
+end function
+

@@ -1,0 +1,136 @@
+﻿$PBExportHeader$dw_con_movimientos_tipo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="almmovhis.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=almacen dbname="almmovhis.almacen" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="almmovhis.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=nummov dbname="almmovhis.nummov" )
+ column=(type=char(5) updatewhereclause=yes name=origen dbname="almmovhis.origen" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="almmovhis.articulo" )
+ column=(type=datetime updatewhereclause=yes name=fechmov dbname="almmovhis.fechmov" )
+ column=(type=char(5) updatewhereclause=yes name=tipomov dbname="almmovhis.tipomov" )
+ column=(type=number updatewhereclause=yes name=cantidade dbname="almmovhis.cantidade" )
+ column=(type=number updatewhereclause=yes name=cantidads dbname="almmovhis.cantidads" )
+ column=(type=char(15) updatewhereclause=yes name=numdoc dbname="almmovhis.numdoc" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="almmovhis.calidad" )
+ column=(type=long updatewhereclause=yes name=tono dbname="almmovhis.tono" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="almmovhis.calibre" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="almmovhis.tipo_unidad" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="almmovhis.referencia" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(3) updatewhereclause=yes name=calidades_abreviado dbname="calidades.abreviado" )
+ column=(type=char(10) updatewhereclause=yes name=pallets_resumido dbname="pallets.resumido" )
+ column=(type=char(10) updatewhereclause=yes name=almtipomov_resumido dbname="almtipomov.resumido" )
+ column=(type=char(5) updatewhereclause=yes name=almmovhis_caja dbname="almmovhis.caja" )
+ column=(type=char(4) updatewhereclause=yes name=tonochar dbname="almmovhis.tonochar" )
+ retrieve="  SELECT almmovhis.empresa,   
+         almmovhis.almacen,   
+         almmovhis.anyo,   
+         almmovhis.nummov,   
+         almmovhis.origen,   
+         almmovhis.articulo,   
+         almmovhis.fechmov,   
+         almmovhis.tipomov,   
+         almmovhis.cantidade,   
+         almmovhis.cantidads,   
+         almmovhis.numdoc,   
+         almmovhis.calidad,   
+         almmovhis.tono,   
+         almmovhis.calibre,   
+         almmovhis.tipo_unidad,   
+         almmovhis.referencia,   
+         genter.razon,   
+         articulos.descripcion,   
+         calidades.abreviado,   
+         pallets.resumido,   
+         almtipomov.resumido,   
+         almmovhis.caja,   
+         almmovhis.tonochar  
+    FROM almmovhis,   
+         genter,   
+         articulos,   
+         calidades,   
+         pallets,   
+         almtipomov  
+   WHERE ( almmovhis.empresa *= genter.empresa) and  
+         ( almmovhis.tipo *= genter.tipoter) and  
+         ( almmovhis.codtercero *= genter.codigo) and  
+         ( almmovhis.empresa *= calidades.empresa) and  
+         ( almmovhis.calidad *= calidades.codigo) and  
+         ( almmovhis.empresa *= pallets.empresa) and  
+         ( almmovhis.tipo_pallet *= pallets.codigo) and  
+         ( almmovhis.empresa *= almtipomov.empresa) and  
+         ( almmovhis.tipomov *= almtipomov.tipomov) and  
+         ( almmovhis.empresa = articulos.empresa ) and  
+         ( almmovhis.articulo = articulos.codigo ) and  
+         ( ( almmovhis.empresa = :arg_empresa ) AND  
+         ( almmovhis.fechmov between :arg_fecha_desde and :arg_fecha_hasta ) AND  
+         ( almmovhis.tipomov in ( :tipos ) ) AND  
+         ( almmovhis.situacion <> 'A' ) )   
+ORDER BY almmovhis.tipo_unidad DESC,   
+         almmovhis.empresa ASC,   
+			almmovhis.fechmov ASC,
+         almmovhis.referencia ASC,
+			almmovhis.calidad ASC,   
+         almmovhis.tono ASC,   
+         almmovhis.calibre ASC   
+" arguments=(("arg_empresa", string),("arg_fecha_desde", datetime),("arg_fecha_hasta", datetime),("tipos", stringlist)) )
+group(level=1 header.height=0 trailer.height=80 by=("tipo_unidad" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=80 by=("referencia" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="0" y="12" height="64" width="238"  name=fechmov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Entradas"border="6" color="0" x="2203" y="12" height="64" width="265"  name=cantidade_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Salidas"border="6" color="0" x="2491" y="12" height="64" width="265"  name=cantidads_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tp"border="6" color="0" x="1952" y="12" height="64" width="82"  name=tipo_pallet_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="C"border="6" color="0" x="1879" y="12" height="64" width="50"  name=calibre_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tc"border="6" color="0" x="2053" y="12" height="64" width="133"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Doc"border="6" color="0" x="256" y="12" height="64" width="151"  name=numdoc_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tipo"border="6" color="0" x="425" y="12" height="64" width="251"  name=tipomov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cli/Pro"border="6" color="0" x="695" y="12" height="64" width="297"  name=codtercero_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Artículo"border="6" color="0" x="1010" y="12" height="64" width="567"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cl"border="6" color="0" x="1600" y="12" height="64" width="73"  name=calidad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="To"border="6" color="0" x="1691" y="12" height="64" width="169"  name=tono_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+line(band=detail x1="0" y1="4" x2="0" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="2761" y1="4" x2="2761" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="IF(IsNull( fechmov),~"~",String(fechmov,~"dd-mm-yy~"))"border="0" color="0" x="14" y="4" height="60" width="219" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="242" y1="4" x2="242" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1870" y1="4" x2="1870" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="14" y1="76" x2="2752" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2203" y="4" height="60" width="265" format=""  name=cantidade editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2482" y1="4" x2="2482" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2496" y="4" height="60" width="261" format="[general]"  name=cantidads editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2190" y1="4" x2="2190" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="1879" y="4" height="60" width="50" format="[general]"  name=calibre edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1938" y1="4" x2="1938" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1952" y="4" height="60" width="78" format="[general]"  name=pallets_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2039" y1="4" x2="2039" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_caja_abr ( empresa , almmovhis_caja )"border="0" color="0" x="2048" y="4" height="60" width="137" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="416" y1="4" x2="416" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="256" y="4" height="60" width="151" format="[general]"  name=numdoc editmask.mask="#####" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="425" y="12" height="52" width="256" format="[general]"  name=almtipomov_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="690" y1="4" x2="690" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="704" y="12" height="52" width="288" format="[general]"  name=genter_razon edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1001" y1="4" x2="1001" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="1019" y="4" height="60" width="562" format="[general]"  name=articulos_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="1591" y1="4" x2="1591" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1682" y1="4" x2="1682" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="1605" y="4" height="60" width="64" format="[general]"  name=calidades_abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="1691" y="4" height="64" width="169" format="[general]"  name=tonochar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="2761" y1="4" x2="2761" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="9" y1="76" x2="2766" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(cantidade for group 2)"border="0" color="16711680" x="2203" y="4" height="64" width="265" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.2 alignment="1" expression="sum(cantidads for group 2)"border="0" color="16711680" x="2496" y="4" height="64" width="261" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="2482" y1="4" x2="2482" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.2 x1="2190" y1="4" x2="2190" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="2757" y1="4" x2="2757" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="9" y1="76" x2="2766" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(cantidade for group 1)"border="0" color="128" x="2203" y="4" height="64" width="265" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="2482" y1="4" x2="2482" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(cantidads for group 1)"border="0" color="128" x="2491" y="4" height="64" width="261" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=trailer.1 alignment="1" text="Total  . . . ."border="0" color="128" x="1934" y="4" height="60" width="251"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="2199" y1="4" x2="2199" y2="80" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

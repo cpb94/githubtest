@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_usuario_venped.srf
+global type f_usuario_venped from function_object
+end type
+
+forward prototypes
+global function string f_usuario_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_usuario_venped (string empresa, integer anyo, decimal pedido);String var
+
+
+  SELECT venped.usuario
+    INTO :var
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido)   ;
+
+
+
+Return var
+end function
+

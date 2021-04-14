@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_busca_encajados_rec.srf
+global type f_busca_encajados_rec from function_object
+end type
+
+forward prototypes
+global subroutine f_busca_encajados_rec (string articulo_ant, ref string encajados[])
+end prototypes
+
+global subroutine f_busca_encajados_rec (string articulo_ant, ref string encajados[]);// Función que devuelve todos los encajados que están por encima del artículo que recibe como parámetro.
+// articulo_ant: Artículo del que buscamos los encajados
+// encajado[]
+
+datastore regs
+string sel,  uso, articulo
+integer i, pos, continua_estructura
+
+sel = " select art_escandallo.articulo, articulos.uso "+&
+		" from art_escandallo, articulos "+&
+		" where art_escandallo.empresa = '"+codigo_empresa+"' "+&
+		" and articulos.empresa = '"+codigo_empresa+"' "+&
+		" and art_escandallo.articulo = articulos.codigo "+&
+		" and art_escandallo.articulo_ant = '"+articulo_ant+"' "
+		
+f_cargar_cursor_nuevo ( sel, regs)
+
+for i = 1 to regs.rowcount()
+	articulo = regs.object.art_escandallo_articulo[i]
+	
+	uso = regs.object.articulos_uso[i]
+	if uso <> '3' and articulo <> articulo_ant then
+		f_busca_encajados_rec ( articulo, encajados[])
+	end if
+	if uso = '3' and articulo <> articulo_ant then
+		pos = upperbound (encajados) + 1
+		encajados[pos] = articulo
+		//Modificación debido a estructuras de promoción 22/01/2015
+		//Ahora puede haber un encajado dentro de la estructura, por lo que se tiene que seguir recorriendola
+		continua_estructura = 0
+		SELECT COUNT(*) INTO :continua_estructura FROM art_escandallo WHERE empresa = :codigo_empresa AND articulo_ant = :articulo;
+		if not isnull(continua_estructura) and continua_estructura > 0 then
+			f_busca_encajados_rec ( articulo, encajados[])
+		end if
+	end if
+next
+
+
+
+end subroutine
+

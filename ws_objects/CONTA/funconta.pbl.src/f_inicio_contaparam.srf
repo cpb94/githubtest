@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_inicio_contaparam.srf
+global type f_inicio_contaparam from function_object
+end type
+
+forward prototypes
+global function datetime f_inicio_contaparam (string empresa, integer ejercicio)
+end prototypes
+
+global function datetime f_inicio_contaparam (string empresa, integer ejercicio);datetime fencurso
+       
+
+SELECT contaparam.encurso
+INTO :fencurso 
+FROM  contaparam  
+WHERE  contaparam.ejercicio = :ejercicio
+AND    contaparam.empresa   = :empresa;
+
+Return fencurso
+
+
+
+end function
+

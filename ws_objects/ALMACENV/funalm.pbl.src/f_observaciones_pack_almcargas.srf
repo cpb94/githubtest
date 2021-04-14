@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_observaciones_pack_almcargas.srf
+global type f_observaciones_pack_almcargas from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_pack_almcargas (string empresa, integer anyo, decimal orden)
+end prototypes
+
+global function string f_observaciones_pack_almcargas (string empresa, integer anyo, decimal orden);String para,var_ref,var_cli
+var_ref = f_matricula_almcargas(empresa,anyo,orden)
+var_cli = f_cliente_almcargas(empresa,anyo,orden)
+
+  SELECT observaciones    INTO :para
+    FROM almcargaref
+   WHERE ( almcargaref.empresa = :empresa ) AND  
+         ( almcargaref.anyo    = :anyo)     AND  
+			( almcargaref.cliente = :var_cli)  AND  
+         ( almcargaref.referencia = :var_ref) ;
+
+			IF isNull(para)  then para= ""
+			Return para
+
+end function
+

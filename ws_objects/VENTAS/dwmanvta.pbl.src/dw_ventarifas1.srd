@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_ventarifas1.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no rows_per_detail = 2 pointer="\BMP\MANO.CUR" )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="venmapatarifas.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=tarifa dbname="venmapatarifas.tarifa" )
+ column=(type=datetime updatewhereclause=yes key=yes name=fecha dbname="venmapatarifas.fecha" )
+ column=(type=char(4099) updatewhereclause=yes name=observaciones dbname="venmapatarifas.observaciones" )
+ column=(type=datetime updatewhereclause=yes name=f_alta dbname="venmapatarifas.f_alta" )
+ column=(type=char(15) updatewhereclause=yes name=usuario dbname="venmapatarifas.usuario" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmapatarifas~" ) COLUMN(NAME=~"venmapatarifas.empresa~") COLUMN(NAME=~"venmapatarifas.tarifa~") COLUMN(NAME=~"venmapatarifas.fecha~") COLUMN(NAME=~"venmapatarifas.observaciones~") COLUMN(NAME=~"venmapatarifas.f_alta~") COLUMN(NAME=~"venmapatarifas.usuario~")WHERE( EXP1 =~"venmapatarifas.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"venmapatarifas.tarifa~" OP =~"=~" EXP2 =~":codigo~" ) ) ORDER(NAME=~"venmapatarifas.empresa~" ASC=yes ) ORDER(NAME=~"venmapatarifas.tarifa~" ASC=yes ) ORDER(NAME=~"venmapatarifas.fecha~" ASC=no) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) " update="venmapatarifas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+bitmap(band=header filename="c:\BMP\CARPETA.BMP" x="59" y="8" height="64" width="73" border="6"  name=pb_carpeta pointer="\bmp\MANO.CUR" )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="155" y="8" height="64" width="498"  name=fecha_t_1  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="128" x="119" y="4" height="64" width="590" format="[shortdate] [time]" row_in_detail=1  name=fecha_1 editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

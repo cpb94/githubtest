@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_observaciones_venped.srf
+global type f_observaciones_venped from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_observaciones_venped (string empresa, integer anyo, decimal pedido);String var_empresa,var_observaciones
+Dec{0} var_anyo,var_pedido
+
+  SELECT venped.empresa,venped.anyo,venped.pedido,venped.observaciones  
+    INTO :var_empresa,:var_anyo,:var_pedido,:var_observaciones  
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido)   
+ORDER BY venped.empresa ASC,venped.anyo ASC,venped.pedido ASC;
+
+
+Return var_observaciones
+end function
+

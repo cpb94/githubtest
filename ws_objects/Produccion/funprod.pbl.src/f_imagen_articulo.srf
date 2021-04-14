@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_imagen_articulo.srf
+global type f_imagen_articulo from function_object
+end type
+
+forward prototypes
+global function string f_imagen_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function string f_imagen_articulo (string arg_empresa, string arg_articulo);string var_imagen
+
+select imagen 
+into   :var_imagen
+from   articulos  
+where  empresa = :arg_empresa
+and    codigo  = :arg_articulo;
+
+if isnull(var_imagen) then var_imagen = ""
+
+return var_imagen
+end function
+

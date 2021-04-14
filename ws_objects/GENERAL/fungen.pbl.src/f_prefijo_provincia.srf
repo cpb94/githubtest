@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_prefijo_provincia.srf
+$PBExportComments$Devualve el prefijo de la provincia.
+global type f_prefijo_provincia from function_object
+end type
+
+forward prototypes
+global function string f_prefijo_provincia (string cod_pais, string cod_provincia)
+end prototypes
+
+global function string f_prefijo_provincia (string cod_pais, string cod_provincia);  String nombre
+
+  SELECT provincias.prefijo
+    INTO :nombre  
+    FROM provincias  
+   WHERE (provincias.pais      = :cod_pais) AND  
+         (provincias.provincia = :cod_provincia) USING SQLCA;
+   IF IsNull(nombre) Then nombre = ""
+   Return nombre
+
+end function
+

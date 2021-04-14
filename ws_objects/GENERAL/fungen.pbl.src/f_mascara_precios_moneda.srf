@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_mascara_precios_moneda.srf
+$PBExportComments$Modifica la mascara de una datawindow, recibo datawindow, columna y moneda, pone con defecto  autofocus.~r~nDecimales(segun moneda)
+global type f_mascara_precios_moneda from function_object
+end type
+
+forward prototypes
+global function string f_mascara_precios_moneda (string moneda)
+end prototypes
+
+global function string f_mascara_precios_moneda (string moneda);Integer var_decimales  
+String formato
+
+SELECT monedas.decimales  
+INTO   :var_decimales  
+FROM   monedas  
+WHERE  monedas.moneda = :moneda;
+formato ="###,###,##0"
+CHOOSE CASE var_decimales
+	CASE 0	
+	formato ="####,###,##0"
+   CASE 1	
+	formato ="##,###,##0.0"
+   CASE 2	
+	formato ="#,###,##0.00"
+   CASE 3	
+	formato ="####,##0.000"
+   CASE 4	
+	formato ="###,##0.0000"
+END CHOOSE
+
+Return formato
+
+
+
+
+end function
+

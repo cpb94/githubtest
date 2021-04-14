@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_deptipomov_abr.srf
+global type f_nombre_deptipomov_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_deptipomov_abr (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_nombre_deptipomov_abr (string ai_empresa, string as_tipo);string	ls_nombre_tipo
+
+    SELECT deptipomov.resumido 
+    INTO :ls_nombre_tipo  
+    FROM deptipomov  
+   WHERE ( deptipomov.empresa      = :ai_empresa ) AND  
+         ( deptipomov.tipomov      = :as_tipo )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_tipo = ""
+
+END IF
+
+RETURN ls_nombre_tipo
+end function
+

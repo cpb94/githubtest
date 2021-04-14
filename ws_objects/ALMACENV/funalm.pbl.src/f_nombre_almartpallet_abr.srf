@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_almartpallet_abr.srf
+global type f_nombre_almartpallet_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_almartpallet_abr (string empresa, string articulo, string pallet)
+end prototypes
+
+global function string f_nombre_almartpallet_abr (string empresa, string articulo, string pallet);string  ls_nombre,clase
+Integer numero
+
+	Select count(*) Into :numero From almartpallet
+	Where  empresa  = :empresa
+	And    articulo = :articulo
+	And    pallet  = :pallet;
+	IF IsNull(numero) Then numero = 0
+	IF numero= 0 Then return ""
+
+	SELECT resumido Into :ls_nombre   FROM pallets  
+	WHERE  empresa = :empresa 
+	AND    codigo  = :pallet;
+	IF SQLCA.SQLCode <> 0 THEN	ls_nombre = ""
+
+RETURN ls_nombre
+end function
+

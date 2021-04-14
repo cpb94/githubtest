@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pais_banco.srf
+global type f_pais_banco from function_object
+end type
+
+forward prototypes
+global function string f_pais_banco (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_pais_banco (string cod_empresa, string cod_banco);String ls_direccion
+
+ SELECT    carbancos.pais
+    INTO   :ls_direccion
+    FROM carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+
+RETURN ls_direccion
+//
+
+end function
+

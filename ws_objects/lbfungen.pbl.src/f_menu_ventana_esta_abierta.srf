@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_menu_ventana_esta_abierta.srf
+global type f_menu_ventana_esta_abierta from function_object
+end type
+
+forward prototypes
+global function integer f_menu_ventana_esta_abierta (string nombre_ventana)
+end prototypes
+
+global function integer f_menu_ventana_esta_abierta (string nombre_ventana);String clase
+Long i
+Boolean respuesta
+
+respuesta = false
+
+For i = 1 To numero_ventanas_activas
+	if ventanas_activas[i].activa = true then
+		if lower(ventanas_activas[i].nombre) = lower(nombre_ventana) then
+			return i
+		end if
+	end if
+Next
+
+return -1
+/*
+String clase
+Long i
+Boolean respuesta
+
+respuesta = false
+
+For i = 1 To numero_ventanas_activas
+	if not isnull(ventanas_activas[i]) then
+		if lower(ventanas_activas[i].ventana.className()) = lower(nombre_ventana) then
+			return i
+		end if
+	end if
+Next
+
+return -1
+*/
+end function
+

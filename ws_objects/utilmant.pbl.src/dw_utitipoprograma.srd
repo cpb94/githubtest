@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_utitipoprograma.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=601 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=codigo dbname="utitipoprograma.codigo" )
+ column=(type=char(40) update=yes name=descripcion dbname="utitipoprograma.descripcion" )
+ column=(type=char(10) update=yes name=resumido dbname="utitipoprograma.resumido" )
+ column=(type=char(4099) update=yes name=observaciones dbname="utitipoprograma.observaciones" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"utitipoprograma~" ) COLUMN(NAME=~"utitipoprograma.codigo~") COLUMN(NAME=~"utitipoprograma.descripcion~") COLUMN(NAME=~"utitipoprograma.resumido~") COLUMN(NAME=~"utitipoprograma.observaciones~")WHERE( EXP1 =~"utitipoprograma.codigo~" OP =~"=~" EXP2 =~":ra_cod~" ) ) ORDER(NAME=~"utitipoprograma.codigo~" ASC=yes ) ARG(NAME = ~"ra_cod~" TYPE = string) " update="utitipoprograma" updatewhere=0 updatekeyinplace=no arguments=(("ra_cod", string)) )
+text(band=detail alignment="1" text="Observaciones:"border="0" color="0" x="1" y="260" height="65" width="444"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="494" y="36" height="73" width="1303" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="494" y="148" height="73" width="252" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="87" y="36" height="65" width="357"  name=paises_abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="129" y="148" height="65" width="307"  name=paises_tarifa_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="5" color="0" x="494" y="260" height="305" width="1866" format="[general]"  name=observaciones edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autovscroll=yes edit.vscrollbar=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

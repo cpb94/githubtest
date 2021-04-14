@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_clave_pais.srf
+global type f_clave_pais from function_object
+end type
+
+forward prototypes
+global function string f_clave_pais (string arg_pais)
+end prototypes
+
+global function string f_clave_pais (string arg_pais);string var_clave
+
+select clave
+into   :var_clave
+from   paises
+where  pais = :arg_pais;
+
+if isnull(var_clave) then var_clave = ""
+
+return var_clave
+end function
+

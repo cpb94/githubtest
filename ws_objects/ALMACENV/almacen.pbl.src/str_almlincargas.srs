@@ -1,0 +1,48 @@
+﻿$PBExportHeader$str_almlincargas.srs
+global type str_almlincargas from structure
+	string		empresa
+	decimal {0}	anyo
+	decimal {0}	orden
+	decimal {0}	linea
+	string		matricula
+	string		cliente
+	datetime		fcarga
+	decimal {0}	anyo_ped
+	decimal {0}	pedido
+	decimal {0}	linea_ped
+	datetime		fecha_ped
+	string		articulo
+	string		calidad
+	string		montajeartcal
+	decimal {0}	tono
+	decimal {0}	calibre
+	string		referencia
+	string		tipo_pallet
+	decimal {0}	cajas
+	decimal {0}	total_cajas
+	decimal {2}	cantidad
+	decimal {2}	cantidad_ped
+	string		tipo_unidad
+	string		ubicacion
+	string		usuario
+	decimal {0}	paldesde
+	decimal {0}	palhasta
+	decimal {0}	pallets
+	decimal {0}	peso_bruto
+	decimal {0}	peso_neto
+	decimal {0}	pico
+	string		es_pico
+	string		formato
+	datetime		forden
+	string		parcial
+	string		imp_bandas
+	string		marcado
+	string		situacion_pedido
+	string		deposito
+	string		almacen_deposito
+	string		caja
+	string		tonochar
+	decimal {2}	cantidad_facturar
+	string		almacen_de_carga
+end type
+

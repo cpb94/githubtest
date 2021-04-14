@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_bloqueo_almlinubica.srf
+global type f_bloqueo_almlinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_bloqueo_almlinubica (string empresa, string ubicacion, decimal linea)
+end prototypes
+
+global function boolean f_bloqueo_almlinubica (string empresa, string ubicacion, decimal linea);Integer numero
+  SELECT count(*) INTO :numero FROM almlinubica_bloqueo  
+   WHERE  almlinubica_bloqueo.empresa = :empresa 
+	AND    almlinubica_bloqueo.ubicacion = :ubicacion 
+	AND    almlinubica_bloqueo.linea = :linea;
+IF IsNull(numero) Then numero = 0
+IF numero = 0 Then
+	Return false
+Else
+	Return true
+End If
+
+end function
+

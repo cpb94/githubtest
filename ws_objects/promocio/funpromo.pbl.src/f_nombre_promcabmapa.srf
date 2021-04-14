@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_promcabmapa.srf
+global type f_nombre_promcabmapa from function_object
+end type
+
+forward prototypes
+global function string f_nombre_promcabmapa (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function string f_nombre_promcabmapa (string ra_codemp, string ra_codigo); string ls_nombre
+
+ SELECT promcabmapa.descripcion  
+    INTO :ls_nombre
+    FROM promcabmapa
+   WHERE ( promcabmapa.empresa = :ra_codemp ) AND  
+         ( promcabmapa.codigo = :ra_codigo )  
+  USING SQLCA;
+
+Return ls_nombre
+
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_tipo_carta.srf
+$PBExportComments$Devuelve el nombre de un tipo de carta.
+global type f_nombre_tipo_carta from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipo_carta (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_tipo_carta (string empresa, string codigo);String texto 
+ SELECT mtipo_cartas.texto  
+    INTO :texto  
+    FROM mtipo_cartas  
+   WHERE ( mtipo_cartas.empresa = :empresa ) AND  
+         ( mtipo_cartas.codigo = :codigo )   ;
+
+Return texto
+
+end function
+

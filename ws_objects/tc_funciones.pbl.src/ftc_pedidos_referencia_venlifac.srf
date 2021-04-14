@@ -1,0 +1,36 @@
+﻿$PBExportHeader$ftc_pedidos_referencia_venlifac.srf
+global type ftc_pedidos_referencia_venlifac from function_object
+end type
+
+forward prototypes
+global function string ftc_pedidos_referencia_venlifac (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function string ftc_pedidos_referencia_venlifac (string empresa, decimal anyo, decimal factura);String resultado = "", sel
+Datastore pedidos
+Long i = 1
+
+if isnull(empresa) or isnull(anyo) or isnull(factura) then
+	return ""
+end if
+
+sel = "SELECT DISTINCT numpedcli, fpedido_origen "+&
+		"FROM venlifac "+&
+		"WHERE fpedido_origen IS NOT NULL  "+&
+		"AND numpedcli IS NOT NULL "+&
+		"AND LTRIM(RTRIM(numpedcli)) <> '' "+&
+		"AND empresa = '"+empresa+"' AND anyo = "+String(anyo)+" AND factura = "+String(factura)
+f_cargar_cursor_trans (SQLCA,  sel,  pedidos)
+do while i <= pedidos.rowcount()
+	if i = 1 then
+		resultado = pedidos.object.numpedcli[i] + "("+String(pedidos.object.fpedido_origen[i],"dd/mm/yy")+")"
+	else
+		resultado += ", "+ pedidos.object.numpedcli[i] + "("+String(pedidos.object.fpedido_origen[i],"dd/mm/yy")+")"
+	end if
+	
+	i++
+loop
+
+return resultado
+end function
+

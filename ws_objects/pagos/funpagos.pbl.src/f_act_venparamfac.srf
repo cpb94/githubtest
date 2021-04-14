@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_act_venparamfac.srf
+$PBExportComments$funven
+global type f_act_venparamfac from function_object
+end type
+
+forward prototypes
+global function boolean f_act_venparamfac (string empresa, decimal periodo, string serie, long num_fac)
+end prototypes
+
+global function boolean f_act_venparamfac (string empresa, decimal periodo, string serie, long num_fac);
+update venparamfac  
+set 	venparamfac.factura = :num_fac  
+WHERE (venparamfac.empresa  = :empresa )
+AND   (venparamfac.anyo     = :periodo )
+AND   (venparamfac.serie  = :serie );
+
+	
+	
+
+	IF SQLCA.SQLCODE <> 0 Then 
+		f_mensaje("Error Datos",sqlca.sqlErrtext)
+		Return FALSE
+	ELSE
+		return TRUE
+	END IF
+
+
+end function
+

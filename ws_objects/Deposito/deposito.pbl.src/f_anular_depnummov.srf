@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_anular_depnummov.srf
+global type f_anular_depnummov from function_object
+end type
+
+forward prototypes
+global function boolean f_anular_depnummov (string mov_empresa, string mov_almacen, integer mov_anyo, integer mov_nummov)
+end prototypes
+
+global function boolean f_anular_depnummov (string mov_empresa, string mov_almacen, integer mov_anyo, integer mov_nummov);Integer bien 
+String mov_situacion
+
+ mov_situacion  = "A"
+  UPDATE depmovhis  
+     SET situacion = :mov_situacion  
+   WHERE (depmovhis.empresa = :mov_empresa ) AND  
+         (depmovhis.almacen = :mov_almacen ) AND  
+         (depmovhis.anyo    = :mov_anyo ) AND  
+         (depmovhis.nummov  = :mov_nummov )  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien = 1
+
+If  bien = 1 then
+  RETURN FALSE
+ELSE
+  RETURN TRUE
+END IF
+end function
+

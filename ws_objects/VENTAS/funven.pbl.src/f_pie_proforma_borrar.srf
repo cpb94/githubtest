@@ -1,0 +1,230 @@
+﻿$PBExportHeader$f_pie_proforma_borrar.srf
+global type f_pie_proforma_borrar from function_object
+end type
+
+forward prototypes
+global function string f_pie_proforma_borrar (string empresa, integer anyo, decimal proforma)
+end prototypes
+
+global function string f_pie_proforma_borrar (string empresa, integer anyo, decimal proforma);String  texto,textolinea,abr_divisa,espacios_importes,dto_txt,importe_txt,mascara_dto,mascara_importes
+str_venproformas venproformas
+Integer longitud,unidades,espacios,lineado
+dec{2} total_bruto,bruto,importe_dto,importe_iva,total,importe_ndto
+
+  SELECT venproformas.dtopp,venproformas.dtoesp1,   
+         venproformas.dtoesp2,venproformas.dtoesp3,   
+         venproformas.dtoesp4,venproformas.tipodto1,   
+         venproformas.tipodto2,venproformas.tipodto3,   
+         venproformas.tipodto4,venproformas.explicaciondto1,   
+         venproformas.explicaciondto2,venproformas.explicaciondto3,   
+         venproformas.explicaciondto4,venproformas.tipoiva,   
+         venproformas.iva, venproformas.divisa
+         
+         INTO :venproformas.dtopp,:venproformas.dtoesp1,:venproformas.dtoesp2,:venproformas.dtoesp3,:venproformas.dtoesp4,   
+         :venproformas.tipodto1,:venproformas.tipodto2,:venproformas.tipodto3,
+         :venproformas.tipodto4,:venproformas.explicaciondto1,:venproformas.explicaciondto2,   
+         :venproformas.explicaciondto3,:venproformas.explicaciondto4,:venproformas.tipoiva,   
+         :venproformas.iva,:venproformas.divisa
+         
+         FROM venproformas  
+         WHERE (venproformas.empresa = :empresa)
+         AND   (venproformas.anyo    = :anyo)
+         AND   (venproformas.proforma  = :proforma)   ;
+
+
+
+
+
+
+espacios_importes="@@@@@@@@@@@@@@@"
+mascara_importes=f_mascara_precios_moneda(venproformas.divisa)
+mascara_dto="#0"
+lineado = 45
+
+
+abr_divisa = f_nombre_moneda_abr(venproformas.divisa)
+
+Select sum(venliproformas.importe) Into :total_bruto From venliproformas
+Where  venliproformas.empresa    = :empresa
+And    venliproformas.anyo       = :anyo
+And    venliproformas.proforma     = :proforma
+And    venliproformas.control_descuentos     = "S";
+bruto = total_bruto
+importe_txt=String(total_bruto,mascara_importes)
+
+
+
+textolinea = String("Total Bruto",espacios_importes)+ &
+             ".........:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+            importe_txt + &
+             " " + abr_divisa
+
+texto =  RightTrim(textolinea)
+                  
+
+IF venproformas.tipodto1 = "P" Then
+  longitud = len(Trim(texto))
+  unidades = longitud /lineado
+  IF unidades  *  lineado < longitud Then unidades = unidades +1
+  IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+  importe_dto = (total_bruto * venproformas.dtoesp1) /100
+  importe_dto = Dec(String(importe_dto,f_mascara_precios_moneda(venproformas.divisa)))
+  bruto       = bruto - importe_dto
+  dto_txt     = String(venproformas.dtoesp1,mascara_dto)
+  importe_txt = "-" + Trim(String(importe_dto,mascara_importes))
+
+  textolinea = "  " + String(venproformas.explicaciondto1,espacios_importes)+ &
+               Space(len(mascara_dto)-len(dto_txt))+ &
+               dto_txt+"%"+ "....:" +"   " + &
+               Space(len(mascara_importes)-len(Trim(importe_txt))) + &
+               importe_txt + &
+               " " + abr_divisa
+  texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+END IF
+
+
+
+IF venproformas.tipodto2 = "P" Then
+ longitud = len(Trim(texto))
+ unidades = longitud /lineado
+ IF unidades  *  lineado < longitud Then unidades = unidades +1
+ IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+ importe_dto = (bruto * venproformas.dtoesp2) /100
+ importe_dto = Dec(String(importe_dto,mascara_importes))
+ bruto = bruto - importe_dto
+ dto_txt = String(venproformas.dtoesp2,mascara_dto)
+ importe_txt="-" + String(importe_dto,mascara_importes)
+ textolinea = "  " + String(venproformas.explicaciondto2,espacios_importes)+ &
+              Space(len(mascara_dto)-len(dto_txt))+&
+              dto_txt+"%"+ "....:" +"   " +&
+               Space(len(mascara_importes)-len(importe_txt)) + &
+              importe_txt + &
+              " " + abr_divisa
+ texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+END IF
+
+
+
+
+IF venproformas.tipodto3 = "P" Then
+ longitud = len(Trim(texto))
+ unidades = longitud /lineado
+ IF unidades  *  lineado < longitud Then unidades = unidades +1
+ IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+ importe_dto = (bruto * venproformas.dtoesp3) /100
+ importe_dto = Dec(String(importe_dto,mascara_importes))
+ bruto = bruto - importe_dto
+ dto_txt = String(venproformas.dtoesp3,mascara_dto)
+ importe_txt= "-" + String(importe_dto,mascara_importes)
+ textolinea = "  " + String(venproformas.explicaciondto3,espacios_importes)+ &
+              SPACE(len(mascara_dto)-len(dto_txt)) + &
+              dto_txt + "%"+ "....:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+              importe_txt + &
+              " " + abr_divisa
+
+ texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+END IF
+
+
+
+
+IF venproformas.tipodto4 = "P" Then
+ longitud = len(Trim(texto))
+ unidades = longitud /lineado
+ IF unidades  *  lineado < longitud Then unidades = unidades +1
+ IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+ importe_dto= (bruto * venproformas.dtoesp4) /100
+ importe_dto = Dec(String(importe_dto,mascara_importes))
+ bruto = bruto - importe_dto
+ dto_txt = String(venproformas.dtoesp4,mascara_dto)
+ importe_txt= "-" + String(importe_dto,mascara_importes)
+ textolinea = "  " + String(venproformas.explicaciondto4,espacios_importes)+ &
+              Space(len(mascara_dto)-len(dto_txt))+&
+              dto_txt+"%"+ "....:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+              importe_txt + &
+              " " + abr_divisa
+ texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+END IF
+
+Select sum(venliproformas.importe) Into :importe_ndto From venliproformas
+Where  venliproformas.empresa    = :empresa
+And    venliproformas.anyo       = :anyo
+And    venliproformas.proforma     = :proforma
+And    venliproformas.control_descuentos     = "N";
+importe_ndto = Dec(String(importe_ndto,mascara_importes))
+IF IsNull(importe_ndto) Then importe_ndto = 0
+IF importe_ndto <> 0 Then
+longitud = len(Trim(texto))
+unidades = longitud /lineado
+IF unidades  *  lineado < longitud Then unidades = unidades +1
+IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+importe_txt =String(importe_ndto,mascara_importes)
+textolinea = String("Conceptos Varios",espacios_importes)+ &
+             ".........:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+             importe_txt + &
+             " " + abr_divisa
+texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+END IF
+
+
+
+
+
+
+
+
+
+
+bruto = bruto + importe_ndto
+longitud = len(Trim(texto))
+unidades = longitud /lineado
+IF unidades  *  lineado < longitud Then unidades = unidades +1
+IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+importe_txt =String(bruto,mascara_importes)
+textolinea = String("Base Imponible",espacios_importes)+ &
+             ".........:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+             importe_txt + &
+             " " + abr_divisa
+texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+
+
+
+longitud = len(Trim(texto))
+unidades = longitud /lineado
+IF unidades  *  lineado < longitud Then unidades = unidades +1
+IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+importe_iva= (bruto * venproformas.iva) /100
+importe_iva = Dec(String(importe_iva,mascara_importes))
+dto_txt = String(venproformas.iva,mascara_dto)
+importe_txt= "+" + String(importe_iva,mascara_importes)
+textolinea = "  " + String("Iva",espacios_importes)+ &
+             Space(len(mascara_dto)-len(dto_txt)) + &
+             dto_txt+"%"+ "....:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+             importe_txt + &
+             " " + abr_divisa
+texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+
+
+longitud = len(Trim(texto))
+unidades = longitud /lineado
+IF unidades  *  lineado < longitud Then unidades = unidades +1
+IF unidades  <> 0 Then espacios = (unidades * lineado) - longitud
+total = bruto + importe_iva
+importe_txt= String(total,mascara_importes)
+textolinea = String("Total proforma",espacios_importes)+ &
+             ".........:" +"   " +&
+              Space(len(mascara_importes)-len(importe_txt)) + &
+            importe_txt + &
+             " " + abr_divisa
+texto = Trim(texto) + Space(espacios) + RightTrim(textolinea)
+
+Return texto
+
+end function
+

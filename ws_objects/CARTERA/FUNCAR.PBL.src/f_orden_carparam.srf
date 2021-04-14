@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_orden_carparam.srf
+global type f_orden_carparam from function_object
+end type
+
+forward prototypes
+global function decimal f_orden_carparam (string empresa, integer anyo)
+end prototypes
+
+global function decimal f_orden_carparam (string empresa, integer anyo);Dec{0}  var_orden,var_numero,var_orden1
+
+select carparam.orden Into :var_orden From carparam
+Where  carparam.empresa   = :empresa
+And    carparam.anyo = :anyo;
+IF SQLCA.SQLCODE = 100 Then var_orden = 0 
+IF IsNull(var_orden) Then var_orden = 0
+var_orden = var_orden + 1
+
+Select isnull(count(*),0) Into :var_numero From carefectos
+Where carefectos.empresa   = :empresa
+And   carefectos.anyo      = :anyo
+And   carefectos.orden     = :var_orden;
+
+if var_numero = 0 then
+	Select isnull(count(*),0) Into :var_numero From carhistorico
+	Where carhistorico.empresa   = :empresa
+	And   carhistorico.anyo      = :anyo
+	And   carhistorico.orden     = :var_orden;	
+end if
+
+IF IsNull(var_numero) Then var_numero = 0
+
+IF var_numero <> 0 then
+	Select max(carefectos.orden) Into :var_orden From carefectos
+	Where carefectos.anyo = :anyo
+	And   carefectos.empresa = :empresa;
+	var_orden = var_orden + 1
+			
+	Select max(carhistorico.orden) Into :var_orden1 From carhistorico
+	Where carhistorico.anyo = :anyo
+	And   carhistorico.empresa = :empresa;
+	var_orden1 = var_orden1 + 1				
+			
+	var_orden = max(var_orden,var_orden1)		
+			
+	f_grabar_incidencia("Error en gestion de datos (carparam)","He tenido que leer el maximo de carparam")
+ELSE
+	
+END IF
+f_actualizar_carparam(empresa,anyo,var_orden)
+Return var_orden
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_pais_genter.srf
+global type f_pais_genter from function_object
+end type
+
+forward prototypes
+global function string f_pais_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_pais_genter (string ai_empresa, string as_tipoter, string as_codcli);string	pais
+
+  SELECT genter.pais    INTO :pais
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+    USING SQLCA;
+IF IsNull(pais) Then pais = ""
+RETURN pais
+end function
+

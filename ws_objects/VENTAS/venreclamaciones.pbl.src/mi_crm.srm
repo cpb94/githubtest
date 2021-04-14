@@ -1,0 +1,894 @@
+﻿$PBExportHeader$mi_crm.srm
+forward
+global type mi_crm from mc_menu_sheets
+end type
+type m_gestionreclamaciones from menu within m_programas
+end type
+type m_2 from menu within m_gestionreclamaciones
+end type
+type m_17 from menu within m_2
+end type
+type m_18 from menu within m_2
+end type
+type m_19 from menu within m_2
+end type
+type m_20 from menu within m_2
+end type
+type m_21 from menu within m_2
+end type
+type m_22 from menu within m_2
+end type
+type m_2 from menu within m_gestionreclamaciones
+m_17 m_17
+m_18 m_18
+m_19 m_19
+m_20 m_20
+m_21 m_21
+m_22 m_22
+end type
+type m_altasdereclamaciones from menu within m_gestionreclamaciones
+end type
+type m_consultadereclamacionesporcliente from menu within m_gestionreclamaciones
+end type
+type m_consultareclamaciones from menu within m_gestionreclamaciones
+end type
+type m_consultareclamacionesmotivocausa from menu within m_gestionreclamaciones
+end type
+type m_consultareclamacionesporarticulocalidad from menu within m_gestionreclamaciones
+end type
+type m_vistareclamaciones from menu within m_gestionreclamaciones
+end type
+type m_gestionreclamaciones from menu within m_programas
+m_2 m_2
+m_altasdereclamaciones m_altasdereclamaciones
+m_consultadereclamacionesporcliente m_consultadereclamacionesporcliente
+m_consultareclamaciones m_consultareclamaciones
+m_consultareclamacionesmotivocausa m_consultareclamacionesmotivocausa
+m_consultareclamacionesporarticulocalidad m_consultareclamacionesporarticulocalidad
+m_vistareclamaciones m_vistareclamaciones
+end type
+type m_programas from mc_menu_sheets`m_programas within mi_crm
+m_gestionreclamaciones m_gestionreclamaciones
+end type
+end forward
+
+global type mi_crm from mc_menu_sheets
+end type
+global mi_crm mi_crm
+
+on mi_crm.create
+mi_crm=this
+call super::create
+this.text = "mi_crm"
+end on
+
+on mi_crm.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_crm
+m_gestionreclamaciones m_gestionreclamaciones
+end type
+
+on m_programas.create
+call super::create
+this.m_gestionreclamaciones=create m_gestionreclamaciones
+this.Item[UpperBound(this.Item)+1]=this.m_gestionreclamaciones
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_gestionreclamaciones)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_crm
+end type
+
+on m_listados.create
+call super::create
+end on
+
+on m_listados.destroy
+call super::destroy
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within mi_crm
+end type
+
+on m_opciones.create
+call super::create
+end on
+
+on m_opciones.destroy
+call super::destroy
+end on
+
+type m_ordenar from mc_menu_sheets`m_ordenar within m_opciones
+end type
+
+on m_ordenar.create
+call super::create
+end on
+
+on m_ordenar.destroy
+call super::destroy
+end on
+
+type m_-3 from mc_menu_sheets`m_-3 within m_opciones
+end type
+
+on m_-3.create
+call super::create
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_setupimpresora from mc_menu_sheets`m_setupimpresora within m_opciones
+end type
+
+on m_setupimpresora.create
+call super::create
+end on
+
+on m_setupimpresora.destroy
+call super::destroy
+end on
+
+type m_imprimir from mc_menu_sheets`m_imprimir within m_opciones
+end type
+
+on m_imprimir.create
+call super::create
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_-2 from mc_menu_sheets`m_-2 within m_opciones
+end type
+
+on m_-2.create
+call super::create
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_barraherramientas from mc_menu_sheets`m_barraherramientas within m_opciones
+end type
+
+on m_barraherramientas.create
+call super::create
+end on
+
+on m_barraherramientas.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from mc_menu_sheets`m_imprimirpantalla within m_opciones
+end type
+
+on m_imprimirpantalla.create
+call super::create
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_crm
+end type
+
+on m_utilidades.create
+call super::create
+end on
+
+on m_utilidades.destroy
+call super::destroy
+end on
+
+type m_agendatelefnica from mc_menu_sheets`m_agendatelefnica within m_utilidades
+end type
+
+on m_agendatelefnica.create
+call super::create
+end on
+
+on m_agendatelefnica.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from mc_menu_sheets`m_mapadecaracteres within m_utilidades
+end type
+
+on m_mapadecaracteres.create
+call super::create
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from mc_menu_sheets`m_calculadora within m_utilidades
+end type
+
+on m_calculadora.create
+call super::create
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from mc_menu_sheets`m_mensajes within m_utilidades
+end type
+
+on m_mensajes.create
+call super::create
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_ventana from mc_menu_sheets`m_ventana within mi_crm
+end type
+
+on m_ventana.create
+call super::create
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_vertical from mc_menu_sheets`m_vertical within m_ventana
+end type
+
+on m_vertical.create
+call super::create
+end on
+
+on m_vertical.destroy
+call super::destroy
+end on
+
+type m_horizontal from mc_menu_sheets`m_horizontal within m_ventana
+end type
+
+on m_horizontal.create
+call super::create
+end on
+
+on m_horizontal.destroy
+call super::destroy
+end on
+
+type m_mosaico from mc_menu_sheets`m_mosaico within m_ventana
+end type
+
+on m_mosaico.create
+call super::create
+end on
+
+on m_mosaico.destroy
+call super::destroy
+end on
+
+type m_cascada from mc_menu_sheets`m_cascada within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+type m_- from mc_menu_sheets`m_- within m_ventana
+end type
+
+on m_-.create
+call super::create
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_iconos from mc_menu_sheets`m_iconos within m_ventana
+end type
+
+on m_iconos.create
+call super::create
+end on
+
+on m_iconos.destroy
+call super::destroy
+end on
+
+type m_ayuda from mc_menu_sheets`m_ayuda within mi_crm
+end type
+
+on m_ayuda.create
+call super::create
+end on
+
+on m_ayuda.destroy
+call super::destroy
+end on
+
+type m_indice from mc_menu_sheets`m_indice within m_ayuda
+end type
+
+on m_indice.create
+call super::create
+end on
+
+on m_indice.destroy
+call super::destroy
+end on
+
+type m_buscarayudasobre from mc_menu_sheets`m_buscarayudasobre within m_ayuda
+end type
+
+on m_buscarayudasobre.create
+call super::create
+end on
+
+on m_buscarayudasobre.destroy
+call super::destroy
+end on
+
+type m_ventanaactual from mc_menu_sheets`m_ventanaactual within m_ayuda
+end type
+
+on m_ventanaactual.create
+call super::create
+end on
+
+on m_ventanaactual.destroy
+call super::destroy
+end on
+
+type m_usodelaayuda from mc_menu_sheets`m_usodelaayuda within m_ayuda
+end type
+
+on m_usodelaayuda.create
+call super::create
+end on
+
+on m_usodelaayuda.destroy
+call super::destroy
+end on
+
+type m_-1 from mc_menu_sheets`m_-1 within m_ayuda
+end type
+
+on m_-1.create
+call super::create
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_acerca from mc_menu_sheets`m_acerca within m_ayuda
+end type
+
+on m_acerca.create
+call super::create
+end on
+
+on m_acerca.destroy
+call super::destroy
+end on
+
+type m_informacindeventana from mc_menu_sheets`m_informacindeventana within m_ayuda
+end type
+
+on m_informacindeventana.create
+call super::create
+end on
+
+on m_informacindeventana.destroy
+call super::destroy
+end on
+
+type m_salir1 from mc_menu_sheets`m_salir1 within mi_crm
+end type
+
+on m_salir1.create
+call super::create
+end on
+
+on m_salir1.destroy
+call super::destroy
+end on
+
+type m_gestionreclamaciones from menu within m_programas
+m_2 m_2
+m_altasdereclamaciones m_altasdereclamaciones
+m_consultadereclamacionesporcliente m_consultadereclamacionesporcliente
+m_consultareclamaciones m_consultareclamaciones
+m_consultareclamacionesmotivocausa m_consultareclamacionesmotivocausa
+m_consultareclamacionesporarticulocalidad m_consultareclamacionesporarticulocalidad
+m_vistareclamaciones m_vistareclamaciones
+end type
+
+on m_gestionreclamaciones.create
+call super::create
+this.text = "Gestion Reclamaciones"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_2=create m_2
+this.m_altasdereclamaciones=create m_altasdereclamaciones
+this.m_consultadereclamacionesporcliente=create m_consultadereclamacionesporcliente
+this.m_consultareclamaciones=create m_consultareclamaciones
+this.m_consultareclamacionesmotivocausa=create m_consultareclamacionesmotivocausa
+this.m_consultareclamacionesporarticulocalidad=create m_consultareclamacionesporarticulocalidad
+this.m_vistareclamaciones=create m_vistareclamaciones
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_altasdereclamaciones
+this.Item[UpperBound(this.Item)+1]=this.m_consultadereclamacionesporcliente
+this.Item[UpperBound(this.Item)+1]=this.m_consultareclamaciones
+this.Item[UpperBound(this.Item)+1]=this.m_consultareclamacionesmotivocausa
+this.Item[UpperBound(this.Item)+1]=this.m_consultareclamacionesporarticulocalidad
+this.Item[UpperBound(this.Item)+1]=this.m_vistareclamaciones
+end on
+
+on m_gestionreclamaciones.destroy
+call super::destroy
+destroy(this.m_2)
+destroy(this.m_altasdereclamaciones)
+destroy(this.m_consultadereclamacionesporcliente)
+destroy(this.m_consultareclamaciones)
+destroy(this.m_consultareclamacionesmotivocausa)
+destroy(this.m_consultareclamacionesporarticulocalidad)
+destroy(this.m_vistareclamaciones)
+end on
+
+type m_2 from menu within m_gestionreclamaciones
+m_17 m_17
+m_18 m_18
+m_19 m_19
+m_20 m_20
+m_21 m_21
+m_22 m_22
+end type
+
+on m_2.create
+call super::create
+this.text = "Mantenimientos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_17=create m_17
+this.m_18=create m_18
+this.m_19=create m_19
+this.m_20=create m_20
+this.m_21=create m_21
+this.m_22=create m_22
+this.Item[UpperBound(this.Item)+1]=this.m_17
+this.Item[UpperBound(this.Item)+1]=this.m_18
+this.Item[UpperBound(this.Item)+1]=this.m_19
+this.Item[UpperBound(this.Item)+1]=this.m_20
+this.Item[UpperBound(this.Item)+1]=this.m_21
+this.Item[UpperBound(this.Item)+1]=this.m_22
+end on
+
+on m_2.destroy
+call super::destroy
+destroy(this.m_17)
+destroy(this.m_18)
+destroy(this.m_19)
+destroy(this.m_20)
+destroy(this.m_21)
+destroy(this.m_22)
+end on
+
+type m_17 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_ven_reclamaciones_causas, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_17.create
+call super::create
+this.text = "Causas de Reclamación"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_17.destroy
+call super::destroy
+end on
+
+type m_18 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_ven_reclamaciones_tipos, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_18.create
+call super::create
+this.text = "Tipos de Reclamación"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_18.destroy
+call super::destroy
+end on
+
+type m_19 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_ven_reclamaciones_fases, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_19.create
+call super::create
+this.text = "Fases en las reclamaciones"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_19.destroy
+call super::destroy
+end on
+
+type m_20 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_ven_reclamaciones_situaciones, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_20.create
+call super::create
+this.text = "Situaciones en las fases"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_20.destroy
+call super::destroy
+end on
+
+type m_21 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_ven_reclamaciones_responsables, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_21.create
+call super::create
+this.text = "Responsables de la reclamación"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_21.destroy
+call super::destroy
+end on
+
+type m_22 from menu within m_2
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_reclamaciones_gruposinformativos, lstr_param, ParentWindow, 5,original!)
+end event
+
+on m_22.create
+call super::create
+this.text = "Grupos a Informar"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_22.destroy
+call super::destroy
+end on
+
+type m_altasdereclamaciones from menu within m_gestionreclamaciones
+end type
+
+on m_altasdereclamaciones.create
+call super::create
+this.text = "Altas de Reclamaciones"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_altasdereclamaciones.destroy
+call super::destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_reclamaciones_gno, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_consultadereclamacionesporcliente from menu within m_gestionreclamaciones
+end type
+
+on m_consultadereclamacionesporcliente.create
+call super::create
+this.text = "Consulta de reclamaciones por cliente"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_consultadereclamacionesporcliente.destroy
+call super::destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_reclamaciones_cliente_valorado, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_consultareclamaciones from menu within m_gestionreclamaciones
+end type
+
+on m_consultareclamaciones.create
+call super::create
+this.text = "Consulta Reclamaciones"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_consultareclamaciones.destroy
+call super::destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_consulta_reclamaciones, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+type m_consultareclamacionesmotivocausa from menu within m_gestionreclamaciones
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_reclamaciones_motivo_causa, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultareclamacionesmotivocausa.create
+call super::create
+this.text = "Consulta Reclamaciones Motivo/Causa"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_consultareclamacionesmotivocausa.destroy
+call super::destroy
+end on
+
+type m_consultareclamacionesporarticulocalidad from menu within m_gestionreclamaciones
+end type
+
+on m_consultareclamacionesporarticulocalidad.create
+call super::create
+this.text = "Consulta Reclamaciones por Articulo, Calidad, Tono, Calibre"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_consultareclamacionesporarticulocalidad.destroy
+call super::destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_reclamaciones_art_cal_tono_calibre, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+type m_vistareclamaciones from menu within m_gestionreclamaciones
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_vista_reclamaciones, lstr_param, ParentWindow, 3,original!)
+
+end event
+
+on m_vistareclamaciones.create
+call super::create
+this.text = "Vista Reclamaciones"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_vistareclamaciones.destroy
+call super::destroy
+end on
+

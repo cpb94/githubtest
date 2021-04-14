@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_pasar_a_pesetas.srf
+global type f_pasar_a_pesetas from function_object
+end type
+
+forward prototypes
+global function decimal f_pasar_a_pesetas (decimal arg_importe)
+end prototypes
+
+global function decimal f_pasar_a_pesetas (decimal arg_importe);dec imp_pesetas
+
+if arg_importe <> 0 then
+	imp_pesetas = round(arg_importe * cambio_euro,0)
+else
+	imp_pesetas = 0
+end if
+
+return imp_pesetas
+
+
+
+end function
+

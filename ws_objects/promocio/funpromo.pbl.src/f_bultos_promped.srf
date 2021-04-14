@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_bultos_promped.srf
+global type f_bultos_promped from function_object
+end type
+
+forward prototypes
+global function integer f_bultos_promped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function integer f_bultos_promped (string empresa, integer anyo, decimal pedido);Integer bultos
+  SELECT count(*)  
+    INTO :bultos  
+    FROM promembexpositores  
+   WHERE ( promembexpositores.empresa = :empresa ) AND  
+         ( promembexpositores.codigo = (  SELECT promped.tipo_expositor  
+                                            FROM promped  
+                                           WHERE ( promped.empresa = :empresa ) AND  
+                                                 ( promped.anyo = :anyo ) AND  
+                                                 ( promped.pedido = :pedido )  ))   ;
+IF IsNull(bultos) Then  bultos = 0
+Return bultos
+end function
+

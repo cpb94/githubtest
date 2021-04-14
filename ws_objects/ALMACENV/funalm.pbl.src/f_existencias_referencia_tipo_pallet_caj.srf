@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_existencias_referencia_tipo_pallet_caj.srf
+global type f_existencias_referencia_tipo_pallet_caj from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_referencia_tipo_pallet_caj (string empresa, string referencia, string tipo_pallet, string caja)
+end prototypes
+
+global function decimal f_existencias_referencia_tipo_pallet_caj (string empresa, string referencia, string tipo_pallet, string caja);Dec{4}   var_existencias
+
+//Función no compatible con el nuevo almacen
+MessageBox("ERROR - NUEVO ALMACEN", "f_existencias_referencia_tipo_pallet_caj")
+
+/*
+SELECT sum(almlinubica.existencias) INTO :var_existencias FROM almlinubica  
+WHERE  almlinubica.empresa     = :empresa
+AND    almlinubica.referencia  = :referencia
+AND    almlinubica.tipo_pallet = :tipo_pallet
+AND    almlinubica.externo = "S"  // Carga directa
+AND    almlinubica.caja = :caja;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

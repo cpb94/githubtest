@@ -1,0 +1,43 @@
+﻿$PBExportHeader$str_almmovhis.srs
+$PBExportComments$Estructura historico de movimientos.
+global type str_almmovhis from structure
+	string		empresa
+	string		almacen
+	integer		anyo
+	decimal {0}	nummov
+	string		origen
+	string		articulo
+	datetime		fechmov
+	string		tipomov
+	decimal {4}	cantidade
+	decimal {4}	cantidads
+	decimal {4}	precio
+	string		codtercero
+	string		numdoc
+	string		situacion
+	string		observaciones
+	datetime		punteado
+	decimal {4}	antexist
+	string		familia
+	string		subfamilia
+	string		formato
+	string		subformato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		usuario
+	string		tipo_pallet
+	string		sector
+	string		externo
+	string		tipo
+	string		caja
+	string		tonochar
+	string		comp_almacen
+	integer		comp_anyo
+	decimal {0}	comp_nummov
+end type
+

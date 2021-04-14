@@ -1,0 +1,15 @@
+﻿$PBExportHeader$str_paramemp.srs
+global type str_paramemp from structure
+	string		empresa
+	string		moneda_emp
+	string		cod_fob
+	string		cod_cif
+	string		serie_nac
+	string		serie_cee
+	string		serie_exp
+	string		cod_cf
+	string		tipodoc_rem
+	string		directorio_remesas
+	integer		dias_riesgo
+end type
+

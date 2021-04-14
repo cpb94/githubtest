@@ -1,0 +1,46 @@
+﻿$PBExportHeader$dw_con_ped_alb_fac_cliente_fechas8.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=172 color="536870912" )
+summary(height=84 color="536870912" )
+footer(height=8 color="536870912" )
+detail(height=84 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad_facturas dbname="comodin.cantidad_facturas" )
+ column=(type=decimal(4) updatewhereclause=yes name=stock dbname="comodin.stock" )
+ column=(type=decimal(4) updatewhereclause=yes name=rotacion dbname="comodin.rotacion" )
+ column=(type=datetime updatewhereclause=yes name=fecha_ini dbname="comodin.fecha_ini" )
+ column=(type=datetime updatewhereclause=yes name=fecha_fin dbname="comodin.fecha_fin" )
+ column=(type=char(255) updatewhereclause=yes name=formato dbname="comodin.formato" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ retrieve="  SELECT comodin.empresa,   
+         letras articulo,
+			letras nombre_articulo,   
+         numerico cantidad_facturas,
+			numerico stock,
+			numerico rotacion,   
+			fecha fecha_ini,
+			fecha fecha_fin,
+			letras formato,
+			letras nombre_formato
+	FROM comodin  
+   WHERE comodin.empresa = :empresa    
+" arguments=(("empresa", string),("fdesde", datetime),("fhasta", datetime),("articulos", string))  sort="empresa A nombre_formato A rotacion D " )
+text(band=header alignment="2" text="Rotación"border="6" color="0" x="2907" y="12" height="152" width="357"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Descripción"border="6" color="0" x="562" y="12" height="152" width="1458"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="224" y="12" height="152" width="315"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cód."border="6" color="0" x="18" y="12" height="152" width="187"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Vta. Media 3 ult. meses"border="6" color="0" x="2039" y="12" height="152" width="457"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Disponible"border="6" color="0" x="2519" y="12" height="152" width="366"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="14" y="4" height="68" width="187" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression="f_nombre_formato( empresa , formato )"border="0" color="0" x="219" y="4" height="68" width="320" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="558" y="4" height="68" width="1467" format="[general]"  name=nombre_articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="2907" y="4" height="68" width="366" format="[general]"  name=rotacion editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2519" y="4" height="68" width="370" format=""  name=stock editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="2043" y="4" height="68" width="457" format="[general]"  name=cantidad_facturas editmask.mask="#,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="TOTALES :"border="0" color="0" x="1701" y="4" height="56" width="311"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum( cantidad_facturas for all),~"###,###,###~")"border="0" color="0" x="2043" y="4" height="68" width="453" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum( stock for all),~"###,###,###~")"border="0" color="0" x="2519" y="4" height="68" width="370" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

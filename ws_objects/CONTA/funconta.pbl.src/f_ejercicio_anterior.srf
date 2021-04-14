@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_ejercicio_anterior.srf
+global type f_ejercicio_anterior from function_object
+end type
+
+forward prototypes
+global function integer f_ejercicio_anterior (integer par_ejercici)
+end prototypes
+
+global function integer f_ejercicio_anterior (integer par_ejercici);// Obtenemos el último ejercicio
+
+/* Devuelve -1 si hay error el la consulta a la BD
+				0 si no hay ejercicio anterior
+				> 1 el ejercicio
+
+*/
+
+
+int ejer
+
+select max(contaplan.ejercicio) into :ejer
+	from   contaplan
+	where (empresa = :codigo_empresa) and
+			(ejercicio < :par_ejercici);
+
+
+	
+	
+			
+if sqlca.sqlcode = -1 then return -1
+if sqlca.sqlcode = 100 then return 0
+return ejer
+end function
+

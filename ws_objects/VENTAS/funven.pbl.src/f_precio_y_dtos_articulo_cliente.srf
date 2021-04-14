@@ -1,0 +1,647 @@
+﻿$PBExportHeader$f_precio_y_dtos_articulo_cliente.srf
+global type f_precio_y_dtos_articulo_cliente from function_object
+end type
+
+forward prototypes
+global function boolean f_precio_y_dtos_articulo_cliente (string arg_empresa, string arg_cliente, datetime arg_fecha_pedido, string arg_tarifa, string arg_articulo, string arg_calidad, string arg_caja, string arg_pallet, decimal arg_cantidad, readonly string arg_tipo_linea, ref str_precio_y_dtos_articulo_cliente arg_str_precio_y_dtos_articulo_cliente)
+end prototypes
+
+global function boolean f_precio_y_dtos_articulo_cliente (string arg_empresa, string arg_cliente, datetime arg_fecha_pedido, string arg_tarifa, string arg_articulo, string arg_calidad, string arg_caja, string arg_pallet, decimal arg_cantidad, readonly string arg_tipo_linea, ref str_precio_y_dtos_articulo_cliente arg_str_precio_y_dtos_articulo_cliente);boolean lb_correcto = true
+string  ls_sel,ls_cadena,ls_unidad_articulo,ls_tarifa_ficha_cliente,ls_filtro_precios_y_dtos_clientes
+long    ll_indice,ll_total,ll_pallets,ll_cajas,ll_total_cajas,ll_pzs,ll_posi_aux,ll_posi,ll_donde
+dec     ld_precio,ld_descuento,ld_descuento2,ld_metros,ld_dto_equivalente,ld_precio_pack
+
+datastore ds_precios_tarifa,ds_dtos_tarifa,ds_precios_cliente,ds_dtos_cliente
+datastore ds_dtos_aplicables_tarifa,ds_dtos_aplicables_cliente
+
+SELECT isnull(venclientes.tarifa,'')
+INTO   :ls_tarifa_ficha_cliente
+FROM   venclientes
+WHERE  venclientes.empresa = :arg_empresa
+AND    venclientes.codigo  = :arg_cliente;
+
+SELECT isnull(ventarifas_precios_packs.precio,0) as precio 
+INTO   :ld_precio_pack
+FROM   ventarifas, 
+       ventarifas_precios_packs 
+WHERE ( ventarifas_precios_packs.empresa = ventarifas.empresa ) 
+and   ( ventarifas_precios_packs.ventarifas_codigo = ventarifas.codigo ) 
+and   ( ventarifas_precios_packs.ventarifas_activa = ventarifas.activa ) 
+and   ( ( ventarifas.empresa = :arg_empresa ) 
+AND   ( ventarifas.codigo    = :arg_tarifa ) 
+AND   ( ventarifas_precios_packs.articulos_codigo = :arg_articulo ) 
+AND   ( ventarifas_precios_packs.calidades_codigo = :arg_calidad ) );
+
+if ld_precio_pack <> 0 then
+	//Si el articulo tiene precio por pack lo cogemos y no calculamos ningún descuento
+	arg_str_precio_y_dtos_articulo_cliente.precio     = ld_precio_pack
+	arg_str_precio_y_dtos_articulo_cliente.descuento1 = 0
+	arg_str_precio_y_dtos_articulo_cliente.descuento2 = 0	
+else
+	//Si el articulo no tiene precio por pack calculamos precio y dtos de tarifa
+	//Calculo_de las unidades
+	ls_cadena = f_calculo_unidades_tipolin(arg_empresa,&
+													arg_articulo,&
+													arg_pallet,&
+													arg_caja,&
+													0,&
+													0,&
+													arg_cantidad,&
+													arg_tipo_linea)
+	
+	
+	ls_unidad_articulo = f_unidad_articulo(arg_empresa,arg_articulo)
+	if ls_unidad_articulo = "1" then
+		ld_metros = f_cantidad_facturar_articulo(arg_empresa,&
+															arg_articulo,&
+															arg_caja,&
+															arg_cantidad)
+		ll_pzs = f_conversion_cantidad_piezas(arg_empresa,arg_articulo,arg_caja,ld_metros)
+	end if
+	
+	ll_posi_aux = 1
+	ll_posi = pos(ls_cadena,"|",1)
+	
+	if ll_posi <> 0 then
+		ll_pallets = long(Mid(ls_cadena,1,ll_posi - 1))
+	
+		ll_posi_aux = ll_posi + 1
+	end if
+	
+	ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+	if ll_posi <> 0 then
+		ll_cajas = long(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+		
+		ll_posi_aux = ll_posi + 1
+	end if
+	
+	ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+	if ll_posi <> 0 then
+		ll_total_cajas = long(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+		
+		ll_posi_aux = ll_posi + 1
+	end if
+	
+	ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+	if ll_posi <> 0 then
+		if ls_unidad_articulo <> '1' then
+			ll_pzs = long(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+			
+			ld_metros = f_conversion_cantidad_m2(arg_empresa,arg_articulo,ll_pzs)
+		end if
+		ll_posi_aux = ll_posi + 1
+	end if
+	
+	ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+	
+	//if ll_posi <>0 then
+	//	 em_mtrs_lineales.text  = Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux + 1)
+	//end if
+	//
+	f_cargar_cursor_transaccion(sqlca,ds_dtos_aplicables_tarifa,"select 0.00 as dto")
+	ds_dtos_aplicables_tarifa.reset()
+	f_cargar_cursor_transaccion(sqlca,ds_dtos_aplicables_cliente,"select 'N' as acumulable,0.00 as dto")
+	ds_dtos_aplicables_cliente.reset()
+	
+	ls_sel = "SELECT isnull(ventarifas_precios.precio,0) as precio "+&
+				"FROM   ventarifas, "+&
+				"       ventarifas_precios "+&
+				"WHERE ( ventarifas_precios.empresa = ventarifas.empresa ) "+&
+				"and   ( ventarifas_precios.ventarifas_codigo = ventarifas.codigo ) "+&
+				"and   ( ventarifas_precios.ventarifas_activa = ventarifas.activa ) "+&
+				"and   ( ( ventarifas.empresa = '"+arg_empresa+"' ) "+&
+				"AND   ( ventarifas.codigo = '"+arg_tarifa+"' ) "+&
+				"AND   ( ventarifas_precios.articulos_codigo = '"+arg_articulo+"' ) "+&
+				"AND   ( ventarifas_precios.calidades_codigo = '"+arg_calidad+"' ) )"
+	
+	f_cargar_cursor_transaccion(sqlca,ds_precios_tarifa,ls_sel)
+	
+	ls_sel = "SELECT isnull(ventarifas_descuentos.cantidad,0) as cantidad, "+&
+				"       isnull(ventarifas_descuentos.tipo_cantidad,'') as tipo_cantidad, "+&
+				"       isnull(ventarifas_descuentos.descuento,0) as descuento "+&
+				"FROM   ventarifas, "+&
+				"       ventarifas_descuentos "+&
+				"WHERE ( ventarifas_descuentos.empresa = ventarifas.empresa ) "+&
+				"and   ( ventarifas_descuentos.ventarifas_codigo = ventarifas.codigo ) "+&
+				"and   ( ventarifas_descuentos.ventarifas_activa = ventarifas.activa ) "+&
+				"and   ( ( ventarifas.empresa = '"+arg_empresa+"' ) "+&
+				"AND   ( ventarifas.codigo = '"+arg_tarifa+"' ) "+&
+				"AND   ( ventarifas_descuentos.articulos_codigo = '"+arg_articulo+"' ) "+&
+				"AND   ( ventarifas_descuentos.calidades_codigo = '"+arg_calidad+"' ) "+&
+				"AND ( ( isnull(ventarifas_descuentos.fecha_inicio_descuento,'"+string(arg_fecha_pedido,formato_fecha_cursores)+"') <= '"+string(arg_fecha_pedido,formato_fecha_cursores)+"' ) "+&
+				"AND   ( isnull(ventarifas_descuentos.fecha_fin_descuento,'"+string(arg_fecha_pedido,formato_fecha_cursores)+"') >= '"+string(arg_fecha_pedido,formato_fecha_cursores)+"' ) ) ) "
+	
+	f_cargar_cursor_transaccion(sqlca,ds_dtos_tarifa,ls_sel)
+	ds_dtos_tarifa.setsort("tipo_cantidad A, cantidad A")
+	
+	//Si la tarifa es distinta a la que tiene el cliente en ficha no cogeremos los descuentos y precios por cliente
+	if ls_tarifa_ficha_cliente <> arg_tarifa then
+		ls_filtro_precios_y_dtos_clientes = "AND 0 = 1 "	
+	else
+		ls_filtro_precios_y_dtos_clientes = ""		
+	end if
+	
+	ls_sel = "SELECT isnull(venclientes_precios.precio,0) as precio, "+&
+				"       isnull(venclientes_precios.no_aplicar_dtos_tarifa,'') as no_aplicar_dtos_tarifa "+&
+				"FROM   venclientes_precios "+&
+				"WHERE ( ( venclientes_precios.empresa = '"+arg_empresa+"' ) "+&
+				"AND   ( venclientes_precios.venclientes_codigo = '"+arg_cliente+"' ) "+&
+				"AND   ( venclientes_precios.articulos_codigo = '"+arg_articulo+"' ) "+&
+				"AND   ( venclientes_precios.calidades_codigo = '"+arg_calidad+"' ) ) "+&
+				ls_filtro_precios_y_dtos_clientes
+	
+	f_cargar_cursor_transaccion(sqlca,ds_precios_cliente,ls_sel)
+	
+	ls_sel = "SELECT isnull(venclientes_descuentos.cantidad,0) as cantidad, "+&
+				"       isnull(venclientes_descuentos.tipo_cantidad,'') as tipo_cantidad, "+&
+				"       isnull(venclientes_descuentos.descuento,0) as descuento, "+&
+				"       isnull(venclientes_descuentos.se_acumula_a_dto_tarifa,'') as se_acumula_a_dto_tarifa "+&
+				"FROM   venclientes, "+&
+				"       venclientes_descuentos "+&
+				"WHERE ( venclientes_descuentos.empresa = venclientes.empresa ) "+&
+				"and   ( venclientes_descuentos.venclientes_codigo = venclientes.codigo ) "+&
+				"and   ( ( venclientes.empresa = '"+arg_empresa+"' ) "+&
+				"AND   ( venclientes.codigo = '"+arg_cliente+"' ) "+&
+				"AND   ( venclientes_descuentos.articulos_codigo = '"+arg_articulo+"' ) "+&
+				"AND   ( venclientes_descuentos.calidades_codigo = '"+arg_calidad+"' ) "+&
+				"AND ( ( isnull(venclientes_descuentos.fecha_inicio_descuento,'"+string(arg_fecha_pedido,formato_fecha_cursores)+"') <= '"+string(arg_fecha_pedido,formato_fecha_cursores)+"' ) "+&
+				"AND   ( isnull(venclientes_descuentos.fecha_fin_descuento,'"+string(arg_fecha_pedido,formato_fecha_cursores)+"') >= '"+string(arg_fecha_pedido,formato_fecha_cursores)+"' ) ) ) "+&
+				ls_filtro_precios_y_dtos_clientes
+	
+	f_cargar_cursor_transaccion(sqlca,ds_dtos_cliente,ls_sel)
+	ds_dtos_cliente.setsort("tipo_cantidad A, cantidad A")
+	
+	arg_str_precio_y_dtos_articulo_cliente.precio     = 0
+	arg_str_precio_y_dtos_articulo_cliente.descuento1 = 0
+	arg_str_precio_y_dtos_articulo_cliente.descuento2 = 0
+	
+	if ds_precios_cliente.rowcount() = 1 then
+		arg_str_precio_y_dtos_articulo_cliente.precio = ds_precios_cliente.object.precio[1]
+		
+		if ds_precios_cliente.object.no_aplicar_dtos_tarifa[1] = 'S' then
+			if ds_dtos_cliente.rowcount() > 0 then
+				//Buscamos el dto a aplicar
+				//Pallets
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Cajas
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Metros
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Piezas
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if															
+	
+				if ds_dtos_aplicables_cliente.rowcount() > 0 then
+					//Ordenamos y cogemos el máximo
+					ds_dtos_aplicables_cliente.setsort("dto D")
+					ds_dtos_aplicables_cliente.sort()
+					
+					arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]
+				end if
+			end if
+		else	
+			//Descuentos de cliente compatibles con tarifa
+			if ds_dtos_cliente.rowcount() > 0 then
+				//Buscamos el dto a aplicar
+				//Pallets
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Cajas
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Metros
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if
+				
+				//Piezas
+				ds_dtos_cliente.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+				ds_dtos_cliente.filter()
+				ds_dtos_cliente.sort()
+				ll_total = ds_dtos_cliente.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+					ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+					ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+				end if															
+	
+				if ds_dtos_tarifa.rowcount() > 0 then
+					//Buscamos el dto a aplicar
+					//Pallets
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Cajas
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Metros
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Piezas
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if															
+											
+				end if
+							
+				if ds_dtos_aplicables_tarifa.rowcount() > 0 then
+					//Ordenamos y cogemos el máximo descuento de la tarifa
+					ds_dtos_aplicables_tarifa.setsort("dto D")
+					ds_dtos_aplicables_tarifa.sort()				
+					arg_str_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_tarifa.object.dto[1]
+					
+					if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+						//descuentos del cliente
+						ds_dtos_aplicables_cliente.setfilter("acumulable = 'S'")
+						ds_dtos_aplicables_cliente.filter()
+						ds_dtos_aplicables_cliente.setsort("dto D")
+						ds_dtos_aplicables_cliente.sort()
+						
+						if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+							arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]				
+						end if
+						
+						//Comprobamos si podemos aplicar un dto de cliente superior a los 2 descuentos aplicados
+						ld_dto_equivalente = arg_str_precio_y_dtos_articulo_cliente.descuento1 + (((100 - arg_str_precio_y_dtos_articulo_cliente.descuento1) / 100) * arg_str_precio_y_dtos_articulo_cliente.descuento2)
+						
+						ds_dtos_aplicables_cliente.setfilter("acumulable = 'N'")
+						ds_dtos_aplicables_cliente.filter()
+						ds_dtos_aplicables_cliente.setsort("dto D")
+						ds_dtos_aplicables_cliente.sort()				
+						
+						if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+							if ds_dtos_aplicables_cliente.object.dto[1] > ld_dto_equivalente then
+								arg_str_precio_y_dtos_articulo_cliente.descuento1 = 0
+								arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]
+							end if
+						end if
+					end if
+				else
+					if ds_dtos_aplicables_cliente.rowcount() > 0 then
+						//Ordenamos y cogemos el máximo descuento del cliente
+						ds_dtos_aplicables_cliente.setsort("dto D")
+						ds_dtos_aplicables_cliente.sort()
+						
+						arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]
+					end if							
+				end if
+									
+				//Fin de añadimos los descuentos de la tarifa
+			else
+				//Dtos de cliente compatibles con tarifa poro no hay dtos por cliente
+				//No hay descuento por cliente Solo buscamos el descuento en la tarifa
+				if ds_dtos_tarifa.rowcount() > 0 then
+					//Buscamos el dto a aplicar
+					//Pallets
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Cajas
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Metros
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if
+					
+					//Piezas
+					ds_dtos_tarifa.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+					ds_dtos_tarifa.filter()
+					ds_dtos_tarifa.sort()
+					ll_total = ds_dtos_tarifa.rowcount()
+					if ll_total > 0 then
+						ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+						ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+					end if															
+		
+					if ds_dtos_aplicables_tarifa.rowcount() > 0 then
+						//Ordenamos y cogemos el máximo descuento de la tarifa
+						ds_dtos_aplicables_tarifa.setsort("dto D")
+						ds_dtos_aplicables_tarifa.sort()				
+						arg_str_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_tarifa.object.dto[1]
+					end if			
+					
+				end if
+			end if		
+		end if
+	else
+		//No hay precio por cliente
+		if ds_precios_tarifa.rowcount() = 1 then
+			arg_str_precio_y_dtos_articulo_cliente.precio = ds_precios_tarifa.object.precio[1]
+		else
+			arg_str_precio_y_dtos_articulo_cliente.precio = 0
+		end if
+		//*****
+		
+		if ds_dtos_cliente.rowcount() > 0 then
+			//Buscamos el dto a aplicar segun el cliente
+			//Pallets
+			ds_dtos_cliente.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+			ds_dtos_cliente.filter()
+			ds_dtos_cliente.sort()
+			ll_total = ds_dtos_cliente.rowcount()
+			
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+				ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+				ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+			end if
+			
+			//Cajas
+			ds_dtos_cliente.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+			ds_dtos_cliente.filter()
+			ds_dtos_cliente.sort()
+			ll_total = ds_dtos_cliente.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+				ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+				ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+			end if
+			
+			//Metros
+			ds_dtos_cliente.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+			ds_dtos_cliente.filter()
+			ds_dtos_cliente.sort()
+			ll_total = ds_dtos_cliente.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+				ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+				ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+			end if
+			
+			//Piezas
+			ds_dtos_cliente.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+			ds_dtos_cliente.filter()
+			ds_dtos_cliente.sort()
+			ll_total = ds_dtos_cliente.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_cliente.insertrow(0)
+				ds_dtos_aplicables_cliente.object.acumulable[ll_donde] = ds_dtos_cliente.object.se_acumula_a_dto_tarifa[ll_total]	
+				ds_dtos_aplicables_cliente.object.dto[ll_donde]        = ds_dtos_cliente.object.descuento[ll_total]	
+			end if															
+	
+			if ds_dtos_tarifa.rowcount() > 0 then
+				//Buscamos el dto a aplicar
+				//Pallets
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Cajas
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Metros
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Piezas
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if															
+				//****
+				if ds_dtos_aplicables_tarifa.rowcount() > 0 then
+					//Ordenamos y cogemos el máximo descuento de la tarifa
+					ds_dtos_aplicables_tarifa.setsort("dto D")
+					ds_dtos_aplicables_tarifa.sort()				
+					arg_str_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_tarifa.object.dto[1]
+				end if							
+							
+			end if
+	
+			if ds_dtos_aplicables_tarifa.rowcount() > 0 then
+				//Ordenamos y cogemos el máximo descuento de la tarifa
+				ds_dtos_aplicables_tarifa.setsort("dto D")
+				ds_dtos_aplicables_tarifa.sort()				
+				arg_str_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_tarifa.object.dto[1]
+				
+				if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+					//descuentos del cliente
+					ds_dtos_aplicables_cliente.setfilter("acumulable = 'S'")
+					ds_dtos_aplicables_cliente.filter()
+					ds_dtos_aplicables_cliente.setsort("dto D")
+					ds_dtos_aplicables_cliente.sort()
+					
+					if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+						arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]				
+					end if
+					
+					//Comprobamos si podemos aplicar un dto de cliente superior a los 2 descuentos aplicados
+					ld_dto_equivalente = arg_str_precio_y_dtos_articulo_cliente.descuento1 + (((100 - arg_str_precio_y_dtos_articulo_cliente.descuento1) / 100) * arg_str_precio_y_dtos_articulo_cliente.descuento2)
+					
+					ds_dtos_aplicables_cliente.setfilter("acumulable = 'N'")
+					ds_dtos_aplicables_cliente.filter()
+					ds_dtos_aplicables_cliente.setsort("dto D")
+					ds_dtos_aplicables_cliente.sort()				
+					
+					if ds_dtos_aplicables_cliente.rowcount() > 0 then				
+						if ds_dtos_aplicables_cliente.object.dto[1] > ld_dto_equivalente then
+							arg_str_precio_y_dtos_articulo_cliente.descuento1 = 0
+							arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]
+						end if
+					end if
+				end if
+			else
+				if ds_dtos_aplicables_cliente.rowcount() > 0 then
+					//Ordenamos y cogemos el máximo descuento del cliente
+					ds_dtos_aplicables_cliente.setsort("dto D")
+					ds_dtos_aplicables_cliente.sort()
+					
+					arg_str_precio_y_dtos_articulo_cliente.descuento2 = ds_dtos_aplicables_cliente.object.dto[1]
+				end if							
+			end if
+			//Fin de añadimos los descuentos de la tarifa	
+		else
+			//No hay descuento por cliente Solo buscamos el descuento en la tarifa
+			if ds_dtos_tarifa.rowcount() > 0 then
+				//Buscamos el dto a aplicar
+				//Pallets
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Cajas
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Metros
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if
+				
+				//Piezas
+				ds_dtos_tarifa.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+				ds_dtos_tarifa.filter()
+				ds_dtos_tarifa.sort()
+				ll_total = ds_dtos_tarifa.rowcount()
+				if ll_total > 0 then
+					ll_donde = ds_dtos_aplicables_tarifa.insertrow(0)
+					ds_dtos_aplicables_tarifa.object.dto[ll_donde] = ds_dtos_tarifa.object.descuento[ll_total]	
+				end if															
+				//****
+				if ds_dtos_aplicables_tarifa.rowcount() > 0 then
+					//Ordenamos y cogemos el máximo descuento de la tarifa
+					ds_dtos_aplicables_tarifa.setsort("dto D")
+					ds_dtos_aplicables_tarifa.sort()				
+					arg_str_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_tarifa.object.dto[1]
+				end if							
+							
+			end if
+		end if
+	end if
+	
+	destroy ds_precios_tarifa
+	destroy ds_dtos_tarifa
+	destroy ds_precios_cliente
+	destroy ds_dtos_cliente
+	
+	destroy ds_dtos_aplicables_tarifa
+	destroy ds_dtos_aplicables_cliente
+end if
+
+return lb_correcto
+end function
+

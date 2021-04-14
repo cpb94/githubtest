@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_total_tipo_paneles_promserie.srf
+global type f_total_tipo_paneles_promserie from function_object
+end type
+
+forward prototypes
+global function integer f_total_tipo_paneles_promserie (string var_empresa, string var_serie, string var_tipopanel)
+end prototypes
+
+global function integer f_total_tipo_paneles_promserie (string var_empresa, string var_serie, string var_tipopanel);Integer numero
+    
+    SELECT count(*)
+    INTO :numero  
+    FROM promlinalb
+   WHERE ( promlinalb.empresa      = :var_empresa   ) AND  
+         ( promlinalb.numserie     = :var_serie     ) AND  
+			( promlinalb.tipo_panel   = :var_tipopanel ) AND  
+			( promlinalb.reposicion   = 'N'              ) AND  
+			( promlinalb.activo       = 'S'            ) ;
+
+IF IsNull(numero)  Then numero = 0 
+			
+Return numero
+
+end function
+

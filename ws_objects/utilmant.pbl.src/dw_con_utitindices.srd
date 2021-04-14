@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_con_utitindices.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=81 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(30) updatewhereclause=yes name=name dbname="sysindexes.name" )
+ column=(type=long updatewhereclause=yes name=origfillfactor dbname="sysindexes.OrigFillFactor" )
+ column=(type=long updatewhereclause=yes name=indid dbname="sysindexes.indid" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"sysindexes~" ) COLUMN(NAME=~"sysindexes.name~") COLUMN(NAME=~"sysindexes.OrigFillFactor~") COLUMN(NAME=~"sysindexes.indid~")WHERE(    EXP1 =~"sysindexes.id~"   OP =~"=~"    EXP2 =~":id~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"sysindexes.indid~"   OP =~"not in~"    EXP2 =~"(255,0)~" ) ) ORDER(NAME=~"sysindexes.indid~" ASC=yes ) ARG(NAME = ~"id~" TYPE = number) " arguments=(("id", number)) )
+text(band=header alignment="2" text="Indice"border="6" color="0" x="10" y="8" height="65" width="668"  name=usuario_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Factor"border="6" color="0" x="695" y="8" height="65" width="183"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="101" y="8" height="61" width="581" format="[general]"  name=name edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="705" y="4" height="61" width="156" format="[general]"  name=origfillfactor editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="0" expression=" indid +~"º~""border="6" color="0" x="10" y="8" height="61" width="78" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_tipocta_iva_contaparam.srf
+global type f_tipocta_iva_contaparam from function_object
+end type
+
+forward prototypes
+global function string f_tipocta_iva_contaparam (decimal ejercicio, string empresa)
+end prototypes
+
+global function string f_tipocta_iva_contaparam (decimal ejercicio, string empresa);String var
+ SELECT contaparam.tipocta_iva INTO :var FROM contaparam  
+   WHERE contaparam.ejercicio = :ejercicio
+	AND   contaparam.empresa   = :empresa;
+Return var
+
+end function
+

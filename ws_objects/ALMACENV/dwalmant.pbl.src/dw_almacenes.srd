@@ -1,0 +1,23 @@
+﻿$PBExportHeader$dw_almacenes.srd
+$PBExportComments$Ventana de Almacenes
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="-1" )
+footer(height=4 color="-1" )
+detail(height=388 color="-1" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almalmacen.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="almalmacen.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="almalmacen.descripcion" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=codcli dbname="almalmacen.codcli" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tipoalm dbname="almalmacen.tipoalm" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=resumido dbname="almalmacen.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almalmacen~" ) COLUMN(NAME=~"almalmacen.empresa~") COLUMN(NAME=~"almalmacen.codigo~") COLUMN(NAME=~"almalmacen.descripcion~") COLUMN(NAME=~"almalmacen.codcli~") COLUMN(NAME=~"almalmacen.tipoalm~") COLUMN(NAME=~"almalmacen.resumido~")WHERE( EXP1 =~"almalmacen.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" LOGIC =~"and~" ) WHERE( EXP1 =~"almalmacen.codigo~" OP =~"=~" EXP2 =~":ra_almacen~" ) ) ARG(NAME = ~"ra_codemp~" TYPE = string) ARG(NAME = ~"ra_almacen~" TYPE = string) " update="almalmacen" updatewhere=0 updatekeyinplace=no arguments=(("ra_codemp", string),("ra_almacen", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="69" y="44" height="64" width="370"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="119" y="176" height="64" width="320"  name=codigo_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" f_nombre_tipoalmacen( empresa , tipoalm ) "border="0" color="128" x="1015" y="300" height="64" width="699" format="[GENERAL]"  name=descripcion_tipoalm  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Tipo Almacén:"border="0" color="33554432" x="14" y="300" height="64" width="421"  name=tipoalm_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=detail filename="c:\BMP\CARPETA.BMP" x="914" y="300" height="64" width="73" border="6"  name=pb_tipoalm pointer="\bmp\MANO.CUR" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="471" y="40" height="64" width="1120" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="5" color="0" x="471" y="300" height="64" width="416" format="[general]"  name=tipoalm edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=20 border="5" color="0" x="471" y="172" height="64" width="416" format="[general]"  name=resumido edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

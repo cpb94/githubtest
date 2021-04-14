@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_comsituacion.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=249 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=empresa dbname="comsituacion.empresa" )
+ column=(type=char(2) update=yes updatewhereclause=yes key=yes name=situacion dbname="comsituacion.situacion" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=descripcion dbname="comsituacion.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=abreviado dbname="comsituacion.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comsituacion~" ) COLUMN(NAME=~"comsituacion.empresa~") COLUMN(NAME=~"comsituacion.situacion~") COLUMN(NAME=~"comsituacion.descripcion~") COLUMN(NAME=~"comsituacion.abreviado~")WHERE(    EXP1 =~"comsituacion.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"comsituacion.situacion~"   OP =~"=~"    EXP2 =~":cod_situ~" ) ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"cod_situ~" TYPE = string) " update="comsituacion" updatewhere=0 updatekeyinplace=yes arguments=(("cod_empresa", string),("cod_situ", string)) )
+text(band=detail alignment="1" text="Texto:"border="0" color="33554432" x="37" y="20" height="65" width="307"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="37" y="148" height="65" width="307"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="371" y="12" height="77" width="942"  name=descripcion  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="371" y="144" height="77" width="225"  name=abreviado  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

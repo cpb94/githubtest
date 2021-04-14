@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_insert_deplinubica.srf
+global type f_insert_deplinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_deplinubica (str_deplinubica a)
+end prototypes
+
+global function boolean f_insert_deplinubica (str_deplinubica a);string  cliente_deposito
+Boolean bool
+bool = TRUE
+
+cliente_deposito = f_cliente_depalmacen(a.empresa,a.almacen)
+
+if cliente_deposito <> a.cliente then
+	a.cliente = cliente_deposito
+	messagebox("Error en stock de deposito!!","Por favor apunte el proceso que esta realizando y el siguiente error :~n * Cliente no valido.")
+end if
+
+INSERT INTO deplinubica  
+	(empresa,					almacen,					linea,
+	 articulo,					familia,					formato,   
+	 modelo,						calidad,					tonochar,
+	 calibre,					existencias,			cliente,   
+	 tipo_unidad,				referencia,				f_alta,
+	 tipo_pallet,				caja)  
+VALUES 
+	(:a.empresa,				:a.almacen,				:a.linea,   
+	 :a.articulo,				:a.familia,				:a.formato,
+	 :a.modelo,					:a.calidad,   			:a.tonochar,
+	 :a.calibre,				:a.existencias,		:a.cliente,
+	 :a.tipo_unidad,			:a.referencia,			:a.f_alta,   
+	 :a.tipo_pallet,			:a.caja);
+	 
+If Sqlca.Sqlcode <> 0 Then 
+	messagebox("Error","En funcion Insert deplinubica" + sqlca.sqlerrtext)
+	Return FALSE
+END IF
+
+Return bool
+end function
+

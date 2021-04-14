@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_idiomas.srd
+$PBExportComments$Datawindow mantenimiento idiomas.
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=305 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=idioma dbname="idiomas.idioma" )
+ column=(type=char(20) update=yes name=texto dbname="idiomas.texto" )
+ column=(type=char(5) update=yes name=abreviado dbname="idiomas.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"idiomas~" ) COLUMN(NAME=~"idiomas.idioma~") COLUMN(NAME=~"idiomas.texto~") COLUMN(NAME=~"idiomas.abreviado~")WHERE( EXP1 =~"idiomas.idioma~" OP =~"=~" EXP2 =~":ra_codigo~" ) ) ARG(NAME = ~"ra_codigo~" TYPE = string) " update="idiomas" updatewhere=0 updatekeyinplace=no arguments=(("ra_codigo", string)) )
+text(band=detail alignment="1" text="Nombre:"border="0" color="0" x="165" y="68" height="65" width="247"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="0" x="458" y="68" height="69" width="801" format="[general]"  name=texto edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="101" y="204" height="65" width="316"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="458" y="204" height="69" width="311" format="[general]"  name=abreviado edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

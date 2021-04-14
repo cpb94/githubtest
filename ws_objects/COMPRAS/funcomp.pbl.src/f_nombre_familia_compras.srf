@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_familia_compras.srf
+global type f_nombre_familia_compras from function_object
+end type
+
+forward prototypes
+global function string f_nombre_familia_compras (string empresa, string materia, string codigo)
+end prototypes
+
+global function string f_nombre_familia_compras (string empresa, string materia, string codigo);String nombre_familia
+
+SELECT venfamilias.descripcion  
+  INTO  :nombre_familia  
+  FROM  venfamilias  
+  WHERE venfamilias.empresa = :codigo_empresa 
+	 AND venfamilias.tipo_materia = :materia 
+	 AND venfamilias.familia = :codigo ;
+	 
+Return nombre_familia
+end function
+

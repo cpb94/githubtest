@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_ven_reclamaciones_abonos.srs
+global type str_ven_reclamaciones_abonos from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     reclamacion
+     DECIMAL {0}     anyo
+     DECIMAL {0}     factura
+end type
+

@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_causas_ti.srf
+global type f_cargar_str_ven_reclamaciones_causas_ti from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_causas_ti (STRING arg_empresa, STRING arg_codigo_ven_reclamaciones_tipos, STRING arg_codigo_ven_reclamaciones_causa,  ref str_ven_reclamaciones_causas_tipos str_ven_reclamaciones_causas_tipos)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_causas_ti (STRING arg_empresa, STRING arg_codigo_ven_reclamaciones_tipos, STRING arg_codigo_ven_reclamaciones_causa,  ref str_ven_reclamaciones_causas_tipos str_ven_reclamaciones_causas_tipos);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_causas_tipos.empresa,
+       ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_tipos,
+       ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_causa,
+       ven_reclamaciones_causas_tipos.fase_inicial,
+       ven_reclamaciones_causas_tipos.situacion_inicial
+INTO   :str_ven_reclamaciones_causas_tipos.empresa,
+       :str_ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_tipos,
+       :str_ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_causa,
+       :str_ven_reclamaciones_causas_tipos.fase_inicial,
+       :str_ven_reclamaciones_causas_tipos.situacion_inicial
+FROM ven_reclamaciones_causas_tipos
+WHERE ven_reclamaciones_causas_tipos.empresa = :arg_empresa AND ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_tipos = :arg_codigo_ven_reclamaciones_tipos AND ven_reclamaciones_causas_tipos.codigo_ven_reclamaciones_causa = :arg_codigo_ven_reclamaciones_causa;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

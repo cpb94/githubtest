@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_asiento_cierre.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=81 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=decimal(4) updatewhereclause=yes name=ejercicio dbname="contaapun.ejercicio" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="contaapun.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=cuenta dbname="contaapun.cuenta" )
+ column=(type=decimal(4) updatewhereclause=yes name=suma_debe dbname="suma_debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=suma_haber dbname="suma_haber" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contaapun~" ) COLUMN(NAME=~"contaapun.ejercicio~") COLUMN(NAME=~"contaapun.empresa~") COLUMN(NAME=~"contaapun.cuenta~") COMPUTE(NAME=~"sum(debe) suma_debe~") COMPUTE(NAME=~"sum(haber) suma_haber~")WHERE(    EXP1 =~"contaapun.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.ejercicio~"   OP =~"=~"    EXP2 =~":arg_ejercicio~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.cuenta~"   OP =~"between~"    EXP2 =~":arg_cuenta_desde and :arg_cuenta_hasta~" )  GROUP(NAME=~"contaapun.ejercicio~") GROUP(NAME=~"contaapun.empresa~") GROUP(NAME=~"contaapun.cuenta~")) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_ejercicio~" TYPE = number)  ARG(NAME = ~"arg_cuenta_desde~" TYPE = string)  ARG(NAME = ~"arg_cuenta_hasta~" TYPE = string) " arguments=(("arg_empresa", string),("arg_ejercicio", number),("arg_cuenta_desde", string),("arg_cuenta_hasta", string)) )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="33" y="8" height="65" width="558" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1349" y="4" height="65" width="563" format="[general]"  name=suma_haber edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="650" y="8" height="65" width="673" format="[general]"  name=suma_debe edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="suma_debe - suma_haber"border="0" color="0" x="1957" y="4" height="65" width="627" format="[general]"  name=saldo  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="sum(suma_debe - suma_haber for all)"border="0" color="0" x="1957" y="4" height="69" width="627" format="[general]"  name=total_saldo  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

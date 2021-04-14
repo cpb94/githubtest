@@ -1,0 +1,50 @@
+﻿$PBExportHeader$f_insert_comlinfac.srf
+global type f_insert_comlinfac from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comlinfac (str_comlinfac comlinfac)
+end prototypes
+
+global function boolean f_insert_comlinfac (str_comlinfac comlinfac);boolean bien = true
+
+INSERT INTO comlinfac  
+	(comlinfac.empresa,						comlinfac.anyo,						comlinfac.proveedor,
+	 comlinfac.factura,						comlinfac.linea,						comlinfac.mprima,
+	 comlinfac.cantidad,						comlinfac.precio,						comlinfac.fecha_entrega,
+	 comlinfac.unidad_medida,			comlinfac.pedido,					comlinfac.linea_pedido,
+	 comlinfac.situacion,						comlinfac.observaciones,			comlinfac.libre,
+	 comlinfac.anyo_pedido,				comlinfac.fecha_control,			comlinfac.seccion,
+	 comlinfac.subseccion,					comlinfac.descripcion,				comlinfac.envase,
+	 comlinfac.cuenta,						comlinfac.importe,					comlinfac.albaran,
+	 comlinfac.anyo_albaran,				comlinfac.lote,							comlinfac.albaran_proveedor,
+	 comlinfac.fecha_albaran,				comlinfac.fecha_pedido,			comlinfac.descuento,
+	 comlinfac.descuento_comercial,	comlinfac.descuento_pp,			comlinfac.tipo_iva,
+	 comlinfac.iva,								comlinfac.pedido_por,				comlinfac.recibido_por,
+	 comlinfac.usuario_control)
+VALUES
+	(:comlinfac.empresa,					:comlinfac.anyo,						:comlinfac.proveedor,
+	 :comlinfac.factura,						:comlinfac.linea,						:comlinfac.mprima,
+	 :comlinfac.cantidad,					:comlinfac.precio,					:comlinfac.fecha_entrega,
+	 :comlinfac.unidad_medida,			:comlinfac.pedido,					:comlinfac.linea_pedido,
+	 :comlinfac.situacion,					:comlinfac.observaciones,			:comlinfac.libre,
+	 :comlinfac.anyo_pedido,				:comlinfac.fecha_control,			:comlinfac.seccion,
+	 :comlinfac.subseccion,					:comlinfac.descripcion,				:comlinfac.envase,
+	 :comlinfac.cuenta,						:comlinfac.importe,					:comlinfac.albaran,
+	 :comlinfac.anyo_albaran,				:comlinfac.lote,						:comlinfac.albaran_proveedor,
+	 :comlinfac.fecha_albaran,			:comlinfac.fecha_pedido,			:comlinfac.descuento,
+	 :comlinfac.descuento_comercial,	:comlinfac.descuento_pp,			:comlinfac.tipo_iva,
+	 :comlinfac.iva,							:comlinfac.pedido_por,				:comlinfac.recibido_por,
+	 :comlinfac.usuario_control);
+			 
+			  
+if sqlca.sqlcode <> 0 then
+	MessageBox("Linea de Facturas de Compras",SQLCA.SQLErrText)
+	MessageBox("Linea de Facturas de Compras","Error al insertar")
+	bien = false
+end if
+
+return bien
+
+end function
+

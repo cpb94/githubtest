@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_decimales_unidad.srf
+$PBExportComments$Modifica la mascara de una datawindow, recibo datawindow, columna y moneda, pone con defecto  autofocus.~r~nDecimales(segun la unidad)
+global type f_decimales_unidad from function_object
+end type
+
+forward prototypes
+global function integer f_decimales_unidad (string unidad)
+end prototypes
+
+global function integer f_decimales_unidad (string unidad);Integer var_decimales  
+String formato
+
+SELECT isnull(unidades.decimales,0)  
+INTO   :var_decimales  
+FROM   unidades  
+WHERE  unidades.codigo = :unidad;
+
+Return var_decimales
+
+
+
+
+end function
+

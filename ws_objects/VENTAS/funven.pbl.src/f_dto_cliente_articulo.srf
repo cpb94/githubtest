@@ -1,0 +1,117 @@
+﻿$PBExportHeader$f_dto_cliente_articulo.srf
+global type f_dto_cliente_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_dto_cliente_articulo (string empresa, string cliente, string articulo, string calidad, decimal cantidad)
+end prototypes
+
+global function decimal f_dto_cliente_articulo (string empresa, string cliente, string articulo, string calidad, decimal cantidad);Dec dto,v_p
+String  familia,formato,unidad
+
+unidad = f_unidad_articulo(empresa,articulo)
+IF IsNUll(cantidad) Then cantidad = 0
+
+Select Count(*) Into :v_p From vendtoartcli
+Where  vendtoartcli.empresa  = :codigo_empresa
+And    vendtoartcli.cliente  = :cliente 
+And    vendtoartcli.articulo = :articulo
+and    vendtoartcli.calidad  = :calidad
+And    vendtoartcli.cantidad <= :cantidad;
+IF SQLCA.SQLCODE <> 0 Then f_mensaje("Error",sqlca.sqlErrtext)
+IF IsNull(v_p) Then v_p = 0
+
+IF v_p<> 0 Then
+	Select Max(vendtoartcli.cantidad) Into :v_p From vendtoartcli
+	Where  vendtoartcli.empresa  = :codigo_empresa
+	And    vendtoartcli.cliente  = :cliente 
+	And    vendtoartcli.articulo = :articulo
+	and    vendtoartcli.calidad  = :calidad
+	And    vendtoartcli.cantidad <= :cantidad;
+	
+	Select vendtoartcli.dto Into :dto From vendtoartcli
+	Where  vendtoartcli.empresa  = :codigo_empresa
+	And    vendtoartcli.cliente  = :cliente 
+	And    vendtoartcli.articulo = :articulo
+	and    vendtoartcli.calidad  = :calidad
+	And    vendtoartcli.cantidad = :v_p;
+	IF SQLCA.SQLCODE = 0  then
+		If IsNull(dto) Then dto = 0
+		Return Dto
+	END IF
+END IF
+
+Select articulos.familia,articulos.formato Into :familia,:formato 
+From   articulos
+Where  articulos.empresa  = :codigo_empresa
+And    articulos.codigo = :articulo;
+
+
+Select count(*) Into :v_p From vendtofamforcli
+Where  vendtofamforcli.empresa  = :codigo_empresa
+And    vendtofamforcli.cliente  = :cliente 
+And    vendtofamforcli.familia  = :familia
+And    vendtofamforcli.formato  = :formato
+And    vendtofamforcli.calidad  = :calidad
+And    vendtofamforcli.unidad   = :unidad
+And    vendtofamforcli.cantidad <= :cantidad;
+IF IsNull(v_p) Then v_p = 0
+IF v_p<> 0 Then
+	Select Max(vendtofamforcli.cantidad) Into :v_p From vendtofamforcli
+	Where  vendtofamforcli.empresa  = :codigo_empresa
+	And    vendtofamforcli.cliente  = :cliente 
+	And    vendtofamforcli.familia  = :familia
+	And    vendtofamforcli.formato  = :formato
+   And    vendtofamforcli.calidad  = :calidad
+	And    vendtofamforcli.unidad   = :unidad
+	And    vendtofamforcli.cantidad <= :cantidad;
+
+	Select vendtofamforcli.dto Into :dto From vendtofamforcli
+	Where  vendtofamforcli.empresa  = :codigo_empresa
+	And    vendtofamforcli.cliente  = :cliente 
+	And    vendtofamforcli.familia  = :familia
+	And    vendtofamforcli.formato  = :formato
+	And    vendtofamforcli.calidad  = :calidad
+	And    vendtofamforcli.unidad   = :unidad
+	And    vendtofamforcli.cantidad = :v_p;
+	IF SQLCA.SQLCODE = 0  then
+		If IsNull(dto) Then dto = 0
+		Return Dto
+	END IF
+END IF
+
+
+Select Count(*) Into :v_p From vendtofamcli
+Where  vendtofamcli.empresa  = :codigo_empresa
+And    vendtofamcli.cliente  = :cliente 
+And    vendtofamcli.familia  = :familia
+And    vendtofamcli.calidad  = :calidad
+And    vendtofamcli.unidad   = :unidad
+And    vendtofamcli.cantidad <= :cantidad;
+IF IsNull(v_p) Then v_p = 0
+IF v_p<> 0 Then
+	Select Max(vendtofamcli.cantidad) Into :v_p From vendtofamcli
+	Where  vendtofamcli.empresa  = :codigo_empresa
+	And    vendtofamcli.cliente  = :cliente 
+	And    vendtofamcli.familia  = :familia
+	And    vendtofamcli.calidad  = :calidad
+	And    vendtofamcli.unidad   = :unidad
+	And    vendtofamcli.cantidad <= :cantidad;
+
+	Select vendtofamcli.dto Into :dto From vendtofamcli
+	Where  vendtofamcli.empresa  = :codigo_empresa
+	And    vendtofamcli.cliente  = :cliente 
+	And    vendtofamcli.familia  = :familia
+	And    vendtofamcli.calidad  = :calidad
+	And    vendtofamcli.unidad   = :unidad
+	And    vendtofamcli.cantidad = :v_p;
+	IF SQLCA.SQLCODE = 0  then
+		If IsNull(dto) Then dto = 0
+		Return Dto
+	END IF
+END IF
+
+
+Return dto
+end function
+

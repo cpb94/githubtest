@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_calculo_metros_desde_piezas.srf
+global type f_calculo_metros_desde_piezas from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_metros_desde_piezas (string empresa, string articulo, string caja, decimal total_piezas)
+end prototypes
+
+global function decimal f_calculo_metros_desde_piezas (string empresa, string articulo, string caja, decimal total_piezas);Dec{4} totalmetros
+Dec metroscaja
+int piezascaja
+ 
+if total_piezas <> 0 then
+ SELECT  almartcajas.metroscaja,almartcajas.piezascaja  
+ INTO    :metroscaja,:piezascaja
+   FROM almartcajas  
+   WHERE almartcajas.empresa  = :empresa
+	AND   almartcajas.articulo = :articulo
+	AND   almartcajas.caja     = :caja;
+	IF piezascaja=0 then 
+		totalmetros=0
+	else
+		totalmetros = dec(string(((dec(string(dec(metroscaja),"###,###.####"))/piezascaja)*total_piezas),"###,###,###.####"))
+	end if
+	if isnull(totalmetros) then totalmetros = 0
+	Return totalmetros
+else
+	Return 0
+End if
+end function
+

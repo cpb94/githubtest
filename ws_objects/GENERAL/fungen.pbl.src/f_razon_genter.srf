@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_razon_genter.srf
+global type f_razon_genter from function_object
+end type
+
+forward prototypes
+global function string f_razon_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_razon_genter (string ai_empresa, string as_tipoter, string as_codcli);string	nombre
+
+
+  SELECT genter.razon
+    INTO :nombre
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+    USING SQLCA;
+
+
+IF IsNull(nombre) Then nombre = ""
+RETURN nombre
+end function
+

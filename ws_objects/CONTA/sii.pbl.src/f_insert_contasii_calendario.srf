@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_insert_contasii_calendario.srf
+global type f_insert_contasii_calendario from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_contasii_calendario (ref str_contasii_calendario str_contasii_calendario)
+end prototypes
+
+global function boolean f_insert_contasii_calendario (ref str_contasii_calendario str_contasii_calendario);boolean lb_correcto = true
+
+INSERT INTO contasii_calendario
+		(contasii_calendario.empresa,
+       contasii_calendario.fecha,
+       contasii_calendario.facturas_enviadas,
+       contasii_calendario.facturas_recibidas,
+       contasii_calendario.bienes_de_inversion,
+       contasii_calendario.cobros_en_metalico,
+       contasii_calendario.facturas_enviadas_bien,
+       contasii_calendario.facturas_recibidas_bien,
+       contasii_calendario.bienes_de_inversion_bien,
+       contasii_calendario.cobros_en_metalico_bien,
+		 contasii_calendario.bloqueado)
+VALUES
+		(:str_contasii_calendario.empresa,
+       :str_contasii_calendario.fecha,
+       :str_contasii_calendario.facturas_enviadas,
+       :str_contasii_calendario.facturas_recibidas,
+       :str_contasii_calendario.bienes_de_inversion,
+       :str_contasii_calendario.cobros_en_metalico,
+       :str_contasii_calendario.facturas_enviadas_bien,
+       :str_contasii_calendario.facturas_recibidas_bien,
+       :str_contasii_calendario.bienes_de_inversion_bien,
+       :str_contasii_calendario.cobros_en_metalico_bien,
+		 :str_contasii_calendario.bloqueado);
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

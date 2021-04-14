@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_envio_venalb.srf
+global type f_envio_venalb from function_object
+end type
+
+forward prototypes
+global function string f_envio_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_envio_venalb (string empresa, integer anyo, decimal albaran);String var_envio
+
+  SELECT venalb.envio
+    INTO :var_envio
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+
+
+Return var_envio
+end function
+

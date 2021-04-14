@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_carclase.srf
+global type f_nombre_carclase from function_object
+end type
+
+forward prototypes
+global function string f_nombre_carclase (string cod_empresa, string cod_codigo)
+end prototypes
+
+global function string f_nombre_carclase (string cod_empresa, string cod_codigo);String ls_nombre 
+
+ SELECT carclase.empresa,   
+        carclase.codigo,   
+        carclase.descripcion 
+    INTO :cod_empresa,   
+         :cod_codigo,   
+         :ls_nombre  
+    FROM carclase 
+   WHERE ( carclase.empresa= :cod_empresa ) AND  
+         ( carclase.codigo = :cod_codigo  )   
+ORDER BY carclase.empresa ASC,   
+         carclase.codigo  ASC    USING SQLCA;
+RETURN ls_nombre
+
+
+end function
+

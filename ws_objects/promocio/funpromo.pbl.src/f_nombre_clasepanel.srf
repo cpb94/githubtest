@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_clasepanel.srf
+global type f_nombre_clasepanel from function_object
+end type
+
+forward prototypes
+global function string f_nombre_clasepanel (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_clasepanel (string empresa, string codigo);String parametro
+  
+  SELECT promclasepaneles.descripcion  
+    INTO :parametro  
+    FROM promclasepaneles  
+   WHERE ( promclasepaneles.empresa = :empresa ) AND  
+         ( promclasepaneles.codigo = :codigo ) ;
+			
+Return parametro
+
+end function
+

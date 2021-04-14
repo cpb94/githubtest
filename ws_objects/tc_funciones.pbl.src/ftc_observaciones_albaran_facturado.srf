@@ -1,0 +1,23 @@
+﻿$PBExportHeader$ftc_observaciones_albaran_facturado.srf
+global type ftc_observaciones_albaran_facturado from function_object
+end type
+
+forward prototypes
+global function string ftc_observaciones_albaran_facturado (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string ftc_observaciones_albaran_facturado (string empresa, integer anyo, decimal albaran);String resultado 
+
+
+//ATENCIÓN - Se muestra el peso del albarán original, lo que permite ver los valores antes de agrupar albaranes en una misma factura
+//Este valor se guarda en las lineas y no es modificable desde la factura
+
+SELECT TOP 1 observaciones_venalb INTO :resultado
+FROM venlifac
+WHERE empresa  = :empresa
+AND   anyo_albaran     = :anyo
+AND   albaran  = :albaran ;
+
+return resultado
+end function
+

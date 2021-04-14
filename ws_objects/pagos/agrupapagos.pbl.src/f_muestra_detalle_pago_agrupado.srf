@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_muestra_detalle_pago_agrupado.srf
+global type f_muestra_detalle_pago_agrupado from function_object
+end type
+
+forward prototypes
+global subroutine f_muestra_detalle_pago_agrupado (long arg_anyo, long arg_orden, long arg_y)
+end prototypes
+
+global subroutine f_muestra_detalle_pago_agrupado (long arg_anyo, long arg_orden, long arg_y);str_parametros param
+string agrupado,proveedor
+
+select agrupado,proveedor
+into   :agrupado,:proveedor
+from   carpagos
+where  empresa = :codigo_empresa
+and    anyo    = :arg_anyo
+and    orden   = :arg_orden;
+
+if isnull(agrupado) then agrupado = ""
+if trim(agrupado) = "" then agrupado = "N"
+
+if agrupado = "S" then
+	
+	param.s_argumentos[1] = string(arg_anyo,"####")
+	param.s_argumentos[2] = string(arg_orden,"##########")
+	param.s_argumentos[3] = f_razon_genter(codigo_empresa,"P",proveedor)
+	param.s_argumentos[4] = string(arg_y,"########")
+	openwithparm(w_con_detalle_pago_agrupado,param)
+end if
+
+end subroutine
+

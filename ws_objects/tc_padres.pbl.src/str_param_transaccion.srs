@@ -1,0 +1,14 @@
+﻿$PBExportHeader$str_param_transaccion.srs
+global type str_param_transaccion from structure
+	string		dbms
+	string		database
+	string		servername
+	string		logid
+	string		userid
+	string		logpass
+	string		autocommit
+	string		lock
+	string		dbparm
+	integer		motor
+end type
+

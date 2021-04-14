@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_perdidas_tipo_linea_formato.srf
+global type f_perdidas_tipo_linea_formato from function_object
+end type
+
+forward prototypes
+global function decimal f_perdidas_tipo_linea_formato (string arg_empresa, string arg_tipo_linea, string arg_formato)
+end prototypes
+
+global function decimal f_perdidas_tipo_linea_formato (string arg_empresa, string arg_tipo_linea, string arg_formato);dec{2} perdidas
+
+select perdidas
+into   :perdidas
+from   prodperdidastipolinea
+where  empresa = :arg_empresa
+and    tipo_linea = :arg_tipo_linea
+and    formato    = :arg_formato;
+
+if isnull(perdidas) then perdidas = 0
+
+return perdidas
+end function
+

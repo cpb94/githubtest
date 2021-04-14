@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_decimales_precios_moneda.srf
+global type f_decimales_precios_moneda from function_object
+end type
+
+forward prototypes
+global function int f_decimales_precios_moneda (string moneda)
+end prototypes
+
+global function int f_decimales_precios_moneda (string moneda);Integer var_decimales  
+
+SELECT monedas.decpreciofact   
+INTO   :var_decimales  
+FROM   monedas  
+WHERE  monedas.moneda = :moneda;
+
+if isnull(var_decimales) then var_decimales = 0
+
+Return var_decimales
+
+
+
+
+end function
+

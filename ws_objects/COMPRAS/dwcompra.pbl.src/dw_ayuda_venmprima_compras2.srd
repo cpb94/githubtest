@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_ayuda_venmprima_compras2.srd
+$PBExportComments$No vale. Se debe borrar
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=codigo dbname="venmprima.codigo" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_materia dbname="venmprima.tipo_materia" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=empresa dbname="venmprima.empresa" )
+ column=(type=char(10) updatewhereclause=yes name=proveedor dbname="venmprima.proveedor" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="venmprima.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmprima~" ) COLUMN(NAME=~"venmprima.codigo~") COLUMN(NAME=~"venmprima.tipo_materia~") COLUMN(NAME=~"venmprima.empresa~") COLUMN(NAME=~"venmprima.proveedor~") COLUMN(NAME=~"venmprima.descripcion~")WHERE(    EXP1 =~"venmprima.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"(Upper(venmprima.descripcion)~"   OP =~"like~"    EXP2 =~":criterio~"    LOGIC =~"or~" ) WHERE(    EXP1 =~"Upper(venmprima.codigo)~"   OP =~"like~"    EXP2 =~"~~~"%~~~" + :criterio)~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="venmprima" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Codigo"border="6" color="0" x="128" y="12" height="64" width="311"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Descripcion"border="6" color="0" x="457" y="12" height="64" width="1111"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tipo"border="6" color="0" x="1586" y="12" height="64" width="110"  name=tipo_materia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="5" color="0" x="466" y="8" height="68" width="1083" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="123" y="12" height="68" width="320" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="1577" y="4" height="68" width="128" format="[general]"  name=tipo_materia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

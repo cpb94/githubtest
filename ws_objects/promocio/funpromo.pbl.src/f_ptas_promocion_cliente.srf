@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_ptas_promocion_cliente.srf
+global type f_ptas_promocion_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_ptas_promocion_cliente (string empresa, string cliente, datetime fdesde, datetime fhasta)
+end prototypes
+
+global function decimal f_ptas_promocion_cliente (string empresa, string cliente, datetime fdesde, datetime fhasta);dec total_ptas
+
+SELECT sum(promalb.venta_total)  
+INTO   :total_ptas
+FROM   promalb  
+WHERE ( promalb.empresa = :empresa  )
+AND  	( promalb.cliente = :cliente  )
+AND  	( promalb.falbaran >= :fdesde )
+AND  	( promalb.falbaran <= :fhasta );
+
+if IsNull(total_ptas) then total_ptas = 0
+
+Return total_ptas
+end function
+

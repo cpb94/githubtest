@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_insert_venfacprev_cliente.srf
+global type f_insert_venfacprev_cliente from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_venfacprev_cliente (str_venfacprev_cliente arg_str_venfacprev_cliente)
+end prototypes
+
+global function boolean f_insert_venfacprev_cliente (str_venfacprev_cliente arg_str_venfacprev_cliente);int ll_existe_registro
+boolean lb_correcto
+
+select isnull(count(*),0)
+into   :ll_existe_registro
+from   venfacprev_cliente
+where  venfacprev_cliente.empresa           = :arg_str_venfacprev_cliente.empresa
+and    venfacprev_cliente.ejercicio         = :arg_str_venfacprev_cliente.ejercicio
+and    venfacprev_cliente.genter_codigo     = :arg_str_venfacprev_cliente.genter_codigo;
+
+if ll_existe_registro = 0 then
+	insert into venfacprev_cliente
+		(venfacprev_cliente.empresa,
+		 venfacprev_cliente.ejercicio,
+		 venfacprev_cliente.genter_codigo,
+		 venfacprev_cliente.prevision_precio_medio,
+		 venfacprev_cliente.prevision_importe,
+		 venfacprev_cliente.prevision_metros)
+	values
+		(:arg_str_venfacprev_cliente.empresa,
+		 :arg_str_venfacprev_cliente.ejercicio,
+		 :arg_str_venfacprev_cliente.genter_codigo,
+		 :arg_str_venfacprev_cliente.prevision_precio_medio,
+		 :arg_str_venfacprev_cliente.prevision_importe,
+		 :arg_str_venfacprev_cliente.prevision_metros);	
+else
+	update venfacprev_cliente
+	set    venfacprev_cliente.prevision_precio_medio = :arg_str_venfacprev_cliente.prevision_precio_medio,
+			 venfacprev_cliente.prevision_importe      = :arg_str_venfacprev_cliente.prevision_importe,
+			 venfacprev_cliente.prevision_metros       = :arg_str_venfacprev_cliente.prevision_metros
+	where  venfacprev_cliente.empresa           = :arg_str_venfacprev_cliente.empresa
+	and    venfacprev_cliente.ejercicio         = :arg_str_venfacprev_cliente.ejercicio
+	and    venfacprev_cliente.genter_codigo     = :arg_str_venfacprev_cliente.genter_codigo;
+end if
+
+if sqlca.sqlcode <> 0 then 
+	lb_correcto = false
+else
+	lb_correcto = true
+end if
+
+return lb_correcto
+end function
+

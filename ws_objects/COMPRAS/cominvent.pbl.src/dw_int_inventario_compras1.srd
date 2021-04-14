@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_int_inventario_compras1.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=alma dbname="alma" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="com_toma_inventario.empresa" )
+ column=(type=datetime updatewhereclause=yes name=fecha_inventario dbname="com_toma_inventario.fecha_inventario" )
+ column=(type=char(5) updatewhereclause=yes name=almacen dbname="com_toma_inventario.almacen" )
+ column=(type=long updatewhereclause=yes name=anyo_toma dbname="com_toma_inventario.anyo_toma" )
+ column=(type=char(40) updatewhereclause=yes name=comalmacen_descripcion dbname="comalmacen.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"com_toma_inventario~" )  TABLE(NAME=~"comalmacen~" ) COMPUTE(NAME=~"convert(int,almacen) alma~") COLUMN(NAME=~"com_toma_inventario.empresa~") COLUMN(NAME=~"com_toma_inventario.fecha_inventario~") COLUMN(NAME=~"com_toma_inventario.almacen~") COLUMN(NAME=~"com_toma_inventario.anyo_toma~") COLUMN(NAME=~"comalmacen.descripcion~")    JOIN (LEFT=~"com_toma_inventario.empresa~"    OP =~"=~"RIGHT=~"comalmacen.empresa~" )    JOIN (LEFT=~"comalmacen.codigo~"    OP =~"=~"RIGHT=~"com_toma_inventario.almacen~" )WHERE(    EXP1 =~"com_toma_inventario.empresa~"   OP =~"=~"    EXP2 =~":cod_emp~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"com_toma_inventario.anyo_toma~"   OP =~"=~"    EXP2 =~":anyo~" )  GROUP(NAME=~"com_toma_inventario.empresa~") GROUP(NAME=~"com_toma_inventario.fecha_inventario~") GROUP(NAME=~"com_toma_inventario.almacen~") GROUP(NAME=~"com_toma_inventario.anyo_toma~") GROUP(NAME=~"comalmacen.descripcion~")) ORDER(NAME=~"1~" ASC=yes ) ARG(NAME = ~"cod_emp~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number) " arguments=(("cod_emp", string),("anyo", number))  sort="fecha_inventario D comalmacen_descripcion A almacen A " )
+text(band=header alignment="2" text="Fecha Inv"border="6" color="0" x="91" y="8" height="64" width="320"  name=fecha_inv_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Almacen"border="6" color="0" x="430" y="8" height="64" width="1042"  name=almacen_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="128" x="91" y="4" height="56" width="320" format="[shortdate] [time]"  name=fecha_inventario editmask.mask="dd/mm/yy " editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="128" x="434" y="4" height="56" width="165" format="[general]"  name=almacen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="128" x="613" y="4" height="56" width="859" format="[general]"  name=comalmacen_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+
+sparse(names="fecha_inventario")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

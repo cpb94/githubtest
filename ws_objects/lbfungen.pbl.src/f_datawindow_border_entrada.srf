@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_datawindow_border_entrada.srf
+global type f_datawindow_border_entrada from function_object
+end type
+
+forward prototypes
+global subroutine f_datawindow_border_entrada (datawindow data)
+end prototypes
+
+global subroutine f_datawindow_border_entrada (datawindow data);data.Modify("Datawindow.color=12632256")
+end subroutine
+

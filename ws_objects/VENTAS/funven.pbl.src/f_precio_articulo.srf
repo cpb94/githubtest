@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_precio_articulo.srf
+$PBExportComments$Devuelve el precio de articulo a un cliente segun precio especial de artciulo por cliente , si no hay busca en tarifas.
+global type f_precio_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo (string empresa, string cliente, string articulo, string calidad, string tarifa)
+end prototypes
+
+global function decimal f_precio_articulo (string empresa, string cliente, string articulo, string calidad, string tarifa);Decimal{2} var_precio
+String     var_cliente,var_empresa,var_tarifa,var_articulo,var_calidad,var_familia,var_formato
+Datetime   var_fecha
+var_precio = f_precio_articulo_especial(empresa,cliente,articulo,calidad)
+if var_precio = 0 Then
+	var_precio = f_precio_articulo_venlintarifas_activa(empresa,tarifa,articulo,calidad)
+End If
+Return var_precio
+end function
+

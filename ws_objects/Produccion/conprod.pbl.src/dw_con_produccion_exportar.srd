@@ -1,0 +1,171 @@
+﻿$PBExportHeader$dw_con_produccion_exportar.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=116 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(50) updatewhereclause=yes name=genter_cliente dbname="genter.Cliente" )
+ column=(type=char(10) updatewhereclause=yes name=descoleccionsol_solicitud dbname="descoleccionsol.Solicitud" )
+ column=(type=char(15) updatewhereclause=yes name=descoleccionsol_cod_colección dbname="descoleccionsol.Cod_Colección" )
+ column=(type=char(100) updatewhereclause=yes name=descoleccionsol_colección dbname="descoleccionsol.Colección" )
+ column=(type=char(18) updatewhereclause=yes name=desmodelo_modelo dbname="desmodelo.Modelo" )
+ column=(type=char(20) updatewhereclause=yes name=articulos_cod_art dbname="articulos.Cod_Art" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_artículo dbname="articulos.Artículo" )
+ column=(type=long updatewhereclause=yes name=año_fact dbname="Año_fact" )
+ column=(type=long updatewhereclause=yes name=mes_fact dbname="Mes_Fact" )
+ column=(type=long updatewhereclause=yes name=año_alta dbname="Año_alta" )
+ column=(type=long updatewhereclause=yes name=mes_alta dbname="Mes_alta" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g1 dbname="art_codestadistico.G1" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g2 dbname="art_codestadistico.G2" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g3 dbname="art_codestadistico.G3" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_g4 dbname="art_codestadistico.G4" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_pasta dbname="art_codestadistico.Pasta" )
+ column=(type=long updatewhereclause=yes name=art_codestadistico_cocciones dbname="Cocciones" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_rectif dbname="art_codestadistico.Rectif" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_pv dbname="art_codestadistico.PV" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_pulido dbname="art_codestadistico.Pulido" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_cortes dbname="art_codestadistico.Cortes" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_relieve dbname="art_codestadistico.Relieve" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_base_cliente dbname="art_codestadistico.Base_CLiente" )
+ column=(type=char(10) updatewhereclause=yes name=formatos_formato dbname="formatos.Formato" )
+ column=(type=number updatewhereclause=yes name=m2 dbname="M2" )
+ column=(type=number updatewhereclause=yes name=cantidad dbname="Cantidad" )
+ column=(type=decimal(18) updatewhereclause=yes name=importe dbname="Importe" )
+ retrieve="  SELECT genter.razon Cliente, descoleccionsol.solicitud Solicitud, descoleccionsol.codigo Cod_Colección, descoleccionsol.descripcion Colección,
+			desmodelo.modelo Modelo, 
+			articulos.codigo Cod_Art,
+			articulos.descripcion Artículo ,
+			datepart (year,venlifac.ffactura) as Año_fact,  
+			datepart (month,venlifac.ffactura) as Mes_Fact,
+         datepart (year, fecha_alta) as Año_alta,   
+         datepart (month,fecha_alta) as Mes_alta, 
+			art_codestadistico.g1 G1,  
+			art_codestadistico.g2 G2,  
+			art_codestadistico.g3 G3,  
+			art_codestadistico.g4 G4,  
+			art_codestadistico.pt Pasta,  
+			convert (integer, art_codestadistico.nc) Cocciones,  
+			art_codestadistico.rectificado Rectif,  
+			art_codestadistico.av PV,  
+			art_codestadistico.pl Pulido,  
+			art_codestadistico.ct Cortes,  
+			art_codestadistico.tm Relieve,  
+			art_codestadistico.n Base_CLiente,
+			formatos.abreviado Formato,
+			sum (formatos.ancho * formatos.largo * cantidad / 10000) M2,
+			sum (venlifac.cantidad) Cantidad,  
+         sum (venlifac.neto / venlifac.cambio) Importe
+FROM venlifac, articulos, desmodelo, descoleccionsol,art_codestadistico, venfac, genter, formatos
+WHERE venlifac.empresa = articulos.empresa
+and venlifac.articulo = articulos.codigo
+and articulos.empresa = desmodelo.empresa
+and articulos.referencia_laboratorio = desmodelo.modelo
+and desmodelo.empresa = descoleccionsol.empresa
+and desmodelo.solicitud = descoleccionsol.solicitud
+and desmodelo.coleccion = descoleccionsol.codigo
+and articulos.fecha_anulado is null 
+and venlifac.empresa = venfac.empresa
+and venlifac.anyo = venfac.anyo
+and venlifac.factura = venfac.factura 
+and venfac.empresa = genter.empresa
+and venfac.cliente = genter.codigo
+and genter.tipoter = 'C' 
+and articulos.empresa = formatos.empresa
+and articulos.formato = formatos.codigo 
+and ( venlifac.empresa = art_codestadistico.empresa ) 
+and ( venlifac.articulo = art_codestadistico.codigo )   
+and ( ( venlifac.empresa = :empresa ) 
+and ( venlifac.cliente like :cliente ) )  
+and art_codestadistico.g1 like :g1 
+and art_codestadistico.g2 like :g2 
+and art_codestadistico.g3 like :g3 
+and art_codestadistico.g4 like :g4 
+and art_codestadistico.pt like :pt 
+and art_codestadistico.nc like :nc 
+and art_codestadistico.av like :av 
+and art_codestadistico.ct like :ct 
+and art_codestadistico.tm like :tm 
+and art_codestadistico.n like :n 
+group by genter.razon, descoleccionsol.solicitud, 
+			descoleccionsol.codigo,
+			descoleccionsol.descripcion,
+			desmodelo.modelo, 
+			articulos.codigo,
+			articulos.descripcion,
+			datepart (year,venlifac.ffactura), 
+			datepart (month,venlifac.ffactura),  
+         datepart (year, fecha_alta),  
+         datepart (month,fecha_alta) , 
+			art_codestadistico.g1,  
+			art_codestadistico.g2,  
+			art_codestadistico.g3,  
+			art_codestadistico.g4,  
+			art_codestadistico.pt,  
+			convert (integer, art_codestadistico.nc),  
+			art_codestadistico.rectificado,  
+			art_codestadistico.av,  
+			art_codestadistico.pl,  
+			art_codestadistico.ct,  
+			art_codestadistico.tm,  
+			art_codestadistico.n,
+			formatos.abreviado 
+
+" arguments=(("empresa", string),("cliente", string),("g1", string),("g2", string),("g3", string),("g4", string),("pt", string),("nc", string),("av", string),("ct", string),("tm", string),("n", string)) )
+text(band=header alignment="2" text="Cod Colección" border="0" color="33554432" x="1216" y="56" height="56" width="256" html.valueishtml="0"  name=descoleccionsol_codigo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Solicitud" border="0" color="33554432" x="933" y="56" height="52" width="256" html.valueishtml="0"  name=descoleccionsol_solicitud_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cliente" border="0" color="33554432" x="32" y="56" height="52" width="878" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Formato" border="0" color="33554432" x="2354" y="56" height="56" width="238" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Modelo" border="0" color="33554432" x="2098" y="56" height="52" width="238" html.valueishtml="0"  name=desmodelo_modelo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Artículo" border="0" color="33554432" x="2976" y="56" height="52" width="672" html.valueishtml="0"  name=articulos_descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Año Fact" border="0" color="33554432" x="3662" y="56" height="56" width="242" html.valueishtml="0"  name=anyo_fact_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cod_Art" border="0" color="33554432" x="2606" y="56" height="56" width="347" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Colección" border="0" color="33554432" x="1499" y="56" height="56" width="571" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes Alta" border="0" color="33554432" x="4169" y="56" height="56" width="329" html.valueishtml="0"  name=mes_alta_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Año Alta" border="0" color="33554432" x="4530" y="56" height="56" width="242" html.valueishtml="0"  name=anyo_alta_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="G1" border="0" color="33554432" x="4795" y="56" height="56" width="87" html.valueishtml="0"  name=art_codestadistico_g1_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="G3" border="0" color="33554432" x="4978" y="56" height="56" width="78" html.valueishtml="0"  name=art_codestadistico_g3_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="G2" border="0" color="33554432" x="4896" y="56" height="56" width="69" html.valueishtml="0"  name=art_codestadistico_g2_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pasta" border="0" color="33554432" x="5481" y="56" height="56" width="160" html.valueishtml="0"  name=art_codestadistico_pt_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cocciones" border="0" color="33554432" x="5184" y="56" height="56" width="283" html.valueishtml="0"  name=art_codestadistico_nc_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="G4" border="0" color="33554432" x="5079" y="56" height="56" width="82" html.valueishtml="0"  name=art_codestadistico_g4_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PV" border="0" color="33554432" x="5957" y="56" height="56" width="137" html.valueishtml="0"  name=art_codestadistico_av_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pulido" border="0" color="33554432" x="6112" y="56" height="56" width="165" html.valueishtml="0"  name=art_codestadistico_pl_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cortes" border="0" color="33554432" x="6290" y="56" height="56" width="178" html.valueishtml="0"  name=art_codestadistico_ct_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Relieve" border="0" color="33554432" x="6482" y="56" height="56" width="197" html.valueishtml="0"  name=art_codestadistico_tm_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="B. Cli." border="0" color="33554432" x="6683" y="56" height="56" width="174" html.valueishtml="0"  name=art_codestadistico_n_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Rectificado" border="0" color="33554432" x="5659" y="56" height="56" width="283" html.valueishtml="0"  name=art_codestadistico_rectificado_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cantidad" border="0" color="33554432" x="6875" y="56" height="56" width="329" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Metros " border="0" color="33554432" x="7223" y="56" height="56" width="329" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importe" border="0" color="33554432" x="7579" y="56" height="56" width="329" html.valueishtml="0"  name=importe_euro_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes Fact" border="0" color="33554432" x="3918" y="56" height="56" width="233" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="933" y="4" height="56" width="256" format="[general]" html.valueishtml="0"  name=descoleccionsol_solicitud visible="1" edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="1216" y="8" height="56" width="265" format="[general]" html.valueishtml="0"  name=descoleccionsol_colección visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="27" y="4" height="56" width="882" format="[general]" html.valueishtml="0"  name=genter_cliente visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="33554432" x="2354" y="4" height="56" width="247" format="[general]" html.valueishtml="0"  name=formatos_formato visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="2094" y="4" height="56" width="238" format="[general]" html.valueishtml="0"  name=desmodelo_modelo visible="1" edit.limit=18 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="33554432" x="2962" y="8" height="56" width="690" format="[general]" html.valueishtml="0"  name=articulos_artículo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="33554432" x="3675" y="8" height="56" width="215" format="[general]" html.valueishtml="0"  name=año_fact visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33554432" x="2619" y="8" height="56" width="320" format="[general]" html.valueishtml="0"  name=articulos_cod_art visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="1499" y="8" height="56" width="571" format="[general]" html.valueishtml="0"  name=descoleccionsol_cod_colección visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="33554432" x="3922" y="8" height="56" width="224" format="[general]" html.valueishtml="0"  name=mes_fact visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="33554432" x="4169" y="4" height="56" width="329" format="[general]" html.valueishtml="0"  name=mes_alta visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="33554432" x="4795" y="4" height="56" width="87" format="[general]" html.valueishtml="0"  name=art_codestadistico_g1 visible="1" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="33554432" x="4978" y="4" height="56" width="78" format="[general]" html.valueishtml="0"  name=art_codestadistico_g3 visible="1" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="33554432" x="4896" y="4" height="56" width="69" format="[general]" html.valueishtml="0"  name=art_codestadistico_g2 visible="1" edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="33554432" x="5079" y="4" height="56" width="82" format="[general]" html.valueishtml="0"  name=art_codestadistico_g4 visible="1" edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="33554432" x="4530" y="8" height="56" width="233" format="[general]" html.valueishtml="0"  name=año_alta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="33554432" x="5504" y="8" height="56" width="87" format="[general]" html.valueishtml="0"  name=art_codestadistico_pasta visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=32766 border="0" color="33554432" x="5253" y="8" height="56" width="123" format="###" html.valueishtml="0"  name=art_codestadistico_cocciones visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="33554432" x="5760" y="8" height="56" width="78" format="[general]" html.valueishtml="0"  name=art_codestadistico_rectif visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="33554432" x="5993" y="8" height="56" width="59" format="[general]" html.valueishtml="0"  name=art_codestadistico_pv visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="33554432" x="6135" y="8" height="56" width="105" format="[general]" html.valueishtml="0"  name=art_codestadistico_pulido visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="33554432" x="6331" y="8" height="56" width="101" format="[general]" html.valueishtml="0"  name=art_codestadistico_cortes visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="33554432" x="6523" y="8" height="56" width="119" format="[general]" html.valueishtml="0"  name=art_codestadistico_relieve visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="33554432" x="6734" y="4" height="64" width="69" format="[general]" html.valueishtml="0"  name=art_codestadistico_base_cliente visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=32766 border="0" color="33554432" x="6880" y="8" height="56" width="334" format="[general]" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="33554432" x="7232" y="8" height="56" width="320" format="###,###,##0" html.valueishtml="0"  name=m2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="1" tabsequence=32766 border="0" color="33554432" x="7584" y="8" height="56" width="329" format="[general]" html.valueishtml="0"  name=importe visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="1550" y="212" height="76" width="256" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

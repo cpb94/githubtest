@@ -1,0 +1,23 @@
+﻿$PBExportHeader$str_comcabfac.srs
+global type str_comcabfac from structure
+	string		empresa
+	integer		anyo
+	string		proveedor
+	string		factura
+	datetime		fecha_fac
+	datetime		fecha_entrega
+	string		forma_envio
+	string		forma_pago
+	string		incidencias
+	string		libre
+	string		pedidopor
+	string		tipoiva
+	decimal {2}	iva
+	string		moneda
+	decimal {2}	dtopp
+	decimal {2}	dto1
+	decimal {6}	cambio
+	integer		decimales_precios
+	string		facturado_por
+end type
+

@@ -1,0 +1,28 @@
+﻿$PBExportHeader$ftc_expedicion_orden_carga.srf
+global type ftc_expedicion_orden_carga from function_object
+end type
+
+forward prototypes
+global function string ftc_expedicion_orden_carga (string empresa, integer anyo, string codigo, integer con_anyo)
+end prototypes
+
+global function string ftc_expedicion_orden_carga (string empresa, integer anyo, string codigo, integer con_anyo);String resultado = "", expedicion_codigo = ""
+Int expedicion_anyo = 0
+
+SELECT expedicion_anyo, expedicion_codigo INTO  :expedicion_anyo, :expedicion_codigo
+FROM expedicion_orden_carga
+WHERE empresa = :empresa 
+AND orden_carga_anyo = :anyo 
+AND orden_carga_codigo = :codigo;
+
+if not isnull(expedicion_codigo) and expedicion_codigo <> "" then
+	if con_anyo > 0 then
+		resultado = String(expedicion_anyo)+ "/"+expedicion_codigo
+	else
+		resultado = expedicion_codigo
+	end if
+end if
+
+return resultado
+end function
+

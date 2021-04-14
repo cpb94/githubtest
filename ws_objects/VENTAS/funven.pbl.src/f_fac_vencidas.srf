@@ -1,0 +1,76 @@
+﻿$PBExportHeader$f_fac_vencidas.srf
+global type f_fac_vencidas from function_object
+end type
+
+forward prototypes
+global function tipo_array f_fac_vencidas (string empresa, string cliente)
+end prototypes
+
+global function tipo_array f_fac_vencidas (string empresa, string cliente);
+tipo_array retorno
+dec dinero
+
+  SELECT sum(carefectos.importe)
+    INTO :dinero  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.cliente = :cliente ) AND  
+         ( carefectos.situacion in ('0','4','1','5','6','10') ) AND  
+         ( datediff(day ,carefectos.fvto , getdate()) between 0 and 29)   ;
+
+if isnull(dinero) then dinero=0
+
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando efectos vencidos",sqlca.sqlerrtext)
+	dinero=0
+end if
+retorno.valor[1]=string(dinero)
+
+  SELECT sum(carefectos.importe)
+    INTO :dinero  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.cliente = :cliente ) AND  
+         ( carefectos.situacion in ('0','4','1','5','6','10') ) AND  
+         ( datediff(day ,carefectos.fvto , getdate()) between 30 and 59)   ;
+  
+if isnull(dinero) then dinero=0  
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando efectos vencidos",sqlca.sqlerrtext)
+	dinero=0
+end if
+retorno.valor[2]=string(dinero)
+
+  SELECT sum(carefectos.importe)
+    INTO :dinero  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.cliente = :cliente ) AND  
+         ( carefectos.situacion in ('0','4','1','5','6','10') ) AND  
+         ( datediff(day ,carefectos.fvto , getdate()) between 60 and 89)   ;
+  
+if isnull(dinero) then dinero=0  
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando efectos vencidos",sqlca.sqlerrtext)
+	dinero=0
+end if
+retorno.valor[3]=string(dinero)
+
+  SELECT sum(carefectos.importe)
+    INTO :dinero  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.cliente = :cliente ) AND  
+         ( carefectos.situacion in ('0','4','1','5','6','10') ) AND  
+         ( datediff(day ,carefectos.fvto , getdate()) >= 90)   ;
+
+if isnull(dinero) then dinero=0  
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando efectos vencidos",sqlca.sqlerrtext)
+	dinero=0
+end if
+retorno.valor[4]=string(dinero)
+
+return retorno
+end function
+

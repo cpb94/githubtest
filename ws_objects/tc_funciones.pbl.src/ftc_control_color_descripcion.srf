@@ -1,0 +1,22 @@
+﻿$PBExportHeader$ftc_control_color_descripcion.srf
+global type ftc_control_color_descripcion from function_object
+end type
+
+forward prototypes
+global function string ftc_control_color_descripcion (integer estado)
+end prototypes
+
+global function string ftc_control_color_descripcion (integer estado);// Cambia el color de las descricipones de las búsquedas
+// 0: Color por defecto
+// 1: Color de alerta.
+
+if estado = 0 then
+	return string(RGB(200,200,200))
+	
+elseif estado = 1 then
+	return string( RGB(234,38,41))	
+else
+	return string(RGB(200,200,200))
+end if
+end function
+

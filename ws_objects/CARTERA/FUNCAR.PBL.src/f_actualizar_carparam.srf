@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_actualizar_carparam.srf
+global type f_actualizar_carparam from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_carparam (string empresa, integer anyo, decimal orden)
+end prototypes
+
+global function boolean f_actualizar_carparam (string empresa, integer anyo, decimal orden);Dec{0} var_orden,bien
+bien = 0
+
+
+Select carparam.orden Into :var_orden From carparam
+Where carparam.empresa = :empresa
+And   carparam.anyo    = :anyo;
+IF SQLCA.SQLCODE = 100 Then
+	  INSERT INTO carparam  
+         ( empresa,   
+           anyo,   
+           orden )  
+  VALUES ( :empresa,   
+           :anyo,   
+           :orden )  ;
+	  	IF sqlca.sqlcode <> 0 Then  
+			f_grabar_incidencia("Error en gestion de datos (f_actualizar_carparam)",sqlca.sqlerrtext)
+			bien = 1
+		END IF
+ELSE
+	Update carparam
+		Set carparam.orden = :orden
+		Where carparam.empresa = :empresa
+		And   carparam.anyo = :anyo;
+		IF sqlca.sqlcode <> 0 Then 
+			f_grabar_incidencia("Error en gestion de datos (f_actualizar_carparam)",sqlca.sqlerrtext)
+			bien = 1
+		END IF
+
+END IF
+IF bien = 1 Then
+	return False
+ELSE
+	return True
+END IF
+		
+
+	
+end function
+

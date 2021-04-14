@@ -1,0 +1,11 @@
+﻿$PBExportHeader$str_venfacprev_cliente_familia.srs
+global type str_venfacprev_cliente_familia from structure
+	string		empresa
+	integer		ejercicio
+	string		genter_codigo
+	string		familias_codigo
+	decimal		prevision_precio_medio
+	decimal		prevision_importe
+	decimal		prevision_metros
+end type
+

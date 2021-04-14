@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_version_activa_articulo_boolean.srf
+global type f_version_activa_articulo_boolean from function_object
+end type
+
+forward prototypes
+global function boolean f_version_activa_articulo_boolean (string empresa, string articulo, string ar_version)
+end prototypes
+
+global function boolean f_version_activa_articulo_boolean (string empresa, string articulo, string ar_version);string version_activa
+
+select version into :version_activa
+from prodartversionactiva
+where empresa =  :empresa
+and   articulo = :articulo;
+
+if isnull(version_activa) then version_activa = ""
+
+if version_activa = ar_version then
+	return true
+else
+	return false
+end if
+end function
+

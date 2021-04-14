@@ -1,0 +1,39 @@
+﻿$PBExportHeader$str_genter.srs
+global type str_genter from structure
+     STRING     empresa
+     STRING     tipoter
+     STRING     codigo
+     STRING     nombre
+     STRING     razon
+     STRING     cif
+     STRING     pais
+     STRING     provincia
+     STRING     cod_postal
+     STRING     localidad
+     STRING     domicilio
+     STRING     telefono
+     STRING     fax
+     STRING     moneda
+     INTEGER     riesgo
+     DATETIME     falta
+     STRING     apellidos
+     STRING     sexo
+     DATETIME     fecha_nacimiento
+     STRING     idioma
+     STRING     activo
+     STRING     tipopais
+     STRING     cl_domicilio
+     STRING     nu_domicilio
+     STRING     prefijo_provincia
+     STRING     distribuidor
+     STRING     codigo_cliente
+     STRING     genter
+     STRING     cuenta
+     STRING     textoactivo
+     STRING     telefono2
+     STRING     email1
+     STRING     email2
+     STRING     visible_expo
+     INTEGER     codigo_adv
+end type
+

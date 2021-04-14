@@ -1,0 +1,48 @@
+﻿$PBExportHeader$report_con_libros_facturas_recibidas_res.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=80 color="536870912" )
+summary(height=84 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=tipoapu dbname="contaapun.tipoapu" )
+ column=(type=char(10) updatewhereclause=yes name=tipoiva dbname="contaapun.tipoiva" )
+ column=(type=decimal(2) updatewhereclause=yes name=debe dbname="debe" )
+ column=(type=decimal(2) updatewhereclause=yes name=haber dbname="haber" )
+ column=(type=decimal(4) updatewhereclause=yes name=imponible dbname="imponible" )
+ retrieve="  SELECT contaapun.tipoapu,
+			contaapun.tipoiva,   
+         Sum(debe) debe,Sum(haber) haber,sum(imponible) imponible
+    FROM contaapun  
+   WHERE ( contaapun.ejercicio = :ejercicio ) AND  
+         ( contaapun.empresa = :empresa ) AND  
+         ( (contaapun.tipoapu = '2' OR
+			   contaapun.tipoapu = '7' OR
+			   contaapun.tipoapu = '9' )) AND  
+         ( contaapun.fregistro between :fecha_desde and :fecha_hasta )   
+GROUP BY contaapun.tipoapu,   
+         contaapun.tipoiva   
+
+" arguments=(("ejercicio", number),("empresa", string),("fecha_desde", datetime),("fecha_hasta", datetime)) )
+group(level=1 header.height=92 trailer.height=84 by=("tipoapu" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="14" y="12" height="104" width="165" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Tipo Iva" border="6" color="0" x="352" y="8" height="64" width="814" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Imponible" border="6" color="0" x="1184" y="8" height="64" width="599" html.valueishtml="0"  name=imponible_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Iva" border="6" color="0" x="1806" y="8" height="64" width="174" html.valueishtml="0"  name=iva_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Total Iva" border="6" color="0" x="2002" y="8" height="64" width="530" html.valueishtml="0"  name=debe_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Total Fra" border="6" color="0" x="2555" y="8" height="64" width="631" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=header.1 alignment="0" expression="f_nombre_contalibros(ejercicio,empresa,tipoapu)"border="0" color="0" x="352" y="8" height="68" width="1531" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_contaiva(ejercicio,empresa,tipoiva)"border="0" color="0" x="352" y="4" height="68" width="814" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1184" y="4" height="68" width="599" format="###,###,###,##0.00" html.valueishtml="0"  name=imponible visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="f_iva_contaiva(ejercicio,empresa,tipoiva)"border="0" color="0" x="1806" y="4" height="68" width="174" format="[general]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="String( IF (f_tipo_cta_libro(ejercicio,empresa,tipoapu)= ~"D~",debe - haber,haber - debe),f_mascara_decimales(2))"border="0" color="0" x="2002" y="4" height="68" width="530" format="[general]" html.valueishtml="0"  name=impiva visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="String(Dec(impiva) + imponible,f_mascara_decimales(2))"border="0" color="0" x="2555" y="4" height="68" width="631" format="[general]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(sum(imponible for group 1),f_mascara_decimales(2))"border="0" color="0" x="1184" y="4" height="68" width="599" format="[general]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="STring(sum( IF (f_tipo_cta_libro(ejercicio,empresa, tipoapu )= ~"D~",debe - haber,haber - debe)  for group 1),f_mascara_decimales(2))"border="0" color="0" x="2002" y="4" height="68" width="530" format="[general]" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(sum(Dec(impiva) + imponible for group 1),f_mascara_decimales(2))"border="0" color="0" x="2555" y="4" height="68" width="631" format="[general]" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="STring(sum( IF (f_tipo_cta_libro(ejercicio,empresa,tipoapu)= ~"D~",debe - haber,haber - debe)  for all),f_mascara_decimales(2))"border="0" color="0" x="2002" y="8" height="68" width="530" format="[general]" html.valueishtml="0"  name=compute_8 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="String(sum(Dec(impiva) + imponible for all),f_mascara_decimales(2))"border="0" color="0" x="2555" y="8" height="68" width="631" format="[general]" html.valueishtml="0"  name=compute_9 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="String(sum(imponible for all),f_mascara_decimales(2))"border="0" color="0" x="1184" y="8" height="68" width="599" format="[general]" html.valueishtml="0"  name=compute_10 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="Totales :" border="0" color="0" x="882" y="8" height="64" width="256" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

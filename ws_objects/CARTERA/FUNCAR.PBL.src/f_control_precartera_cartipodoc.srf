@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_control_precartera_cartipodoc.srf
+global type f_control_precartera_cartipodoc from function_object
+end type
+
+forward prototypes
+global function string f_control_precartera_cartipodoc (string cod_empresa, string cod_tipodoc)
+end prototypes
+
+global function string f_control_precartera_cartipodoc (string cod_empresa, string cod_tipodoc);String ls
+
+ SELECT   cartipodoc.control_precartera INTO  :ls
+    FROM  cartipodoc 
+   WHERE  cartipodoc.empresa= :cod_empresa 
+	AND    cartipodoc.tipodoc= :cod_tipodoc ;
+IF Trim(ls) = "" Then ls = "N"
+RETURN ls
+
+
+end function
+

@@ -1,0 +1,170 @@
+﻿$PBExportHeader$str_venlifac.srs
+global type str_venlifac from structure
+	string		empresa
+	integer		anyo_albaran
+	decimal { 0 }		albaran
+	integer		linea
+	string		serie
+	datetime		falbaran
+	datetime		fentrega
+	datetime		fentrega_inicial
+	string		cliente
+	string		tipo_unidad
+	string		articulo
+	string		familia
+	string		formato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	decimal { 6 }		precio
+	decimal { 6 }		precio_estand
+	decimal { 6 }		cantidad
+	integer		pallets
+	integer		total_cajas
+	integer		cajas
+	decimal { 6 }		dtocomer
+	decimal { 6 }		dtoesp
+	string		descripcion
+	string		tipoiva
+	decimal { 6 }		iva
+	string		linfab
+	string		provincia
+	string		pais
+	string		zona
+	string		tipolinea
+	string		texto1
+	string		texto2
+	string		texto3
+	string		texto4
+	string		referencia
+	string		montajeartcal
+	string		situacion
+	string		divisa
+	decimal { 6 }		metros_lineales
+	decimal { 6 }		peso
+	datetime		falta
+	string		usuario
+	string		tipo_pallet
+	decimal { 6 }		importe
+	decimal { 6 }		descuento
+	decimal { 6 }		importedto
+	string		clase
+	string		sector
+	string		agente1
+	string		agente2
+	string		agente3
+	decimal { 6 }		comision11
+	decimal { 6 }		comision12
+	decimal { 6 }		comision21
+	decimal { 6 }		comision22
+	decimal { 6 }		comision31
+	decimal { 6 }		comision32
+	string		deposito
+	integer		orden_preparacion
+	integer		cantidad_prepa
+	string		es_pico
+	integer		numero_pico
+	integer		anyo_ent
+	decimal { 6 }		nummov_ent
+	integer		anyo_sal
+	decimal { 6 }		nummov_sal
+	integer		fila_ent
+	integer		altura_ent
+	string		operario_prepa
+	string		control_incremento
+	decimal { 6 }		peso_neto
+	decimal { 6 }		precio_aduana
+	string		control_descuentos
+	string		control_comisiones
+	decimal { 6 }		importe_aduana
+	decimal { 6 }		bruto
+	decimal { 6 }		precio_neto
+	decimal { 6 }		precio_aduana_neto
+	decimal { 6 }		descuento_aduana
+	decimal { 6 }		neto
+	decimal { 6 }		impdtopp
+	string		ref_cli
+	string		transportista
+	string		almacen_ent
+	decimal { 0 }		anyo_pedido_origen
+	decimal { 0 }		pedido_origen
+	datetime		fcarga
+	datetime		ffactura
+	decimal { 0 }		anyo
+	decimal { 0 }		factura
+	decimal { 0 }		linea_factura
+	string		envio
+	string		compras
+	decimal { 6 }		cambio
+	string		contenedor
+	string		numpedcli
+	string		listar_aduana
+	integer		mes
+	decimal { 6 }		impdtoesp1
+	decimal { 6 }		impdtoesp2
+	decimal { 6 }		impdtoesp3
+	decimal { 6 }		impdtoesp4
+	decimal { 6 }		impdtoesp1_aduana
+	decimal { 6 }		impdtoesp2_aduana
+	decimal { 6 }		impdtoesp3_aduana
+	decimal { 6 }		impdtoesp4_aduana
+	decimal { 6 }		impdtopp_aduana
+	string		caja
+	string		tonochar
+	string		ubicacion
+	string		precinto
+	string		matricula
+	integer		anyo_alb_comp
+	decimal { 0 }		albaran_comp
+	integer		lin_alb_comp
+	integer		anyo_alb_otra
+	decimal { 6 }		albaran_otra
+	integer		lin_alb_otra
+	integer		linea_pedido_origen
+	decimal { 6 }		cambio_euros
+	string		subfamilia
+	string		subformato
+	decimal { 6 }		cantidad_pedido
+	integer		paldesde
+	integer		palhasta
+	string		almacen_de_carga
+	decimal { 4 }		importe_fobs
+	string		dni
+	decimal { 4 }		importe_fletes
+	decimal { 2 }		dtoesp2
+	datetime		fpedido_origen
+	decimal { 0 }		numpalet
+	decimal { 0 }		bultos
+	string		conductor
+	string		observ_lin
+	decimal { 0 }		anyo_proddiaria
+	decimal { 0 }		contador_proddiaria
+	string		idioma
+	decimal { 2 }		cantidad_original
+	integer		linea_desdoblada_de
+	datetime		fecha_linped
+	string		factura_deposito
+	decimal { 6 }		peso_bruto_venalb
+	decimal { 6 }		peso_neto_venalb
+	integer		expedicion_anyo_venalb
+	string		expedicion_codigo_venalb
+	integer		bultos_venalb
+	string		observaciones_venalb
+	string		forma_envio_venalb
+	string		venconductores_codigo
+	string		remolque
+	string		booking
+	decimal { 2 }		tara_contenedor
+	string		metodo_verificacion_masa_bruta
+	string		tono_imprimir
+	string		calibre_imprimir
+	decimal { 0 }		id_alm_orden_carga
+	decimal { 0 }		ordenacion_orden_carga
+	decimal { 0 }		bulto_desde_orden_carga
+	decimal { 0 }		bulto_hasta_orden_carga
+	decimal { 6 }		cantidad_pzs
+	decimal { 6 }		precio_pzs
+	decimal { 0 }		id_alm_orden_preparacion
+end type
+

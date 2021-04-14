@@ -1,0 +1,89 @@
+﻿$PBExportHeader$f_cargar_str_genter.srf
+global type f_cargar_str_genter from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_genter (STRING arg_empresa, STRING arg_tipoter, STRING arg_codigo,  ref str_genter str_genter)
+end prototypes
+
+global function boolean f_cargar_str_genter (STRING arg_empresa, STRING arg_tipoter, STRING arg_codigo,  ref str_genter str_genter);boolean lb_correcto = true
+
+SELECT genter.empresa,
+       genter.tipoter,
+       genter.codigo,
+       genter.nombre,
+       genter.razon,
+       genter.cif,
+       genter.pais,
+       genter.provincia,
+       genter.cod_postal,
+       genter.localidad,
+       genter.domicilio,
+       genter.telefono,
+       genter.fax,
+       genter.moneda,
+       genter.riesgo,
+       genter.falta,
+       genter.apellidos,
+       genter.sexo,
+       genter.fecha_nacimiento,
+       genter.idioma,
+       genter.activo,
+       genter.tipopais,
+       genter.cl_domicilio,
+       genter.nu_domicilio,
+       genter.prefijo_provincia,
+       genter.distribuidor,
+       genter.codigo_cliente,
+       genter.genter,
+       genter.cuenta,
+       genter.textoactivo,
+       genter.telefono2,
+       genter.email1,
+       genter.email2,
+       genter.visible_expo,
+       genter.codigo_adv
+INTO   :str_genter.empresa,
+       :str_genter.tipoter,
+       :str_genter.codigo,
+       :str_genter.nombre,
+       :str_genter.razon,
+       :str_genter.cif,
+       :str_genter.pais,
+       :str_genter.provincia,
+       :str_genter.cod_postal,
+       :str_genter.localidad,
+       :str_genter.domicilio,
+       :str_genter.telefono,
+       :str_genter.fax,
+       :str_genter.moneda,
+       :str_genter.riesgo,
+       :str_genter.falta,
+       :str_genter.apellidos,
+       :str_genter.sexo,
+       :str_genter.fecha_nacimiento,
+       :str_genter.idioma,
+       :str_genter.activo,
+       :str_genter.tipopais,
+       :str_genter.cl_domicilio,
+       :str_genter.nu_domicilio,
+       :str_genter.prefijo_provincia,
+       :str_genter.distribuidor,
+       :str_genter.codigo_cliente,
+       :str_genter.genter,
+       :str_genter.cuenta,
+       :str_genter.textoactivo,
+       :str_genter.telefono2,
+       :str_genter.email1,
+       :str_genter.email2,
+       :str_genter.visible_expo,
+       :str_genter.codigo_adv
+FROM genter
+WHERE genter.empresa = :arg_empresa AND genter.tipoter = :arg_tipoter AND genter.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

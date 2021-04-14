@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_precio_articulo_venlintarifas_activa.srf
+global type f_precio_articulo_venlintarifas_activa from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo_venlintarifas_activa (string empresa, string codigo, string articulo, string calidad)
+end prototypes
+
+global function decimal f_precio_articulo_venlintarifas_activa (string empresa, string codigo, string articulo, string calidad);Dec{4}   var_parametro,var_precio
+String   var_empresa,var_articulo,var_codigo,var_calidad
+DateTime var_fecha,fecha
+
+SELECT ventarifas.activa INTO :fecha  
+FROM   ventarifas  
+WHERE  ventarifas.empresa = :empresa 
+AND    ventarifas.codigo  = :codigo;
+		
+  SELECT venlintarifas.precio
+    INTO :var_parametro  
+    FROM venlintarifas  
+   WHERE venlintarifas.empresa  = :empresa 
+   AND   venlintarifas.tarifa   = :codigo 
+   AND   venlintarifas.fecha    = :fecha 
+   AND   venlintarifas.articulo = :articulo
+   AND   venlintarifas.calidad = :calidad;
+	
+        
+IF Sqlca.Sqlcode<>0 Then var_parametro =0 
+Return var_parametro
+
+end function
+

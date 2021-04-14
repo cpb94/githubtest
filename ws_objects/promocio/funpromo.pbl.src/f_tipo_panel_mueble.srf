@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipo_panel_mueble.srf
+global type f_tipo_panel_mueble from function_object
+end type
+
+forward prototypes
+global function string f_tipo_panel_mueble (string empresa, string mueble)
+end prototypes
+
+global function string f_tipo_panel_mueble (string empresa, string mueble);string tipo_panel
+
+select max(tipo) into :tipo_panel
+from promlinexpositores
+where empresa = :empresa
+and codigo = :mueble;
+
+if isnull(tipo_panel) then tipo_panel = ""
+
+return tipo_panel
+end function
+

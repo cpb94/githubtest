@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_nombre_ventipocli.srf
+global type f_nombre_ventipocli from function_object
+end type
+
+forward prototypes
+global function string f_nombre_ventipocli (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_ventipocli (string empresa, string codigo);String var_descripcion
+SELECT ventipocli.descripcion  INTO :var_descripcion    FROM ventipocli 
+WHERE (ventipocli.empresa   = :empresa)
+AND   (ventipocli.codigo  = :codigo);
+Return var_descripcion
+
+end function
+

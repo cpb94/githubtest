@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_buscar_devuelve_codigo.srf
+$PBExportComments$Despliega la ventana de Ayuda
+global type f_buscar_devuelve_codigo from function_object
+end type
+
+forward prototypes
+global function string f_buscar_devuelve_codigo (str_parametros astr_parametros)
+end prototypes
+
+global function string f_buscar_devuelve_codigo (str_parametros astr_parametros);//// Lanza la ventana de ayuda para Busquedas de codigos
+//  String ll_clave
+//  astr_parametros.s_criterio_busqueda = asle_campo.Text
+//  OpenWithParm(w_busquedas,astr_parametros)
+//  ll_clave = Message.StringParm		// Devuelve el valor que enuentra ...
+//  IF ll_clave <> "" THEN		asle_campo.text = ll_clave
+//Return
+//
+// Lanza la ventana de ayuda para Busquedas de codigos
+  String ll_clave
+  astr_parametros.s_criterio_busqueda = ''//asle_campo.Text
+  
+//	if astr_parametros.s_nom_datawindow = "dw_ayuda_cos_centros" then
+//		OpenWithParm(w_busquedas_cos_centros,astr_parametros)
+//	else
+		if astr_parametros.s_nom_datawindow = "dw_ayuda_conta_bal_grup" then
+			OpenWithParm(w_busquedas_conta_bal_grup,astr_parametros)
+		else
+			if astr_parametros.s_nom_datawindow = "dw_ayuda_cos_cta_resul_gpos" then
+				//OpenWithParm(w_busquedas_cos_cta_resul_gpos,astr_parametros)
+			else
+				OpenWithParm(w_busquedas,astr_parametros)
+			end if	
+		end if		
+//	end if		
+		
+  //OpenWithParm(w_busquedas,astr_parametros)
+  ll_clave = Message.StringParm		// Devuelve el valor que enuentra ...
+//  IF ll_clave <> c THEN		asle_campo.text = ll_clave
+Return ll_clave
+end function
+

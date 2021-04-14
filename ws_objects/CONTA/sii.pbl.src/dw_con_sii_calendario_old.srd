@@ -1,0 +1,269 @@
+﻿$PBExportHeader$dw_con_sii_calendario_old.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=1 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" grid.lines=2 grid.columnmove=no selected.mouse=no )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=88 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=long updatewhereclause=yes name=ejercicio dbname="ejercicio" )
+ column=(type=long updatewhereclause=yes name=mes dbname="mes" )
+ column=(type=long updatewhereclause=yes name=semana dbname="semana" )
+ column=(type=datetime updatewhereclause=yes name=lunes dbname="lunes" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_l dbname="facturas_enviadas_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_l dbname="facturas_recibidas_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_l dbname="bienes_de_inversion_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_l dbname="cobros_en_metalico_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_l dbname="facturas_enviadas_bien_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_l dbname="facturas_recibidas_bien_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_l dbname="bienes_de_inversion_bien_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_l dbname="cobros_en_metalico_bien_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_l dbname="facturas_l" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_l dbname="facturas_bien_l" )
+ column=(type=datetime updatewhereclause=yes name=martes dbname="martes" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_m dbname="facturas_enviadas_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_m dbname="facturas_recibidas_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_m dbname="bienes_de_inversion_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_m dbname="cobros_en_metalico_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_m dbname="facturas_enviadas_bien_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_m dbname="facturas_recibidas_bien_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_m dbname="bienes_de_inversion_bien_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_m dbname="cobros_en_metalico_bien_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_m dbname="facturas_m" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_m dbname="facturas_bien_m" )
+ column=(type=datetime updatewhereclause=yes name=miercoles dbname="miercoles" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_x dbname="facturas_enviadas_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_x dbname="facturas_recibidas_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_x dbname="bienes_de_inversion_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_x dbname="cobros_en_metalico_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_x dbname="facturas_enviadas_bien_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_x dbname="facturas_recibidas_bien_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_x dbname="bienes_de_inversion_bien_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_x dbname="cobros_en_metalico_bien_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_x dbname="facturas_x" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_x dbname="facturas_bien_x" )
+ column=(type=datetime updatewhereclause=yes name=jueves dbname="jueves" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_j dbname="facturas_enviadas_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_j dbname="facturas_recibidas_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_j dbname="bienes_de_inversion_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_j dbname="cobros_en_metalico_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_j dbname="facturas_enviadas_bien_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_j dbname="facturas_recibidas_bien_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_j dbname="bienes_de_inversion_bien_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_j dbname="cobros_en_metalico_bien_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_j dbname="facturas_j" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_j dbname="facturas_bien_j" )
+ column=(type=datetime updatewhereclause=yes name=viernes dbname="viernes" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_v dbname="facturas_enviadas_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_v dbname="facturas_recibidas_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_v dbname="bienes_de_inversion_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_v dbname="cobros_en_metalico_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_v dbname="facturas_enviadas_bien_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_v dbname="facturas_recibidas_bien_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_v dbname="bienes_de_inversion_bien_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_v dbname="cobros_en_metalico_bien_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_v dbname="facturas_v" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_v dbname="facturas_bien_v" )
+ column=(type=datetime updatewhereclause=yes name=sabado dbname="sabado" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_s dbname="facturas_enviadas_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_s dbname="facturas_recibidas_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_s dbname="bienes_de_inversion_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_s dbname="cobros_en_metalico_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_s dbname="facturas_enviadas_bien_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_s dbname="facturas_recibidas_bien_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_s dbname="bienes_de_inversion_bien_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_s dbname="cobros_en_metalico_bien_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_s dbname="facturas_s" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_s dbname="facturas_bien_s" )
+ column=(type=datetime updatewhereclause=yes name=domingo dbname="domingo" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_d dbname="facturas_enviadas_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_d dbname="facturas_recibidas_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_d dbname="bienes_de_inversion_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_d dbname="cobros_en_metalico_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_enviadas_bien_d dbname="facturas_enviadas_bien_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_recibidas_bien_d dbname="facturas_recibidas_bien_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=bienes_de_inversion_bien_d dbname="bienes_de_inversion_bien_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=cobros_en_metalico_bien_d dbname="cobros_en_metalico_bien_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_d dbname="facturas_d" )
+ column=(type=decimal(0) updatewhereclause=yes name=facturas_bien_d dbname="facturas_bien_d" )
+ retrieve="select contasii_calendario_semanas.ejercicio,
+		 contasii_calendario_semanas.mes,
+		 contasii_calendario_semanas.semana,
+		 max(contasii_calendario_semanas.lunes) as lunes,
+		 max(contasii_calendario_semanas.facturas_enviadas_l) as facturas_enviadas_l,
+		 max(contasii_calendario_semanas.facturas_recibidas_l) as facturas_recibidas_l,
+		 max(contasii_calendario_semanas.bienes_de_inversion_l) as bienes_de_inversion_l,
+		 max(contasii_calendario_semanas.cobros_en_metalico_l) as cobros_en_metalico_l,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_l) as facturas_enviadas_bien_l,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_l) as facturas_recibidas_bien_l,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_l) as bienes_de_inversion_bien_l,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_l) as cobros_en_metalico_bien_l,
+		 max(contasii_calendario_semanas.facturas_enviadas_l) + max(contasii_calendario_semanas.facturas_recibidas_l) + max(contasii_calendario_semanas.bienes_de_inversion_l) + max(contasii_calendario_semanas.cobros_en_metalico_l) as facturas_l,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_l) + max(contasii_calendario_semanas.facturas_recibidas_bien_l) + max(contasii_calendario_semanas.bienes_de_inversion_bien_l) + max(contasii_calendario_semanas.cobros_en_metalico_bien_l) as facturas_bien_l,
+		 max(contasii_calendario_semanas.martes) as martes,
+		 max(contasii_calendario_semanas.facturas_enviadas_m) as facturas_enviadas_m,
+		 max(contasii_calendario_semanas.facturas_recibidas_m) as facturas_recibidas_m,
+		 max(contasii_calendario_semanas.bienes_de_inversion_m) as bienes_de_inversion_m,
+		 max(contasii_calendario_semanas.cobros_en_metalico_m) as cobros_en_metalico_m,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_m) as facturas_enviadas_bien_m,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_m) as facturas_recibidas_bien_m,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_m) as bienes_de_inversion_bien_m,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_m) as cobros_en_metalico_bien_m,
+		 max(contasii_calendario_semanas.facturas_enviadas_m) + max(contasii_calendario_semanas.facturas_recibidas_m) + max(contasii_calendario_semanas.bienes_de_inversion_m) + max(contasii_calendario_semanas.cobros_en_metalico_m) as facturas_m,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_m) + max(contasii_calendario_semanas.facturas_recibidas_bien_m) + max(contasii_calendario_semanas.bienes_de_inversion_bien_m) + max(contasii_calendario_semanas.cobros_en_metalico_bien_m) as facturas_bien_m,
+		 max(contasii_calendario_semanas.miercoles) as miercoles,
+		 max(contasii_calendario_semanas.facturas_enviadas_x) as facturas_enviadas_x,
+		 max(contasii_calendario_semanas.facturas_recibidas_x) as facturas_recibidas_x,
+		 max(contasii_calendario_semanas.bienes_de_inversion_x) as bienes_de_inversion_x,
+		 max(contasii_calendario_semanas.cobros_en_metalico_x) as cobros_en_metalico_x,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_x) as facturas_enviadas_bien_x,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_x) as facturas_recibidas_bien_x,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_x) as bienes_de_inversion_bien_x,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_x) as cobros_en_metalico_bien_x,
+		 max(contasii_calendario_semanas.facturas_enviadas_x) + max(contasii_calendario_semanas.facturas_recibidas_x) + max(contasii_calendario_semanas.bienes_de_inversion_x) + max(contasii_calendario_semanas.cobros_en_metalico_x) as facturas_x,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_x) + max(contasii_calendario_semanas.facturas_recibidas_bien_x) + max(contasii_calendario_semanas.bienes_de_inversion_bien_x) + max(contasii_calendario_semanas.cobros_en_metalico_bien_x) as facturas_bien_x,
+		 max(contasii_calendario_semanas.jueves) as jueves,
+		 max(contasii_calendario_semanas.facturas_enviadas_j) as facturas_enviadas_j,
+		 max(contasii_calendario_semanas.facturas_recibidas_j) as facturas_recibidas_j,
+		 max(contasii_calendario_semanas.bienes_de_inversion_j) as bienes_de_inversion_j,
+		 max(contasii_calendario_semanas.cobros_en_metalico_j) as cobros_en_metalico_j,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_j) as facturas_enviadas_bien_j,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_j) as facturas_recibidas_bien_j,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_j) as bienes_de_inversion_bien_j,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_j) as cobros_en_metalico_bien_j,
+		 max(contasii_calendario_semanas.facturas_enviadas_j) + max(contasii_calendario_semanas.facturas_recibidas_j) + max(contasii_calendario_semanas.bienes_de_inversion_j) + max(contasii_calendario_semanas.cobros_en_metalico_j) as facturas_j,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_j) + max(contasii_calendario_semanas.facturas_recibidas_bien_j) + max(contasii_calendario_semanas.bienes_de_inversion_bien_j) + max(contasii_calendario_semanas.cobros_en_metalico_bien_j) as facturas_bien_j,
+		 max(contasii_calendario_semanas.viernes) as viernes,
+		 max(contasii_calendario_semanas.facturas_enviadas_v) as facturas_enviadas_v,
+		 max(contasii_calendario_semanas.facturas_recibidas_v) as facturas_recibidas_v,
+		 max(contasii_calendario_semanas.bienes_de_inversion_v) as bienes_de_inversion_v,
+		 max(contasii_calendario_semanas.cobros_en_metalico_v) as cobros_en_metalico_v,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_v) as facturas_enviadas_bien_v,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_v) as facturas_recibidas_bien_v,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_v) as bienes_de_inversion_bien_v,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_v) as cobros_en_metalico_bien_v,
+		 max(contasii_calendario_semanas.facturas_enviadas_v) + max(contasii_calendario_semanas.facturas_recibidas_v) + max(contasii_calendario_semanas.bienes_de_inversion_v) + max(contasii_calendario_semanas.cobros_en_metalico_v) as facturas_v,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_v) + max(contasii_calendario_semanas.facturas_recibidas_bien_v) + max(contasii_calendario_semanas.bienes_de_inversion_bien_v) + max(contasii_calendario_semanas.cobros_en_metalico_bien_v) as facturas_bien_v,
+		 max(contasii_calendario_semanas.sabado) as sabado,
+		 max(contasii_calendario_semanas.facturas_enviadas_s) as facturas_enviadas_s,
+		 max(contasii_calendario_semanas.facturas_recibidas_s) as facturas_recibidas_s,
+		 max(contasii_calendario_semanas.bienes_de_inversion_s) as bienes_de_inversion_s,
+		 max(contasii_calendario_semanas.cobros_en_metalico_s) as cobros_en_metalico_s,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_s) as facturas_enviadas_bien_s,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_s) as facturas_recibidas_bien_s,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_s) as bienes_de_inversion_bien_s,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_s) as cobros_en_metalico_bien_s,
+		 max(contasii_calendario_semanas.facturas_enviadas_s) + max(contasii_calendario_semanas.facturas_recibidas_s) + max(contasii_calendario_semanas.bienes_de_inversion_s) + max(contasii_calendario_semanas.cobros_en_metalico_s) as facturas_s,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_s) + max(contasii_calendario_semanas.facturas_recibidas_bien_s) + max(contasii_calendario_semanas.bienes_de_inversion_bien_s) + max(contasii_calendario_semanas.cobros_en_metalico_bien_s) as facturas_bien_s,
+		 max(contasii_calendario_semanas.domingo) as domingo, 
+		 max(contasii_calendario_semanas.facturas_enviadas_d) as facturas_enviadas_d,
+		 max(contasii_calendario_semanas.facturas_recibidas_d) as facturas_recibidas_d,
+		 max(contasii_calendario_semanas.bienes_de_inversion_d) as bienes_de_inversion_d,
+		 max(contasii_calendario_semanas.cobros_en_metalico_d) as cobros_en_metalico_d,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_d) as facturas_enviadas_bien_d,
+		 max(contasii_calendario_semanas.facturas_recibidas_bien_d) as facturas_recibidas_bien_d,
+		 max(contasii_calendario_semanas.bienes_de_inversion_bien_d) as bienes_de_inversion_bien_d,
+		 max(contasii_calendario_semanas.cobros_en_metalico_bien_d) as cobros_en_metalico_bien_d,
+		 max(contasii_calendario_semanas.facturas_enviadas_d) + max(contasii_calendario_semanas.facturas_recibidas_d) + max(contasii_calendario_semanas.bienes_de_inversion_d) + max(contasii_calendario_semanas.cobros_en_metalico_d) as facturas_d,
+		 max(contasii_calendario_semanas.facturas_enviadas_bien_d) + max(contasii_calendario_semanas.facturas_recibidas_bien_d) + max(contasii_calendario_semanas.bienes_de_inversion_bien_d) + max(contasii_calendario_semanas.cobros_en_metalico_bien_d) as facturas_bien_d 
+from  (
+select datepart(yyyy,fecha) as ejercicio,
+		 datepart(mm,fecha) as mes,
+		 datepart(wk,fecha) as semana,
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.fecha else null end as lunes,
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_l,	
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_l,		
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_l,
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_l,
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_l,	
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_l,		
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_l,
+		 case when datepart(dw,contasii_calendario.fecha) = 1 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_l,
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.fecha else null end as martes,
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_m,	
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_m,	
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_m,		
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_m,
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_m,	
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_m,	
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_m,		
+		 case when datepart(dw,contasii_calendario.fecha) = 2 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_m,
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.fecha else null end as miercoles,
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 3 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_x,	
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.fecha else null end as jueves,
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_j,		
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_j,		
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_j,
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_j,
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_j,		
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_j,		
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_j,
+		 case when datepart(dw,contasii_calendario.fecha) = 4 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_j,
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.fecha else null end as viernes,
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_v,		
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_v,		
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_v,
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_v,
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_v,		
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_v,		
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_v,
+		 case when datepart(dw,contasii_calendario.fecha) = 5 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_v,
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.fecha else null end as sabado,
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_s,		
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_s,		
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_s,
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_s,
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_s,		
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_s,		
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_s,
+		 case when datepart(dw,contasii_calendario.fecha) = 6 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_s,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.fecha else null end as domingo, 
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.facturas_enviadas else 0 end as facturas_enviadas_d,		
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.facturas_recibidas else 0 end as facturas_recibidas_d,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.bienes_de_inversion else 0 end as bienes_de_inversion_d,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.cobros_en_metalico else 0 end as cobros_en_metalico_d,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.facturas_enviadas_bien else 0 end as facturas_enviadas_bien_d,		
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.facturas_recibidas_bien else 0 end as facturas_recibidas_bien_d,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.bienes_de_inversion_bien else 0 end as bienes_de_inversion_bien_d,
+		 case when datepart(dw,contasii_calendario.fecha) = 7 then contasii_calendario.cobros_en_metalico_bien else 0 end as cobros_en_metalico_bien_d
+from   contasii_calendario
+where  contasii_calendario.empresa = '1' ) as contasii_calendario_semanas
+group by contasii_calendario_semanas.ejercicio,
+		 contasii_calendario_semanas.mes,
+		 contasii_calendario_semanas.semana 
+order by contasii_calendario_semanas.ejercicio,
+		 contasii_calendario_semanas.mes,
+		 contasii_calendario_semanas.semana;" arguments=(("arg_empresa", string))  sort="ejercicio A mes A semana A " )
+group(level=1 header.height=160 trailer.height=0 by=("mes" ) header.color="536870912" header.transparency="0" header.gradient.color="8421504" header.gradient.transparency="0" header.gradient.angle="0" header.brushmode="0" header.gradient.repetition.mode="0" header.gradient.repetition.count="0" header.gradient.repetition.length="100" header.gradient.focus="0" header.gradient.scale="100" header.gradient.spread="100" trailer.color="536870912" trailer.transparency="0" trailer.gradient.color="8421504" trailer.gradient.transparency="0" trailer.gradient.angle="0" trailer.brushmode="0" trailer.gradient.repetition.mode="0" trailer.gradient.repetition.count="0" trailer.gradient.repetition.length="100" trailer.gradient.focus="0" trailer.gradient.scale="100" trailer.gradient.spread="100" )
+compute(band=header.1 alignment="2" expression="f_nombre_mes( mes )+' '+string( ejercicio ,'###0')"border="0" color="33554432" x="1815" y="4" height="72" width="585" format="[GENERAL]" html.valueishtml="0"  name=nombre_mes visible="1"  hidesnaked=1  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Lunes" border="2" color="128" x="9" y="96" height="56" width="603" html.valueishtml="0"  name=lunes_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Martes" border="2" color="128" x="622" y="96" height="56" width="585" html.valueishtml="0"  name=martes_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Miercoles" border="2" color="128" x="1216" y="96" height="56" width="590" html.valueishtml="0"  name=miercoles_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Jueves" border="2" color="128" x="1815" y="96" height="56" width="585" html.valueishtml="0"  name=jueves_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Viernes" border="2" color="128" x="2409" y="96" height="56" width="594" html.valueishtml="0"  name=viernes_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Sabado" border="2" color="128" x="3013" y="96" height="56" width="594" html.valueishtml="0"  name=sabado_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header.1 alignment="2" text="Domingo" border="2" color="128" x="3616" y="96" height="56" width="590" html.valueishtml="0"  name=domingo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="603" format="[shortdate] [time]" html.valueishtml="0"  name=lunes visible="1~tif(isnull(lunes),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_l = 0 , rgb(255,255,255) , if( ( facturas_l = facturas_bien_l ) and facturas_l > 0 , rgb(0,183,0) , if( ( facturas_l > facturas_bien_l ) and facturas_bien_l > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=15 alignment="2" tabsequence=32766 border="0" color="0" x="626" y="8" height="76" width="581" format="[shortdate] [time]" html.valueishtml="0"  name=martes visible="1~tif(isnull(martes),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_m = 0 , rgb(255,255,255) , if( ( facturas_m = facturas_bien_m ) and facturas_m > 0 , rgb(0,183,0) , if( ( facturas_m > facturas_bien_m ) and facturas_bien_m > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=26 alignment="2" tabsequence=32766 border="0" color="0" x="1221" y="8" height="76" width="585" format="[shortdate] [time]" html.valueishtml="0"  name=miercoles visible="1~tif(isnull(miercoles),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_x = 0 , rgb(255,255,255) , if( ( facturas_x = facturas_bien_x ) and facturas_x > 0 , rgb(0,183,0) , if( ( facturas_x > facturas_bien_x ) and facturas_bien_x > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=37 alignment="2" tabsequence=32766 border="0" color="0" x="1819" y="4" height="76" width="581" format="[shortdate] [time]" html.valueishtml="0"  name=jueves visible="1~tif(isnull(jueves),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_j = 0 , rgb(255,255,255) , if( ( facturas_j = facturas_bien_j ) and facturas_j > 0 , rgb(0,183,0) , if( ( facturas_j > facturas_bien_j ) and facturas_bien_j > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=48 alignment="2" tabsequence=32766 border="0" color="0" x="2414" y="8" height="76" width="590" format="[shortdate] [time]" html.valueishtml="0"  name=viernes visible="1~tif(isnull(viernes),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_v = 0 , rgb(255,255,255) , if( ( facturas_v = facturas_bien_v ) and facturas_v > 0 , rgb(0,183,0) , if( ( facturas_v > facturas_bien_v ) and facturas_bien_v > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=59 alignment="2" tabsequence=32766 border="0" color="0" x="3017" y="8" height="76" width="590" format="[shortdate] [time]" html.valueishtml="0"  name=sabado visible="1~tif(isnull(sabado),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_s = 0 , rgb(255,255,255) , if( ( facturas_s = facturas_bien_s ) and facturas_s > 0 , rgb(0,183,0) , if( ( facturas_s > facturas_bien_s ) and facturas_bien_s > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=70 alignment="2" tabsequence=32766 border="0" color="0" x="3621" y="8" height="76" width="585" format="[shortdate] [time]" html.valueishtml="0"  name=domingo visible="1~tif(isnull(domingo),0,1)" editmask.mask="dd-mm-yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif( facturas_d = 0 , rgb(255,255,255) , if( ( facturas_d = facturas_bien_d ) and facturas_d > 0 , rgb(0,183,0) , if( ( facturas_d > facturas_bien_d ) and facturas_bien_d > 0 , rgb(183,0,0) , rgb(255,255,0) ) ) ) " background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

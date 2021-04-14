@@ -1,0 +1,74 @@
+﻿$PBExportHeader$f_nuevo_cmr.srf
+global type f_nuevo_cmr from function_object
+end type
+
+forward prototypes
+global function string f_nuevo_cmr (string arg_empresa, long arg_ejercicio)
+end prototypes
+
+global function string f_nuevo_cmr (string arg_empresa, long arg_ejercicio);string   ls_codigo
+long     ll_ultimo_codigo
+datetime ldt_fecha
+
+ldt_fecha = datetime(today())
+
+select isnull(max(convert(dec(5,0),ven_cmr_cabecera.codigo)),0) + 1
+into   :ll_ultimo_codigo
+from   ven_cmr_cabecera
+where  ven_cmr_cabecera.empresa = :arg_empresa
+and    ven_cmr_cabecera.ejercicio = :arg_ejercicio;
+
+ls_codigo = string(ll_ultimo_codigo,"####0")
+
+insert into ven_cmr_cabecera
+	(empresa,
+	 ejercicio,
+	 codigo,
+	 cliente,
+	 fecha,
+	 direccion_envio,
+	 transportista,
+	 matricula,
+	 remolque,
+	 cond_entrega,
+	 peso_bruto,
+	 bultos,
+	 peso_bruto_muestras,
+	 bultos_muestras,
+	 albaranes,
+	 albaranes_muestras,
+	 venconductores_codigo,
+	 subcliente)
+values
+	(:arg_empresa,
+	 :arg_ejercicio,
+	 :ls_codigo,
+	 '',
+	 :ldt_fecha,
+	 '',
+	 '',
+	 '',
+	 '',
+	 '',
+	 0,
+	 0,
+	 0,
+	 0,
+	 0,
+	 0,
+	 '',
+	 '');
+	 
+if sqlca.sqlcode <> 0 then
+	rollback;
+	ls_codigo = ""
+	messagebox("¡Error!","Se ha producido un error al crear el CMR.")
+else
+	commit;
+end if
+
+return ls_codigo
+
+
+end function
+

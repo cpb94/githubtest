@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_int_contaapun2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=12 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=decimal(4) update=yes updatewhereclause=yes name=asiento dbname="contaapun.asiento" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fapunte dbname="contaapun.fapunte" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contaapun~" ) COLUMN(NAME=~"contaapun.asiento~") COLUMN(NAME=~"contaapun.fapunte~")WHERE(    EXP1 =~"contaapun.ejercicio~"   OP =~"=~"    EXP2 =~":ejercicio ~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.empresa~"   OP =~"=~"    EXP2 =~":empresa ~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.mes~"   OP =~"=~"    EXP2 =~":mes~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.origen~"   OP =~"=~"    EXP2 =~":origen~" )  GROUP(NAME=~"contaapun.asiento~") GROUP(NAME=~"contaapun.fapunte~")) ORDER(NAME=~"contaapun.asiento~" ASC=yes ) ARG(NAME = ~"ejercicio~" TYPE = number)  ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"mes~" TYPE = number)  ARG(NAME = ~"origen~" TYPE = string) " arguments=(("ejercicio", number),("empresa", string),("mes", number),("origen", string)) )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="315" y="16" height="60" width="288"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Asto"border="6" color="0" x="114" y="16" height="60" width="183"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+bitmap(band=header filename="c:\BMP\Salir2.bmp" x="18" y="16" height="60" width="73" border="6"  name=salir pointer="\BMP\Mano.cur" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="315" y="4" height="60" width="288" format="[shortdate] [time]"  name=fapunte editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="55" y="4" height="60" width="247" format="[general]"  name=asiento editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

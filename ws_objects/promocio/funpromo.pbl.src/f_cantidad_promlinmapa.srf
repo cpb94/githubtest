@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cantidad_promlinmapa.srf
+global type f_cantidad_promlinmapa from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_promlinmapa (string ra_codemp, string ra_codigo, string ra_panel)
+end prototypes
+
+global function decimal f_cantidad_promlinmapa (string ra_codemp, string ra_codigo, string ra_panel);Dec{2} cantidad
+
+ SELECT promlinmapa.cantidad
+    INTO :cantidad
+    FROM promlinmapa
+   WHERE ( promlinmapa.empresa = :ra_codemp ) AND  
+         ( promlinmapa.codigo  = :ra_codigo )  AND
+         ( promlinmapa.panel  = :ra_panel )  
+  USING SQLCA;
+if IsNull(cantidad) Then cantidad =0
+Return cantidad
+
+end function
+

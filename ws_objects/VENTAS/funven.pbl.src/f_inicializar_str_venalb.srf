@@ -1,0 +1,104 @@
+﻿$PBExportHeader$f_inicializar_str_venalb.srf
+global type f_inicializar_str_venalb from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venalb ( ref str_venalb str_venalb)
+end prototypes
+
+global function boolean f_inicializar_str_venalb ( ref str_venalb str_venalb);boolean lb_correcto = true
+
+if isnull(str_venalb.empresa) then str_venalb.empresa = ''
+if isnull(str_venalb.anyo) then str_venalb.anyo = 0
+if isnull(str_venalb.albaran) then str_venalb.albaran = 0
+if isnull(str_venalb.cliente) then str_venalb.cliente = ''
+if isnull(str_venalb.observaciones) then str_venalb.observaciones = ''
+if isnull(str_venalb.codpago) then str_venalb.codpago = ''
+if isnull(str_venalb.agente1) then str_venalb.agente1 = ''
+if isnull(str_venalb.agente2) then str_venalb.agente2 = ''
+if isnull(str_venalb.comision1) then str_venalb.comision1 = 0
+if isnull(str_venalb.comision2) then str_venalb.comision2 = 0
+if isnull(str_venalb.comision11) then str_venalb.comision11 = 0
+if isnull(str_venalb.comision22) then str_venalb.comision22 = 0
+if isnull(str_venalb.dtopp) then str_venalb.dtopp = 0
+if isnull(str_venalb.dtoesp1) then str_venalb.dtoesp1 = 0
+if isnull(str_venalb.dtoesp2) then str_venalb.dtoesp2 = 0
+if isnull(str_venalb.dtoesp3) then str_venalb.dtoesp3 = 0
+if isnull(str_venalb.dtoesp4) then str_venalb.dtoesp4 = 0
+if isnull(str_venalb.tipodto1) then str_venalb.tipodto1 = ''
+if isnull(str_venalb.tipodto2) then str_venalb.tipodto2 = ''
+if isnull(str_venalb.tipodto3) then str_venalb.tipodto3 = ''
+if isnull(str_venalb.tipodto4) then str_venalb.tipodto4 = ''
+if isnull(str_venalb.explicaciondto1) then str_venalb.explicaciondto1 = ''
+if isnull(str_venalb.explicaciondto2) then str_venalb.explicaciondto2 = ''
+if isnull(str_venalb.explicaciondto3) then str_venalb.explicaciondto3 = ''
+if isnull(str_venalb.explicaciondto4) then str_venalb.explicaciondto4 = ''
+if isnull(str_venalb.tipoiva) then str_venalb.tipoiva = ''
+if isnull(str_venalb.iva) then str_venalb.iva = 0
+if isnull(str_venalb.numpedcli) then str_venalb.numpedcli = ''
+if isnull(str_venalb.idioma) then str_venalb.idioma = ''
+if isnull(str_venalb.divisa) then str_venalb.divisa = ''
+if isnull(str_venalb.cambio) then str_venalb.cambio = 0
+if isnull(str_venalb.tarifa) then str_venalb.tarifa = ''
+if isnull(str_venalb.transportista) then str_venalb.transportista = ''
+if isnull(str_venalb.serie) then str_venalb.serie = ''
+if isnull(str_venalb.zona) then str_venalb.zona = ''
+if isnull(str_venalb.envio) then str_venalb.envio = ''
+if isnull(str_venalb.correspondencia) then str_venalb.correspondencia = ''
+if isnull(str_venalb.domiciliacion) then str_venalb.domiciliacion = ''
+if isnull(str_venalb.forma_envio) then str_venalb.forma_envio = ''
+if isnull(str_venalb.cod_entrega) then str_venalb.cod_entrega = ''
+if isnull(str_venalb.usuario) then str_venalb.usuario = ''
+if isnull(str_venalb.tipo_portes) then str_venalb.tipo_portes = ''
+if isnull(str_venalb.periodo_fac) then str_venalb.periodo_fac = ''
+if isnull(str_venalb.peso) then str_venalb.peso = 0
+if isnull(str_venalb.usuario_pedido) then str_venalb.usuario_pedido = ''
+if isnull(str_venalb.agente3) then str_venalb.agente3 = ''
+if isnull(str_venalb.comision31) then str_venalb.comision31 = 0
+if isnull(str_venalb.comision32) then str_venalb.comision32 = 0
+if isnull(str_venalb.veces) then str_venalb.veces = 0
+if isnull(str_venalb.textcomercial1) then str_venalb.textcomercial1 = ''
+if isnull(str_venalb.textcomercial2) then str_venalb.textcomercial2 = ''
+if isnull(str_venalb.textaduanaesp1) then str_venalb.textaduanaesp1 = ''
+if isnull(str_venalb.textaduanaesp2) then str_venalb.textaduanaesp2 = ''
+if isnull(str_venalb.textaduanaext1) then str_venalb.textaduanaext1 = ''
+if isnull(str_venalb.textaduanaext2) then str_venalb.textaduanaext2 = ''
+if isnull(str_venalb.textopie1) then str_venalb.textopie1 = ''
+if isnull(str_venalb.textopie2) then str_venalb.textopie2 = ''
+if isnull(str_venalb.condicion) then str_venalb.condicion = ''
+if isnull(str_venalb.peso_neto) then str_venalb.peso_neto = 0
+if isnull(str_venalb.banco_de_cobro) then str_venalb.banco_de_cobro = ''
+if isnull(str_venalb.porcentaje_aduana) then str_venalb.porcentaje_aduana = 0
+if isnull(str_venalb.bruto) then str_venalb.bruto = 0
+if isnull(str_venalb.importe_dto) then str_venalb.importe_dto = 0
+if isnull(str_venalb.total_neto) then str_venalb.total_neto = 0
+if isnull(str_venalb.calculo_dto) then str_venalb.calculo_dto = ''
+if isnull(str_venalb.anyo_pedido_origen) then str_venalb.anyo_pedido_origen = 0
+if isnull(str_venalb.pedido_origen) then str_venalb.pedido_origen = 0
+if isnull(str_venalb.agrupa) then str_venalb.agrupa = ''
+if isnull(str_venalb.deposito) then str_venalb.deposito = ''
+if isnull(str_venalb.almacen_deposito) then str_venalb.almacen_deposito = ''
+if isnull(str_venalb.abono) then str_venalb.abono = ''
+if isnull(str_venalb.facturar) then str_venalb.facturar = ''
+if isnull(str_venalb.precartera) then str_venalb.precartera = ''
+if isnull(str_venalb.cartera) then str_venalb.cartera = ''
+if isnull(str_venalb.contenedor) then str_venalb.contenedor = ''
+if isnull(str_venalb.calculo_dtoesp) then str_venalb.calculo_dtoesp = ''
+if isnull(str_venalb.impdtopp) then str_venalb.impdtopp = 0
+if isnull(str_venalb.consumo_deposito) then str_venalb.consumo_deposito = ''
+if isnull(str_venalb.precinto) then str_venalb.precinto = ''
+if isnull(str_venalb.matricula) then str_venalb.matricula = ''
+if isnull(str_venalb.comision_fija1) then str_venalb.comision_fija1 = ''
+if isnull(str_venalb.comision_fija2) then str_venalb.comision_fija2 = ''
+if isnull(str_venalb.comision_fija3) then str_venalb.comision_fija3 = ''
+if isnull(str_venalb.dni) then str_venalb.dni = ''
+if isnull(str_venalb.bultos) then str_venalb.bultos = 0
+if isnull(str_venalb.conductor) then str_venalb.conductor = ''
+if isnull(str_venalb.peso_bascula_kg) then str_venalb.peso_bascula_kg = 0
+if isnull(str_venalb.expedicion_anyo) then str_venalb.expedicion_anyo = 0
+if isnull(str_venalb.expedicion_codigo) then str_venalb.expedicion_codigo = ''
+if isnull(str_venalb.venconductores_codigo) then str_venalb.venconductores_codigo = ''
+if isnull(str_venalb.remolque) then str_venalb.remolque = ''
+return lb_correcto
+end function
+

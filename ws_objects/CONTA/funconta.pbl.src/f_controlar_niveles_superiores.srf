@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_controlar_niveles_superiores.srf
+global type f_controlar_niveles_superiores from function_object
+end type
+
+forward prototypes
+global function boolean f_controlar_niveles_superiores (string empresa, integer ejercicio, string cuenta)
+end prototypes
+
+global function boolean f_controlar_niveles_superiores (string empresa, integer ejercicio, string cuenta); String montaje
+ Integer numero
+ montaje = Trim(cuenta) + "%"
+ Select count(*)  Into :numero  From contaplan
+ Where  contaplan.ejercicio = :ejercicio
+ And    contaplan.empresa   = :empresa
+ And    contaplan.cuenta    LIKE :montaje;
+ IF IsNull(numero) Then numero =0
+ If numero >1 Then   Return FALSE
+ Return  TRUE
+ 
+ 
+
+
+
+
+
+
+
+end function
+

@@ -1,0 +1,234 @@
+﻿$PBExportHeader$f_actualizar_linea_venalbaran_borrar.srf
+global type f_actualizar_linea_venalbaran_borrar from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_linea_venalbaran_borrar (string empresa, decimal periodo, decimal albaran, decimal linea)
+end prototypes
+
+global function boolean f_actualizar_linea_venalbaran_borrar (string empresa, decimal periodo, decimal albaran, decimal linea);str_venlialb  linalb
+str_venalb   alb 
+String v_mascara
+Integer  reg,reg1 ,bien
+Dec{0}  ultima,parcial_pallets
+Dec{2}  parcial_cantidad,parcial_cajas,acumulado2,control_impdtopp
+Dec{4}  impdto,importe,acumulado,importedto1,importedto2,importedto3,importedto4,importedtopp,importedtoesp,control_precio,control_bruto,control_importedto,control_importe
+Dec{2}  var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,control_descuento
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,var_calculo_dtoesp
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+Integer procesos
+
+
+bien = 0
+linalb.empresa   = codigo_empresa
+linalb.anyo      = periodo
+linalb.albaran   = albaran
+linalb.linea     = linea
+
+  SELECT venalb.dtoesp1,     venalb.dtoesp2,   
+         venalb.dtoesp3,     venalb.dtoesp4,   
+         venalb.dtopp,       venalb.tipodto1,   
+         venalb.tipodto2,    venalb.tipodto3,   
+         venalb.tipodto4,    venalb.divisa,
+			venalb.calculo_dto, venalb.cliente,
+			venalb.zona,venalb.calculo_dtoesp
+    INTO :var_dto1,       :var_dto2,    :var_dto3,  :var_dto4,   
+         :var_dtopp,      :var_tipodto1,:var_tipodto2,   
+         :var_tipodto3,   :var_tipodto4,:linalb.divisa,
+			:var_calculo_dto,:linalb.cliente,
+			:linalb.zona,:var_calculo_dtoesp
+    FROM venalb  
+   WHERE (venalb.empresa  = :empresa ) AND  
+         (venalb.anyo     = :periodo ) AND  
+         (venalb.albaran   = :albaran );
+			IF SQLCA.SQLCODE = 100 Then 
+				bien = 1
+				f_mensaje("Error"," el alabaran no existe")
+			END IF
+
+// Recoge Pais y provincia por si ha cambiado el cliente
+SELECT genter.pais,genter.provincia  
+INTO   :linalb.pais,:linalb.provincia  
+FROM   genter  
+WHERE (genter.empresa = :linalb.empresa)
+AND   (genter.tipoter = 'C' )
+AND   (genter.codigo = :linalb.cliente )   ;
+
+v_mascara = f_mascara_moneda(linalb.divisa)
+Select dtoesp,tipolinea,precio_aduana,precio,cantidad
+Into   :linalb.dtoesp,:linalb.tipolinea,:linalb.precio_aduana,:linalb.precio,
+       :linalb.cantidad
+From venlialb
+Where venlialb.empresa = :empresa
+And   venlialb.anyo    = :periodo
+And   venlialb.albaran = :albaran
+And   venlialb.linea   = :linea;
+IF SQLCA.SQLCODE = 100 Then 
+	bien = 1
+	f_mensaje("Error"," la linea del albaran no existe")
+END IF
+
+ linalb.control_comisiones = f_comision_ventipolin(linalb.empresa,linalb.tipolinea)
+ linalb.control_descuentos = f_descuento_ventipolin(linalb.empresa,linalb.tipolinea)
+
+ IF  IsNull(linalb.dtoesp) Then linalb.dtoesp= 0
+ IF IsNull(var_dto1)  Then var_dto1  = 0
+ IF IsNull(var_dto2)  Then var_dto2  = 0
+ IF IsNull(var_dto3)  Then var_dto3  = 0
+ IF IsNull(var_dto4)  Then var_dto4  = 0
+ IF IsNull(var_dtopp) Then var_dtopp = 0
+ linalb.impdtopp  =0
+linalb.precio_neto = linalb.precio
+linalb.precio_aduana_neto = linalb.precio_aduana
+For procesos = 1 To 2
+
+   IF procesos = 1 then control_precio = linalb.precio_neto
+   IF procesos = 2 then control_precio = linalb.precio_aduana_neto
+	
+	control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+	IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((control_bruto * linalb.dtoesp /100),v_mascara))
+			acumulado = control_bruto - importedtoesp
+	ELSE
+		control_precio = control_precio - &
+		Dec(String((control_precio * linalb.dtoesp)/100,v_mascara))
+		control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+		acumulado = control_bruto
+	END IF
+	
+	IF linalb.control_descuentos = "N" Then
+		linalb.descuento = 0
+	ELSE
+	 IF var_tipodto1  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+			acumulado = acumulado - importedto1
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto1)/100,v_mascara))
+			control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+	 
+	 IF var_tipodto2  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+			acumulado = acumulado - importedto2
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto2)/100,v_mascara))
+			control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+ 	 IF var_tipodto3  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+			acumulado = acumulado - importedto3
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto3)/100,v_mascara))
+			control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	 
+ 	 IF var_tipodto4  = "L" Then 
+		IF var_calculo_dto = "N" Then
+			importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+			acumulado = acumulado - importedto4
+		ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * var_dto4)/100,v_mascara))
+			control_bruto = Dec(String(linalb.cantidad * control_precio,v_mascara))
+			IF var_calculo_dtoesp = "N" Then
+				importedtoesp = Dec(String(control_bruto * linalb.dtoesp/100,v_mascara))
+			ELSE
+				importedtoesp = 0
+			END IF
+			acumulado = control_bruto - importedtoesp
+		END IF
+	 END IF
+	END IF
+	control_impdtopp = Dec(String((acumulado * var_dtopp/100),v_mascara))
+	
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - linalb.importedto
+	If control_bruto = 0 then
+		control_descuento  = 0
+	ELse
+		control_descuento  = (control_importedto/control_bruto)* 100
+	END IF
+	control_importedto    = Dec(String(control_bruto * control_descuento / 100,v_mascara))
+	control_importe       = control_bruto - control_importedto
+	
+	IF procesos = 1 Then
+		linalb.descuento       = control_descuento
+		linalb.bruto           = control_bruto
+	   linalb.importedto      = control_importedto
+	   linalb.importe         = control_importe
+		linalb.precio_neto     = control_precio
+ 		linalb.neto            = acumulado
+	   linalb.impdtopp        = control_impdtopp
+	END IF
+	IF procesos = 2 Then
+		linalb.descuento_aduana       = control_descuento
+	   linalb.importe_aduana         = control_importe
+		linalb.precio_aduana_neto     = control_precio
+	END IF
+Next
+
+
+  
+  UPDATE venlialb  
+     SET importe            = :linalb.importe,   
+         descuento          = :linalb.descuento,   
+         importedto         = :linalb.importedto,   
+         precio_neto        = :linalb.precio_neto,   
+         precio_aduana_neto = :linalb.precio_aduana_neto,   
+         descuento_aduana   = :linalb.descuento_aduana,   
+         importe_aduana     = :linalb.importe_aduana,   
+         bruto              = :linalb.bruto  ,
+			neto               = :linalb.neto,
+			impdtopp           = :linalb.impdtopp,
+			divisa             = :linalb.divisa,
+			provincia          = :linalb.provincia,
+			pais               = :linalb.pais,
+			cliente            = :linalb.cliente,
+			zona               = :linalb.zona
+			
+   WHERE ( venlialb.empresa = :linalb.empresa ) AND  
+         ( venlialb.anyo    = :linalb.anyo ) AND  
+         ( venlialb.albaran = :linalb.albaran )  AND 
+         ( venlialb.linea   = :linalb.linea )   ;
+  			IF SQLCA.SQLCODE <>0 Then 
+				f_mensaje("Error base de datos","Error al modificar lineas de albaranes")
+				bien = 1
+			END IF
+
+IF bien = 1 Then	
+	Return FALSE
+Else
+		Return TRUE
+END IF
+
+end function
+

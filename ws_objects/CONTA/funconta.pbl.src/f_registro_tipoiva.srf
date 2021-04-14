@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_registro_tipoiva.srf
+global type f_registro_tipoiva from function_object
+end type
+
+forward prototypes
+global function decimal f_registro_tipoiva (decimal ejercicio, string empresa, string tipoiva)
+end prototypes
+
+global function decimal f_registro_tipoiva (decimal ejercicio, string empresa, string tipoiva);Dec re
+
+re = f_contador_contalibros(ejercicio,empresa,f_libro_contaiva(ejercicio,empresa,tipoiva))
+IF IsNUll(re) Then re = 0
+IF re=0 Then re = 1
+Return re
+end function
+

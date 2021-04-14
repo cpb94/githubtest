@@ -1,0 +1,135 @@
+﻿$PBExportHeader$f_agrupar_ots_intermedios.srf
+global type f_agrupar_ots_intermedios from function_object
+end type
+
+forward prototypes
+global function any f_agrupar_ots_intermedios (string lineaprod, long orden, datawindow dw)
+end prototypes
+
+global function any f_agrupar_ots_intermedios (string lineaprod, long orden, datawindow dw);datetime v_f_entrega
+boolean hay_errores = false
+string sel
+decimal v_ot, v_ot_ant, factor
+datastore reg
+long i, j, total, v_anyo, v_pedido, v_linped, v_ordenoperacion, v_ordenoperacion_ant, v_cantidad, v_cantidad_ant, v_cantidad_tot
+string v_articulo, v_articulo_ant, v_version, v_version_ant , v_clase, v_ajuste
+//datawindow DW
+integer nivel
+//DW = w_planificacion_tencer.dw_1
+string v_tono, v_tono_ant
+integer v_calibre, v_calibre_ant
+
+if messagebox("Pregunta", "¿Seguro que desea agrupar OT´s de artículos INTERMEDIOS y ENCAJADOS?", Exclamation!, YESNO!, 2) = 1 THEN
+	sel = " select planificacion.ot, planificacion.cod_articulo, planificacion.version, "+&
+			" planificacion.ordenoperacion, planificacion.tipo_operacion, venliped.tonochar, venliped.calibre, planificacion.cantidad, " +&
+			" planificacion.anyo, planificacion.pedido, planificacion.linped " +&
+			" from planificacion , articulos, venliped " +&
+			" where planificacion.empresa = '"+codigo_empresa+"' " +&
+			" and planificacion.empresa = articulos.empresa "+&
+			" and planificacion.cod_articulo = articulos.codigo " +&
+			" and planificacion.empresa = venliped.empresa " +&
+			" and planificacion.anyo = venliped.anyo " +&
+			" and planificacion.pedido = venliped.pedido " +&
+			" and planificacion.linped = venliped.linea " +&
+			" and planificacion.ajuste = 'N' " +&
+			" and planificacion.lineaprod = '"+lineaprod+"' "+&
+			" and planificacion.orden >= "+string(orden) +&
+			" order by planificacion.cod_articulo, planificacion.version, "+&
+			" planificacion.ordenoperacion, planificacion.tipo_operacion, venliped.tonochar, venliped.calibre, "+&
+			" planificacion.anyo, planificacion.pedido, planificacion.linped " 
+	
+//	sel = " select planificacion.ot, planificacion.cod_articulo, planificacion.version, "+&
+//			" planificacion.ordenoperacion, planificacion.tipo_operacion, venliped.tonochar, venliped.calibre, planificacion.cantidad, " +&
+//			" planificacion.anyo, planificacion.pedido, planificacion.linped " +&
+//			" from planificacion , articulos, venliped " +&
+//			" where planificacion.empresa = '"+codigo_empresa+"' " +&
+//			" and planificacion.empresa = articulos.empresa "+&
+//			" and planificacion.cod_articulo = articulos.codigo " +&
+//			" and planificacion.empresa = venliped.empresa " +&
+//			" and planificacion.anyo = venliped.anyo " +&
+//			" and planificacion.pedido = venliped.pedido " +&
+//			" and planificacion.linped = venliped.linea " +&
+//			" and articulos.uso = '2' " +&
+//			" and planificacion.ajuste = 'N' " +&
+//			" and planificacion.lineaprod = '"+lineaprod+"' "+&
+//			" and planificacion.orden >= "+string(orden) +&
+//			" order by planificacion.cod_articulo, planificacion.version, "+&
+//			" planificacion.ordenoperacion, planificacion.tipo_operacion, venliped.tonochar, venliped.calibre, "+&
+//			" planificacion.anyo, planificacion.pedido, planificacion.linped " 
+			
+	f_cargar_cursor_nuevo (sel, reg )
+	
+	v_articulo_ant = '0'
+	v_version_ant =  '0'
+	v_ordenoperacion_ant = 0 
+	v_tono_ant = '0'
+	v_calibre_ant = 0 
+	v_cantidad_ant = 0
+	v_cantidad_tot = 0
+	v_ot_ant = 0
+	for i = 1 to reg.rowcount()
+		v_ot = reg.object.planificacion_ot[i]
+		v_articulo = reg.object.planificacion_cod_articulo[i]
+		v_version = reg.object.planificacion_version[i]
+		v_ordenoperacion = reg.object.planificacion_ordenoperacion[i]
+		v_tono = reg.object.venliped_tonochar[i]
+		v_calibre = reg.object.venliped_calibre[i]
+		v_cantidad = reg.object.planificacion_cantidad[i]
+
+		if v_articulo = v_articulo_ant and v_version = v_version_ant and v_ordenoperacion = v_ordenoperacion_ant and &
+			v_tono = v_tono_ant and v_calibre = v_calibre_ant then
+			v_cantidad_tot = v_cantidad_tot + v_cantidad
+
+			update planificacion
+			set cantidad = :v_cantidad_tot
+			where ot = :v_ot using SQLCA;
+			
+			if SQLCA.SQLCode = 0 then
+				hay_errores = false
+			end if
+
+			delete planificacion 
+			where empresa = :codigo_empresa
+			and ot = :v_ot_ant using SQLCA;
+			
+			if SQLCA.SQLCode = 0 then
+				hay_errores = false
+			end if
+			
+		else
+			v_cantidad_tot = v_cantidad
+		end if
+		
+		v_articulo_ant = v_articulo
+		v_version_ant = v_version
+		v_ordenoperacion_ant = v_ordenoperacion
+		v_tono_ant = v_tono
+		v_calibre_ant = v_calibre
+		v_ot_ant = v_ot
+		
+		if SQLCA.SQLCode = 0 then
+			hay_errores = false
+		end if
+
+		f_mensaje_proceso ("Agrupando", i, reg.rowcount())
+	next	
+	
+	if not hay_errores then
+		COMMIT USING SQLCA;
+		messagebox("Aviso", "La agrupación de OT´s finalizó con exito.")
+	else
+		ROLLBACK USING SQLCA;
+		messagebox("ERROR", "Hubo algún el error al agrupar OT´s")
+	end if
+	
+	destroy reg
+END IF
+
+DW.Retrieve(codigo_empresa,"1")
+
+return hay_errores
+
+
+
+end function
+

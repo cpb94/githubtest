@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_usuarios_v_email.srf
+global type f_usuarios_v_email from function_object
+end type
+
+forward prototypes
+global function string f_usuarios_v_email (string usuario)
+end prototypes
+
+global function string f_usuarios_v_email (string usuario);String variable
+
+  SELECT usuarios.v_email 
+    INTO :variable  
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :usuario   ;
+	
+	if isnull(variable) then variable = ""
+
+	Return variable
+
+end function
+

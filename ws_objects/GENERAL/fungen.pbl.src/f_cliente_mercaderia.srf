@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cliente_mercaderia.srf
+global type f_cliente_mercaderia from function_object
+end type
+
+forward prototypes
+global function string f_cliente_mercaderia (string empresa)
+end prototypes
+
+global function string f_cliente_mercaderia (string empresa);String var_empresa
+
+SELECT empresas.cliente_merc
+INTO   :var_empresa
+FROM   empresas
+WHERE (empresas.empresa = :empresa );
+
+IF IsNull(var_empresa) Then var_empresa = ""
+
+Return var_empresa
+
+
+end function
+

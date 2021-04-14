@@ -1,0 +1,56 @@
+﻿$PBExportHeader$dw_con_deposito_meses.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 HTMLDW=no print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=152 color="536870912" )
+header[2](height=60 color="536870912" )
+summary(height=68 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=razon dbname="razon" )
+ column=(type=number updatewhereclause=yes name=ventas dbname="ventas" )
+ retrieve="  SELECT datepart (year, ffactura) as anyo_alta,   
+         datepart (month,ffactura) as mes_factura, 
+			genter.codigo,
+			genter.razon,
+			art_codestadistico.g1,  
+			art_codestadistico.g2,  
+			art_codestadistico.g3,  
+			art_codestadistico.g4,  
+			art_codestadistico.pt,  
+			art_codestadistico.nc,  
+			art_codestadistico.rectificado,  
+			art_codestadistico.av,  
+			art_codestadistico.pl,  
+			art_codestadistico.ct,  
+			art_codestadistico.tm,  
+			art_codestadistico.n,  
+         venlifac.importe / venlifac.cambio ventas
+    FROM venlifac,   
+         articulos,
+			art_codestadistico,
+			genter
+   WHERE ( venlifac.empresa = articulos.empresa ) and  
+         ( venlifac.articulo = articulos.codigo ) and  
+			( venlifac.empresa = art_codestadistico.empresa ) and  
+         ( venlifac.articulo = art_codestadistico.codigo ) and  
+         ( ( venlifac.empresa = :empresa ) AND  
+         ( venlifac.cliente like :cliente ) )  and
+			venlifac.factura_deposito = 'S' and
+			genter.tipoter = 'C' and
+			articulos.empresa *= genter.empresa and
+			articulos.cliente *= genter.codigo and
+			datepart (year, ffactura) = :anyo" arguments=(("empresa", string),("cliente", string),("anyo", number))  sort="razon A " )
+text(band=header[1] alignment="0" text="Ventas de Depósito por Meses" border="0" color="0" x="9" y="4" height="64" width="1038" html.valueishtml="0"  name=t_1 visible="1"  font.face="MS Sans Serif" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="Cliente" border="0" color="0" x="9" y="4" height="52" width="1038" html.valueishtml="0"  name=razon_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="2" text="@mes_factura" border="0" color="0" x="1056" y="4" height="52" width="293" html.valueishtml="0"  name=ventas_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header[2] alignment="2" text="Total" border="0" color="0" x="1358" y="4" height="52" width="329" html.valueishtml="0"  name=grand_sum_ventas_t visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="1038" format="[general]" html.valueishtml="0"  name=razon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1056" y="4" height="56" width="293" format="###,###,##0.00" html.valueishtml="0"  name=ventas visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 crosstab.repeat=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217752" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="0" color="0" x="1358" y="4" height="56" width="329" format="###,###,##0.00" html.valueishtml="0"  name=grand_sum_ventas visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33481950" )
+compute(band=summary alignment="1" expression="~"Total~""border="0" color="0" x="9" y="4" height="56" width="1038" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="MS Sans Serif" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33481950" )
+compute(band=summary alignment="1" expression="sum(grand_sum_ventas for all )"border="0" color="0" x="1358" y="4" height="56" width="329" format="###,###,##0.00" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33481950" )
+compute(band=summary alignment="1" expression="sum(ventas for all )"border="0" color="0" x="1056" y="4" height="56" width="293" format="###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33481950" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="5" y="112" height="76" width="1042" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "mes_factura" rows = "razon" values = "sum(ventas for crosstab)" sourcenames = "anyo_alta, mes_factura, codigo, razon, g1, g2, g3, g4, pt, nc, rectificado, av, pl, ct, tm, n, ventas")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

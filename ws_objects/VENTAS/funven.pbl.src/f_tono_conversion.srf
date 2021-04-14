@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_tono_conversion.srf
+global type f_tono_conversion from function_object
+end type
+
+forward prototypes
+global function string f_tono_conversion (string arg_empresa, string arg_cliente, integer arg_tono, integer arg_calibre)
+end prototypes
+
+global function string f_tono_conversion (string arg_empresa, string arg_cliente, integer arg_tono, integer arg_calibre);String convierte,codif
+select conversion_tono
+into :convierte
+from venclientes
+where empresa = :arg_empresa
+ and  codigo  = :arg_cliente;
+ 
+ if convierte ="S" then
+	// Se busca la codificación correspondiente a ese tono
+	// y a ese calibre en la tabla
+	select codificacion
+	into :codif
+	from vencodiftono
+	where empresa = :arg_empresa
+	   and cliente = :arg_cliente
+		and tono =:arg_tono
+		and calibre = :arg_calibre;
+	if IsNull(codif) then codif=""
+	Return codif
+else
+	//Si en la ficha del cliente pone que no codifica, nos quedamos 
+	// con el mismo tono
+	Return String(arg_tono)
+end if
+ 
+end function
+

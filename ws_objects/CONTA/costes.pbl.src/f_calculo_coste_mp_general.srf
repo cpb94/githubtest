@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_calculo_coste_mp_general.srf
+global type f_calculo_coste_mp_general from function_object
+end type
+
+forward prototypes
+global subroutine f_calculo_coste_mp_general ()
+end prototypes
+
+global subroutine f_calculo_coste_mp_general ();string mp, sel
+datastore datos
+dec i, total
+
+
+IF MessageBox("Atención", "Se va a calcular el coste de MP de todas las operaciones de todos los articulos.", Exclamation!, OKCancel!, 2) = 1 THEN
+	sel = " select codigo from venmprima where empresa = '"+codigo_empresa+"' and tipo_materia = '17' " 
+	f_cargar_cursor_nuevo ( sel, datos)
+	
+	
+	total = datos.rowcount()
+	
+	for i = 1 to total
+		mp = datos.object.codigo[i]
+
+		f_recalculo_costes_formulas (codigo_empresa, mp)	
+
+		f_mensaje_proceso ("MP: ",i, total)
+	next
+	destroy datos
+end if
+
+
+end subroutine
+

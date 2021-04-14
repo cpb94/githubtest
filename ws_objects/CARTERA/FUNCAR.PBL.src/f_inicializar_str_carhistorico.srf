@@ -1,0 +1,74 @@
+﻿$PBExportHeader$f_inicializar_str_carhistorico.srf
+global type f_inicializar_str_carhistorico from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_carhistorico ( ref str_carhistorico str_carhistorico)
+end prototypes
+
+global function boolean f_inicializar_str_carhistorico ( ref str_carhistorico str_carhistorico);boolean lb_correcto = true
+
+if isnull(str_carhistorico.empresa) then str_carhistorico.empresa = ''
+if isnull(str_carhistorico.anyo) then str_carhistorico.anyo = 0
+if isnull(str_carhistorico.orden) then str_carhistorico.orden = 0
+if isnull(str_carhistorico.linea) then str_carhistorico.linea = 0
+if isnull(str_carhistorico.anyofra) then str_carhistorico.anyofra = 0
+if isnull(str_carhistorico.factura) then str_carhistorico.factura = ''
+if isnull(str_carhistorico.recibo) then str_carhistorico.recibo = 0
+if isnull(str_carhistorico.importe) then str_carhistorico.importe = 0
+if isnull(str_carhistorico.divisas) then str_carhistorico.divisas = 0
+if isnull(str_carhistorico.monedas) then str_carhistorico.monedas = ''
+if isnull(str_carhistorico.fpago) then str_carhistorico.fpago = ''
+if isnull(str_carhistorico.tipodoc) then str_carhistorico.tipodoc = ''
+if isnull(str_carhistorico.banco) then str_carhistorico.banco = ''
+if isnull(str_carhistorico.remesa) then str_carhistorico.remesa = 0
+if isnull(str_carhistorico.situacion) then str_carhistorico.situacion = ''
+if isnull(str_carhistorico.agente1) then str_carhistorico.agente1 = ''
+if isnull(str_carhistorico.pais) then str_carhistorico.pais = ''
+if isnull(str_carhistorico.cuenta) then str_carhistorico.cuenta = ''
+if isnull(str_carhistorico.domiciliacion) then str_carhistorico.domiciliacion = ''
+if isnull(str_carhistorico.Nacional) then str_carhistorico.Nacional = ''
+if isnull(str_carhistorico.observaciones) then str_carhistorico.observaciones = ''
+if isnull(str_carhistorico.libre) then str_carhistorico.libre = ''
+if isnull(str_carhistorico.gasto) then str_carhistorico.gasto = ''
+if isnull(str_carhistorico.agrupado) then str_carhistorico.agrupado = ''
+if isnull(str_carhistorico.efectoagrupa) then str_carhistorico.efectoagrupa = 0
+if isnull(str_carhistorico.anyoagrupa) then str_carhistorico.anyoagrupa = 0
+if isnull(str_carhistorico.cliente) then str_carhistorico.cliente = ''
+if isnull(str_carhistorico.anyo_remesa) then str_carhistorico.anyo_remesa = 0
+if isnull(str_carhistorico.comision11) then str_carhistorico.comision11 = 0
+if isnull(str_carhistorico.comision12) then str_carhistorico.comision12 = 0
+if isnull(str_carhistorico.agente2) then str_carhistorico.agente2 = ''
+if isnull(str_carhistorico.comision21) then str_carhistorico.comision21 = 0
+if isnull(str_carhistorico.comision22) then str_carhistorico.comision22 = 0
+if isnull(str_carhistorico.agente3) then str_carhistorico.agente3 = ''
+if isnull(str_carhistorico.comision31) then str_carhistorico.comision31 = 0
+if isnull(str_carhistorico.comision32) then str_carhistorico.comision32 = 0
+if isnull(str_carhistorico.cambio) then str_carhistorico.cambio = 0
+if isnull(str_carhistorico.serie) then str_carhistorico.serie = ''
+if isnull(str_carhistorico.remesa_total) then str_carhistorico.remesa_total = ''
+if isnull(str_carhistorico.tipo_remesa) then str_carhistorico.tipo_remesa = ''
+if isnull(str_carhistorico.veces) then str_carhistorico.veces = 0
+if isnull(str_carhistorico.nomcli) then str_carhistorico.nomcli = ''
+if isnull(str_carhistorico.domicli) then str_carhistorico.domicli = ''
+if isnull(str_carhistorico.poblacli) then str_carhistorico.poblacli = ''
+if isnull(str_carhistorico.paiscli) then str_carhistorico.paiscli = ''
+if isnull(str_carhistorico.nombanco) then str_carhistorico.nombanco = ''
+if isnull(str_carhistorico.dirbanco1) then str_carhistorico.dirbanco1 = ''
+if isnull(str_carhistorico.dirbanco2) then str_carhistorico.dirbanco2 = ''
+if isnull(str_carhistorico.recibir_dmto) then str_carhistorico.recibir_dmto = ''
+if isnull(str_carhistorico.punteado) then str_carhistorico.punteado = ''
+if isnull(str_carhistorico.clase_efecto) then str_carhistorico.clase_efecto = ''
+if isnull(str_carhistorico.cambio_euros) then str_carhistorico.cambio_euros = 0
+if isnull(str_carhistorico.cambio_asegurado) then str_carhistorico.cambio_asegurado = 0
+if isnull(str_carhistorico.devuelto_notificado_agente) then str_carhistorico.devuelto_notificado_agente = ''
+if isnull(str_carhistorico.devuelto_notificado_agente2) then str_carhistorico.devuelto_notificado_agente2 = ''
+if isnull(str_carhistorico.devuelto_notificado_agente3) then str_carhistorico.devuelto_notificado_agente3 = ''
+if isnull(str_carhistorico.banco_docu) then str_carhistorico.banco_docu = ''
+if isnull(str_carhistorico.desviacion) then str_carhistorico.desviacion = 0
+if isnull(str_carhistorico.cambio_cobro) then str_carhistorico.cambio_cobro = 0
+if isnull(str_carhistorico.situacion_anterior) then str_carhistorico.situacion_anterior = ''
+if isnull(str_carhistorico.pago_a_cuenta) then str_carhistorico.pago_a_cuenta = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_completo_proveedor.srf
+global type f_completo_proveedor from function_object
+end type
+
+forward prototypes
+global function string f_completo_proveedor (string cod_empresa, string cod_cliente)
+end prototypes
+
+global function string f_completo_proveedor (string cod_empresa, string cod_cliente);string completo,var_pais,var_provincia
+var_pais=f_pais_genter(cod_empresa,"P",cod_cliente)
+var_provincia=f_provincia_genter(cod_empresa,"P",cod_cliente)
+
+completo=f_razon_genter(cod_empresa,"P",cod_cliente)+ char(13)
+completo=completo + f_domicilio_genter(cod_empresa,"P",cod_cliente)+ char(13)
+completo=completo + f_postal_genter(cod_empresa,"P",cod_cliente)+" "
+completo=completo + f_localidad_genter(cod_empresa,"P",cod_cliente)
+completo=completo + char(13) + " ("+ f_nombre_provincia(var_pais,var_provincia) +")"
+
+return completo
+end function
+

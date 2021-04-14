@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_tipo_iva_compras.srf
+global type f_tipo_iva_compras from function_object
+end type
+
+forward prototypes
+global function boolean f_tipo_iva_compras (decimal ejercicio, string empresa, string tipo_iva)
+end prototypes
+
+global function boolean f_tipo_iva_compras (decimal ejercicio, string empresa, string tipo_iva);String libro
+   SELECT contaiva.libro    INTO :libro    FROM contaiva  
+   WHERE contaiva.ejercicio = :ejercicio
+	AND   contaiva.empresa   = :empresa 
+	AND   contaiva.tipoiva   = :tipo_iva;
+	IF SQLCA.SQLCODE <> 0 Then Return FALSE
+	IF f_tipo_libro(ejercicio,empresa,libro) = "C" Then Return TRUE
+	Return FALSE
+
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_ubicacion_juego_pantallas.srf
+global type f_ubicacion_juego_pantallas from function_object
+end type
+
+forward prototypes
+global function integer f_ubicacion_juego_pantallas (string juego)
+end prototypes
+
+global function integer f_ubicacion_juego_pantallas (string juego);long ubi
+select ubicacion
+into :ubi
+from juegospantallas
+where empresa = :codigo_empresa
+and codigo = :juego;
+
+return ubi
+
+end function
+

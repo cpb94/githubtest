@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_agente_doc.srf
+global type f_agente_doc from function_object
+end type
+
+forward prototypes
+global function string f_agente_doc (string par_empresa, integer arg_anyo, integer par_documento)
+end prototypes
+
+global function string f_agente_doc (string par_empresa, integer arg_anyo, integer par_documento);string agente
+
+select agente 
+into   :agente
+from   carcomisiones
+where (empresa = :par_empresa)	
+and	(datepart(year,fliquidacion) = :arg_anyo)
+and	(doc_liquidacion = :par_documento)
+group by agente;
+
+if isnull(agente) then agente = ""
+
+return agente
+end function
+

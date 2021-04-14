@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_submarcas_descripcion.srf
+global type f_submarcas_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_submarcas_descripcion (string a_codemp, string a_familia, string a_marca, string a_cod)
+end prototypes
+
+global function string f_submarcas_descripcion (string a_codemp, string a_familia, string a_marca, string a_cod);string	ls_nombre
+
+if isnull(a_familia) then a_familia = ""
+if isnull(a_marca) then a_marca = ""
+
+if trim(a_familia) <> "" and trim(a_marca) <> "" then
+
+	SELECT isnull(submarcas.descripcion,'')
+	INTO   :ls_nombre  
+	FROM   submarcas  
+	WHERE  submarcas.empresa = :a_codemp 
+	and    submarcas.familias_codigo = :a_familia
+	and    submarcas.marcas_codigo = :a_marca
+	AND    submarcas.codigo = :a_cod
+	USING SQLCA;
+
+else
+	//Los codigos de esta tabla son unicos si no recibimos familia y marca tambien podemos obtener la descripcion
+	SELECT isnull(submarcas.descripcion,'')
+	INTO   :ls_nombre  
+	FROM   submarcas  
+	WHERE  submarcas.empresa = :a_codemp 
+	AND    submarcas.codigo  = :a_cod
+	USING SQLCA;
+	
+end if
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+
+end function
+

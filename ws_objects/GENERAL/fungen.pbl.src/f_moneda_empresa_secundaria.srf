@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_moneda_empresa_secundaria.srf
+global type f_moneda_empresa_secundaria from function_object
+end type
+
+forward prototypes
+global function string f_moneda_empresa_secundaria (string empresa)
+end prototypes
+
+global function string f_moneda_empresa_secundaria (string empresa);String var_valor
+
+  SELECT paramemp.moneda_emp_2
+    INTO :var_valor  
+    FROM paramemp
+   WHERE paramemp.empresa = :empresa;
+	If IsNull(var_valor) Then var_valor = ""
+Return var_valor
+
+end function
+

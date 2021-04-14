@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_formato_articulo.srf
+global type f_formato_articulo from function_object
+end type
+
+forward prototypes
+global function string f_formato_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_formato_articulo (string empresa, string articulo);String var_formato
+
+  SELECT articulos.formato
+  INTO :var_formato  
+  FROM articulos
+  Where articulos.empresa = :empresa
+  And   articulos.codigo  =:articulo;
+
+
+Return var_formato ;
+
+end function
+

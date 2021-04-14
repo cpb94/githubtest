@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_bloqueo.srd
+$PBExportComments$Datawindow presentadion del bloqueo.
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=517 color="536870912" )
+table(column=(type=char(50) updatewhereclause=yes name=tabla dbname="uti_bloqueo.tabla" )
+ column=(type=char(200) updatewhereclause=yes name=codigo dbname="uti_bloqueo.codigo" )
+ column=(type=char(100) updatewhereclause=yes name=titulo dbname="uti_bloqueo.titulo" )
+ column=(type=datetime updatewhereclause=yes name=fecha dbname="uti_bloqueo.fecha" )
+ column=(type=char(40) updatewhereclause=yes name=usuario dbname="uti_bloqueo.usuario" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"uti_bloqueo~" ) COLUMN(NAME=~"uti_bloqueo.tabla~") COLUMN(NAME=~"uti_bloqueo.codigo~") COLUMN(NAME=~"uti_bloqueo.titulo~") COLUMN(NAME=~"uti_bloqueo.fecha~") COLUMN(NAME=~"uti_bloqueo.usuario~")WHERE( EXP1 =~"uti_bloqueo.tabla~" OP =~"=~" EXP2 =~":a_tabla~" LOGIC =~"and~" ) WHERE( EXP1 =~"uti_bloqueo.codigo~" OP =~"=~" EXP2 =~":a_codigo~" ) ) ARG(NAME = ~"a_tabla~" TYPE = string) ARG(NAME = ~"a_codigo~" TYPE = string) " arguments=(("a_tabla", string),("a_codigo", string)) )
+text(band=detail alignment="0" text="Fecha:"border="0" color="128" x="83" y="256" height="69" width="289"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="0" text="Usuario:"border="0" color="128" x="87" y="348" height="69" width="284"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="5" color="0" x="394" y="344" height="65" width="787" format="[general]"  name=usuario edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="Programa:"border="0" color="128" x="46" y="432" height="69" width="325"  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="389" y="432" height="65" width="1884" format="[general]"  name=titulo edit.limit=100 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="5" color="0" x="394" y="256" height="69" width="956" format="[shortdate] [time]"  name=fecha editmask.mask="dd-mm-yyyy hh:mm:ss" editmask.focusrectangle=no  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="2" expression="IF (  tabla = ~"GESTION ALMACEN~",~"Fichero en proceso~",IF (  tabla = ~"GESTION ALBARANES~",~"Fichero en proceso~",~"Registro Bloqueado~"))"border="6" color="128~tIF (  tabla = ~"GESTION ALMACEN~",RGB(0,0,255),IF (  tabla = ~"GESTION ALBARANES~",RGB(0,0,255),RGB(128,0,0)))" x="101" y="44" height="101" width="2314" format="[general]"  font.face="Arial" font.height="-16" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

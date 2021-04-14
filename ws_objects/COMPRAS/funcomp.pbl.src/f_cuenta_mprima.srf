@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_cuenta_mprima.srf
+global type f_cuenta_mprima from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_mprima (string empresa, string mprima)
+end prototypes
+
+global function string f_cuenta_mprima (string empresa, string mprima);String  cta,familia,tipo_materia
+  SELECT venmprima.cuenta,venmprima.familia,venmprima.tipo_materia  
+    INTO :cta,:familia,:tipo_materia  
+    FROM venmprima  
+   WHERE ( venmprima.empresa = :empresa ) AND  
+         ( venmprima.codigo = :mprima )   ;
+IF IsNUll(cta) Then cta = ""			
+IF Trim(cta) <> "" Then Return cta
+
+  SELECT venfamilias.cuenta  
+    INTO :cta  
+    FROM venfamilias  
+   WHERE ( venfamilias.empresa = :empresa ) AND  
+         ( venfamilias.tipo_materia = :tipo_materia ) AND  
+         ( venfamilias.familia = :familia )   ;
+IF IsNUll(cta) Then cta = ""			
+IF Trim(cta) <> "" Then Return cta
+
+
+  SELECT venmateria.cuenta  
+    INTO :cta  
+    FROM venmateria  
+   WHERE ( venmateria.empresa = :empresa ) AND  
+         ( venmateria.codigo = :tipo_materia )   ;
+
+IF IsNUll(cta) Then cta = ""			
+IF Trim(cta) <> "" Then Return cta
+
+Return cta
+end function
+

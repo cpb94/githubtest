@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_insert_almlinubica.srf
+global type f_insert_almlinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_almlinubica (str_almlinubica a)
+end prototypes
+
+global function boolean f_insert_almlinubica (str_almlinubica a);String campos = ""
+IF IsNull(a.ubicacion) or trim(a.ubicacion) = "" then
+	campos = campos + "ubicacion "
+end if
+if IsNull(a.almacen) or trim(a.almacen) = "" then
+	campos = campos + "almacen "
+end if
+if IsNull(a.zona) or trim(a.zona) = "" then
+	campos = campos + "zona "
+end if
+if IsNull(a.fila)  then
+	campos = campos + "fila "
+end if
+if IsNull(a.altura) then
+	campos = campos + "altura "
+end if
+if not (Trim(campos) = "") then 
+	// Intento de insertar en almlinubica con valores nulos
+	f_mensaje("¡ ¡ A t e n c i ó n ! !",&
+		"Se está intentando hacer lo que produce los descuadres de almacén.~nPor favor, apunte lo qué esté haciendo,~nen qué ventana,~ncon qué artículos,~ndesde qué empresa,~netc...~ncuanta más información mejor.~nHaga llegar esta información a su programador.")
+	f_mensaje("¡ ¡ A t e n c i ó n ! !",&
+		"Proporcione esta información a su programador:~nCampos nulos: " + campos+ " Tabla: almlinubica")	
+end if
+
+Boolean bool
+bool = TRUE
+a.externo= f_externo_almtipo(a.empresa,f_tipoalm_almalmacen(a.empresa,a.almacen))
+a.sector= f_sector_articulo(a.empresa,a.articulo)
+INSERT INTO almlinubica  
+(empresa,almacen,zona,fila,altura,linea,articulo,familia,formato,   
+ modelo,calidad,tonochar,calibre,existencias,anyo,pedido,linped,cliente,   
+ ubicacion,tipo_unidad,referencia,f_alta,observaciones,tipo_pallet,caja,   
+ sector,externo,subfamilia,subformato)  
+VALUES (:a.empresa,:a.almacen,:a.zona,:a.fila,:a.altura,:a.linea,   
+        :a.articulo,:a.familia,:a.formato,:a.modelo,:a.calidad,   
+        :a.tonochar,:a.calibre,:a.existencias,:a.anyo,:a.pedido,:a.linped,   
+        :a.cliente,:a.ubicacion,:a.tipo_unidad,:a.referencia,:a.f_alta,   
+        :a.observaciones,:a.tipo_pallet,:a.caja,:a.sector,:a.externo,
+		  :a.subfamilia,:a.subformato);
+
+
+If Sqlca.Sqlcode <> 0 Then 
+   f_mensaje("Error","En funcion Insert Almlinubica: " + sqlca.sqlerrtext)
+	Return FALSE
+END IF
+Return bool
+end function
+

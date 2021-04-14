@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_codpostal_transportista.srf
+global type f_codpostal_transportista from function_object
+end type
+
+forward prototypes
+global function string f_codpostal_transportista (string empresa, string transportista)
+end prototypes
+
+global function string f_codpostal_transportista (string empresa, string transportista);String var_codpostal
+
+SELECT	codpostal
+INTO		:var_codpostal
+FROM		ventransportista
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:transportista;
+
+if isnull(var_codpostal) then var_codpostal = ""
+
+Return var_codpostal
+end function
+

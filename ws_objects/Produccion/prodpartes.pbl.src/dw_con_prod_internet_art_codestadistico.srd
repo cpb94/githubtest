@@ -1,0 +1,68 @@
+﻿$PBExportHeader$dw_con_prod_internet_art_codestadistico.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=art_codestadistico_empresa dbname="art_codestadistico.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=art_codestadistico_codigo dbname="art_codestadistico.codigo" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g1 dbname="art_codestadistico.G1" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g2 dbname="art_codestadistico.G2" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_g3 dbname="art_codestadistico.G3" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_g4 dbname="art_codestadistico.G4" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_pt dbname="art_codestadistico.PT" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_gd dbname="art_codestadistico.GD" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_nc dbname="art_codestadistico.NC" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_re dbname="art_codestadistico.RE" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_rectificado dbname="art_codestadistico.rectificado" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_av dbname="art_codestadistico.AV" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_pl dbname="art_codestadistico.PL" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_ct dbname="art_codestadistico.CT" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_en dbname="art_codestadistico.EN" )
+ column=(type=char(2) updatewhereclause=yes name=art_codestadistico_tm dbname="art_codestadistico.TM" )
+ column=(type=char(3) updatewhereclause=yes name=art_codestadistico_otr dbname="art_codestadistico.OTR" )
+ column=(type=char(1) updatewhereclause=yes name=art_codestadistico_n dbname="art_codestadistico.N" )
+ retrieve="  SELECT DISTINCT art_codestadistico.empresa,   
+         art_codestadistico.codigo,   
+         art_codestadistico.G1,   
+         art_codestadistico.G2,   
+         art_codestadistico.G3,   
+         art_codestadistico.G4,   
+         art_codestadistico.PT,   
+         art_codestadistico.GD,   
+         art_codestadistico.NC,   
+         art_codestadistico.RE,   
+         art_codestadistico.rectificado,   
+         art_codestadistico.AV,   
+         art_codestadistico.PL,   
+         art_codestadistico.CT,   
+         art_codestadistico.EN,   
+         art_codestadistico.TM,   
+         art_codestadistico.OTR,   
+         art_codestadistico.N  
+    FROM prodpartes_ot,   
+         art_codestadistico  
+   WHERE ( prodpartes_ot.empresa = art_codestadistico.empresa ) and  
+         ( prodpartes_ot.articulo = art_codestadistico.codigo ) and  
+         ( ( prodpartes_ot.fecha between :fecha1 and :fecha2 ) )    
+" arguments=(("fecha1", datetime),("fecha2", datetime)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="0" y="0" height="56" width="160" format="[general]" html.valueishtml="0"  name=art_codestadistico_empresa visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="160" y="0" height="56" width="640" format="[general]" html.valueishtml="0"  name=art_codestadistico_codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="805" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_g1 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="832" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_g2 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="864" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_g3 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="896" y="0" height="56" width="64" format="[general]" html.valueishtml="0"  name=art_codestadistico_g4 visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="960" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_pt visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="992" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_gd visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="1024" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_nc visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="1056" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_re visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="1120" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_av visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="1152" y="0" height="56" width="32" format="[general]" html.valueishtml="0"  name=art_codestadistico_pl visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="1184" y="0" height="56" width="64" format="[general]" html.valueishtml="0"  name=art_codestadistico_ct visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="1248" y="0" height="56" width="64" format="[general]" html.valueishtml="0"  name=art_codestadistico_en visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="0" x="1312" y="0" height="56" width="64" format="[general]" html.valueishtml="0"  name=art_codestadistico_tm visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="1376" y="0" height="56" width="96" format="[general]" html.valueishtml="0"  name=art_codestadistico_otr visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="1472" y="0" height="56" width="69" format="[general]" html.valueishtml="0"  name=art_codestadistico_n visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="1088" y="0" height="56" width="23" format="[general]" html.valueishtml="0"  name=art_codestadistico_rectificado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

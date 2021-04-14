@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_equivalente_pz_unidad_parte_articulo.srf
+global type f_equivalente_pz_unidad_parte_articulo from function_object
+end type
+
+forward prototypes
+global function long f_equivalente_pz_unidad_parte_articulo (string arg_empresa, string arg_unidad, string arg_articulo)
+end prototypes
+
+global function long f_equivalente_pz_unidad_parte_articulo (string arg_empresa, string arg_unidad, string arg_articulo);long   equivalente_piezas
+string formato
+
+//Comprobamos si el formato del articulo tiene una equivalencia determinada
+formato = f_formato_articulo(arg_empresa,arg_articulo)
+
+select equivalente_piezas
+into   :equivalente_piezas
+from   prodpartes_unidades_equiv_form
+where  empresa = :arg_empresa
+and    unidad  = :arg_unidad
+and    formato = :formato;
+
+if isnull(equivalente_piezas) then equivalente_piezas = 0
+
+if equivalente_piezas = 0 then
+	//Si el formato del articulo no tiene una equivalencia determinada 
+	// seleccionamos el equivalente de la unidad
+	select equivalente_piezas
+	into   :equivalente_piezas
+	from   prodpartes_unidades
+	where  empresa = :arg_empresa
+	and    codigo  = :arg_unidad;
+	
+	if isnull(equivalente_piezas) then equivalente_piezas = 0
+end if
+
+return equivalente_piezas
+end function
+

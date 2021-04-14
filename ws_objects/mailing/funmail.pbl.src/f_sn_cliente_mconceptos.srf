@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_sn_cliente_mconceptos.srf
+global type f_sn_cliente_mconceptos from function_object
+end type
+
+forward prototypes
+global function string f_sn_cliente_mconceptos (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_sn_cliente_mconceptos (string empresa, string cliente, string codigo);String variable
+
+  SELECT mconceptoscltes.codigo  
+    INTO :variable  
+    FROM mconceptoscltes  
+   WHERE mconceptoscltes.empresa = :empresa 
+	  AND mconceptoscltes.cliente = :cliente
+	  AND mconceptoscltes.codigo  = :codigo  ;
+
+if SQLCA.SQLcode=0 Then 
+   variable ="N"
+else
+	variable = ""
+End if
+
+Return variable
+end function
+

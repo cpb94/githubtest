@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_activa_ventarifas.srf
+global type f_activa_ventarifas from function_object
+end type
+
+forward prototypes
+global function datetime f_activa_ventarifas (string empresa, string codigo)
+end prototypes
+
+global function datetime f_activa_ventarifas (string empresa, string codigo);DateTime  var_parametro
+  SELECT ventarifas.activa
+    INTO :var_parametro  
+    FROM ventarifas  
+   WHERE ( ventarifas.empresa = :empresa ) AND  
+         ( ventarifas.codigo = :codigo )   ;
+Return var_parametro
+
+end function
+

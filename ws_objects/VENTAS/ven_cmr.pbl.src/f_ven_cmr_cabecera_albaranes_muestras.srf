@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_ven_cmr_cabecera_albaranes_muestras.srf
+global type f_ven_cmr_cabecera_albaranes_muestras from function_object
+end type
+
+forward prototypes
+global function long f_ven_cmr_cabecera_albaranes_muestras (string arg_empresa, long arg_ejercicio, string arg_cmr)
+end prototypes
+
+global function long f_ven_cmr_cabecera_albaranes_muestras (string arg_empresa, long arg_ejercicio, string arg_cmr);long     ll_albaranes_en_cmr
+
+SELECT isnull(albaranes_muestras,0)
+INTO   :ll_albaranes_en_cmr
+FROM   ven_cmr_cabecera
+WHERE  empresa   = :arg_empresa
+AND    ejercicio = :arg_ejercicio
+AND    codigo    = :arg_cmr;
+	
+return ll_albaranes_en_cmr
+
+
+end function
+

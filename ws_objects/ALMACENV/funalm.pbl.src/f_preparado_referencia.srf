@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_preparado_referencia.srf
+global type f_preparado_referencia from function_object
+end type
+
+forward prototypes
+global function decimal f_preparado_referencia (string empresa, string referencia)
+end prototypes
+
+global function decimal f_preparado_referencia (string empresa, string referencia);Dec{4}   var_existencias
+
+//Función no compatible con el nuevo almacen
+
+MessageBox("ERROR - NUEVO ALMACEN", "f_preparado_referencia")
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE  almlinubica.empresa     = :empresa
+AND    almlinubica.referencia  = :referencia
+AND    almlinubica.pedido  is not null;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

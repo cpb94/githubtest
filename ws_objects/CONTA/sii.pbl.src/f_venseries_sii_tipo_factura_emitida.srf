@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_venseries_sii_tipo_factura_emitida.srf
+global type f_venseries_sii_tipo_factura_emitida from function_object
+end type
+
+forward prototypes
+global function string f_venseries_sii_tipo_factura_emitida (string arg_empresa, string arg_serie)
+end prototypes
+
+global function string f_venseries_sii_tipo_factura_emitida (string arg_empresa, string arg_serie);string ls_resultado
+
+select isnull(venseries.sii_tipo_factura_emitida,'')
+into   :ls_resultado
+from   venseries
+where  venseries.empresa = :arg_empresa
+and    venseries.serie   = :arg_serie;
+
+return ls_resultado
+end function
+

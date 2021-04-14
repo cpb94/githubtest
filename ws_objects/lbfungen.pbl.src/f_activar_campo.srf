@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_activar_campo.srf
+$PBExportComments$Activa el campo enviado como parámetro.
+global type f_activar_campo from function_object
+end type
+
+forward prototypes
+global subroutine f_activar_campo (ref editmask a_sle_campo)
+end prototypes
+
+global subroutine f_activar_campo (ref editmask a_sle_campo);a_sle_campo.SetFocus()
+a_sle_campo.SelectText(1,len(a_sle_campo.text))
+
+end subroutine
+

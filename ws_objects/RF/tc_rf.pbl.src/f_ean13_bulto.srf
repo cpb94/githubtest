@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_ean13_bulto.srf
+global type f_ean13_bulto from function_object
+end type
+
+forward prototypes
+global function string f_ean13_bulto (long arg_bulto)
+end prototypes
+
+global function string f_ean13_bulto (long arg_bulto);string ls_ean_13
+str_alm_bultos lstr_alm_bultos
+			
+if f_cargar_str_alm_bultos(arg_bulto,lstr_alm_bultos) then 			
+	if trim(lstr_alm_bultos.ean13) = "" then
+		ls_ean_13 = "25"+string(lstr_alm_bultos.id,"0000000000")
+		ls_ean_13 = f_calcula_ean13(ls_ean_13)
+	else
+		ls_ean_13 = lstr_alm_bultos.ean13
+	end if
+else
+	ls_ean_13 = "ERROR"
+end if
+
+return ls_ean_13
+end function
+

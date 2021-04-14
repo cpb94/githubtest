@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_fases_sit.srf
+global type f_cargar_str_ven_reclamaciones_fases_sit from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_fases_sit (STRING arg_empresa, STRING arg_fase, STRING arg_situacion, STRING arg_subfase, STRING arg_subsituacion,  ref str_ven_reclamaciones_fases_situac str_ven_reclamaciones_fases_situac)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_fases_sit (STRING arg_empresa, STRING arg_fase, STRING arg_situacion, STRING arg_subfase, STRING arg_subsituacion,  ref str_ven_reclamaciones_fases_situac str_ven_reclamaciones_fases_situac);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_fases_situac.empresa,
+       ven_reclamaciones_fases_situac.fase,
+       ven_reclamaciones_fases_situac.situacion,
+       ven_reclamaciones_fases_situac.subfase,
+       ven_reclamaciones_fases_situac.subsituacion
+INTO   :str_ven_reclamaciones_fases_situac.empresa,
+       :str_ven_reclamaciones_fases_situac.fase,
+       :str_ven_reclamaciones_fases_situac.situacion,
+       :str_ven_reclamaciones_fases_situac.subfase,
+       :str_ven_reclamaciones_fases_situac.subsituacion
+FROM ven_reclamaciones_fases_situac
+WHERE ven_reclamaciones_fases_situac.empresa = :arg_empresa AND ven_reclamaciones_fases_situac.fase = :arg_fase AND ven_reclamaciones_fases_situac.situacion = :arg_situacion AND ven_reclamaciones_fases_situac.subfase = :arg_subfase AND ven_reclamaciones_fases_situac.subsituacion = :arg_subsituacion;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

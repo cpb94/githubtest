@@ -1,0 +1,244 @@
+﻿$PBExportHeader$f_vencimientos_pagos.srf
+global type f_vencimientos_pagos from function_object
+end type
+
+forward prototypes
+global function str_vencimientos f_vencimientos_pagos (string empresa, decimal importe, string cod_pago, datetime ffra, string proveedor, string arg_moneda)
+end prototypes
+
+global function str_vencimientos f_vencimientos_pagos (string empresa, decimal importe, string cod_pago, datetime ffra, string proveedor, string arg_moneda);Dec{4} var_total_fac,reg,acumulado,var_importe
+Dec    var_efectos,var_primero, var_cadencia,ajuste,r
+Dec  	 dia[3]
+String var_tipodoc,mes_siguiente
+Date  ffactura,var_vencimiento,fecha11,fecha12
+DateTime  var_fecha
+ffactura = Date(ffra)
+Dec var_cadencia1,var_cadencia2,var_cadencia3,var_cadencia4
+Dec var_cadencia5,var_cadencia6,var_cadencia7,var_cadencia8,var_cadencia9 
+str_vencimientos   vto
+Integer dias[200],el_mes,el_anyo
+datetime nueva_fvto
+
+vto.efectos = 0
+vto.importe[1] =0
+SetNull(vto.vencimiento[1])
+
+SELECT  	comproveedores.dia1,
+			comproveedores.dia2,
+			comproveedores.dia3,
+			mes_siguiente
+INTO 		:dia[1],
+			:dia[2],
+			:dia[3],
+			:mes_siguiente
+FROM  	comproveedores  
+WHERE  	comproveedores.empresa = :empresa 
+AND    	comproveedores.codigo = :proveedor;
+
+ 
+IF IsNUll(dia[1]) Then dia[1] = 0
+IF IsNUll(dia[2]) Then dia[2] = 0
+IF IsNUll(dia[3]) Then dia[3] = 0
+if isnull(mes_siguiente) then mes_siguiente = "N"
+
+// Si hay día fijo de pago y se marca mes siguiente el vencimiento
+// es el día fijo del mes siguiente independientemente de la forma
+// de pago
+
+if dia[1] <> 0 and mes_siguiente = "S" then
+	vto.efectos = 1
+	vto.importe[1] = importe 
+	
+	el_mes 	= month(date(ffra))
+	el_anyo 	= year(date(ffra))
+	
+	if el_mes = 12 then
+		el_mes  = 1
+		el_anyo = el_anyo + 1
+	else
+		el_mes = el_mes + 1		
+	end if
+	
+	vto.vencimiento[1] = mdy(el_mes,dia[1],el_anyo) 
+
+// El cálculo se hace según la forma habitual	
+else
+
+	SELECT carforpag.efectos,			   carforpag.primero,
+			 carforpag.cadencia,   			carforpag.tipodoc,
+			 carforpag.cadencia1,			carforpag.cadencia2,   
+			 carforpag.cadencia3,			carforpag.cadencia4,
+			 carforpag.cadencia5,   		carforpag.cadencia6,
+			 carforpag.cadencia7,			carforpag.cadencia8,   
+			 carforpag.cadencia9  
+	INTO 	 :var_efectos,					   :var_primero,
+			 :var_cadencia,				   :var_tipodoc,   
+			 :var_cadencia1,					:var_cadencia2,
+			 :var_cadencia3,				   :var_cadencia4,   
+			 :var_cadencia5,					:var_cadencia6,
+			 :var_cadencia7,				   :var_cadencia8,   
+			 :var_cadencia9 
+	FROM   carforpag  
+	WHERE  carforpag.empresa = :empresa
+	AND    carforpag.forma   = :cod_pago ;
+	
+	IF SQLCA.SQLCODE <> 0 Then
+		messagebox("ERROR","Leyendo datos de la forma de pago")
+		Return vto
+	end if
+	
+	acumulado =0
+	// modif euro
+	var_importe = Dec(String(importe/var_efectos,f_mascara_moneda(arg_moneda)))
+	vto.efectos = var_efectos
+		
+	IF var_primero = 0 Then
+		FOR reg = 1 To var_efectos			
+			IF reg = 1 Then 
+				if isnull(var_cadencia1) then var_cadencia1 = 0
+				dias[reg] = var_cadencia1
+			end if
+			IF reg = 2 Then dias[reg] = var_cadencia2
+			IF reg = 3 Then dias[reg] = var_cadencia3
+			IF reg = 4 Then dias[reg] = var_cadencia4
+			IF reg = 5 Then dias[reg] = var_cadencia5
+			IF reg = 6 Then dias[reg] = var_cadencia6
+			IF reg = 7 Then dias[reg] = var_cadencia7
+			IF reg = 8 Then dias[reg] = var_cadencia8
+			IF reg = 9 Then dias[reg] = var_cadencia9
+		NEXT
+	ELSE
+		FOR reg = 1 To var_efectos
+			IF reg = 1 Then 
+				dias[reg] = var_primero
+			ELSE
+				dias[reg] = var_cadencia
+			END IF
+		NEXT
+	END IF
+		
+	For reg = 1 To var_efectos			
+		If reg <> 1 Then ffactura = vto.vencimiento[reg - 1]
+		var_vencimiento = RelativeDate(ffactura,dias[reg])
+		ajuste = 50
+		For r =1  To 3
+			IF dia[r] <> 0 Then
+				fecha11 = MDY(Month(var_vencimiento),dia[r],Year(var_vencimiento))
+					
+				int nuevo_mes,nuevo_anyo
+					
+				if Month(var_vencimiento) = 12 then
+					nuevo_mes 	=  1	
+					nuevo_anyo 	=  year(var_vencimiento) + 1
+				else
+					nuevo_mes 	= 	Month(var_vencimiento) + 1
+					nuevo_anyo 	=  year(var_vencimiento)
+				end if
+					
+				fecha12 = MDY(nuevo_mes,dia[r],nuevo_anyo)
+				IF DaysAfter(var_vencimiento,fecha11) > -1 Then
+					IF Abs(DaysAfter(var_vencimiento,fecha11)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha11)
+				END IF
+				IF DaysAfter(var_vencimiento,fecha12) > -1 Then
+					IF abs(DaysAfter(var_vencimiento,fecha12)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha12)
+				END IF
+			END IF
+		Next
+			
+		IF ajuste = 50 Then ajuste = 0
+		var_vencimiento = RelativeDate(var_vencimiento,ajuste)
+		vto.vencimiento[reg] = var_vencimiento
+		If reg = var_efectos Then
+			var_importe = importe - acumulado			
+		END IF
+		acumulado = acumulado + var_importe
+		vto.importe[reg] = var_importe
+	Next
+		
+end if
+
+Return vto
+
+//Dec{4}    var_total_fac,reg,dias,acumulado,var_importe
+//Dec    var_efectos,var_primero, var_cadencia,ajuste,r
+//Dec  dia[3]
+//String var_tipodoc
+//Date  ffactura,var_vencimiento,fecha11,fecha12
+//DateTime  var_fecha
+//ffactura = Date(ffra)
+//Dec var_cadencia1,var_cadencia2,var_cadencia3,var_cadencia4
+//Dec var_cadencia5,var_cadencia6,var_cadencia7,var_cadencia8,var_cadencia9 
+//str_vencimientos   vto
+//Integer dias[20],dec_moneda
+//vto.efectos = 0
+//vto.importe[1] =0
+//SetNull(vto.vencimiento[1])
+//
+//dec_moneda = f_decimales_moneda(arg_moneda)
+//
+//SELECT  comproveedores.dia1,comproveedores.dia2,comproveedores.dia3 
+//			INTO :dia[1],:dia[2],:dia[3]   FROM  comproveedores  
+// WHERE  comproveedores.empresa = :empresa 
+// AND    comproveedores.codigo = :proveedor;
+// IF IsNUll(dia[1]) Then dia[1] = 0
+// IF IsNUll(dia[2]) Then dia[2] = 0
+// IF IsNUll(dia[3]) Then dia[3] = 0
+//
+// SELECT carforpag.efectos,   carforpag.primero,   carforpag.cadencia,   
+//        carforpag.tipodoc,  carforpag.cadencia1, carforpag.cadencia2,   
+//        carforpag.cadencia3,carforpag.cadencia4, carforpag.cadencia5,   
+//        carforpag.cadencia6,carforpag.cadencia7, carforpag.cadencia8,   
+//        carforpag.cadencia9  
+//    INTO :var_efectos,   :var_primero,   :var_cadencia,   :var_tipodoc,   
+//         :var_cadencia1, :var_cadencia2, :var_cadencia3,  :var_cadencia4,   
+//         :var_cadencia5, :var_cadencia6, :var_cadencia7,  :var_cadencia8,   
+//         :var_cadencia9 
+//	FROM   carforpag  
+//   WHERE  carforpag.empresa = :empresa
+//	AND    carforpag.forma   = :cod_pago ;
+//	IF SQLCA.SQLCODE <> 0 Then Return vto
+//		
+//	acumulado =0
+//	var_importe = round(importe/var_efectos,dec_moneda)
+//	vto.efectos = var_efectos
+//	
+//	IF var_primero = 0 Then
+//		FOR reg = 1 To var_efectos
+//			IF reg = 1 Then dias[reg] = var_cadencia1
+//			IF reg = 2 Then dias[reg] = var_cadencia2
+//			IF reg = 3 Then dias[reg] = var_cadencia3
+//			IF reg = 4 Then dias[reg] = var_cadencia4
+//			IF reg = 5 Then dias[reg] = var_cadencia5
+//			IF reg = 6 Then dias[reg] = var_cadencia6
+//			IF reg = 7 Then dias[reg] = var_cadencia7
+//			IF reg = 8 Then dias[reg] = var_cadencia8
+//			IF reg = 9 Then dias[reg] = var_cadencia9
+//		NEXT
+//	ELSE
+//		FOR reg = 1 To var_efectos
+//			IF reg = 1 Then 
+//				dias[reg] = var_primero
+//			ELSE
+//				dias[reg] = var_cadencia
+//			END IF
+//		NEXT
+//	END IF
+//	
+//		For reg = 1 To var_efectos			
+//			If reg <> 1 Then ffactura = vto.vencimiento[reg - 1]
+//			var_vencimiento = RelativeDate(ffactura,dias[reg])
+//			var_vencimiento = f_vto_ajuste(codigo_empresa,proveedor,var_vencimiento)
+//			var_vencimiento = f_vto_vacaciones(codigo_empresa,proveedor,var_vencimiento)
+//									
+//			vto.vencimiento[reg] = var_vencimiento
+//			If reg = var_efectos Then
+//				var_importe = importe - acumulado			
+//			END IF
+//			acumulado = acumulado + var_importe
+//			vto.importe[reg] = var_importe
+//		Next
+//	
+//Return vto
+//
+end function
+

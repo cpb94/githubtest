@@ -1,0 +1,86 @@
+﻿$PBExportHeader$str_venalb2.srs
+global type str_venalb2 from structure
+	string		empresa
+	decimal {4}	anyo
+	decimal {4}	albaran
+	datetime		falbaran
+	datetime		fentrega
+	datetime		falta
+	string		cliente
+	datetime		flistado
+	string		observaciones
+	string		codpago
+	string		agente1
+	string		agente2
+	decimal {4}	comision1
+	decimal {4}	comision2
+	decimal {4}	comision11
+	decimal {4}	comision22
+	decimal {4}	dtopp
+	decimal {4}	dtoesp
+	decimal {4}	dtoesp1
+	decimal {4}	dtoesp2
+	decimal {4}	dtoesp3
+	decimal {4}	dtoesp4
+	string		tipodto1
+	string		tipodto2
+	string		tipodto3
+	string		tipodto4
+	string		explicaciondto1
+	string		explicaciondto2
+	string		explicaciondto3
+	string		explicaciondto4
+	string		tipoiva
+	decimal {4}	iva
+	string		numpedcli
+	string		idioma
+	string		divisa
+	decimal {5}	cambio
+	string		tarifa
+	datetime		ftarifa
+	datetime		fbloqueo
+	string		transportista
+	string		serie
+	string		zona
+	string		envio
+	string		correspondencia
+	string		domiciliacion
+	string		forma_envio
+	string		cod_entrega
+	string		usuario
+	string		tipo_portes
+	string		periodo_fac
+	decimal {4}	peso
+	string		usuario_pedido
+	string		agente3
+	decimal {4}	comision31
+	decimal {4}	comision32
+	decimal {4}	veces
+	string		textcomercial1
+	string		textcomercial2
+	string		textaduanaesp1
+	string		textaduanaesp2
+	string		textaduanaext1
+	string		textaduanaext2
+	string		textopie1
+	string		textopie2
+	string		condicion
+	decimal {4}	peso_neto
+	string		banco_de_cobro
+	decimal {4}	porcentaje_aduana
+	decimal {4}	bruto
+	decimal {4}	importe_dto
+	decimal {4}	total_neto
+	string		calculo_dto
+	decimal {4}	anyo_pedido_origen
+	decimal {4}	pedido_origen
+	datetime		fcarga
+	string		agrupa
+	string		deposito
+	string		almacen_deposito
+	string		abono
+	string		facturar
+	string		contenedor
+	string		calculo_dtoesp
+end type
+

@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_observaciones.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=15780518 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1408 color="536870912" )
+table(column=(type=char(255) updatewhereclause=yes name=letras dbname="comodin.letras" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=observaciones dbname="comodin.observaciones" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comodin~" ) COLUMN(NAME=~"comodin.letras~") COLUMN(NAME=~"comodin.empresa~") COMPUTE(NAME=~"letras observaciones~")WHERE(    EXP1 =~"comodin.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string) " arguments=(("arg_empresa", string)) )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="16" height="1380" width="2962" format="[general]" html.valueishtml="0"  name=observaciones visible="1" edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.hscrollbar=yes edit.imemode=0 edit.vscrollbar=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

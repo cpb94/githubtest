@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_vencimiento_it_transf_150_dias.srf
+global type f_vencimiento_it_transf_150_dias from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_it_transf_150_dias (date fecha_fact, string var_cliente)
+end prototypes
+
+global function date f_vencimiento_it_transf_150_dias (date fecha_fact, string var_cliente);int mes_fact, anyo_fact, mes_actual, anyo_actual, i, dia_fact, mes_vencimiento, diapago
+date fecha_vto, fecha_Actual, fecha_facturacion
+boolean encontrado = false
+String ls_fecha 
+
+dia_fact = day(fecha_fact)
+mes_fact = month(fecha_fact)
+anyo_fact =year(fecha_fact)
+
+mes_fact = mes_fact + 6
+
+if mes_fact > 12 then 
+	mes_fact = mes_fact -12
+	anyo_fact ++
+end if
+
+
+ls_fecha = string ( '01/'+string ( mes_fact )+'/'+string ( anyo_fact ))
+
+SELECT diaspago1
+INTO   :diapago
+FROM   venclientes  
+WHERE  empresa = :codigo_empresa
+AND    codigo  = :var_cliente;   
+
+if isnull (diapago ) then
+	diapago = 0
+end if
+
+fecha_vto = RelativeDate ( date(ls_fecha) , diapago - 1 )
+
+return fecha_vto
+end function
+

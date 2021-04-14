@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_imprimir_datawindow.srf
+global type f_imprimir_datawindow from function_object
+end type
+
+forward prototypes
+global function boolean f_imprimir_datawindow (datawindow data)
+end prototypes
+
+global function boolean f_imprimir_datawindow (datawindow data);str_parametros pa
+pa.s_listado = data.DataObject
+OpenWithParm(w_impresoras_v2,data)
+IF Message.DoubleParm = -1 THEN
+ RETURN FALSE
+ELSE
+ RETURN TRUE
+END IF
+end function
+

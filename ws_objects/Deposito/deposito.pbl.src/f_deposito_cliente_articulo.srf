@@ -1,0 +1,97 @@
+﻿$PBExportHeader$f_deposito_cliente_articulo.srf
+global type f_deposito_cliente_articulo from function_object
+end type
+
+forward prototypes
+global function string f_deposito_cliente_articulo (string empresa, string cliente, string articulo, string calidad)
+end prototypes
+
+global function string f_deposito_cliente_articulo (string empresa, string cliente, string articulo, string calidad);String var_familia,var_formato
+Dec    numero
+long   arts_deposito
+
+
+arts_deposito = 0
+
+select count(*)
+into   :arts_deposito
+from   venarticulosdeposito
+where  empresa  = :empresa 
+and    cliente  = :cliente 
+and    articulo = :articulo;
+
+if isnull(arts_deposito) then arts_deposito = 0
+
+if arts_deposito > 0 then
+	Return "S"
+else
+	return "N"
+end if
+ 
+ 
+/*
+String var_familia,var_formato
+Dec    numero
+long   excluido
+
+
+excluido = 0
+
+select count(*)
+into   :excluido
+from   venarticulosexcluidosdeposito
+where  empresa  = :empresa 
+and    cliente  = :cliente 
+and    articulo = :articulo;
+
+if isnull(excluido) then excluido = 0
+
+if excluido > 0 then
+	Return "N"
+else
+	Select articulos.familia,articulos.formato 
+	Into   :var_familia,:var_formato 
+	From   articulos
+	Where  articulos.empresa = :codigo_empresa
+	And    articulos.codigo  = :articulo;
+	
+	SELECT count(*) INTO :numero  FROM venfamdeposito  
+	WHERE venfamdeposito.empresa = :empresa
+	AND   venfamdeposito.cliente = :cliente
+	AND   venfamdeposito.familia = :var_familia
+	AND   venfamdeposito.calidad = :calidad;
+	
+	IF IsNull(numero) Then numero = 0
+	
+	IF numero = 0 then Return "N"
+	
+	SELECT count(*) INTO :numero  FROM venfamfordeposito  
+	WHERE venfamfordeposito.empresa = :empresa
+	AND   venfamfordeposito.cliente = :cliente
+	AND   venfamfordeposito.familia = :var_familia
+	AND   venfamfordeposito.calidad = :calidad;
+	
+	IF IsNull(numero) Then numero = 0
+	
+	IF numero = 0 then Return "S" 
+	 
+	SELECT count(*) INTO :numero  FROM venfamfordeposito  
+	WHERE venfamfordeposito.empresa = :empresa
+	AND   venfamfordeposito.cliente = :cliente
+	AND   venfamfordeposito.familia = :var_familia
+	AND   venfamfordeposito.formato = :var_formato
+	AND   venfamfordeposito.calidad = :calidad;
+	
+	IF IsNull(numero) Then numero = 0
+	
+	IF numero = 0 Then 
+		Return "N"
+	ELSE
+		Return "S"
+	END if
+end if 
+ 
+ 
+*/
+end function
+

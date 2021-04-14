@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_tipo_pais.srf
+global type f_tipo_pais from function_object
+end type
+
+forward prototypes
+global function string f_tipo_pais (string ra_codpais)
+end prototypes
+
+global function string f_tipo_pais (string ra_codpais);string nombre
+
+  SELECT paises.tipopais
+    INTO :nombre
+    FROM paises  
+   WHERE paises.pais = :ra_codpais
+   ORDER BY paises.pais ASC USING SQLCA;
+
+IF IsNull(nombre) Then nombre = ""
+
+RETURN nombre
+
+
+
+
+
+
+
+end function
+

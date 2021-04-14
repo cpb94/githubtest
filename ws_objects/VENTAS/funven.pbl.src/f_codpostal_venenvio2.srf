@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_codpostal_venenvio2.srf
+global type f_codpostal_venenvio2 from function_object
+end type
+
+forward prototypes
+global function string f_codpostal_venenvio2 (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_codpostal_venenvio2 (string empresa, string cliente, string envio);String variable
+
+  SELECT venenvio.codpostal
+    INTO :variable  
+    FROM venenvio  
+   WHERE ( venenvio.empresa = :empresa ) AND  
+         ( venenvio.cliente = :cliente ) AND  
+         ( venenvio.codigo = :envio )   ;
+
+if isnull(variable) then 
+	variable = ""
+	SELECT genter.cod_postal
+   INTO :variable  
+   FROM genter  
+   WHERE ( genter.empresa = :empresa ) AND  
+         ( genter.codigo  = :cliente ) AND  
+			( genter.tipoter = "C" );
+	if isnull(variable) then variable = ""
+	
+end if
+return variable
+
+end function
+

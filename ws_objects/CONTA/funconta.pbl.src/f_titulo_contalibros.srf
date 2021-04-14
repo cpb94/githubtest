@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_titulo_contalibros.srf
+global type f_titulo_contalibros from function_object
+end type
+
+forward prototypes
+global function string f_titulo_contalibros (integer ejercicio, string empresa, string libro)
+end prototypes
+
+global function string f_titulo_contalibros (integer ejercicio, string empresa, string libro);string titulo
+  SELECT contalibros.titulo  
+    INTO :titulo  
+    FROM contalibros  
+   WHERE ( contalibros.ejercicio = :ejercicio ) AND  
+         ( contalibros.empresa = :empresa ) AND  
+         ( contalibros.codigo = :libro )   ;
+			
+Return titulo
+
+end function
+

@@ -1,0 +1,242 @@
+﻿$PBExportHeader$f_dividir_linea_venliped.srf
+global type f_dividir_linea_venliped from function_object
+end type
+
+forward prototypes
+global function long f_dividir_linea_venliped (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea, decimal arg_cantidad)
+end prototypes
+
+global function long f_dividir_linea_venliped (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea, decimal arg_cantidad);// Devuelve 0 si se ha producido un error. Hacer un rollbalck. 
+// En otro caso hacer un commit;
+
+long ll_nueva_linea,ll_ultima_linea_pedido,ll_ultima_linea_albaran,ll_ultima_linea_factura
+dec  ld_cantidad_original_linea
+int  posi_aux,posi
+string cadena		
+boolean 		actualizar_linea = false
+boolean 		insertar_nueva_linea = false
+dec cantidad_actualizar, cantidad_insertar
+
+
+str_venliped venliped, venliped2
+
+
+if f_cargar_str_venliped(arg_empresa,arg_anyo,arg_pedido,arg_linea,venliped) then
+	if arg_cantidad < venliped.cantidad then
+		actualizar_linea = true
+		insertar_nueva_linea = true
+		cantidad_actualizar = arg_cantidad
+		cantidad_insertar = venliped.cantidad - arg_cantidad
+	end if
+	if arg_cantidad = venliped.cantidad then
+		actualizar_linea = false
+		insertar_nueva_linea = false
+	end if
+	if arg_cantidad > venliped.cantidad then
+		if f_pallet_completo (codigo_empresa, venliped.articulo, venliped.tipo_pallet, venliped.caja, venliped.cantidad ) = -1 then
+			actualizar_linea = true
+			insertar_nueva_linea = false
+			cantidad_actualizar =  arg_cantidad 
+		else
+			actualizar_linea = false
+			insertar_nueva_linea = true
+			cantidad_insertar =  arg_cantidad - venliped.cantidad
+			
+		end if
+	end if
+	
+	if actualizar_linea then
+		ld_cantidad_original_linea = venliped.cantidad
+
+		cadena = f_calculo_unidades_tipolin(venliped.empresa,venliped.articulo,&
+										 venliped.tipo_pallet,&
+										 venliped.caja,&
+										 0,&
+										 0,&
+										 cantidad_actualizar,&
+										 venliped.tipolinea)
+		
+		posi_aux = 1
+		posi = pos(cadena,"|",1)
+		if posi <> 0 then
+			venliped.pallets = dec(Mid(cadena,1,posi - 1))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <> 0 then
+			venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			cantidad_actualizar = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			 venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		end if		
+			
+		if venliped.cajas > 0 then
+			venliped.es_pico = "S"
+		else
+			venliped.es_pico = "N"
+		end if
+		
+		update venliped
+		set    cantidad        		= :cantidad_actualizar,
+				 cantidad_facturar 	= :cantidad_actualizar,
+				 pallets         		= :venliped.pallets,
+				 total_cajas     		= :venliped.total_cajas,
+				 cajas           		= :venliped.cajas,
+				 metros_lineales 		= :venliped.metros_lineales,
+				 es_pico         		= :venliped.es_pico
+		where  empresa = :venliped.empresa
+		and    anyo    = :venliped.anyo
+		and    pedido  = :venliped.pedido
+		and    linea   = :venliped.linea;
+
+
+		if sqlca.sqlcode <> 0 then
+			ll_nueva_linea = 0
+		else
+			f_actualizar_linea_venpedido(venliped.empresa,venliped.anyo,venliped.pedido,venliped.linea) 
+			ll_nueva_linea = venliped.linea
+		end if	
+	end if
+
+	if insertar_nueva_linea then
+		venliped.cantidad = venliped.cantidad - arg_cantidad
+//		cantidad_insertar = venliped.cantidad
+		cadena = f_calculo_unidades_tipolin(venliped.empresa,venliped.articulo,&
+										 venliped.tipo_pallet,&
+										 venliped.caja,&
+										 0,&
+										 0,&
+										 cantidad_insertar,&
+										 venliped.tipolinea)
+		
+		posi_aux = 1
+		posi = pos(cadena,"|",1)
+		if posi <> 0 then
+			venliped.pallets = dec(Mid(cadena,1,posi - 1))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <> 0 then
+			venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			cantidad_insertar = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			 venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		end if		
+		
+		if venliped.cajas > 0 then
+			venliped.es_pico = "S"
+		else
+			venliped.es_pico = "N"
+		end if				
+		
+		select max(linea)
+		into   :ll_ultima_linea_pedido
+		from   venliped
+		where  empresa = :venliped.empresa
+		and    anyo    = :venliped.anyo
+		and    pedido  = :venliped.pedido;
+		
+		if isnull(ll_ultima_linea_pedido) then ll_ultima_linea_pedido = 0
+		
+		select max(linea_pedido_origen)
+		into   :ll_ultima_linea_albaran
+		from   venlialb
+		where  empresa            = :venliped.empresa
+		and    anyo_pedido_origen = :venliped.anyo
+		and    pedido_origen      = :venliped.pedido;
+		
+		if isnull(ll_ultima_linea_albaran) then ll_ultima_linea_albaran = 0				
+		
+		select max(linea_pedido_origen)
+		into   :ll_ultima_linea_factura
+		from   venlifac
+		where  empresa            = :venliped.empresa
+		and    anyo_pedido_origen = :venliped.anyo
+		and    pedido_origen      = :venliped.pedido;
+		
+		if isnull(ll_ultima_linea_factura) then ll_ultima_linea_factura = 0								
+		
+		ll_nueva_linea = ll_ultima_linea_pedido
+		
+		if ll_ultima_linea_albaran > ll_nueva_linea then
+			ll_nueva_linea = ll_ultima_linea_albaran
+		end if
+		
+		if ll_ultima_linea_factura > ll_nueva_linea then
+			ll_nueva_linea = ll_ultima_linea_factura
+		end if				
+		
+		ll_nueva_linea ++
+
+		//Actualizamos la planificación y los partes para que apunten a la nueva línea que, supuestamente es la que quedará después de expedir la orden de carga
+		update planificacion set planificacion.linped = :ll_nueva_linea
+		where  planificacion.empresa = :venliped.empresa
+		and    planificacion.anyo    = :venliped.anyo
+		and    planificacion.pedido  = :venliped.pedido
+		and    planificacion.linped   = :venliped.linea;
+
+		update prodpartes_ot set prodpartes_ot.linped = :ll_nueva_linea
+		where  prodpartes_ot.empresa = :venliped.empresa
+		and    prodpartes_ot.anyo    = :venliped.anyo
+		and    prodpartes_ot.pedido  = :venliped.pedido
+		and    prodpartes_ot.linped   = :venliped.linea;
+		
+		
+		venliped.linea = ll_nueva_linea
+		
+		venliped.cantidad = cantidad_insertar
+		venliped.cantidad_facturar = cantidad_insertar
+		
+		
+		
+		if not(f_insertar_venliped(venliped)) then
+			ll_nueva_linea = 0
+		else
+			if f_actualizar_linea_venpedido(venliped.empresa,venliped.anyo,venliped.pedido,venliped.linea) then
+				if not(f_actualizar_venpedido(venliped.empresa,venliped.anyo,venliped.pedido)) then
+					ll_nueva_linea = 0
+				end if						
+			else
+				ll_nueva_linea = 0
+			end if
+		end if	
+	end if
+end if
+
+return ll_nueva_linea
+
+
+end function
+

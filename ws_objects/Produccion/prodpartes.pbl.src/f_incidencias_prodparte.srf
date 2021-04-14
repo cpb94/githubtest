@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_incidencias_prodparte.srf
+global type f_incidencias_prodparte from function_object
+end type
+
+forward prototypes
+global function string f_incidencias_prodparte (string arg_empresa, string arg_operario, string arg_tipoparte, datetime arg_fecha, string arg_turno, integer arg_contador)
+end prototypes
+
+global function string f_incidencias_prodparte (string arg_empresa, string arg_operario, string arg_tipoparte, datetime arg_fecha, string arg_turno, integer arg_contador);string sel,retorno='',defecto,comentario
+int cantidad,cont
+datastore ds
+
+sel="select tipodefecto,cantidad,comentarios from prodpartesdefectos where "+&
+	 " empresa='"+arg_empresa+"' and operario='"+arg_operario+"' and "+&
+	 " tipoparte='"+arg_tipoparte+"' and fecha=convert(datetime,'"+string(arg_fecha,'mm/dd/yy')+"') and "+&
+	 " turno='"+arg_turno+"' and contador="+string(arg_contador)
+	 
+ds=f_cargar_cursor(sel)
+
+for cont=1 to ds.rowcount()
+	cantidad=ds.object.cantidad[cont]
+	defecto=ds.object.tipodefecto[cont]
+	if isnull(defecto) then defecto=''
+	comentario=ds.object.comentarios[cont]
+	if isnull(comentario) or comentario='' then 
+		comentario=''
+	else
+		comentario=" ("+comentario+")"
+	end if
+	
+	if isnull(cantidad) then
+		retorno=retorno + f_nombre_prodtipodefectos(arg_empresa,defecto) + comentario + char(13)		
+	else
+		retorno=retorno + string(cantidad)+" "+f_nombre_prodtipodefectos(arg_empresa,defecto) +comentario + char(13)
+	end if
+next
+
+destroy ds
+
+return retorno
+end function
+

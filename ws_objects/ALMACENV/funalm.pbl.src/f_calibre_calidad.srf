@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_calibre_calidad.srf
+global type f_calibre_calidad from function_object
+end type
+
+forward prototypes
+global function string f_calibre_calidad (string arg_empresa, string arg_calidad)
+end prototypes
+
+global function string f_calibre_calidad (string arg_empresa, string arg_calidad);String   var_calibre
+
+  SELECT calidades.calibre INTO  :var_calibre
+    FROM  calidades  
+   WHERE (calidades.empresa = :arg_empresa)
+	AND   (calidades.codigo  = :arg_calidad );
+	
+Return var_calibre
+
+end function
+

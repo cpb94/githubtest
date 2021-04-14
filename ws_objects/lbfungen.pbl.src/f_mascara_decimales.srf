@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_mascara_decimales.srf
+$PBExportComments$Modifica la mascara de una datawindow, recibo datawindow, numero de decimales, pone con defecto  autofocus.
+global type f_mascara_decimales from function_object
+end type
+
+forward prototypes
+global function string f_mascara_decimales (integer decimales)
+end prototypes
+
+global function string f_mascara_decimales (integer decimales);String mascara
+CHOOSE CASE decimales
+CASE 0
+		mascara = "#,###,###,##0"
+CASE 1
+		mascara = "###,###,##0.0"
+CASE 2
+		mascara = "##,###,##0.00"
+CASE 3
+		mascara = "#,###,##0.000"
+CASE 4
+		mascara = "#,###,##0.0000"
+CASE 5
+		mascara = "#,###,##0.00000"
+CASE 6
+		mascara = "#,###,##0.000000"
+
+END CHOOSE
+Return mascara
+
+end function
+

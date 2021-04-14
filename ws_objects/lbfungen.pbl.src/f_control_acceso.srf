@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_control_acceso.srf
+global type f_control_acceso from function_object
+end type
+
+forward prototypes
+global function string f_control_acceso (string usuario)
+end prototypes
+
+global function string f_control_acceso (string usuario);String variable
+  
+  SELECT usuarios.v_nivel  
+    INTO :variable  
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :usuario   ;
+	
+	if isnull(variable) then variable = "0"
+	
+	Return Trim(variable)
+
+end function
+

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_almclasepallet.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=309 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almclasepallet.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="almclasepallet.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="almclasepallet.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=abreviado dbname="almclasepallet.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almclasepallet~" ) COLUMN(NAME=~"almclasepallet.empresa~") COLUMN(NAME=~"almclasepallet.codigo~") COLUMN(NAME=~"almclasepallet.descripcion~") COLUMN(NAME=~"almclasepallet.abreviado~")WHERE(    EXP1 =~"almclasepallet.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almclasepallet.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="almclasepallet" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("codigo", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="417" y="68" height="65" width="951" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="28" y="68" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="69" y="196" height="65" width="316"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="417" y="196" height="65" width="220" format="[general]"  name=abreviado edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

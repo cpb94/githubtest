@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_bultos_venfac.srf
+global type f_bultos_venfac from function_object
+end type
+
+forward prototypes
+global function decimal f_bultos_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function decimal f_bultos_venfac (string empresa, integer anyo, decimal factura);dec bultos
+//datastore datos
+string sel
+long i
+
+
+//sel = "  SELECT distinct empresa, anyo_albaran, albaran, bultos  "+&
+//		" from venlifac "+&
+//		" where empresa = '"+empresa+"' "+&
+//		" and anyo = "+string(anyo)+&
+//		" and factura = "+string(factura)
+//		
+//		
+//f_cargar_cursor_nuevo ( sel, datos )
+//bultos = 0
+//for i = 1 to datos.rowcount()
+//	if not isnull(datos.object.bultos[i]) then 
+//		bultos = bultos + datos.object.bultos[i]
+//	end if
+//next
+
+		
+
+// SELECT distinct venlifac.bultos 
+//    INTO :var_bultos  
+//    FROM venlifac  
+//   WHERE (venlifac.empresa = :empresa)
+//   AND   (venlifac.anyo   = :anyo)
+//   AND   (venlifac.factura  = :factura);
+
+ SELECT sum(isnull(venlifac.pallets,0))
+    INTO :bultos  
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo   = :anyo)
+   AND   (venlifac.factura  = :factura);
+
+
+if IsNull(bultos) then bultos= 0
+//destroy datos
+Return bultos
+end function
+

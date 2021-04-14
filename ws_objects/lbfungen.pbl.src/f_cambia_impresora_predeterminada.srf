@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_cambia_impresora_predeterminada.srf
+global type f_cambia_impresora_predeterminada from function_object
+end type
+
+forward prototypes
+global function boolean f_cambia_impresora_predeterminada (string arg_impresora)
+end prototypes
+
+global function boolean f_cambia_impresora_predeterminada (string arg_impresora);integer nret
+string  v_impresora_predeterminada, ls_driver, ls_port, ls_printer, ls_key, ls_config,ls_valores
+boolean bien = true
+environment env
+
+if isnull(arg_impresora) then
+end if
+
+v_impresora_predeterminada = f_impresora_predeterminada()
+GetEnvironment(env)
+
+if upper(v_impresora_predeterminada) <> upper(arg_impresora) then
+	if env.OSType = WindowsNT! then
+		//Obtiene los valores de la impresora a poner
+		RegistryGet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Devices", arg_impresora, ls_valores)
+		nret = RegistrySet("HKEY_CURRENT_USER\Software\Microsoft\Windows NT\CurrentVersion\Windows", "Device", arg_impresora+","+ls_valores)
+		if nret <> 1 then
+			bien = false				
+		end if
+	end if
+	
+	if env.OSType = Windows! then
+		//Obtiene los valores de la impresora a poner
+		nret = RegistrySet("HKEY_LOCAL_MACHINE\Config\0001\System\CurrentControlSet\Control\Print\Printers", "default", arg_impresora)
+		if nret <> 1 then
+			bien = false
+		else
+			//Poner el driver y el nombre de la impresora en WIN.INI
+			ls_key = "HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Print\Printers\"+arg_impresora
+			RegistryGet(ls_key, "Printer Driver", ls_driver)	//obtener driver
+			RegistryGet(ls_key, "Port", ls_port)					//obtener puerto
+			ls_config = ls_driver + "," + ls_port
+			ls_printer = arg_impresora + "," + ls_Config
+			nret = SetProfileString("c:\windows\win.ini", "Windows", "device",ls_printer)
+			if nret <> 1 then
+				bien = false
+			end if
+		end if	
+	end if	
+end if
+
+return bien
+end function
+

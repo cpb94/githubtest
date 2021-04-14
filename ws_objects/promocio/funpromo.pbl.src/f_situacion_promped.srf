@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_situacion_promped.srf
+global type f_situacion_promped from function_object
+end type
+
+forward prototypes
+global function string f_situacion_promped (string arg_empresa, decimal arg_anyo, decimal arg_pedido)
+end prototypes
+
+global function string f_situacion_promped (string arg_empresa, decimal arg_anyo, decimal arg_pedido);Integer var_lineas_pedido, var_lineas_preparadas,var_lineas_servidas
+
+String  valor
+
+Select count(*) Into :var_lineas_pedido From promlinped
+Where  promlinped.empresa    =  :arg_empresa
+And    promlinped.anyo       =  :arg_anyo
+And    promlinped.pedido     =  :arg_pedido;
+
+IF IsNull(var_lineas_pedido) Then var_lineas_pedido = 0
+
+Select count(*) Into :var_lineas_preparadas From promlinped
+Where  promlinped.empresa   =  :arg_empresa
+And    promlinped.anyo      =  :arg_anyo
+And    promlinped.pedido    =  :arg_pedido
+And    promlinped.situacion =  "P";
+IF IsNull(var_lineas_preparadas) Then var_lineas_preparadas = 0
+
+
+Select count(*) Into :var_lineas_servidas From promlinped
+Where  promlinped.empresa   =  :arg_empresa
+And    promlinped.anyo      =  :arg_anyo
+And    promlinped.pedido    =  :arg_pedido
+And    promlinped.situacion =  "S";
+IF IsNull(var_lineas_servidas) Then var_lineas_servidas = 0
+
+IF var_lineas_servidas = 0 Then
+If var_lineas_preparadas = var_lineas_pedido Then 
+	IF var_lineas_pedido = 0 Then
+		valor = "Pedido sin lineas"
+	Else
+		valor = "Pedido preparado"
+	END IF
+ELSE
+	If var_lineas_preparadas <> 0 Then
+		valor = "Pedido parcialmente preparado"
+	Else
+		valor = "Pedido pendiente de prepararar"
+	End If
+END IF
+ELSE
+	IF var_lineas_servidas = var_lineas_pedido Then 
+		  valor = "Pedido Servido"
+	ELSE
+		  valor = "Pedido Parcialmente Servido"
+	END IF
+END IF
+Return valor
+end function
+

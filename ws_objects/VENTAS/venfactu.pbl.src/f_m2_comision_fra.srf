@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_m2_comision_fra.srf
+global type f_m2_comision_fra from function_object
+end type
+
+forward prototypes
+global function decimal f_m2_comision_fra (string empresa, long anyo, long factura)
+end prototypes
+
+global function decimal f_m2_comision_fra (string empresa, long anyo, long factura);dec m2_comision
+
+select sum(cantidad)
+into   :m2_comision
+from   venlifac
+where  empresa = :empresa
+and    anyo    = :anyo
+and    factura = :factura
+and    control_comisiones = 'S'
+and    tipo_unidad        = '1';
+
+if isnull(m2_comision) then m2_comision = 0
+	
+return m2_comision
+end function
+

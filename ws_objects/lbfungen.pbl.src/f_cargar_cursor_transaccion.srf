@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_cargar_cursor_transaccion.srf
+global type f_cargar_cursor_transaccion from function_object
+end type
+
+forward prototypes
+global function long f_cargar_cursor_transaccion (transaction arg_transaccion, ref datastore arg_cursor, string arg_sintaxis)
+end prototypes
+
+global function long f_cargar_cursor_transaccion (transaction arg_transaccion, ref datastore arg_cursor, string arg_sintaxis);STring  sys,errores
+transaction trans_auxiliar
+
+trans_auxiliar = create transaction
+
+trans_auxiliar.AutoCommit    = arg_transaccion.AutoCommit
+trans_auxiliar.Database      = arg_transaccion.Database
+trans_auxiliar.DBMS          = arg_transaccion.DBMS
+trans_auxiliar.DBParm        = arg_transaccion.DBParm
+trans_auxiliar.DBPass        = arg_transaccion.DBPass
+trans_auxiliar.Lock          = arg_transaccion.Lock
+trans_auxiliar.LogID         = arg_transaccion.LogID
+trans_auxiliar.LogPass       = arg_transaccion.LogPass
+trans_auxiliar.ServerName    = arg_transaccion.ServerName
+trans_auxiliar.SQLCode       = arg_transaccion.SQLCode
+trans_auxiliar.SQLDBCode     = arg_transaccion.SQLDBCode
+trans_auxiliar.SQLErrText    = arg_transaccion.SQLErrText
+trans_auxiliar.SQLNRows      = arg_transaccion.SQLNRows
+trans_auxiliar.SQLReturnData = arg_transaccion.SQLReturnData
+trans_auxiliar.UserID        = arg_transaccion.UserID
+
+connect using trans_auxiliar;
+
+if trans_auxiliar.sqlcode <> 0 then
+	MessageBox ("No Puedo conectar a la Base de Datos",trans_auxiliar.sqlerrtext)
+else
+	arg_cursor  = CREATE datastore
+	
+	sys = trans_auxiliar.SyntaxFromSQL(arg_sintaxis ,"",errores)
+	
+	COMMIT using trans_auxiliar;
+	
+	IF Len(errores) > 0 Then
+		f_mensaje("Error  al generar SYS",errores+" "+arg_sintaxis)
+	END IF
+	
+	//sys = f_sustituir(sys,'updatewhere=1','updatewhere=0')
+	
+	arg_cursor.Create(sys,errores)
+	
+	IF Len(errores) > 0 Then
+		messagebox("ATENCION!!","ERROR AL CREAR CURSOR ~n"+errores+" "+sys)
+	END IF
+	
+	arg_cursor.SetTransObject(arg_transaccion)
+	arg_cursor.Retrieve()	
+end if
+
+disconnect using trans_auxiliar;
+
+destroy trans_auxiliar
+
+return arg_cursor.rowcount()
+end function
+

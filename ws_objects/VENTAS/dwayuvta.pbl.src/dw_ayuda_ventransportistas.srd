@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_ayuda_ventransportistas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=97 color="-1" )
+summary(height=1 color="-1" )
+footer(height=1 color="-1" )
+detail(height=97 color="-1" )
+table(column=(type=char(10) updatewhereclause=yes key=yes name=codigo dbname="ventransportista.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=nombre dbname="ventransportista.nombre" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="ventransportista.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"ventransportista~" ) COLUMN(NAME=~"ventransportista.codigo~") COLUMN(NAME=~"ventransportista.nombre~") COLUMN(NAME=~"ventransportista.empresa~")WHERE(    EXP1 =~"ventransportista.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"UPPER(ventransportista.nombre)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ORDER(NAME=~"ventransportista.nombre~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="ventransportista" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Codigo"border="6" color="0" x="129" y="16" height="73" width="270"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="142" y="12" height="69" width="252" format="[general]"  name=codigo edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Nombre"border="6" color="0" x="421" y="16" height="73" width="970"  name=nombre_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="426" y="12" height="69" width="970" format="[general]"  name=nombre edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

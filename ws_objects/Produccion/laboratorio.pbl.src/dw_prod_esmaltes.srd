@@ -1,0 +1,32 @@
+﻿$PBExportHeader$dw_prod_esmaltes.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=196 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="prod_esmaltes.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=prueba dbname="prod_esmaltes.prueba" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=cliente dbname="prod_esmaltes.cliente" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="prod_esmaltes.descripcion" )
+ column=(type=datetime update=yes updatewhereclause=yes name=f_alta dbname="prod_esmaltes.f_alta" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_cli dbname="prod_esmaltes.tipo_cli" )
+ retrieve="  SELECT prod_esmaltes.empresa,   
+         prod_esmaltes.prueba,   
+         prod_esmaltes.cliente,   
+         prod_esmaltes.descripcion,   
+         prod_esmaltes.f_alta,
+			prod_esmaltes.tipo_cli
+    FROM prod_esmaltes  
+   WHERE ( prod_esmaltes.empresa = :empresa ) AND  
+         ( prod_esmaltes.prueba = :prueba )    
+" update="prod_esmaltes" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("prueba", string)) )
+column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="384" y="12" height="64" width="965" format="[general]"  name=descripcion edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Referencia:"border="0" color="0" x="23" y="12" height="64" width="338"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Cliente:"border="0" color="0" x="1385" y="12" height="64" width="224"  name=cliente_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="1632" y="12" height="64" width="142" format="[general]"  name=cliente edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+bitmap(band=detail filename="c:\BMP\CARPETA.BMP" x="1797" y="12" height="64" width="73" border="6"  name=pb_clientes  tag="Mantenimiento de Clientes de Laboratorio" pointer="\bmp\MANO.CUR" )
+compute(band=detail alignment="0" expression="f_nombre_cliente_laboratorio( empresa ,  cliente ,   tipo_cli   )"border="6" color="128" x="1897" y="12" height="64" width="1408" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="6" color="128" x="3337" y="12" height="64" width="69" format="[general]"  name=tipo_cli edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Fecha de Alta:"border="0" color="0" x="27" y="112" height="64" width="416"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="2" tabsequence=30 border="5" color="0" x="471" y="112" height="64" width="384" format="dd/mm/yy"  name=f_alta edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cta_irpf_comprov.srf
+global type f_cta_irpf_comprov from function_object
+end type
+
+forward prototypes
+global function string f_cta_irpf_comprov (string empresa, string codigo)
+end prototypes
+
+global function string f_cta_irpf_comprov (string empresa, string codigo);string var_cta_irpf
+
+SELECT comproveedores.cta_irpf
+INTO   :var_cta_irpf   
+FROM   comproveedores  
+WHERE  comproveedores.empresa = :empresa 
+AND    comproveedores.codigo  = :codigo ;
+	
+if isnull(var_cta_irpf)	then var_cta_irpf = ""
+
+Return var_cta_irpf
+
+end function
+

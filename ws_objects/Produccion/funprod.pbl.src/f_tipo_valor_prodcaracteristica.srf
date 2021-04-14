@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipo_valor_prodcaracteristica.srf
+global type f_tipo_valor_prodcaracteristica from function_object
+end type
+
+forward prototypes
+global function string f_tipo_valor_prodcaracteristica (string arg_empresa, string arg_caracteristica)
+end prototypes
+
+global function string f_tipo_valor_prodcaracteristica (string arg_empresa, string arg_caracteristica);string tipo_valor
+
+select tipo_valor
+into   :tipo_valor
+from   prodcaracteristicas
+where  empresa = :arg_empresa
+and    codigo  = :arg_caracteristica;
+
+if isnull(tipo_valor) then tipo_valor = ""
+
+return trim(tipo_valor)
+end function
+

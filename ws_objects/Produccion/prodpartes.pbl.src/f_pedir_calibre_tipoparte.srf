@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pedir_calibre_tipoparte.srf
+global type f_pedir_calibre_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_pedir_calibre_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_pedir_calibre_tipoparte (string empresa, string linea);string pedir_calibre
+
+select pedir_calibre
+into   :pedir_calibre
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(pedir_calibre) then pedir_calibre = ""
+if trim(pedir_calibre) = "" then
+	pedir_calibre = "N"
+end if
+
+return pedir_calibre
+end function
+

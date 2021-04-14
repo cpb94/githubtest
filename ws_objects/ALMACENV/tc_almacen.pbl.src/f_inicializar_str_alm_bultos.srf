@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_inicializar_str_alm_bultos.srf
+global type f_inicializar_str_alm_bultos from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_alm_bultos ( ref str_alm_bultos str_alm_bultos)
+end prototypes
+
+global function boolean f_inicializar_str_alm_bultos ( ref str_alm_bultos str_alm_bultos);boolean lb_correcto = true
+
+if isnull(str_alm_bultos.id) then str_alm_bultos.id = 0
+if isnull(str_alm_bultos.empresa) then str_alm_bultos.empresa = ''
+if isnull(str_alm_bultos.ean13) then str_alm_bultos.ean13 = ''
+if isnull(str_alm_bultos.tipo_pallet) then str_alm_bultos.tipo_pallet = ''
+if isnull(str_alm_bultos.alto) then str_alm_bultos.alto = 0
+if isnull(str_alm_bultos.usuario) then str_alm_bultos.usuario = ''
+if isnull(str_alm_bultos.id_ubicacion) then str_alm_bultos.id_ubicacion = 0
+if isnull(str_alm_bultos.anyo_orden_carga) then str_alm_bultos.anyo_orden_carga = 0
+if isnull(str_alm_bultos.codigo_orden_carga) then str_alm_bultos.codigo_orden_carga = ''
+return lb_correcto
+end function
+

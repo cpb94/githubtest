@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_insert_alm_bultos.srf
+global type f_insert_alm_bultos from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_alm_bultos (ref str_alm_bultos lstr_alm_bultos)
+end prototypes
+
+global function boolean f_insert_alm_bultos (ref str_alm_bultos lstr_alm_bultos);long    ll_donde
+boolean lb_correcto = true
+string  ls_error,ls_ean_13
+datastore ds_insert
+
+f_cargar_cursor_transaccion(sqlca,ds_insert ,"select * from alm_bultos where 0 = 1")
+
+ll_donde = ds_insert.insertrow(0)
+
+ds_insert.object.empresa[ll_donde]            = lstr_alm_bultos.empresa
+ds_insert.object.ean13[ll_donde]              = lstr_alm_bultos.ean13
+ds_insert.object.tipo_pallet[ll_donde]        = lstr_alm_bultos.tipo_pallet
+ds_insert.object.alto[ll_donde]               = lstr_alm_bultos.alto
+ds_insert.object.usuario[ll_donde]            = lstr_alm_bultos.usuario
+ds_insert.object.fecha_hora_alta[ll_donde]    = lstr_alm_bultos.fecha_hora_alta
+ds_insert.object.id_ubicacion[ll_donde]       = lstr_alm_bultos.id_ubicacion
+ds_insert.object.anyo_orden_carga[ll_donde]   = lstr_alm_bultos.anyo_orden_carga
+ds_insert.object.codigo_orden_carga[ll_donde] = lstr_alm_bultos.codigo_orden_carga
+ds_insert.object.observaciones[ll_donde]      = lstr_alm_bultos.observaciones
+
+if ds_insert.update(true) = 1 then
+	lstr_alm_bultos.id = ds_insert.object.id[ll_donde]
+
+	ls_ean_13 = "25"+string(ds_insert.object.id[ll_donde],"0000000000")
+	ls_ean_13 = f_calcula_ean13(ls_ean_13)
+	ds_insert.object.ean13[ll_donde] = ls_ean_13
+	
+	if ds_insert.update(true) <> 1 then
+		lstr_alm_bultos.id = 0
+		lb_correcto = false	
+		messagebox("¡Error!","Se ha producudo un error al crear el ean13 del bulto nuevo.~n"+ls_error)
+	end if
+else
+	ls_error = sqlca.sqlerrtext
+	lstr_alm_bultos.id = 0
+	lb_correcto = false	
+	messagebox("¡Error!","Se ha producudo un error al crear un bulto nuevo.~n"+ls_error)
+end if
+
+destroy ds_insert
+
+return lb_correcto
+end function
+

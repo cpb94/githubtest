@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_insert_contasii.srf
+global type f_insert_contasii from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_contasii (ref str_contasii str_contasii)
+end prototypes
+
+global function boolean f_insert_contasii (ref str_contasii str_contasii);boolean lb_correcto = true
+
+INSERT INTO contasii
+     ( contasii.empresa,
+       contasii.ejercicio,
+       contasii.factura,
+       contasii.tipoter,
+       contasii.tercero,
+       contasii.numseriefactura,
+       contasii.fechaexpedicion,
+       contasii.fechaoperacion,
+       contasii.fecharegcontable,
+       contasii.tipofactura,
+       contasii.clave,
+       contasii.descripcionoperacion,
+       contasii.importetotal,
+       contasii.situacioninmueble,
+       contasii.referenciacatastral,
+		 contasii.id_tercero,
+		 contasii.fecharegcontablesii) 
+VALUES 
+     ( :str_contasii.empresa,
+       :str_contasii.ejercicio,
+       :str_contasii.factura,
+       :str_contasii.tipoter,
+       :str_contasii.tercero,
+       :str_contasii.numseriefactura,
+       :str_contasii.fechaexpedicion,
+       :str_contasii.fechaoperacion,
+       :str_contasii.fecharegcontable,
+       :str_contasii.tipofactura,
+       :str_contasii.clave,
+       :str_contasii.descripcionoperacion,
+       :str_contasii.importetotal,
+       :str_contasii.situacioninmueble,
+       :str_contasii.referenciacatastral,
+		 :str_contasii.id_tercero,
+		 :str_contasii.fecharegcontablesii);
+
+if sqlca.sqlcode <> 0 then
+	messagebox("f_insert_contasii",sqlca.sqlerrtext)
+   lb_correcto = false
+end if
+return lb_correcto
+end function
+

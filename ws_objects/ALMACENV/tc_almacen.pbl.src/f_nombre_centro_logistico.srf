@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_centro_logistico.srf
+global type f_nombre_centro_logistico from function_object
+end type
+
+forward prototypes
+global function string f_nombre_centro_logistico (string arg_cl)
+end prototypes
+
+global function string f_nombre_centro_logistico (string arg_cl);string resultado
+
+select nombre
+into	 :resultado
+from   alm_centro_logistico
+where	 id = :arg_cl;
+
+if isnull(resultado) then resultado = ''
+
+return resultado
+end function
+

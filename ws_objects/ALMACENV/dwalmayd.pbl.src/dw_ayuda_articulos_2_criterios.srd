@@ -1,0 +1,58 @@
+﻿$PBExportHeader$dw_ayuda_articulos_2_criterios.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=codigo dbname="articulos.codigo" )
+ column=(type=char(40) updatewhereclause=yes name=descripcion dbname="articulos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="articulos.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="articulos.familia" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="articulos.sector" )
+ column=(type=char(30) updatewhereclause=yes name=proveedor dbname="articulos.proveedor" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="articulos.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=subfamilia dbname="articulos.subfamilia" )
+ column=(type=char(30) updatewhereclause=yes name=familias_descripcion dbname="familias.descripcion" )
+ column=(type=datetime updatewhereclause=yes name=articulos_fecha_fin dbname="articulos.fecha_fin" )
+ column=(type=datetime updatewhereclause=yes name=articulos_fecha_anulado dbname="articulos.fecha_anulado" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="articulos.formato" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=articulos_uso dbname="articulos.uso" )
+ retrieve="  SELECT articulos.codigo,   
+         articulos.descripcion,   
+         articulos.empresa,   
+         articulos.familia,   
+         articulos.sector,   
+         articulos.proveedor,   
+         articulos.cliente,   
+         articulos.subfamilia,   
+         familias.descripcion,   
+         articulos.fecha_fin,   
+         articulos.fecha_anulado,   
+         articulos.formato,   
+         formatos.descripcion,
+			articulos.uso  
+    FROM articulos,   
+         familias,   
+         formatos  
+   WHERE ( articulos.empresa = familias.empresa ) and  
+         ( familias.codigo = articulos.familia ) and  
+         ( familias.empresa = formatos.empresa ) and  
+         ( articulos.formato = formatos.codigo ) and  
+         ( articulos.empresa = :empresa ) and
+			( upper(articulos.descripcion) like :ra_criterio ) and
+			( upper(formatos.descripcion) like :ra_criterio2 )
+ORDER BY familias.descripcion ASC,   
+         articulos.descripcion ASC   
+" arguments=(("empresa", string),("ra_criterio", string),("ra_criterio2", string)) )
+text(band=header alignment="2" text="Formato" border="2" color="33554432" x="535" y="16" height="64" width="247" html.valueishtml="0"  name=codigo_t visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Familia" border="2" color="33554432" x="302" y="16" height="64" width="215" html.valueishtml="0"  name=t_1 visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cód." border="2" color="33554432" x="119" y="16" height="64" width="165" html.valueishtml="0"  name=t_2 visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción" border="2" color="33554432" x="795" y="16" height="64" width="1157" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression="f_nombre_formato_abr( empresa , formato )"border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="535" y="4" height="60" width="247" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_familia_abr( empresa , familia )"border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="302" y="4" height="60" width="215" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="123" y="4" height="64" width="165" format="[general]" html.valueishtml="0"  name=codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="0" background.color="16777215~tif(articulos_uso = '3', rgb(255,128,128) ,rgb(255,255,255))" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="795" y="4" height="60" width="1157" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0 edit.displayonly=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

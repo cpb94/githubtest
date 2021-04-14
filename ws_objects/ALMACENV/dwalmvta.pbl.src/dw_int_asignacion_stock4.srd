@@ -1,0 +1,32 @@
+﻿$PBExportHeader$dw_int_asignacion_stock4.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=141 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=venliped_articulo dbname="venliped.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=venliped_calidad dbname="venliped.calidad" )
+ column=(type=long updatewhereclause=yes name=venliped_tono dbname="venliped.tono" )
+ column=(type=long updatewhereclause=yes name=venliped_calibre dbname="venliped.calibre" )
+ column=(type=char(5) updatewhereclause=yes name=venliped_tipo_pallet dbname="venliped.tipo_pallet" )
+ column=(type=char(5) updatewhereclause=yes name=venliped_empresa dbname="venliped.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venliped~" )  TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"venliped.articulo~") COLUMN(NAME=~"venliped.calidad~") COLUMN(NAME=~"venliped.tono~") COLUMN(NAME=~"venliped.calibre~") COLUMN(NAME=~"venliped.tipo_pallet~") COLUMN(NAME=~"venliped.empresa~")    JOIN (LEFT=~"venliped.empresa~"    OP =~"=~"RIGHT=~"articulos.empresa~" )    JOIN (LEFT=~"venliped.articulo~"    OP =~"=~"RIGHT=~"articulos.codigo~" )WHERE(    EXP1 =~"venliped.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"articulos.descripcion~"   OP =~"like~"    EXP2 =~":cri~" )  GROUP(NAME=~"venliped.empresa~") GROUP(NAME=~"venliped.articulo~") GROUP(NAME=~"venliped.calidad~") GROUP(NAME=~"venliped.tono~") GROUP(NAME=~"venliped.calibre~") GROUP(NAME=~"venliped.tipo_pallet~")) ORDER(NAME=~"venliped.empresa~" ASC=yes )  ORDER(NAME=~"venliped.articulo~" ASC=yes )  ORDER(NAME=~"venliped.calidad~" ASC=yes )  ORDER(NAME=~"venliped.tono~" ASC=yes )  ORDER(NAME=~"venliped.calibre~" ASC=yes )  ORDER(NAME=~"venliped.tipo_pallet~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cri~" TYPE = string) " arguments=(("empresa", string),("cri", string)) )
+text(band=header alignment="2" text="Venliped
+Articulo"border="0" color="0" x="5" y="4" height="129" width="577"  name=venliped_articulo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Venliped
+Calidad"border="0" color="0" x="586" y="4" height="129" width="229"  name=venliped_calidad_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Venliped
+Tono"border="0" color="0" x="819" y="4" height="129" width="330"  name=venliped_tono_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Venliped
+Calibre"border="0" color="0" x="1153" y="4" height="129" width="334"  name=venliped_calibre_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Venliped
+Tipo Pallet"border="0" color="0" x="1491" y="4" height="129" width="279"  name=venliped_tipo_pallet_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Venliped
+Empresa"border="0" color="0" x="1774" y="4" height="129" width="238"  name=venliped_empresa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="77" width="577" format="[general]"  name=venliped_articulo edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="586" y="4" height="77" width="165" format="[general]"  name=venliped_calidad edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="819" y="4" height="77" width="330" format="[general]"  name=venliped_tono edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1153" y="4" height="77" width="334" format="[general]"  name=venliped_calibre edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1491" y="4" height="77" width="165" format="[general]"  name=venliped_tipo_pallet edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="1774" y="4" height="77" width="165" format="[general]"  name=venliped_empresa edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

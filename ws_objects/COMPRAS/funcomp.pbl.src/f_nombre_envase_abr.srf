@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_nombre_envase_abr.srf
+global type f_nombre_envase_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_envase_abr (string codigo)
+end prototypes
+
+global function string f_nombre_envase_abr (string codigo); string nombre_envase
+ SELECT venenvases.abreviado 
+    INTO :nombre_envase  
+    FROM venenvases  
+   WHERE ( venenvases.empresa = :codigo_empresa ) AND  
+         ( venenvases.envase = :codigo )   ;
+  return nombre_envase
+end function
+

@@ -1,0 +1,13 @@
+﻿$PBExportHeader$report_con_previs_pagprov_t.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=5 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=509 color="536870912" )
+summary(height=1 color="553648127" )
+footer(height=1 color="536870912" )
+detail(height=129 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=a dbname="a" )
+ unbound = "yes"arguments=(("emp", string),("fdesde1", datetime),("fhasta1", datetime)) )
+report(band=detail dataobject="report_con_previs_pagos_prov" x="10" y="4" height="121" width="1573" border="0"  height.autosize=yes criteria="" nest_arguments=(("emp"),("fdesde1"),("fhasta1")) trail_footer = yes  slideleft=yes  slideup=directlyabove )
+report(band=header dataobject="report_cabecera" x="5" y="8" height="361" width="3333" border="0"  height.autosize=yes criteria="" nest_arguments=(("emp")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="2" expression="~"LISTADO PREVISIÓN DE PAGOS DESDE FECHA ~" + String(Date( fdesde1),~"dd-mm-yy~") + ~" HASTA ~" + String(Date( fhasta1),~"dd-mm-yy~")"border="0" color="0" x="1" y="392" height="89" width="3347" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="0" expression="pageCount()"border="0" color="0" x="2341" y="4" height="65" width="426" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

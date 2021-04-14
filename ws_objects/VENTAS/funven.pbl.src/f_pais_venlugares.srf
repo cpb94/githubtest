@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pais_venlugares.srf
+global type f_pais_venlugares from function_object
+end type
+
+forward prototypes
+global function string f_pais_venlugares (string cod_empresa, string cod)
+end prototypes
+
+global function string f_pais_venlugares (string cod_empresa, string cod);String ls_pais
+
+ SELECT    venlugares.pais
+    INTO   :ls_pais
+    FROM venlugares 
+   WHERE ( venlugares.empresa = :cod_empresa) AND  
+         ( venlugares.codigo  = :cod  );
+
+RETURN ls_pais
+//
+
+end function
+

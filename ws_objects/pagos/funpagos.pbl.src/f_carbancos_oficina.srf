@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_carbancos_oficina.srf
+global type f_carbancos_oficina from function_object
+end type
+
+forward prototypes
+global function string f_carbancos_oficina (string empresa, string banco)
+end prototypes
+
+global function string f_carbancos_oficina (string empresa, string banco);String  oficina
+  
+SELECT carbancos.oficina INTO :oficina FROM carbancos
+WHERE carbancos.empresa = :empresa
+AND   carbancos.banco   = :banco;
+
+IF IsNull(oficina) THEN oficina = ""
+	
+RETURN oficina
+
+end function
+

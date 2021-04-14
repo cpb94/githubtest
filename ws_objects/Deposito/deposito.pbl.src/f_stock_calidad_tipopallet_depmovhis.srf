@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_stock_calidad_tipopallet_depmovhis.srf
+global type f_stock_calidad_tipopallet_depmovhis from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_calidad_tipopallet_depmovhis (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, datetime arg_fecha_desde, string arg_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_stock_calidad_tipopallet_depmovhis (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, datetime arg_fecha_desde, string arg_pallet, string arg_caja);Dec{2} var_stock
+var_stock = 0
+SELECT  sum(cantidade - cantidads)  
+INTO    :var_stock  
+FROM    depmovhis  
+WHERE  depmovhis.empresa     = :arg_empresa 
+AND    depmovhis.articulo    = :arg_articulo
+AND    depmovhis.calidad     = :arg_calidad
+AND    depmovhis.tonochar    = :arg_tono
+AND    depmovhis.calibre     = :arg_calibre
+AND    depmovhis.tipo_pallet = :arg_pallet
+AND    depmovhis.caja        = :arg_caja
+AND    depmovhis.fechmov    < :arg_fecha_desde 
+AND    depmovhis.situacion   <> 'A';
+
+IF IsNull(var_stock) Then var_stock = 0
+Return  var_stock
+
+end function
+

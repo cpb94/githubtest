@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_buscar_codigo_produccion.srf
+global type f_buscar_codigo_produccion from function_object
+end type
+
+forward prototypes
+global function string f_buscar_codigo_produccion (string modelo, integer trabajo)
+end prototypes
+
+global function string f_buscar_codigo_produccion (string modelo, integer trabajo);string articulo
+
+select codigo
+into :articulo
+from articulos
+where empresa = :codigo_empresa
+and referencia_laboratorio = :modelo
+and version_laboratorio = :trabajo
+and uso = '3';
+
+return articulo
+end function
+

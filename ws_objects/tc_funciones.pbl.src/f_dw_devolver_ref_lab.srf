@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_dw_devolver_ref_lab.srf
+global type f_dw_devolver_ref_lab from function_object
+end type
+
+forward prototypes
+global function string f_dw_devolver_ref_lab (string articulo)
+end prototypes
+
+global function string f_dw_devolver_ref_lab (string articulo);String referencia_laboratorio, version_laboratorio, modelo_origen, pieza_origen, prueba_origen, referencia = ""
+
+SELECT ISNULL(referencia_laboratorio, ''), ISNULL(version_laboratorio, '0'), ISNULL(modelo_origen, ''), ISNULL(pieza_origen, '0'), ISNULL(prueba_origen, '0') 
+INTO :referencia_laboratorio, :version_laboratorio, :modelo_origen, :pieza_origen, :prueba_origen 
+FROM articulos WHERE empresa = :codigo_empresa AND codigo = :articulo;
+
+If modelo_origen <> "" then
+	referencia = modelo_origen + "/"+ pieza_origen + "/"+ prueba_origen
+else
+	referencia = referencia_laboratorio + "/"+ version_laboratorio
+end if
+
+return referencia
+end function
+

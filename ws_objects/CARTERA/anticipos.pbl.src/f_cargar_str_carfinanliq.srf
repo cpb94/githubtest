@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_cargar_str_carfinanliq.srf
+global type f_cargar_str_carfinanliq from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_carfinanliq (STRING arg_empresa, INTEGER arg_anyo, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, INTEGER arg_liquidacion,  ref str_carfinanliq str_carfinanliq)
+end prototypes
+
+global function boolean f_cargar_str_carfinanliq (STRING arg_empresa, INTEGER arg_anyo, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_num_prorroga, INTEGER arg_liquidacion,  ref str_carfinanliq str_carfinanliq);boolean lb_correcto = true
+
+SELECT carfinanliq.empresa,
+       carfinanliq.anyo,
+       carfinanliq.bancofinan,
+       carfinanliq.contador,
+       carfinanliq.num_prorroga,
+       carfinanliq.liquidacion,
+       carfinanliq.banco,
+       carfinanliq.fecha,
+       carfinanliq.cambio,
+       carfinanliq.divisas,
+       carfinanliq.importe,
+       carfinanliq.moneda
+INTO   :str_carfinanliq.empresa,
+       :str_carfinanliq.anyo,
+       :str_carfinanliq.bancofinan,
+       :str_carfinanliq.contador,
+       :str_carfinanliq.num_prorroga,
+       :str_carfinanliq.liquidacion,
+       :str_carfinanliq.banco,
+       :str_carfinanliq.fecha,
+       :str_carfinanliq.cambio,
+       :str_carfinanliq.divisas,
+       :str_carfinanliq.importe,
+       :str_carfinanliq.moneda
+FROM carfinanliq
+WHERE carfinanliq.empresa = :arg_empresa AND carfinanliq.anyo = :arg_anyo AND carfinanliq.bancofinan = :arg_bancofinan AND carfinanliq.contador = :arg_contador AND carfinanliq.num_prorroga = :arg_num_prorroga AND carfinanliq.liquidacion = :arg_liquidacion;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

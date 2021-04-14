@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_ofstruct.srs
+global type str_ofstruct from structure
+    long                cBytes
+    long                fFixedDisk
+    unsignedinteger     nErrCode
+    unsignedinteger     Reserved1
+    unsignedinteger     Reserved2
+    character           szPathName[512]
+end type
+

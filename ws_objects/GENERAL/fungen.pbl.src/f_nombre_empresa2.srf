@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_empresa2.srf
+global type f_nombre_empresa2 from function_object
+end type
+
+forward prototypes
+global function string f_nombre_empresa2 (string ai_codigo_empresa)
+end prototypes
+
+global function string f_nombre_empresa2 (string ai_codigo_empresa);string	ls_nombre_empresa
+
+  SELECT empresas.nombre  
+    INTO :ls_nombre_empresa 
+    FROM empresas  
+   WHERE empresas.empresa = :ai_codigo_empresa;
+ 
+
+RETURN ls_nombre_empresa
+end function
+

@@ -1,0 +1,411 @@
+﻿$PBExportHeader$f_actualizar_linea_venpedido.srf
+global type f_actualizar_linea_venpedido from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_linea_venpedido (string empresa, decimal periodo, decimal pedido, decimal linea)
+end prototypes
+
+global function boolean f_actualizar_linea_venpedido (string empresa, decimal periodo, decimal pedido, decimal linea);str_venliped  lstr_venliped
+str_venped   ped 
+STring v_mascara,v_mascara2
+DateTime var_fpedido
+Integer  reg,reg1 ,bien
+Dec{0}  ultima,parcial_pallets
+Dec{2}  parcial_cantidad,parcial_cajas,acumulado,var_dto1,var_dto2,&
+		  var_dto3,var_dto4,var_dtopp,control_descuento,var_dtounico=0
+Dec{4}  impdto,importe,importedto1,importedto2,importedto3,importedto4,&
+        importedtopp,importedtoesp,control_bruto,&
+		  control_importedto,control_importe
+Dec{6}  control_precio
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,&
+		  var_calculo_dto,var_calculo_dtoesp,ls_tarifa
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4,ld_porcentaje_total_dto
+dec       ld_cambio,ld_cambio_euros
+Integer procesos,var_numdtos = 0
+string ls_gestionar_en_piezas_ventipolin
+
+bien = 0
+lstr_venliped.empresa   = codigo_empresa
+lstr_venliped.anyo      = periodo
+lstr_venliped.pedido  = pedido
+lstr_venliped.linea = linea
+
+SELECT venped.dtoesp1,venped.dtoesp2,venped.dtoesp3,venped.dtoesp4,   
+       venped.dtopp,venped.tipodto1,venped.tipodto2,venped.tipodto3,   
+       venped.tipodto4,venped.divisa,venped.calculo_dto,
+	 	 venped.fpedido,venped.calculo_dtoesp,venped.cambio,isnull(venped.tarifa,'')
+INTO   :var_dto1,:var_dto2,:var_dto3,:var_dto4,:var_dtopp,
+		 :var_tipodto1,:var_tipodto2,:var_tipodto3,:var_tipodto4,
+		 :lstr_venliped.divisa,:var_calculo_dto,:var_fpedido,
+		 :var_calculo_dtoesp,:ld_cambio,:ls_tarifa
+FROM  venped  
+WHERE venped.empresa  = :empresa
+AND   venped.anyo     = :periodo 
+AND   venped.pedido  = :pedido;
+
+IF SQLCA.SQLCODE = 100 Then 
+	bien = 1
+	f_mensaje("Error base de datos","No existe pedido"+String(pedido))
+END IF
+
+ld_cambio = f_cambio_moneda(lstr_venliped.divisa)
+ld_cambio_euros = f_cambio_euros(lstr_venliped.divisa)
+ 
+//lstr_venliped.cambio=dec(cambio)
+//ld_cambio_euros=dec(cambio_eu)
+
+v_mascara  = f_mascara_moneda(lstr_venliped.divisa)
+v_mascara2 = f_mascara_decimales(f_decimales_moneda(lstr_venliped.divisa)+2)
+
+int li_decimales_precio
+string ls_mascara_moneda_tarifa
+
+li_decimales_precio       = f_ventarifas_decimales_precios(codigo_empresa,ls_tarifa)
+ls_mascara_moneda_tarifa  = f_mascara_decimales(li_decimales_precio)
+
+//Select dtoesp,										tipolinea,										precio_aduana,
+//		precio,										cantidad,										dtoesp2,
+//		venliped.empresa,							venliped.articulo,							venliped.tipo_pallet,
+//		venliped.cajas,							venliped.total_cajas,						venliped.pallets,
+//		venliped.cantidad,						venliped.caja
+//Into   :lstr_venliped.dtoesp,:lstr_venliped.tipolinea,:lstr_venliped.precio_aduana,:lstr_venliped.precio,
+//       :lstr_venliped.cantidad,:lstr_venliped.dtoesp2, :lstr_venliped.empresa, :lstr_venliped.articulo, :lstr_venliped.tipo_pallet, :lstr_venliped.cajas, 
+//														:lstr_venliped.total_cajas, :lstr_venliped.pallets, :lstr_venliped.cantidad, :lstr_venliped.caja
+//From   venliped
+//Where  venliped.empresa       = :empresa
+//And    venliped.anyo          = :periodo
+//And    venliped.pedido       = :pedido
+//And    venliped.linea = :linea;
+//
+//IF SQLCA.SQLCODE = 100 Then 
+//	bien = 1
+//	f_mensaje("Error base de datos","No existe linea pedido"+String(periodo)+" "+String(pedido)+" "+String(linea))
+//END IF
+
+if not(f_cargar_str_venliped(empresa,periodo,pedido,linea,lstr_venliped)) then
+	bien = 1
+	f_mensaje("Error base de datos","No existe linea pedido"+String(periodo)+" "+String(pedido)+" "+String(linea))
+end if
+
+lstr_venliped.control_comisiones = f_comision_ventipolin(lstr_venliped.empresa,lstr_venliped.tipolinea)
+lstr_venliped.control_descuentos = f_descuento_ventipolin(lstr_venliped.empresa,lstr_venliped.tipolinea)
+ls_gestionar_en_piezas_ventipolin = f_gestionar_en_piezas_ventipolin(lstr_venliped.empresa,lstr_venliped.tipolinea)
+
+if ls_gestionar_en_piezas_ventipolin = 'S' then
+	lstr_venliped.cantidad      = lstr_venliped.cantidad_pzs
+	lstr_venliped.precio        = lstr_venliped.precio_pzs
+	lstr_venliped.precio_aduana = lstr_venliped.precio_pzs
+end if
+
+if isnull(lstr_venliped.tipo_pallet_preparacion) or lstr_venliped.tipo_pallet_preparacion = '' then
+	lstr_venliped.tipo_pallet_preparacion = lstr_venliped.tipo_pallet
+end if
+
+IF Trim(lstr_venliped.articulo) = "" Then
+	lstr_venliped.peso      = 0
+	lstr_venliped.peso_neto = 0
+ELSE
+	if ls_gestionar_en_piezas_ventipolin = 'S' then
+		lstr_venliped.peso       = f_calculo_peso_pzs(lstr_venliped.empresa,lstr_venliped.articulo,lstr_venliped.tipo_pallet_preparacion,lstr_venliped.cajas,lstr_venliped.total_cajas,lstr_venliped.pallets,lstr_venliped.cantidad,lstr_venliped.caja)
+		lstr_venliped.peso_neto  = f_calculo_peso_neto_pzs(lstr_venliped.empresa,lstr_venliped.articulo,lstr_venliped.cajas,lstr_venliped.total_cajas,lstr_venliped.cantidad,lstr_venliped.caja)		
+	else
+		lstr_venliped.peso       = f_calculo_peso(lstr_venliped.empresa,lstr_venliped.articulo,lstr_venliped.tipo_pallet_preparacion,lstr_venliped.cajas,lstr_venliped.total_cajas,lstr_venliped.pallets,lstr_venliped.cantidad,lstr_venliped.caja)
+		lstr_venliped.peso_neto  = f_calculo_peso_neto(lstr_venliped.empresa,lstr_venliped.articulo,lstr_venliped.cajas,lstr_venliped.total_cajas,lstr_venliped.cantidad,lstr_venliped.caja)
+	end if
+END IF
+
+// David 15-06-04  Poner a 0 los descuentos si la línea no tiene gestión de dtos
+IF lstr_venliped.control_descuentos = "N" Then
+	lstr_venliped.descuento = 0
+	lstr_venliped.impdtoesp1 = 0
+	lstr_venliped.impdtoesp2 = 0
+	lstr_venliped.impdtoesp1_aduana = 0
+	lstr_venliped.impdtoesp2_aduana = 0
+	var_dto1 = 0
+	var_dto2 = 0
+	var_dto3 = 0
+	var_dto4 = 0
+end if
+// Fin David 15-06-04
+
+
+ IF IsNull(lstr_venliped.dtoesp) Then lstr_venliped.dtoesp= 0
+ if isnull(lstr_venliped.dtoesp2) then lstr_venliped.dtoesp2=0
+ IF IsNull(var_dto1)  Then var_dto1  = 0
+ IF IsNull(var_dto2)  Then var_dto2  = 0
+ IF IsNull(var_dto3)  Then var_dto3  = 0
+ IF IsNull(var_dto4)  Then var_dto4  = 0
+ IF IsNull(lstr_venliped.dtoesp)  Then lstr_venliped.dtoesp  = 0
+ IF IsNull(var_dtopp) Then var_dtopp = 0
+
+lstr_venliped.impdtopp  =0
+lstr_venliped.precio_neto = lstr_venliped.precio
+lstr_venliped.precio_aduana_neto = lstr_venliped.precio_aduana
+
+For procesos = 1 To 2
+
+   IF procesos = 1 then control_precio = lstr_venliped.precio_neto
+   IF procesos = 2 then control_precio = lstr_venliped.precio_aduana_neto
+	
+	
+	control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+	IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((control_bruto * lstr_venliped.dtoesp /100),v_mascara))			
+			acumulado = control_bruto - importedtoesp
+			importedtoesp=importedtoesp + Dec(String((acumulado * lstr_venliped.dtoesp2 /100),v_mascara))
+			acumulado = control_bruto - importedtoesp
+			//***
+			if lstr_venliped.dtoesp <>0 then 
+				var_numdtos = var_numdtos + 1
+				var_dtounico = var_dtounico + lstr_venliped.dtoesp
+			end if
+			if lstr_venliped.dtoesp2 <>0 then 
+				var_numdtos = var_numdtos + 1
+				var_dtounico = var_dtounico + lstr_venliped.dtoesp2
+			end if			
+	ELSE
+		control_precio = control_precio - &
+		Dec(String((control_precio * lstr_venliped.dtoesp)/100,ls_mascara_moneda_tarifa))
+		control_precio= control_precio - &
+		dec(string((control_precio * lstr_venliped.dtoesp2)/100, ls_mascara_moneda_tarifa))
+		control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+		acumulado = control_bruto
+	END IF
+
+	acumulado = acumulado
+	
+	IF lstr_venliped.control_descuentos = "N" Then
+		lstr_venliped.descuento = 0
+	ELSE
+	 
+	   IF var_tipodto1  = "L" Then 
+		   IF var_calculo_dto = "N" Then
+					importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+					acumulado = acumulado - importedto1
+					//***
+					if importedto1 <>0 then 
+						var_numdtos = var_numdtos + 1
+						var_dtounico = var_dtounico + var_dto1
+					end if
+			ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto1)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * lstr_venliped.dtoesp/100,v_mascara))
+					 ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+	    	END IF
+	 END IF
+	 IF var_tipodto2  = "L" Then 
+	 	  IF var_calculo_dto = "N" Then
+					importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+					acumulado = acumulado - importedto2
+					//***
+					if importedto2 <>0 then 
+						var_numdtos = var_numdtos + 1
+						var_dtounico = var_dtounico + var_dto2
+					end if
+			ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto2)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * lstr_venliped.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto3  = "L" Then 
+			IF var_calculo_dto = "N" Then
+				importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+				acumulado = acumulado - importedto3
+				//***
+				if importedto3 <>0 then 
+					var_numdtos = var_numdtos + 1
+					var_dtounico = var_dtounico + var_dto3
+				end if
+			ELSE
+				control_precio = control_precio - &
+				Dec(String((control_precio * var_dto3)/100,ls_mascara_moneda_tarifa))
+				control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+				IF var_calculo_dtoesp = "N" Then
+					importedtoesp = Dec(String(control_bruto * lstr_venliped.dtoesp/100,v_mascara))
+				ELSE
+					importedtoesp = 0
+				END IF
+				acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto4  = "L" Then 
+				IF var_calculo_dto = "N" Then
+					importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+					acumulado = acumulado - importedto4
+					//***
+					if importedto4 <>0 then 
+						var_numdtos = var_numdtos + 1
+						var_dtounico = var_dtounico + var_dto4
+					end if
+						
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto4)/100,ls_mascara_moneda_tarifa))
+					control_bruto = Dec(String(lstr_venliped.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * lstr_venliped.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+				END IF
+	  END IF
+	END IF
+	
+	//lstr_venliped.impdtopp = Dec(String((acumulado * var_dtopp/100),v_mascara))
+	
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - control_importedto
+	
+	If control_bruto = 0 then
+		control_descuento  = 0
+	Else
+		if var_numdtos = 1 then
+			// Para evitar errores de redondeo, si solo hay un descuento,
+			// no lo calculamos dividiendo... (11/5/98 --> Mila)
+			control_descuento = var_dtounico
+		else
+			control_descuento  = (control_importedto/control_bruto)* 100
+		end if
+   End if
+
+//   control_importedto    = Dec(String(control_bruto * control_descuento / 100,v_mascara))
+//	control_importe       = control_bruto - control_importedto
+	
+
+
+	//----------------------------//
+	// control descuentos en pie//
+	//--------------------------//
+	importedto1= 0
+	importedto2= 0
+	importedto3= 0
+	importedto4= 0
+	IF var_tipodto1 = "P" Then
+	   	importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+			acumulado = acumulado - importedto1
+	END IF
+	IF var_tipodto2 = "P" Then
+			importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+			acumulado = acumulado - importedto2	 
+	END IF			
+	IF var_tipodto3 = "P" Then			
+			importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+			acumulado = acumulado - importedto3
+	END IF			
+	IF var_tipodto4 = "P" Then
+			importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara2))
+			//26-02-2018 El dto 4 pasa a ser el PP
+			//acumulado = acumulado - importedto4
+	END IF
+
+	// ponemos v_mascara2, para que calcule el importe del dtopp con 2
+	// decimales, porque sino, hay muchos errores por redondeo en cada
+	// una de las líneas
+	
+	//26-02-2018 El dto 4 pasa a ser el PP
+	importedtopp  = importedto4 //Dec(String((acumulado * var_dtopp /100),v_mascara2)) 
+	importedto4   = 0	
+
+   control_importedto = control_importedto + importedto1 + importedto2 + importedto3 + importedto4
+
+	IF procesos = 1 Then
+		lstr_venliped.descuento       = control_descuento
+		lstr_venliped.bruto           = control_bruto
+	   lstr_venliped.importedto      = control_importedto
+	   lstr_venliped.importe         = control_importe
+		lstr_venliped.precio_neto     = control_precio
+ 		lstr_venliped.neto            = acumulado
+		lstr_venliped.impdtopp        = importedtopp
+		lstr_venliped.impdtoesp1      = importedto1
+		lstr_venliped.impdtoesp2      = importedto2
+		lstr_venliped.impdtoesp3      = importedto3
+		lstr_venliped.impdtoesp4      = importedto4
+	END IF
+	IF procesos = 2 Then
+		lstr_venliped.descuento_aduana       = lstr_venliped.dtoesp
+	   lstr_venliped.importe_aduana         = control_importe
+		lstr_venliped.precio_aduana_neto     = control_precio
+		lstr_venliped.impdtoesp1_aduana      = importedto1
+		lstr_venliped.impdtoesp2_aduana      = importedto2
+		lstr_venliped.impdtoesp3_aduana      = importedto3
+		lstr_venliped.impdtoesp4_aduana      = importedto4
+		lstr_venliped.impdtopp_aduana        = importedtopp
+	END IF
+Next
+
+//Control % de descuento total en la linea para quitar comision
+if lstr_venliped.neto <> 0 then
+	ld_porcentaje_total_dto = ( ( lstr_venliped.bruto  - lstr_venliped.neto) / lstr_venliped.bruto ) * 100
+else
+	ld_porcentaje_total_dto = 0
+end if
+
+if ld_porcentaje_total_dto >= 50 then
+	//Si la linea es de ventas y el % de dto es mayor o igual a 50 cambiaremos a un tipo de linea sin control de comision.
+	if lstr_venliped.tipolinea = '1' then 
+		lstr_venliped.tipolinea = '21'
+		lstr_venliped.control_comisiones = f_comision_ventipolin(lstr_venliped.empresa,lstr_venliped.tipolinea)
+		lstr_venliped.control_descuentos = f_descuento_ventipolin(lstr_venliped.empresa,lstr_venliped.tipolinea)		
+	end if	
+end if
+
+  UPDATE venliped  
+     SET importe         = :lstr_venliped.importe,   
+		descuento          = :lstr_venliped.descuento,   
+		importedto         = :lstr_venliped.importedto,   
+		precio_neto        = :lstr_venliped.precio_neto,   
+		precio_aduana_neto = :lstr_venliped.precio_aduana_neto,   
+		descuento_aduana   = :lstr_venliped.descuento_aduana,   
+		importe_aduana     = :lstr_venliped.importe_aduana,   
+		bruto              = :lstr_venliped.bruto  ,
+		neto               = :lstr_venliped.neto,
+		impdtopp           = :lstr_venliped.impdtopp ,
+		fpedido            = :var_fpedido,
+		impdtoesp1         = :lstr_venliped.impdtoesp1,
+		impdtoesp2         = :lstr_venliped.impdtoesp2,
+		impdtoesp3         = :lstr_venliped.impdtoesp3,
+		impdtoesp4         = :lstr_venliped.impdtoesp4,			
+		impdtoesp1_aduana  = :lstr_venliped.impdtoesp1_aduana,
+		impdtoesp2_aduana  = :lstr_venliped.impdtoesp2_aduana,
+		impdtoesp3_aduana  = :lstr_venliped.impdtoesp3_aduana,
+		impdtoesp4_aduana  = :lstr_venliped.impdtoesp4_aduana,
+		impdtopp_aduana    = :lstr_venliped.impdtopp,
+		divisa             = :lstr_venliped.divisa,
+		tipolinea          = :lstr_venliped.tipolinea,
+		control_comisiones = :lstr_venliped.control_comisiones,
+		control_descuentos = :lstr_venliped.control_descuentos,
+		venliped.peso      = :lstr_venliped.peso,
+		venliped.peso_neto = :lstr_venliped.peso_neto
+   WHERE venliped.empresa = :lstr_venliped.empresa
+	AND   venliped.anyo    = :lstr_venliped.anyo
+	AND   venliped.pedido  = :lstr_venliped.pedido
+   AND   venliped.linea   = :linea;
+	
+  			IF SQLCA.SQLCODE <>0 Then 
+//				f_mensaje("Error base de datos","Error al modificar lineas de pedido")
+//				bien = 1
+			END IF
+
+IF bien = 1 Then
+	Return FALSE
+Else
+		Return TRUE
+END IF
+
+end function
+

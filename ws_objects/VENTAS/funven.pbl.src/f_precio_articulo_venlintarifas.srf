@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_precio_articulo_venlintarifas.srf
+$PBExportComments$devualve el precio de un articulo a una tarifa.
+global type f_precio_articulo_venlintarifas from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo_venlintarifas (string empresa, string codigo, datetime fecha, string articulo, string calidad)
+end prototypes
+
+global function decimal f_precio_articulo_venlintarifas (string empresa, string codigo, datetime fecha, string articulo, string calidad);string var_familia,var_formato, moneda
+Dec{4} var_precio
+
+SELECT venlintarifas.precio  INTO :var_precio  
+FROM venlintarifas  
+WHERE venlintarifas.empresa  = :empresa
+AND   venlintarifas.tarifa   = :codigo
+AND   venlintarifas.fecha    = :fecha 
+AND   venlintarifas.articulo = :articulo
+AND   venlintarifas.calidad  = :calidad;
+	
+if isnull(var_precio) then var_precio = 0 
+if var_precio = 0 then
+	
+	var_familia = f_familia_articulo(empresa,articulo)
+	var_formato = f_formato_articulo(empresa,articulo)
+	
+	Select precio 
+	Into   :var_precio 
+	From   ventarfamfor
+	Where  empresa = :empresa
+	And    tarifa  = :codigo
+	And    fecha   = :fecha
+	And    familia = :var_familia
+	And    formato = :var_formato
+	And    calidad = :calidad;
+	
+	if isnull(var_precio) then var_precio = 0 
+	
+end if
+Return var_precio
+
+end function
+

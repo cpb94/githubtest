@@ -1,0 +1,19 @@
+﻿$PBExportHeader$ftc_pallet_articulo.srf
+global type ftc_pallet_articulo from function_object
+end type
+
+forward prototypes
+global function string ftc_pallet_articulo (string empresa, string articulo, ref string caja)
+end prototypes
+
+global function string ftc_pallet_articulo (string empresa, string articulo, ref string caja);String pallet = ""
+
+SELECT TOP 1 codigo, caja INTO :pallet, :caja 
+FROM palarticulo 
+WHERE empresa = :empresa 
+AND articulo = :articulo 
+AND pordefecto = 'S';
+
+return pallet
+end function
+

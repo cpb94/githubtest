@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cod_postal_contacto.srf
+$PBExportComments$Devuelve el codigo postal de un contacto.
+global type f_cod_postal_contacto from function_object
+end type
+
+forward prototypes
+global function string f_cod_postal_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_cod_postal_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_codpostal
+
+SELECT   mcontactos.empresa,mcontactos.codigo,mcontactos.cod_postal  
+INTO     :var_empresa,:var_codigo,:var_codpostal  
+FROM     mcontactos  
+WHERE   (mcontactos.empresa = :empresa)
+AND     (mcontactos.codigo = :codigo )
+ORDER BY mcontactos.empresa,mcontactos.cod_postal;
+
+Return var_codpostal;
+
+end function
+

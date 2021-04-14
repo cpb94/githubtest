@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_precio_portes.srf
+global type f_precio_portes from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_portes (string arg_empresa, string arg_transportista, decimal arg_peso)
+end prototypes
+
+global function decimal f_precio_portes (string arg_empresa, string arg_transportista, decimal arg_peso);dec precio,peso
+dec{2} peso_tarifa
+string sel
+long cont,registros
+datastore ds
+
+if arg_transportista = "" or isnull(arg_transportista) then
+	messagebox("Atención","Falta el dato del transportista")
+	return 0
+end if
+
+sel="select precio,peso from venportesprecio "+&
+	 "where empresa='"+codigo_empresa+"' and "+&
+	 "transportista='"+arg_transportista+"'"
+	 
+//ds=f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, ds)
+
+registros = ds.RowCount()
+if registros = 0 then
+	messagebox("Atención","No hay precios de portes")
+	destroy ds
+	return 0
+end if
+
+precio=0
+peso = round(arg_peso,0)
+peso_tarifa = ds.object.peso[1]
+if peso <= peso_tarifa then
+	precio = ds.object.precio[1]
+else
+	for cont=2 to ds.rowcount()
+		if (peso > peso_tarifa) and  (peso <= ds.object.peso[cont]) then
+			precio=ds.object.precio[cont]
+			cont = ds.rowcount() + 1
+		else
+			peso_tarifa = ds.object.peso[cont]
+		end if
+	next
+end if
+
+destroy ds
+
+return precio
+end function
+

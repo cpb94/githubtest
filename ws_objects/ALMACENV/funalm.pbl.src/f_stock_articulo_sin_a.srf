@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_stock_articulo_sin_a.srf
+global type f_stock_articulo_sin_a from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_articulo_sin_a (string arg_empresa, string arg_articulo, datetime arg_fecha_desde)
+end prototypes
+
+global function decimal f_stock_articulo_sin_a (string arg_empresa, string arg_articulo, datetime arg_fecha_desde);Dec{2} var_stock
+var_stock = 0
+
+if isnull(arg_fecha_desde) then
+	SELECT  sum ( cantidade -cantidads )  
+	INTO    :var_stock  
+	FROM    almacenmovimientos
+	WHERE  (almacenmovimientos.empresa     = :arg_empresa )
+	AND    (almacenmovimientos.articulo    = :arg_articulo)
+	AND    (almacenmovimientos.calidad     = '1');
+else
+	SELECT  sum(cantidade - cantidads)  
+	INTO    :var_stock  
+	FROM    almacenmovimientos  
+	WHERE  (almacenmovimientos.empresa     = :arg_empresa )
+	AND    (almacenmovimientos.articulo    = :arg_articulo)
+	AND    (almacenmovimientos.fecha_mov    < :arg_fecha_desde)
+	AND    (almacenmovimientos.calidad     = '1');
+end if
+IF IsNull(var_stock) Then var_stock = 0
+Return  var_stock
+
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_altas_cliente_fecha_trabajo.srf
+global type f_altas_cliente_fecha_trabajo from function_object
+end type
+
+forward prototypes
+global function integer f_altas_cliente_fecha_trabajo (string empresa, string cliente, integer a1, integer a2, integer m1, integer m2)
+end prototypes
+
+global function integer f_altas_cliente_fecha_trabajo (string empresa, string cliente, integer a1, integer a2, integer m1, integer m2);long total
+
+select count (*)
+into :total
+from articulos, destrabajo2
+where articulos.empresa = destrabajo2.empresa
+and articulos.referencia_laboratorio = destrabajo2.modelo
+and articulos.version_laboratorio = destrabajo2.trabajo
+and articulos.cliente like :cliente
+and year (destrabajo2.fecha_fin ) >= :a1
+and year (destrabajo2.fecha_fin ) <= :a2
+and month (destrabajo2.fecha_fin ) >= :m1
+and month (destrabajo2.fecha_fin ) <= :m2;
+
+
+return total
+end function
+

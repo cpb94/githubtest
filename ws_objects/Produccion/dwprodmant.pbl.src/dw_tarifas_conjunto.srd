@@ -1,0 +1,57 @@
+﻿$PBExportHeader$dw_tarifas_conjunto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venlintarifas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=tarifa dbname="venlintarifas.tarifa" )
+ column=(type=datetime update=yes updatewhereclause=yes key=yes name=fecha dbname="venlintarifas.fecha" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=articulo dbname="venlintarifas.articulo" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=calidad dbname="venlintarifas.calidad" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=precio dbname="venlintarifas.precio" )
+ column=(type=datetime update=yes updatewhereclause=yes name=falta dbname="venlintarifas.falta" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=montajeartcal dbname="venlintarifas.montajeartcal" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=familia dbname="venlintarifas.familia" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=formato dbname="venlintarifas.formato" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=modelo dbname="venlintarifas.modelo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=activo dbname="venlintarifas.activo" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=listar dbname="venlintarifas.listar" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=usuario dbname="venlintarifas.usuario" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="venlintarifas.descripcion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=excepcion dbname="venlintarifas.excepcion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_linea dbname="venlintarifas.tipo_linea" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=sub_familia dbname="venlintarifas.sub_familia" )
+ column=(type=decimal(6) update=yes updatewhereclause=yes name=precio_euros dbname="venlintarifas.precio_euros" )
+ retrieve="  SELECT venlintarifas.empresa,   
+         venlintarifas.tarifa,   
+         venlintarifas.fecha,   
+         venlintarifas.articulo,   
+         venlintarifas.calidad,   
+         venlintarifas.precio,   
+         venlintarifas.falta,   
+         venlintarifas.montajeartcal,   
+         venlintarifas.familia,   
+         venlintarifas.formato,   
+         venlintarifas.modelo,   
+         venlintarifas.activo,   
+         venlintarifas.listar,   
+         venlintarifas.usuario,   
+         venlintarifas.descripcion,   
+         venlintarifas.excepcion,   
+         venlintarifas.tipo_linea,   
+         venlintarifas.sub_familia,   
+         venlintarifas.precio_euros  
+    FROM venlintarifas  
+   WHERE ( venlintarifas.empresa = :arg_empresa ) AND  
+         ( venlintarifas.articulo = :arg_articulo )    
+" update="venlintarifas" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_articulo", string)) )
+text(band=header alignment="2" text="Tarifa"border="6" color="0" x="37" y="12" height="64" width="681"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Precio"border="6" color="0" x="736" y="12" height="64" width="206"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Euros"border="6" color="0" x="960" y="12" height="64" width="206"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="0" x="37" y="12" height="60" width="91" format="[general]"  name=tarifa edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_ventarifa(empresa,tarifa)"border="6" color="128" x="151" y="12" height="60" width="558" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="5" color="0" x="736" y="8" height="60" width="206" format="[general]"  name=precio editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="1" tabsequence=190 border="5" color="0" x="960" y="8" height="60" width="206" format="[general]"  name=precio_euros editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_histdivisas.srd
+$PBExportComments$Datawindow mantenimiento historico divisas.
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=196 color="536870912" )
+table(column=(type=datetime update=yes updatewhereclause=yes key=yes name=fecha dbname="hisdivisas.fecha" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=divisa dbname="hisdivisas.divisa" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cotizacion dbname="hisdivisas.cotizacion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"hisdivisas~" ) COLUMN(NAME=~"hisdivisas.fecha~") COLUMN(NAME=~"hisdivisas.divisa~") COLUMN(NAME=~"hisdivisas.cotizacion~")WHERE( EXP1 =~"hisdivisas.fecha~" OP =~"=~" EXP2 =~":ra_fecha~" LOGIC =~"and~" ) WHERE( EXP1 =~"hisdivisas.divisa~" OP =~"=~" EXP2 =~":ra_divisa~" ) ) ORDER(NAME=~"hisdivisas.divisa~" ASC=yes ) ORDER(NAME=~"hisdivisas.fecha~" ASC=yes ) ARG(NAME = ~"ra_fecha~" TYPE = datetime) ARG(NAME = ~"ra_divisa~" TYPE = string) " update="hisdivisas" updatewhere=0 updatekeyinplace=no arguments=(("ra_fecha", datetime),("ra_divisa", string)) )
+text(band=detail alignment="1" text="Cotización:"border="0" color="0" x="96" y="76" height="64" width="325"  name=cotizacion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="5" color="0" x="466" y="76" height="76" width="329" format="[general]"  name=cotizacion editmask.mask="###,###.0000" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

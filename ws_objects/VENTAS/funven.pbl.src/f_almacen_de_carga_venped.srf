@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_almacen_de_carga_venped.srf
+global type f_almacen_de_carga_venped from function_object
+end type
+
+forward prototypes
+global function string f_almacen_de_carga_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_almacen_de_carga_venped (string empresa, integer anyo, decimal pedido);String var_almacen_de_carga
+
+SELECT venped.almacen_de_carga
+INTO   :var_almacen_de_carga
+FROM   venped  
+WHERE  (venped.empresa = :empresa)
+AND    (venped.anyo    = :anyo)
+AND    (venped.pedido  = :pedido);
+
+if isnull(var_almacen_de_carga) then var_almacen_de_carga = ""
+
+Return var_almacen_de_carga
+end function
+

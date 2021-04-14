@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_tipo_contalibros.srf
+$PBExportComments$Devuelve para C -> Compras y Para V-> ventas.
+global type f_tipo_contalibros from function_object
+end type
+
+forward prototypes
+global function string f_tipo_contalibros (string codigo)
+end prototypes
+
+global function string f_tipo_contalibros (string codigo);String var_descripcion
+
+CHOOSE CASE codigo
+	CASE "C"
+	   var_descripcion ="COMPRAS"
+   CASE "V"
+	   var_descripcion ="VENTAS"
+END CHOOSE
+
+
+
+Return var_descripcion
+end function
+

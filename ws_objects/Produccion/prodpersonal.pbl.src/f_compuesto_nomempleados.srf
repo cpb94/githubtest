@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_compuesto_nomempleados.srf
+global type f_compuesto_nomempleados from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_nomempleados (readonly string empresa, readonly decimal codigo)
+end prototypes
+
+global function string f_compuesto_nomempleados (readonly string empresa, readonly decimal codigo);
+String	nombretabla
+dec emp
+
+emp = dec(empresa)
+
+  SELECT nom_empleados.nombre_completo   
+    INTO :nombretabla  
+    FROM nom_empleados  
+   WHERE ( nom_empleados.empresa    = :emp ) AND  
+         ( nom_empleados.trabajador = :codigo )   ;
+
+Return nombretabla
+end function
+

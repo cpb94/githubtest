@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_cliente_depalmacen.srf
+global type f_cliente_depalmacen from function_object
+end type
+
+forward prototypes
+global function string f_cliente_depalmacen (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_cliente_depalmacen (string ai_empresa, string as_tipo);string cliente_almacen
+
+SELECT depalmacen.codcli
+INTO   :cliente_almacen
+FROM   depalmacen
+WHERE  ( depalmacen.empresa = :ai_empresa )
+AND	 ( depalmacen.codigo  = :as_tipo );
+
+if isnull(cliente_almacen) then cliente_almacen = ""
+
+return cliente_almacen
+end function
+

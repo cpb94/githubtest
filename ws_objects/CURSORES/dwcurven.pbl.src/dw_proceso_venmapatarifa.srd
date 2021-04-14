@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_venmapatarifa.srd
+$PBExportComments$Cursor almacenes selecciona todos los  almacenes de una empresa.
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venmapatarifas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=tarifa dbname="venmapatarifas.tarifa" )
+ column=(type=datetime update=yes updatewhereclause=yes key=yes name=fecha dbname="venmapatarifas.fecha" )
+ column=(type=char(4099) update=yes updatewhereclause=no name=observaciones dbname="venmapatarifas.observaciones" )
+ column=(type=datetime update=yes updatewhereclause=yes name=f_alta dbname="venmapatarifas.f_alta" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=usuario dbname="venmapatarifas.usuario" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tarifa_origen dbname="venmapatarifas.tarifa_origen" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_origen dbname="venmapatarifas.fecha_origen" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=automatico dbname="venmapatarifas.automatico" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmapatarifas~" ) COLUMN(NAME=~"venmapatarifas.empresa~") COLUMN(NAME=~"venmapatarifas.tarifa~") COLUMN(NAME=~"venmapatarifas.fecha~") COLUMN(NAME=~"venmapatarifas.observaciones~") COLUMN(NAME=~"venmapatarifas.f_alta~") COLUMN(NAME=~"venmapatarifas.usuario~") COLUMN(NAME=~"venmapatarifas.tarifa_origen~") COLUMN(NAME=~"venmapatarifas.fecha_origen~") COLUMN(NAME=~"venmapatarifas.automatico~")WHERE(    EXP1 =~"venmapatarifas.empresa~"   OP =~"=~"    EXP2 =~":empresa~" ) ) ARG(NAME = ~"empresa~" TYPE = string) " update="venmapatarifas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string)) )

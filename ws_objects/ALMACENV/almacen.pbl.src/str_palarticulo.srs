@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_palarticulo.srs
+global type str_palarticulo from structure
+     STRING     empresa
+     STRING     articulo
+     STRING     codigo
+     STRING     caja
+     INTEGER     cajaspallet
+     INTEGER     planospallet
+     INTEGER     alturas
+     STRING     pordefecto
+end type
+

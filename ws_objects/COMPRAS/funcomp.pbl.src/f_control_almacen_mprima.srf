@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_control_almacen_mprima.srf
+$PBExportComments$Devuelve campo control_almacen de venmprima
+global type f_control_almacen_mprima from function_object
+end type
+
+forward prototypes
+global function string f_control_almacen_mprima (string empresa, string mprima)
+end prototypes
+
+global function string f_control_almacen_mprima (string empresa, string mprima);String conalmacen
+  SELECT venmprima.control_almacen INTO :conalmacen FROM venmprima  
+   WHERE venmprima.empresa = :empresa  
+	AND   venmprima.codigo  = :mprima   ;
+
+Return conalmacen
+end function
+

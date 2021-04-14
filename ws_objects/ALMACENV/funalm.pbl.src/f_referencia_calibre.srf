@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_referencia_calibre.srf
+$PBExportComments$Devuelve el calibre a partir de la referencia
+global type f_referencia_calibre from function_object
+end type
+
+forward prototypes
+global function integer f_referencia_calibre (string referencia)
+end prototypes
+
+global function integer f_referencia_calibre (string referencia);Integer calibre
+//calibre =  Integer(Mid(referencia,17,1))
+calibre =  Integer(Mid(referencia,20,1))
+
+RETURN calibre
+
+
+
+end function
+

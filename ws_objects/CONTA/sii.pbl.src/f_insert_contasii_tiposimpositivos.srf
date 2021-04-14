@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_insert_contasii_tiposimpositivos.srf
+global type f_insert_contasii_tiposimpositivos from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_contasii_tiposimpositivos (ref str_contasii_tiposimpositivos str_contasii_tiposimpositivos)
+end prototypes
+
+global function boolean f_insert_contasii_tiposimpositivos (ref str_contasii_tiposimpositivos str_contasii_tiposimpositivos);boolean lb_correcto = true
+
+INSERT INTO contasii_tiposimpositivos
+     ( contasii_tiposimpositivos.empresa,
+       contasii_tiposimpositivos.ejercicio,
+       contasii_tiposimpositivos.factura,
+       contasii_tiposimpositivos.tipoter,
+       contasii_tiposimpositivos.tercero,
+		 contasii_tiposimpositivos.tipoiva,
+       contasii_tiposimpositivos.entrega_o_servicio,
+       contasii_tiposimpositivos.tipoimpositivo,
+       contasii_tiposimpositivos.exenta,
+       contasii_tiposimpositivos.tiponoexenta,
+       contasii_tiposimpositivos.causaexencion,
+       contasii_tiposimpositivos.baseimponible,
+       contasii_tiposimpositivos.cuota,
+       contasii_tiposimpositivos.tiporecargoequivalencia,
+       contasii_tiposimpositivos.cuotarecargo,
+		 contasii_tiposimpositivos.isp,
+		 contasii_tiposimpositivos.cuota_deducible ) 
+VALUES
+     ( :str_contasii_tiposimpositivos.empresa,
+       :str_contasii_tiposimpositivos.ejercicio,
+       :str_contasii_tiposimpositivos.factura,
+       :str_contasii_tiposimpositivos.tipoter,
+       :str_contasii_tiposimpositivos.tercero,
+		 :str_contasii_tiposimpositivos.tipoiva,
+       :str_contasii_tiposimpositivos.entrega_o_servicio,
+       :str_contasii_tiposimpositivos.tipoimpositivo,
+       :str_contasii_tiposimpositivos.exenta,
+       :str_contasii_tiposimpositivos.tiponoexenta,
+       :str_contasii_tiposimpositivos.causaexencion,
+       :str_contasii_tiposimpositivos.baseimponible,
+       :str_contasii_tiposimpositivos.cuota,
+       :str_contasii_tiposimpositivos.tiporecargoequivalencia,
+       :str_contasii_tiposimpositivos.cuotarecargo,
+		 :str_contasii_tiposimpositivos.isp,
+		 :str_contasii_tiposimpositivos.cuota_deducible );
+
+if sqlca.sqlcode <> 0 then
+	messagebox("f_insert_contasii_tiposimpositivos",sqlca.sqlerrtext)
+   lb_correcto = false
+end if
+return lb_correcto
+end function
+

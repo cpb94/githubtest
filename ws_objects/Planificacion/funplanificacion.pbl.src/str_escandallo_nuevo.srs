@@ -1,0 +1,13 @@
+﻿$PBExportHeader$str_escandallo_nuevo.srs
+global type str_escandallo_nuevo from structure
+	string		articulo
+	string		version
+	decimal { 2 }		factor
+	integer		nivel
+	string		descripcion
+	long		cantidad
+	long		stock
+	integer		cabeza_estructura
+	long		cantidad_subcontratada
+end type
+

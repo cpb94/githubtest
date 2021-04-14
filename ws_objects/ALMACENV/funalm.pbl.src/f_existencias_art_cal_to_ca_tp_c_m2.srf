@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_existencias_art_cal_to_ca_tp_c_m2.srf
+global type f_existencias_art_cal_to_ca_tp_c_m2 from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_existencias_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja);Dec{3}   var_existencias
+
+SELECT (sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) / almartcajas.piezascaja ) * almartcajas.metroscaja as existencias
+INTO   :var_existencias  
+FROM   almacenmovimientos,
+		 articulos,
+		 unidades,
+		 almartcajas 
+WHERE  almacenmovimientos.empresa     = articulos.empresa 
+AND    almacenmovimientos.articulo    = articulos.codigo 
+AND    articulos.unidad               = unidades.codigo 
+AND    almacenmovimientos.empresa     = almartcajas.empresa 
+AND    almacenmovimientos.articulo    = almartcajas.articulo 
+AND    almacenmovimientos.caja        = almartcajas.caja 
+AND    almacenmovimientos.empresa     = :arg_empresa 
+AND    almacenmovimientos.articulo    = :arg_articulo 
+AND    almacenmovimientos.calidad     = :arg_calidad 
+AND    almacenmovimientos.tono        = :arg_tono 
+AND    almacenmovimientos.calibre     = :arg_calibre 
+AND    almacenmovimientos.tipo_pallet = :arg_tipo_pallet 
+AND    almacenmovimientos.caja        = :arg_caja
+group by articulos.unidad,
+			almartcajas.piezascaja,
+			almartcajas.metroscaja;
+
+IF IsNull(var_existencias) Then var_existencias = 0
+
+Return  var_existencias
+end function
+

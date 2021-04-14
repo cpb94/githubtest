@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_articulo_referencia.srf
+global type f_articulo_referencia from function_object
+end type
+
+forward prototypes
+global function string f_articulo_referencia (string referencia)
+end prototypes
+
+global function string f_articulo_referencia (string referencia);string	cod
+//cod = Mid(referencia,1,10)
+cod = Mid(referencia,1,len(referencia) -7)
+
+RETURN  cod
+end function
+

@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_insert_venfacprev_cliente_submarca.srf
+global type f_insert_venfacprev_cliente_submarca from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_venfacprev_cliente_submarca (str_venfacprev_cliente_submarca arg_str_venfacprev_cliente_submarca)
+end prototypes
+
+global function boolean f_insert_venfacprev_cliente_submarca (str_venfacprev_cliente_submarca arg_str_venfacprev_cliente_submarca);int ll_existe_registro
+boolean lb_correcto
+
+select isnull(count(*),0)
+into   :ll_existe_registro
+from   venfacprev_cliente_submarca
+where  venfacprev_cliente_submarca.empresa           = :arg_str_venfacprev_cliente_submarca.empresa
+and    venfacprev_cliente_submarca.ejercicio         = :arg_str_venfacprev_cliente_submarca.ejercicio
+and    venfacprev_cliente_submarca.genter_codigo       = :arg_str_venfacprev_cliente_submarca.genter_codigo
+and    venfacprev_cliente_submarca.familias_codigo   = :arg_str_venfacprev_cliente_submarca.familias_codigo
+and    venfacprev_cliente_submarca.marcas_codigo     = :arg_str_venfacprev_cliente_submarca.marcas_codigo
+and    venfacprev_cliente_submarca.submarcas_codigo  = :arg_str_venfacprev_cliente_submarca.submarcas_codigo;
+
+if ll_existe_registro = 0 then
+	insert into venfacprev_cliente_submarca
+		(venfacprev_cliente_submarca.empresa,
+		 venfacprev_cliente_submarca.ejercicio,
+		 venfacprev_cliente_submarca.genter_codigo,
+		 venfacprev_cliente_submarca.familias_codigo,
+		 venfacprev_cliente_submarca.marcas_codigo,
+		 venfacprev_cliente_submarca.submarcas_codigo,
+		 venfacprev_cliente_submarca.prevision_precio_medio,
+		 venfacprev_cliente_submarca.prevision_importe,
+		 venfacprev_cliente_submarca.prevision_metros)
+	values
+		(:arg_str_venfacprev_cliente_submarca.empresa,
+		 :arg_str_venfacprev_cliente_submarca.ejercicio,
+		 :arg_str_venfacprev_cliente_submarca.genter_codigo,
+		 :arg_str_venfacprev_cliente_submarca.familias_codigo,
+		 :arg_str_venfacprev_cliente_submarca.marcas_codigo,
+		 :arg_str_venfacprev_cliente_submarca.submarcas_codigo,
+		 :arg_str_venfacprev_cliente_submarca.prevision_precio_medio,
+		 :arg_str_venfacprev_cliente_submarca.prevision_importe,
+		 :arg_str_venfacprev_cliente_submarca.prevision_metros);	
+else
+	update venfacprev_cliente_submarca
+	set    venfacprev_cliente_submarca.prevision_precio_medio = :arg_str_venfacprev_cliente_submarca.prevision_precio_medio,
+			 venfacprev_cliente_submarca.prevision_importe      = :arg_str_venfacprev_cliente_submarca.prevision_importe,
+			 venfacprev_cliente_submarca.prevision_metros       = :arg_str_venfacprev_cliente_submarca.prevision_metros
+	where  venfacprev_cliente_submarca.empresa           = :arg_str_venfacprev_cliente_submarca.empresa
+	and    venfacprev_cliente_submarca.ejercicio         = :arg_str_venfacprev_cliente_submarca.ejercicio
+	and    venfacprev_cliente_submarca.genter_codigo       = :arg_str_venfacprev_cliente_submarca.genter_codigo
+	and    venfacprev_cliente_submarca.familias_codigo   = :arg_str_venfacprev_cliente_submarca.familias_codigo
+	and    venfacprev_cliente_submarca.marcas_codigo     = :arg_str_venfacprev_cliente_submarca.marcas_codigo
+	and    venfacprev_cliente_submarca.submarcas_codigo  = :arg_str_venfacprev_cliente_submarca.submarcas_codigo;
+end if
+
+if sqlca.sqlcode <> 0 then 
+	lb_correcto = false
+else
+	lb_correcto = true
+end if
+
+return lb_correcto
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_pantalla_utigrupo.srf
+global type f_pantalla_utigrupo from function_object
+end type
+
+forward prototypes
+global function string f_pantalla_utigrupo (string codigo)
+end prototypes
+
+global function string f_pantalla_utigrupo (string codigo);String variable
+  
+  SELECT utigrupos.pantalla_inicio  
+    INTO :variable
+    FROM utigrupos  
+   WHERE utigrupos.codigo = :codigo   ;
+Return variable
+
+
+
+end function
+

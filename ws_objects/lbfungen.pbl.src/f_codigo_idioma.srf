@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_codigo_idioma.srf
+$PBExportComments$Esta funcion retorna el idioma del usuario (idioma en curso) valor de la varible global codigo_idioma.
+global type f_codigo_idioma from function_object
+end type
+
+forward prototypes
+global function string f_codigo_idioma ()
+end prototypes
+
+global function string f_codigo_idioma ();
+RETURN Trim(codigo_idioma)
+end function
+

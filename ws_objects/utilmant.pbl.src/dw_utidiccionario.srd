@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_utidiccionario.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=233 color="536870912" )
+table(column=(type=char(100) update=yes updatewhereclause=yes key=yes name=texto_castellano dbname="utidiccionario.texto_castellano" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=idioma dbname="utidiccionario.idioma" )
+ column=(type=char(100) update=yes updatewhereclause=yes name=texto_idioma dbname="utidiccionario.texto_idioma" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"utidiccionario~" ) COLUMN(NAME=~"utidiccionario.texto_castellano~") COLUMN(NAME=~"utidiccionario.idioma~") COLUMN(NAME=~"utidiccionario.texto_idioma~")WHERE(    EXP1 =~"utidiccionario.texto_castellano~"   OP =~"=~"    EXP2 =~":texto~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"utidiccionario.idioma~"   OP =~"=~"    EXP2 =~":codigo_idioma~" ) ) ARG(NAME = ~"texto~" TYPE = string)  ARG(NAME = ~"codigo_idioma~" TYPE = string) " update="utidiccionario" updatewhere=0 updatekeyinplace=yes arguments=(("texto", string),("codigo_idioma", string)) )
+text(band=detail alignment="1" text="Segun idioma:"border="0" color="33554432" x="97" y="76" height="65" width="426"  name=stockmin_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="33554432" x="549" y="76" height="65" width="1765" format="[general]"  name=texto_idioma edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

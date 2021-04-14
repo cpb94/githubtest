@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_textcomercial2_venproformas.srf
+global type f_textcomercial2_venproformas from function_object
+end type
+
+forward prototypes
+global function string f_textcomercial2_venproformas (string empresa, integer anyo, decimal proforma)
+end prototypes
+
+global function string f_textcomercial2_venproformas (string empresa, integer anyo, decimal proforma);String var
+
+
+  SELECT venproformas.textcomercial2
+    INTO :var
+    FROM venproformas  
+   WHERE (venproformas.empresa = :empresa)
+   AND   (venproformas.anyo    = :anyo)
+   AND   (venproformas.proforma  = :proforma)   ;
+
+
+
+Return var
+end function
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_proceso_palformato.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=85 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="palformato.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=formato dbname="palformato.formato" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="palformato.codigo" )
+ column=(type=long update=yes updatewhereclause=yes name=cajaspallet dbname="palformato.cajaspallet" )
+ column=(type=long update=yes updatewhereclause=yes name=planospallet dbname="palformato.planospallet" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=alturas dbname="palformato.alturas" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"palformato~" ) COLUMN(NAME=~"palformato.empresa~") COLUMN(NAME=~"palformato.formato~") COLUMN(NAME=~"palformato.codigo~") COLUMN(NAME=~"palformato.cajaspallet~") COLUMN(NAME=~"palformato.planospallet~") COLUMN(NAME=~"palformato.alturas~")WHERE(    EXP1 =~"palformato.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"palformato.formato~"   OP =~"=~"    EXP2 =~":formato~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"formato~" TYPE = string) " update="palformato" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("formato", string)) )
+text(band=header alignment="2" text="Pallets por Formatos"border="6" color="0" x="14" y="8" height="65" width="810"  name=empresa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="0" text="Total registros"border="0" color="0" x="10" y="4" height="65" width="439"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="rowcount()"border="0" color="0" x="462" y="4" height="65" width="371"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

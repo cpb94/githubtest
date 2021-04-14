@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_zona_compras.srf
+global type f_nombre_zona_compras from function_object
+end type
+
+forward prototypes
+global function string f_nombre_zona_compras (string cod_emp, string cod_almacen, string cod_zona)
+end prototypes
+
+global function string f_nombre_zona_compras (string cod_emp, string cod_almacen, string cod_zona);string	ls_nombre
+
+  SELECT comubizonas.descripcion  
+    INTO :ls_nombre
+    FROM comubizonas  
+   WHERE ( comubizonas.empresa = :cod_emp ) AND  
+         ( comubizonas.almacen = :cod_almacen ) AND  
+         ( comubizonas.zona    = :cod_zona )
+ USING SQLCA   ;
+
+ 
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+
+end function
+

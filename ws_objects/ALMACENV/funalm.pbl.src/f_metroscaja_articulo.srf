@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_metroscaja_articulo.srf
+global type f_metroscaja_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_metroscaja_articulo (string empresa, string articulo, string caja)
+end prototypes
+
+global function decimal f_metroscaja_articulo (string empresa, string articulo, string caja);Dec var_metros
+
+SELECT almartcajas.metroscaja INTO :var_metros
+FROM almartcajas
+Where almartcajas.empresa = :empresa
+And   almartcajas.articulo  = :articulo
+And   almartcajas.caja    = :caja;
+if IsNull(var_metros) Then var_metros = 0
+IF var_metros =  0 Then f_grabar_incidencia("f_metroscaja_articulo"," El articulo " + articulo + "No tiene metros caja")
+
+Return var_metros ;
+
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_codigo_cliente_empresa.srf
+global type f_codigo_cliente_empresa from function_object
+end type
+
+forward prototypes
+global function string f_codigo_cliente_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_codigo_cliente_empresa (string ai_codigo_empresa);string	ls
+
+SELECT empresas.codigo_empresa_cliente
+INTO   :ls
+FROM   empresas  
+WHERE  empresas.empresa = :ai_codigo_empresa;
+ 
+if isnull(ls) then ls = ""
+
+RETURN ls
+end function
+

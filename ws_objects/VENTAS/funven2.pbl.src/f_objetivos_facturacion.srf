@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_objetivos_facturacion.srf
+global type f_objetivos_facturacion from function_object
+end type
+
+forward prototypes
+global function decimal f_objetivos_facturacion (integer anyo, integer mes)
+end prototypes
+
+global function decimal f_objetivos_facturacion (integer anyo, integer mes);dec objetivos
+
+select Prevision
+into :objetivos
+from venfacprev 
+Where ejercicio = :anyo
+and mes = :mes;
+
+return objetivos
+end function
+

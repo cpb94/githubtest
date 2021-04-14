@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_control_almacen.srf
+global type f_control_almacen from function_object
+end type
+
+forward prototypes
+global function string f_control_almacen (string empresa, string codigo)
+end prototypes
+
+global function string f_control_almacen (string empresa, string codigo);String conalm
+
+  SELECT venmprima.control_almacen INTO :conalm FROM venmprima  
+   WHERE venmprima.empresa = :codigo_empresa
+	AND   venmprima.codigo = :codigo ;
+
+IF IsNull(conalm) OR Trim(conalm) = "" THEN conalm = "N"
+
+return conalm
+end function
+

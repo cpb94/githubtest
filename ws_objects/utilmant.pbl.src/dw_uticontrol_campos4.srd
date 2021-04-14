@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_uticontrol_campos4.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=25 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="uticontrolcolumnas.empresa" )
+ column=(type=char(50) updatewhereclause=yes name=tabla dbname="uticontrolcolumnas.tabla" )
+ column=(type=char(50) updatewhereclause=yes name=columna dbname="uticontrolcolumnas.columna" )
+ retrieve="  SELECT uticontrolcolumnas.empresa,   
+         uticontrolcolumnas.tabla,   
+         uticontrolcolumnas.columna  
+    FROM uticontrolcolumnas  
+   WHERE ( uticontrolcolumnas.empresa = :empresa ) AND  
+         ( uticontrolcolumnas.tabla = :tabla )    
+" arguments=(("empresa", string),("tabla", string)) )

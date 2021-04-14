@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_fvto_efecto_comision.srf
+global type f_fvto_efecto_comision from function_object
+end type
+
+forward prototypes
+global function datetime f_fvto_efecto_comision (string empresa, decimal anyo_fra, long factura)
+end prototypes
+
+global function datetime f_fvto_efecto_comision (string empresa, decimal anyo_fra, long factura);datetime ph,pe
+string factura_s
+factura_s=string(factura,"##################")
+
+Select Max(carhistorico.fvto) Into :ph From carhistorico
+Where  carhistorico.empresa = :empresa
+And    carhistorico.anyofra = :anyo_fra
+And    carhistorico.factura = :factura_s;
+
+IF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+if isnull(ph) then ph=datetime(date(1990,1,1))
+
+Select Max(carefectos.fvto) Into :pe From carefectos
+Where  carefectos.empresa = :empresa
+And    carefectos.anyofra = :anyo_fra
+And    carefectos.factura = :factura_s;
+
+IF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+
+if isnull(pe) then pe=datetime(date(1990,1,1))
+
+
+
+if ph<pe then
+	Return pe		
+else
+	Return ph
+end if
+
+end function
+

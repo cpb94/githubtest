@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_con_prod_internet3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(5) updatewhereclause=no name=empresa dbname="empresa" )
+ column=(type=char(5) updatewhereclause=no name=codigo dbname="codigo" )
+ column=(type=char(30) updatewhereclause=no name=descripcion dbname="descripcion" )
+ column=(type=decimal(2) updatewhereclause=no name=largo dbname="largo" )
+ column=(type=decimal(2) updatewhereclause=no name=ancho dbname="ancho" )
+  sort="empresa A codigo A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="82" y="8" height="76" width="160" format="[general]"  name=empresa edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="261" y="8" height="76" width="137" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="0" color="0" x="416" y="8" height="76" width="823" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=30 border="0" color="0" x="1495" y="8" height="76" width="219" format="[general]"  name=largo edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=40 border="0" color="0" x="1257" y="8" height="76" width="219" format="[general]"  name=ancho edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

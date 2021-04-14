@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cuenta_venagentes.srf
+global type f_cuenta_venagentes from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_venagentes (string empresa, string agente)
+end prototypes
+
+global function string f_cuenta_venagentes (string empresa, string agente);string variable
+
+  SELECT venagentes.cuenta
+    INTO :variable  
+    FROM venagentes  
+   WHERE ( venagentes.empresa = :empresa ) AND  
+         ( venagentes.agente = :agente )   ;
+
+if isnull(variable) then variable = ""
+Return variable
+end function
+

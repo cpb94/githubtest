@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_fentrega_venalb.srf
+global type f_fentrega_venalb from function_object
+end type
+
+forward prototypes
+global function datetime f_fentrega_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function datetime f_fentrega_venalb (string empresa, integer anyo, decimal albaran);Datetime falbaran
+  SELECT venalb.falbaran   INTO :falbaran  FROM venalb
+   WHERE venalb.empresa    = :empresa
+   AND   venalb.anyo       = :anyo
+   AND   venalb.albaran    = :albaran;
+	IF SQLCA.SQLCODE < 0 Then  f_mensaje("Error",sqlca.sqlerrtext)
+Return falbaran
+end function
+

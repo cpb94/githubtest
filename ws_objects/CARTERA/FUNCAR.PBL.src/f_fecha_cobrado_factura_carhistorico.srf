@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_fecha_cobrado_factura_carhistorico.srf
+global type f_fecha_cobrado_factura_carhistorico from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_cobrado_factura_carhistorico (string empresa, decimal anyo_fra, string factura, decimal recibo)
+end prototypes
+
+global function datetime f_fecha_cobrado_factura_carhistorico (string empresa, decimal anyo_fra, string factura, decimal recibo);datetime p
+
+Select Max(carhistorico.fcobro) Into :p From carhistorico
+Where  carhistorico.empresa = :empresa
+And    carhistorico.anyofra = :anyo_fra
+And    carhistorico.factura = :factura
+And    carhistorico.recibo  = :recibo
+And    carhistorico.situacion = "9";
+IF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+
+Return p
+end function
+

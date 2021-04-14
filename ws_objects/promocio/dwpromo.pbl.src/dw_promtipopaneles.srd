@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_promtipopaneles.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=289 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="promtipopaneles.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="promtipopaneles.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="promtipopaneles.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="promtipopaneles.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"promtipopaneles~" ) COLUMN(NAME=~"promtipopaneles.empresa~") COLUMN(NAME=~"promtipopaneles.codigo~") COLUMN(NAME=~"promtipopaneles.descripcion~") COLUMN(NAME=~"promtipopaneles.resumido~")WHERE(    EXP1 =~"promtipopaneles.empresa~"   OP =~"=~"    EXP2 =~":codigo_emp~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promtipopaneles.codigo~"   OP =~"=~"    EXP2 =~":codigo_tipopanel~" ) ) ARG(NAME = ~"codigo_emp~" TYPE = string)  ARG(NAME = ~"codigo_tipopanel~" TYPE = string) " update="promtipopaneles" updatewhere=0 updatekeyinplace=no arguments=(("codigo_emp", string),("codigo_tipopanel", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="476" y="60" height="65" width="1194" format="[general]"  name=descripcion edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="87" y="60" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="138" y="176" height="65" width="307"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="476" y="176" height="65" width="279" format="[general]"  name=resumido edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

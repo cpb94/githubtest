@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_nombre_comercial.srf
+global type f_nombre_comercial from function_object
+end type
+
+forward prototypes
+global function string f_nombre_comercial (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_comercial (string empresa, string codigo);String var_descripcion
+SELECT comercial.descripcion  INTO :var_descripcion    FROM comercial 
+WHERE (comercial.empresa   = :empresa)
+AND   (comercial.codigo  = :codigo);
+Return var_descripcion
+
+end function
+

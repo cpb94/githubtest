@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_activo_genter.srf
+global type f_activo_genter from function_object
+end type
+
+forward prototypes
+global function string f_activo_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_activo_genter (string ai_empresa, string as_tipoter, string as_codcli);string	act
+
+  SELECT genter.activo   INTO :act
+    FROM genter  
+   WHERE  genter.empresa = :ai_empresa 
+	AND    genter.tipoter = :as_tipoter  
+	AND    genter.codigo  = :as_codcli  USING SQLCA;
+	IF IsNull(act) Then act = "N"
+
+RETURN act
+end function
+

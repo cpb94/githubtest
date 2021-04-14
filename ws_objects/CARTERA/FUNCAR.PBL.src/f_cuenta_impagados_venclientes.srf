@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_cuenta_impagados_venclientes.srf
+global type f_cuenta_impagados_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_impagados_venclientes (string cod_empresa, string cod_cliente)
+end prototypes
+
+global function string f_cuenta_impagados_venclientes (string cod_empresa, string cod_cliente);String ls_cuenta
+
+SELECT cuenta_impagados
+INTO   :ls_cuenta  
+FROM   venclientes
+WHERE ( empresa = :cod_empresa ) AND  
+	   ( codigo  = :cod_cliente );
+
+if isnull(ls_cuenta) then ls_cuenta = ""
+ls_cuenta = trim(ls_cuenta)
+
+RETURN ls_cuenta
+
+
+end function
+

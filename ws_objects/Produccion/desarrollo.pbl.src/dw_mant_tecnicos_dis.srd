@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_mant_tecnicos_dis.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=492 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="tecnico_dis.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="tecnico_dis.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="tecnico_dis.descripcion" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=activo dbname="tecnico_dis.activo" values="S	S/N	N/" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"tecnico_dis~" ) COLUMN(NAME=~"tecnico_dis.empresa~") COLUMN(NAME=~"tecnico_dis.codigo~") COLUMN(NAME=~"tecnico_dis.descripcion~") COLUMN(NAME=~"tecnico_dis.activo~")WHERE(    EXP1 =~"tecnico_dis.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"tecnico_dis.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="tecnico_dis" updatewhere=0 updatekeyinplace=yes arguments=(("cod_empresa", string),("codigo", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="0" color="0" x="425" y="68" height="60" width="1166" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripcion:" border="0" color="0" x="18" y="64" height="56" width="370" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=4 alignment="2" tabsequence=20 border="0" color="0" x="421" y="156" height="56" width="215" format="[general]" html.valueishtml="0"  name=activo visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any ddlb.useasborder=yes ddlb.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Activo:" border="0" color="0" x="18" y="156" height="56" width="370" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

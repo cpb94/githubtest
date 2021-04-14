@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_sustituir.srf
+$PBExportComments$Reemplaza todas la apariciones de una palaba en un texto por otra
+global type f_sustituir from function_object
+end type
+
+forward prototypes
+global function string f_sustituir (string as_cadena, string as_antigua, string as_nueva)
+end prototypes
+
+global function string f_sustituir (string as_cadena, string as_antigua, string as_nueva);integer li_longitud,li_longitud_nueva
+long ll_pos
+
+li_longitud = len(as_antigua)
+li_longitud_nueva = len(as_nueva)
+ll_pos = pos(as_cadena,as_antigua)
+DO WHILE ll_pos > 0
+	as_cadena = replace(as_cadena,ll_pos,li_longitud,as_nueva)
+	ll_pos = pos(as_cadena,as_antigua,ll_pos + li_longitud_nueva)
+LOOP
+
+return as_cadena
+end function
+

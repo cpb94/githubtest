@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_referencia_tono.srf
+$PBExportComments$Devuelve el tono a partir de la referencia
+global type f_referencia_tono from function_object
+end type
+
+forward prototypes
+global function string f_referencia_tono (string referencia)
+end prototypes
+
+global function string f_referencia_tono (string referencia);String tono
+//tono =  Trim(Mid(referencia,13,4))
+tono =  Trim(Mid(referencia,16,4))
+
+RETURN tono
+
+
+
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cliente_asegurado.srf
+global type f_cliente_asegurado from function_object
+end type
+
+forward prototypes
+global function string f_cliente_asegurado (string empresa, string cliente)
+end prototypes
+
+global function string f_cliente_asegurado (string empresa, string cliente);string var_concedido
+
+SELECT venriesgoclientes.concedido 
+INTO   :var_concedido
+FROM   venriesgoclientes  
+WHERE  (venriesgoclientes.empresa = :empresa) AND  
+	    (venriesgoclientes.cliente = :cliente);
+
+if var_concedido <> "S" then
+	var_concedido = "N"
+end if
+
+Return var_concedido;
+end function
+

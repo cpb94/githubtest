@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_impagados_agente.srf
+global type f_impagados_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_impagados_agente (string empresa, string agente)
+end prototypes
+
+global function decimal f_impagados_agente (string empresa, string agente);dec importe_impagados_1,importe_impagados_2,importe_impagados_3
+
+select sum(importe)
+into   :importe_impagados_1
+from   carefectos
+where  empresa   = :empresa
+and    agente1   = :agente
+and    situacion = "2"
+and    gasto    <> "S"
+and    devuelto_notificado_agente <> "S";
+
+if isnull(importe_impagados_1) then importe_impagados_1 = 0
+
+select sum(importe)
+into   :importe_impagados_2
+from   carefectos
+where  empresa   = :empresa
+and    agente2   = :agente
+and    situacion = "2"
+and    gasto    <> "S"
+and    devuelto_notificado_agente2 <> "S";
+
+if isnull(importe_impagados_2) then importe_impagados_2 = 0
+
+select sum(importe)
+into   :importe_impagados_3
+from   carefectos
+where  empresa   = :empresa
+and    agente2   = :agente
+and    situacion = "2"
+and    gasto    <> "S"
+and    devuelto_notificado_agente3 <> "S";
+
+if isnull(importe_impagados_3) then importe_impagados_3 = 0
+
+return importe_impagados_1+importe_impagados_2+importe_impagados_3
+end function
+

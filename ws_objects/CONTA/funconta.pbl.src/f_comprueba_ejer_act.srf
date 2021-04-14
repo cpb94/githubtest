@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_comprueba_ejer_act.srf
+global type f_comprueba_ejer_act from function_object
+end type
+
+forward prototypes
+global function integer f_comprueba_ejer_act (integer p1_ejercicio)
+end prototypes
+
+global function integer f_comprueba_ejer_act (integer p1_ejercicio);	/* Comprobación de si el ejercicio activo coincide con el del parámetro
+
+	 La función devuelve -1 si hay error al consultar la BD
+	 							0 si no hay otro ejercicio activo
+								>0 el nº de ejercicios activos distintos al parámetro
+	*/
+   
+	int cuantos
+	cuantos = -1
+	
+	select count(*) into :cuantos
+	from   contaparam
+	where (contaparam.empresa = :codigo_empresa) and
+			(contaparam.ejercicio <> :p1_ejercicio) and
+			(contaparam.activo = "S") ;
+		
+	
+	if (sqlca.sqlcode = -1 ) then return -1
+	
+	if (sqlca.sqlcode = 100) or (cuantos = 0) then 	return 0  
+	if cuantos > 0 then 	return cuantos   
+end function
+

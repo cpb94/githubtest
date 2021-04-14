@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_almacen_proveedor.srf
+$PBExportComments$Devuelve el proveedor de la tabla de almacenes.
+global type f_almacen_proveedor from function_object
+end type
+
+forward prototypes
+global function string f_almacen_proveedor (string empresa, string proveedor)
+end prototypes
+
+global function string f_almacen_proveedor (string empresa, string proveedor);String  var_almacen
+SELECT almalmacen.empresa,almalmacen.codigo  
+INTO :empresa,:var_almacen  
+FROM almalmacen 
+WHERE (almalmacen.empresa = :empresa )
+AND   (almalmacen.codcli  = :proveedor )
+AND   (almalmacen.tipoalm = '3')   
+ORDER BY almalmacen.empresa ASC,almalmacen.codigo ASC  ;
+Return   Trim(var_almacen)
+
+end function
+

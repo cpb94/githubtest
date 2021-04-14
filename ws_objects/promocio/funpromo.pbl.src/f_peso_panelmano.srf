@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_peso_panelmano.srf
+global type f_peso_panelmano from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_panelmano (string empresa)
+end prototypes
+
+global function decimal f_peso_panelmano (string empresa);dec{4} pesopanelmano
+
+  SELECT promparam.pesopanelmano
+    INTO :pesopanelmano
+    FROM promparam
+   WHERE promparam.empresa = :empresa
+
+   USING SQLCA;
+
+IF ISNULL(pesopanelmano) Then pesopanelmano =0
+
+RETURN pesopanelmano
+
+end function
+

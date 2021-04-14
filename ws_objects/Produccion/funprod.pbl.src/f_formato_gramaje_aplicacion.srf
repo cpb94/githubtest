@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_formato_gramaje_aplicacion.srf
+global type f_formato_gramaje_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_formato_gramaje_aplicacion (string empresa, string aplicacion)
+end prototypes
+
+global function string f_formato_gramaje_aplicacion (string empresa, string aplicacion);string formato,aplicar_conversion
+
+select formato_gramaje,aplicar_conversion_gramaje
+into   :formato,:aplicar_conversion
+from   prodaplicaciones
+where  empresa = :empresa
+and    codigo =:aplicacion;
+
+if isnull(formato) then formato = ""
+if isnull(aplicar_conversion) then aplicar_conversion = ""
+
+if aplicar_conversion <> "S" then
+	formato = ""
+end if
+
+return formato
+end function
+

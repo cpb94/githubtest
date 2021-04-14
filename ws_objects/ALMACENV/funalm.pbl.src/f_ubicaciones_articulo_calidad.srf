@@ -1,0 +1,72 @@
+﻿$PBExportHeader$f_ubicaciones_articulo_calidad.srf
+global type f_ubicaciones_articulo_calidad from function_object
+end type
+
+forward prototypes
+global function string f_ubicaciones_articulo_calidad (string empresa, string articulo, string calidad, string tono, integer calibre)
+end prototypes
+
+global function string f_ubicaciones_articulo_calidad (string empresa, string articulo, string calidad, string tono, integer calibre);String ubicacion,montaje,zona1,zona2
+String ubi[],almacen,zona		 
+Dec{2} altura,fila,reg,v,v1,registros
+Dec linea,numero,longitud
+DataStore Data
+Integer contador_ubicaciones
+String compuesto,errores,sys
+
+numero = 10
+// ubicaciones
+compuesto = " Select ubicacion,linea,existencias,zona from almlinubica "+&
+            " Where almlinubica.empresa  = '" + empresa + "'" +&
+            " And   almlinubica.articulo = '" + articulo   + "'" +&
+				" And   almlinubica.calidad = '" + calidad   + "'" +&
+				" And   almlinubica.tonochar = '" + tono   + "'" +&
+				" And   almlinubica.calibre = " + string(calibre)   + " " +&
+				" And   almlinubica.pedido is null" + &
+				" And   almlinubica.externo = 'S' " + &
+				" Order by zona,fila,altura asc"
+
+//data = f_cargar_cursor(compuesto)
+f_cargar_cursor_nuevo(compuesto, data)
+
+registros = data.Retrieve()
+contador_ubicaciones = 0
+
+IF registros <> 0 Then
+ FOR reg = 1 To registros
+   ubicacion   = data.GetItemString(reg,"ubicacion")
+   linea       = data.GetItemNumber(reg,"linea")
+	zona        = data.GetItemString(reg,"zona")
+	if zona <> "M" then
+		IF Not f_bloqueo_almlinubica(codigo_empresa,ubicacion,linea) Then
+			v = 0
+			IF contador_ubicaciones <> 0 Then
+				For v1 = 1 To contador_ubicaciones
+					IF	ubi[contador_ubicaciones] = ubicacion Then v = 1
+				Next
+			END IF
+			IF v = 0 Then
+				montaje = montaje + f_ubicacion2(ubicacion) + " / "
+				contador_ubicaciones = contador_ubicaciones + 1
+				ubi[contador_ubicaciones] = ubicacion
+			END IF
+			IF contador_ubicaciones = numero then
+				destroy data
+				Return  montaje
+			end if
+		END IF
+	end if
+ NEXT
+ IF contador_ubicaciones <> 0 Then 
+	longitud = len(montaje) - 3
+	montaje = left(montaje,longitud)
+	destroy data
+	Return  montaje
+END IF
+END IF
+ 
+ 
+destroy data
+Return montaje
+end function
+

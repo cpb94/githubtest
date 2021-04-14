@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_prodmoldesmoldelo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=288 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="prodmoldesmodelo.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="prodmoldesmodelo.codigo" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=tipo dbname="prodmoldesmodelo.tipo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=observaciones dbname="prodmoldesmodelo.observaciones" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=formato dbname="prodmoldesmodelo.formato" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=espesor dbname="prodmoldesmodelo.espesor" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"prodmoldesmodelo~" ) COLUMN(NAME=~"prodmoldesmodelo.empresa~") COLUMN(NAME=~"prodmoldesmodelo.codigo~") COLUMN(NAME=~"prodmoldesmodelo.tipo~") COLUMN(NAME=~"prodmoldesmodelo.observaciones~") COLUMN(NAME=~"prodmoldesmodelo.formato~") COLUMN(NAME=~"prodmoldesmodelo.espesor~")WHERE(    EXP1 =~"prodmoldesmodelo.empresa~"   OP =~"=~"    EXP2 =~":codigo_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"prodmoldesmodelo.codigo~"   OP =~"=~"    EXP2 =~":codigo_molde~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"prodmoldesmodelo.tipo~"   OP =~"=~"    EXP2 =~":codigo_tipo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"prodmoldesmodelo.formato~"   OP =~"=~"    EXP2 =~":codigo_formato~" ) ) ARG(NAME = ~"codigo_empresa~" TYPE = string)  ARG(NAME = ~"codigo_molde~" TYPE = string)  ARG(NAME = ~"codigo_formato~" TYPE = string)  ARG(NAME = ~"codigo_tipo~" TYPE = string) " update="prodmoldesmodelo" updatewhere=1 updatekeyinplace=no arguments=(("codigo_empresa", string),("codigo_molde", string),("codigo_formato", string),("codigo_tipo", string)) )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="571" y="160" height="76" width="1600" format="[general]"  name=observaciones edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="1" tabsequence=10 border="5" color="0" x="571" y="32" height="76" width="375" format="###,###.00"  name=espesor edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Observaciones :"border="0" color="0" x="50" y="160" height="64" width="485"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=detail alignment="1" text="Espesor :"border="0" color="0" x="251" y="32" height="64" width="283"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

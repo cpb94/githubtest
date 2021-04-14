@@ -1,0 +1,66 @@
+﻿$PBExportHeader$f_comprueba_asiento.srf
+global type f_comprueba_asiento from function_object
+end type
+
+forward prototypes
+global function boolean f_comprueba_asiento (integer arg_ejercicio, string arg_empresa, integer arg_asiento, string arg_origen, integer arg_mes)
+end prototypes
+
+global function boolean f_comprueba_asiento (integer arg_ejercicio, string arg_empresa, integer arg_asiento, string arg_origen, integer arg_mes);dec{2}  saldo
+long cont
+string sel,cuenta
+datastore ds
+boolean bien=true //si falso no debería grabar apunte
+integer cuantas,ejercicio
+datetime fapunte
+
+select sum(debe -haber)
+into :saldo
+from contaapun 
+where ejercicio=:arg_ejercicio and
+		empresa=:arg_empresa and
+		asiento=:arg_asiento and
+		origen=:arg_origen and
+		mes=:arg_mes;
+		
+
+if saldo<>0 then
+	f_mensaje("Atención","Asiento descuadrado."+char(13)+"Ejercicio:"+string(arg_ejercicio)+" Origen:"+arg_origen+" Mes:"+string(arg_mes)+" Asiento:"+string(arg_asiento))
+end if
+
+sel='select cuenta,ejercicio,fapunte from contaapun '+&
+	 'where ejercicio='+string(arg_ejercicio)+' and '+&
+    "empresa='"+arg_empresa+"' and asiento="+string(arg_asiento)+" and "+&
+	 "origen='"+arg_origen+"' and mes="+string(arg_mes)
+
+//ds=f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, ds)
+
+for cont=1 to ds.rowcount()
+	cuenta=ds.object.cuenta[cont]
+	cuantas=0
+	
+	select count(*)
+	into :cuantas
+	from contaplan 
+	where empresa=:arg_empresa and
+			ejercicio=:arg_ejercicio and
+			cuenta=:cuenta;
+	if cuantas=0 or isnull(cuantas) then
+		f_mensaje("Atención","Asiento con cuenta desconocida."+char(13)+"Ejercicio:"+string(arg_ejercicio)+" Origen:"+arg_origen+" Mes:"+string(arg_mes)+" Asiento:"+string(arg_asiento))
+	end if
+	
+	ejercicio=ds.object.ejercicio[cont]
+	fapunte=ds.object.fapunte[cont]
+	
+	if ejercicio<>year(date(fapunte)) then
+		f_mensaje("Atención","Asiento con ejercicio y f. apunte distintos."+char(13)+"Ejercicio:"+string(arg_ejercicio)+" Origen:"+arg_origen+" Mes:"+string(arg_mes)+" Asiento:"+string(arg_asiento))		
+		bien=false
+	end if
+next
+
+destroy ds
+return bien
+
+end function
+

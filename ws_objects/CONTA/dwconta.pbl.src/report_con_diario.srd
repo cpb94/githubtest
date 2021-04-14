@@ -1,0 +1,135 @@
+﻿$PBExportHeader$report_con_diario.srd
+$PBExportComments$Report diario contable
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=940 color="536870912" )
+summary(height=112 color="536870912" )
+footer(height=72 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=decimal(4) updatewhereclause=yes key=yes name=ejercicio dbname="contaapun.ejercicio" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="contaapun.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=asiento dbname="contaapun.asiento" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=apunte dbname="contaapun.apunte" )
+ column=(type=char(20) updatewhereclause=yes name=cuenta dbname="contaapun.cuenta" )
+ column=(type=datetime updatewhereclause=yes name=fapunte dbname="contaapun.fapunte" )
+ column=(type=char(5) updatewhereclause=yes name=diario dbname="contaapun.diario" )
+ column=(type=char(5) updatewhereclause=yes name=concepto dbname="contaapun.concepto" )
+ column=(type=char(50) updatewhereclause=yes name=ampliacion dbname="contaapun.ampliacion" )
+ column=(type=decimal(4) updatewhereclause=yes name=debe dbname="contaapun.debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=haber dbname="contaapun.haber" )
+ column=(type=char(10) updatewhereclause=yes name=tipoapu dbname="contaapun.tipoapu" )
+ column=(type=char(10) updatewhereclause=yes name=documento dbname="contaapun.documento" )
+ column=(type=char(10) updatewhereclause=yes name=factura dbname="contaapun.factura" )
+ column=(type=datetime updatewhereclause=yes name=ffactura dbname="contaapun.ffactura" )
+ column=(type=decimal(4) updatewhereclause=yes name=imponible dbname="contaapun.imponible" )
+ column=(type=char(10) updatewhereclause=yes name=tipoiva dbname="contaapun.tipoiva" )
+ column=(type=decimal(4) updatewhereclause=yes name=iva dbname="contaapun.iva" )
+ column=(type=decimal(4) updatewhereclause=yes name=divisas dbname="contaapun.divisas" )
+ column=(type=char(1) updatewhereclause=yes name=deducible dbname="contaapun.deducible" )
+ column=(type=char(1) updatewhereclause=yes name=actualizado dbname="contaapun.actualizado" )
+ column=(type=char(1) updatewhereclause=yes name=listado dbname="contaapun.listado" )
+ column=(type=decimal(4) updatewhereclause=yes name=registro dbname="contaapun.registro" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=origen dbname="contaapun.origen" )
+ column=(type=char(1) updatewhereclause=yes name=tipoter dbname="contaapun.tipoter" )
+ column=(type=char(20) updatewhereclause=yes name=clipro dbname="contaapun.clipro" )
+ column=(type=char(1) updatewhereclause=yes name=conciliado dbname="contaapun.conciliado" )
+ column=(type=char(20) updatewhereclause=yes name=nif dbname="contaapun.nif" )
+ column=(type=char(1) updatewhereclause=yes name=punteado dbname="contaapun.punteado" )
+ column=(type=datetime updatewhereclause=yes name=fvalor dbname="contaapun.fvalor" )
+ column=(type=char(1) updatewhereclause=yes name=docpunteo dbname="contaapun.docpunteo" )
+ column=(type=char(5) updatewhereclause=yes name=coste dbname="contaapun.coste" )
+ column=(type=datetime updatewhereclause=yes name=fregistro dbname="contaapun.fregistro" )
+ column=(type=decimal(6) updatewhereclause=yes name=cambio dbname="contaapun.cambio" )
+ column=(type=char(5) updatewhereclause=yes name=moneda dbname="contaapun.moneda" )
+ column=(type=long updatewhereclause=yes key=yes name=mes dbname="contaapun.mes" )
+ column=(type=long updatewhereclause=yes name=cont dbname="contaapun.cont" )
+ retrieve="  SELECT contaapun.ejercicio,   
+         contaapun.empresa,   
+         contaapun.asiento,   
+         contaapun.apunte,   
+         contaapun.cuenta,   
+         contaapun.fapunte,   
+         contaapun.diario,   
+         contaapun.concepto,   
+         contaapun.ampliacion,   
+         contaapun.debe,   
+         contaapun.haber,   
+         contaapun.tipoapu,   
+         contaapun.documento,   
+         contaapun.factura,   
+         contaapun.ffactura,   
+         contaapun.imponible,   
+         contaapun.tipoiva,   
+         contaapun.iva,   
+         contaapun.divisas,   
+         contaapun.deducible,   
+         contaapun.actualizado,   
+         contaapun.listado,   
+         contaapun.registro,   
+         contaapun.origen,   
+         contaapun.tipoter,   
+         contaapun.clipro,   
+         contaapun.conciliado,   
+         contaapun.nif,   
+         contaapun.punteado,   
+         contaapun.fvalor,   
+         contaapun.docpunteo,   
+         contaapun.coste,   
+         contaapun.fregistro,   
+         contaapun.cambio,   
+         contaapun.moneda,   
+         contaapun.mes,   
+         0 cont  
+    FROM contaapun  
+   WHERE ( contaapun.empresa = :arg_empresa ) AND  
+         ( contaapun.ejercicio = :arg_ejer ) AND  
+         ( contaapun.mes between :arg_perid and :arg_perih ) AND  
+         ( contaapun.asiento between :arg_asid and :arg_asih )   
+ORDER BY contaapun.empresa ASC,   
+         contaapun.ejercicio ASC,   
+         contaapun.mes ASC,   
+         contaapun.fapunte ASC,   
+         contaapun.asiento ASC,   
+         contaapun.apunte ASC   
+" update="contaapun" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_ejer", number),("arg_perid", number),("arg_perih", number),("arg_asid", number),("arg_asih", number),("arg_pag_inicial", number)) )
+group(level=1 header.height=0 trailer.height=88 by=("ejercicio" , "empresa" , "mes" , "fapunte" , "asiento" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="87" y="16" height="380" width="3218" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  name=dw_1 visible="1"  slideup=directlyabove )
+compute(band=header alignment="0" expression="Pagecount()"border="0" color="16777215" x="32" y="468" height="4" width="5" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="LISTADO DIARIO" border="0" color="0" x="1431" y="416" height="92" width="709" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Asiento" border="1" color="0" x="91" y="860" height="64" width="215" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cuenta" border="1" color="0" x="1390" y="860" height="64" width="1211" html.valueishtml="0"  name=codtercero_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Debe" border="1" color="0" x="2624" y="860" height="64" width="352" html.valueishtml="0"  name=cantidade_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Haber" border="1" color="0" x="2990" y="860" height="64" width="352" html.valueishtml="0"  name=cantidads_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="EJERCICIO : " border="1" color="0" x="837" y="568" height="64" width="379" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="MESES : " border="1" color="0" x="837" y="668" height="64" width="338" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="MESES : " border="1" color="0" x="837" y="668" height="64" width="379" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="ASIENTOS: " border="1" color="0" x="837" y="764" height="64" width="379" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="Trim(f_nombre_mes(  1  )) + ~" - ~" + Trim(f_nombre_mes( 12  ))"border="0" color="0" x="1257" y="668" height="64" width="1289" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="arg_asid + ~" - ~" + arg_asih"border="0" color="0" x="1257" y="768" height="64" width="960" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="String(arg_ejer,~"###,###~")"border="0" color="0" x="1257" y="568" height="64" width="1289" format="[general]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Id." border="1" color="0" x="325" y="860" height="64" width="247" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Fecha" border="1" color="0" x="585" y="860" height="64" width="242" html.valueishtml="0"  name=fechmov_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="R.IVA" border="1" color="0" x="841" y="860" height="64" width="178" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="NºDocum." border="1" color="0" x="1033" y="860" height="64" width="329" html.valueishtml="0"  name=numdoc_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1394" y="4" height="56" width="311" format="" html.valueishtml="0"  name=cuenta visible="1" editmask.mask="XXXXXXXXXXXXXXXXXXXX" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF ( debe = 0 or isNull(debe) , 0, debe )"border="0" color="0" x="2624" y="4" height="56" width="352" format="###,###,###,##0.00" html.valueishtml="0"  name=debe_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF (  haber  = 0 or isNull( haber ) , 0, haber )"border="0" color="0" x="2990" y="4" height="56" width="352" format="###,###,###,##0.00" html.valueishtml="0"  name=haber_t visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=37 alignment="1" tabsequence=32766 border="0" color="0" x="91" y="4" height="56" width="215" format="[general]" html.valueishtml="0"  name=cont visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_contaplan( ejercicio , empresa , cuenta )"border="0" color="0" x="1723" y="4" height="56" width="882" format="[general]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="0" x="325" y="4" height="56" width="247" format="[general]" html.valueishtml="0"  name=asiento visible="1" editmask.mask="###,###" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="585" y="4" height="56" width="233" format="" html.valueishtml="0"  name=fapunte visible="1" editmask.mask="dd/mm/yy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="1" tabsequence=32766 border="0" color="0" x="832" y="4" height="56" width="192" format="" html.valueishtml="0"  name=registro visible="1" editmask.mask="###,###" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="2" tabsequence=32766 border="0" color="0" x="1038" y="4" height="56" width="338" format="[general]" html.valueishtml="0"  name=documento visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="2615" y1="4" x2="2971" y2="4"  name=l_1 visible="1" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="2985" y1="4" x2="3346" y2="4"  name=l_2 visible="1" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="2" text="Total Asiento:" border="0" color="0" x="2203" y="16" height="64" width="398" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(IF ( debe = 0 or isNull(debe) , 0, debe ) for group 1)"border="0" color="0" x="2624" y="16" height="68" width="352" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(IF (  haber  = 0 or isNull( haber ) , 0, haber ) for group 1)"border="0" color="0" x="2990" y="16" height="68" width="352" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=summary x1="1920" y1="12" x2="3342" y2="12"  name=l_3 visible="1" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=summary alignment="2" text="Totales :" border="2" color="0" x="1925" y="36" height="64" width="256" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(  debe_t  for all )"border="2" color="0" x="2213" y="36" height="64" width="549" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(  haber_t  for all )"border="2" color="0" x="2793" y="36" height="64" width="549" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_8 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="2" expression="'Página ' + page()"border="0" color="0" x="1563" y="12" height="52" width="562" format="[general]" html.valueishtml="0"  name=compute_9 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+
+sparse(names="asiento	cont")htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_numpalet_es_cero.srf
+global type f_numpalet_es_cero from function_object
+end type
+
+forward prototypes
+global function boolean f_numpalet_es_cero (integer numpalet)
+end prototypes
+
+global function boolean f_numpalet_es_cero (integer numpalet);boolean var_resultado
+
+if numpalet = 0 then 
+	var_resultado = true
+else 
+	var_resultado = false
+end if
+return var_resultado
+end function
+

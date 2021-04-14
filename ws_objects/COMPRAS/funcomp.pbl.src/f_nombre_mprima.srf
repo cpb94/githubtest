@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_nombre_mprima.srf
+global type f_nombre_mprima from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mprima (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_mprima (string empresa, string codigo); string nombre
+ 
+ SELECT venmprima.descripcion INTO :nombre FROM venmprima  
+   WHERE ( venmprima.empresa = :codigo_empresa ) AND  
+         ( venmprima.codigo = :codigo )   ;
+return nombre
+end function
+

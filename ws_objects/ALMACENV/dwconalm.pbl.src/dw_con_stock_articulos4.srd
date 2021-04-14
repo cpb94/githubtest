@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_con_stock_articulos4.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=81 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="venliped.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=articulo dbname="venliped.articulo" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=calidad dbname="venliped.calidad" )
+ column=(type=number updatewhereclause=yes name=cantidad dbname="cantidad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venliped~" ) COLUMN(NAME=~"venliped.empresa~") COLUMN(NAME=~"venliped.articulo~") COLUMN(NAME=~"venliped.calidad~") COMPUTE(NAME=~"Sum(venliped.cantidad) cantidad~")WHERE(    EXP1 =~"( venliped.empresa~"   OP =~"=~"    EXP2 =~":empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venliped.articulo~"   OP =~"=~"    EXP2 =~":articulo )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venliped.situacion~"   OP =~"=~"    EXP2 =~"'F'~" )  GROUP(NAME=~"venliped.empresa~") GROUP(NAME=~"venliped.articulo~") GROUP(NAME=~"venliped.calidad~")) ORDER(NAME=~"venliped.empresa~" ASC=yes )  ORDER(NAME=~"venliped.articulo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"articulo~" TYPE = string) " arguments=(("empresa", string),("articulo", string)) )
+text(band=header alignment="2" text="Calidad"border="6" color="0" x="10" y="8" height="65" width="321"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256"  height.autosize=yes)
+compute(band=header alignment="0" expression="f_nombre_unidad(f_unidad_articulo(empresa,articulo))"border="6" color="0" x="343" y="8" height="65" width="412" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256"  height.autosize=yes)
+compute(band=detail alignment="0" expression="f_nombre_calidad_abr(empresa,calidad)"border="0" color="0" x="23" y="4" height="65" width="302" format="[GENERAL]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="339" y="4" height="65" width="439" format="[general]"  name=cantidad editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_codigo_compras_caja.srf
+global type f_codigo_compras_caja from function_object
+end type
+
+forward prototypes
+global function string f_codigo_compras_caja (string a_codemp, string a_codcaja)
+end prototypes
+
+global function string f_codigo_compras_caja (string a_codemp, string a_codcaja);string codigo_compras
+
+SELECT almcajas.codigo_compras
+INTO   :codigo_compras
+FROM   almcajas  
+WHERE  almcajas.empresa = :a_codemp 
+AND    almcajas.codigo = :a_codcaja
+USING  SQLCA;
+
+if isnull(codigo_compras) then codigo_compras = ""
+
+RETURN trim(codigo_compras)
+
+end function
+

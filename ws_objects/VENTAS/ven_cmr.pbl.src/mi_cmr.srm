@@ -1,0 +1,213 @@
+﻿$PBExportHeader$mi_cmr.srm
+forward
+global type mi_cmr from menu
+end type
+type m_5 from menu within mi_cmr
+end type
+type m_6 from menu within m_5
+end type
+type m_7 from menu within m_5
+end type
+type m_8 from menu within m_5
+end type
+type m_5 from menu within mi_cmr
+m_6 m_6
+m_7 m_7
+m_8 m_8
+end type
+type m_1 from menu within mi_cmr
+end type
+type m_2 from menu within m_1
+end type
+type m_3 from menu within m_1
+end type
+type m_4 from menu within m_1
+end type
+type m_1 from menu within mi_cmr
+m_2 m_2
+m_3 m_3
+m_4 m_4
+end type
+global type mi_cmr from menu
+m_5 m_5
+m_1 m_1
+end type
+end forward
+
+global type mi_cmr from menu
+m_5 m_5
+m_1 m_1
+end type
+global mi_cmr mi_cmr
+
+on mi_cmr.create
+mi_cmr=this
+call super::create
+this.m_5=create m_5
+this.m_1=create m_1
+this.Item[UpperBound(this.Item)+1]=this.m_5
+this.Item[UpperBound(this.Item)+1]=this.m_1
+end on
+
+on mi_cmr.destroy
+call super::destroy
+destroy(this.m_5)
+destroy(this.m_1)
+end on
+
+type m_5 from menu within mi_cmr
+m_6 m_6
+m_7 m_7
+m_8 m_8
+end type
+
+on m_5.create
+call super::create
+this.text = "Transportes"
+this.m_6=create m_6
+this.m_7=create m_7
+this.m_8=create m_8
+this.Item[UpperBound(this.Item)+1]=this.m_6
+this.Item[UpperBound(this.Item)+1]=this.m_7
+this.Item[UpperBound(this.Item)+1]=this.m_8
+end on
+
+on m_5.destroy
+call super::destroy
+destroy(this.m_6)
+destroy(this.m_7)
+destroy(this.m_8)
+end on
+
+type m_6 from menu within m_5
+end type
+
+event clicked;window lw_ventana
+str_parametros lstr_param
+OpenSheetWithParm(lw_ventana, lstr_param , "wi_mant_ventransportistas",ParentWindow, 5, Original!)
+
+end event
+
+on m_6.create
+call super::create
+this.text = "Agencia Transportista"
+end on
+
+on m_6.destroy
+call super::destroy
+end on
+
+type m_7 from menu within m_5
+end type
+
+event clicked;window lw_ventana
+str_parametros lstr_param
+OpenSheetWithParm(lw_ventana, lstr_param , "wi_mant_venconductores",ParentWindow, 5, Original!)
+
+end event
+
+on m_7.create
+call super::create
+this.text = "Conductores"
+end on
+
+on m_7.destroy
+call super::destroy
+end on
+
+type m_8 from menu within m_5
+end type
+
+event clicked;//str_parametros lstr_param
+//OpenSheetWithParm(wi_mant_almtipotransportes,lstr_param,ParentWindow,3,original!)
+window lw_ventana
+str_parametros lstr_param
+OpenSheetWithParm(lw_ventana, lstr_param , "wi_mant_almtipotransportes",ParentWindow, 5, Original!)
+
+end event
+
+on m_8.create
+call super::create
+this.text = "Mant. Tipo Transportes"
+end on
+
+on m_8.destroy
+call super::destroy
+end on
+
+type m_1 from menu within mi_cmr
+m_2 m_2
+m_3 m_3
+m_4 m_4
+end type
+
+on m_1.create
+call super::create
+this.text = "CMRS"
+this.m_2=create m_2
+this.m_3=create m_3
+this.m_4=create m_4
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_3
+this.Item[UpperBound(this.Item)+1]=this.m_4
+end on
+
+on m_1.destroy
+call super::destroy
+destroy(this.m_2)
+destroy(this.m_3)
+destroy(this.m_4)
+end on
+
+type m_2 from menu within m_1
+end type
+
+event clicked;str_parametros lstr_param
+//OpenSheetWithParm(w_int_venalb,lstr_param,ParentWindow,3,original!)
+window lw_ventana
+OpenSheetWithParm(lw_ventana, lstr_param , "wi_mant_ven_cmr",ParentWindow, 5, Original!)
+end event
+
+on m_2.create
+call super::create
+this.text = "Mantenimiento"
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_3 from menu within m_1
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param
+OpenSheetWithParm(lw_ventana, lstr_param , "w_lis_cmr", ParentWindow, 3,original!)
+end event
+
+on m_3.create
+call super::create
+this.text = "Impresión"
+end on
+
+on m_3.destroy
+call super::destroy
+end on
+
+type m_4 from menu within m_1
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param
+OpenSheetWithParm(lw_ventana, lstr_param , "w_lis_cmr_manual", ParentWindow, 3,original!)
+end event
+
+on m_4.create
+call super::create
+this.text = "Impresión Manual"
+end on
+
+on m_4.destroy
+call super::destroy
+end on
+

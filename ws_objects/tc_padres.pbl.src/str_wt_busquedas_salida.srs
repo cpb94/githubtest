@@ -1,0 +1,7 @@
+﻿$PBExportHeader$str_wt_busquedas_salida.srs
+global type str_wt_busquedas_salida from structure
+	string		valores[]		descriptor "comment" = "Vector con los valores seleccionados en la búsqueda para cada uno de los campos indicados en la consulta"
+	string		error		descriptor "comment" = "String con el error ocurrido"
+	integer		resultado		descriptor "comment" = "Valor entero que indica si la busqueda ha terminado con error (-1), sin que el usuario haya seleccionado un resultado (0) o con una selección del usuario (el valor será igual al número de valores devueltos en el vector valores)"
+end type
+

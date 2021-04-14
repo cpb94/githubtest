@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_venconductores_dni.srf
+global type f_venconductores_dni from function_object
+end type
+
+forward prototypes
+global function string f_venconductores_dni (string empresa, string transp, string codigo)
+end prototypes
+
+global function string f_venconductores_dni (string empresa, string transp, string codigo);String ls_dni
+
+ SELECT venconductores.dni
+    INTO :ls_dni
+    FROM venconductores  
+   WHERE ( venconductores.empresa = :empresa ) AND  
+         ( venconductores.transportista = :transp) AND  
+         ( venconductores.codigo = :codigo )  ;
+
+if isnull(ls_dni) then ls_dni = ""
+
+Return ls_dni
+
+end function
+

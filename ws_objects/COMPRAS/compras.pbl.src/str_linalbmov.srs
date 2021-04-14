@@ -1,0 +1,14 @@
+﻿$PBExportHeader$str_linalbmov.srs
+$PBExportComments$Datos de comlinalb para movimiento de almacen
+global type str_linalbmov from structure
+	string		anyo
+	string		albaran
+	string		linea
+	string		mprima
+	decimal {2}	cantidad
+	decimal {2}	precio
+	string		observaciones
+	string		proveedor
+	string		envase
+end type
+

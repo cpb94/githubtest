@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_usuarios_id_ubicacion_preparacion.srf
+global type f_usuarios_id_ubicacion_preparacion from function_object
+end type
+
+forward prototypes
+global function long f_usuarios_id_ubicacion_preparacion (string v_usuario)
+end prototypes
+
+global function long f_usuarios_id_ubicacion_preparacion (string v_usuario);long ll_id_ubicacion_preparacion
+
+choose case v_usuario
+	case 'T01'
+		ll_id_ubicacion_preparacion = 164753 //6-P-1-1
+	case else
+		ll_id_ubicacion_preparacion = 164753 //6-P-1-1
+end choose
+
+return ll_id_ubicacion_preparacion
+end function
+

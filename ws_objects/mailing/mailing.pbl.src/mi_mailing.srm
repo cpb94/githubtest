@@ -1,0 +1,280 @@
+﻿$PBExportHeader$mi_mailing.srm
+$PBExportComments$Menu de opciones del mailing
+forward
+global type mi_mailing from mc_menu_sheets
+end type
+type m_tiposdellamadas from menu within m_programas
+end type
+type m_revistas from menu within m_programas
+end type
+type m_contactos from menu within m_programas
+end type
+type m_recepciondellamadas from menu within m_programas
+end type
+type m_tiposdecartas from menu within m_programas
+end type
+type m_cartas from menu within m_programas
+end type
+type m_campaas from menu within m_programas
+end type
+type m_tiposdeconceptos from menu within m_programas
+end type
+type m_consuldistribuidoresporprovincias from menu within m_listados
+end type
+type m_74 from menu within m_listados
+end type
+type m_72 from menu within m_listados
+end type
+type m_73 from menu within m_listados
+end type
+type m_2listaddellamadas from menu within m_listados
+end type
+type m__6 from menu within m_listados
+end type
+end forward
+
+global type mi_mailing from mc_menu_sheets
+end type
+global mi_mailing mi_mailing
+
+on mi_mailing.create
+mi_mailing=this
+call super::create
+end on
+
+on mi_mailing.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_mailing
+m_tiposdellamadas m_tiposdellamadas
+m_revistas m_revistas
+m_contactos m_contactos
+m_recepciondellamadas m_recepciondellamadas
+m_tiposdecartas m_tiposdecartas
+m_cartas m_cartas
+m_campaas m_campaas
+m_tiposdeconceptos m_tiposdeconceptos
+end type
+
+on m_programas.create
+call super::create
+this.m_tiposdellamadas=create m_tiposdellamadas
+this.m_revistas=create m_revistas
+this.m_contactos=create m_contactos
+this.m_recepciondellamadas=create m_recepciondellamadas
+this.m_tiposdecartas=create m_tiposdecartas
+this.m_cartas=create m_cartas
+this.m_campaas=create m_campaas
+this.m_tiposdeconceptos=create m_tiposdeconceptos
+this.Item[UpperBound(this.item)+1]=this.m_tiposdellamadas
+this.Item[UpperBound(this.item)+1]=this.m_revistas
+this.Item[UpperBound(this.item)+1]=this.m_contactos
+this.Item[UpperBound(this.item)+1]=this.m_recepciondellamadas
+this.Item[UpperBound(this.item)+1]=this.m_tiposdecartas
+this.Item[UpperBound(this.item)+1]=this.m_cartas
+this.Item[UpperBound(this.item)+1]=this.m_campaas
+this.Item[UpperBound(this.item)+1]=this.m_tiposdeconceptos
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_tiposdellamadas)
+destroy(this.m_revistas)
+destroy(this.m_contactos)
+destroy(this.m_recepciondellamadas)
+destroy(this.m_tiposdecartas)
+destroy(this.m_cartas)
+destroy(this.m_campaas)
+destroy(this.m_tiposdeconceptos)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_mailing
+m_consuldistribuidoresporprovincias m_consuldistribuidoresporprovincias
+m_74 m_74
+m_72 m_72
+m_73 m_73
+m_2listaddellamadas m_2listaddellamadas
+m__6 m__6
+end type
+
+on m_listados.create
+call super::create
+this.m_consuldistribuidoresporprovincias=create m_consuldistribuidoresporprovincias
+this.m_74=create m_74
+this.m_72=create m_72
+this.m_73=create m_73
+this.m_2listaddellamadas=create m_2listaddellamadas
+this.m__6=create m__6
+this.Item[UpperBound(this.item)+1]=this.m_consuldistribuidoresporprovincias
+this.Item[UpperBound(this.item)+1]=this.m_74
+this.Item[UpperBound(this.item)+1]=this.m_72
+this.Item[UpperBound(this.item)+1]=this.m_73
+this.Item[UpperBound(this.item)+1]=this.m_2listaddellamadas
+this.Item[UpperBound(this.item)+1]=this.m__6
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_consuldistribuidoresporprovincias)
+destroy(this.m_74)
+destroy(this.m_72)
+destroy(this.m_73)
+destroy(this.m_2listaddellamadas)
+destroy(this.m__6)
+end on
+
+type m_tiposdellamadas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_tipollamada, lstr_param, Parentwindow, 3,original!)
+end on
+
+on m_tiposdellamadas.create
+this.Text="&Tipos de llamadas"
+end on
+
+type m_revistas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_revistas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_revistas.create
+this.Text="&Revistas"
+end on
+
+type m_contactos from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_contactos, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_contactos.create
+this.Text="&Contactos"
+end on
+
+type m_recepciondellamadas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_llamadas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_recepciondellamadas.create
+this.Text="&Recepcion de llamadas"
+end on
+
+type m_tiposdecartas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_tipo_cartas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_tiposdecartas.create
+this.Text="Ti&pos de cartas"
+end on
+
+type m_cartas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_cartas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_cartas.create
+this.Text="&Cartas"
+end on
+
+type m_campaas from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_campanyas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_campaas.create
+this.Text="C&ampañas"
+end on
+
+type m_tiposdeconceptos from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_mconceptos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_tiposdeconceptos.create
+this.Text="Tipos de conceptos"
+end on
+
+type m_consuldistribuidoresporprovincias from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_distribuidores, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_consuldistribuidoresporprovincias.create
+this.Text="&1.Consul. Distribuidores por provincias"
+end on
+
+type m_74 from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_llamadas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_74.create
+this.Text="&2.Consul. de llamadas"
+end on
+
+type m_72 from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_etiquetas_contactos, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_72.create
+this.Text="&3.Listado cartas/etiquetas contactos"
+end on
+
+type m_73 from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_etiquetas_clientes, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_73.create
+this.Text="&4.Listado cartas/etiquetas clientes"
+end on
+
+type m_2listaddellamadas from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_list_llamadas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_2listaddellamadas.create
+this.Text="&5.Listad. de llamadas por provincias."
+end on
+
+type m__6 from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_llamadas_pdtes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m__6.create
+this.Text="&6.Llamadas Pendientes"
+end on
+

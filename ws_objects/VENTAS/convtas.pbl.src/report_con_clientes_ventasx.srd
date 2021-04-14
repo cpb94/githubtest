@@ -1,0 +1,44 @@
+﻿$PBExportHeader$report_con_clientes_ventasx.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=600 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=64 color="536870912" )
+detail(height=140 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="genter.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=codigo dbname="genter.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipoter dbname="genter.tipoter" )
+ column=(type=char(50) updatewhereclause=yes name=genter_nombre dbname="genter.nombre" )
+ column=(type=char(40) updatewhereclause=yes name=contaplan_titulo dbname="contaplan.titulo" )
+ column=(type=char(15) updatewhereclause=yes name=contaplan_cuenta dbname="contaplan.cuenta" )
+ column=(type=char(20) updatewhereclause=yes name=genter_cuenta dbname="genter.cuenta" )
+ retrieve="  SELECT genter.empresa,   
+         genter.codigo,   
+         genter.razon,   
+         genter.tipoter,   
+         genter.nombre,   
+         contaplan.titulo,   
+         contaplan.cuenta,   
+         genter.cuenta  
+    FROM genter,   
+         contaplan  
+   WHERE ( genter.empresa = contaplan.empresa ) and  
+         ( genter.cuenta = contaplan.cuenta ) and  
+         ( genter.empresa = :empresa ) AND  
+         ( genter.pais = :pais ) AND  
+         ( genter.provincia like :prov) AND  
+         ( genter.tipoter = 'C')" arguments=(("empresa", string),("pais", string),("prov", string))  sort="razon A " )
+report(band=header dataobject="report_cabecera" x="0" y="0" height="284" width="3753" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="Listado de Clientes "border="0" color="128" x="919" y="336" height="92" width="960"  moveable=1  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="27" y="504" height="4" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Codigo"border="2" color="0" x="14" y="548" height="44" width="160"  name=codigo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cliente"border="2" color="0" x="192" y="548" height="44" width="2112"  name=nombre_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="2" tabsequence=10 border="0" color="0" x="14" y="4" height="48" width="165" format="[general]"  name=codigo  resizeable=1  moveable=1 height.autosize=yes edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="0" color="0" x="197" y="4" height="48" width="763" format="[general]"  name=razon edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="5" y1="128" x2="4114" y2="128" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="974" y="4" height="48" width="1335" format="[general]"  name=contaplan_titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Pagina ' + page() + ' de ' + pageCount()"border="0" color="0" x="2213" y="4" height="48" width="805" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="197" y="72" height="40" width="361" format="[general]"  name=genter_cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="974" y="72" height="40" width="270" format="[general]"  name=contaplan_cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

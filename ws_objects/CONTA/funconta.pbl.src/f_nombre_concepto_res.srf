@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_concepto_res.srf
+global type f_nombre_concepto_res from function_object
+end type
+
+forward prototypes
+global function string f_nombre_concepto_res (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_concepto_res (string empresa, string codigo);string	ls_titulo
+
+
+  SELECT contaconcepto.resumido
+    INTO :ls_titulo
+    FROM contaconcepto 
+   WHERE   (contaconcepto.empresa = :empresa )
+   AND   (contaconcepto.codigo = :codigo)
+    USING SQLCA;
+
+RETURN ls_titulo
+end function
+

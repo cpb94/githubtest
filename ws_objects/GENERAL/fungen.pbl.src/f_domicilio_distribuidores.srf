@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_domicilio_distribuidores.srf
+$PBExportComments$Devuelve de domicilio de los distribuidores.
+global type f_domicilio_distribuidores from function_object
+end type
+
+forward prototypes
+global function string f_domicilio_distribuidores (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_domicilio_distribuidores (string empresa, string cliente, string codigo);String var_empresa,var_cliente,var_codigo,var_domicilio,&
+       var_cl_domicilio,var_nu_domicilio,var_compuesto
+SELECT distribuidores.empresa,distribuidores.cliente,distribuidores.codigo,distribuidores.domicilio,   
+       distribuidores.cl_domicilio,distribuidores.nu_domicilio  
+INTO   :var_empresa,:var_cliente,:var_codigo,:var_domicilio,   
+       :var_cl_domicilio,:var_nu_domicilio  
+FROM   distribuidores  
+WHERE (distribuidores.empresa = :empresa )
+AND   (distribuidores.cliente = :cliente )
+AND   (distribuidores.codigo  = :codigo )   
+ORDER BY distribuidores.empresa ASC,distribuidores.cliente ASC,distribuidores.codigo ASC  ;
+IF IsNull(var_cl_domicilio) Then var_cl_domicilio=""
+IF IsNull(var_nu_domicilio) Then var_nu_domicilio=""
+IF IsNull(var_domicilio) Then var_domicilio=""
+
+var_compuesto = Trim(var_cl_domicilio) + Trim(var_domicilio) + " " + &
+                Trim(var_nu_domicilio)
+IF IsNull(var_compuesto) Then var_compuesto = ""					 
+Return var_compuesto
+
+
+end function
+

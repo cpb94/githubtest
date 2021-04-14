@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_ayuda_costesplan.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=89 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=coste dbname="costesplan.coste" )
+ column=(type=char(50) updatewhereclause=yes name=titulo dbname="costesplan.titulo" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=ejercicio dbname="costesplan.ejercicio" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="costesplan.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"costesplan~" ) COLUMN(NAME=~"costesplan.coste~") COLUMN(NAME=~"costesplan.titulo~") COLUMN(NAME=~"costesplan.ejercicio~") COLUMN(NAME=~"costesplan.empresa~")WHERE(    EXP1 =~"costesplan.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"UPPER(costesplan.titulo)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ORDER(NAME=~"costesplan.titulo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="costesplan" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Cuenta"border="6" color="0" x="179" y="12" height="65" width="330"  name=cuenta_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Titulo"border="6" color="0" x="531" y="12" height="65" width="1079"  name=titulo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="179" y="4" height="65" width="330" format="[general]"  name=coste edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="531" y="4" height="65" width="1079" format="[general]"  name=titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_telefono_transportista.srf
+global type f_telefono_transportista from function_object
+end type
+
+forward prototypes
+global function string f_telefono_transportista (string empresa, string transportista)
+end prototypes
+
+global function string f_telefono_transportista (string empresa, string transportista);String var_telefono
+
+SELECT	telefono
+INTO		:var_telefono
+FROM		ventransportista
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:transportista;
+
+if isnull(var_telefono) then var_telefono = ""
+
+Return var_telefono
+end function
+

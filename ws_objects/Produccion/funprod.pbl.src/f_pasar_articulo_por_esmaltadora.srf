@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_pasar_articulo_por_esmaltadora.srf
+global type f_pasar_articulo_por_esmaltadora from function_object
+end type
+
+forward prototypes
+global function string f_pasar_articulo_por_esmaltadora (string arg_empresa, string arg_articulo, string arg_version)
+end prototypes
+
+global function string f_pasar_articulo_por_esmaltadora (string arg_empresa, string arg_articulo, string arg_version);string pasar
+long   aplicaciones_de_esmaltadora
+
+select count(*)
+into   :aplicaciones_de_esmaltadora
+from   prodaplicaciones_articulo
+where  empresa  = :arg_empresa
+and    articulo = :arg_articulo
+and    version  = :arg_version
+and    aplicacion in 
+		  (select codigo 
+		   from   prodaplicaciones
+			where  empresa    = :arg_empresa
+			and    tipo_linea = 'E'); 
+			
+if isnull(aplicaciones_de_esmaltadora) then aplicaciones_de_esmaltadora = 0
+
+if aplicaciones_de_esmaltadora > 0 then
+	pasar = "S"
+else
+	pasar = "N"
+end if
+
+return pasar
+end function
+

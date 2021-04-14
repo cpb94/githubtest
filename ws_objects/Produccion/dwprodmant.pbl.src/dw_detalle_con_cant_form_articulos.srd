@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_detalle_con_cant_form_articulos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=proddiaria_fecha dbname="proddiaria.fecha" )
+ column=(type=char(20) updatewhereclause=yes name=proddiaria_articulo dbname="proddiaria.articulo" )
+ column=(type=decimal(4) updatewhereclause=yes name=proddiaria_cantidad dbname="proddiaria.cantidad" )
+ column=(type=char(5) updatewhereclause=yes name=proddiaria_unidad dbname="proddiaria.unidad" )
+ column=(type=long updatewhereclause=yes name=proddetartic_gramaje dbname="proddetartic.gramaje" )
+ column=(type=char(5) updatewhereclause=yes name=proddiaria_empresa dbname="proddiaria.empresa" )
+ column=(type=char(10) updatewhereclause=yes name=proddetartic_formulacion dbname="proddetartic.formulacion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"proddiaria~" )  TABLE(NAME=~"proddetartic~" ) COLUMN(NAME=~"proddiaria.fecha~") COLUMN(NAME=~"proddiaria.articulo~") COLUMN(NAME=~"proddiaria.cantidad~") COLUMN(NAME=~"proddiaria.unidad~") COLUMN(NAME=~"proddetartic.gramaje~") COLUMN(NAME=~"proddiaria.empresa~") COLUMN(NAME=~"proddetartic.formulacion~")WHERE(    EXP1 =~"proddiaria.empresa~"   OP =~"=~"    EXP2 =~":ar_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"proddiaria.fecha~"   OP =~"between~"    EXP2 =~":ar_fecha_desde and :ar_fecha_hasta~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"proddiaria.articulo~"   OP =~"=~"    EXP2 =~":ar_articulo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"proddetartic.formulacion~"   OP =~"=~"    EXP2 =~":ar_formulacion~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"proddetartic.empresa~"   OP =~"=~"    EXP2 =~":ar_empresa~" ) ) ARG(NAME = ~"ar_empresa~" TYPE = string)  ARG(NAME = ~"ar_fecha_desde~" TYPE = date)  ARG(NAME = ~"ar_fecha_hasta~" TYPE = date)  ARG(NAME = ~"ar_articulo~" TYPE = string)  ARG(NAME = ~"ar_formulacion~" TYPE = string) " arguments=(("ar_empresa", string),("ar_fecha_desde", date),("ar_fecha_hasta", date),("ar_articulo", string),("ar_formulacion", string))  sort="proddiaria_fecha A " )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="73" y="4" height="64" width="325" format="[shortdate] [time]"  name=proddiaria_fecha edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="475" y="4" height="64" width="430" format="[general]"  name=proddiaria_cantidad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="942" y="4" height="64" width="928" format="[general]"  name=proddetartic_gramaje edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

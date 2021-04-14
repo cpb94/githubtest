@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_inicializar_str_carpagos.srf
+global type f_inicializar_str_carpagos from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_carpagos ( ref str_carpagos str_carpagos)
+end prototypes
+
+global function boolean f_inicializar_str_carpagos ( ref str_carpagos str_carpagos);boolean lb_correcto = true
+
+if isnull(str_carpagos.empresa) then str_carpagos.empresa = ''
+if isnull(str_carpagos.anyo) then str_carpagos.anyo = 0
+if isnull(str_carpagos.orden) then str_carpagos.orden = 0
+if isnull(str_carpagos.anyofra) then str_carpagos.anyofra = 0
+if isnull(str_carpagos.fra) then str_carpagos.fra = ''
+if isnull(str_carpagos.recibo) then str_carpagos.recibo = 0
+if isnull(str_carpagos.importe) then str_carpagos.importe = 0
+if isnull(str_carpagos.divisas) then str_carpagos.divisas = 0
+if isnull(str_carpagos.moneda) then str_carpagos.moneda = ''
+if isnull(str_carpagos.banco) then str_carpagos.banco = ''
+if isnull(str_carpagos.proveedor) then str_carpagos.proveedor = ''
+if isnull(str_carpagos.tipodoc) then str_carpagos.tipodoc = ''
+if isnull(str_carpagos.codpago) then str_carpagos.codpago = ''
+if isnull(str_carpagos.situacion) then str_carpagos.situacion = ''
+if isnull(str_carpagos.cuenta) then str_carpagos.cuenta = ''
+if isnull(str_carpagos.num_talon) then str_carpagos.num_talon = ''
+if isnull(str_carpagos.asignar_banco) then str_carpagos.asignar_banco = ''
+if isnull(str_carpagos.tipodoc_pago) then str_carpagos.tipodoc_pago = ''
+if isnull(str_carpagos.cambio) then str_carpagos.cambio = 0
+if isnull(str_carpagos.punteado) then str_carpagos.punteado = ''
+if isnull(str_carpagos.concepto) then str_carpagos.concepto = ''
+if isnull(str_carpagos.observaciones) then str_carpagos.observaciones = ''
+if isnull(str_carpagos.anyoagrupa) then str_carpagos.anyoagrupa = 0
+if isnull(str_carpagos.efectoagrupa) then str_carpagos.efectoagrupa = 0
+if isnull(str_carpagos.agrupado) then str_carpagos.agrupado = ''
+return lb_correcto
+end function
+

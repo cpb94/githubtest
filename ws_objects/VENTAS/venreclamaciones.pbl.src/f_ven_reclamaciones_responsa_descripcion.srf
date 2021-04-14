@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_ven_reclamaciones_responsa_descripcion.srf
+$PBExportComments$Devuelve el nombre del pais.
+global type f_ven_reclamaciones_responsa_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_ven_reclamaciones_responsa_descripcion (string ra_empresa, string ra_codigo)
+end prototypes
+
+global function string f_ven_reclamaciones_responsa_descripcion (string ra_empresa, string ra_codigo);string ls_nombre
+
+  SELECT  ven_reclamaciones_responsables.descripcion 
+    INTO :ls_nombre
+    FROM  ven_reclamaciones_responsables
+   WHERE  ven_reclamaciones_responsables.codigo = :ra_codigo
+	AND     ven_reclamaciones_responsables.empresa = :ra_empresa;
+IF IsNull(ls_nombre) Then ls_nombre=""
+RETURN ls_nombre
+
+
+
+
+
+
+
+end function
+

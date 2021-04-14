@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cif_ventransportista.srf
+global type f_cif_ventransportista from function_object
+end type
+
+forward prototypes
+global function string f_cif_ventransportista (string empresa, string codigo)
+end prototypes
+
+global function string f_cif_ventransportista (string empresa, string codigo);String var_cif
+
+SELECT ventransportista.cif 
+INTO :var_cif    
+FROM ventransportista
+WHERE (ventransportista.empresa   = :empresa)
+AND   (ventransportista.codigo  = :codigo);
+
+if isnull(var_cif) then var_cif=''
+
+Return var_cif
+
+end function
+

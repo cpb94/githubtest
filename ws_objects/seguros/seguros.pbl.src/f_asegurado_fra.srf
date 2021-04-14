@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_asegurado_fra.srf
+global type f_asegurado_fra from function_object
+end type
+
+forward prototypes
+global function decimal f_asegurado_fra (string arg_empresa, integer arg_anyo, long arg_factura)
+end prototypes
+
+global function decimal f_asegurado_fra (string arg_empresa, integer arg_anyo, long arg_factura);dec    importe
+
+select sum(importe)
+into   :importe
+from   seglinventas
+where  empresa      = :arg_empresa
+and    anyo_factura = :arg_anyo
+and    factura      = :arg_factura;
+
+if isnull(importe) then importe = 0
+
+return importe
+end function
+

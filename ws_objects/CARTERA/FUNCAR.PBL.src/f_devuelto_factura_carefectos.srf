@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_devuelto_factura_carefectos.srf
+global type f_devuelto_factura_carefectos from function_object
+end type
+
+forward prototypes
+global function decimal f_devuelto_factura_carefectos (string empresa, decimal anyo_fra, string factura, decimal recibo)
+end prototypes
+
+global function decimal f_devuelto_factura_carefectos (string empresa, decimal anyo_fra, string factura, decimal recibo);Dec p
+
+Select sum(carefectos.importe) Into :p From carefectos
+Where  carefectos.empresa = :empresa
+And    carefectos.anyofra = :anyo_fra
+And    carefectos.factura = :factura
+And    carefectos.recibo  = :recibo
+And    carefectos.situacion = "2";
+IF IsNUll(p) then p = 0
+Return p
+end function
+

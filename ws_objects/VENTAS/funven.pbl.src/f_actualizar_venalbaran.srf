@@ -1,0 +1,87 @@
+﻿$PBExportHeader$f_actualizar_venalbaran.srf
+global type f_actualizar_venalbaran from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_venalbaran (string empresa, decimal periodo, decimal albaran)
+end prototypes
+
+global function boolean f_actualizar_venalbaran (string empresa, decimal periodo, decimal albaran);Dec{0}   var_anyo,var_albaran
+String   var_empresa
+Dec{4}   var_importe,var_peso,var_peso_neto,var_bruto,var_impdtopp,var_importe_neto,var_importedto,var_peso_alb,var_peso_neto_alb
+			
+
+SELECT sum(venlialb.peso),       sum(venlialb.peso_neto),
+	  sum(venlialb.importedto), sum(venlialb.impdtopp),
+	  sum(venlialb.bruto), 	    sum(venlialb.neto)
+
+INTO   :var_peso,     :var_peso_neto, :var_importedto,
+	  :var_impdtopp, :var_bruto, 	   :var_importe_neto
+
+FROM   venlialb  
+WHERE (venlialb.empresa  = :codigo_empresa )
+AND   (venlialb.anyo     = :periodo )
+AND   (venlialb.albaran  = :albaran );
+IF SQLCA.SQLCODE <> 0 Then f_mensaje("Error Datos en la búsqueda de las líneas del albarán (1)",sqlca.sqlErrtext)
+
+
+// David 26-05-2010: Si es necesario modificar un peso lo haremos en el entrando en el albarán.
+
+//SELECT venalb.peso, venalb.peso_neto
+//INTO   :var_peso_alb,:var_peso_neto_alb
+//FROM   venalb  
+//WHERE (venalb.empresa  = :codigo_empresa )
+//AND   (venalb.anyo     = :periodo )
+//AND   (venalb.albaran  = :albaran );
+//// IF SQLCA.SQLCODE <> 0 Then f_mensaje("Error Datos en la búsqueda del albarán (2)",sqlca.sqlErrtext)
+//if isnull(var_peso_alb) then
+//	var_peso_alb = 0
+//end if
+//if (var_peso_alb <> 0) then
+//	var_peso = var_peso_alb
+//end if
+//if isnull(var_peso_neto_alb) then
+//	var_peso_neto_alb = 0
+//end if
+//if (var_peso_neto_alb <> 0) then
+//	var_peso_neto = var_peso_neto_alb
+//end if
+		
+// 13-05-2015: Calculamos los bultos en los albaranes en función de los números de pallets.
+
+int var_bultos
+
+var_bultos = f_calculo_bultos_venalb (codigo_empresa, periodo, albaran)
+
+Update venalb
+Set bultos = :var_bultos
+Where empresa = :codigo_empresa
+And   anyo    = :periodo
+And   albaran = :albaran;
+
+IF SQLCA.SQLCODE <> 0 Then 
+	f_mensaje("Error Datos en la actualización de bultos",sqlca.sqlErrtext)
+	Return FALSE
+END IF
+				
+UPDATE venalb 
+SET   venalb.peso          = :var_peso  ,
+		venalb.peso_neto     = :var_peso_neto,  
+		venalb.bruto         = :var_bruto,
+		venalb.total_neto    = :var_importe_neto ,
+		venalb.impdtopp      = :var_impdtopp,
+		venalb.importe_dto   = :var_importedto
+WHERE venalb.empresa       = :codigo_empresa
+AND   venalb.anyo          = :periodo
+AND   venalb.albaran       = :albaran;
+
+IF SQLCA.SQLCODE <> 0 Then 
+	f_mensaje("Error Datos en la actualización del peso",sqlca.sqlErrtext)
+	Return FALSE
+ELSE
+	return TRUE
+END IF
+
+
+end function
+

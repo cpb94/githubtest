@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_vencontadores_proformas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=209 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venparamprofor.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="venparamprofor.anyo" )
+ column=(type=long update=yes updatewhereclause=yes name=proforma dbname="venparamprofor.proforma" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venparamprofor~" ) COLUMN(NAME=~"venparamprofor.empresa~") COLUMN(NAME=~"venparamprofor.anyo~") COLUMN(NAME=~"venparamprofor.proforma~")WHERE(    EXP1 =~"venparamprofor.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venparamprofor.anyo~"   OP =~"=~"    EXP2 =~":arg_anyo~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_anyo~" TYPE = number) " update="venparamprofor" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_anyo", number)) )
+text(band=detail alignment="1" text="Contador Proformas:"border="0" color="0" x="60" y="68" height="65" width="599"  name=pedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="5" color="0" x="695" y="60" height="77" width="261" format="[general]"  name=proforma edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

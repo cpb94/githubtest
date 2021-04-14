@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_cargar_report_vgm_contenedor_booking_facturado.srf
+global type f_cargar_report_vgm_contenedor_booking_facturado from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_report_vgm_contenedor_booking_facturado (string arg_empresa, string arg_contenedor, string arg_booking, ref datawindow arg_datawindow)
+end prototypes
+
+global function boolean f_cargar_report_vgm_contenedor_booking_facturado (string arg_empresa, string arg_contenedor, string arg_booking, ref datawindow arg_datawindow);int li_donde
+str_venparametros lstr_venparametros
+str_venlifac lstr_venlifac
+
+if f_cargar_str_venparametros(arg_empresa,lstr_venparametros) then
+	select venlifac.booking,
+			 venlifac.contenedor,
+			 max(isnull(venlifac.precinto,'')),
+			 max(isnull(venlifac.metodo_verificacion_masa_bruta,'')),
+			 sum(isnull(venlifac.peso,0)),
+			 max(isnull(venlifac.tara_contenedor,0)),
+			 max(venlifac.falbaran),
+			 max(venlifac.cliente)
+	into   :lstr_venlifac.booking,
+			 :lstr_venlifac.contenedor,
+			 :lstr_venlifac.precinto,
+			 :lstr_venlifac.metodo_verificacion_masa_bruta,
+			 :lstr_venlifac.peso,
+			 :lstr_venlifac.tara_contenedor,
+			 :lstr_venlifac.falbaran,
+			 :lstr_venlifac.cliente
+	from   venlifac
+	where  venlifac.empresa = :arg_empresa
+	and    venlifac.booking = :arg_booking
+	and    venlifac.contenedor = :arg_contenedor
+	group by venlifac.booking,
+			   venlifac.contenedor;
+
+	arg_datawindow.reset()
+	
+	li_donde = arg_datawindow.insertrow(0)
+
+	arg_datawindow.object.empresa[li_donde]            = arg_empresa
+	arg_datawindow.object.booking[li_donde]            = lstr_venlifac.booking
+	arg_datawindow.object.contenedor[li_donde]         = lstr_venlifac.contenedor
+	arg_datawindow.object.precinto[li_donde]           = lstr_venlifac.precinto
+	arg_datawindow.object.metodo_utilizado[li_donde]   = lstr_venlifac.metodo_verificacion_masa_bruta
+	arg_datawindow.object.peso_mercancia[li_donde]     = lstr_venlifac.peso
+	arg_datawindow.object.tara_contenedor[li_donde]    = lstr_venlifac.tara_contenedor
+	arg_datawindow.object.vgm[li_donde]                = lstr_venlifac.peso + lstr_venlifac.tara_contenedor
+	arg_datawindow.object.persona_autorizada[li_donde] = lstr_venparametros.vgm_persona_autorizada
+	arg_datawindow.object.firma[li_donde]              = lstr_venparametros.vgm_imagen_firma
+	arg_datawindow.object.sello[li_donde]              = lstr_venparametros.vgm_imagen_sello
+	arg_datawindow.object.localidad[li_donde]          = f_localidad_empresa(arg_empresa)
+	arg_datawindow.object.fecha[li_donde]              = lstr_venlifac.falbaran
+	
+	arg_datawindow.sort()
+	arg_datawindow.groupcalc()
+else
+	arg_datawindow.reset()
+end if
+
+arg_datawindow.Modify("datawindow.print.copies = 2")
+
+return true
+end function
+

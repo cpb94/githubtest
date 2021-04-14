@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_empresa_abr.srf
+$PBExportComments$Devualve el nombre resumido de la empresa.
+global type f_nombre_empresa_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_empresa_abr (string ai_codigo_empresa)
+end prototypes
+
+global function string f_nombre_empresa_abr (string ai_codigo_empresa);string	ls_nombre_empresa
+
+  SELECT empresas.abreviado
+    INTO :ls_nombre_empresa 
+    FROM empresas  
+   WHERE empresas.empresa = :ai_codigo_empresa;
+ 
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("Empresa no Definida", "El Usuario indicado no tiene una empresa definida.")
+   ls_nombre_empresa=""
+END IF
+RETURN ls_nombre_empresa
+end function
+

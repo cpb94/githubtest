@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_altas_articulos_anyo.srf
+global type f_altas_articulos_anyo from function_object
+end type
+
+forward prototypes
+global function long f_altas_articulos_anyo (string empresa, integer anyo, string cliente)
+end prototypes
+
+global function long f_altas_articulos_anyo (string empresa, integer anyo, string cliente);long altas
+
+select count(*)
+into :altas
+from articulos
+where empresa = :empresa
+and datepart (year, fecha_alta) = :anyo
+and uso = '3'
+and cliente like :cliente;
+
+return altas;
+end function
+

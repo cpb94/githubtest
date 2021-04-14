@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_calculo_promped.srf
+global type f_calculo_promped from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_promped (string arg_empresa, decimal arg_anyo, decimal arg_pedido)
+end prototypes
+
+global function boolean f_calculo_promped (string arg_empresa, decimal arg_anyo, decimal arg_pedido);Integer bien
+bien= 0
+String var_situacion
+Dec{4} var_peso_panel,var_coste_panel,var_venta_panel,var_peso_material,&
+var_coste_material,var_venta_material,var_coste_manipulacion
+
+var_situacion = f_situacion_promped_abr(arg_empresa,arg_anyo,arg_pedido)
+  SELECT sum(promlinped.peso_material  * promlinped.cantidad),   
+         sum(promlinped.coste_material * promlinped.cantidad),   
+         sum(promlinped.venta_material * promlinped.cantidad),   
+         sum(promlinped.coste_panel * promlinped.cantidad),   
+         sum(promlinped.peso_panel  * promlinped.cantidad),   
+         sum(promlinped.venta_panel * promlinped.cantidad)  ,
+         sum(promlinped.coste_manipulacion * promlinped.cantidad)  
+    INTO :var_peso_material,   
+         :var_coste_material,   
+         :var_venta_material,   
+         :var_coste_panel,   
+         :var_peso_panel,   
+         :var_venta_panel,
+         :var_coste_manipulacion
+    FROM promlinped  
+   WHERE ( promlinped.empresa = :arg_empresa ) AND  
+         ( promlinped.anyo = :arg_anyo ) AND  
+         ( promlinped.pedido = :arg_pedido );
+			IF SQLCA.SQLCODE <> 0 Then bien = 1
+			
+	  UPDATE promped  
+     SET peso_paneles       = :var_peso_panel,   
+         coste_paneles      = :var_coste_panel,   
+         venta_paneles      = :var_venta_panel,   
+         peso_material    = :var_peso_material,   
+         coste_material   = :var_coste_material,   
+         venta_material   = :var_venta_material,   
+         coste_manipulacion = :var_coste_manipulacion,   
+			peso_total       = promped.peso_expositor + (:var_peso_material+ :var_peso_panel),   
+         coste_total      = promped.coste_expositor + (:var_coste_material+ :var_coste_panel + :var_coste_manipulacion),    
+         venta_total      = promped.venta_expositor + (:var_venta_material+ :var_venta_panel + :var_coste_manipulacion),     
+			situacion        = :var_situacion  
+   WHERE ( promped.empresa  = :arg_empresa ) AND  
+         ( promped.anyo     = :arg_anyo ) AND  
+         ( promped.pedido   = :arg_pedido )   ;
+			IF SQLCA.SQLCODE <> 0 then bien = 1
+
+
+
+
+
+IF bien = 0 Then
+	Return TRUE
+ELSE
+	RETURN FALSE
+END IF
+end function
+

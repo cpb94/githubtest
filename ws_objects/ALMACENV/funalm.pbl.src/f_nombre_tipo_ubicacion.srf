@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_tipo_ubicacion.srf
+global type f_nombre_tipo_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipo_ubicacion (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_nombre_tipo_ubicacion (string ai_empresa, string as_tipo);string	ls_nombre_tipo
+
+    SELECT isnull(tipo_ubicacion.descripcion,'')
+    INTO :ls_nombre_tipo  
+    FROM tipo_ubicacion  
+   WHERE ( tipo_ubicacion.empresa      = :ai_empresa ) AND  
+         ( tipo_ubicacion.codigo      = :as_tipo )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_tipo = ""
+
+END IF
+
+RETURN ls_nombre_tipo
+end function
+

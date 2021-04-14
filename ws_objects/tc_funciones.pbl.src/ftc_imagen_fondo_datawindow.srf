@@ -1,0 +1,113 @@
+﻿$PBExportHeader$ftc_imagen_fondo_datawindow.srf
+global type ftc_imagen_fondo_datawindow from function_object
+end type
+
+forward prototypes
+global subroutine ftc_imagen_fondo_datawindow (ref datawindow dw, string tipo, string coleccion, string modelo, string pieza)
+end prototypes
+
+global subroutine ftc_imagen_fondo_datawindow (ref datawindow dw, string tipo, string coleccion, string modelo, string pieza);// dw: Datawindows al que le vamos a poner la imagen de fondo
+// tipo: Codigo de los diferentes tipos de imágen de la tabla "archivo_resolucion"
+// coleccion: de la que deseamos cargar la imágen
+// modelo: del que deseamos cargar la imágen
+// pieza: del que deseamos cargar la imágen
+
+// Cargaremos la imágen en función de los parámetros que no estén vacios (coleccion, modelo, pieza)
+
+
+string codigo_archivo, ruta, ruta_archivos_exposicion, tamanyo //codigo_coleccion, modelo, 
+Long min_codigo_archivo
+
+SELECT tamanyo INTO :tamanyo FROM archivo_resolucion WHERE empresa = :codigo_empresa AND codigo = :tipo;
+
+SELECT ruta_archivos_exposicion INTO :ruta_archivos_exposicion  FROM empresas WHERE empresa = :codigo_empresa;
+if isnull(ruta_archivos_exposicion) then ruta_archivos_exposicion = ""
+
+dw.visible = false // para evitar efectos raros en pantalla.
+
+
+if not isnull(pieza) and pieza <> "" then
+	// Imágen de la pieza	
+	
+	SELECT MIN(CONVERT(integer,codigo)) 
+	INTO :min_codigo_archivo
+	FROM modelo_pieza_archivo 
+	WHERE empresa = :codigo_empresa
+	and pieza = :pieza;
+	
+	if not isnull(min_codigo_archivo) and min_codigo_archivo > 0 then
+		codigo_archivo = String(min_codigo_archivo)
+		SELECT REPLACE(ruta + :tamanyo + '\' + fichero, ' ', '' ) 
+		INTO  :ruta  
+		FROM modelo_pieza_archivo
+		WHERE empresa = :codigo_empresa
+		and pieza = :pieza
+		and codigo = :codigo_archivo
+		USING SQLCA;
+		
+		if not isnull(ruta) and ruta <> "" then
+			dw.Object.datawindow.picture.File =  ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+			dw.visible = true
+		end if
+	end if
+	
+else 
+	if not isnull(coleccion) and coleccion <> "" and not isnull(modelo) and modelo <> "" then
+		// Imágen del modelo
+		SELECT MIN(CONVERT(integer,codigo)) 
+		INTO :min_codigo_archivo
+		FROM modelo_archivo_expo 
+		WHERE empresa = :codigo_empresa
+		and coleccion = :coleccion
+		and modelo = :modelo;
+		
+		if not isnull(min_codigo_archivo) and min_codigo_archivo > 0 then
+			codigo_archivo = String(min_codigo_archivo)
+			SELECT REPLACE(ruta + :tamanyo + '\' + fichero, ' ', '' ) 
+			INTO  :ruta  
+			FROM modelo_archivo_expo
+			WHERE empresa = :codigo_empresa
+			and coleccion = :coleccion
+			and modelo = :modelo
+			and codigo = :codigo_archivo
+			USING SQLCA;
+			
+			if not isnull(ruta) and ruta <> "" then
+				dw.Object.datawindow.picture.File = ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+				dw.visible = true
+			end if
+			
+		end if
+	else 
+		if not isnull(coleccion) and coleccion <> "" then
+			// Imágen de la colección
+			SELECT MIN(CONVERT(integer,codigo)) 
+			INTO :min_codigo_archivo
+			FROM coleccion_archivo 
+			WHERE empresa = :codigo_empresa
+			and coleccion = :coleccion;
+			
+			if not isnull(min_codigo_archivo) and min_codigo_archivo > 0 then
+				codigo_archivo = String(min_codigo_archivo)
+				SELECT REPLACE(ruta + :tamanyo + '\' + fichero, ' ', '' ) 
+				INTO  :ruta  
+				FROM coleccion_archivo
+				WHERE empresa = :codigo_empresa
+				and coleccion = :coleccion
+				and codigo = :codigo_archivo
+				USING SQLCA;
+				
+				if not isnull(ruta) and ruta <> "" then
+					dw.Object.datawindow.picture.File =  ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+					dw.visible = true
+				end if
+			end if
+		end if
+	end if
+end if
+
+
+
+
+end subroutine
+

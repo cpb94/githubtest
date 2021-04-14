@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_insert_str_palarticulo.srf
+global type f_insert_str_palarticulo from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_palarticulo (ref str_palarticulo str_palarticulo)
+end prototypes
+
+global function boolean f_insert_str_palarticulo (ref str_palarticulo str_palarticulo);int li_existe_registro
+boolean lb_correcto = true
+
+SELECT isnull(count(*),0) 
+INTO   :li_existe_registro 
+FROM   palarticulo
+WHERE  palarticulo.empresa  = :str_palarticulo.empresa        
+AND    palarticulo.articulo = :str_palarticulo.articulo
+AND    palarticulo.codigo   = :str_palarticulo.codigo
+AND    palarticulo.caja     = :str_palarticulo.caja;
+
+if li_existe_registro = 0 then
+	//Insertamos
+	INSERT INTO palarticulo 
+		(palarticulo.empresa,
+       palarticulo.articulo,
+       palarticulo.codigo,
+       palarticulo.caja,
+       palarticulo.cajaspallet,
+       palarticulo.planospallet,
+       palarticulo.alturas,
+       palarticulo.pordefecto)
+	VALUES
+		(:str_palarticulo.empresa,
+       :str_palarticulo.articulo,
+       :str_palarticulo.codigo,
+       :str_palarticulo.caja,
+       :str_palarticulo.cajaspallet,
+       :str_palarticulo.planospallet,
+       :str_palarticulo.alturas,
+       :str_palarticulo.pordefecto);
+else
+	//Updateamos
+	UPDATE palarticulo
+	SET    palarticulo.cajaspallet = :str_palarticulo.cajaspallet,
+       	 palarticulo.planospallet = :str_palarticulo.planospallet,
+       	 palarticulo.alturas = :str_palarticulo.alturas,
+       	 palarticulo.pordefecto = :str_palarticulo.pordefecto 
+	WHERE palarticulo.empresa  = :str_palarticulo.empresa 
+	AND   palarticulo.articulo = :str_palarticulo.articulo 
+	AND   palarticulo.codigo   = :str_palarticulo.codigo 
+	AND   palarticulo.caja     = :str_palarticulo.caja;
+end if
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

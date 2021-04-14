@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_inicializar_str_almartcajas.srf
+global type f_inicializar_str_almartcajas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_almartcajas ( ref str_almartcajas str_almartcajas)
+end prototypes
+
+global function boolean f_inicializar_str_almartcajas ( ref str_almartcajas str_almartcajas);boolean lb_correcto = true
+
+if isnull(str_almartcajas.empresa) then str_almartcajas.empresa = ''
+if isnull(str_almartcajas.articulo) then str_almartcajas.articulo = ''
+if isnull(str_almartcajas.caja) then str_almartcajas.caja = ''
+if isnull(str_almartcajas.piezascaja) then str_almartcajas.piezascaja = 0
+if isnull(str_almartcajas.metroscaja) then str_almartcajas.metroscaja = 0
+if isnull(str_almartcajas.metroslcaja) then str_almartcajas.metroslcaja = 0
+if isnull(str_almartcajas.pesocaja) then str_almartcajas.pesocaja = 0
+if isnull(str_almartcajas.metros_reales_caja) then str_almartcajas.metros_reales_caja = 0
+if isnull(str_almartcajas.peso_real_caja) then str_almartcajas.peso_real_caja = 0
+if isnull(str_almartcajas.metros_reales) then str_almartcajas.metros_reales = 0
+if isnull(str_almartcajas.descripcion) then str_almartcajas.descripcion = ''
+if isnull(str_almartcajas.codigo) then str_almartcajas.codigo = ''
+if isnull(str_almartcajas.pordefecto) then str_almartcajas.pordefecto = ''
+return lb_correcto
+end function
+

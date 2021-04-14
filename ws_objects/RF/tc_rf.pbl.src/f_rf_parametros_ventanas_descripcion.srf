@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_rf_parametros_ventanas_descripcion.srf
+global type f_rf_parametros_ventanas_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_rf_parametros_ventanas_descripcion (long arg_id)
+end prototypes
+
+global function string f_rf_parametros_ventanas_descripcion (long arg_id);string ls_rf_parametros_ventanas_descripcion
+
+select isnull(rf_parametros_ventanas.descripcion,'')
+into   :ls_rf_parametros_ventanas_descripcion
+from   rf_parametros_ventanas
+where  rf_parametros_ventanas.id = :arg_id;
+
+return ls_rf_parametros_ventanas_descripcion
+end function
+

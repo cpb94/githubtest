@@ -1,0 +1,13 @@
+﻿$PBExportHeader$paso_calformato.srp
+PIPELINE(source_connect=Mijares,destination_connect=Mijares,type=update,commit=1,errors=1,keyname="calformato")
+SOURCE(name="calformato",COLUMN(type=char,name="compute_0001",dbtype="char(1)",nulls_allowed=no)
+ COLUMN(type=char,name="formato",dbtype="char(5)",nulls_allowed=no)
+ COLUMN(type=char,name="calidad",dbtype="char(5)",nulls_allowed=no)
+ COLUMN(type=double,name="precioventa",dbtype="float",nulls_allowed=no)
+ COLUMN(type=datetime,name="fechaalta",dbtype="datetime",nulls_allowed=no))
+RETRIEVE(statement="SELECT :arg_empresa_nue, calformato.formato, calformato.calidad, calformato.precioventa, calformato.fechaalta FROM calformato WHERE empresa=:arg_empresa_ant AND formato=:arg_formato",arguments((arg_empresa_ant,String),(arg_empresa_nue,String),(arg_formato,String)))
+DESTINATION(name="calformato",COLUMN(type=char,name="empresa",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=char,name="formato",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=char,name="calidad",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=double,name="precioventa",dbtype="float",nulls_allowed=yes)
+ COLUMN(type=datetime,name="fechaalta",dbtype="datetime",nulls_allowed=yes))

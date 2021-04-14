@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_colisiones.srs
+global type str_colisiones from structure
+	string		empresa
+	string		tabla
+	string		campo
+	string		filtro
+	boolean		buscar_huecos
+end type
+

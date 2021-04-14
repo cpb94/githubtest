@@ -1,0 +1,35 @@
+﻿$PBExportHeader$str_movimiento_almacen_traspaso_bultos.srs
+global type str_movimiento_almacen_traspaso_bultos from structure
+	string		empresa
+	string		articulo
+	string		calidad
+	string		tono
+	integer		calibre
+	string		tipo_pallet
+	string		caja
+	decimal { 4 }		cantidad
+	integer		orden_carga_anyo
+	string		orden_carga_codigo
+	integer		orden_carga_linea
+	string		tipo_movimiento_salida
+	string		observaciones
+	string		almacen_salida
+	string		zona_salida
+	integer		fila_salida
+	integer		altura_salida
+	string		tercero
+	string		documento
+	datetime		fecha
+	long		id_ubicacion_salida
+	long		id_alm_bultos
+	string		tipo_movimiento_entrada
+	string		almacen_entrada
+	string		zona_entrada
+	integer		fila_entrada
+	integer		altura_entrada
+	long		id_ubicacion_entrada
+	integer		venliped_anyo
+	long		venliped_pedido
+	integer		venliped_linea
+end type
+

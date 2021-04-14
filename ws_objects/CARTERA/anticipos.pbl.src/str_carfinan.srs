@@ -1,0 +1,33 @@
+﻿$PBExportHeader$str_carfinan.srs
+global type str_carfinan from structure
+     STRING     empresa
+     STRING     bancofinan
+     INTEGER     contador
+     INTEGER     num_prorroga
+     STRING     refbanco
+     STRING     ordencarga
+     DATETIME     fvalor
+     STRING     moneda
+     DECIMAL {5}     divisasfinan
+     INTEGER     plazo
+     DATETIME     vencimiento
+     INTEGER     plazoreal
+     STRING     cliente
+     INTEGER     situacion
+     INTEGER     prorroga_activa
+     STRING     banco_abono
+     STRING     facabono
+     DECIMAL {5}     divisa_abono
+     DECIMAL {2}     importe_abono
+     DECIMAL {6}     cambio_abono
+     INTEGER     anyo
+     STRING     moneda_abono
+     INTEGER     anyo_fac
+     STRING     serie_fac
+     STRING     factura
+     STRING     fpago
+     DATETIME     fanticipo
+     DATETIME     fecha_abono
+     DECIMAL {6}     pdte_liquidar
+end type
+

@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_ven_reclamaciones_fases_situac.srs
+global type str_ven_reclamaciones_fases_situac from structure
+     STRING     empresa
+     STRING     fase
+     STRING     situacion
+     STRING     subfase
+     STRING     subsituacion
+end type
+

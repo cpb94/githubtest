@@ -1,0 +1,34 @@
+﻿$PBExportHeader$dw_numero_juegopantallas.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=char(10) updatewhereclause=yes name=art_ver_operaciones_juegopantallas dbname="art_ver_operaciones.juegopantallas" )
+ column=(type=char(20) updatewhereclause=yes name=art_ver_operaciones_articulo dbname="art_ver_operaciones.articulo" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_operaciones_version dbname="art_ver_operaciones.version" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_operaciones_orden dbname="art_ver_operaciones.orden" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=formatos_abreviado dbname="formatos.abreviado" )
+ retrieve="  SELECT art_ver_operaciones.juegopantallas,   
+         art_ver_operaciones.articulo,   
+         art_ver_operaciones.version,   
+         art_ver_operaciones.orden,   
+         articulos.descripcion,   
+         formatos.abreviado  
+    FROM art_ver_operaciones,   
+         articulos,   
+         formatos  
+   WHERE ( art_ver_operaciones.empresa *= articulos.empresa) and  
+         ( art_ver_operaciones.articulo *= articulos.codigo) and  
+         ( art_ver_operaciones.empresa *= formatos.empresa) and  
+         ( art_ver_operaciones.formato *= formatos.codigo) and  
+         ( ( art_ver_operaciones.empresa = :empresa ) AND  
+         ( art_ver_operaciones.juegopantallas >= convert(integer, :juegopantallas) ) AND  
+         ( art_ver_operaciones.juegopantallas <= convert(integer, :juegopantallas2) ) )   
+ORDER BY convert (integer,art_ver_operaciones.juegopantallas)
+" arguments=(("empresa", string),("juegopantallas", string),("juegopantallas2", string))  sort="art_ver_operaciones_juegopantallas A " )
+group(level=1 header.height=400 trailer.height=0 by=("art_ver_operaciones_juegopantallas" ) header.color="536870912" trailer.color="536870912" )
+column(band=header.1 id=1 alignment="2" tabsequence=32766 border="2" color="0" x="41" y="8" height="372" width="992" format="[general]"  name=art_ver_operaciones_juegopantallas  resizeable=1 edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-60" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="1234" y="0" height="44" width="169" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nombre_empresa.srf
+$PBExportComments$Función para obtener el nombre de la Empresa.
+global type f_nombre_empresa from function_object
+end type
+
+forward prototypes
+global function string f_nombre_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_nombre_empresa (string ai_codigo_empresa);string	ls_nombre_empresa
+
+if isnull(ai_codigo_empresa) then ai_codigo_empresa = ''
+
+  SELECT empresas.nombre  
+    INTO :ls_nombre_empresa 
+    FROM empresas  
+   WHERE empresas.empresa = :ai_codigo_empresa;
+ 
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("Empresa no Definida "+ai_codigo_empresa, "El Usuario indicado no tiene una empresa definida.")
+   ls_nombre_empresa=""
+END IF
+RETURN ls_nombre_empresa
+end function
+

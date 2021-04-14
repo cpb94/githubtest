@@ -1,0 +1,10 @@
+﻿$PBExportHeader$report_vencartacreditos5.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=909 color="536870912" )
+table(column=(type=char(4099) updatewhereclause=no name=bienes dbname="venlincreditemb.bienes" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venlincreditemb~" ) COLUMN(NAME=~"venlincreditemb.bienes~")WHERE(    EXP1 =~"venlincreditemb.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlincreditemb.periodo~"   OP =~"=~"    EXP2 =~":periodo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlincreditemb.num_credito~"   OP =~"=~"    EXP2 =~":carta~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"periodo~" TYPE = number)  ARG(NAME = ~"carta~" TYPE = string) " arguments=(("empresa", string),("periodo", number),("carta", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="183" y="4" height="897" width="3105" format="[general]"  name=bienes height.autosize=yes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

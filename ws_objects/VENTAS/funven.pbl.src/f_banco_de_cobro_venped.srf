@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_banco_de_cobro_venped.srf
+global type f_banco_de_cobro_venped from function_object
+end type
+
+forward prototypes
+global function string f_banco_de_cobro_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_banco_de_cobro_venped (string empresa, integer anyo, decimal pedido);String var_banco
+
+
+  SELECT venped.banco_de_cobro
+    INTO :var_banco
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido)   ;
+
+
+
+Return var_banco
+end function
+

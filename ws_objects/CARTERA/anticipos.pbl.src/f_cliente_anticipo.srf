@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cliente_anticipo.srf
+global type f_cliente_anticipo from function_object
+end type
+
+forward prototypes
+global function string f_cliente_anticipo (string empresa, string bancofinan, integer contador, integer anyo)
+end prototypes
+
+global function string f_cliente_anticipo (string empresa, string bancofinan, integer contador, integer anyo);string cliente
+
+select cliente
+into	 :cliente
+from carfinan
+where carfinan.empresa 		 	= :empresa 
+and	carfinan.bancofinan	 	= :bancofinan
+and	carfinan.contador		 	= :contador	
+and	carfinan.anyo				= :anyo
+and	carfinan.num_prorroga	= 0;	
+		
+
+return cliente
+end function
+

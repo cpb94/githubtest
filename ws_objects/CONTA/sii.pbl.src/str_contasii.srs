@@ -1,0 +1,21 @@
+﻿$PBExportHeader$str_contasii.srs
+global type str_contasii from structure
+	string		empresa
+	decimal { 0 }		ejercicio
+	string		factura
+	string		tipoter
+	string		tercero
+	string		numseriefactura
+	datetime		fechaexpedicion
+	datetime		fechaoperacion
+	datetime		fecharegcontable
+	string		tipofactura
+	string		clave
+	string		descripcionoperacion
+	decimal { 6 }		importetotal
+	string		situacioninmueble
+	string		referenciacatastral
+	string		id_tercero
+	datetime		fecharegcontablesii
+end type
+

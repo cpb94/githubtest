@@ -1,0 +1,76 @@
+﻿$PBExportHeader$f_escandallo_factores_nuevo.srf
+global type f_escandallo_factores_nuevo from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_factores_nuevo (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, ref decimal factor_acumulado, integer nivel, string arg_articulo_max)
+end prototypes
+
+global subroutine f_escandallo_factores_nuevo (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, ref decimal factor_acumulado, integer nivel, string arg_articulo_max);// arg_escandallo[50]:  	Vector de estructuras para almacenar todos los artículos que componen el árbol . (ver str_escandallo).
+// arg_articulo:				Código del artículo del cual buscaremos su escandallo.
+// indice:						Siempre deberá recibir un 1 en la llamada principal.
+// factor acumulado:			Siempre deberá recibir un 1 en la llamada principal.
+
+string sel, articulo_ant, v_Articulo, v_version
+integer i, nodo_hijo, nodo_raiz, k
+datastore registros 
+long nodo_actual, nodo_padre
+boolean procesado = false
+decimal{2} v_factor
+
+nivel ++
+if nivel < 300 then
+	arg_escandallo[300].articulo = "CORRECTO"
+	sel = " select articulo, version, articulo_ant, factor"+&
+			" from art_escandallo "+&
+			" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+			" and articulo = '"+arg_articulo+"' " +&
+			" and version = '1';"
+			
+	f_cargar_cursor_nuevo (sel, registros )
+	
+	for i = 1 to registros.RowCount()
+		
+		if registros.RowCount() = 0 then
+			articulo_ant = "0"
+		else
+			v_articulo = registros.object.articulo[i]
+			v_version = registros.object.version[i]
+			articulo_ant = registros.object.articulo_ant[i]		
+		end if
+				
+		if articulo_ant <> "0" then
+			if registros.object.factor[i] = 0 or isnull(registros.object.factor[i]) then
+				v_factor = 1.00
+			else
+				v_factor = registros.object.factor[i]
+			end if
+			
+			if v_articulo <> arg_articulo_max then 
+			
+				f_escandallo_factores_nuevo (arg_escandallo, articulo_ant, indice, factor_acumulado, nivel, arg_articulo_max)
+				
+			end if
+		end if
+		factor_acumulado *= v_factor
+		if not procesado and indice > 0 then
+			arg_escandallo[indice].articulo = v_articulo
+			arg_escandallo[indice].version = v_version
+			arg_escandallo[indice].factor =  factor_Acumulado
+			arg_escandallo[indice].nivel =  nivel
+			procesado = true
+			indice++		
+		end if
+		
+	
+	next
+	
+else
+	arg_escandallo[300].articulo = "ERROR"
+	destroy registros
+end if
+destroy registros
+
+
+end subroutine
+

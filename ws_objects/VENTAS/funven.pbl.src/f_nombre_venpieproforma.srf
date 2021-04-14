@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_venpieproforma.srf
+global type f_nombre_venpieproforma from function_object
+end type
+
+forward prototypes
+global function string f_nombre_venpieproforma (string empresa, string idioma)
+end prototypes
+
+global function string f_nombre_venpieproforma (string empresa, string idioma);String    var_param
+  SELECT  venpieproforma.texto  
+    INTO  :var_param  
+    FROM  venpieproforma  
+   WHERE (venpieproforma.empresa = :empresa ) AND  
+         (venpieproforma.idioma = :idioma )   ;
+Return    var_param
+
+end function
+

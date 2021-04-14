@@ -1,0 +1,125 @@
+﻿$PBExportHeader$f_cop_tip_iva_gno.srf
+global type f_cop_tip_iva_gno from function_object
+end type
+
+forward prototypes
+global function integer f_cop_tip_iva_gno (string as_empresa, integer par_ejer_orig, integer par_ejer_dest, string as_tabla)
+end prototypes
+
+global function integer f_cop_tip_iva_gno (string as_empresa, integer par_ejer_orig, integer par_ejer_dest, string as_tabla);// Copiamos los tipos de IVA desde el ejercicio origen al destino
+
+/* Devuelve -1 si hay error al consultar BD
+				0 si no hay tipos de IVA para el ejercicio origen
+				1 bien
+
+*/
+//str_campos   lstr_campos
+string ls_campo[]
+long 	ll_fila
+integer j
+string ls_select,ls_insert
+datastore ds_campos
+datastore ds_copia
+string ls_tipo[],ls_cadena,ls_cadena_valor,ls_campo_valor,ls_valor
+string texto_sql
+
+
+ls_select = "SELECT syscolumns.name,syscolumns.colid,syscolumns.xtype," + &
+"syscolumns.length,syscolumns.xprec,syscolumns.xscale," + &
+" syscolumns.isnullable,syscolumns.type, syscolumns.usertype,systypes.name " + &
+" FROM syscolumns,sysobjects, systypes " + & 
+" WHERE ( syscolumns.id = sysobjects.id ) and " + & 
+" (syscolumns.xtype = systypes.xtype) and " + & 
+"( ( sysobjects.name = '" + as_tabla + "'" + " ) ) ORDER BY syscolumns.colid"
+
+
+ds_campos = create datastore
+ds_campos=f_cargar_cursor(ls_select)
+
+if ds_campos.rowcount() > 0 then
+	
+	for ll_fila  = 1 to ds_campos.rowcount()
+		
+		/// Leemos el tipo de campo
+		ls_tipo[ll_fila]  = trim(ds_campos.object.systypes_name[ll_fila])
+		ls_campo[ll_fila]  = trim(ds_campos.object.syscolumns_name[ll_fila])
+	
+	next
+//
+//	
+//
+//	
+	texto_sql ="SELECT * " +&
+				"FROM " + as_tabla + ""  +&	 
+				" WHERE ( " + as_tabla + "" + ".empresa = '"+ as_empresa +"' ) AND "  + &
+				" (" + as_tabla + "" + ".ejercicio =" +string(par_ejer_orig)  +"  )"   
+	
+	
+	ds_copia = create datastore
+	ds_copia=f_cargar_cursor(texto_sql)
+	
+	ds_copia.settransobject(sqlca)
+	int i,num
+	num=ds_copia.retrieve()
+	
+	if num = 0 then 
+		// No hay tipos para el ejercicio origen 
+		return 0
+	else
+		// hay tipos
+		boolean correcto
+//		
+		dec{2} el_iva
+		string emp,tip_iva,descrip,resum,cuenta_iva,recarg,deducib,lib
+		
+		correcto = true
+		
+		for i= 1 to num 
+			ls_cadena = ""
+			ls_cadena_valor = ""
+			ls_campo_valor = ""
+			for j = 1 to ds_campos.rowcount()
+				
+				
+				
+				ls_cadena = ls_cadena + ls_campo[j] + ","
+
+				choose case ls_tipo[j]
+					case "char"
+						ls_valor = ds_copia.getitemstring(i,ls_campo[j])
+						if f_nulo_blanco(ls_valor) then ls_valor = ""
+						ls_valor = f_valor_tipo_gno(ls_valor,"CH",0)
+						ls_cadena_valor = ls_cadena_valor +  "," + ls_valor
+					case else
+						ls_valor = string(ds_copia.getitemnumber(i,ls_campo[j]))
+						if f_nulo_blanco(ls_valor) then ls_valor = "0"
+						if ls_campo[j] = "ejercicio"  then ls_valor = string(par_ejer_dest)
+						ls_valor = f_valor_tipo_gno(ls_valor,"DEC",2)
+						ls_cadena_valor = ls_cadena_valor  +  "," + ls_valor
+				end choose
+			next
+			
+			 f_get_token_der(ls_cadena, ",")
+			 f_get_token(ls_cadena_valor,",")
+
+			ls_insert = "INSERT INTO " + as_tabla + " ( " + ls_cadena + ") VALUES (" + ls_cadena_valor + ")"
+			execute immediate :ls_insert using sqlca;
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+				exit
+			end if
+
+		next
+	end if
+end if /// ds_campos.rowcount() > 0
+//
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+
+end function
+

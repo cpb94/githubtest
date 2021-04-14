@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_int_etiquetas_textos.srd
+release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=2 print.documentname="" print.orientation = 0 print.margin.left = 0 print.margin.right = 0 print.margin.top = 0 print.margin.bottom = 0 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no label.name="Laser-A4 Disk 5-1/4 L7663" label.width=6800 label.height=2420 label.rows=12 label.rows.spacing=0 label.columns=3 label.columns.spacing=0 label.topdown=no label.sheet=yes label.shape=roundrectangle label.ellipse_height=477 label.ellipse_width=477 pointer="\BMP\MANO.CUR" )
+detail(height=2434 color="536870912" )
+table(column=(type=char(50) updatewhereclause=no name=texto1 dbname="texto1" )
+ column=(type=char(50) updatewhereclause=no name=texto2 dbname="texto2" )
+ column=(type=char(50) updatewhereclause=no name=texto3 dbname="texto3" )
+ column=(type=char(50) updatewhereclause=no name=texto4 dbname="texto4" )
+ column=(type=char(50) updatewhereclause=no name=texto5 dbname="texto5" )
+ )
+compute(band=detail alignment="0" expression="page() "border="0" color="16777215" x="158" y="158" height="26" width="26" format="[general]"  name=pagina  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" pageCount()"border="0" color="16777215" x="264" y="158" height="26" width="26" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="52" height="370" width="6376" format="[general]"  name=texto1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="449" height="370" width="6376" format="[general]"  name=texto2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="846" height="370" width="6376" format="[general]"  name=texto3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="1243" height="370" width="6376" format="[general]"  name=texto4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="0" x="158" y="1640" height="370" width="6376" format="[general]"  name=texto5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_control_bajas_usuario.srf
+global type f_control_bajas_usuario from function_object
+end type
+
+forward prototypes
+global function boolean f_control_bajas_usuario (string empresa, string usuario)
+end prototypes
+
+global function boolean f_control_bajas_usuario (string empresa, string usuario);String control
+SetNull(control)
+iF f_control_programa(empresa) Then Return True
+SELECT usuarios.v_bajas   INTO :control   FROM usuarios  
+WHERE  usuarios.v_usuario = :usuario;
+IF IsNull(control) or Trim(control) = "" Then control = "S"
+IF control = "S" Then Return True
+Return False
+
+
+end function
+

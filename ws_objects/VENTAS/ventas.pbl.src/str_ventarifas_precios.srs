@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_ventarifas_precios.srs
+global type str_ventarifas_precios from structure
+     STRING     empresa
+     STRING     ventarifas_codigo
+     DATETIME     ventarifas_activa
+     STRING     articulos_codigo
+     STRING     calidades_codigo
+     DECIMAL {6}     precio
+end type
+

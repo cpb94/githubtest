@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_directorio_activo.srf
+global type f_directorio_activo from function_object
+end type
+
+forward prototypes
+global function string f_directorio_activo ()
+end prototypes
+
+global function string f_directorio_activo ();//GetCurrentDirectoryA( )
+//This function returns the current working directory into a string by reference. Be sure to allocate enough space for the string or you'll get a GPF when you exit PowerBuilder. There is no PowerBuilder equivalent.
+//
+//Global External Function:
+//FUNCTION ulong GetCurrentDirectoryA(ulong BufferLen, ref string currentdir) LIBRARY "Kernel32.dll"
+
+string directorio_activo
+ulong  longitud_buffer
+
+longitud_buffer = 100
+directorio_activo = space(longitud_buffer)
+
+GetCurrentDirectoryA(longitud_buffer,directorio_activo)
+
+return directorio_activo
+
+end function
+

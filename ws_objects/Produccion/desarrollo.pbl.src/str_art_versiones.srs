@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_art_versiones.srs
+global type str_art_versiones from structure
+     STRING     empresa
+     STRING     articulo
+     STRING     version
+     STRING     base
+     STRING     descripcion
+     STRING     observaciones
+     STRING     aprovechar_base
+     STRING     tipo_version
+end type
+

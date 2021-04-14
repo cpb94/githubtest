@@ -1,0 +1,18 @@
+﻿$PBExportHeader$str_venenvio.srs
+global type str_venenvio from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     codigo
+     STRING     descripcion
+     STRING     pais
+     STRING     provincia
+     STRING     codpostal
+     STRING     localidad
+     STRING     domicilio
+     STRING     telefono
+     STRING     domicilio1
+     STRING     domicilio2
+     STRING     fax
+     STRING     tarifa
+end type
+

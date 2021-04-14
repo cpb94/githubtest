@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_planificado_mono_bico.srf
+global type f_planificado_mono_bico from function_object
+end type
+
+forward prototypes
+global function long f_planificado_mono_bico (string articulo)
+end prototypes
+
+global function long f_planificado_mono_bico (string articulo);long v_cantidad
+
+select SUM(cantidad)
+into :v_cantidad
+from planificacion 
+left join articulos ON planificacion.empresa = articulos.empresa AND planificacion.cod_articulo = articulos.codigo
+where planificacion.empresa = :codigo_empresa
+and planificacion.cod_articulo = :articulo
+and articulos.uso = '1' AND ordenoperacion = (SELECT MAX(p.ordenoperacion) FROM planificacion p WHERE planificacion.empresa = p.empresa and planificacion.cod_articulo = p.cod_articulo);
+//and (tipo_operacion = '1' or tipo_operacion = '7');
+
+return v_cantidad
+end function
+

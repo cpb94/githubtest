@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_objeto_datawindow.srf
+$PBExportComments$Esta funcion duelve el objeto donde esta el pointer.
+global type f_objeto_datawindow from function_object
+end type
+
+forward prototypes
+global function string f_objeto_datawindow (datawindow dw)
+end prototypes
+
+global function string f_objeto_datawindow (datawindow dw);string ls_objeto
+// Devuelve el objeto al que apunta seguido del tabulador (~t) y 
+// el numero de fila en la Datawindow
+
+ls_objeto = dw.GetObjectAtPointer()
+ls_objeto = Left(ls_objeto, Pos(ls_objeto, "~t", 1) - 1)
+Return ls_objeto
+end function
+

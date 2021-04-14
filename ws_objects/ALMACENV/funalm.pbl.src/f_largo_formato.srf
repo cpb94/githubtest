@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_largo_formato.srf
+global type f_largo_formato from function_object
+end type
+
+forward prototypes
+global function decimal f_largo_formato (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function decimal f_largo_formato (string ai_codemp, string ai_codfor);Dec{4} var
+
+  SELECT formatos.largo 
+    INTO :var
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+RETURN var
+end function
+

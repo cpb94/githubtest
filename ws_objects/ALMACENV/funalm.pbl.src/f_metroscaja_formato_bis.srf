@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_metroscaja_formato_bis.srf
+global type f_metroscaja_formato_bis from function_object
+end type
+
+forward prototypes
+global function decimal f_metroscaja_formato_bis (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function decimal f_metroscaja_formato_bis (string ai_codemp, string ai_codfor);dec{2} metros
+
+  SELECT formatos.metroscaja
+    INTO :metros  
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+
+RETURN metros
+end function
+

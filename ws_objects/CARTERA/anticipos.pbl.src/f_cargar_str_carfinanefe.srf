@@ -1,0 +1,55 @@
+﻿$PBExportHeader$f_cargar_str_carfinanefe.srf
+global type f_cargar_str_carfinanefe from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_carfinanefe (STRING arg_empresa, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_ejercicio, DECIMAL {2} arg_orden, INTEGER arg_anyo,  ref str_carfinanefe str_carfinanefe)
+end prototypes
+
+global function boolean f_cargar_str_carfinanefe (STRING arg_empresa, STRING arg_bancofinan, INTEGER arg_contador, INTEGER arg_ejercicio, DECIMAL {2} arg_orden, INTEGER arg_anyo,  ref str_carfinanefe str_carfinanefe);boolean lb_correcto = true
+
+SELECT carfinanefe.empresa,
+       carfinanefe.bancofinan,
+       carfinanefe.contador,
+       carfinanefe.ejercicio,
+       carfinanefe.orden,
+       carfinanefe.anyo_fac,
+       carfinanefe.serie_fac,
+       carfinanefe.factura,
+       carfinanefe.ffactura,
+       carfinanefe.pago,
+       carfinanefe.importe_efec,
+       carfinanefe.divisas_efec,
+       carfinanefe.cambio_efec,
+       carfinanefe.vto_efec,
+       carfinanefe.anyo,
+       carfinanefe.moneda_efec,
+       carfinanefe.fpago,
+       carfinanefe.orden_carpagos
+INTO   :str_carfinanefe.empresa,
+       :str_carfinanefe.bancofinan,
+       :str_carfinanefe.contador,
+       :str_carfinanefe.ejercicio,
+       :str_carfinanefe.orden,
+       :str_carfinanefe.anyo_fac,
+       :str_carfinanefe.serie_fac,
+       :str_carfinanefe.factura,
+       :str_carfinanefe.ffactura,
+       :str_carfinanefe.pago,
+       :str_carfinanefe.importe_efec,
+       :str_carfinanefe.divisas_efec,
+       :str_carfinanefe.cambio_efec,
+       :str_carfinanefe.vto_efec,
+       :str_carfinanefe.anyo,
+       :str_carfinanefe.moneda_efec,
+       :str_carfinanefe.fpago,
+       :str_carfinanefe.orden_carpagos
+FROM carfinanefe
+WHERE carfinanefe.empresa = :arg_empresa AND carfinanefe.bancofinan = :arg_bancofinan AND carfinanefe.contador = :arg_contador AND carfinanefe.ejercicio = :arg_ejercicio AND carfinanefe.orden = :arg_orden AND carfinanefe.anyo = :arg_anyo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

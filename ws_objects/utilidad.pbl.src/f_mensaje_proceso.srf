@@ -1,0 +1,55 @@
+﻿$PBExportHeader$f_mensaje_proceso.srf
+global type f_mensaje_proceso from function_object
+end type
+
+forward prototypes
+global subroutine f_mensaje_proceso (string men, decimal con1, decimal con2)
+end prototypes
+
+global subroutine f_mensaje_proceso (string men, decimal con1, decimal con2);//Nuevo
+
+IF Not IsValid(wc_mensaje_proceso) Then 
+	Open(wc_mensaje_proceso)	
+	wc_mensaje_proceso.barra_progreso.setrange(1,con2)
+END IF
+
+wc_mensaje_proceso.setredraw(true)
+wc_mensaje_proceso.mensaje.text = men
+wc_mensaje_proceso.barra_progreso.position = con1
+
+IF con1 >= con2 Then 
+	Close(wc_mensaje_proceso)
+end if
+Return
+
+//En revisión
+
+/*
+men = "  " + men
+IF con2 > 30000 Then 
+	con1 = con1 / 100
+	con2 = con2 / 100
+END IF
+IF  Not IsValid(wc_mensaje_proceso) Then 
+	Open(wc_mensaje_proceso)	
+//	wc_mensaje_proceso.medidor.Object.MaxValue = con2
+//	wc_mensaje_proceso.medidor.Object.MinValue = con1
+END IF
+wc_mensaje_proceso.mensaje.text = men
+//wc_mensaje_proceso.mensaje.Object.Value = con1
+
+// Nuevo Objecto
+Integer  cont_pro_valor
+cont_pro_valor= Integer((con1 * 100) /con2)
+IF con1 = 1 Then
+	wc_mensaje_proceso.contador.f_contar (0.0)
+END IF
+wc_mensaje_proceso.contador.f_contar (cont_pro_valor)
+IF con1 = con2 Then 
+	Close(wc_mensaje_proceso)
+end if
+Return
+*/
+
+end subroutine
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_num_contenedor_venalb_venlifac.srf
+global type f_num_contenedor_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_num_contenedor_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_num_contenedor_venalb_venlifac (string empresa, integer anyo, decimal albaran);String var_contenedor
+
+
+  SELECT venlifac.contenedor
+    INTO :var_contenedor  
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo_albaran    = :anyo)
+   AND   (venlifac.albaran  = :albaran)
+	group by empresa,anyo_albaran,albaran,contenedor;
+
+if IsNull(var_contenedor) then var_contenedor= ""
+
+Return var_contenedor
+end function
+

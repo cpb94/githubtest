@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fpedido_promped.srf
+global type f_fpedido_promped from function_object
+end type
+
+forward prototypes
+global function datetime f_fpedido_promped (string empresa, decimal anyo, integer pedido)
+end prototypes
+
+global function datetime f_fpedido_promped (string empresa, decimal anyo, integer pedido);DateTime variable
+  
+  SELECT promped.fpedido
+    INTO :variable  
+    FROM promped  
+   WHERE ( promped.empresa = :empresa ) AND  
+         ( promped.anyo = :anyo ) AND  
+         ( promped.pedido = :pedido )   ;
+Return variable
+end function
+

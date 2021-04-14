@@ -1,0 +1,60 @@
+﻿$PBExportHeader$report_con_diario_mensual.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=940 color="536870912" )
+summary(height=112 color="536870912" )
+footer(height=72 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=cont dbname="comodin.cont" )
+ column=(type=decimal(4) updatewhereclause=yes name=mes dbname="comodin.mes" )
+ column=(type=decimal(4) updatewhereclause=yes name=tipo dbname="comodin.tipo" )
+ column=(type=datetime updatewhereclause=yes name=fapunte dbname="comodin.fapunte" )
+ column=(type=char(255) updatewhereclause=yes name=cuenta dbname="comodin.cuenta" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="comodin.descripcion" )
+ column=(type=decimal(4) updatewhereclause=yes name=debe dbname="comodin.debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=haber dbname="comodin.haber" )
+ retrieve="  SELECT comodin.empresa,
+			numerico cont,
+			numerico mes,
+			numerico tipo,
+			fecha    fapunte,
+			letras   cuenta,
+			letras   descripcion,
+			numerico debe,
+			numerico haber
+    FROM comodin  
+   WHERE comodin.empresa = :arg_empresa    
+" arguments=(("arg_empresa", string),("arg_ejer", number),("arg_perid", number),("arg_perih", number))  sort="empresa A tipo A cuenta A " )
+group(level=1 header.height=92 trailer.height=88 by=("empresa" , "tipo" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="Pagecount()"border="0" color="16777215" x="32" y="468" height="4" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="EJERCICIO : "border="1" color="0" x="837" y="568" height="64" width="379"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="MESES : "border="1" color="0" x="837" y="668" height="64" width="338"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="MESES : "border="1" color="0" x="837" y="668" height="64" width="379"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="Trim(f_nombre_mes(   arg_perid   )) + ~" - ~" + Trim(f_nombre_mes(  arg_perih   ))"border="0" color="0" x="1257" y="668" height="64" width="1289" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="String(arg_ejer,~"###,###~")"border="0" color="0" x="1257" y="568" height="64" width="1289" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="5" y="4" height="380" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO DIARIO MENSUAL"border="0" color="0" x="5" y="416" height="92" width="3355"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Fecha"border="1" color="0" x="334" y="860" height="64" width="242"  name=fechmov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cuenta"border="1" color="0" x="603" y="860" height="64" width="1787"  name=codtercero_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Debe"border="1" color="0" x="2418" y="860" height="64" width="407"  name=cantidade_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Haber"border="1" color="0" x="2853" y="860" height="64" width="407"  name=cantidads_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Asiento"border="1" color="0" x="91" y="860" height="64" width="215"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="0" expression="case(  tipo  when 1 then ~"ASIENTO DE APERTURA~" when 2 then ~"ENERO~"when 3 then ~"FEBRERO~" when 4 then ~"MARZO~" when 5 then ~"ABRIL~" when 6 then ~"MAYO~" when 7 then ~"JUNIO~" when 8 then ~"JULIO~" when 9 then ~"AGOSTO~" when 10 then ~"SEPTIEMBRE~" when 11 then ~"OCTUBRE~" when 12 then ~"NOVIEMBRE~" when 13 then ~"DICIEMBRE~" when 14 then ~"ASIENTO DE REGULARIZACIÓN~" when 15 then ~"ASIENTO DE PPyGG~" when 15 then ~"ASIENTO DE PPyGG~" when 16 then ~"ASIENTO DE CIERRE~")"border="0" color="0" x="87" y="4" height="76" width="3168" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="0" color="0" x="325" y="4" height="56" width="242" format="dd/mm/yy"  name=fapunte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="599" y="4" height="56" width="645" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" f_nombre_contaplan(  arg_ejer  , arg_empresa  , cuenta ) "border="0" color="0" x="1257" y="4" height="56" width="1138" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" IF ( debe = 0 or isNull(debe) , 0, debe )"border="0" color="0" x="2418" y="4" height="56" width="407" format="###,###,###.00"  name=debe_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF (  haber  = 0 or isNull( haber ) , 0, haber )"border="0" color="0" x="2853" y="4" height="56" width="407" format="###,###,###.00"  name=haber_t  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="2" tabsequence=32766 border="0" color="0" x="91" y="4" height="56" width="215" format="[general]"  name=tipo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="2409" y1="4" x2="2825" y2="4" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="2848" y1="4" x2="3255" y2="4" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=trailer.1 alignment="2" text="Total Asiento:"border="0" color="0" x="2007" y="16" height="64" width="398"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=summary x1="1842" y1="12" x2="3264" y2="12" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=summary alignment="2" text="Totales :"border="2" color="0" x="1847" y="36" height="64" width="256"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(  debe_t  for all )"border="2" color="0" x="2135" y="36" height="64" width="549" format="###,###,###,###.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="Sum(  haber_t  for all )"border="2" color="0" x="2715" y="36" height="64" width="549" format="###,###,###,###.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + 'de '+ pagecount()"border="0" color="0" x="1312" y="12" height="52" width="562" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum(IF ( debe = 0 or isNull(debe) , 0, debe ) for group 1)"border="0" color="0" x="2418" y="16" height="68" width="407" format="###,###,###,###.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="sum(IF (  haber  = 0 or isNull( haber ) , 0, haber ) for group 1)"border="0" color="0" x="2853" y="16" height="68" width="407" format="###,###,###,###.00"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

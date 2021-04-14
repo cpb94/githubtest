@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_caracteristica.srf
+global type f_nombre_caracteristica from function_object
+end type
+
+forward prototypes
+global function string f_nombre_caracteristica (string empresa, string aplicacion)
+end prototypes
+
+global function string f_nombre_caracteristica (string empresa, string aplicacion);string v_nom
+
+select descripcion
+into   :v_nom
+from   prodcaracteristicas
+where  empresa = :empresa
+and    codigo =  :aplicacion;
+
+if isnull(v_nom) then v_nom = ""
+
+return trim(v_nom)
+end function
+

@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_razon_o_compuesto_contacto.srf
+$PBExportComments$Devuelve la razon de un contacto, si no tiene devuelve el nombre compuesto.
+global type f_razon_o_compuesto_contacto from function_object
+end type
+
+forward prototypes
+global function string f_razon_o_compuesto_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_razon_o_compuesto_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto
+
+SELECT mcontactos.empresa, mcontactos.codigo,mcontactos.razon
+    INTO :var_empresa,:var_codigo,:var_compuesto
+    FROM mcontactos  
+   WHERE ( mcontactos.empresa = :empresa ) AND  
+         ( mcontactos.codigo  = :codigo )   
+ORDER BY mcontactos.empresa ASC,mcontactos.codigo  ASC,   
+         mcontactos.nombre  ASC;
+IF IsNull(var_compuesto) or Trim(var_compuesto)="" Then
+ var_compuesto=f_compuesto_contacto(empresa,codigo)
+END IF 
+RETURN var_compuesto
+
+end function
+

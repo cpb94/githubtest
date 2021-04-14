@@ -1,0 +1,29 @@
+﻿$PBExportHeader$str_movimiento_almacen.srs
+global type str_movimiento_almacen from structure
+	string		empresa
+	string		articulo
+	string		calidad
+	string		tono
+	integer		calibre
+	string		tipo_pallet
+	string		caja
+	decimal { 4 }		cantidad
+	integer		orden_carga_anyo
+	string		orden_carga_codigo
+	integer		orden_carga_linea
+	string		tipo_movimiento
+	string		observaciones
+	string		almacen
+	string		zona
+	integer		fila
+	integer		altura
+	string		tercero
+	string		documento
+	datetime		fecha
+	long		id_ubicacion
+	long		id_alm_bultos
+	integer		venliped_anyo
+	long		venliped_pedido
+	integer		venliped_linea
+end type
+

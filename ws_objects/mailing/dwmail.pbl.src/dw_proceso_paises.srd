@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_paises.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=104 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=pais dbname="paises.pais" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=nombre dbname="paises.nombre" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=abreviado dbname="paises.abreviado" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=idioma dbname="paises.idioma" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tarifa dbname="paises.tarifa" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=moneda dbname="paises.moneda" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipopais dbname="paises.tipopais" )
+ column=(type=char(4099) update=yes updatewhereclause=yes name=textopais dbname="paises.textopais" )
+ column=(type=char(4) update=yes updatewhereclause=yes name=prefijo dbname="paises.prefijo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"paises~" ) COLUMN(NAME=~"paises.pais~") COLUMN(NAME=~"paises.nombre~") COLUMN(NAME=~"paises.abreviado~") COLUMN(NAME=~"paises.idioma~") COLUMN(NAME=~"paises.tarifa~") COLUMN(NAME=~"paises.moneda~") COLUMN(NAME=~"paises.tipopais~") COLUMN(NAME=~"paises.textopais~") COLUMN(NAME=~"paises.prefijo~")) ORDER(NAME=~"paises.nombre~" ASC=yes ) " update="paises" updatewhere=1 updatekeyinplace=no )
+text(band=detail alignment="0" text="CURSOR PAISES"border="0" color="0" x="110" y="20" height="64" width="489"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

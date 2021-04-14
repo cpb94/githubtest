@@ -1,0 +1,13 @@
+﻿$PBExportHeader$paso_venincrempais.srp
+PIPELINE(source_connect=Mijares,destination_connect=Mijares,type=update,commit=1,errors=1,keyname="venincrempais")
+SOURCE(name="venincrempais",COLUMN(type=char,name="compute_0001",dbtype="char(1)",nulls_allowed=no)
+ COLUMN(type=char,name="familia",dbtype="char(5)",nulls_allowed=no)
+ COLUMN(type=char,name="pais",dbtype="char(5)",nulls_allowed=no)
+ COLUMN(type=money,name="incremento",dbtype="money",nulls_allowed=no)
+ COLUMN(type=char,name="tipo",dbtype="char(1)",nulls_allowed=no))
+RETRIEVE(statement="SELECT :arg_empresa_nue, venincrempais.familia, venincrempais.pais, venincrempais.incremento, venincrempais.tipo FROM venincrempais WHERE empresa=:arg_empresa_ant AND familia=:arg_familia",arguments((arg_empresa_ant,String),(arg_empresa_nue,String),(arg_familia,String)))
+DESTINATION(name="venincrempais",COLUMN(type=char,name="empresa",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=char,name="familia",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=char,name="pais",dbtype="char(5)",key=yes,nulls_allowed=yes)
+ COLUMN(type=money,name="incremento",dbtype="money",nulls_allowed=yes)
+ COLUMN(type=char,name="tipo",dbtype="char(1)",nulls_allowed=yes))

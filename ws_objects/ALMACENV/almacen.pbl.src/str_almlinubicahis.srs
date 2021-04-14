@@ -1,0 +1,41 @@
+﻿$PBExportHeader$str_almlinubicahis.srs
+$PBExportComments$Esructura historico lineas de ubicacion.
+global type str_almlinubicahis from structure
+	string		empresa
+	integer		anyo
+	string		almacen
+	decimal {0}	orden
+	decimal {0}	nummov
+	string		zona
+	integer		fila
+	integer		altura
+	string		ubicacion
+	decimal {4}	cantidads
+	decimal {4}	cantidade
+	string		articulo
+	string		familia
+	string		subfamilia
+	string		formato
+	string		subformato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	datetime		fecha
+	string		tipomov
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		usuario
+	string		observaciones
+	string		tipo_pallet
+	string		sector
+	string		externo
+	string		situacion
+	string		caja
+	string		tonochar
+	string		comp_almacen
+	integer		comp_anyo
+	decimal {0}	comp_nummov
+end type
+

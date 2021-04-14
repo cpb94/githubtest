@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_dto_cliente_articulo_fecha.srf
+global type f_dto_cliente_articulo_fecha from function_object
+end type
+
+forward prototypes
+global function decimal f_dto_cliente_articulo_fecha (string empresa, string cliente, string articulo, datetime fecha)
+end prototypes
+
+global function decimal f_dto_cliente_articulo_fecha (string empresa, string cliente, string articulo, datetime fecha);Dec dto,v_p
+String  familia,formato,unidad
+
+//unidad = f_unidad_articulo(empresa,articulo)
+
+
+Select dto
+Into :dto
+From tarifaartclifecha
+Where  tarifaartclifecha.empresa  = :codigo_empresa
+And    tarifaartclifecha.cliente  = :cliente 
+And    tarifaartclifecha.articulo = :articulo
+and 	 fecha >= :fecha
+and 	 fecha = (select min(fecha) from tarifaartclifecha 
+					Where  tarifaartclifecha.empresa  = :codigo_empresa
+					And    tarifaartclifecha.cliente  = :cliente 
+					And    tarifaartclifecha.articulo = :articulo
+					and 	 fecha >= :fecha);
+
+Return dto
+end function
+

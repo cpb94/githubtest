@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_asignar_columna.srf
+$PBExportComments$Asigna un valor a una columna de una datawindow.
+global type f_asignar_columna from function_object
+end type
+
+forward prototypes
+global function string f_asignar_columna (datawindow data, integer elemento, string columna, string valor)
+end prototypes
+
+global function string f_asignar_columna (datawindow data, integer elemento, string columna, string valor);String montaje,tipo,mensaje
+
+montaje = columna +".Coltype"
+tipo = data.Describe(montaje)
+tipo = Mid(tipo,1,5)
+IF IsNull(tipo) Then
+	mensaje = " La columna "+columna+ " No existe"
+	f_mensaje("Error en asignar valor",mensaje)
+	f_grabar_incidencia("f_asignar_columna",mensaje)
+END IF
+
+CHOOSE CASE tipo
+	CASE "char(","char"
+		 data.SetItem(elemento,columna,valor)
+	CASE "numbe","decim","long"
+		data.SetItem(elemento,columna,Dec(valor))
+	CASE "date"
+		data.SetItem(elemento,columna,Date(valor))
+	CASE "datet"
+		data.SetItem(elemento,columna,DateTime(date(valor)))
+   Case Else
+		mensaje = " En la columna " + columna +" El tipo"+ tipo + " No esta contemplado"
+		f_mensaje("Error en asignar columna",mensaje)
+			f_grabar_incidencia("f_asignar_columna",mensaje)
+END CHOOSE
+
+Return valor
+end function
+

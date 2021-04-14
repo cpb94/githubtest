@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_precinto_venlifac.srf
+global type f_precinto_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_precinto_venlifac (string empresa, decimal anyo, decimal albaran)
+end prototypes
+
+global function string f_precinto_venlifac (string empresa, decimal anyo, decimal albaran);String ls_precinto
+
+//f_mensaje("empr",empresa)
+//f_mensaje("anyo",String(anyo))
+//f_mensaje("alb",String(albaran))
+
+SELECT max(precinto)
+  INTO :ls_precinto
+  FROM venlifac
+ WHERE venlifac.empresa      =:empresa
+   AND venlifac.anyo_albaran =:anyo
+	AND venlifac.albaran      =:albaran
+ USING sqlca;
+  
+ If IsNull(ls_precinto) then ls_precinto = ""
+ 
+ return ls_precinto
+
+
+end function
+

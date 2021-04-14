@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_factura_con_lineas_concepto.srf
+$PBExportComments$Para el Intrastat
+global type f_factura_con_lineas_concepto from function_object
+end type
+
+forward prototypes
+global function boolean f_factura_con_lineas_concepto (string empresa, integer anyo, long factura)
+end prototypes
+
+global function boolean f_factura_con_lineas_concepto (string empresa, integer anyo, long factura);long cuantos
+
+select count(*) into :cuantos
+from venlifac
+where empresa = :empresa
+and anyo = :anyo
+and factura = :factura
+and (articulo = null or articulo = '');
+
+if isnull(cuantos) then cuantos = 0
+
+if cuantos = 0 then
+	return false
+else
+	return true
+end if
+end function
+

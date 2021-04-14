@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_con_historico_tonos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="almmovhis.empresa" )
+ column=(type=char(4) updatewhereclause=yes name=tonochar dbname="almmovhis.tonochar" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="almmovhis.articulo" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=datetime updatewhereclause=yes name=fechmov dbname="fechmov" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almmovhis~" )  TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"almmovhis.empresa~") COLUMN(NAME=~"almmovhis.tonochar~") COLUMN(NAME=~"almmovhis.articulo~") COLUMN(NAME=~"articulos.descripcion~") COMPUTE(NAME=~"max(fechmov) fechmov~")    JOIN (LEFT=~"articulos.empresa~"    OP =~"=~"RIGHT=~"almmovhis.empresa~" )    JOIN (LEFT=~"articulos.codigo~"    OP =~"=~"RIGHT=~"almmovhis.articulo~" )WHERE(    EXP1 =~"almmovhis.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almmovhis.articulo~"   OP =~"=~"    EXP2 =~":arg_articulo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almmovhis.tipomov~"   OP =~"=~"    EXP2 =~"~~~"1~~~"~" )  GROUP(NAME=~"almmovhis.empresa~") GROUP(NAME=~"almmovhis.articulo~") GROUP(NAME=~"almmovhis.tonochar~") GROUP(NAME=~"articulos.descripcion~")) ORDER(NAME=~"almmovhis.empresa~" ASC=yes )  ORDER(NAME=~"almmovhis.tonochar~" ASC=yes ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_articulo~" TYPE = string) " arguments=(("arg_empresa", string),("arg_articulo", string)) )
+group(level=1 header.height=72 trailer.height=0 by=("empresa" , "articulo" ) header.color="536870912" trailer.color="536870912" )
+column(band=header.1 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="64" width="686" format="[general]"  name=articulos_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="2" tabsequence=32766 border="5" color="0" x="91" y="4" height="64" width="261" format="[shortdate] [time]"  name=fechmov editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="5" color="0" x="379" y="4" height="64" width="160" format="[general]"  name=tonochar edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

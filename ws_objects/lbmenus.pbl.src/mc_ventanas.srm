@@ -1,0 +1,157 @@
+﻿$PBExportHeader$mc_ventanas.srm
+$PBExportComments$Tratamiento y Organizacion de las ventanas abiertas.
+forward
+global type mc_ventanas from menu
+end type
+type m_window from menu within mc_ventanas
+end type
+type m_vertical from menu within m_window
+end type
+type m_horizontal from menu within m_window
+end type
+type m_mosaico from menu within m_window
+end type
+type m_cascada from menu within m_window
+end type
+type m_line3 from menu within m_window
+end type
+type m_organizaiconos from menu within m_window
+end type
+type m_window from menu within mc_ventanas
+m_vertical m_vertical
+m_horizontal m_horizontal
+m_mosaico m_mosaico
+m_cascada m_cascada
+m_line3 m_line3
+m_organizaiconos m_organizaiconos
+end type
+end forward
+
+global type mc_ventanas from menu
+m_window m_window
+end type
+global mc_ventanas mc_ventanas
+
+type variables
+string is_msg =" maintenance window..."
+end variables
+
+on mc_ventanas.create
+mc_ventanas=this
+this.m_window=create m_window
+this.Item[]={this.m_window}
+end on
+
+on mc_ventanas.destroy
+destroy(this.m_window)
+end on
+
+type m_window from menu within mc_ventanas
+m_vertical m_vertical
+m_horizontal m_horizontal
+m_mosaico m_mosaico
+m_cascada m_cascada
+m_line3 m_line3
+m_organizaiconos m_organizaiconos
+end type
+
+on m_window.create
+this.Text="&Ventana"
+this.m_vertical=create m_vertical
+this.m_horizontal=create m_horizontal
+this.m_mosaico=create m_mosaico
+this.m_cascada=create m_cascada
+this.m_line3=create m_line3
+this.m_organizaiconos=create m_organizaiconos
+this.Item[]={this.m_vertical, &
+this.m_horizontal, &
+this.m_mosaico, &
+this.m_cascada, &
+this.m_line3, &
+this.m_organizaiconos}
+end on
+
+on m_window.destroy
+destroy(this.m_vertical)
+destroy(this.m_horizontal)
+destroy(this.m_mosaico)
+destroy(this.m_cascada)
+destroy(this.m_line3)
+destroy(this.m_organizaiconos)
+end on
+
+type m_vertical from menu within m_window
+end type
+
+on clicked;
+ParentWindow.ArrangeSheets(Tile!)
+
+end on
+
+on m_vertical.create
+this.Text="Mosaico &Vertical"
+this.Enabled=false
+end on
+
+type m_horizontal from menu within m_window
+end type
+
+on clicked;
+parentwindow.ArrangeSheets(TileHorizontal!)
+
+end on
+
+on m_horizontal.create
+this.Text="Mosaico &Horizontal"
+this.Enabled=false
+end on
+
+type m_mosaico from menu within m_window
+end type
+
+on clicked;
+parentwindow.ArrangeSheets(Layer!)
+
+end on
+
+on m_mosaico.create
+this.Text="&Mosaico"
+this.Microhelp="Mosaico de todas las ventanas."
+this.Enabled=false
+end on
+
+type m_cascada from menu within m_window
+end type
+
+on clicked;
+parentwindow.ArrangeSheets(Cascade!)
+
+end on
+
+on m_cascada.create
+this.Text="&Cascada"
+this.Microhelp="Organiza las ventana en Cascada"
+this.Enabled=false
+end on
+
+type m_line3 from menu within m_window
+end type
+
+on m_line3.create
+this.Text="-"
+end on
+
+type m_organizaiconos from menu within m_window
+end type
+
+on clicked;
+parentwindow.ArrangeSheets(Icons!)
+
+end on
+
+on m_organizaiconos.create
+this.Text="&Organizar Iconos"
+this.Microhelp="Distribuye los iconos"
+this.Enabled=false
+end on
+

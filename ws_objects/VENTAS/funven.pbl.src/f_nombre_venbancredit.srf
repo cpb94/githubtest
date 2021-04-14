@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_venbancredit.srf
+global type f_nombre_venbancredit from function_object
+end type
+
+forward prototypes
+global function string f_nombre_venbancredit (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_nombre_venbancredit (string cod_empresa, string cod_banco);String ls_nombre 
+
+ SELECT    venbancredit.nombre 
+    INTO   :ls_nombre  
+    FROM venbancredit 
+   WHERE ( venbancredit.empresa= :cod_empresa ) AND  
+         ( venbancredit.banco  = :cod_banco   )   ;
+
+RETURN ls_nombre
+//
+
+end function
+

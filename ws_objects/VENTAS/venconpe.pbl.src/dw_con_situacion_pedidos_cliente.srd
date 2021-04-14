@@ -1,0 +1,134 @@
+﻿$PBExportHeader$dw_con_situacion_pedidos_cliente.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="15793151" )
+detail(height=76 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=datetime updatewhereclause=yes name=fpedido dbname="comodin.fpedido" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="comodin.pedido" )
+ column=(type=decimal(4) updatewhereclause=yes name=anyo dbname="comodin.anyo" )
+ column=(type=char(255) updatewhereclause=yes name=referencia_cliente dbname="comodin.referencia_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad dbname="comodin.cantidad" )
+ column=(type=decimal(4) updatewhereclause=yes name=original dbname="comodin.original" )
+ column=(type=decimal(4) updatewhereclause=yes name=precio dbname="comodin.precio" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto1 dbname="comodin.dto1" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto2 dbname="comodin.dto2" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="comodin.importe" )
+ column=(type=decimal(4) updatewhereclause=yes name=situacion dbname="comodin.situacion" values="Pendiente	1/Preparado	2/Albarán	3/Factura	4/" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ column=(type=char(255) updatewhereclause=yes name=unidad dbname="comodin.unidad" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_unidad dbname="comodin.nombre_unidad" )
+ column=(type=char(255) updatewhereclause=yes name=moneda dbname="comodin.moneda" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_moneda dbname="comodin.nombre_moneda" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=alb_fac dbname="comodin.alb_fac" )
+ column=(type=decimal(4) updatewhereclause=yes name=numpalet dbname="comodin.numpalet" )
+ retrieve="  SELECT comodin.empresa,   
+         fecha fpedido,   
+         numerico pedido,   
+         numerico anyo,   
+         letras referencia_cliente,   
+         letras articulo,   
+         numerico cantidad,   
+			numerico original,
+         numerico precio,   
+         numerico dto1,   
+         numerico dto2,   
+			numerico importe,
+         numerico situacion,   
+         letras nombre_articulo,   
+         letras nombre_formato,   
+         letras unidad,   
+         letras nombre_unidad,   
+         letras moneda,   
+         letras nombre_moneda,   
+         letras cliente,   
+         letras nombre_cliente,   
+         letras alb_fac,
+			numerico numpalet  
+    FROM comodin  
+   WHERE comodin.empresa = :arg_empresa    
+" arguments=(("arg_empresa", string),("fdesde", datetime),("fhasta", datetime),("arg_cliente", string))  sort="empresa A nombre_cliente A anyo A pedido A nombre_articulo A situacion A " )
+group(level=1 header.height=72 trailer.height=272 by=("empresa" , "nombre_cliente" ) header.color="15793151" trailer.color="536870912" )
+group(level=2 header.height=68 trailer.height=0 by=("empresa" , "nombre_cliente" , "anyo" , "pedido" ) header.color="553648127" trailer.color="536870912" )
+text(band=header alignment="2" text="Estado"border="6" color="0" x="9" y="8" height="56" width="270"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Artículo"border="6" color="0" x="302" y="8" height="56" width="197"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Format"border="6" color="0" x="512" y="8" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción"border="6" color="0" x="731" y="8" height="56" width="768"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1522" y="8" height="56" width="224"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Prec"border="6" color="0" x="2016" y="8" height="56" width="133"  name=texto3  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Dtos"border="6" color="0" x="2171" y="8" height="56" width="279"  name=texto1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="2473" y="8" height="56" width="279"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Npal"border="6" color="0" x="2775" y="8" height="56" width="137"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Alb. / Fac."border="6" color="0" x="2930" y="8" height="56" width="1061"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cant.Orig"border="6" color="0" x="1769" y="8" height="56" width="229"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=header.1 id=21 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="56" width="1536" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1810" y="8" height="56" width="398" format="[general]"  name=cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1810" y="8" height="56" width="398" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="0" text="Pedido :"border="0" color="0" x="9" y="8" height="56" width="169"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=3 alignment="1" tabsequence=32766 border="0" color="0" x="192" y="8" height="56" width="183" format=""  name=pedido editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="1" text="/"border="0" color="0" x="389" y="8" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="430" y="8" height="56" width="165" format="[general]"  name=anyo editmask.mask="#,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.2 id=2 alignment="2" tabsequence=32766 border="0" color="0" x="622" y="8" height="56" width="425" format=""  name=fpedido editmask.mask="dd/mm/yyyy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.2 alignment="0" text="Su Referencia :"border="0" color="0" x="1070" y="8" height="56" width="347"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=header.2 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="1678" y="8" height="56" width="942" format="[general]"  name=referencia_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="0" expression="/* importe * f_cambio_moneda( divisa ) */"border="0" color="0" x="2272" y="88" height="56" width="407" format="###,###,###,##0"  name=importe_pts visible="1~t0"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="56" width="270" format="[general]"  name=situacion ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="288" y1="0" x2="288" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="302" y="8" height="56" width="197" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="507" y1="0" x2="507" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="521" y="8" height="56" width="187" format="[general]"  name=nombre_formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="718" y1="0" x2="718" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="731" y="8" height="56" width="768" format="[general]"  name=nombre_articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1509" y1="0" x2="1509" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="1755" y1="0" x2="1755" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="0" y1="72" x2="2395" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+line(band=detail x1="2395" y1="72" x2="3986" y2="72"  name=linea4 pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2016" y="8" height="56" width="133" format="~tf_mascara_moneda( moneda )"  name=precio editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2167" y1="0" x2="2167" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=10 alignment="2" tabsequence=32766 border="0" color="0" x="2171" y="8" height="56" width="137" format="##0,0"  name=dto1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=11 alignment="2" tabsequence=32766 border="0" color="0" x="2327" y="8" height="56" width="137" format="##0,0"  name=dto2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2473" y1="0" x2="2473" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="2487" y="8" height="56" width="265" format="[general]"  name=importe editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="2761" y1="0" x2="2761" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=23 alignment="2" tabsequence=32766 border="0" color="0" x="2775" y="8" height="56" width="123" format="###,###"  name=numpalet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="2907" y1="0" x2="2907" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="2921" y="8" height="56" width="1061" format="[general]"  name=alb_fac edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="2002" y1="0" x2="2002" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1522" y="8" height="56" width="224" format="~tf_mascara_unidad( unidad )"  name=cantidad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1769" y="8" height="56" width="224" format="###,###,###"  name=original edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="TOTAL PARA"border="0" color="0" x="64" y="56" height="64" width="334"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=21 alignment="0" tabsequence=32766 border="0" color="0" x="411" y="56" height="64" width="1207" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total :"border="0" color="0" x="1641" y="56" height="64" width="183"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="string(sum(importe for group 1),~"###,###,##0~")"border="0" color="0" x="1847" y="56" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total Pendiente :"border="0" color="0" x="59" y="156" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="string(sum(if(situacion = 1,importe,0) for group 1),~"###,###,##0~")"border="0" color="0" x="585" y="156" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total Preparado :"border="0" color="0" x="1010" y="156" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="string(sum(if(situacion = 2,importe,0) for group 1),~"###,###,##0~")"border="0" color="0" x="1536" y="156" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total Albaranes :"border="0" color="0" x="1975" y="156" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="string(sum(if(situacion = 3,importe,0) for group 1),~"###,###,##0~")"border="0" color="0" x="2501" y="156" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total Facturas :"border="0" color="0" x="2962" y="156" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="string(sum(if(situacion = 4,importe,0) for group 1),~"###,###,##0~")"border="0" color="0" x="3488" y="156" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=trailer.1 x1="9" y1="256" x2="4009" y2="256" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=trailer.1 x1="9" y1="24" x2="4009" y2="24" pen.style="2" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="No se incluyen los Dtos. P.P."border="0" color="0" x="37" y="372" height="56" width="864"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="TOTALES"border="0" color="0" x="1289" y="60" height="64" width="274"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total Pendiente :"border="0" color="0" x="1673" y="60" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="string(sum(if(situacion = 1,importe,0) for all),~"###,###,##0~")"border="0" color="0" x="2208" y="60" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total Preparado :"border="0" color="0" x="1673" y="140" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="string(sum(if(situacion = 2,importe,0) for all),~"###,###,##0~")"border="0" color="0" x="2208" y="140" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total Albaranes :"border="0" color="0" x="1673" y="216" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="string(sum(if(situacion = 3,importe,0) for all),~"###,###,##0~")"border="0" color="0" x="2208" y="216" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total Facturas :"border="0" color="0" x="1673" y="292" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total Facturas :"border="0" color="0" x="1673" y="292" height="64" width="507"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="string(sum(if(situacion = 4,importe,0) for all),~"###,###,##0~")"border="0" color="0" x="2208" y="292" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=footer x1="1669" y1="372" x2="2546" y2="372" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=footer alignment="1" text="Total :"border="0" color="0" x="1998" y="400" height="64" width="183"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="1" expression="string(sum(importe for all),~"###,###,##0~")"border="0" color="0" x="2208" y="400" height="64" width="325" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=footer x1="9" y1="20" x2="4009" y2="20" pen.style="0" pen.width="14" pen.color="0"  background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

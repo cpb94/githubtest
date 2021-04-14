@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_insert_comcabalb.srf
+global type f_insert_comcabalb from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comcabalb (str_comcabalb cab)
+end prototypes
+
+global function boolean f_insert_comcabalb (str_comcabalb cab);
+INSERT INTO comcabalb  
+	(empresa,					anyo,							albaran,
+	 proveedor,					fecha_alb,					forma_envio,
+	 forma_pago,				incidencias,				libre,
+	 recibido_por,				moneda,						dtopp,
+	 dto1,						albaran_proveedor,		decimales_precios,
+	 cambio)  
+VALUES 
+	(:cab.empresa,				:cab.anyo,					:cab.albaran,
+	 :cab.proveedor,			:cab.fecha_alb,			:cab.forma_envio,
+	 :cab.forma_pago,			:cab.incidencias,			:cab.libre,
+	 :cab.recibido_por,		:cab.moneda,				:cab.dtopp,
+	 :cab.dto1,					:cab.albaran_proveedor,	:cab.decimales_precios,
+	 :cab.cambio);
+
+if SQLCA.SQLCode <> 0 then
+	MessageBox("Cabecera de Albaran de Compras","Error al insertar")
+	return false
+else
+	return true
+end if
+
+end function
+

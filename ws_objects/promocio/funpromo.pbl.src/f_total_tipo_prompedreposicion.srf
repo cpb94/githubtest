@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_total_tipo_prompedreposicion.srf
+global type f_total_tipo_prompedreposicion from function_object
+end type
+
+forward prototypes
+global function integer f_total_tipo_prompedreposicion (string arg_empresa, decimal arg_anyo, decimal arg_pedido, string arg_tipo_panel)
+end prototypes
+
+global function integer f_total_tipo_prompedreposicion (string arg_empresa, decimal arg_anyo, decimal arg_pedido, string arg_tipo_panel);
+Dec{2} var_cantidad
+String tipo_expo,var_serie
+Integer numero
+IF IsNUll(arg_pedido) or arg_pedido = 0 Then Return 0
+Select Sum(cantidad) Into :var_cantidad From prompedreposicion
+Where  prompedreposicion.empresa     = :arg_empresa
+And    prompedreposicion.anyo        = :arg_anyo
+And    prompedreposicion.pedido      = :arg_pedido
+And    prompedreposicion.tipo_panel  = :arg_tipo_panel;
+IF IsNull(var_cantidad) Then var_cantidad = 0 
+
+
+
+
+
+
+// Comprueba los paneles que faltan para completar el expositor
+
+tipo_expo = f_tipo_expositor_promped(arg_empresa,arg_anyo,arg_pedido)
+var_serie = f_numserie_promped(arg_empresa,arg_anyo,arg_pedido)
+
+    SELECT cantidad  
+    INTO   :numero  
+    FROM   promlinexpositores  
+    WHERE  ( promlinexpositores.empresa = :arg_empresa ) AND  
+           ( promlinexpositores.codigo  = :tipo_expo ) AND  
+           ( promlinexpositores.tipo    = :arg_tipo_panel )   ;
+    IF Isnull(numero)  Then numero = 0 
+	 
+numero = numero - f_total_tipo_paneles_promserie(arg_empresa,var_serie,arg_tipo_panel)			
+var_cantidad = var_cantidad + numero
+Return var_cantidad
+
+end function
+

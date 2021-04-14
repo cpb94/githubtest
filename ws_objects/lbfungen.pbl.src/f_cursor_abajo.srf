@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_cursor_abajo.srf
+$PBExportComments$Baja una linea en la datawindow recibida.
+global type f_cursor_abajo from function_object
+end type
+
+forward prototypes
+global subroutine f_cursor_abajo (datawindow arg_datawindow)
+end prototypes
+
+global subroutine f_cursor_abajo (datawindow arg_datawindow);arg_datawindow.ScrollToRow( arg_datawindow.GetRow() +1)
+
+end subroutine
+

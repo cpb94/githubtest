@@ -1,0 +1,59 @@
+﻿$PBExportHeader$f_componer_art.srf
+$PBExportComments$A partir de la familia, formato y modelo construye el codigo del articulo.
+global type f_componer_art from function_object
+end type
+
+forward prototypes
+global function string f_componer_art (string ai_codfam, string ai_codsubfam, string ai_codfor, string ai_codsubfor, string ai_codmod)
+end prototypes
+
+global function string f_componer_art (string ai_codfam, string ai_codsubfam, string ai_codfor, string ai_codsubfor, string ai_codmod);string	ls_codarticulo
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+ 
+ in_programa="f_componer_art"
+
+  IF trim(String(ai_codfam))="" THEN
+    in_incidencia="Argumento codigo familia Nulo "
+    f_grabar_incidencia(in_programa,in_incidencia)
+  END IF
+  
+  IF trim(String(ai_codsubfam))="" THEN
+    in_incidencia="Argumento codigo Subfamilia Nulo "
+    f_grabar_incidencia(in_programa,in_incidencia)
+  END IF  
+
+  IF trim(String(ai_codfor))="" THEN
+    in_incidencia="Argumento codigo formato Nulo "
+    f_grabar_incidencia(in_programa,in_incidencia)
+  END IF
+  
+  IF trim(String(ai_codsubfor))="" THEN
+    in_incidencia="Argumento codigo Subformato Nulo "
+    f_grabar_incidencia(in_programa,in_incidencia)
+  END IF  
+
+  IF trim(String(ai_codmod))="" THEN
+    in_incidencia="Argumento codigo modelo Nulo "
+    f_grabar_incidencia(in_programa,in_incidencia)
+  END IF
+
+
+
+  if isnumber(ai_codsubfam) then
+	  ls_codarticulo = String(Integer(ai_codfam),"00")+&
+	  						 String(integer(ai_codsubfam),"00")+&
+	  						 String(Integer(ai_codfor),"00")+&
+							 String(Integer(ai_codsubfor),"00")+&					 
+	                   String(Integer(ai_codmod), "00000" )
+ else
+	  ls_codarticulo = String(Integer(ai_codfam),"00")+&
+  							 String(ai_codsubfam)+&
+	  						 String(Integer(ai_codfor),"00")+&
+							 String(Integer(ai_codsubfor),"00")+&					 
+	                   String(Integer(ai_codmod), "00000" )
+ end if
+ 
+  RETURN ls_codarticulo
+end function
+

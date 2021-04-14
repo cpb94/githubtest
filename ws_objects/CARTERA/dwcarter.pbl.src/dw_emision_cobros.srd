@@ -1,0 +1,80 @@
+﻿$PBExportHeader$dw_emision_cobros.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\BMP\Mano.cur" )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="carefectos.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=anyo dbname="carefectos.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=orden dbname="carefectos.orden" )
+ column=(type=decimal(4) updatewhereclause=yes name=anyofra dbname="carefectos.anyofra" )
+ column=(type=char(20) updatewhereclause=yes name=factura dbname="carefectos.factura" )
+ column=(type=decimal(4) updatewhereclause=yes name=recibo dbname="carefectos.recibo" )
+ column=(type=datetime updatewhereclause=yes name=fvto dbname="carefectos.fvto" )
+ column=(type=datetime updatewhereclause=yes name=ffra dbname="carefectos.ffra" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="carefectos.importe" )
+ column=(type=decimal(4) updatewhereclause=yes name=divisas dbname="carefectos.divisas" )
+ column=(type=char(5) updatewhereclause=yes name=monedas dbname="carefectos.monedas" )
+ column=(type=char(5) updatewhereclause=yes name=fpago dbname="carefectos.fpago" )
+ column=(type=char(20) updatewhereclause=yes name=cuenta dbname="carefectos.cuenta" )
+ column=(type=char(20) updatewhereclause=yes name=cliente dbname="carefectos.cliente" )
+ column=(type=long updatewhereclause=yes name=marca dbname="carefectos.marca" values="	1/	0" )
+ column=(type=char(5) updatewhereclause=yes name=tipodoc dbname="carefectos.tipodoc" )
+ column=(type=char(1) updatewhereclause=yes name=nacional dbname="carefectos.Nacional" )
+ retrieve="  SELECT carefectos.empresa,   
+         carefectos.anyo,   
+         carefectos.orden,   
+         carefectos.anyofra,   
+         carefectos.factura,   
+         carefectos.recibo,   
+         carefectos.fvto,   
+         carefectos.ffra,   
+         carefectos.importe,   
+         carefectos.divisas,   
+         carefectos.monedas,   
+         carefectos.fpago,   
+         carefectos.cuenta,   
+         carefectos.cliente,   
+         0 marca,   
+         carefectos.tipodoc,   
+         carefectos.Nacional  
+    FROM carefectos  
+   WHERE ( carefectos.empresa = :empresa ) AND  
+         ( carefectos.ffra between :fecha1 and :fecha2 ) AND  
+         ( carefectos.situacion in ( :situ ) ) AND  
+         ( carefectos.tipodoc like :tip1 )   
+ORDER BY carefectos.ffra ASC,   
+         carefectos.factura ASC   
+" update="carefectos" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("fecha1", datetime),("fecha2", datetime),("tip1", string),("situ", stringlist))  sort="empresa A fvto A " )
+text(band=header alignment="2" text="M"border="6" color="0" x="9" y="8" height="60" width="64"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Recibo"border="6" color="0" x="96" y="8" height="60" width="178"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="F. Vto"border="6" color="0" x="288" y="8" height="60" width="206"  name=calidad_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="F. Fra."border="6" color="0" x="517" y="8" height="60" width="233"  name=fechmov_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="NºFra."border="6" color="0" x="768" y="8" height="60" width="201"  name=tipomov_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cod. Pago"border="6" color="0" x="987" y="8" height="60" width="686"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="1691" y="8" height="60" width="891"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="2606" y="8" height="60" width="379"  name=cantidade_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+line(band=detail x1="0" y1="68" x2="2990" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="82" y1="4" x2="82" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+column(band=detail id=15 alignment="0" tabsequence=10 border="5" color="255" x="5" y="4" height="56" width="69" format="[general]"  name=marca checkbox.text="" checkbox.on="1" checkbox.off="0" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="293" y="4" height="56" width="206" format="[shortdate] [time]"  name=fvto editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="507" y1="4" x2="507" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="507" y1="4" x2="507" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="0" color="0" x="521" y="4" height="56" width="219" format="[shortdate] [time]"  name=ffra editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="750" y1="4" x2="750" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="750" y1="4" x2="750" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+compute(band=detail alignment="1" expression=" factura  + ~"/~" + STring(recibo) "border="0" color="0" x="768" y="4" height="56" width="183" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="969" y1="4" x2="969" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="969" y1="4" x2="969" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+compute(band=detail alignment="0" expression="f_nombre_carforpag(empresa, fpago )"border="0" color="0" x="978" y="4" height="52" width="695" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="1682" y1="4" x2="1682" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="1682" y1="8" x2="1682" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+compute(band=detail alignment="0" expression="f_razon_genter(empresa,~"C~",cliente) "border="0" color="0" x="1696" y="4" height="56" width="873" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2578" y1="4" x2="2578" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2597" y="4" height="56" width="379" format="[general]"  name=importe editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=detail x1="2985" y1="4" x2="2985" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="2985" y1="4" x2="2985" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+line(band=detail x1="279" y1="4" x2="279" y2="68" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="33551858" )
+column(band=detail id=3 alignment="2" tabsequence=0 border="0" color="0" x="96" y="4" height="56" width="174"  name=orden  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,190 @@
+﻿$PBExportHeader$f_duplicar_articulo.srf
+global type f_duplicar_articulo from function_object
+end type
+
+forward prototypes
+global function string f_duplicar_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_duplicar_articulo (string empresa, string articulo);string codigo, descripcion, familia, subfamilia, formato, subformato, modelo, unidad, cuenta, proveedor, decorado, sector, codigo_pantallas
+string cuenta_contable,	tono, calibre, compras, activo, unidad_est, prev_anular, empleado, molde, plato_sup, plato_inf, calibre_min, calibre_max
+string cliente, uso, estilo, coleccion, color, imagen, referencia_laboratorio, tipo_pasta, marco, canto_vivo, marcado, etiqueta_ce, observaciones
+string ean13, ventasitalia, usuario, obs_ficha_hornos, tipo, partidaest, control_stock, ubi_muestras, codigo_compras, estandar, bloqueado, cod_cliente
+dec precio_coste, espesor, pesopieza,	piezascaja,	pesocaja, pesoenvase, metroscaja, metroslcaja, temp_inferior1, temp_superior1
+dec ciclo, temp_inferior, temp_superior, stock_min, stocksugerido
+datetime	fecha_alta, fecha_anulado, fecha_fin, fecha_primera_produccion, fechastocksugerido
+long conjunto, version_laboratorio, lote
+string nuevo_articulo
+
+Integer registros
+
+Select count(*) 
+Into :registros 
+From articulos
+where empresa = :empresa;
+
+IF registros=0  Then
+   nuevo_articulo = "1"
+ ELSE
+   Select max(convert(int,codigo)+1) 
+   Into   :registros
+   From   articulos
+	where empresa = :empresa;
+	nuevo_articulo = string(registros)
+END IF
+
+
+
+SELECT descripcion, familia, subfamilia, formato, subformato, modelo, unidad, precio_coste, fecha_alta, fecha_anulado, 
+fecha_fin, cuenta, proveedor, decorado, sector, conjunto, pesopieza, piezascaja, pesocaja, pesoenvase, metroscaja, metroslcaja, cuenta_contable, 
+tono, calibre, compras, activo, unidad_est, prev_anular, empleado, molde, plato_sup, plato_inf, calibre_min, calibre_max, cliente, uso, estilo, 
+coleccion, color, imagen, referencia_laboratorio, version_laboratorio, fecha_primera_produccion, tipo_pasta, codigo_pantallas, espesor, ciclo, 
+temp_inferior, temp_superior, ean13, ventasitalia, usuario, temp_inferior1, temp_superior1, obs_ficha_hornos, tipo, partidaest, control_stock, 
+stock_min, ubi_muestras, stocksugerido, fechastocksugerido, codigo_compras, estandar, bloqueado, cod_cliente, marco, canto_vivo, marcado, 
+etiqueta_ce, lote, observaciones 
+into :descripcion, :familia, :subfamilia, :formato, :subformato, :modelo, :unidad, :precio_coste, :fecha_alta, :fecha_anulado, 
+:fecha_fin, :cuenta, :proveedor, :decorado, :sector, :conjunto, :pesopieza, :piezascaja, :pesocaja, :pesoenvase, :metroscaja, :metroslcaja, 
+:cuenta_contable, :tono, :calibre, :compras, :activo, :unidad_est, :prev_anular, :empleado, :molde, :plato_sup, :plato_inf, :calibre_min, 
+:calibre_max, :cliente, :uso, :estilo, :coleccion, :color, :imagen, :referencia_laboratorio, :version_laboratorio, :fecha_primera_produccion, 
+:tipo_pasta, :codigo_pantallas, :espesor, :ciclo, :temp_inferior, :temp_superior, :ean13, :ventasitalia, :usuario, :temp_inferior1, 
+:temp_superior1, :obs_ficha_hornos, :tipo, :partidaest, :control_stock, :stock_min, :ubi_muestras, :stocksugerido, :fechastocksugerido, 
+:codigo_compras, :estandar, :bloqueado, :cod_cliente, :marco, :canto_vivo, :marcado, 
+:etiqueta_ce, :lote, :observaciones 
+FROM articulos
+where empresa = :empresa
+and codigo = :articulo;
+
+
+uso = '2'
+
+INSERT INTO articulos (empresa, codigo, descripcion, familia, subfamilia, formato, subformato, modelo, unidad, precio_coste, fecha_alta, fecha_anulado, 
+fecha_fin, cuenta, proveedor, decorado, sector, conjunto, pesopieza, piezascaja, pesocaja, pesoenvase, metroscaja, metroslcaja, cuenta_contable, 
+tono, calibre, compras, activo, unidad_est, prev_anular, empleado, molde, plato_sup, plato_inf, calibre_min, calibre_max, cliente, uso, estilo, 
+coleccion, color, imagen, referencia_laboratorio, version_laboratorio, fecha_primera_produccion, tipo_pasta, codigo_pantallas, espesor, ciclo, 
+temp_inferior, temp_superior, ean13, ventasitalia, usuario, temp_inferior1, temp_superior1, obs_ficha_hornos, tipo, partidaest, control_stock, 
+stock_min, ubi_muestras, stocksugerido, fechastocksugerido, codigo_compras, estandar, bloqueado, cod_cliente, marco, canto_vivo, marcado, 
+etiqueta_ce, lote, observaciones)
+VALUES (:empresa, :nuevo_articulo, :descripcion, :familia, :subfamilia, :formato, :subformato, :modelo, :unidad, :precio_coste, :fecha_alta, 
+:fecha_anulado, :fecha_fin, :cuenta, :proveedor, :decorado, :sector, :conjunto, :pesopieza, :piezascaja, :pesocaja, :pesoenvase, :metroscaja, 
+:metroslcaja, :cuenta_contable, :tono, :calibre, :compras, :activo, :unidad_est, :prev_anular, :empleado, :molde, :plato_sup, :plato_inf, :calibre_min, 
+:calibre_max, :cliente, :uso, :estilo, :coleccion, :color, :imagen, :referencia_laboratorio, :version_laboratorio, :fecha_primera_produccion, 
+:tipo_pasta, :codigo_pantallas, :espesor, :ciclo, :temp_inferior, :temp_superior, :ean13, :ventasitalia, :usuario, :temp_inferior1, 
+:temp_superior1, :obs_ficha_hornos, :tipo, :partidaest, :control_stock, :stock_min, :ubi_muestras, :stocksugerido, :fechastocksugerido, 
+:codigo_compras, :estandar, :bloqueado, :cod_cliente, :marco, :canto_vivo, :marcado, 
+:etiqueta_ce, :lote, :observaciones );
+
+
+string tm
+
+// CÓDIGO ESTADÍSTICO		
+select tm
+into :tm
+from art_codestadistico
+where empresa = :empresa
+and codigo = :articulo;
+
+insert into art_codestadistico ( empresa, codigo, tm)
+values ( :empresa, :nuevo_articulo, :tm );
+
+// CALIDAD
+string calidad
+datetime cod_estadistico_fecha_alta
+dec cod_estadistico_calidad, stockmin, stockmax, puntopedido, precio
+
+SELECT calidad, precio, fecha_alta, stockmin, stockmax, puntopedido 
+into :cod_estadistico_calidad, :precio, :cod_estadistico_fecha_alta, :stockmin, :stockmax, :puntopedido
+FROM almartcal
+where empresa = :codigo_empresa
+and articulo = :articulo;
+
+INSERT INTO almartcal(empresa, articulo, calidad, precio, fecha_alta, stockmin, stockmax, puntopedido)
+VALUES (:empresa, :nuevo_articulo, :cod_estadistico_calidad, :precio, :cod_estadistico_fecha_alta, :stockmin, :stockmax, :puntopedido);
+
+//ENCAJADO
+
+string cajas_caja, cajas_descripcion, cajas_codigo, cajas_pordefecto
+dec cajas_piezascaja, cajas_metroscaja, cajas_metroslcaja, cajas_pesocaja, cajas_metros_reales_caja, cajas_peso_real_caja, cajas_metros_reales
+
+
+	
+SELECT caja, piezascaja, metroscaja, metroslcaja, pesocaja, metros_reales_caja, peso_real_caja, metros_reales, descripcion, 
+		codigo, pordefecto 
+INTO :cajas_caja, :cajas_piezascaja, :cajas_metroscaja, :cajas_metroslcaja, :cajas_pesocaja, :cajas_metros_reales_caja, :cajas_peso_real_caja, 
+		:cajas_metros_reales, :cajas_descripcion,	:cajas_codigo, :cajas_pordefecto  	
+FROM almartcajas
+WHERE empresa = :empresa
+and articulo = :articulo;
+
+INSERT INTO almartcajas(empresa, articulo, caja, piezascaja, metroscaja, metroslcaja, pesocaja, metros_reales_caja, peso_real_caja,
+								metros_reales, descripcion, codigo, pordefecto)
+VALUES (:empresa, :nuevo_articulo, :cajas_caja, :cajas_piezascaja, :cajas_metroscaja, :cajas_metroslcaja, :cajas_pesocaja, :cajas_metros_reales_caja,
+	:cajas_peso_real_caja, :cajas_metros_reales, :cajas_descripcion, :cajas_codigo, :cajas_pordefecto);
+
+
+//PALETIZADO
+
+string pal_codigo, pal_caja, pal_pordefecto 
+long pal_cajaspallet, pal_planospallet, pal_alturas
+
+SELECT codigo, caja, cajaspallet, planospallet, alturas, pordefecto 
+INTO :pal_codigo, :pal_caja, :pal_cajaspallet, :pal_planospallet, :pal_alturas, :pal_pordefecto 
+FROM palarticulo
+where empresa = :empresa
+and articulo = :articulo;
+
+INSERT INTO palarticulo(empresa, articulo, codigo, caja, cajaspallet, planospallet, alturas, pordefecto)
+VALUES(:empresa, :nuevo_articulo, :pal_codigo, :pal_caja, :pal_cajaspallet, :pal_planospallet, :pal_alturas, :pal_pordefecto );
+
+// CREAR RUTA
+string ruta_base, ruta_descripcion, ruta_observaciones, ruta_tipo_version
+
+
+SELECT base, descripcion, observaciones, tipo_version 
+into :ruta_base, :ruta_descripcion, :ruta_observaciones, :ruta_tipo_version
+FROM art_versiones
+where empresa = :empresa
+and articulo = :articulo 
+and version = '1';
+
+INSERT INTO art_versiones(empresa, articulo, version, base, descripcion, observaciones, tipo_version)
+VALUES (:empresa, :nuevo_articulo, '1', :articulo, :ruta_descripcion, :ruta_observaciones, :ruta_tipo_version);
+
+// CREAR OPERACIONES
+INSERT INTO art_ver_operaciones(empresa, articulo, version, operacion, tipo_operacion, orden, formato, factor )
+VALUES (:empresa, :nuevo_articulo, '1', '1', '34', '1', :formato, 1 );
+// CREAR APLICACIONES
+INSERT INTO art_ver_op_aplicaciones(empresa, articulo, version, operacion, contadoraplicacion, tipoaplicacion, orden)
+VALUES (:empresa, :nuevo_articulo, '1', '1', 1, '55', 1 );
+
+// RELLENAR EL CAMPO BASE 
+
+string sel3, articulo_anterior
+datastore datos3
+long k
+
+sel3 = 	" select articulo "+&
+			" from art_escandallo "+&
+			" where articulo_ant = '"+articulo+"' "+& 
+			" and empresa = '"+codigo_empresa+"' " 
+
+f_cargar_cursor_nuevo ( sel3, datos3 )
+
+for k = 1 to datos3.rowcount()
+	articulo_anterior = datos3.object.articulo[k]
+	
+	update art_versiones
+	set base = :nuevo_articulo
+	where empresa = :empresa
+	and articulo = :articulo_anterior
+	and version = '1';
+	
+next
+
+
+destroy datos3
+
+commit using sqlca;
+
+return nuevo_articulo
+end function
+

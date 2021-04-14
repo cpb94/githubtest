@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_direccion_transportista_venlifac.srf
+global type f_direccion_transportista_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_direccion_transportista_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_direccion_transportista_venlifac (string empresa, integer anyo, decimal albaran);String var_codigo, direccion
+
+
+  SELECT venalb.transportista
+    INTO :var_codigo
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+if IsNull(var_codigo) then var_codigo= ""
+
+if var_codigo <> "" then
+	select direccion 
+	into :direccion
+	from ventransportista
+	where empresa = empresa
+	and codigo = :var_codigo;
+end if
+
+Return direccion
+end function
+

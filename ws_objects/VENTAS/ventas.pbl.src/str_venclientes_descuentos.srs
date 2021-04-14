@@ -1,0 +1,15 @@
+﻿$PBExportHeader$str_venclientes_descuentos.srs
+global type str_venclientes_descuentos from structure
+     STRING     empresa
+     STRING     venclientes_codigo
+     STRING     articulos_codigo
+     STRING     calidades_codigo
+     DECIMAL {2}     cantidad
+     STRING     tipo_cantidad
+     DECIMAL {2}     descuento
+     DATETIME     fecha_inicio_descuento
+     DATETIME     fecha_fin_descuento
+     STRING     se_acumula_a_dto_tarifa
+     DECIMAL {2}     descuento2
+end type
+

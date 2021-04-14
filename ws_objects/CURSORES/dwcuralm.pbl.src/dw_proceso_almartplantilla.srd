@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_proceso_almartplantilla.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=88 color="536870912" )
+table(column=(type=decimal(4) updatewhereclause=yes name=plantilla dbname="almartplantilla.plantilla" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="almartplantilla.descripcion" )
+ column=(type=char(255) updatewhereclause=yes name=texto dbname="almartplantilla.texto" )
+ column=(type=long updatewhereclause=yes name=etiquetas dbname="almartplantilla.etiquetas" )
+ column=(type=char(255) updatewhereclause=yes name=texto1 dbname="almartplantilla.texto1" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almartplantilla~" ) COLUMN(NAME=~"almartplantilla.plantilla~") COLUMN(NAME=~"almartplantilla.descripcion~") COLUMN(NAME=~"almartplantilla.texto~") COLUMN(NAME=~"almartplantilla.etiquetas~") COLUMN(NAME=~"almartplantilla.texto1~")WHERE(    EXP1 =~"almartplantilla.plantilla~"   OP =~"=~"    EXP2 =~":arg_plantilla~" ) ) ARG(NAME = ~"arg_plantilla~" TYPE = number) " arguments=(("arg_plantilla", number)) )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_insert_costesapu.srf
+global type f_insert_costesapu from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_costesapu (str_costesapu cos)
+end prototypes
+
+global function boolean f_insert_costesapu (str_costesapu cos);Boolean bien = TRUE
+	
+INSERT INTO costesapu (ejercicio,empresa,mes,origen,asiento,apunte,
+							  coste,debe,haber,concepto,ampliacion,
+							  cuenta,fapunte)
+		VALUES (:cos.ejercicio,:cos.empresa,:cos.mes,:cos.origen,:cos.asiento,
+				  :cos.apunte,:cos.coste,:cos.debe,:cos.haber,:cos.concepto,
+				  :cos.ampliacion,:cos.cuenta,:cos.fapunte) 
+		USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("ERROR ","No puedo grabar apunte analítica")
+	bien = FALSE
+END IF
+	
+RETURN bien
+end function
+

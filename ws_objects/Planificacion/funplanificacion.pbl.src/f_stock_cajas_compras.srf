@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_stock_cajas_compras.srf
+global type f_stock_cajas_compras from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_cajas_compras (string articulo)
+end prototypes
+
+global function decimal f_stock_cajas_compras (string articulo);dec stock_cajas
+
+
+select sum(existencias)
+into :stock_cajas
+from almartcajas, almcajas, comlinubica
+where almartcajas.empresa = almcajas.empresa
+and almartcajas.caja = almcajas.codigo
+and almartcajas.articulo = :articulo
+and almartcajas.empresa = :codigo_empresa
+and almcajas.empresa = comlinubica.empresa
+and almcajas.codigo_compras = comlinubica.mp;
+
+
+return stock_cajas
+end function
+

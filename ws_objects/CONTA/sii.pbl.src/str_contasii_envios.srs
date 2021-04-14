@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_contasii_envios.srs
+global type str_contasii_envios from structure
+     STRING     empresa
+     DECIMAL {0}     ejercicio
+     STRING     factura
+     STRING     tipoter
+     STRING     tercero
+     DATETIME     fecha_envio
+     STRING     fichero_envio
+     STRING     resultado_envio
+end type
+

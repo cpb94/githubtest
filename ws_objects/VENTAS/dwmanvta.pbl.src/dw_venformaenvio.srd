@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_venformaenvio.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=289 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venformaenvio.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="venformaenvio.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="venformaenvio.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="venformaenvio.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venformaenvio~" ) COLUMN(NAME=~"venformaenvio.empresa~") COLUMN(NAME=~"venformaenvio.codigo~") COLUMN(NAME=~"venformaenvio.descripcion~") COLUMN(NAME=~"venformaenvio.resumido~")WHERE(    EXP1 =~"( venformaenvio.empresa~"   OP =~"=~"    EXP2 =~":empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( venformaenvio.codigo~"   OP =~"=~"    EXP2 =~":codigo )~" ) ) ORDER(NAME=~"venformaenvio.empresa~" ASC=yes )  ORDER(NAME=~"venformaenvio.codigo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="venformaenvio" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="46" y="76" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="37" y="184" height="65" width="357"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="430" y="184" height="65" width="238" format="[general]"  name=resumido edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="430" y="76" height="65" width="869" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

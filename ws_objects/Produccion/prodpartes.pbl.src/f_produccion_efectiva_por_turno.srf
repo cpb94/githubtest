@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_produccion_efectiva_por_turno.srf
+global type f_produccion_efectiva_por_turno from function_object
+end type
+
+forward prototypes
+global function long f_produccion_efectiva_por_turno (datetime fecha, string seccion, string linea, string turno, string buenas)
+end prototypes
+
+global function long f_produccion_efectiva_por_turno (datetime fecha, string seccion, string linea, string turno, string buenas);long total
+
+if buenas = "S" then
+	select sum(buenas)
+	into :total
+	from prodpartes_ot
+	where empresa = :codigo_empresa
+	and fecha = :fecha
+	and seccion = :seccion
+	and linea = :linea
+	and turno = turno
+	and art_terminado = 'S';
+else
+	select sum(malas)
+	into :total
+	from prodpartes_ot
+	where empresa = :codigo_empresa
+	and fecha = :fecha
+	and seccion = :seccion
+	and linea = :linea
+	and turno = turno
+	and art_terminado = 'S';
+end if 
+
+
+return total
+
+
+end function
+

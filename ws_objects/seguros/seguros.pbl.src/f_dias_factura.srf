@@ -1,0 +1,78 @@
+﻿$PBExportHeader$f_dias_factura.srf
+global type f_dias_factura from function_object
+end type
+
+forward prototypes
+global function integer f_dias_factura (string empresa, decimal anyo, string factura, string companyia)
+end prototypes
+
+global function integer f_dias_factura (string empresa, decimal anyo, string factura, string companyia);Dec{0} var_orden,var_dias,var_efectos,var_primero,var_cadencia,   &
+         var_cadencia1,var_cadencia2,var_cadencia3,var_cadencia4,&   
+         var_cadencia5,var_cadencia6,var_cadencia7,var_cadencia8,var_cadencia9 
+String var_forma_pago
+  SELECT Max(orden)  
+    INTO :var_orden  
+    FROM seglinventas  
+   WHERE ( seglinventas.empresa = :empresa ) AND  
+         ( seglinventas.anyo = :anyo ) AND  
+         ( seglinventas.fra = :factura )   ;
+	IF IsNull(var_orden) Then var_orden = 0
+	
+	IF var_orden =0 Then return 0
+			
+  SELECT seglinventas.forma_pago  
+    INTO :var_forma_pago  
+    FROM seglinventas  
+   WHERE (seglinventas.empresa = :empresa ) AND  
+         (seglinventas.anyo = :anyo ) AND  
+         (seglinventas.orden = :var_orden)   ;
+
+  SELECT carforpag.efectos,   
+         carforpag.primero,   
+         carforpag.cadencia,   
+         carforpag.cadencia1,   
+         carforpag.cadencia2,   
+         carforpag.cadencia3,   
+         carforpag.cadencia4,   
+         carforpag.cadencia5,   
+         carforpag.cadencia6,   
+         carforpag.cadencia7,   
+         carforpag.cadencia8,   
+         carforpag.cadencia9  
+    INTO :var_efectos,   
+         :var_primero,   
+         :var_cadencia,   
+         :var_cadencia1,   
+         :var_cadencia2,   
+         :var_cadencia3,   
+         :var_cadencia4,   
+         :var_cadencia5,   
+         :var_cadencia6,   
+         :var_cadencia7,   
+         :var_cadencia8,   
+         :var_cadencia9  
+    FROM carforpag  
+   WHERE ( carforpag.empresa = :empresa ) AND  
+         ( carforpag.forma = :var_forma_pago )   ;
+			IF IsNull(var_primero)  Then var_primero  = 0
+			IF IsNull(var_cadencia)  Then var_cadencia  = 0
+			IF IsNull(var_cadencia1) Then var_cadencia1 = 0			
+			IF IsNull(var_cadencia2) Then var_cadencia2 = 0
+			IF IsNull(var_cadencia3) Then var_cadencia3 = 0
+			IF IsNull(var_cadencia4) Then var_cadencia4 = 0
+			IF IsNull(var_cadencia5) Then var_cadencia5 = 0
+			IF IsNull(var_cadencia6) Then var_cadencia6 = 0
+			IF IsNull(var_cadencia7) Then var_cadencia7 = 0
+			IF IsNull(var_cadencia8) Then var_cadencia8 = 0
+			IF IsNull(var_cadencia9) Then var_cadencia9 = 0
+var_dias = var_cadencia1 +var_cadencia2 + var_cadencia3 + var_cadencia4 + var_cadencia5  + var_cadencia6 + var_cadencia7 + var_cadencia8 + var_cadencia9 
+IF var_dias= 0 Then
+	var_dias = var_primero + ((var_efectos - 1) * var_cadencia)
+END IF
+
+IF f_dias_minimos_segcompanyia(codigo_empresa,companyia) > var_dias Then
+var_dias = 	f_dias_minimos_segcompanyia(codigo_empresa,companyia)
+END IF
+return  var_dias
+end function
+

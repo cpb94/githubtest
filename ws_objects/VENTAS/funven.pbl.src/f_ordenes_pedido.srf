@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_ordenes_pedido.srf
+global type f_ordenes_pedido from function_object
+end type
+
+forward prototypes
+global function decimal f_ordenes_pedido (string empresa, decimal anyo, decimal pedido, decimal linea)
+end prototypes
+
+global function decimal f_ordenes_pedido (string empresa, decimal anyo, decimal pedido, decimal linea);Dec numero
+Select count(*) Into :numero From almcargas
+Where  almcargas.empresa      = :codigo_empresa
+		 and exists (select * 
+		 				from almlincargas
+						where almlincargas.empresa=almcargas.empresa and
+								almlincargas.anyo=almcargas.anyo and
+								almlincargas.orden=almcargas.orden and						
+								almlincargas.anyo_ped=:anyo and
+								almlincargas.pedido=:pedido and
+								almlincargas.linea_ped=:linea);
+
+
+/*								
+Where  almcargas.empresa      = :codigo_empresa and
+		 almcargas.anyo         = :anyo 
+And    almcargas.orden IN (Select almlincargas.orden 
+									From almlincargas
+									Where  almlincargas.empresa      = :codigo_empresa
+									And    almlincargas.anyo_ped     = :anyo
+									And    almlincargas.pedido       = :pedido
+									And    almlincargas.linea_ped    = :linea);*/
+
+if isnull(numero) then numero=0
+
+Return numero
+end function
+

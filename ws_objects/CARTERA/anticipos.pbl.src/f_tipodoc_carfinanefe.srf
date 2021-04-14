@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_tipodoc_carfinanefe.srf
+global type f_tipodoc_carfinanefe from function_object
+end type
+
+forward prototypes
+global function string f_tipodoc_carfinanefe (string empresa, decimal anyo, decimal orden)
+end prototypes
+
+global function string f_tipodoc_carfinanefe (string empresa, decimal anyo, decimal orden);string tipodoc
+
+select tipodoc
+into	 :tipodoc
+from  carefectos
+where carefectos.empresa	= :empresa and
+		carefectos.anyo		= :anyo and
+		carefectos.orden	 	= :orden;
+
+
+if isnull(tipodoc) or tipodoc = "" then 
+	
+	int max_linea
+	select max(linea)
+	into	 :max_linea
+	from  carhistorico
+	where carhistorico.empresa	= :empresa 	and
+			carhistorico.anyo		= :anyo 		and
+			carhistorico.orden	= :orden;
+			
+		
+	select tipodoc
+	into	 :tipodoc
+	from  carhistorico
+	where carhistorico.empresa	= 	:empresa and
+			carhistorico.anyo		= 	:anyo 	and
+			carhistorico.orden	= 	:orden 	and
+			carhistorico.linea	=	:max_linea;
+
+
+
+end if
+
+return tipodoc
+end function
+

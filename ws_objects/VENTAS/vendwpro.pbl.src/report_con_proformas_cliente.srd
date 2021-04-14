@@ -1,0 +1,206 @@
+﻿$PBExportHeader$report_con_proformas_cliente.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=656 color="-1" )
+summary(height=80 color="536870912" )
+footer(height=64 color="-1" )
+detail(height=68 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="venliproformas.empresa" )
+ column=(type=long updatewhereclause=yes key=yes name=anyo dbname="venliproformas.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=proforma dbname="venliproformas.proforma" )
+ column=(type=long updatewhereclause=yes key=yes name=linea dbname="venliproformas.linea" )
+ column=(type=char(5) updatewhereclause=yes name=serie dbname="venliproformas.serie" )
+ column=(type=datetime updatewhereclause=yes name=fproforma dbname="venliproformas.fproforma" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venliproformas.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="venliproformas.tipo_unidad" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="venliproformas.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="venliproformas.familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="venliproformas.formato" )
+ column=(type=char(5) updatewhereclause=yes name=modelo dbname="venliproformas.modelo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="venliproformas.calidad" )
+ column=(type=long updatewhereclause=yes name=tono dbname="venliproformas.tono" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="venliproformas.calibre" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio dbname="venliproformas.precio" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_estand dbname="venliproformas.precio_estand" )
+ column=(type=number updatewhereclause=yes name=cantidad dbname="venliproformas.cantidad" )
+ column=(type=long updatewhereclause=yes name=pallets dbname="venliproformas.pallets" )
+ column=(type=long updatewhereclause=yes name=total_cajas dbname="venliproformas.total_cajas" )
+ column=(type=long updatewhereclause=yes name=cajas dbname="venliproformas.cajas" )
+ column=(type=number updatewhereclause=yes name=dtocomer dbname="venliproformas.dtocomer" )
+ column=(type=number updatewhereclause=yes name=dtoesp dbname="venliproformas.dtoesp" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="venliproformas.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=tipoiva dbname="venliproformas.tipoiva" )
+ column=(type=number updatewhereclause=yes name=iva dbname="venliproformas.iva" )
+ column=(type=char(5) updatewhereclause=yes name=linfab dbname="venliproformas.linfab" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="venliproformas.provincia" )
+ column=(type=char(5) updatewhereclause=yes name=pais dbname="venliproformas.pais" )
+ column=(type=char(5) updatewhereclause=yes name=zona dbname="venliproformas.zona" )
+ column=(type=char(5) updatewhereclause=yes name=tipolinea dbname="venliproformas.tipolinea" )
+ column=(type=char(40) updatewhereclause=yes name=texto1 dbname="venliproformas.texto1" )
+ column=(type=char(40) updatewhereclause=yes name=texto2 dbname="venliproformas.texto2" )
+ column=(type=char(40) updatewhereclause=yes name=texto3 dbname="venliproformas.texto3" )
+ column=(type=char(40) updatewhereclause=yes name=texto4 dbname="venliproformas.texto4" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="venliproformas.referencia" )
+ column=(type=char(20) updatewhereclause=yes name=montajeartcal dbname="venliproformas.montajeartcal" )
+ column=(type=char(1) updatewhereclause=yes name=situacion dbname="venliproformas.situacion" )
+ column=(type=char(5) updatewhereclause=yes name=divisa dbname="venliproformas.divisa" )
+ column=(type=decimal(4) updatewhereclause=yes name=metros_lineales dbname="venliproformas.metros_lineales" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso_neto dbname="venliproformas.peso_neto" )
+ column=(type=datetime updatewhereclause=yes name=falta dbname="venliproformas.falta" )
+ column=(type=char(20) updatewhereclause=yes name=usuario dbname="venliproformas.usuario" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_pallet dbname="venliproformas.tipo_pallet" )
+ column=(type=decimal(6) updatewhereclause=yes name=importe dbname="venliproformas.importe" )
+ column=(type=decimal(4) updatewhereclause=yes name=descuento dbname="venliproformas.descuento" )
+ column=(type=decimal(6) updatewhereclause=yes name=importedto dbname="venliproformas.importedto" )
+ column=(type=char(1) updatewhereclause=yes name=clase dbname="venliproformas.clase" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="venliproformas.sector" )
+ column=(type=char(5) updatewhereclause=yes name=agente1 dbname="venliproformas.agente1" )
+ column=(type=char(5) updatewhereclause=yes name=agente2 dbname="venliproformas.agente2" )
+ column=(type=char(5) updatewhereclause=yes name=agente3 dbname="venliproformas.agente3" )
+ column=(type=number updatewhereclause=yes name=comision11 dbname="venliproformas.comision11" )
+ column=(type=number updatewhereclause=yes name=comision12 dbname="venliproformas.comision12" )
+ column=(type=number updatewhereclause=yes name=comision21 dbname="venliproformas.comision21" )
+ column=(type=number updatewhereclause=yes name=comision22 dbname="venliproformas.comision22" )
+ column=(type=number updatewhereclause=yes name=comision31 dbname="venliproformas.comision31" )
+ column=(type=number updatewhereclause=yes name=comision32 dbname="venliproformas.comision32" )
+ column=(type=char(1) updatewhereclause=yes name=deposito dbname="venliproformas.deposito" )
+ column=(type=char(1) updatewhereclause=yes name=control_incremento dbname="venliproformas.control_incremento" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso dbname="venliproformas.peso" )
+ column=(type=char(1) updatewhereclause=yes name=tipo_cliente dbname="venliproformas.tipo_cliente" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_aduana dbname="venliproformas.precio_aduana" )
+ column=(type=char(1) updatewhereclause=yes name=control_descuentos dbname="venliproformas.control_descuentos" )
+ column=(type=char(1) updatewhereclause=yes name=control_comisiones dbname="venliproformas.control_comisiones" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_aduana dbname="venliproformas.importe_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes name=bruto dbname="venliproformas.bruto" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_neto dbname="venliproformas.precio_neto" )
+ column=(type=decimal(6) updatewhereclause=yes name=precio_aduana_neto dbname="venliproformas.precio_aduana_neto" )
+ column=(type=decimal(4) updatewhereclause=yes name=descuento_aduana dbname="venliproformas.descuento_aduana" )
+ column=(type=decimal(6) updatewhereclause=yes name=impdtopp dbname="venliproformas.impdtopp" )
+ column=(type=decimal(4) updatewhereclause=yes name=neto dbname="venliproformas.neto" )
+ column=(type=char(20) updatewhereclause=yes name=ref_cli dbname="venliproformas.ref_cli" )
+ column=(type=char(5) updatewhereclause=yes name=transportista dbname="venliproformas.transportista" )
+ retrieve="SELECT  venliproformas.empresa ,
+           venliproformas.anyo ,
+           venliproformas.proforma ,
+           venliproformas.linea ,
+           venliproformas.serie ,
+           venliproformas.fproforma ,
+           venliproformas.cliente ,
+           venliproformas.tipo_unidad ,
+           venliproformas.articulo ,
+           venliproformas.familia ,
+           venliproformas.formato ,
+           venliproformas.modelo ,
+           venliproformas.calidad ,
+           venliproformas.tono ,
+           venliproformas.calibre ,
+           venliproformas.precio ,
+           venliproformas.precio_estand ,
+           venliproformas.cantidad ,
+           venliproformas.pallets ,
+           venliproformas.total_cajas ,
+           venliproformas.cajas ,
+           venliproformas.dtocomer ,
+           venliproformas.dtoesp ,
+           venliproformas.descripcion ,
+           venliproformas.tipoiva ,
+           venliproformas.iva ,
+           venliproformas.linfab ,
+           venliproformas.provincia ,
+           venliproformas.pais ,
+           venliproformas.zona ,
+           venliproformas.tipolinea ,
+           venliproformas.texto1 ,
+           venliproformas.texto2 ,
+           venliproformas.texto3 ,
+           venliproformas.texto4 ,
+           venliproformas.referencia ,
+           venliproformas.montajeartcal ,
+           venliproformas.situacion ,
+           venliproformas.divisa ,
+           venliproformas.metros_lineales ,
+           venliproformas.peso_neto ,
+           venliproformas.falta ,
+           venliproformas.usuario ,
+           venliproformas.tipo_pallet ,
+           venliproformas.importe ,
+           venliproformas.descuento ,
+           venliproformas.importedto ,
+           venliproformas.clase ,
+           venliproformas.sector ,
+           venliproformas.agente1 ,
+           venliproformas.agente2 ,
+           venliproformas.agente3 ,
+           venliproformas.comision11 ,
+           venliproformas.comision12 ,
+           venliproformas.comision21 ,
+           venliproformas.comision22 ,
+           venliproformas.comision31 ,
+           venliproformas.comision32 ,
+           venliproformas.deposito ,
+           venliproformas.control_incremento ,
+           venliproformas.peso ,
+           venliproformas.tipo_cliente ,
+           venliproformas.precio_aduana ,
+           venliproformas.control_descuentos ,
+           venliproformas.control_comisiones ,
+           venliproformas.importe_aduana ,
+           venliproformas.bruto ,
+           venliproformas.precio_neto ,
+           venliproformas.precio_aduana_neto ,
+           venliproformas.descuento_aduana ,
+           venliproformas.impdtopp ,
+           venliproformas.neto ,
+           venliproformas.ref_cli ,
+           venliproformas.transportista     
+        FROM venliproformas      
+        WHERE ( venliproformas.empresa = :empresa ) and          ( venliproformas.cliente = :cliente ) and          ( venliproformas.tipo_cliente = :tipo )   " update="venliproformas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("cliente", string),("tipo", string)) )
+group(level=1 header.height=0 trailer.height=108 by=("empresa" , "anyo" , "proforma" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="5" y="0" height="304" width="3456" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  name=dw_1 visible="1"  slideup=directlyabove )
+compute(band=header alignment="0" expression=" pageCount()"border="0" color="16777215" x="14" y="316" height="4" width="5" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="LISTADO PROFORMAS" border="0" color="128" x="9" y="356" height="80" width="814" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="if (tipo_cliente = ~"S~",~"Cliente : ~" + Trim(cliente) + ~"   ~" +f_nombre_cliente(empresa,~"C~",cliente),~"No cliente: ~"+ Trim(cliente) + ~" ~" + f_nombre_vencliproforma(empresa,cliente))"border="0" color="128" x="1019" y="360" height="64" width="1815" format="[GENERAL]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Fecha" border="2" color="0" x="5" y="588" height="64" width="251" html.valueishtml="0"  name=fpedido_t visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pl" border="2" color="0" x="1463" y="588" height="64" width="82" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tp" border="2" color="0" x="1367" y="588" height="64" width="82" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cl" border="2" color="0" x="1243" y="588" height="64" width="110" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importe" border="2" color="0" x="2601" y="588" height="64" width="489" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dto" border="2" color="0" x="2441" y="588" height="64" width="142" html.valueishtml="0"  name=t_6 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso" border="2" color="0" x="3109" y="588" height="64" width="283" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cajas" border="2" color="0" x="1568" y="588" height="64" width="197" html.valueishtml="0"  name=t_8 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="2" expression="f_nombre_unidad( ~"0~" )"border="2" color="0" x="1783" y="588" height="64" width="302" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="2" expression="f_nombre_unidad( ~"1~" )"border="2" color="0" x="2103" y="588" height="64" width="320" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Profor." border="2" color="0" x="270" y="588" height="64" width="247" html.valueishtml="0"  name=t_9 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Articulo" border="2" color="0" x="535" y="588" height="64" width="690" html.valueishtml="0"  name=t_10 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="60" width="251" format="[shortdate] [time]" html.valueishtml="0"  name=fproforma visible="1" editmask.mask="dd-mm-yy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_calidad_abr(empresa,calidad)"border="0" color="0" x="1243" y="4" height="60" width="114" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="descuento"border="0" color="0" x="2441" y="4" height="60" width="96" format="#0" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="%" border="0" color="0" x="2542" y="4" height="60" width="50" html.valueishtml="0"  name=t_11 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_pallet_abr(empresa,tipo_pallet)"border="0" color="0" x="1367" y="4" height="60" width="87" format="[GENERAL]" html.valueishtml="0"  name=compute_6 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr(divisa)"border="0" color="0" x="2999" y="16" height="44" width="87" format="[GENERAL]" html.valueishtml="0"  name=compute_7 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="if( tipo_unidad =~"0~",String(cantidad,f_mascara_decimales(0)),~"0~")"border="0" color="0" x="1778" y="4" height="60" width="302" format="" html.valueishtml="0"  name=cantidad1 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="if( tipo_unidad =~"1~",String(cantidad,f_mascara_decimales(2)),~"0~")"border="0" color="0" x="2103" y="4" height="60" width="320" format="" html.valueishtml="0"  name=cantidad2 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="String(importe,f_mascara_precios_moneda(divisa))"border="0" color="0" x="2606" y="4" height="60" width="379" format="[GENERAL]" html.valueishtml="0"  name=importe visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="peso"border="0" color="0" x="3109" y="4" height="60" width="283" format="###,##0" html.valueishtml="0"  name=compute_8 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="cajas"border="0" color="0" x="1568" y="4" height="60" width="197" format="#,##0" html.valueishtml="0"  name=compute_9 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="pallets"border="0" color="0" x="1467" y="4" height="60" width="78" format="#,##0" html.valueishtml="0"  name=compute_10 visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="270" y="4" height="60" width="238" format="[general]" html.valueishtml="0"  name=proforma visible="1" editmask.mask="###,###" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="530" y="4" height="60" width="699" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr(divisa)"border="0" color="0" x="2999" y="12" height="48" width="87" format="[GENERAL]" html.valueishtml="0"  name=compute_11 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="String(sum(Dec(cantidad1) for group 1),f_mascara_decimales(0))"border="0" color="0" x="1778" y="4" height="56" width="302" format="" html.valueishtml="0"  name=compute_12 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="String(sum(Dec(cantidad2) for group 1),f_mascara_decimales(2))"border="0" color="0" x="2103" y="4" height="56" width="320" format="[general]" html.valueishtml="0"  name=compute_13 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="STRING(sum(importe for group 1 ),f_mascara_precios_moneda(divisa))"border="0" color="0" x="2606" y="4" height="60" width="379" format="[general]" html.valueishtml="0"  name=compute_14 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(peso for group 1)"border="0" color="0" x="3109" y="4" height="60" width="283" format="#,###,##0" html.valueishtml="0"  name=compute_15 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(cajas for group 1)"border="0" color="0" x="1568" y="4" height="60" width="197" format="###,##0" html.valueishtml="0"  name=compute_16 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(pallets for group 1)"border="0" color="0" x="1426" y="4" height="60" width="119" format="#,##0" html.valueishtml="0"  name=compute_17 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr(divisa)"border="0" color="0" x="2999" y="20" height="52" width="87" format="[GENERAL]" html.valueishtml="0"  name=compute_18 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="String(sum(Dec(cantidad1) for all),f_mascara_decimales(0))"border="0" color="0" x="1778" y="12" height="60" width="302" format="" html.valueishtml="0"  name=compute_19 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="String(sum(Dec(cantidad2) for all),f_mascara_decimales(2))"border="0" color="0" x="2103" y="12" height="60" width="320" format="" html.valueishtml="0"  name=compute_20 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="STRING(sum(importe for all),f_mascara_precios_moneda(divisa))"border="0" color="0" x="2606" y="12" height="60" width="379" format="[general]" html.valueishtml="0"  name=compute_21 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(peso for all)"border="0" color="0" x="3109" y="12" height="60" width="283" format="###,##0" html.valueishtml="0"  name=compute_22 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(cajas for all)"border="0" color="0" x="1568" y="12" height="60" width="197" format="#,##0" html.valueishtml="0"  name=compute_23 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(pallets for all)"border="0" color="0" x="1426" y="12" height="60" width="119" format="#,##0" html.valueishtml="0"  name=compute_24 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1513" y="956" height="72" width="686" format="[general]" html.valueishtml="0"  name=compute_25 visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1371" y="8" height="48" width="841" format="[general]" html.valueishtml="0"  name=compute_26 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="0" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

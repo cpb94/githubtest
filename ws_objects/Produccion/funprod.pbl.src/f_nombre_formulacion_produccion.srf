@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_formulacion_produccion.srf
+global type f_nombre_formulacion_produccion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_formulacion_produccion (string empresa, string formula)
+end prototypes
+
+global function string f_nombre_formulacion_produccion (string empresa, string formula);string v_nom
+
+select descripcion_produccion
+into :v_nom
+from prodformula
+where empresa = :empresa
+and formula =:formula;
+
+if sqlca.sqlcode <> 0 then
+//	f_mensaje("Selección de la formulación","Error: "+sqlca.sqlerrtext)
+	v_nom = ""
+end if
+
+if isnull(v_nom) then v_nom = ""
+
+return v_nom
+end function
+

@@ -1,0 +1,66 @@
+﻿$PBExportHeader$f_asignacion_costes_apunte.srf
+global type f_asignacion_costes_apunte from function_object
+end type
+
+forward prototypes
+global function boolean f_asignacion_costes_apunte (decimal ejercicio, string empresa, decimal mes, string origen, decimal asiento, decimal apunte)
+end prototypes
+
+global function boolean f_asignacion_costes_apunte (decimal ejercicio, string empresa, decimal mes, string origen, decimal asiento, decimal apunte);  //---------------------------//
+ //--Asignacion de costes-----//
+//---------------------------//
+DataStore f
+str_contaapun con
+Dec tot,t
+String sel,ana
+con.empresa   = empresa
+con.ejercicio = ejercicio
+con.origen    = origen
+con.mes       = mes
+con.asiento   = asiento
+con.apunte   = apunte
+
+Select contaapun.fapunte,contaapun.cuenta,contaapun.debe,contaapun.concepto,contaapun.ampliacion,contaapun.debe,contaapun.haber 
+Into   :con.fapunte,:con.cuenta,:con.debe,:con.concepto,:con.ampliacion,:con.debe,:con.haber 
+ from  contaapun 
+ Where contaapun.empresa   =  :empresa
+ and   contaapun.ejercicio =  :ejercicio
+ and   contaapun.mes       =  :mes
+ and   contaapun.origen    =  :origen
+ and   contaapun.asiento   =  :asiento
+ and   contaapun.apunte    =  :apunte;
+
+SELECT contaplan.analitica INTO :ana FROM contaplan  
+ WHERE contaplan.ejercicio = :con.ejercicio
+ AND   contaplan.empresa   = :con.empresa
+ AND   contaplan.cuenta    = :con.cuenta ;
+IF ana <> 'S'  OR  IsNull(ana) = TRUE Then	Return True
+
+	
+	str_parametros lstr_param
+	
+	lstr_param.s_argumentos[1] = String(con.mes)
+	lstr_param.s_argumentos[2] = con.origen
+	lstr_param.s_argumentos[3] = String(con.asiento)
+	lstr_param.s_argumentos[4] = con.cuenta
+	lstr_param.s_argumentos[5] = String(con.debe)
+	lstr_param.s_argumentos[6] = string(con.apunte)
+	lstr_param.s_argumentos[7] = con.concepto
+	lstr_param.s_argumentos[8] = con.ampliacion
+	lstr_param.s_argumentos[9]  = String(con.fapunte,"dd-mm-yyyy")
+	lstr_param.s_argumentos[10] = String(con.haber)
+	lstr_param.s_argumentos[11] = String(con.ejercicio,"####")
+	
+	String vale_st
+	OpenWithParm(w_costes,lstr_param)
+	vale_st = Message.StringParm
+	IF vale_st = "0" THEN
+		destroy f;
+		Return FALSE
+	END IF
+
+destroy f;
+Return True
+
+end function
+

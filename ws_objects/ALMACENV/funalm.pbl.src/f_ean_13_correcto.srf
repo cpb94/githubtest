@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_ean_13_correcto.srf
+global type f_ean_13_correcto from function_object
+end type
+
+forward prototypes
+global function boolean f_ean_13_correcto (string codigo)
+end prototypes
+
+global function boolean f_ean_13_correcto (string codigo);string ean13
+long pares,impares,check,total
+
+if len(codigo) <> 13 then return false
+
+pares=integer(mid(codigo,2,1))+integer(mid(codigo,4,1))+&
+		integer(mid(codigo,6,1))+integer(mid(codigo,8,1))+&
+		integer(mid(codigo,10,1))+integer(mid(codigo,12,1))
+
+
+impares=integer(mid(codigo,1,1))+integer(mid(codigo,3,1))+&
+		integer(mid(codigo,5,1))+integer(mid(codigo,7,1))+&
+		integer(mid(codigo,9,1))+integer(mid(codigo,11,1))
+
+total=pares*3 + impares
+check=10 - (mod(total,10) )
+
+if check=10 then check=0
+
+if  check <> integer(mid(codigo,13,1)) then
+	return false
+else
+	return true
+end if
+end function
+

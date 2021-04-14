@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_art_escandallo.srs
+global type str_art_escandallo from structure
+     STRING     empresa
+     STRING     articulo
+     STRING     version
+     STRING     articulo_ant
+     DECIMAL {2}     factor
+     STRING     aprovecha
+end type
+

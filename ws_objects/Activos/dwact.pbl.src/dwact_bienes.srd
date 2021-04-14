@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dwact_bienes.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=185 color="536870912" )
+table(column=(type=char(4) update=yes updatewhereclause=yes key=yes name=empresa dbname="act_bienes.empresa" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=bien dbname="act_bienes.bien" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=descripcion dbname="act_bienes.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"act_bienes~" ) COLUMN(NAME=~"act_bienes.empresa~") COLUMN(NAME=~"act_bienes.bien~") COLUMN(NAME=~"act_bienes.descripcion~")WHERE(    EXP1 =~"act_bienes.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"act_bienes.bien~"   OP =~"=~"    EXP2 =~":bien~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"bien~" TYPE = number) " update="act_bienes" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("bien", number)) )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="517" y="56" height="65" width="705" format="[general]"  name=descripcion edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripcion:"border="0" color="0" x="142" y="56" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

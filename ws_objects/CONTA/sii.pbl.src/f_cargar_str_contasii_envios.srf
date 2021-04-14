@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_cargar_str_contasii_envios.srf
+global type f_cargar_str_contasii_envios from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_contasii_envios (STRING arg_empresa, DECIMAL {0} arg_ejercicio, STRING arg_factura, STRING arg_tipoter, STRING arg_tercero, DATETIME arg_fecha_envio,  ref str_contasii_envios str_contasii_envios)
+end prototypes
+
+global function boolean f_cargar_str_contasii_envios (STRING arg_empresa, DECIMAL {0} arg_ejercicio, STRING arg_factura, STRING arg_tipoter, STRING arg_tercero, DATETIME arg_fecha_envio,  ref str_contasii_envios str_contasii_envios);boolean lb_correcto = true
+
+SELECT contasii_envios.empresa,
+       contasii_envios.ejercicio,
+       contasii_envios.factura,
+       contasii_envios.tipoter,
+       contasii_envios.tercero,
+       contasii_envios.fecha_envio,
+       contasii_envios.fichero_envio,
+       contasii_envios.resultado_envio
+INTO   :str_contasii_envios.empresa,
+       :str_contasii_envios.ejercicio,
+       :str_contasii_envios.factura,
+       :str_contasii_envios.tipoter,
+       :str_contasii_envios.tercero,
+       :str_contasii_envios.fecha_envio,
+       :str_contasii_envios.fichero_envio,
+       :str_contasii_envios.resultado_envio
+FROM contasii_envios
+WHERE contasii_envios.empresa = :arg_empresa AND contasii_envios.ejercicio = :arg_ejercicio AND contasii_envios.factura = :arg_factura AND contasii_envios.tipoter = :arg_tipoter AND contasii_envios.tercero = :arg_tercero AND contasii_envios.fecha_envio = :arg_fecha_envio;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

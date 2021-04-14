@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_escandallo_articulo.srf
+global type f_escandallo_articulo from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_articulo (string arg_empresa, string arg_articulo, ref string arg_escandallo[])
+end prototypes
+
+global subroutine f_escandallo_articulo (string arg_empresa, string arg_articulo, ref string arg_escandallo[]);
+long      indice,total,indice2
+string    sel,articulo
+boolean   introducido
+datastore escandallo
+
+arg_escandallo[UpperBound(arg_escandallo) +1] = arg_articulo
+
+sel = "select producto "+&
+		"from almcompuestoart "+&
+		"where  empresa = '"+arg_empresa+"' "+&
+		"and    producto_terminado = 'S' "+&
+		"and    articulo = '"+arg_articulo+"' "
+		
+escandallo = f_cargar_cursor(sel)
+total = escandallo.rowcount()
+if total > 0 then
+	for indice = 1 to total
+		introducido = false
+		articulo = escandallo.object.producto[indice]
+		for indice2 = 1 to UpperBound(arg_escandallo)			
+			if arg_escandallo[indice2] = articulo then
+				introducido = true
+			end if		
+		next
+		if not(introducido) then
+			f_escandallo_articulo(arg_empresa,articulo,arg_escandallo)
+		end if
+	next
+end if
+destroy escandallo
+
+end subroutine
+

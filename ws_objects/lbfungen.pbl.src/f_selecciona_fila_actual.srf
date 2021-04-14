@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_selecciona_fila_actual.srf
+$PBExportComments$Ilumina la fila actual en la DataWindow indicada.
+global type f_selecciona_fila_actual from function_object
+end type
+
+forward prototypes
+global function long f_selecciona_fila_actual (datawindow adw_datawindow)
+end prototypes
+
+global function long f_selecciona_fila_actual (datawindow adw_datawindow);long ll_fila_actual
+
+adw_datawindow.SetRedraw(false)
+
+ll_fila_actual = adw_datawindow.GetRow()
+
+adw_datawindow.SelectRow(0,False)
+adw_datawindow.Selectrow(ll_fila_actual,True)
+adw_datawindow.SetFocus()
+
+adw_datawindow.SetRedraw(True)
+
+Return ll_fila_actual
+end function
+

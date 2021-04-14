@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_stock_formula.srf
+global type f_stock_formula from function_object
+end type
+
+forward prototypes
+global function real f_stock_formula (string empresa, string formula)
+end prototypes
+
+global function real f_stock_formula (string empresa, string formula);real v_cantidad
+
+select sum(existencias) into :v_cantidad
+from prodformlinubica
+where empresa = :empresa and
+formula = :formula;
+
+if isnull(v_cantidad) then v_cantidad = 0
+
+return v_cantidad
+end function
+

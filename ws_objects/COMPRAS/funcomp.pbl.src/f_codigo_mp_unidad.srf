@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_codigo_mp_unidad.srf
+global type f_codigo_mp_unidad from function_object
+end type
+
+forward prototypes
+global function string f_codigo_mp_unidad (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_codigo_mp_unidad (string ra_codemp, string ra_codart); string ls_codigo_unidad
+
+ SELECT   venmprima.tipo_unidad
+    INTO  :ls_codigo_unidad
+    FROM  venmprima
+   WHERE (venmprima.empresa = :ra_codemp ) AND  
+         (venmprima.codigo = :ra_codart )  ;
+   IF SQLCA.SQLCode <> 0 THEN	ls_codigo_unidad = ""
+   Return ls_codigo_unidad
+
+end function
+

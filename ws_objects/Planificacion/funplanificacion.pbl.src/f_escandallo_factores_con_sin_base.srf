@@ -1,0 +1,71 @@
+﻿$PBExportHeader$f_escandallo_factores_con_sin_base.srf
+global type f_escandallo_factores_con_sin_base from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_factores_con_sin_base (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel, boolean generar_base)
+end prototypes
+
+global subroutine f_escandallo_factores_con_sin_base (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel, boolean generar_base);// arg_escandallo[50]:  	Vector de estructuras para almacenar todos los artículos que componen el árbol . (ver str_escandallo).
+// arg_articulo:				Código del artículo del cual buscaremos su escandallo.
+// indice:						Siempre deberá recibir un 1 en la llamada principal.
+// factor acumulado:		Siempre deberá recibir un 1 en la llamada principal.
+// generar_base:			Si vale false no genera la base en la estructura. Si vale true también genera la base.
+
+string sel, articulo_ant, v_Articulo, v_version, articulos_uso
+integer i, nodo_hijo, nodo_raiz, k
+datastore registros 
+long nodo_actual, nodo_padre
+boolean procesado = false
+decimal{2} v_factor
+
+
+nivel ++
+if nivel < 300 then
+	arg_escandallo[300].articulo = "CORRECTO"
+	sel = " select articulo, version, articulo_ant, factor, articulos.uso"+&
+			" from art_escandallo, articulos "+&
+			" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+			" and articulo = '"+arg_articulo+"' " +&
+			" and version = '1' "+&
+			" and art_escandallo.empresa = articulos.empresa "+&
+			" and art_Escandallo.articulo_ant = articulos.codigo "
+			
+	f_cargar_cursor_nuevo (sel, registros )
+	
+	for i = 1 to registros.RowCount()
+		if registros.RowCount() = 0 then
+			articulo_ant = "0"
+		else
+			v_articulo = registros.object.articulo[i]
+			v_version = registros.object.version[i]
+			articulo_ant = registros.object.articulo_ant[i]		
+			articulos_uso = registros.object.articulos_uso[i]
+		end if
+
+	
+		if articulo_ant <> "0" and (generar_base or (not generar_base and articulos_uso <> '1' and not ftc_articulo_base(articulo_ant))) then
+			if registros.object.factor[i] = 0 or isnull(registros.object.factor[i]) then
+				v_factor = factor_acumulado
+			else
+				v_factor = registros.object.factor[i] * factor_Acumulado
+			end if
+			f_escandallo_factores_con_sin_base (arg_escandallo, articulo_ant, indice, v_factor, nivel, generar_base)
+		end if
+		
+		if not procesado and indice > 0 then
+			arg_escandallo[indice].articulo = v_articulo
+			arg_escandallo[indice].version = v_version
+			arg_escandallo[indice].factor =  factor_Acumulado
+			arg_escandallo[indice].nivel =  nivel
+			procesado = true
+			indice++		
+		end if
+	next
+else
+	arg_escandallo[300].articulo = "ERROR"
+	destroy registros
+end if
+destroy registros
+end subroutine
+

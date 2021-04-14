@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cierre_contaparam.srf
+global type f_cierre_contaparam from function_object
+end type
+
+forward prototypes
+global function datetime f_cierre_contaparam (string empresa, integer ejercicio)
+end prototypes
+
+global function datetime f_cierre_contaparam (string empresa, integer ejercicio);datetime fcierre
+       
+
+SELECT contaparam.cierre 
+INTO :fcierre 
+FROM  contaparam  
+WHERE  contaparam.ejercicio = :ejercicio
+AND    contaparam.empresa   = :empresa;
+
+Return fcierre
+
+
+
+end function
+

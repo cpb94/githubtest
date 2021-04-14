@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_etiqueta_empresa.srf
+global type f_etiqueta_empresa from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_empresa (string empresa)
+end prototypes
+
+global function string f_etiqueta_empresa (string empresa);String   var_cif, var_pais, var_provincia,&
+	      var_cod_postal,      var_localidad,  var_domicilio  
+		
+String    montaje,nom,pais,provincia
+
+   SELECT empresas.cif,empresas.pais,empresas.provincia,empresas.codpostal,
+	       empresas.ciudad
+   INTO   :var_cif,:var_pais,:var_provincia,:var_cod_postal,   
+          :var_localidad
+   FROM   empresas
+   WHERE  empresas.empresa = :empresa;
+	
+	IF sqlca.sqlcode = 100 Then Return ""
+
+var_domicilio = f_domicilio_empresa(empresa)
+IF IsNull(var_cif)       Then  var_cif        =  ""
+IF IsNull(var_localidad) Then  var_localidad  =  ""
+IF IsNull(var_domicilio) Then  var_domicilio  =  ""
+IF IsNull(var_pais)      Then  var_pais       =  ""
+IF IsNull(var_provincia) Then  var_provincia  =  ""
+IF IsNull(var_cod_postal) Then  var_cod_postal  =  ""
+
+var_cif  = Trim(var_cif) 
+   
+
+
+pais      = f_nombre_pais(var_pais)
+provincia = f_nombre_provincia(var_pais,var_provincia)
+
+montaje  = var_domicilio + char(13) + &
+           var_cod_postal + " " + var_localidad + char(13) + &
+			  provincia + " ("+pais+")" + char(13) +&
+			  var_cif 
+  
+				  
+ Return montaje
+end function
+

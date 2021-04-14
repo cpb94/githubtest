@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_proceso_control_decorados3.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=85 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=articulo dbname="almlinubica.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="almlinubica.calidad" )
+ column=(type=long updatewhereclause=yes name=tono dbname="almlinubica.tono" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="almlinubica.calibre" )
+ column=(type=number updatewhereclause=yes name=existencias dbname="compute_0005" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almlinubica~" ) COLUMN(NAME=~"almlinubica.articulo~") COLUMN(NAME=~"almlinubica.calidad~") COLUMN(NAME=~"almlinubica.tono~") COLUMN(NAME=~"almlinubica.calibre~") COMPUTE(NAME=~"sum(existencias)~")WHERE(    EXP1 =~"almlinubica.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica.articulo~"   OP =~"=~"    EXP2 =~":decorado~" )  GROUP(NAME=~"almlinubica.articulo~") GROUP(NAME=~"almlinubica.calidad~") GROUP(NAME=~"almlinubica.tono~") GROUP(NAME=~"almlinubica.calibre~")) ORDER(NAME=~"5~" ASC=no)  ORDER(NAME=~"almlinubica.articulo~" ASC=yes )  ORDER(NAME=~"almlinubica.calidad~" ASC=yes )  ORDER(NAME=~"almlinubica.tono~" ASC=yes )  ORDER(NAME=~"almlinubica.calibre~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"decorado~" TYPE = string) " arguments=(("empresa", string),("decorado", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="165" y="0" height="77" width="659" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="819" y="4" height="77" width="1418" format="[general]"  name=existencias edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

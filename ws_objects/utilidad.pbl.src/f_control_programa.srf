@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_control_programa.srf
+global type f_control_programa from function_object
+end type
+
+forward prototypes
+global function boolean f_control_programa (string empresa)
+end prototypes
+
+global function boolean f_control_programa (string empresa);String titulo,acceso
+//titulo = ventana_activa.Title
+
+  SELECT utiprogramas.acceso   INTO :acceso    FROM utiprogramas  
+   WHERE utiprogramas.empresa = :empresa
+	AND   utiprogramas.titulo_programa = :titulo   ;
+	IF SQLCA.SQLCODE = 100 Then Return FALSE
+
+IF acceso = "1" Then
+	Return True
+ELSE
+	Return False
+END IF
+end function
+

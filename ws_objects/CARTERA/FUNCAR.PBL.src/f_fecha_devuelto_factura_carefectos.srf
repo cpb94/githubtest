@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fecha_devuelto_factura_carefectos.srf
+global type f_fecha_devuelto_factura_carefectos from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_devuelto_factura_carefectos (string empresa, decimal anyo_fra, string factura, decimal recibo)
+end prototypes
+
+global function datetime f_fecha_devuelto_factura_carefectos (string empresa, decimal anyo_fra, string factura, decimal recibo);DateTime p
+Select Max(carefectos.fdevolucion) Into :p From carefectos
+Where  carefectos.empresa = :empresa
+And    carefectos.anyofra = :anyo_fra
+And    carefectos.factura = :factura
+And    carefectos.recibo  = :recibo
+And    carefectos.situacion = "2";
+iF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+Return p
+end function
+

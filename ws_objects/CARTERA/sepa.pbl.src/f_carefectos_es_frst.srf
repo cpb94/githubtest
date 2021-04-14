@@ -1,0 +1,59 @@
+﻿$PBExportHeader$f_carefectos_es_frst.srf
+global type f_carefectos_es_frst from function_object
+end type
+
+forward prototypes
+global function boolean f_carefectos_es_frst (string arg_empresa, integer arg_anyo, long arg_orden)
+end prototypes
+
+global function boolean f_carefectos_es_frst (string arg_empresa, integer arg_anyo, long arg_orden);string ls_cliente,ls_banco
+long   ll_remesa,ll_efectos_remesados_anteriormente
+datetime ldt_fremesa,ldt_fvto
+
+boolean lb_es_frst = false
+
+select carefectos.cliente,
+		 carefectos.banco,
+		 carefectos.remesa,
+		 carefectos.fremesa,
+		 carefectos.fvto
+into   :ls_cliente,
+		 :ls_banco,
+		 :ll_remesa,
+		 :ldt_fremesa,
+		 :ldt_fvto
+from   carefectos
+where  carefectos.empresa = :arg_empresa
+and    carefectos.anyo    = :arg_anyo
+and    carefectos.orden   = :arg_orden;
+
+select sum(resultado.efectos_remesados_anteriormente)
+into   :ll_efectos_remesados_anteriormente
+from  (
+select count(*) as efectos_remesados_anteriormente
+from   carefectos
+where  carefectos.empresa = :arg_empresa
+and    carefectos.cliente = :ls_cliente
+and    isnull(carefectos.banco,'') <> ''
+and    isnull(carefectos.remesa,0) <> 0
+and   (carefectos.fremesa < :ldt_fremesa 
+or    (carefectos.fremesa = :ldt_fremesa and carefectos.fvto < :ldt_fvto))
+union all 
+select count(*) as efectos_remesados_anteriormente
+from   carhistorico
+where  carhistorico.empresa = :arg_empresa
+and    carhistorico.cliente = :ls_cliente
+and    isnull(carhistorico.banco,'') <> ''
+and    isnull(carhistorico.remesa,0) <> 0
+and   (carhistorico.fremesa < :ldt_fremesa 
+or    (carhistorico.fremesa = :ldt_fremesa and carhistorico.fvto < :ldt_fvto)) ) as resultado;
+
+if ll_efectos_remesados_anteriormente > 0 then
+	lb_es_frst = false
+else	
+	lb_es_frst = true
+end if
+
+return lb_es_frst
+end function
+

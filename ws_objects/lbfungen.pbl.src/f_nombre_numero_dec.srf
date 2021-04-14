@@ -1,0 +1,78 @@
+﻿$PBExportHeader$f_nombre_numero_dec.srf
+global type f_nombre_numero_dec from function_object
+end type
+
+forward prototypes
+global function string f_nombre_numero_dec (integer dig1, integer dig2, integer genero)
+end prototypes
+
+global function string f_nombre_numero_dec (integer dig1, integer dig2, integer genero);string nombre,U[9],D1[0 TO 9],D2[0 TO 1],D[3 TO 9]
+integer i
+
+if genero=1 then
+	u[1]="UNA"
+else
+	U[1]="UN"
+end if
+
+U[2]="DOS"
+U[3]="TRES"
+U[4]="CUATRO"
+U[5]="CINCO"
+U[6]="SEIS"
+U[7]="SIETE"
+U[8]="OCHO"
+U[9]="NUEVE"
+
+D1[0]="DIEZ"
+D1[1]="ONCE"
+D1[2]="DOCE"
+D1[3]="TRECE"
+D1[4]="CATORCE"
+D1[5]="QUINCE"
+D1[6]="DIECISEIS"
+D1[7]="DIECISIETE"
+D1[8]="DIECIOCHO"
+D1[9]="DIECINUEVE"
+
+D2[0]="VEINTE"
+D2[1]="VEINTI"
+
+D[3]="TREINTA"
+D[4]="CUARENTA"
+D[5]="CINCUENTA"
+D[6]="SESENTA"
+D[7]="SETENTA"
+D[8]="OCHENTA"
+D[9]="NOVENTA"
+
+choose case dig1
+	case 0
+		choose case dig2
+			case 0
+				nombre="CERO"
+			case else
+				nombre=U[dig2]
+		end choose
+	case 1
+		nombre=D1[dig2]
+	case 2
+		choose case dig2
+			case 0
+				nombre=D2[0]
+			case else
+				nombre=D2[1]+U[dig2]
+		end choose
+	case else
+		choose case dig2
+			case 0
+				nombre=D[dig1]
+			case else
+				nombre=D[dig1]+" Y "+U[dig2]
+		end choose
+end choose
+
+return Trim(nombre)
+
+end function
+

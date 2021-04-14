@@ -1,0 +1,12 @@
+﻿$PBExportHeader$dw_con_invent_reservas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=85 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=69 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="almtoma.empresa" )
+ column=(type=datetime updatewhereclause=yes name=fecha_inv dbname="almtoma.fecha_inv" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almtoma~" ) COLUMN(NAME=~"almtoma.empresa~") COLUMN(NAME=~"almtoma.fecha_inv~")WHERE( EXP1 =~"almtoma.empresa~" OP =~"=~" EXP2 =~":cod_emp~" LOGIC =~"and~" ) WHERE( EXP1 =~"almtoma.anyo_inv~" OP =~"=~" EXP2 =~":anyo~" ) GROUP(NAME=~"almtoma.empresa~") GROUP(NAME=~"almtoma.fecha_inv~")) ORDER(NAME=~"almtoma.empresa~" ASC=yes ) ORDER(NAME=~"almtoma.fecha_inv~" ASC=no) ARG(NAME = ~"cod_emp~" TYPE = string) ARG(NAME = ~"anyo~" TYPE = number) " arguments=(("cod_emp", string),("anyo", number)) )
+text(band=header alignment="2" text="Fecha Inv"border="6" color="0" x="83" y="12" height="65" width="604"  name=fecha_inv_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="128" x="87" y="4" height="65" width="604" format="[shortdate] [time]"  name=fecha_inv editmask.mask="dd-mm-yy"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

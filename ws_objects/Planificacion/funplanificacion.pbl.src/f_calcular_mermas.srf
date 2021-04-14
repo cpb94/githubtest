@@ -1,0 +1,124 @@
+﻿$PBExportHeader$f_calcular_mermas.srf
+global type f_calcular_mermas from function_object
+end type
+
+forward prototypes
+global subroutine f_calcular_mermas (string v_articulo, string v_operacion)
+global function long f_calcular_mermas (string v_articulo, long v_cantidad)
+end prototypes
+
+global subroutine f_calcular_mermas (string v_articulo, string v_operacion);
+end subroutine
+
+global function long f_calcular_mermas (string v_articulo, long v_cantidad);
+/*
+PARÁMETROS
+
+Recibe articulo, operación y cantidad a planificar
+
+Devuelve el sobrecoste de las mermas que hay que añadir a la cantidad a planificar
+*/
+
+long cantidad_minima, cantidad_maxima, cantidad_nueva, cantidad_registros_porcentajes, cantidad_registros_historico
+decimal mermas, porcentaje
+string operacion, aplicar_porcentaje
+
+
+select tipo_operacion 
+into :operacion 
+from art_ver_operaciones 
+where empresa = :codigo_empresa 
+and version = '1'  
+and articulo = :v_articulo 
+using SQLCA;
+
+select aplicar_porcentaje 
+into :aplicar_porcentaje 
+from art_ver_tipooperacion 
+where empresa = :codigo_empresa 
+and codigo = :operacion 
+using SQLCA;
+
+//Compruebo si en esa operación tengo que aplicar porcentaje
+if aplicar_porcentaje = 'S' then
+
+
+	select count(*) 
+	into :cantidad_registros_porcentajes
+	from porcentajes_mermas
+	where empresa = :codigo_empresa 
+	and operacion = :operacion
+	and :v_cantidad >= cantidad_minima 
+	and :v_cantidad < cantidad_maxima 
+	using SQLCA;
+	
+	if cantidad_registros_porcentajes > 0 then 
+	
+		//Saco las cantidad mínimas y máximas para después filtrar los partes por cantidades
+		select cantidad_minima,cantidad_maxima, porcentaje
+		into :cantidad_minima, :cantidad_maxima, :porcentaje
+		from porcentajes_mermas
+		where empresa = :codigo_empresa 
+		and operacion = :operacion
+		and :v_cantidad >= cantidad_minima 
+		and :v_cantidad < cantidad_maxima 
+		using SQLCA;
+		
+		
+		//Compruebo histórico de ot's
+		select count(*)
+		into :cantidad_registros_historico
+		from prodpartes_ot
+		where empresa = :codigo_empresa
+		and operacion = :operacion
+		and articulo = :v_articulo
+		group by prodpartes_ot.ot
+		having sum(prodpartes_ot.buenas) + sum(prodpartes_ot.malas) >= :cantidad_minima and  sum(prodpartes_ot.buenas) + sum(prodpartes_ot.malas)  < :cantidad_maxima
+		using SQLCA;
+		
+		if cantidad_registros_historico > 0 then
+			
+			mermas = -1
+			//Calculo las mermas del sumatorio de todas las piezas buenas y malas de las ot que estén entre los valores máximos y mínimos
+			select isnull((sum(prodpartes_ot.malas)) / (sum(prodpartes_ot.buenas) + sum(prodpartes_ot.malas))   * 100,-1)  as porcentaje_mermas
+			into :mermas
+			from prodpartes_ot 
+			where prodpartes_ot.empresa = :codigo_empresa
+			and prodpartes_ot.ot in (
+				select ot
+				from prodpartes_ot
+				where empresa = :codigo_empresa
+				and operacion = :operacion
+				and articulo = :v_articulo
+				group by prodpartes_ot.ot
+				having sum(prodpartes_ot.buenas) + sum(prodpartes_ot.malas) >= :cantidad_minima and  sum(prodpartes_ot.buenas) + sum(prodpartes_ot.malas)  < :cantidad_maxima) 
+			using SQLCA ;
+			
+			cantidad_nueva = v_cantidad * (mermas/100)
+			
+		else		
+			//Si no existen ot que cumplan los requisitos (artículo y cantidad total de piezas), entonces miramos a la tabla para aplicar el porcentaje
+				
+			cantidad_nueva = v_cantidad * (porcentaje/100)
+			
+		end if
+		
+		return cantidad_nueva
+		
+	else
+		
+		//No existe entrada en la tabla porcentajes_mermas de ese artículo
+		
+		return 0
+		
+	end if
+	
+else
+	
+	//No se aplica porcentaje en la operación
+	
+	return 0
+	
+end if
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$dw_provincias.srd
+$PBExportComments$Datawindow mantenimiento provincias.
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=449 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=pais dbname="provincias.pais" )
+ column=(type=char(5) update=yes key=yes name=provincia dbname="provincias.provincia" )
+ column=(type=char(30) update=yes name=nombre dbname="provincias.nombre" initial="spaces" )
+ column=(type=char(10) update=yes name=abreviado dbname="provincias.abreviado" initial="spaces" )
+ column=(type=char(4) update=yes name=prefijo dbname="provincias.prefijo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"provincias~" ) COLUMN(NAME=~"provincias.pais~") COLUMN(NAME=~"provincias.provincia~") COLUMN(NAME=~"provincias.nombre~") COLUMN(NAME=~"provincias.abreviado~") COLUMN(NAME=~"provincias.prefijo~")WHERE( EXP1 =~"provincias.pais~" OP =~"=~" EXP2 =~":codpais~" LOGIC =~"and~" ) WHERE( EXP1 =~"provincias.provincia~" OP =~"=~" EXP2 =~":codprov~" ) ) ARG(NAME = ~"codpais~" TYPE = string) ARG(NAME = ~"codprov~" TYPE = string) " update="provincias" updatewhere=0 updatekeyinplace=no arguments=(("codpais", string),("codprov", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="385" y="80" height="65" width="874" format="[general]"  name=nombre edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Nombre:"border="0" color="0" x="92" y="80" height="65" width="247"  name=nombre_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="23" y="208" height="65" width="316"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Prefijo:"border="0" color="0" x="129" y="332" height="65" width="211"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=30 border="5" color="0" x="385" y="336" height="65" width="151" format="[general]"  name=prefijo edit.limit=4 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="385" y="216" height="65" width="170"  name=abreviado edit.limit=3 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_descripcion_almcliartdesc2.srf
+global type f_descripcion_almcliartdesc2 from function_object
+end type
+
+forward prototypes
+global function string f_descripcion_almcliartdesc2 (string arg_empresa, string arg_cliente, string arg_articulo, decimal arg_orden)
+end prototypes
+
+global function string f_descripcion_almcliartdesc2 (string arg_empresa, string arg_cliente, string arg_articulo, decimal arg_orden);string descripcion,sel
+long   total,indice
+Datastore datos
+
+select count(descripcion)
+into :total
+from almcliartdesc
+where empresa=:arg_empresa and
+		cliente=:arg_cliente and
+		articulo=:arg_articulo and
+		orden   =:arg_orden
+group by empresa,cliente,articulo;
+
+if total = 0 then
+   descripcion=""
+else
+		select descripcion
+		into :descripcion
+		from almcliartdesc
+		where empresa=:arg_empresa and
+				cliente=:arg_cliente and
+				articulo=:arg_articulo and
+				orden   =:arg_orden;
+				
+		if isnull(descripcion) then descripcion=""
+		descripcion = trim(descripcion)
+end if
+return descripcion
+end function
+

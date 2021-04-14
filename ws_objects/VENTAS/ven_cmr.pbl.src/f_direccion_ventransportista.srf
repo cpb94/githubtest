@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_direccion_ventransportista.srf
+global type f_direccion_ventransportista from function_object
+end type
+
+forward prototypes
+global function string f_direccion_ventransportista (string empresa, string transportista)
+end prototypes
+
+global function string f_direccion_ventransportista (string empresa, string transportista);String var_direccion
+
+SELECT	direccion
+INTO		:var_direccion
+FROM		ventransportista
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:transportista;
+
+if isnull(var_direccion) then var_direccion = ""
+
+Return var_direccion
+end function
+

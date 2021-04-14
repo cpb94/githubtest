@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_prompedreposicion.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="prompedreposicion.empresa" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes key=yes name=anyo dbname="prompedreposicion.anyo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes key=yes name=pedido dbname="prompedreposicion.pedido" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes key=yes name=linea dbname="prompedreposicion.linea" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=anyo_alb dbname="prompedreposicion.anyo_alb" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=albaran dbname="prompedreposicion.albaran" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=linea_alb dbname="prompedreposicion.linea_alb" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tipo_panel dbname="prompedreposicion.tipo_panel" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cantidad dbname="prompedreposicion.cantidad" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=panel dbname="prompedreposicion.panel" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"prompedreposicion~" ) COLUMN(NAME=~"prompedreposicion.empresa~") COLUMN(NAME=~"prompedreposicion.anyo~") COLUMN(NAME=~"prompedreposicion.pedido~") COLUMN(NAME=~"prompedreposicion.linea~") COLUMN(NAME=~"prompedreposicion.anyo_alb~") COLUMN(NAME=~"prompedreposicion.albaran~") COLUMN(NAME=~"prompedreposicion.linea_alb~") COLUMN(NAME=~"prompedreposicion.tipo_panel~") COLUMN(NAME=~"prompedreposicion.cantidad~") COLUMN(NAME=~"prompedreposicion.panel~")WHERE(    EXP1 =~"prompedreposicion.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"prompedreposicion.anyo~"   OP =~"=~"    EXP2 =~":anyo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"prompedreposicion.pedido~"   OP =~"=~"    EXP2 =~":pedido~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number)  ARG(NAME = ~"pedido~" TYPE = number) " update="prompedreposicion" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("anyo", number),("pedido", number)) )

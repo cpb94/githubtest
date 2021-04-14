@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_buscar_articulo_referencia_laboratorio.srf
+global type f_buscar_articulo_referencia_laboratorio from function_object
+end type
+
+forward prototypes
+global function string f_buscar_articulo_referencia_laboratorio (integer modelo, integer trabajo)
+end prototypes
+
+global function string f_buscar_articulo_referencia_laboratorio (integer modelo, integer trabajo);string articulo
+
+select codigo
+into :articulo
+from articulos
+where referencia_laboratorio = :modelo
+and version_laboratorio = :trabajo;
+
+return articulo
+end function
+

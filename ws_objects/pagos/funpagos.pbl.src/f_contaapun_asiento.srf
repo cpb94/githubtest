@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_contaapun_asiento.srf
+global type f_contaapun_asiento from function_object
+end type
+
+forward prototypes
+global function decimal f_contaapun_asiento (string empresa, datetime ffra, string cuenta, string factura)
+end prototypes
+
+global function decimal f_contaapun_asiento (string empresa, datetime ffra, string cuenta, string factura);Dec  asiento
+  
+SELECT asiento INTO :asiento FROM contaapun
+WHERE empresa     = :empresa
+AND   ffactura   = :ffra
+and   cuenta      =:cuenta
+and   documento     =:factura
+and   origen = '3';
+
+IF IsNull(asiento) THEN asiento = 0
+	
+RETURN asiento
+
+end function
+

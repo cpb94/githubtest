@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_var_contabal.srf
+global type f_var_contabal from function_object
+end type
+
+forward prototypes
+global function decimal f_var_contabal (decimal dato1, decimal dato2)
+end prototypes
+
+global function decimal f_var_contabal (decimal dato1, decimal dato2);dec diferencia 
+
+diferencia = dato1 - dato2
+
+if dato2 <> 0 then
+	// con dos decimales
+	return round(diferencia * 100 /dato2,2)
+else
+	return 0
+end if
+
+
+
+
+
+
+
+
+end function
+

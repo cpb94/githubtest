@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_vendomiciliacion_oficina.srf
+global type f_vendomiciliacion_oficina from function_object
+end type
+
+forward prototypes
+global function string f_vendomiciliacion_oficina (string empresa, string cli, string cod)
+end prototypes
+
+global function string f_vendomiciliacion_oficina (string empresa, string cli, string cod);string	oficina
+
+SELECT vendomiciliacion.oficina INTO :oficina FROM vendomiciliacion  
+WHERE vendomiciliacion.empresa =:empresa
+AND   vendomiciliacion.cliente =:cli
+AND   vendomiciliacion.codigo  =:cod USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	oficina = ""
+END IF
+	
+RETURN oficina
+end function
+

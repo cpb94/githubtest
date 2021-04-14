@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_calculo_metros_cuadrados.srf
+global type f_calculo_metros_cuadrados from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_metros_cuadrados (string cod_empresa, string cod_articulo, decimal cantidad)
+end prototypes
+
+global function decimal f_calculo_metros_cuadrados (string cod_empresa, string cod_articulo, decimal cantidad);String cod_formato
+dec{4} largo,ancho
+
+cod_formato = f_formato_articulo(cod_empresa,cod_articulo)
+
+if isnull(cod_formato) or trim(cod_formato) = "" then
+	return 0
+else
+	SELECT largo,ancho   
+	INTO  :largo,:ancho  
+	FROM   formatos  
+	WHERE formatos.empresa = :cod_empresa AND   
+			formatos.codigo = :cod_formato    ;
+	
+	Return (largo*ancho / 10000) * cantidad
+end if
+end function
+

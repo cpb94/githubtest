@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_externo_almtipo.srf
+global type f_externo_almtipo from function_object
+end type
+
+forward prototypes
+global function string f_externo_almtipo (string empresa, string tipoalm)
+end prototypes
+
+global function string f_externo_almtipo (string empresa, string tipoalm);String var_externo
+
+  SELECT almtipo.empresa,   
+         almtipo.tipoalm,   
+         almtipo.externo  
+    INTO :empresa,   
+         :tipoalm,   
+         :var_externo  
+    FROM almtipo  
+   WHERE ( almtipo.empresa = :empresa ) AND  
+         ( almtipo.tipoalm = :tipoalm )   
+ORDER BY almtipo.empresa ASC,   
+         almtipo.tipoalm ASC  ;
+
+
+return var_externo
+end function
+

@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_lineasfab.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=221 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="lineas.empresa" )
+ column=(type=char(5) update=yes key=yes name=codigo dbname="lineas.codigo" )
+ column=(type=char(30) update=yes name=descripcion dbname="lineas.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"lineas~" ) COLUMN(NAME=~"lineas.empresa~") COLUMN(NAME=~"lineas.codigo~") COLUMN(NAME=~"lineas.descripcion~")WHERE( EXP1 =~"lineas.empresa~" OP =~"=~" EXP2 =~":cod_empre~" LOGIC =~"and~" ) WHERE( EXP1 =~"lineas.codigo~" OP =~"=~" EXP2 =~":cod_linea~" ) ) ORDER(NAME=~"lineas.empresa~" ASC=yes ) ORDER(NAME=~"lineas.codigo~" ASC=yes ) ARG(NAME = ~"cod_empre~" TYPE = string) ARG(NAME = ~"cod_linea~" TYPE = string) " update="lineas" updatewhere=0 updatekeyinplace=no arguments=(("cod_empre", string),("cod_linea", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="28" y="68" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="421" y="68" height="77" width="851" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

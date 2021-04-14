@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_total_fac_venlifac.srf
+global type f_total_fac_venlifac from function_object
+end type
+
+forward prototypes
+global function decimal f_total_fac_venlifac (string empresa, integer anyo, decimal factura, string partidaest)
+end prototypes
+
+global function decimal f_total_fac_venlifac (string empresa, integer anyo, decimal factura, string partidaest);dec{2} variable
+
+SELECT sum(venlifac.importe),articulos.partidaest
+INTO :variable  
+FROM venlifac,articulos
+WHERE ( venlifac.empresa = :empresa ) AND  
+      ( venlifac.anyo    = :anyo ) AND  
+      ( venlifac.factura = :factura ) AND
+		( articulos.codigo = venlifac.articulo) AND
+		( articulos.partidaest = :partidaest) AND
+		( venlifac.tipolinea <> "5") AND
+		( venlifac.tipolinea <> "14") AND
+		( venlifac.tipolinea <> "15") AND
+		( venlifac.tipolinea <> "16")
+GROUP BY articulos.partidaest;
+
+Return variable 
+end function
+

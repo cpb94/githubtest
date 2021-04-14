@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_control_fecha_apunte.srf
+global type f_control_fecha_apunte from function_object
+end type
+
+forward prototypes
+global function boolean f_control_fecha_apunte (decimal var_ejercicio, datetime var_fapunte)
+end prototypes
+
+global function boolean f_control_fecha_apunte (decimal var_ejercicio, datetime var_fapunte);IF year(Date(var_fapunte)) <> var_ejercicio Then
+	f_mensaje("Error en Introduccion de datos","La fecha del apunte no corresponde con el ejercicio")
+	Return FALSE
+END IF
+IF f_mes_cerrado(codigo_empresa,var_ejercicio,Month(Date(var_fapunte))) Then
+	f_mensaje("No se puede integrar a este mes","  MES CERRADO")
+	return FALSE
+END IF
+Return TRUE
+end function
+

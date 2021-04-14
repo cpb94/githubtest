@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_anyo_desde.srf
+global type f_nombre_anyo_desde from function_object
+end type
+
+forward prototypes
+global function string f_nombre_anyo_desde (integer arg_mes, integer arg_suma, integer arg_anyo)
+end prototypes
+
+global function string f_nombre_anyo_desde (integer arg_mes, integer arg_suma, integer arg_anyo);string  var_anyo
+long    calculo_mes
+
+calculo_mes = arg_mes + arg_suma
+var_anyo = string(arg_anyo,"####")
+if calculo_mes >= 13 then
+	var_anyo = string(arg_anyo+1,"####")
+end if
+
+return var_anyo
+end function
+

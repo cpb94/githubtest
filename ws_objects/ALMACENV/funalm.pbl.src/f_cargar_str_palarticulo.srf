@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_cargar_str_palarticulo.srf
+global type f_cargar_str_palarticulo from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_palarticulo (STRING arg_empresa, STRING arg_articulo, STRING arg_codigo, STRING arg_caja,  ref str_palarticulo str_palarticulo)
+end prototypes
+
+global function boolean f_cargar_str_palarticulo (STRING arg_empresa, STRING arg_articulo, STRING arg_codigo, STRING arg_caja,  ref str_palarticulo str_palarticulo);boolean lb_correcto = true
+
+SELECT palarticulo.empresa,
+       palarticulo.articulo,
+       palarticulo.codigo,
+       palarticulo.caja,
+       palarticulo.cajaspallet,
+       palarticulo.planospallet,
+       palarticulo.alturas,
+       palarticulo.pordefecto
+INTO   :str_palarticulo.empresa,
+       :str_palarticulo.articulo,
+       :str_palarticulo.codigo,
+       :str_palarticulo.caja,
+       :str_palarticulo.cajaspallet,
+       :str_palarticulo.planospallet,
+       :str_palarticulo.alturas,
+       :str_palarticulo.pordefecto
+FROM palarticulo
+WHERE palarticulo.empresa = :arg_empresa AND palarticulo.articulo = :arg_articulo AND palarticulo.codigo = :arg_codigo AND palarticulo.caja = :arg_caja;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

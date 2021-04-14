@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_familias_formatos_articulos_inic.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=200 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=familia dbname="articulos.familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="articulos.formato" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"articulos.familia~") COLUMN(NAME=~"articulos.formato~")WHERE(    EXP1 =~"articulos.empresa~"   OP =~"=~"    EXP2 =~":empresa~" )  GROUP(NAME=~"articulos.empresa~") GROUP(NAME=~"articulos.familia~") GROUP(NAME=~"articulos.formato~")) ORDER(NAME=~"articulos.familia~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) " arguments=(("empresa", string)) )
+text(band=detail alignment="0" text="FAMILIAS Y  FORMATOS ARTICULOS"border="0" color="0" x="165" y="8" height="76" width="1253"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="155" y="112" height="76" width="608" format="[general]"  name=familia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="782" y="112" height="76" width="576" format="[general]"  name=formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

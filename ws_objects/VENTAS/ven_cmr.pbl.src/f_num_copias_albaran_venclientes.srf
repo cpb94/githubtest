@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_num_copias_albaran_venclientes.srf
+global type f_num_copias_albaran_venclientes from function_object
+end type
+
+forward prototypes
+global function integer f_num_copias_albaran_venclientes (string empresa, string cliente)
+end prototypes
+
+global function integer f_num_copias_albaran_venclientes (string empresa, string cliente);
+Integer var_copias
+
+SELECT   num_copias_albaran
+INTO     :var_copias
+FROM     venclientes  
+Where    empresa = :empresa
+And     codigo = :cliente;
+
+if isnull(var_copias) then var_copias = 0
+
+return var_copias
+
+end function
+

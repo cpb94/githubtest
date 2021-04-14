@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cajaspallet_palarticulo.srf
+global type f_cajaspallet_palarticulo from function_object
+end type
+
+forward prototypes
+global function decimal f_cajaspallet_palarticulo (string empresa, string articulo, string pallet, string caja)
+end prototypes
+
+global function decimal f_cajaspallet_palarticulo (string empresa, string articulo, string pallet, string caja);String var_empresa,var_formato,var_codigo
+Dec{0} var_cajaspallet
+  SELECT palarticulo.cajaspallet  
+    INTO :var_cajaspallet  
+    FROM palarticulo  
+   WHERE palarticulo.empresa  = :empresa AND  
+         palarticulo.articulo = :articulo AND  
+         palarticulo.codigo   = :pallet AND
+			palarticulo.caja     = :caja;
+
+return var_cajaspallet
+
+end function
+

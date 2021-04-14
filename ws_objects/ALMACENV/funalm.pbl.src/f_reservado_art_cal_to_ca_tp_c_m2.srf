@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_reservado_art_cal_to_ca_tp_c_m2.srf
+global type f_reservado_art_cal_to_ca_tp_c_m2 from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_reservado_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja);Dec{3}   var_existencias
+
+SELECT case when articulos.unidad = '1' then isnull(sum(venliped.cantidad),0)  else round(( isnull(sum(venliped.cantidad),0) / almartcajas.piezascaja ) * almartcajas.metroscaja,3,1) end as reservado_pzs
+INTO   :var_existencias  
+FROM   venliped,
+		 articulos,
+		 unidades,
+		 almartcajas 
+WHERE venliped.empresa     = articulos.empresa
+AND   venliped.articulo    = articulos.codigo
+AND   articulos.empresa    = almartcajas.empresa 
+AND   articulos.codigo     = almartcajas.articulo 
+AND   articulos.unidad     = unidades.codigo 
+AND   venliped.empresa     = :arg_empresa
+AND   venliped.articulo    = :arg_articulo
+AND   venliped.calidad     = :arg_calidad
+AND   venliped.tonochar    = :arg_tono
+AND   venliped.calibre     = :arg_calibre
+AND   venliped.tipo_pallet = :arg_tipo_pallet
+AND   venliped.caja        = :arg_caja
+AND   venliped.situacion   = 'C'
+GROUP BY articulos.unidad,
+			almartcajas.metroscaja,
+			almartcajas.piezascaja;
+
+IF IsNull(var_existencias) Then var_existencias = 0
+
+Return  var_existencias
+end function
+

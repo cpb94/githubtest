@@ -1,0 +1,108 @@
+﻿$PBExportHeader$report_mant_tarifas_conjunto2_cliente.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=1073741824 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" )
+header(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=64 color="536870912~tif( mod(getrow(),2) = 1 , rgb(255,255,255) , rgb(209,209,209) )" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="ventarifas_descuentos.empresa" dbalias=".empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=ventarifas_codigo dbname="ventarifas_descuentos.ventarifas_codigo" dbalias=".ventarifas_codigo" )
+ column=(type=datetime update=yes updatewhereclause=yes name=ventarifas_activa dbname="ventarifas_descuentos.ventarifas_activa" dbalias=".ventarifas_activa" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=articulos_codigo dbname="ventarifas_descuentos.articulos_codigo" dbalias=".articulos_codigo" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=calidades_codigo dbname="ventarifas_descuentos.calidades_codigo" dbalias=".calidades_codigo" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes identity=yes name=descuento dbname="ventarifas_descuentos.descuento" dbalias=".descuento" initial="0" )
+ column=(type=char(5) updatewhereclause=yes name=ventarifas_moneda dbname="ventarifas.moneda" dbalias=".moneda" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes identity=yes name=cantidad dbname="ventarifas_descuentos.cantidad" dbalias=".cantidad" initial="0" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tipo_cantidad dbname="ventarifas_descuentos.tipo_cantidad" dbalias=".tipo_cantidad" initial="PZS" values="Piezas	PZS/Metros	MTS/Cajas	CJS/Pallets	PLT/" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_inicio_descuento dbname="ventarifas_descuentos.fecha_inicio_descuento" dbalias=".fecha_inicio_descuento" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_fin_descuento dbname="ventarifas_descuentos.fecha_fin_descuento" dbalias=".fecha_fin_descuento" )
+ column=(type=decimal(2) updatewhereclause=yes identity=yes name=descuento2 dbname="ventarifas_descuentos.descuento2" dbalias=".descuento2" initial="0" )
+ column=(type=char(140) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" dbalias=".descripcion" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" dbalias=".descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=acumulable dbname="acumulable" )
+ retrieve="  SELECT ventarifas_descuentos.empresa,   
+         ventarifas_descuentos.ventarifas_codigo,   
+         ventarifas_descuentos.ventarifas_activa,   
+         ventarifas_descuentos.articulos_codigo,   
+         ventarifas_descuentos.calidades_codigo,   
+         ventarifas_descuentos.descuento,   
+         ventarifas.moneda,   
+         ventarifas_descuentos.cantidad,   
+         ventarifas_descuentos.tipo_cantidad,   
+         ventarifas_descuentos.fecha_inicio_descuento,   
+         ventarifas_descuentos.fecha_fin_descuento,   
+         ventarifas_descuentos.descuento2,   
+         articulos.descripcion,   
+         formatos.descripcion,
+			'' as acumulable  
+    FROM ventarifas_descuentos,   
+         ventarifas,   
+         articulos,   
+         formatos  
+   WHERE ( ventarifas_descuentos.empresa = ventarifas.empresa ) and  
+         ( ventarifas_descuentos.ventarifas_codigo = ventarifas.codigo ) and  
+         ( ventarifas_descuentos.empresa = articulos.empresa ) and  
+         ( ventarifas_descuentos.empresa = formatos.empresa ) and  
+         ( ventarifas_descuentos.articulos_codigo = articulos.codigo ) and  
+         ( articulos.formato = formatos.codigo ) and  
+			( not exists ( select * 
+								from venclientes_precios 
+								where venclientes_precios.empresa = ventarifas_descuentos.empresa 
+								and   venclientes_precios.venclientes_codigo = :arg_cliente
+								and   venclientes_precios.articulos_codigo = ventarifas_descuentos.articulos_codigo
+								and   venclientes_precios.calidades_codigo = ventarifas_descuentos.calidades_codigo 
+								and   venclientes_precios.no_aplicar_dtos_tarifa = 'S' ) ) and
+         ( ( ventarifas_descuentos.empresa = :arg_empresa ) AND  
+         ( ventarifas_descuentos.ventarifas_codigo = :arg_tarifa ) AND  
+         ( ventarifas_descuentos.ventarifas_activa = :arg_fecha_activa ) AND  
+         ( ventarifas_descuentos.articulos_codigo = :arg_articulo ) AND  
+         ( ventarifas_descuentos.calidades_codigo = :arg_calidad ) )    
+UNION 
+  SELECT venclientes_descuentos.empresa,   
+         :arg_tarifa as ventarifas_codigo,   
+         :arg_fecha_activa as ventarifas_activa,   
+         venclientes_descuentos.articulos_codigo,   
+         venclientes_descuentos.calidades_codigo,   
+         venclientes_descuentos.descuento,   
+         ventarifas.moneda,   
+         venclientes_descuentos.cantidad,   
+         venclientes_descuentos.tipo_cantidad,   
+         venclientes_descuentos.fecha_inicio_descuento,   
+         venclientes_descuentos.fecha_fin_descuento,   
+         venclientes_descuentos.descuento2,   
+         articulos.descripcion,   
+         formatos.descripcion,
+			case when venclientes_descuentos.se_acumula_a_dto_tarifa = 'S' then '+' else '' end as acumulable  
+    FROM venclientes_descuentos,   
+         ventarifas,   
+         articulos,   
+         formatos  
+   WHERE ( venclientes_descuentos.empresa = ventarifas.empresa ) and  
+         ( venclientes_descuentos.empresa = articulos.empresa ) and  
+         ( venclientes_descuentos.empresa = formatos.empresa ) and  
+         ( venclientes_descuentos.articulos_codigo = articulos.codigo ) and  
+         ( articulos.formato = formatos.codigo ) and  
+         ( ( venclientes_descuentos.empresa = :arg_empresa ) AND  
+			( venclientes_descuentos.venclientes_codigo = :arg_cliente ) and
+         ( ventarifas.codigo = :arg_tarifa ) AND  
+         ( venclientes_descuentos.articulos_codigo = :arg_articulo ) AND  
+         ( venclientes_descuentos.calidades_codigo = :arg_calidad ) )    
+" arguments=(("arg_empresa", string),("arg_tarifa", string),("arg_fecha_activa", datetime),("arg_articulo", string),("arg_calidad", string),("arg_cliente", string))  sort="articulos_descripcion A formatos_descripcion A calidades_codigo A tipo_cantidad A cantidad A descuento A acumulable A " )
+column(band=detail id=8 alignment="1" tabsequence=50 border="0" color="20722727" x="251" y="4" height="56" width="197" format="[general]~tif( tipo_cantidad = 'MTS' , '###,##0.00' , '###,##0' )" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="0" expression="'%'"border="0" color="20722727" x="169" y="4" height="56" width="64" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="2" tabsequence=80 border="0" color="20722727" x="942" y="4" height="56" width="210" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_fin_descuento visible="1~tIF(isnull(fecha_fin_descuento) , 0 , 1 )" editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=10 alignment="2" tabsequence=70 border="0" color="20722727" x="718" y="4" height="56" width="210" format="[shortdate] [time]" html.valueishtml="0"  name=fecha_inicio_descuento visible="1~tIF(isnull(fecha_inicio_descuento) , 0 , 1 )" editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="0" tabsequence=60 border="0" color="20722727" x="462" y="4" height="56" width="242" format="[general]" html.valueishtml="0"  name=tipo_cantidad visible="1" ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=6 alignment="1" tabsequence=30 border="0" color="20722727" x="5" y="4" height="56" width="142" format="[general]" html.valueishtml="0"  name=descuento visible="1" editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=15 alignment="0" tabsequence=90 border="0" color="20722727" x="5" y="4" height="56" width="23" html.valueishtml="0"  name=acumulable visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

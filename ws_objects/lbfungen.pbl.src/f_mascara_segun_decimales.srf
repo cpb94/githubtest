@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_mascara_segun_decimales.srf
+global type f_mascara_segun_decimales from function_object
+end type
+
+forward prototypes
+global function string f_mascara_segun_decimales (decimal arg_cantidad)
+end prototypes
+
+global function string f_mascara_segun_decimales (decimal arg_cantidad);int decimales
+dec cantidad
+string mascara
+
+if isnull(arg_cantidad) then return ''
+
+cantidad=truncate(arg_cantidad,8)
+decimales=0
+DO WHILE dec(truncate(cantidad,0) - cantidad)<>0
+	decimales++
+	cantidad=(cantidad )*10
+LOOP
+
+CHOOSE CASE decimales
+	CASE 0
+		mascara = "#,###,###,##0"
+	CASE 1
+		mascara = "###,###,##0.#"
+	CASE 2
+		mascara = "##,###,##0.##"
+	CASE 3
+		mascara = "#,###,##0.###"
+	CASE 4
+		mascara = "#,###,##0.####"
+END CHOOSE
+
+return mascara
+
+end function
+

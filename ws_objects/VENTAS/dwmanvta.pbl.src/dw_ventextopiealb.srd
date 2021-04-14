@@ -1,0 +1,11 @@
+﻿$PBExportHeader$dw_ventextopiealb.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1301 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="ventextopiealb.empresa" )
+ column=(type=char(4099) update=yes updatewhereclause=no name=texto dbname="ventextopiealb.texto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"ventextopiealb~" ) COLUMN(NAME=~"ventextopiealb.empresa~") COLUMN(NAME=~"ventextopiealb.texto~")WHERE(    EXP1 =~"ventextopiealb.empresa~"   OP =~"=~"    EXP2 =~":ra_codigo~" ) ) ARG(NAME = ~"ra_codigo~" TYPE = string) " update="ventextopiealb" updatewhere=0 updatekeyinplace=no arguments=(("ra_codigo", string)) )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="10" y="4" height="1293" width="2762" format="[general]"  name=texto edit.limit=0 edit.case=any edit.autoselect=yes edit.autovscroll=yes edit.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_cargar_str_contaparam.srf
+global type f_cargar_str_contaparam from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_contaparam (INTEGER arg_ejercicio, STRING arg_empresa,  ref str_contaparam str_contaparam)
+end prototypes
+
+global function boolean f_cargar_str_contaparam (INTEGER arg_ejercicio, STRING arg_empresa,  ref str_contaparam str_contaparam);boolean lb_correcto = true
+
+SELECT contaparam.ejercicio,
+       contaparam.empresa,
+       contaparam.chequeo,
+       contaparam.activo,
+       contaparam.analitica,
+       contaparam.digitos,
+       contaparam.niveles,
+       contaparam.digitos1,
+       contaparam.digitos2,
+       contaparam.digitos3,
+       contaparam.digitos4,
+       contaparam.digitos5,
+       contaparam.digitos6,
+       contaparam.digitos7,
+       contaparam.digitos8,
+       contaparam.digitos9,
+       contaparam.comienzo,
+       contaparam.encurso,
+       contaparam.documento,
+       contaparam.cierre,
+       contaparam.asiento,
+       contaparam.tipocta_iva
+INTO   :str_contaparam.ejercicio,
+       :str_contaparam.empresa,
+       :str_contaparam.chequeo,
+       :str_contaparam.activo,
+       :str_contaparam.analitica,
+       :str_contaparam.digitos,
+       :str_contaparam.niveles,
+       :str_contaparam.digitos1,
+       :str_contaparam.digitos2,
+       :str_contaparam.digitos3,
+       :str_contaparam.digitos4,
+       :str_contaparam.digitos5,
+       :str_contaparam.digitos6,
+       :str_contaparam.digitos7,
+       :str_contaparam.digitos8,
+       :str_contaparam.digitos9,
+       :str_contaparam.comienzo,
+       :str_contaparam.encurso,
+       :str_contaparam.documento,
+       :str_contaparam.cierre,
+       :str_contaparam.asiento,
+       :str_contaparam.tipocta_iva
+FROM contaparam
+WHERE contaparam.ejercicio = :arg_ejercicio AND contaparam.empresa = :arg_empresa;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

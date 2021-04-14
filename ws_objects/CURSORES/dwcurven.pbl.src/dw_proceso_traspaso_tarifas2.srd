@@ -1,0 +1,10 @@
+﻿$PBExportHeader$dw_proceso_traspaso_tarifas2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes name=familia dbname="venlintarifas.familia" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=formato dbname="venlintarifas.formato" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venlintarifas~" ) COLUMN(NAME=~"venlintarifas.familia~") COLUMN(NAME=~"venlintarifas.formato~")WHERE(    EXP1 =~"venlintarifas.empresa~"   OP =~"=~"    EXP2 =~":var_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlintarifas.tarifa~"   OP =~"=~"    EXP2 =~":var_tarifa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlintarifas.fecha~"   OP =~"=~"    EXP2 =~":var_fecha~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlintarifas.tipo_linea~"   OP =~"in~"    EXP2 =~"('1','3')~" )  GROUP(NAME=~"venlintarifas.familia~") GROUP(NAME=~"venlintarifas.formato~")) ARG(NAME = ~"var_empresa~" TYPE = string)  ARG(NAME = ~"var_tarifa~" TYPE = string)  ARG(NAME = ~"var_fecha~" TYPE = datetime) " arguments=(("var_empresa", string),("var_tarifa", string),("var_fecha", datetime)) )

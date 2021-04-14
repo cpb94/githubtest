@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_transportista_venalb.srf
+global type f_transportista_venalb from function_object
+end type
+
+forward prototypes
+global function string f_transportista_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_transportista_venalb (string empresa, integer anyo, decimal albaran);String var_variable
+
+  SELECT venalb.transportista INTO  :var_variable   FROM venalb  
+   WHERE (venalb.empresa  = :empresa)
+   AND   (venalb.anyo     = :anyo)
+   AND   (venalb.albaran  = :albaran);  
+Return var_variable
+end function
+

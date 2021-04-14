@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_desc_tipobien.srf
+global type f_desc_tipobien from function_object
+end type
+
+forward prototypes
+global function string f_desc_tipobien (string empresa, string tipobien)
+end prototypes
+
+global function string f_desc_tipobien (string empresa, string tipobien);String cadena
+
+  SELECT act_tipobien.descripcion  
+    INTO :cadena
+    FROM act_tipobien  
+   WHERE ( act_tipobien.empresa = :empresa ) AND  
+         ( act_tipobien.tipo_bien = :tipobien )   ;
+			
+			
+cadena = trim(cadena)			
+
+IF SQLCA.SQLCode <> 0 THEN
+   cadena=""
+END IF
+RETURN cadena
+end function
+

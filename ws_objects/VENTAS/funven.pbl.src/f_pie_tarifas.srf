@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pie_tarifas.srf
+global type f_pie_tarifas from function_object
+end type
+
+forward prototypes
+global function string f_pie_tarifas (string empresa, string tarifa, datetime fecha, string idioma)
+end prototypes
+
+global function string f_pie_tarifas (string empresa, string tarifa, datetime fecha, string idioma);String var_parametro
+  
+  SELECT venmapatarifas_idiomas.pie
+    INTO :var_parametro
+    FROM venmapatarifas_idiomas  
+   WHERE ( venmapatarifas_idiomas.empresa = :empresa ) AND  
+         ( venmapatarifas_idiomas.tarifa = :tarifa ) AND  
+         ( venmapatarifas_idiomas.fecha = :fecha ) AND  
+         ( venmapatarifas_idiomas.idioma = :idioma )   ;
+			Return var_parametro
+
+end function
+

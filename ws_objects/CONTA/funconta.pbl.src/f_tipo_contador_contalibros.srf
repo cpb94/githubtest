@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipo_contador_contalibros.srf
+global type f_tipo_contador_contalibros from function_object
+end type
+
+forward prototypes
+global function string f_tipo_contador_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo)
+end prototypes
+
+global function string f_tipo_contador_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo);String	ls
+
+  SELECT  contalibros.tipo_contador    INTO  :ls    FROM  contalibros  
+   WHERE  contalibros.ejercicio = :ejercicio
+	AND    contalibros.empresa = :ai_codemp 
+	AND    contalibros.codigo  = :ai_codigo;
+IF SQLCA.SQLCode <> 0 THEN
+	ls="C"
+END IF
+
+RETURN ls
+end function
+

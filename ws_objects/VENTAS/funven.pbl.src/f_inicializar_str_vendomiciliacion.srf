@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_inicializar_str_vendomiciliacion.srf
+global type f_inicializar_str_vendomiciliacion from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_vendomiciliacion ( ref str_vendomiciliacion str_vendomiciliacion)
+end prototypes
+
+global function boolean f_inicializar_str_vendomiciliacion ( ref str_vendomiciliacion str_vendomiciliacion);boolean lb_correcto = true
+
+if isnull(str_vendomiciliacion.empresa) then str_vendomiciliacion.empresa = ''
+if isnull(str_vendomiciliacion.cliente) then str_vendomiciliacion.cliente = ''
+if isnull(str_vendomiciliacion.codigo) then str_vendomiciliacion.codigo = ''
+if isnull(str_vendomiciliacion.nombrebanco) then str_vendomiciliacion.nombrebanco = ''
+if isnull(str_vendomiciliacion.pais) then str_vendomiciliacion.pais = ''
+if isnull(str_vendomiciliacion.provincia) then str_vendomiciliacion.provincia = ''
+if isnull(str_vendomiciliacion.codpostal) then str_vendomiciliacion.codpostal = ''
+if isnull(str_vendomiciliacion.localidad) then str_vendomiciliacion.localidad = ''
+if isnull(str_vendomiciliacion.domicilio) then str_vendomiciliacion.domicilio = ''
+if isnull(str_vendomiciliacion.cuenta) then str_vendomiciliacion.cuenta = ''
+if isnull(str_vendomiciliacion.entidad) then str_vendomiciliacion.entidad = ''
+if isnull(str_vendomiciliacion.oficina) then str_vendomiciliacion.oficina = ''
+if isnull(str_vendomiciliacion.control) then str_vendomiciliacion.control = ''
+if isnull(str_vendomiciliacion.swift) then str_vendomiciliacion.swift = ''
+if isnull(str_vendomiciliacion.iban) then str_vendomiciliacion.iban = ''
+if isnull(str_vendomiciliacion.codigo_iban) then str_vendomiciliacion.codigo_iban = ''
+if isnull(str_vendomiciliacion.codigo_swift) then str_vendomiciliacion.codigo_swift = ''
+return lb_correcto
+end function
+

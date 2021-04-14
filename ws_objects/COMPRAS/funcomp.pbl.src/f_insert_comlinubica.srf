@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_insert_comlinubica.srf
+global type f_insert_comlinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comlinubica (str_comlinubica a)
+end prototypes
+
+global function boolean f_insert_comlinubica (str_comlinubica a);Boolean bool
+bool = TRUE
+
+if isnull(a.precio) then a.precio = 0
+
+INSERT INTO comlinubica  
+				(empresa,
+				almacen,
+				zona,
+				fila,
+				altura,
+				linea,
+				mp,
+				familia,
+				existencias,
+				ubicacion,
+				tipo_unidad,
+				f_alta,
+				observaciones,
+				calidad,
+				envase,
+				precio)  
+VALUES 		(:a.empresa,
+				:a.almacen,
+				:a.zona,
+				:a.fila,
+				:a.altura,
+				:a.linea,   
+        		:a.mp,
+				:a.familia,
+				:a.existencias,
+				:a.ubicacion,
+				:a.tipo_unidad,
+		  		:a.f_alta,
+				:a.observaciones,
+				:a.calidad,
+				:a.envase,
+				:a.precio);
+
+If Sqlca.Sqlcode <> 0 Then 
+   f_mensaje("Error","En funcion Insert Comlinubica: " + sqlca.sqlerrtext)
+	bool = false
+END IF
+Return bool
+end function
+

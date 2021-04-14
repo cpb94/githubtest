@@ -1,0 +1,184 @@
+﻿$PBExportHeader$report_ficha_tecnica.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=300 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=472 color="536870912" )
+detail(height=104 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=char(255) updatewhereclause=yes name=cad dbname="comodin.cad" )
+ column=(type=char(255) updatewhereclause=yes name=cad1 dbname="comodin.cad1" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ column=(type=char(255) updatewhereclause=yes name=reflab dbname="comodin.reflab" )
+ column=(type=char(255) updatewhereclause=yes name=verlab dbname="comodin.verlab" )
+ column=(type=char(255) updatewhereclause=yes name=codpan dbname="comodin.codpan" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_molde dbname="comodin.nombre_molde" )
+ column=(type=char(255) updatewhereclause=yes name=pasta dbname="comodin.pasta" )
+ column=(type=decimal(4) updatewhereclause=yes name=espesor dbname="comodin.espesor" )
+ column=(type=datetime updatewhereclause=yes name=falta dbname="comodin.falta" )
+ column=(type=char(255) updatewhereclause=yes name=num_aplicacion dbname="comodin.num_aplicacion" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formula dbname="comodin.nombre_formula" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje_formula dbname="comodin.gramaje_formula" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica1 dbname="comodin.valor_caracteristica1" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica3 dbname="comodin.valor_caracteristica3" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica2 dbname="comodin.valor_caracteristica2" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica4 dbname="comodin.valor_caracteristica4" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica5 dbname="comodin.valor_caracteristica5" )
+ column=(type=char(255) updatewhereclause=yes name=valor_caracteristica6 dbname="comodin.valor_caracteristica6" )
+ column=(type=char(255) updatewhereclause=yes name=version dbname="comodin.version" )
+ column=(type=char(255) updatewhereclause=yes name=codigo_aplicacion dbname="comodin.codigo_aplicacion" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion dbname="comodin.nombre_aplicacion" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica1 dbname="comodin.orden_caracteristica1" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica2 dbname="comodin.orden_caracteristica2" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica3 dbname="comodin.orden_caracteristica3" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica4 dbname="comodin.orden_caracteristica4" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica5 dbname="comodin.orden_caracteristica5" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden_caracteristica6 dbname="comodin.orden_caracteristica6" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica1 dbname="comodin.nombre_caracteristica1" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica2 dbname="comodin.nombre_caracteristica2" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica3 dbname="comodin.nombre_caracteristica3" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica4 dbname="comodin.nombre_caracteristica4" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica5 dbname="comodin.nombre_caracteristica5" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_caracteristica6 dbname="comodin.nombre_caracteristica6" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica1 dbname="comodin.unidad_caracteristica1" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica2 dbname="comodin.unidad_caracteristica2" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica3 dbname="comodin.unidad_caracteristica3" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica4 dbname="comodin.unidad_caracteristica4" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica5 dbname="comodin.unidad_caracteristica5" )
+ column=(type=char(255) updatewhereclause=yes name=unidad_caracteristica6 dbname="comodin.unidad_caracteristica6" )
+ column=(type=char(255) updatewhereclause=yes name=observaciones dbname="comodin.observaciones" )
+ column=(type=char(255) updatewhereclause=yes name=imagen dbname="comodin.imagen" )
+ column=(type=char(255) updatewhereclause=yes name=articulo_final dbname="comodin.articulo_final" )
+ column=(type=char(255) updatewhereclause=yes name=coccion dbname="comodin.coccion" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_coccion dbname="comodin.nombre_coccion" )
+ column=(type=char(255) updatewhereclause=yes name=modelo dbname="comodin.modelo" )
+ retrieve="  SELECT comodin.empresa,   
+         letras articulo,   
+         letras nombre_articulo,   
+         letras cad,   
+         letras cad1,   
+         letras nombre_formato,   
+         letras reflab,   
+         letras verlab,   
+         letras codpan,   
+         letras nombre_molde,   
+         letras pasta,   
+         numerico espesor,   
+         fecha falta,   
+         letras num_aplicacion,   
+         letras nombre_formula,   
+         numerico gramaje_formula,   
+         letras valor_caracteristica1,   
+         letras valor_caracteristica3,   
+         letras valor_caracteristica2,   
+         letras valor_caracteristica4,   
+         letras valor_caracteristica5,   
+         letras valor_caracteristica6,   
+         letras version,
+			letras codigo_aplicacion,   
+         letras nombre_aplicacion,   
+         numerico orden_caracteristica1,   
+         numerico orden_caracteristica2,   
+         numerico orden_caracteristica3,   
+         numerico orden_caracteristica4,   
+         numerico orden_caracteristica5,   
+         numerico orden_caracteristica6,   
+         letras nombre_caracteristica1,   
+         letras nombre_caracteristica2,   
+         letras nombre_caracteristica3,   
+         letras nombre_caracteristica4,   
+         letras nombre_caracteristica5,   
+         letras nombre_caracteristica6,   
+         letras unidad_caracteristica1,   
+         letras unidad_caracteristica2,   
+         letras unidad_caracteristica3,   
+         letras unidad_caracteristica4,   
+         letras unidad_caracteristica5,   
+         letras unidad_caracteristica6,   
+         letras observaciones,   
+         letras imagen,   
+         letras articulo_final,
+			letras coccion,
+			letras nombre_coccion,
+			letras modelo
+	FROM comodin  
+   WHERE comodin.empresa = :ar_empresa    
+" arguments=(("ar_empresa", string),("ar_articulo", string),("ar_version", string))  sort="articulo A dec(coccion) A dec(num_aplicacion) A " )
+group(level=1 header.height=908 trailer.height=4 by=("articulo" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=116 trailer.height=40 by=("articulo" , "version" , "coccion" ) header.color="553648127" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=0 by=("articulo" , "version" , "coccion" , "num_aplicacion" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="page()"border="0" color="0" x="37" y="172" height="76" width="5" format="[general]"  name=pagina visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="96" y="172" height="76" width="5" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera_legal" x="334" y="136" height="136" width="224" border="0"  height.autosize=yes criteria="" nest_arguments=(("ar_empresa")) trail_footer = yes visible="1~t0"  slideup=directlyabove )
+text(band=header alignment="2" text="FICHA DE PRODUCCIÓN"border="0" color="0" x="937" y="152" height="120" width="1499"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="f_nombre_empresa( ar_empresa )"border="0" color="0" x="27" y="16" height="84" width="2665" format="[general]"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="~"Fecha : ~""border="0" color="128" x="2729" y="12" height="52" width="242" format="[GENERAL]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="string( today(), ~"dd/mm/yyyy~" )"border="0" color="128" x="2994" y="12" height="52" width="375" format="[GENERAL]"  slideleft=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="~"Hora   : ~""border="0" color="128" x="2729" y="76" height="52" width="242" format="[GENERAL]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="String(now(), ~"hh:mm:ss~")"border="0" color="128" x="2990" y="76" height="52" width="375" format="[GENERAL]"  slideleft=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+rectangle(band=header.1 x="750" y="260" height="156" width="2574" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="0" )
+text(band=header.1 alignment="0" text="Nº FICHA"border="6" color="0" x="46" y="32" height="120" width="672"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Referencia Producción"border="6" color="0" x="46" y="184" height="64" width="672"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Formato"border="6" color="0" x="50" y="428" height="64" width="672"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=6 alignment="0" tabsequence=32766 border="2" color="0" x="754" y="424" height="72" width="878" format="[general]"  name=nombre_formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Modelo"border="6" color="0" x="1655" y="432" height="64" width="663"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Referencia Laboratorio"border="6" color="0" x="46" y="524" height="64" width="672"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=7 alignment="0" tabsequence=32766 border="2" color="0" x="754" y="516" height="72" width="416" format="[general]"  name=reflab edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="/"border="0" color="0" x="1184" y="516" height="72" width="37"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=8 alignment="2" tabsequence=32766 border="2" color="0" x="1234" y="516" height="72" width="393" format="[general]"  name=verlab edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Pasta"border="6" color="0" x="1655" y="524" height="64" width="663"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Código Pantallas"border="6" color="0" x="46" y="616" height="64" width="672"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=9 alignment="0" tabsequence=32766 border="2" color="0" x="750" y="612" height="72" width="878" format="[general]"  name=codpan edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Espesor"border="6" color="0" x="1655" y="616" height="64" width="663"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Molde"border="6" color="0" x="46" y="708" height="64" width="672"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=10 alignment="0" tabsequence=32766 border="2" color="0" x="750" y="704" height="72" width="878" format="[general]"  name=nombre_molde edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header.1 alignment="0" text="Fecha Alta"border="6" color="0" x="1659" y="708" height="64" width="663"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=49 alignment="0" tabsequence=32766 border="2" color="0" x="2350" y="432" height="72" width="978" format="[general]"  name=modelo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=11 alignment="0" tabsequence=32766 border="2" color="0" x="2350" y="520" height="72" width="978" format="[general]"  name=pasta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=12 alignment="0" tabsequence=32766 border="2" color="0" x="2350" y="612" height="68" width="978" format="[general]"  name=espesor editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=13 alignment="0" tabsequence=32766 border="2" color="0" x="2350" y="708" height="64" width="617" format="[shortdate] [time]"  name=falta editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=46 alignment="0" tabsequence=32766 border="2" color="0" x="754" y="28" height="132" width="2574" format="[general]"  name=articulo_final edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=3 alignment="0" tabsequence=32766 border="2" color="0" x="754" y="180" height="72" width="2574" format="[general]"  name=nombre_articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=4 alignment="0" tabsequence=32766 border="0" color="0" x="763" y="272" height="56" width="2542" format="[general]"  name=cad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="763" y="344" height="56" width="2542" format="[general]"  name=cad1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+rectangle(band=header.1 x="18" y="0" height="804" width="3342" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+text(band=header.1 alignment="0" text="Aplicación"border="6" color="0" x="23" y="844" height="52" width="151"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="0" text="Referencia"border="6" color="0" x="197" y="844" height="52" width="1074"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Ciclo"border="6" color="0" x="3113" y="844" height="52" width="238"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Boquilla"border="6" color="0" x="2802" y="844" height="52" width="288"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Gramaje"border="6" color="0" x="1294" y="844" height="52" width="238"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Densidad"border="6" color="0" x="1554" y="844" height="52" width="288"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Viscosidad"border="6" color="0" x="1865" y="844" height="52" width="293"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Hilos Pant."border="6" color="0" x="2181" y="844" height="52" width="288"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="Orden Pant."border="6" color="0" x="2491" y="844" height="52" width="288"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.2 id=48 alignment="2" tabsequence=32766 border="2" color="0" x="14" y="4" height="104" width="3346" format="[general]"  name=nombre_coccion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="14" y1="4" x2="3360" y2="4" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="14" y1="96" x2="3360" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="if(len(nombre_formula)<>0,num_aplicacion,~"~")"border="0" color="0" x="27" y="16" height="72" width="142" format="[general]" visible="1~tif(nombre_formula = ~"~",0,1)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=15 alignment="0" tabsequence=32766 border="0" color="0" x="457" y="16" height="72" width="818" format="[general]"  name=nombre_formula visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=22 alignment="2" tabsequence=32766 border="0" color="0" x="3113" y="16" height="72" width="238" format="[general]"  name=valor_caracteristica6 visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="2" tabsequence=32766 border="0" color="0" x="2802" y="16" height="72" width="288" format="[general]"  name=valor_caracteristica5 visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=20 alignment="2" tabsequence=32766 border="0" color="0" x="2501" y="16" height="72" width="279" format="[general]"  name=valor_caracteristica4 visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="2" tabsequence=32766 border="0" color="0" x="2190" y="16" height="72" width="279" format="[general]"  name=valor_caracteristica3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="2" tabsequence=32766 border="0" color="0" x="1879" y="16" height="72" width="279" format="[general]"  name=valor_caracteristica2 visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=17 alignment="2" tabsequence=32766 border="0" color="0" x="1568" y="16" height="72" width="279" format="[general]"  name=valor_caracteristica1 visible="1~tif(nombre_formula = ~"~",0,1)" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=16 alignment="2" tabsequence=32766 border="0" color="0" x="1298" y="16" height="72" width="238" format="[general]"  name=gramaje_formula visible="1~tif(nombre_formula = ~"~",0,1)" editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=25 alignment="0" tabsequence=32766 border="0" color="0" x="192" y="16" height="72" width="242" format="[general]"  name=nombre_aplicacion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="16777215" )
+text(band=footer alignment="0" text="Observaciones"border="6" color="0" x="23" y="36" height="56" width="457"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=footer alignment="0" expression="f_observaciones_largas_version_articulo( ar_empresa , ar_articulo , ar_version )"border="2" color="0" x="23" y="108" height="288" width="2066" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+bitmap(band=footer filename="C:\bmp\Equipe.bmp" x="2126" y="108" height="288" width="1152" border="2"  name=imagen visible="1~t0" )
+line(band=detail x1="14" y1="8" x2="14" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="178" y1="8" x2="178" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="443" y1="8" x2="443" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="1285" y1="8" x2="1285" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="1550" y1="8" x2="1550" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="1861" y1="8" x2="1861" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="2171" y1="8" x2="2171" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="2482" y1="8" x2="2482" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="2789" y1="8" x2="2789" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="3099" y1="8" x2="3099" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=detail x1="3360" y1="8" x2="3360" y2="96" visible="1~tif(nombre_formula = ~"~",0,1)" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+
+sparse(names="nombre_formula	gramaje_formula")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

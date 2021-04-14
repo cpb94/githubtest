@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_pventa_promexpositores.srf
+global type f_pventa_promexpositores from function_object
+end type
+
+forward prototypes
+global function decimal f_pventa_promexpositores (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function decimal f_pventa_promexpositores (string ra_codemp, string ra_codigo);decimal parametro
+
+SELECT promexpositores.pventa
+INTO   :parametro
+FROM   promexpositores 
+WHERE  ( promexpositores.empresa = :ra_codemp )
+AND  	 ( promexpositores.codigo  = :ra_codigo );
+
+IF Isnull(parametro) Then parametro = 0
+
+Return parametro
+
+end function
+

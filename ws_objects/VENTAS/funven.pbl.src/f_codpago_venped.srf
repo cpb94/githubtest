@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_codpago_venped.srf
+global type f_codpago_venped from function_object
+end type
+
+forward prototypes
+global function string f_codpago_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_codpago_venped (string empresa, integer anyo, decimal pedido);String var_codpago
+
+
+  SELECT venped.codpago
+    INTO :var_codpago
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido);
+
+
+
+Return var_codpago
+end function
+

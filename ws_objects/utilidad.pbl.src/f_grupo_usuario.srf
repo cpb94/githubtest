@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_grupo_usuario.srf
+global type f_grupo_usuario from function_object
+end type
+
+forward prototypes
+global function string f_grupo_usuario (string usuario)
+end prototypes
+
+global function string f_grupo_usuario (string usuario);String nivel
+  SELECT usuarios.v_grupo
+    INTO :nivel
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :usuario   ;
+	return nivel
+
+end function
+

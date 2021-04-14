@@ -1,0 +1,79 @@
+﻿$PBExportHeader$f_vencimiento_ajuste_equipe.srf
+global type f_vencimiento_ajuste_equipe from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_ajuste_equipe (string var_empresa, string var_cliente, date var_vencimiento, date var_factura)
+end prototypes
+
+global function date f_vencimiento_ajuste_equipe (string var_empresa, string var_cliente, date var_vencimiento, date var_factura);Dec ajuste,r,g
+Date fecha11,fecha12
+Dec dia[3]
+int h,mes_aux,anyo_aux
+int dia_factura
+
+dia_factura  = day(var_factura)
+
+SELECT venclientes.diaspago1,venclientes.diaspago2,venclientes.diaspago3
+INTO   :dia[1],:dia[2],:dia[3] FROM   venclientes  
+WHERE  venclientes.empresa = :var_empresa
+AND    venclientes.codigo  = :var_cliente;   
+IF SQLCA.SQLCODE <0 Then f_mensaje("Error en calculo vto",sqlca.sqlerrtext)
+For g = 1 To 3
+	IF IsNull(dia[g]) Then dia[g] = 0
+NEXT
+
+// Ajustar recibo segun dias
+ajuste = 50
+For r =1  To 3	
+	IF dia[r] <> 0 Then
+		h = 0
+		do
+			if dia_factura = 31 and dia[r] = 30 then
+				mes_aux = Month(var_vencimiento)-1
+				if mes_aux = 0 then
+					mes_aux = 12
+					anyo_aux = year(var_vencimiento) - 1
+//					fecha11 = MDY(mes_aux,dia[r] - h,anyo_aux)
+					fecha11 = date(string(dia[r]-h)+"/"+string(mes_aux)+"/"+string(anyo_aux))
+				else
+//					fecha11 = MDY(Month(var_vencimiento)-1,dia[r] - h,Year(var_vencimiento))
+					fecha11 = date(string(dia[r]-h)+"/"+string(month(var_vencimiento)-1)+"/"+string(year(var_vencimiento)))
+				end if
+				ajuste = -1
+			else
+//				fecha11 = MDY(Month(var_vencimiento),dia[r] - h,Year(var_vencimiento))
+				fecha11 = date(string(dia[r]-h)+"/"+string(month(var_vencimiento))+"/"+string(year(var_vencimiento)))
+			end if
+			h = h + 1	
+		loop while year(fecha11) = 1900
+		if Month(var_vencimiento) + 1 = 13 then
+			h = 0
+			do
+//				fecha12 = MDY(1,dia[r] - h,Year(var_vencimiento)+1)
+				fecha12 = date(string(dia[r]-h)+"/01/"+string(Year(var_vencimiento)+1))
+				h = h + 1
+			loop while year(fecha12) = 1900	
+		else
+			h = 0
+			do
+//				fecha12 = MDY(Month(var_vencimiento) + 1,dia[r] - h,Year(var_vencimiento))
+				fecha12 = date(string(dia[r]-h)+"/"+string(Month(var_vencimiento) + 1)+"/"+string(Year(var_vencimiento)))
+//				messagebox("fecha12",string(h)+" "+string(dia[r])+" "+string(fecha12,"dd/mm/yy"))
+				h = h + 1
+			loop while year(fecha12) = 1900	  
+		End if	  				
+		IF DaysAfter(var_vencimiento,fecha11) > -1 Then
+			IF Abs(DaysAfter(var_vencimiento,fecha11)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha11)
+		END IF
+		IF DaysAfter(var_vencimiento,fecha12) > -1 Then
+			IF abs(DaysAfter(var_vencimiento,fecha12)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha12)
+//			messagebox("ajuste",string(ajuste))
+		END IF
+	END IF
+Next			
+IF ajuste = 50 Then ajuste = 0
+var_vencimiento = RelativeDate(var_vencimiento,ajuste)
+Return var_vencimiento			
+end function
+

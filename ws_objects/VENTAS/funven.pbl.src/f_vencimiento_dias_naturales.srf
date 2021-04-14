@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_vencimiento_dias_naturales.srf
+global type f_vencimiento_dias_naturales from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_dias_naturales (date fecha_fact, integer dias)
+end prototypes
+
+global function date f_vencimiento_dias_naturales (date fecha_fact, integer dias);int mes_fact, anyo_fact, mes_actual, anyo_actual, i, dia_fact
+date fecha_vto, fecha_Actual, fecha_facturacion
+boolean encontrado = false
+
+if isnull(dias) then dias = 0
+fecha_vto= RelativeDate(fecha_fact, dias) 
+
+
+return fecha_vto
+end function
+

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_vencontador_albaranes.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=208 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venparamalb.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="venparamalb.anyo" )
+ column=(type=long update=yes updatewhereclause=yes name=albaran dbname="venparamalb.albaran" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=serie dbname="venparamalb.serie" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venparamalb~" ) COLUMN(NAME=~"venparamalb.empresa~") COLUMN(NAME=~"venparamalb.anyo~") COLUMN(NAME=~"venparamalb.albaran~") COLUMN(NAME=~"venparamalb.serie~")WHERE(    EXP1 =~"venparamalb.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venparamalb.anyo~"   OP =~"=~"    EXP2 =~":arg_anyo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venparamalb.serie~"   OP =~"=~"    EXP2 =~":arg_serie~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_anyo~" TYPE = number)  ARG(NAME = ~"arg_serie~" TYPE = string) " update="venparamalb" updatewhere=0 updatekeyinplace=yes arguments=(("arg_empresa", string),("arg_anyo", number),("arg_serie", string)) )
+text(band=detail alignment="1" text="Contador Albaranes:"border="0" color="0" x="9" y="68" height="64" width="594"  name=pedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="5" color="0" x="640" y="64" height="64" width="370" format="[general]"  name=albaran edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

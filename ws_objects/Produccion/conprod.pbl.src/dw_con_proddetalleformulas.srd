@@ -1,0 +1,48 @@
+﻿$PBExportHeader$dw_con_proddetalleformulas.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="proddetformula.empresa" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=formulacion dbname="proddetformula.formulacion" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=mp dbname="proddetformula.mp" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cantidad dbname="proddetformula.cantidad" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=unidadmedida dbname="proddetformula.unidadmedida" initial="gr" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=proveedor dbname="proddetformula.proveedor" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad_u_m_mp dbname="proddetformula.cantidad_u_m_mp" )
+ column=(type=char(10) updatewhereclause=yes name=unidad_u_m_mp dbname="proddetformula.unidad_u_m_mp" )
+ column=(type=char(50) updatewhereclause=yes name=prodformula_descripcion_laboratorio dbname="prodformula.descripcion_laboratorio" )
+ retrieve="  SELECT proddetformula.empresa,   
+         proddetformula.formulacion,   
+         proddetformula.mp,   
+         proddetformula.cantidad,   
+         proddetformula.unidadmedida,   
+         proddetformula.proveedor,   
+         proddetformula.cantidad_u_m_mp,   
+         proddetformula.unidad_u_m_mp,   
+         prodformula.descripcion_laboratorio  
+    FROM proddetformula,   
+         prodformula  
+   WHERE ( proddetformula.empresa = prodformula.empresa ) and  
+         ( proddetformula.formulacion = prodformula.formula ) and  
+         ( proddetformula.empresa = :arg_empresa )  and
+			( prodformula.descripcion_laboratorio like :arg_patron) and
+			( (convert(int,proddetformula.formulacion) between :arg_formula_desde and :arg_formula_hasta) )
+" arguments=(("arg_empresa", string),("arg_formula_desde", number),("arg_formula_hasta", number),("arg_patron", string))  sort="prodformula_descripcion_laboratorio A " )
+group(level=1 header.height=116 trailer.height=0 by=("prodformula_descripcion_laboratorio" ) header.color="553648127" trailer.color="536870912" )
+text(band=header alignment="2" text="Formula"border="6" color="0" x="9" y="8" height="56" width="270"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Proveedor"border="6" color="0" x="1147" y="8" height="56" width="864"  name=proveedor_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="2034" y="8" height="56" width="937"  name=cantidad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Producto"border="6" color="0" x="302" y="8" height="56" width="827"  name=mp_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=header.1 alignment="0" expression=" f_nombre_formulacion_laboratorio( empresa , formulacion )"border="0" color="0" x="9" y="12" height="92" width="1797" format="[general]"  name=nombre  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="/* f_calculo_coste_mp( empresa , mp , proveedor , cantidad_kg ) */"border="2" color="0" x="2295" y="88" height="64" width="293" format="[general]"  name=coste  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_proveedor( empresa , proveedor )"border="0" color="128" x="1307" y="4" height="64" width="709" format="[general]"  name=nom_proveedor  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2030" y="4" height="64" width="443" format="[general]"  name=cantidad_u_m_mp editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="2491" y="4" height="64" width="192" format="[general]"  name=unidad_u_m_mp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_unimedida(f_unimedida_mprima( empresa , mp ))"border="0" color="128" x="2697" y="4" height="64" width="279" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="64" width="270" format="[general]"  name=mp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_descripcion_venmprima (empresa, mp)"border="0" color="128" x="302" y="4" height="64" width="832" format="[general]"  name=desc_producto  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="1147" y="4" height="64" width="146" format="[general]"  name=proveedor edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,87 @@
+﻿$PBExportHeader$dw_int_preparacion_pedido6.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\BMP\Mano.cur" )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=zona dbname="almlinubica.zona" )
+ column=(type=decimal(4) updatewhereclause=yes name=linea dbname="almlinubica.linea" )
+ column=(type=char(20) updatewhereclause=yes name=articulo dbname="almlinubica.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="almlinubica.familia" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="almlinubica.formato" )
+ column=(type=char(5) updatewhereclause=yes name=modelo dbname="almlinubica.modelo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="almlinubica.calidad" )
+ column=(type=number updatewhereclause=yes name=existencias dbname="almlinubica.existencias" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="almlinubica.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="almlinubica.pedido" )
+ column=(type=long updatewhereclause=yes name=linped dbname="almlinubica.linped" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="almlinubica.cliente" )
+ column=(type=char(20) updatewhereclause=yes name=ubicacion dbname="almlinubica.ubicacion" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_unidad dbname="almlinubica.tipo_unidad" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="almlinubica.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=almacen dbname="almlinubica.almacen" )
+ column=(type=long updatewhereclause=yes name=fila dbname="almlinubica.fila" )
+ column=(type=long updatewhereclause=yes name=altura dbname="almlinubica.altura" )
+ column=(type=long updatewhereclause=yes name=tono dbname="almlinubica.tono" )
+ column=(type=long updatewhereclause=yes name=calibre dbname="almlinubica.calibre" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="almlinubica.referencia" )
+ column=(type=datetime updatewhereclause=yes name=f_alta dbname="almlinubica.f_alta" )
+ column=(type=char(4099) updatewhereclause=yes name=observaciones dbname="almlinubica.observaciones" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_pallet dbname="almlinubica.tipo_pallet" )
+ column=(type=char(5) updatewhereclause=yes name=almubizonas_zona dbname="almubizonas.zona" )
+ column=(type=char(10) updatewhereclause=yes name=pallets_resumido dbname="pallets.resumido" )
+ retrieve="  SELECT almlinubica.zona,   
+         almlinubica.linea,   
+         almlinubica.articulo,   
+         almlinubica.familia,   
+         almlinubica.formato,   
+         almlinubica.modelo,   
+         almlinubica.calidad,   
+         almlinubica.existencias,   
+         almlinubica.anyo,   
+         almlinubica.pedido,   
+         almlinubica.linped,   
+         almlinubica.cliente,   
+         almlinubica.ubicacion,   
+         almlinubica.tipo_unidad,   
+         almlinubica.empresa,   
+         almlinubica.almacen,   
+         almlinubica.fila,   
+         almlinubica.altura,   
+         almlinubica.tono,   
+         almlinubica.calibre,   
+         almlinubica.referencia,   
+         almlinubica.f_alta,   
+         almlinubica.observaciones,   
+         almlinubica.tipo_pallet,   
+         almubizonas.zona,   
+         pallets.resumido  
+    FROM almlinubica,   
+         almubizonas,   
+         pallets  
+   WHERE ( almlinubica.empresa *= almubizonas.empresa) and  
+         ( almlinubica.almacen *= almubizonas.almacen) and  
+         ( almlinubica.zona *= almubizonas.zona) and  
+         ( almlinubica.empresa *= pallets.empresa) and  
+         ( almlinubica.tipo_pallet *= pallets.codigo) and  
+         ( ( almlinubica.empresa = :cod_empresa ) AND  
+         ( almlinubica.referencia = :cod_referencia ) )
+ORDER BY almlinubica.altura ASC,   
+         almlinubica.existencias ASC,   
+         almlinubica.almacen ASC,   
+         almlinubica.fila ASC   
+" arguments=(("cod_empresa", string),("cod_referencia", string)) )
+text(band=header alignment="2" text="Zn"border="6" color="33554432" x="155" y="12" height="64" width="110"  name=zona_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Al"border="6" color="33554432" x="425" y="12" height="64" width="87"  name=altura_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=header alignment="0" expression="f_nombre_unidad( tipo_unidad )"border="6" color="33554432" x="530" y="12" height="64" width="283" format="[GENERAL]"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Tp"border="6" color="33554432" x="832" y="12" height="64" width="110"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Fila"border="6" color="33554432" x="283" y="12" height="64" width="123"  name=fila_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Alm"border="6" color="33554432" x="27" y="12" height="64" width="110"  name=almacen_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="128" x="425" y="4" height="60" width="87" format="[general]"  name=altura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="128" x="526" y="4" height="60" width="283" format="[general]"  name=existencias  tag="Existencias por linea de ubicacion" editmask.mask="###,###.00"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="128" x="283" y="4" height="60" width="123" format="[general]"  name=fila edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=16 alignment="0" tabsequence=32766 border="0" color="128" x="27" y="4" height="60" width="110" format="[general]"  name=almacen edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=25 alignment="2" tabsequence=32766 border="0" color="128" x="160" y="4" height="60" width="110" format="[general]"  name=almubizonas_zona edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=26 alignment="2" tabsequence=32766 border="0" color="128" x="827" y="4" height="60" width="114" format="[general]"  name=pallets_resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

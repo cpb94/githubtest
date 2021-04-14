@@ -1,0 +1,428 @@
+﻿$PBExportHeader$mi_generales.srm
+$PBExportComments$Menu de procesos generales.
+forward
+global type mi_generales from mc_menu_sheets
+end type
+type m_empresas from menu within m_programas
+end type
+type m_parmetrosempresa from menu within m_programas
+end type
+type m_paises from menu within m_programas
+end type
+type m_provincias from menu within m_programas
+end type
+type m_idiomas from menu within m_programas
+end type
+type m_monedas from menu within m_programas
+end type
+type m_historicodivisas from menu within m_programas
+end type
+type m_cliprov from menu within m_programas
+end type
+type m_telefonos from menu within m_programas
+end type
+type m_codigospostales from menu within m_programas
+end type
+type m_subclientes from menu within m_programas
+end type
+type m_etiquetas from menu within m_programas
+end type
+type m_empleados from menu within m_programas
+end type
+type m_texturas from menu within m_programas
+end type
+type m_consuldistribuidoresporprovincia from menu within m_listados
+end type
+type m_clientesporpais from menu within m_listados
+end type
+type m_clientesporprovincia from menu within m_listados
+end type
+type m_listadosub_distribuodoresporprovin from menu within m_listados
+end type
+type m_clienteporagente from menu within m_listados
+end type
+type m_agenda from menu within m_listados
+end type
+type m_-31 from menu within m_opciones
+end type
+type m_usuarios from menu within m_opciones
+end type
+end forward
+
+global type mi_generales from mc_menu_sheets
+end type
+global mi_generales mi_generales
+
+on mi_generales.create
+mi_generales=this
+call super::create
+end on
+
+on mi_generales.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_generales
+m_empresas m_empresas
+m_parmetrosempresa m_parmetrosempresa
+m_paises m_paises
+m_provincias m_provincias
+m_idiomas m_idiomas
+m_monedas m_monedas
+m_historicodivisas m_historicodivisas
+m_cliprov m_cliprov
+m_telefonos m_telefonos
+m_codigospostales m_codigospostales
+m_subclientes m_subclientes
+m_etiquetas m_etiquetas
+m_empleados m_empleados
+m_texturas m_texturas
+end type
+
+on m_programas.create
+call super::create
+this.m_empresas=create m_empresas
+this.m_parmetrosempresa=create m_parmetrosempresa
+this.m_paises=create m_paises
+this.m_provincias=create m_provincias
+this.m_idiomas=create m_idiomas
+this.m_monedas=create m_monedas
+this.m_historicodivisas=create m_historicodivisas
+this.m_cliprov=create m_cliprov
+this.m_telefonos=create m_telefonos
+this.m_codigospostales=create m_codigospostales
+this.m_subclientes=create m_subclientes
+this.m_etiquetas=create m_etiquetas
+this.m_empleados=create m_empleados
+this.m_texturas=create m_texturas
+this.Item[UpperBound(this.item)+1]=this.m_empresas
+this.Item[UpperBound(this.item)+1]=this.m_parmetrosempresa
+this.Item[UpperBound(this.item)+1]=this.m_paises
+this.Item[UpperBound(this.item)+1]=this.m_provincias
+this.Item[UpperBound(this.item)+1]=this.m_idiomas
+this.Item[UpperBound(this.item)+1]=this.m_monedas
+this.Item[UpperBound(this.item)+1]=this.m_historicodivisas
+this.Item[UpperBound(this.item)+1]=this.m_cliprov
+this.Item[UpperBound(this.item)+1]=this.m_telefonos
+this.Item[UpperBound(this.item)+1]=this.m_codigospostales
+this.Item[UpperBound(this.item)+1]=this.m_subclientes
+this.Item[UpperBound(this.item)+1]=this.m_etiquetas
+this.Item[UpperBound(this.item)+1]=this.m_empleados
+this.Item[UpperBound(this.item)+1]=this.m_texturas
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_empresas)
+destroy(this.m_parmetrosempresa)
+destroy(this.m_paises)
+destroy(this.m_provincias)
+destroy(this.m_idiomas)
+destroy(this.m_monedas)
+destroy(this.m_historicodivisas)
+destroy(this.m_cliprov)
+destroy(this.m_telefonos)
+destroy(this.m_codigospostales)
+destroy(this.m_subclientes)
+destroy(this.m_etiquetas)
+destroy(this.m_empleados)
+destroy(this.m_texturas)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_generales
+m_consuldistribuidoresporprovincia m_consuldistribuidoresporprovincia
+m_clientesporpais m_clientesporpais
+m_clientesporprovincia m_clientesporprovincia
+m_listadosub_distribuodoresporprovin m_listadosub_distribuodoresporprovin
+m_clienteporagente m_clienteporagente
+m_agenda m_agenda
+end type
+
+on m_listados.create
+call super::create
+this.Text="&Listados y consultas"
+this.m_consuldistribuidoresporprovincia=create m_consuldistribuidoresporprovincia
+this.m_clientesporpais=create m_clientesporpais
+this.m_clientesporprovincia=create m_clientesporprovincia
+this.m_listadosub_distribuodoresporprovin=create m_listadosub_distribuodoresporprovin
+this.m_clienteporagente=create m_clienteporagente
+this.m_agenda=create m_agenda
+this.Item[UpperBound(this.item)+1]=this.m_consuldistribuidoresporprovincia
+this.Item[UpperBound(this.item)+1]=this.m_clientesporpais
+this.Item[UpperBound(this.item)+1]=this.m_clientesporprovincia
+this.Item[UpperBound(this.item)+1]=this.m_listadosub_distribuodoresporprovin
+this.Item[UpperBound(this.item)+1]=this.m_clienteporagente
+this.Item[UpperBound(this.item)+1]=this.m_agenda
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_consuldistribuidoresporprovincia)
+destroy(this.m_clientesporpais)
+destroy(this.m_clientesporprovincia)
+destroy(this.m_listadosub_distribuodoresporprovin)
+destroy(this.m_clienteporagente)
+destroy(this.m_agenda)
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within mi_generales
+m_-31 m_-31
+m_usuarios m_usuarios
+end type
+
+on m_opciones.create
+call super::create
+this.m_-31=create m_-31
+this.m_usuarios=create m_usuarios
+this.Item[UpperBound(this.item)+1]=this.m_-31
+this.Item[UpperBound(this.item)+1]=this.m_usuarios
+end on
+
+on m_opciones.destroy
+call super::destroy
+destroy(this.m_-31)
+destroy(this.m_usuarios)
+end on
+
+on m_usodelaayuda::clicked;call mc_menu_sheets`m_usodelaayuda::clicked;// Abre el fichero de ayuda de windows...
+
+ShowHelp("WINHELP.HLP", Index!)
+end on
+
+type m_empresas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_empresas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_empresas.create
+this.Text="&Empresas"
+end on
+
+type m_parmetrosempresa from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mant_paramemp, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_parmetrosempresa.create
+this.Text="Parámetros Empresa"
+end on
+
+type m_paises from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_paises, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_paises.create
+this.Text="&Paises"
+end on
+
+type m_provincias from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_provincias, lstr_param, ParentWindow, 3,Original!)
+
+end on
+
+on m_provincias.create
+this.Text="Pro&vincias"
+end on
+
+type m_idiomas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_idiomas, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_idiomas.create
+this.Text="&Idiomas"
+end on
+
+type m_monedas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_divisas, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_monedas.create
+this.Text="&Monedas"
+end on
+
+type m_historicodivisas from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_hisdivisas, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_historicodivisas.create
+this.Text="&Historico Divisas"
+end on
+
+type m_cliprov from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_clipro, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_cliprov.create
+this.Text="&Clientes/Proveedores"
+end on
+
+type m_telefonos from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_telefonos, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_telefonos.create
+this.Text="C&ontactos Clientes/Proveedores"
+end on
+
+type m_codigospostales from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_codpostales, lstr_param, ParentWindow, 3,Original!)
+
+end on
+
+on m_codigospostales.create
+this.Text="Codigos P&ostales"
+end on
+
+type m_subclientes from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_distribuidores, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_subclientes.create
+this.Text="Subclientes"
+end on
+
+type m_etiquetas from menu within m_programas
+end type
+
+on m_etiquetas.create
+this.Text="Etiquetas"
+this.Microhelp="Mantenimiento de Etiquetas"
+end on
+
+type m_empleados from menu within m_programas
+end type
+
+on m_empleados.create
+this.Text="Empleados"
+end on
+
+type m_texturas from menu within m_programas
+end type
+
+on m_texturas.create
+this.Text="Texturas"
+end on
+
+type m_consuldistribuidoresporprovincia from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_distribuidores, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_consuldistribuidoresporprovincia.create
+this.Text="&Distribuidores por Provincia"
+end on
+
+type m_clientesporpais from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_clientes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_clientesporpais.create
+this.Text="&Clientes Por pais."
+end on
+
+type m_clientesporprovincia from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_clientes_provincia, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_clientesporprovincia.create
+this.Text="&Clientes por Provincia"
+end on
+
+type m_listadosub_distribuodoresporprovin from menu within m_listados
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_distribuidores_provincias, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_listadosub_distribuodoresporprovin.create
+this.Text="Listado Sub_Distribuidores por Provincia"
+end on
+
+type m_clienteporagente from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_clientes_Agente, lstr_param, ParentWindow,3,original!)
+end event
+
+on m_clienteporagente.create
+this.Text="Cliente por Agente"
+this.Microhelp="Clientes por Agente"
+end on
+
+type m_agenda from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_agenda, lstr_param, ParentWindow,3,original!)
+end event
+
+on m_agenda.create
+this.Text="Agenda"
+end on
+
+type m_-31 from menu within m_opciones
+end type
+
+on m_-31.create
+this.Text="-"
+end on
+
+type m_usuarios from menu within m_opciones
+end type
+
+on clicked;
+str_parametros lstr_param
+
+lstr_param.s_titulo_ventana = "Mantenimiento de Usuarios"
+lstr_param.s_titulo_ayuda   = ""
+lstr_param.s_nom_datawindow = ""
+lstr_param.s_listado        = "report_usuarios"
+
+//OpenSheetWithParm(wi_mant_usuarios, lstr_param, ParentWindow, 3,Original!)
+end on
+
+on m_usuarios.create
+this.Text="&Usuarios"
+end on
+

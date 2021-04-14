@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_descripcion_cond_entrega.srf
+global type f_descripcion_cond_entrega from function_object
+end type
+
+forward prototypes
+global function string f_descripcion_cond_entrega (string empresa, string cond_entrega)
+end prototypes
+
+global function string f_descripcion_cond_entrega (string empresa, string cond_entrega);String var_descripcion
+
+SELECT	descripcion
+INTO		:var_descripcion
+FROM		vencondentrega
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:cond_entrega;
+
+if isnull(var_descripcion) then var_descripcion = ""
+
+Return var_descripcion
+end function
+

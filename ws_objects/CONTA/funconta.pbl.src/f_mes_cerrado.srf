@@ -1,0 +1,123 @@
+﻿$PBExportHeader$f_mes_cerrado.srf
+global type f_mes_cerrado from function_object
+end type
+
+forward prototypes
+global function boolean f_mes_cerrado (string arg_empresa, integer arg_ejercicio, integer arg_mes)
+end prototypes
+
+global function boolean f_mes_cerrado (string arg_empresa, integer arg_ejercicio, integer arg_mes);integer V_e,V_1,V_2,V_3,V_4,V_5,V_6,V_7,V_8,V_9,V_10,V_11,V_12
+string V_em,ls_contaparam_activo
+boolean cerrado
+	
+SELECT isnull(contaparam.activo,'')
+INTO   :ls_contaparam_activo
+FROM   contaparam
+WHERE  contaparam.ejercicio = :arg_ejercicio
+AND    contaparam.empresa   = :arg_empresa;
+
+if trim(ls_contaparam_activo) = '' then ls_contaparam_activo = 'N'
+
+if ls_contaparam_activo = 'N' then
+	cerrado = true
+	messagebox("¡Atención!","Ejercicio No Activo")
+else
+	SELECT 	contabloq.ejercicio, 				contabloq.empresa,
+				contabloq.enero,						contabloq.febrero,
+				contabloq.marzo,						contabloq.abril,
+				contabloq.mayo,						contabloq.junio,
+				contabloq.julio,						contabloq.agosto,
+				contabloq.septiembre,				contabloq.octubre,
+				contabloq.noviembre,					contabloq.diciembre 
+	
+	into 		:V_e,										:V_em,
+				:V_1,										:V_2,
+				:V_3,										:V_4,
+				:V_5,										:V_6,
+				:V_7,										:V_8,
+				:V_9,										:V_10,
+				:V_11,									:V_12 
+	from contabloq 
+	where contabloq.ejercicio 	= 	:arg_ejercicio
+	and	contabloq.empresa		=	:arg_empresa;
+		 
+	choose case arg_mes
+		case 1 
+			if v_1=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 2
+			if v_2=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 3 
+			if v_3=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 4 
+			if v_4=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 5 
+			if v_5=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 6 
+			if v_6=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 7 
+			if v_7=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 8 
+			if v_8=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 9 
+			if v_9=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 10 
+			if v_10=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 11 
+			if v_11=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		case 12 
+			if v_12=0 then 
+					cerrado=true 
+				else 
+					cerrado=false
+			end if
+		
+	END CHOOSE
+end if
+
+return cerrado
+end function
+

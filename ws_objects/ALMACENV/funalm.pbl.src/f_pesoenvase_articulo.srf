@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_pesoenvase_articulo.srf
+global type f_pesoenvase_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_pesoenvase_articulo (string empresa, string articulo, string caja)
+end prototypes
+
+global function decimal f_pesoenvase_articulo (string empresa, string articulo, string caja);Dec{4} var_peso
+
+SELECT almcajas.pesoenvase INTO :var_peso
+FROM almcajas
+Where almcajas.empresa = :empresa
+And   almcajas.codigo  = :caja;
+if IsNull(var_peso) Then var_peso = 0
+IF var_peso =  0 Then 
+	IF f_sector_articulo(empresa,articulo) = "S" Then
+		f_grabar_incidencia("f_peso_articulo"," El articulo " + articulo + "No tiene peso envase")
+	END IF
+END IF
+
+Return var_peso ;
+
+end function
+

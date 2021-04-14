@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fecha_alta_formulacion.srf
+global type f_fecha_alta_formulacion from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_alta_formulacion (string empresa, string formula)
+end prototypes
+
+global function datetime f_fecha_alta_formulacion (string empresa, string formula);datetime fecha
+
+select fecha_alta
+into   :fecha
+from   prodformula
+where  empresa = :empresa
+and    formula = :formula;
+
+return fecha
+end function
+

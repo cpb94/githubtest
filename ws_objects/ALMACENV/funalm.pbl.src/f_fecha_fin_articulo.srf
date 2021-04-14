@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_fecha_fin_articulo.srf
+global type f_fecha_fin_articulo from function_object
+end type
+
+forward prototypes
+global function boolean f_fecha_fin_articulo (string ra_codemp, string ra_codart)
+end prototypes
+
+global function boolean f_fecha_fin_articulo (string ra_codemp, string ra_codart); datetime fechafin
+
+ SELECT articulos.fecha_fin
+    INTO :fechafin
+    FROM articulos  
+   WHERE ( articulos.empresa = :ra_codemp ) AND  
+         ( articulos.codigo = :ra_codart )  
+  USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	return False
+END IF
+if isnull(fechafin) then return False
+if string(date(fechafin),"dd-mm-yy") = "00-00-00" then Return False
+Return True
+
+
+end function
+

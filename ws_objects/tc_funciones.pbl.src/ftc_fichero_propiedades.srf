@@ -1,0 +1,40 @@
+﻿$PBExportHeader$ftc_fichero_propiedades.srf
+global type ftc_fichero_propiedades from function_object
+end type
+
+forward prototypes
+global function string ftc_fichero_propiedades (string as_filename, integer valor)
+end prototypes
+
+global function string ftc_fichero_propiedades (string as_filename, integer valor);//La función devuelve un blob, que hay que separar caracter a caracter para convertir a numero o datetime
+//Mas info: http://msdn.microsoft.com/es-es/library/windows/desktop/ms221069(v=vs.85).aspx
+
+String ls_path, ls_file, ls_test, ldt_ret
+OLEObject obj_shell, obj_folder, obj_item
+
+obj_shell = CREATE OLEObject
+obj_shell.ConnectToNewObject( 'shell.application' )
+
+ls_path = Left( as_filename, LastPos( as_filename, "\" ) )
+ls_file = Mid( as_filename, LastPos( as_filename, "\" ) + 1 )
+
+IF FileExists( as_filename ) THEN
+    obj_folder = obj_shell.NameSpace( ls_path )
+    
+    IF IsValid( obj_folder ) THEN
+        obj_item = obj_folder.ParseName( ls_file )
+        
+        IF IsValid( obj_item ) THEN
+            ls_test = obj_folder.GetDetailsOf( obj_item, valor )
+        END IF
+    END IF
+END IF
+
+DESTROY obj_shell
+DESTROY obj_folder
+DESTROY obj_item
+
+RETURN ls_test
+
+end function
+

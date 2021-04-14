@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_calculo_metros_desde_cajas.srf
+global type f_calculo_metros_desde_cajas from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_metros_desde_cajas (string empresa, string articulo, string caja, decimal total_cajas)
+end prototypes
+
+global function decimal f_calculo_metros_desde_cajas (string empresa, string articulo, string caja, decimal total_cajas);Dec metroscaja   
+ SELECT  almartcajas.metroscaja  INTO    :metroscaja     
+ FROM almartcajas
+   WHERE almartcajas.empresa  = :empresa
+	AND   almartcajas.articulo = :articulo
+	AND   almartcajas.caja     = :caja;
+Return metroscaja * total_cajas
+
+
+end function
+

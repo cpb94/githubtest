@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_tipo_promcabexpositores.srf
+global type f_tipo_promcabexpositores from function_object
+end type
+
+forward prototypes
+global function string f_tipo_promcabexpositores (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function string f_tipo_promcabexpositores (string ra_codemp, string ra_codigo);String parametro
+
+ SELECT promcabexpositores.tipo
+    INTO :parametro
+    FROM promcabexpositores 
+   WHERE ( promcabexpositores.empresa = :ra_codemp ) AND  
+         ( promcabexpositores.codigo = :ra_codigo )  
+  USING SQLCA;
+
+IF ISNULL(parametro) then parametro = ""
+
+Return parametro
+
+end function
+

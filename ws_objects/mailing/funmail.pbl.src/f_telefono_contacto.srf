@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_telefono_contacto.srf
+global type f_telefono_contacto from function_object
+end type
+
+forward prototypes
+global function string f_telefono_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_telefono_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_telefono1
+
+SELECT   mcontactos.empresa,mcontactos.codigo,mcontactos.telefono1
+INTO     :var_empresa,:var_codigo,:var_telefono1
+FROM     mcontactos  
+WHERE   (mcontactos.empresa = :empresa)
+AND     (mcontactos.codigo = :codigo )
+ORDER BY mcontactos.empresa,mcontactos.codigo;
+
+Return var_telefono1;
+
+end function
+

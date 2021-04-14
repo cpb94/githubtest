@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_verifica_fecha.srf
+$PBExportComments$Verifica si una fecha es correcta.
+global type f_verifica_fecha from function_object
+end type
+
+forward prototypes
+global function boolean f_verifica_fecha (datetime fecha)
+end prototypes
+
+global function boolean f_verifica_fecha (datetime fecha);INTEGER dia,mes,anyo
+boolean valor = True
+date fecha_1
+
+fecha_1 = date(fecha)
+mes     = Month(fecha_1)
+dia     = Day(fecha_1)
+anyo    = Year(fecha_1)
+
+// Comienza los controles
+
+if mes<1 or mes>12 then valor= False
+if dia<1 or dia>31 then valor= False
+IF mes=2 and dia>29 then valor= False
+
+return valor
+end function
+

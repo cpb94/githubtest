@@ -1,0 +1,96 @@
+﻿$PBExportHeader$f_insert_comlinubicahis_trans.srf
+global type f_insert_comlinubicahis_trans from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comlinubicahis_trans (str_comlinubicahis a, ref transaction mi_transaccion)
+end prototypes
+
+global function boolean f_insert_comlinubicahis_trans (str_comlinubicahis a, ref transaction mi_transaccion);String campos = ""
+
+a.situacion = "N" 
+
+IF IsNull(a.ubicacion) or trim(a.ubicacion) = "" then
+	campos = campos + "ubicacion "
+end if
+if IsNull(a.almacen) or trim(a.almacen) = "" then
+	campos = campos + "almacen "
+end if
+if IsNull(a.zona) or trim(a.zona) = "" then
+	campos = campos + "zona "
+end if
+if IsNull(a.fila)  then
+	campos = campos + "fila "
+end if
+if IsNull(a.altura) then
+	campos = campos + "altura "
+end if
+
+if isnull(a.precio) then a.precio = 0
+
+  INSERT INTO comlinubicahis 
+ 					(empresa,
+					 anyo,
+					 almacen,
+					 orden,
+					 nummov,
+					 zona,
+					 fila,
+					 altura,
+					 ubicacion,   
+  					 cantidads,
+					 cantidade,
+					 mp,
+					 familia,
+					 calidad,   
+  					 fecha,
+					 tipomov,
+					 tipo_unidad,
+					 f_alta,   
+  					 usuario,
+				    observaciones,
+					 externo,
+					 situacion,
+					 envase,
+					 precio,
+					 comp_almacen,
+					 comp_anyo,
+					 comp_nummov)  
+  VALUES 		(:a.empresa,
+  					 :a.anyo,
+					 :a.almacen,
+					 :a.orden,
+					 :a.nummov,
+					 :a.zona,   
+          		 :a.fila,
+					 :a.altura,
+					 :a.ubicacion,
+					 :a.cantidads,
+					 :a.cantidade,   
+          		 :a.mp,
+					 :a.familia,
+					 :a.calidad,   
+          		 :a.fecha,
+					 :a.tipomov,
+					 :a.tipo_unidad,   
+          		 :a.f_alta,
+					 :a.usuario,
+					 :a.observaciones,   
+                :a.externo,
+					 :a.situacion,
+					 :a.envase,
+					 :a.precio,
+					 :a.comp_almacen,
+					 :a.comp_anyo,
+					 :a.comp_nummov
+					 ) using mi_transaccion;
+          
+If mi_transaccion.SqlCode<> 0 Then
+	f_mensaje("Error","En funcion Insert Comlinubicahis"+SQLCA.SQLERRTEXT)
+	Return False
+Else
+	Return True
+End If
+
+end function
+

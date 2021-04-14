@@ -1,0 +1,93 @@
+﻿$PBExportHeader$f_insert_contaapun.srf
+$PBExportComments$€
+global type f_insert_contaapun from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_contaapun (str_contaapun apun)
+end prototypes
+
+global function boolean f_insert_contaapun (str_contaapun apun);if isnull(apun.tipoiva) then apun.tipoiva = ''
+
+if trim(apun.tipoiva) <> '' then
+	if f_contasii_calendario_bloqueado(apun.empresa,apun.fapunte) then
+		messagebox(string(apun.fapunte,'dd-mm-yyyy'),"¡Atención!~nNo se puede grabar un asiento con iva en una fecha bloqueada por el SII.")
+		return false
+	end if
+end if
+
+IF IsNUll(apun.orden_apunte) Then apun.orden_apunte = 0
+iF apun.orden_apunte = 0 Then apun.orden_apunte = apun.apunte
+If IsNull(apun.concepto) Then apun.concepto= ""
+apun.moneda = moneda_euro
+
+if apun.origen = '99' or apun.origen = '101' or apun.origen = '100' then
+	//Cierres y aperturas no controlan meses cerrados	
+else
+	if f_mes_cerrado(codigo_empresa,apun.ejercicio,apun.mes) then
+		messagebox("No se puede continuar","Mes Cerrado")
+		return false
+	end if
+end if
+
+if apun.ejercicio = 2008 then
+	f_chequea_cuenta_equiv( (apun.ejercicio - 1),apun.empresa, apun.cuenta)
+end if
+
+apun.punteado = "N"
+
+apun.ampliacion = left (apun.ampliacion, 50)
+apun.documento = left (apun.documento, 20)
+apun.empresa = left (apun.empresa, 5)
+apun.cuenta = left (apun.cuenta, 20)
+apun.diario = left (apun.diario, 5)
+apun.concepto = left (apun.concepto, 5)
+apun.tipoapu = left (apun.tipoapu, 10)
+apun.factura = left (apun.factura, 20)
+apun.tipoiva = left (apun.tipoiva, 10)
+apun.deducible = left (apun.deducible, 1)
+apun.actualizado = left (apun.actualizado, 1)
+apun.listado = left (apun.listado, 1)
+apun.origen = left (apun.origen, 5)
+apun.tipoter = left (apun.tipoter, 1)
+apun.clipro = left (apun.clipro, 20)
+apun.conciliado = left (apun.conciliado, 1)
+apun.nif = left (apun.nif, 20)
+apun.punteado = left (apun.punteado, 1)
+apun.docpunteo = left (apun.docpunteo, 1)
+apun.coste = left (apun.coste, 5)
+apun.moneda = left (apun.moneda, 5)  
+
+if not(f_existe_cuenta(apun.ejercicio,apun.empresa,apun.cuenta)) then
+	messagebox("No se puede continuar","No existe la cuenta "+apun.cuenta+" de "+f_razon_genter(codigo_empresa,apun.tipoter,apun.clipro))
+	return false	
+end if
+
+  
+  INSERT INTO contaapun ( ejercicio,empresa,asiento,apunte,cuenta,fapunte,   
+           diario,concepto,ampliacion,debe,haber,tipoapu,documento,factura,   
+           ffactura,imponible,tipoiva,iva,divisas,deducible,actualizado,   
+           listado,registro,   
+           origen,tipoter,clipro,conciliado,nif,punteado,fvalor,docpunteo,   
+           coste,fregistro,cambio,moneda,mes,orden_apunte,cambio_euros)
+			  
+  VALUES ( :apun.ejercicio,:apun.empresa,:apun.asiento,:apun.apunte,:apun.cuenta,   
+           :apun.fapunte,:apun.diario,:apun.concepto,:apun.ampliacion,   
+           :apun.debe,   :apun.haber,:apun.tipoapu,:apun.documento,   
+           :apun.factura,:apun.ffactura,:apun.imponible,:apun.tipoiva,   
+           :apun.iva,    :apun.divisas,:apun.deducible,:apun.actualizado,   
+           :apun.listado,:apun.registro,:apun.origen,:apun.tipoter,   
+           :apun.clipro, :apun.conciliado,:apun.nif,:apun.punteado,   
+           :apun.fvalor, :apun.docpunteo,:apun.coste,:apun.fregistro,   
+           :apun.cambio, :apun.moneda,:apun.mes,:apun.orden_apunte,:apun.cambio_euros )  ;
+
+
+
+        IF Sqlca.SqlCode <> 0 Then
+			f_mensaje("Error en Base de datos (f_insert_contaapun)",sqlca.sqlerrtext)
+          Return FALSE
+        ELSE
+          Return TRUE
+        END IF
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_impresion_cartiporem.srf
+global type f_impresion_cartiporem from function_object
+end type
+
+forward prototypes
+global function string f_impresion_cartiporem (string cod_empresa, string cod_codigo)
+end prototypes
+
+global function string f_impresion_cartiporem (string cod_empresa, string cod_codigo);String ls_nombre 
+
+ SELECT  cartiporem.impresion INTO :ls_nombre   FROM cartiporem 
+   WHERE cartiporem.empresa= :cod_empresa 
+	AND   cartiporem.codigo = :cod_codigo;
+
+RETURN ls_nombre
+
+
+end function
+

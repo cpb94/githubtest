@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_ptas_muestras_cliente.srf
+global type f_ptas_muestras_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_ptas_muestras_cliente (string empresa, string cliente, datetime fdesde, datetime fhasta)
+end prototypes
+
+global function decimal f_ptas_muestras_cliente (string empresa, string cliente, datetime fdesde, datetime fhasta);dec total_ptas
+
+  SELECT sum(venfac.totalpts_muestras)
+    INTO :total_ptas
+    FROM venfac
+   WHERE  venfac.empresa = :empresa 
+     AND  venfac.cliente = :cliente 
+     AND  venfac.ffactura >= :fdesde
+     AND  venfac.ffactura <= :fhasta ;
+  
+
+if IsNull(total_ptas) then total_ptas=0
+Return total_ptas
+end function
+

@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_numero_cocciones_articulo_version.srf
+global type f_numero_cocciones_articulo_version from function_object
+end type
+
+forward prototypes
+global function integer f_numero_cocciones_articulo_version (string arg_empresa, string arg_articulo, string arg_version)
+end prototypes
+
+global function integer f_numero_cocciones_articulo_version (string arg_empresa, string arg_articulo, string arg_version);string sel,distintas_cocciones,aplicacion
+long   indice,total
+int    numero_de_cocciones
+datastore cocciones
+
+sel = "select codigo "+&
+		"from prodaplicaciones "+&
+		"where empresa = '"+codigo_empresa+"' "+&
+		"and   es_coccion = 'S'"
+		
+//cocciones = f_cargar_cursor(sel)	
+f_cargar_cursor_nuevo(sel, cocciones)
+
+total = cocciones.rowcount()
+distintas_cocciones = ""
+for indice = 1 to total
+	aplicacion = cocciones.object.codigo[indice]
+	if trim(distintas_cocciones) = "" then
+		distintas_cocciones = "'"+aplicacion+"'"
+	else
+		distintas_cocciones = distintas_cocciones +",'"+aplicacion+"'"
+	end if
+next
+
+destroy cocciones
+
+sel = "select count(*) cocciones "+&
+		"from   prodaplicaciones_articulo "+&
+		"where  empresa  = '"+arg_empresa+"' "+&
+		"and    articulo = '"+arg_articulo+"' "+&
+		"and    version  = '"+arg_version+"' "+&
+		"and    aplicacion in  ("+distintas_cocciones+") "
+		
+cocciones = f_cargar_cursor(sel)		
+
+total = cocciones.rowcount()
+
+if total = 1 then
+	numero_de_cocciones = cocciones.object.cocciones[1]
+else
+	numero_de_cocciones = 0
+end if
+
+destroy cocciones
+		
+return numero_de_cocciones
+end function
+

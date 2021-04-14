@@ -1,0 +1,272 @@
+﻿$PBExportHeader$mi_conta_analitica.srm
+forward
+global type mi_conta_analitica from mc_menu_sheets
+end type
+type m_menudeanalitica from menu within m_programas
+end type
+type m_mantsecciones from menu within m_menudeanalitica
+end type
+type m_mantcetrosdecoste from menu within m_menudeanalitica
+end type
+type m_extractocuentadecostes from menu within m_menudeanalitica
+end type
+type m_extracto from menu within m_menudeanalitica
+end type
+type m_banlanceanalitico from menu within m_menudeanalitica
+end type
+type m_cuadroanalitica from menu within m_menudeanalitica
+end type
+type m_cuadrecontabilidadanalitica from menu within m_menudeanalitica
+end type
+type m_detalleanaliticaasiento from menu within m_menudeanalitica
+end type
+type m_volcado from menu within m_menudeanalitica
+end type
+type m_mantcuadrosvolcados from menu within m_volcado
+end type
+type m_procesovolcado from menu within m_volcado
+end type
+type m_consulcuadrovolcado from menu within m_volcado
+end type
+type m_volcado from menu within m_menudeanalitica
+m_mantcuadrosvolcados m_mantcuadrosvolcados
+m_procesovolcado m_procesovolcado
+m_consulcuadrovolcado m_consulcuadrovolcado
+end type
+type m_menudeanalitica from menu within m_programas
+m_mantsecciones m_mantsecciones
+m_mantcetrosdecoste m_mantcetrosdecoste
+m_extractocuentadecostes m_extractocuentadecostes
+m_extracto m_extracto
+m_banlanceanalitico m_banlanceanalitico
+m_cuadroanalitica m_cuadroanalitica
+m_cuadrecontabilidadanalitica m_cuadrecontabilidadanalitica
+m_detalleanaliticaasiento m_detalleanaliticaasiento
+m_volcado m_volcado
+end type
+end forward
+
+global type mi_conta_analitica from mc_menu_sheets
+end type
+global mi_conta_analitica mi_conta_analitica
+
+on mi_conta_analitica.create
+mi_conta_analitica=this
+call super::create
+end on
+
+on mi_conta_analitica.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_conta_analitica
+m_menudeanalitica m_menudeanalitica
+end type
+
+on m_programas.create
+call super::create
+this.m_menudeanalitica=create m_menudeanalitica
+this.Item[UpperBound(this.item)+1]=this.m_menudeanalitica
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_menudeanalitica)
+end on
+
+on m_listados.create
+call super::create
+this.Text="&Consultas y Listados"
+end on
+
+type m_menudeanalitica from menu within m_programas
+m_mantsecciones m_mantsecciones
+m_mantcetrosdecoste m_mantcetrosdecoste
+m_extractocuentadecostes m_extractocuentadecostes
+m_extracto m_extracto
+m_banlanceanalitico m_banlanceanalitico
+m_cuadroanalitica m_cuadroanalitica
+m_cuadrecontabilidadanalitica m_cuadrecontabilidadanalitica
+m_detalleanaliticaasiento m_detalleanaliticaasiento
+m_volcado m_volcado
+end type
+
+on m_menudeanalitica.create
+this.Text="Menu de Analitica"
+this.m_mantsecciones=create m_mantsecciones
+this.m_mantcetrosdecoste=create m_mantcetrosdecoste
+this.m_extractocuentadecostes=create m_extractocuentadecostes
+this.m_extracto=create m_extracto
+this.m_banlanceanalitico=create m_banlanceanalitico
+this.m_cuadroanalitica=create m_cuadroanalitica
+this.m_cuadrecontabilidadanalitica=create m_cuadrecontabilidadanalitica
+this.m_detalleanaliticaasiento=create m_detalleanaliticaasiento
+this.m_volcado=create m_volcado
+this.Item[]={this.m_mantsecciones, &
+this.m_mantcetrosdecoste, &
+this.m_extractocuentadecostes, &
+this.m_extracto, &
+this.m_banlanceanalitico, &
+this.m_cuadroanalitica, &
+this.m_cuadrecontabilidadanalitica, &
+this.m_detalleanaliticaasiento, &
+this.m_volcado}
+end on
+
+on m_menudeanalitica.destroy
+destroy(this.m_mantsecciones)
+destroy(this.m_mantcetrosdecoste)
+destroy(this.m_extractocuentadecostes)
+destroy(this.m_extracto)
+destroy(this.m_banlanceanalitico)
+destroy(this.m_cuadroanalitica)
+destroy(this.m_cuadrecontabilidadanalitica)
+destroy(this.m_detalleanaliticaasiento)
+destroy(this.m_volcado)
+end on
+
+type m_mantsecciones from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_costesplan,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_mantsecciones.create
+this.Text="Cuentas de costes"
+end on
+
+type m_mantcetrosdecoste from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_costesmapa,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_mantcetrosdecoste.create
+this.Text="Mapa de costes"
+end on
+
+type m_extractocuentadecostes from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_extracto_cuenta_analitica,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_extractocuentadecostes.create
+this.Text="Extracto Cuenta de costes"
+end on
+
+type m_extracto from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_extracto_centros_analitica,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_extracto.create
+this.Text="Extracto  Costes por cuenta"
+end on
+
+type m_banlanceanalitico from menu within m_menudeanalitica
+end type
+
+event clicked;IF Not f_pedir_clave("431") Then Return
+str_parametros lstr_param
+OpenSheetWithParm(w_con_balance_analitica,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_banlanceanalitico.create
+this.Text="Balance Analitico"
+end on
+
+type m_cuadroanalitica from menu within m_menudeanalitica
+end type
+
+event clicked;IF Not f_pedir_clave("431") Then Return
+str_parametros lstr_param
+OpenSheetWithParm(w_con_cuadro_analitica,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_cuadroanalitica.create
+this.Text="Cuadro Analitica"
+end on
+
+type m_cuadrecontabilidadanalitica from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_chequeo_descuadre_analitica,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_cuadrecontabilidadanalitica.create
+this.Text="Cuadre Contabilidad/Analitica"
+end on
+
+type m_detalleanaliticaasiento from menu within m_menudeanalitica
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_costes_apunte,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_detalleanaliticaasiento.create
+this.Text="Detalle Analitica Asiento"
+end on
+
+type m_volcado from menu within m_menudeanalitica
+m_mantcuadrosvolcados m_mantcuadrosvolcados
+m_procesovolcado m_procesovolcado
+m_consulcuadrovolcado m_consulcuadrovolcado
+end type
+
+on m_volcado.create
+this.Text="Volcado"
+this.m_mantcuadrosvolcados=create m_mantcuadrosvolcados
+this.m_procesovolcado=create m_procesovolcado
+this.m_consulcuadrovolcado=create m_consulcuadrovolcado
+this.Item[]={this.m_mantcuadrosvolcados, &
+this.m_procesovolcado, &
+this.m_consulcuadrovolcado}
+end on
+
+on m_volcado.destroy
+destroy(this.m_mantcuadrosvolcados)
+destroy(this.m_procesovolcado)
+destroy(this.m_consulcuadrovolcado)
+end on
+
+type m_mantcuadrosvolcados from menu within m_volcado
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_cosbal,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_mantcuadrosvolcados.create
+this.Text="Mant. Cuadros Volcados"
+end on
+
+type m_procesovolcado from menu within m_volcado
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_cuadro_analitica_volcado,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_procesovolcado.create
+this.Text="Proceso Volcado Cuadros"
+end on
+
+type m_consulcuadrovolcado from menu within m_volcado
+end type
+
+on m_consulcuadrovolcado.create
+this.Text="Consul. Cuadro Volcado"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_cuadro_analitica_volcado,lstr_param,ParentWindow, 3,Original!)
+end event
+

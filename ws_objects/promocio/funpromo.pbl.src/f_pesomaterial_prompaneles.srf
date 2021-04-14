@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pesomaterial_prompaneles.srf
+global type f_pesomaterial_prompaneles from function_object
+end type
+
+forward prototypes
+global function decimal f_pesomaterial_prompaneles (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function decimal f_pesomaterial_prompaneles (string ra_codemp, string ra_codigo);dec{4} parametro
+
+ SELECT prompaneles.pesomaterial
+    INTO :parametro
+    FROM prompaneles 
+   WHERE ( prompaneles.empresa = :ra_codemp ) AND  
+         ( prompaneles.codigo = :ra_codigo )  
+  USING SQLCA;
+IF IsNUll(parametro) Then parametro = 0
+Return parametro
+
+end function
+

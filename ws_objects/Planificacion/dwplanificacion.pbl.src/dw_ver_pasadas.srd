@@ -1,0 +1,63 @@
+﻿$PBExportHeader$dw_ver_pasadas.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=88 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes name=planificacion_ot dbname="planificacion.ot" )
+ column=(type=char(10) updatewhereclause=yes name=prodlineas_resumido dbname="prodlineas.resumido" )
+ column=(type=char(20) updatewhereclause=yes name=planificacion_cod_articulo dbname="planificacion.cod_articulo" )
+ column=(type=char(4) updatewhereclause=yes name=planificacion_version dbname="planificacion.version" )
+ column=(type=long updatewhereclause=yes name=planificacion_ordenoperacion dbname="planificacion.ordenoperacion" )
+ column=(type=decimal(0) updatewhereclause=yes name=planificacion_cantidad dbname="planificacion.cantidad" )
+ column=(type=char(4) updatewhereclause=yes name=art_ver_tipooperacion_descripcion_abr dbname="art_ver_tipooperacion.descripcion_abr" )
+ column=(type=char(10) updatewhereclause=yes name=formatos_abreviado dbname="formatos.abreviado" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ retrieve="  SELECT planificacion.ot,   
+         prodlineas.resumido,   
+         planificacion.cod_articulo,   
+         planificacion.version,   
+         planificacion.ordenoperacion,   
+         planificacion.cantidad,   
+         art_ver_tipooperacion.descripcion_abr,   
+         formatos.abreviado,   
+         articulos.descripcion  
+    FROM planificacion,   
+         prodlineas,   
+         art_ver_tipooperacion,   
+         formatos,   
+         articulos  
+   WHERE ( planificacion.empresa *= prodlineas.empresa) and  
+         ( planificacion.lineaprod *= prodlineas.codigo) and  
+         ( planificacion.empresa *= art_ver_tipooperacion.empresa) and  
+         ( planificacion.tipo_operacion *= art_ver_tipooperacion.codigo) and  
+         ( planificacion.empresa *= formatos.empresa) and  
+         ( planificacion.formato *= formatos.codigo) and  
+         ( planificacion.empresa *= articulos.empresa) and  
+         ( planificacion.cod_articulo *= articulos.codigo) and  
+         ( ( planificacion.empresa = :empresa ) AND  
+         ( planificacion.cod_articulo = :articulo ) AND  
+         ( planificacion.anyo = :anyo ) AND  
+         ( planificacion.pedido = :pedido ) AND  
+         ( planificacion.linped = :linped ) )    
+  order by planificacion.ordenoperacion
+" arguments=(("empresa", string),("articulo", string),("anyo", number),("pedido", number),("linped", number)) )
+text(band=header alignment="2" text="Articulo" border="6" color="0" x="37" y="20" height="56" width="1047" html.valueishtml="0"  name=almlinubica_articulo_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Ver." border="6" color="0" x="1102" y="20" height="56" width="114" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Formato" border="6" color="0" x="1230" y="20" height="56" width="242" html.valueishtml="0"  name=almlinubica_existencias_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="OT" border="6" color="0" x="1490" y="20" height="56" width="242" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Línea" border="6" color="0" x="1755" y="20" height="56" width="197" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Operacion" border="6" color="0" x="1979" y="20" height="56" width="315" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="2322" y="20" height="56" width="297" html.valueishtml="0"  name=almlinubica_observaciones_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="32" y="4" height="56" width="201" format="[general]" html.valueishtml="0"  name=planificacion_cod_articulo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="2" color="0" x="251" y="4" height="56" width="823" format="[general]" html.valueishtml="0"  name=articulos_descripcion visible="1" edit.limit=40 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="0" x="1102" y="4" height="56" width="114" format="[general]" html.valueishtml="0"  name=planificacion_version visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="2" color="0" x="1230" y="4" height="56" width="242" format="[general]" html.valueishtml="0"  name=formatos_abreviado visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="1490" y="4" height="56" width="242" format="[general]" html.valueishtml="0"  name=planificacion_ot visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="2" color="0" x="1755" y="4" height="56" width="197" format="[general]" html.valueishtml="0"  name=prodlineas_resumido visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="2" color="0" x="1979" y="4" height="56" width="87" format="[general]" html.valueishtml="0"  name=planificacion_ordenoperacion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="2" color="0" x="2080" y="4" height="56" width="210" format="[general]" html.valueishtml="0"  name=art_ver_tipooperacion_descripcion_abr visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="2" color="0" x="2322" y="4" height="56" width="297" format="###,###,###,###" html.valueishtml="0"  name=planificacion_cantidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

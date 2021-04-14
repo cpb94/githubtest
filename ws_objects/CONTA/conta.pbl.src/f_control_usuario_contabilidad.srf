@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_control_usuario_contabilidad.srf
+global type f_control_usuario_contabilidad from function_object
+end type
+
+forward prototypes
+global function boolean f_control_usuario_contabilidad (string usuario)
+end prototypes
+
+global function boolean f_control_usuario_contabilidad (string usuario);if usuario = 'FROYO' then
+	return FALSE
+else
+	return TRUE
+end if
+end function
+

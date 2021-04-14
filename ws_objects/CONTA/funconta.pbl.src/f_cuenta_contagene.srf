@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cuenta_contagene.srf
+$PBExportComments$Devuelve la cuenta para el tipo de apunte
+global type f_cuenta_contagene from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_contagene (string empresa, string codigo)
+end prototypes
+
+global function string f_cuenta_contagene (string empresa, string codigo);string cta
+
+cta = ""
+
+SELECT contagene.cuenta INTO :cta FROM contagene    
+WHERE  contagene.empresa = :empresa
+AND    contagene.codigo  = :codigo    ;
+
+return cta
+end function
+

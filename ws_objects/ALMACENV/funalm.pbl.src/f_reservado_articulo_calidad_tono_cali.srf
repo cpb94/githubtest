@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_reservado_articulo_calidad_tono_cali.srf
+global type f_reservado_articulo_calidad_tono_cali from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_articulo_calidad_tono_cali (string empresa, string articulo, string calidad, string tono, integer calibre)
+end prototypes
+
+global function decimal f_reservado_articulo_calidad_tono_cali (string empresa, string articulo, string calidad, string tono, integer calibre);Dec{4} var_cantidad
+dec{4} var_cantidad_produccion
+
+SELECT  sum(venliped.cantidad)   
+INTO    :var_cantidad  
+FROM    venliped  
+WHERE   venliped.empresa      = :empresa
+AND     venliped.articulo     = :articulo
+AND     venliped.calidad      = :calidad
+AND     venliped.tonochar     = :tono
+AND     venliped.calibre      = :calibre
+ANd     venliped.situacion    <>  'P';
+
+IF IsNull(var_cantidad) Then var_cantidad = 0
+
+SELECT  sum(cantidad)   
+INTO    :var_cantidad_produccion
+FROM    proddiaria_pendiente_comp_res
+WHERE   empresa      = :empresa
+AND     articulo     = :articulo
+AND     calidad      = :calidad;
+
+IF IsNull(var_cantidad_produccion) Then var_cantidad_produccion = 0
+
+Return var_cantidad + var_cantidad_produccion
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_remesable_codpago.srf
+global type f_remesable_codpago from function_object
+end type
+
+forward prototypes
+global function boolean f_remesable_codpago (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function boolean f_remesable_codpago (string arg_empresa, string arg_codigo);boolean retorno
+string remes
+
+select remesable
+INTO :remes
+from carforpag
+where empresa=:arg_empresa and
+		forma=:arg_codigo;
+		
+if isnull(remes) or remes="N" then 
+	retorno = false
+else
+	retorno = true
+end if
+
+return retorno
+end function
+

@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_etiqueta_tipo_llamada.srf
+$PBExportComments$Devuele el texto de etiqueta segun tipo de llamada y sexo. Este campo se utiliza para el listado de las cartas a contactos . Ejem: Estimado <-> Estimada.
+global type f_etiqueta_tipo_llamada from function_object
+end type
+
+forward prototypes
+global function string f_etiqueta_tipo_llamada (string empresa, string tipo_llamada, string sexo)
+end prototypes
+
+global function string f_etiqueta_tipo_llamada (string empresa, string tipo_llamada, string sexo);String var_etiqueta1,var_etiqueta2
+SELECT mtiposllamadas.etiqueta1,mtiposllamadas.etiqueta2  
+INTO   :var_etiqueta1,:var_etiqueta2  
+FROM   mtiposllamadas  
+WHERE (mtiposllamadas.empresa = :empresa ) AND  
+      (mtiposllamadas.codigo  = :tipo_llamada );
+IF sexo="M" THEN
+  Return var_etiqueta2
+ELSE
+  Return var_etiqueta1
+END IF
+
+
+
+end function
+

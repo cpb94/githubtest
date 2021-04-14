@@ -1,0 +1,72 @@
+﻿$PBExportHeader$f_calculo_intereses.srf
+global type f_calculo_intereses from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_intereses (string banco, string tipodoc, decimal nominal, datetime vto, datetime fecrem, string naci_extra)
+end prototypes
+
+global function decimal f_calculo_intereses (string banco, string tipodoc, decimal nominal, datetime vto, datetime fecrem, string naci_extra);Integer	dias,diasanyo
+Dec		int30,int60,int90,int120,int150,int180,intmas,intmin,porinter
+Date		vencim,frem
+Dec{0}	impinteres
+
+SELECT carbangas.interes30,carbangas.interes60,carbangas.interes90,
+		 carbangas.interes120,carbangas.interes150,carbangas.interes180,
+		 carbangas.interesmas,carbangas.interesminim,carbangas.dias_anyo
+	INTO :int30,:int60,:int90,:int120,:int150,:int180,:intmas,:intmin,
+		  :diasanyo FROM carbangas
+WHERE carbangas.empresa = :codigo_empresa
+AND   carbangas.banco	= :banco
+AND   carbangas.tipodoc	= :tipodoc
+AND   carbangas.naciextra = :naci_extra USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	int30  = 0
+	int60  = 0
+	int90  = 0
+	int120 = 0
+	int150 = 0
+	int180 = 0
+	intmas = 0
+	RETURN 0
+END IF
+
+vencim = Date(vto)
+frem	 = Date(fecrem)
+
+dias = DaysAfter(frem,vencim)
+
+IF dias < 1 THEN
+	RETURN 0
+END IF
+
+CHOOSE CASE dias
+	CASE is < 30 
+		porinter = int30
+	CASE 30 TO 59
+		porinter = int60
+	CASE 60 TO 89
+		porinter = int90	
+	CASE 90 TO 119
+		porinter = int120
+	CASE 120 TO 149
+		porinter = int150
+	CASE 150 TO 179
+		porinter = int180
+	CASE ELSE
+		porinter = intmas
+END CHOOSE
+
+IF porinter = 0 OR IsNull(porinter) THEN RETURN 0
+
+impinteres = porinter * nominal / 100
+impinteres = (impinteres / diasanyo) * dias
+
+IF Not IsNull(intmin) AND intmin > 0 THEN
+	IF intmin > impinteres THEN impinteres = intmin
+END IF
+
+RETURN impinteres
+end function
+

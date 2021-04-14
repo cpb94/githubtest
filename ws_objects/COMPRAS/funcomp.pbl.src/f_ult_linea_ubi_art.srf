@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_ult_linea_ubi_art.srf
+$PBExportComments$Devuelve Ult.línea de la ubicacion para el articulo
+global type f_ult_linea_ubi_art from function_object
+end type
+
+forward prototypes
+global function integer f_ult_linea_ubi_art (string farg_emp, string farg_ubi, string farg_art, string farg_lote)
+end prototypes
+
+global function integer f_ult_linea_ubi_art (string farg_emp, string farg_ubi, string farg_art, string farg_lote);Integer li_linea = 0
+
+SELECT  max(almlinubica.linea) INTO :li_linea FROM almlinubica  
+WHERE almlinubica.empresa   = :farg_emp
+AND   almlinubica.ubicacion = :farg_ubi
+AND   almlinubica.articulo  = :farg_art
+AND   almlinubica.lote      = :farg_lote;
+
+IF IsNull(li_linea) OR Trim(String(li_linea))="" OR (SQLCA.SQLCode<>0)THEN
+	li_linea = 0 
+END IF
+
+Return li_linea 
+end function
+

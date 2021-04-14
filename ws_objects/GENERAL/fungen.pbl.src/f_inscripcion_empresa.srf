@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_inscripcion_empresa.srf
+global type f_inscripcion_empresa from function_object
+end type
+
+forward prototypes
+global function string f_inscripcion_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_inscripcion_empresa (string ai_codigo_empresa);string	ls_insc
+
+SELECT isnull(empresas.inscripcion,'') INTO :ls_insc  FROM empresas  
+WHERE  empresas.empresa = :ai_codigo_empresa;
+ 
+RETURN ls_insc
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_existe_cuenta.srf
+global type f_existe_cuenta from function_object
+end type
+
+forward prototypes
+global function boolean f_existe_cuenta (decimal farg_ejer, string farg_emp, string farg_cuenta)
+end prototypes
+
+global function boolean f_existe_cuenta (decimal farg_ejer, string farg_emp, string farg_cuenta);String  ls_titulo
+
+SELECT titulo INTO :ls_titulo	FROM contaplan
+WHERE  contaplan.ejercicio = :farg_ejer
+AND contaplan.empresa 		= :farg_emp 
+AND contaplan.cuenta 		= :farg_cuenta	USING SQLCA;
+
+IF SQLCA.SQLCode<>0 THEN
+	Return FALSE
+ELSE
+	Return TRUE
+END IF
+end function
+

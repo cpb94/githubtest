@@ -1,0 +1,28 @@
+﻿$PBExportHeader$ftc_expedicion_venalb_facturado.srf
+global type ftc_expedicion_venalb_facturado from function_object
+end type
+
+forward prototypes
+global function string ftc_expedicion_venalb_facturado (string empresa, integer venalb_anyo, decimal venalb_albaran, integer incluir_anyo)
+end prototypes
+
+global function string ftc_expedicion_venalb_facturado (string empresa, integer venalb_anyo, decimal venalb_albaran, integer incluir_anyo);String resultado = "", expedicion_codigo = ""
+Int expedicion_anyo
+
+SELECT expedicion_anyo, expedicion_codigo INTO :expedicion_anyo, :expedicion_codigo 
+FROM venfac
+WHERE empresa = :codigo_empresa 
+AND anyo_albaran = :venalb_anyo
+AND albaran = :venalb_albaran;
+
+if isnull(expedicion_codigo) then expedicion_codigo = ""
+
+if incluir_anyo = 1 and expedicion_codigo <> "" then
+	return String(expedicion_anyo) + "/" + expedicion_codigo
+else
+	return expedicion_codigo
+end if
+
+
+end function
+

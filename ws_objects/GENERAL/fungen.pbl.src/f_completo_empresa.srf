@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_completo_empresa.srf
+global type f_completo_empresa from function_object
+end type
+
+forward prototypes
+global function string f_completo_empresa (string cod_empresa)
+end prototypes
+
+global function string f_completo_empresa (string cod_empresa);string completo,var_pais,var_provincia
+
+var_pais = f_pais_empresa(cod_empresa)
+var_provincia = f_provincia_empresa(cod_empresa)
+
+completo = f_nombre_empresa(cod_empresa) +"  "+ char(13)
+completo = completo + f_domicilio_empresa(cod_empresa)+"  "+ char(13)
+completo = completo + f_codpostal_empresa(cod_empresa)+" "
+completo = completo + f_localidad_empresa(cod_empresa)
+completo = completo +"  "+ char(13) + " ("+ f_nombre_provincia(var_pais,var_provincia) +")"+"  "
+
+return completo
+end function
+

@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_powerund.srf
+global type f_powerund from function_object
+end type
+
+forward prototypes
+global function decimal f_powerund ()
+end prototypes
+
+global function decimal f_powerund ();Return  172.79954
+end function
+

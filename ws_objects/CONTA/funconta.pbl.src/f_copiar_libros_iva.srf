@@ -1,0 +1,111 @@
+﻿$PBExportHeader$f_copiar_libros_iva.srf
+global type f_copiar_libros_iva from function_object
+end type
+
+forward prototypes
+global function integer f_copiar_libros_iva (integer par_ejer_orig, integer par_ejer_dest)
+end prototypes
+
+global function integer f_copiar_libros_iva (integer par_ejer_orig, integer par_ejer_dest);// Copiamos los libros de IVA desde el ejercicio origen al destino
+
+/* Devuelve -1 si hay error al consultar BD
+				0 si no hay libros de IVA en el ejercicio origen
+				1 bien
+
+*/
+
+
+
+dec{0} ejer_decimal_orig,ejer_decimal_dest
+
+// los ejercicios a decimal como en tabla
+ejer_decimal_orig= dec(par_ejer_orig )
+ejer_decimal_dest =dec(par_ejer_dest ) 
+
+
+// copiamos con datastore
+datastore ds_copia
+
+string texto_sql
+texto_sql ="SELECT * " +&
+    		"FROM contalibros " +&	 
+   		"WHERE ( contalibros.empresa = '"+ codigo_empresa+"' ) AND "  + &
+         "( contalibros.ejercicio = " +string(ejer_decimal_orig)  +"  )"   
+
+
+ds_copia = create datastore
+//ds_copia=f_cargar_cursor(texto_sql)
+f_cargar_cursor_nuevo(texto_sql, ds_copia)
+
+ds_copia.settransobject(sqlca)
+int i,num
+num=ds_copia.retrieve()
+
+if num = 0 then 
+	// No hay libros para el ejercicio origen 
+	destroy ds_copia
+	return 0
+else
+	// hay libros
+	boolean correcto
+	
+	int contad
+	string emp,cod,descrip,resumid,tip,tit,tip_contador,tipo_cuenta
+	
+	correcto = true
+	
+	for i= 1 to num 
+		
+		emp			=ds_copia.getitemstring(i,"empresa")
+		cod			=ds_copia.getitemstring(i,"codigo")
+		descrip		=ds_copia.getitemstring(i,"descripcion")
+		resumid		=ds_copia.getitemstring(i,"resumido")
+		// El contador no lo copiamos
+		//contad		=ds_copia.getitemnumber(i,"contador")
+		tip			=ds_copia.getitemstring(i,"tipo")
+		tit			=ds_copia.getitemstring(i,"titulo")
+		tip_contador=ds_copia.getitemstring(i,"tipo_contador")
+		tipo_cuenta	=ds_copia.getitemstring(i,"tipo_cta")
+		  
+		  INSERT INTO contalibros  
+         ( ejercicio,   
+           empresa,   
+           codigo,   
+           descripcion,   
+           resumido,   
+           contador,   
+           tipo,   
+           titulo,   
+           tipo_contador,
+			  tipo_cta)  
+  			VALUES ( :ejer_decimal_dest,   
+           :emp,   
+           :cod,   
+           :descrip,   
+           :resumid,             
+			  0,  // El contador a 0
+           :tip,   
+           :tit,   
+           :tip_contador,
+			  :tipo_cuenta)  ;
+
+
+
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+			   exit
+			end if
+	next
+end if
+
+destroy ds_copia
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+
+end function
+

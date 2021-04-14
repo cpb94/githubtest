@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_paramemp.srf
+$PBExportComments$Devuelve en estructura los parametros de empresa
+global type f_paramemp from function_object
+end type
+
+forward prototypes
+global function str_paramemp f_paramemp (string empresa)
+end prototypes
+
+global function str_paramemp f_paramemp (string empresa);str_paramemp	em
+
+SELECT paramemp.moneda_emp,			paramemp.cod_fob,
+		 paramemp.cod_cif,				tipodoc_rem,
+		 paramemp.directorio_remesas,	paramemp.dias_riesgo
+INTO 	:em.moneda_emp,					:em.cod_fob,
+		:em.cod_cif,						:em.tipodoc_rem,
+		:em.directorio_remesas,			:em.dias_riesgo
+FROM paramemp
+WHERE paramemp.empresa	= :empresa USING SQLCA;
+
+RETURN em
+end function
+

@@ -1,0 +1,86 @@
+﻿$PBExportHeader$f_cargar_menu_arbol.srf
+global type f_cargar_menu_arbol from function_object
+end type
+
+forward prototypes
+global subroutine f_cargar_menu_arbol (ref window padre, ref treeview tv_menu, ref string titulo)
+end prototypes
+
+global subroutine f_cargar_menu_arbol (ref window padre, ref treeview tv_menu, ref string titulo);long n1, n2, n3, n4, n5
+int i1, i2, i3, i4, i5, icono, nivel[]
+treeviewitem item
+//window padre
+menu menu
+boolean listado
+ 
+//padre = This.ParentWindow()
+//padre = w_utilidad
+ 
+titulo = "Menú " + padre.title
+//st_titulo.text = padre.title
+padre.title = padre.title + " - " + f_nombre_empresa(codigo_empresa)+" ("+nombre_usuario+")"
+menu = padre.MenuID
+for i1=1 to UpperBound(menu.item[])
+	if not(menu.item[i1].visible and menu.item[i1].enabled) then continue
+	if UpperBound(menu.item[i1].item[])<>0 then icono=1 else icono=2
+	item.Label = f_limpia_texto(menu.item[i1].text)
+	if item.Label="-" then continue
+	listado = (upper(left(item.Label,8))="CONSULTA" or upper(left(item.Label,7))="LISTADO")
+	nivel = {i1}
+	item.Data = nivel
+	item.PictureIndex = icono
+	item.SelectedPictureIndex = icono
+	n1 = tv_menu.InsertItemLast(0, item)
+	for i2=1 to UpperBound(menu.item[i1].item[])
+		if not(menu.item[i1].item[i2].visible and menu.item[i1].item[i2].enabled) then continue
+		if UpperBound(menu.item[i1].item[i2].item[])<>0 then icono=1 else icono=2
+		//  if listado and icono=2 then icono=3
+		item.Label = f_limpia_texto(menu.item[i1].item[i2].text)
+		if item.Label="-" then continue
+		nivel = {i1,i2}
+		item.Data = nivel
+		item.PictureIndex = icono
+		item.SelectedPictureIndex = icono
+		n2 = tv_menu.InsertItemLast(n1, item)
+		for i3=1 to UpperBound(menu.item[i1].item[i2].item[])
+			if not(menu.item[i1].item[i2].item[i3].visible and menu.item[i1].item[i2].item[i3].enabled) then continue
+			if UpperBound(menu.item[i1].item[i2].item[i3].item[])<>0 then icono=1 else icono=2
+			//   if listado and icono=2 then icono=3
+			item.Label = f_limpia_texto(menu.item[i1].item[i2].item[i3].text)
+			if item.Label="-" then continue
+			nivel = {i1,i2,i3}
+			item.Data = nivel
+			item.PictureIndex = icono
+			item.SelectedPictureIndex = icono
+			n3 = tv_menu.InsertItemLast(n2, item)
+			for i4=1 to UpperBound(menu.item[i1].item[i2].item[i3].item[])
+				if not(menu.item[i1].item[i2].item[i3].item[i4].visible and menu.item[i1].item[i2].item[i3].item[i4].enabled) then continue
+				if UpperBound(menu.item[i1].item[i2].item[i3].item[i4].item[])<>0 then icono=1 else icono=2
+				//    if listado and icono=2 then icono=3
+				item.Label = f_limpia_texto(menu.item[i1].item[i2].item[i3].item[i4].text)
+				if item.Label="-" then continue
+				nivel = {i1,i2,i3,i4}
+				item.Data = nivel
+				item.PictureIndex = icono
+				item.SelectedPictureIndex = icono
+				n4 = tv_menu.InsertItemLast(n3, item)
+				for i5=1 to UpperBound(menu.item[i1].item[i2].item[i3].item[i4].item[])
+					if not(menu.item[i1].item[i2].item[i3].item[i4].item[i5].visible and menu.item[i1].item[i2].item[i3].item[i4].item[i5].enabled) then continue
+					if UpperBound(menu.item[i1].item[i2].item[i3].item[i4].item[i5].item[])<>0 then icono=1 else icono=2
+					//     if listado and icono=2 then icono=3
+					item.Label = f_limpia_texto(menu.item[i1].item[i2].item[i3].item[i4].item[i5].text)
+					if item.Label="-" then continue
+					nivel = {i1,i2,i3,i4,i5}
+					item.Data = nivel
+					item.PictureIndex = icono
+					item.SelectedPictureIndex = icono
+					n5 = tv_menu.InsertItemLast(n4, item)
+				next
+			next
+		next
+	next
+next
+
+ 
+end subroutine
+

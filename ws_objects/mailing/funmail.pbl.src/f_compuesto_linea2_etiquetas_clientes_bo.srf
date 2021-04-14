@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_compuesto_linea2_etiquetas_clientes_bo.srf
+global type f_compuesto_linea2_etiquetas_clientes_bo from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_linea2_etiquetas_clientes_bo (string empresa, string codigo)
+end prototypes
+
+global function string f_compuesto_linea2_etiquetas_clientes_bo (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto,var_razon
+
+var_razon=f_nombre_cliente(empresa,"C",codigo)
+var_nombre=f_compuesto_cliente(empresa,codigo)
+
+If IsNull(var_nombre)    Then   var_nombre = ""
+If IsNull(var_razon)     Then   var_razon     = ""
+
+IF Trim(var_razon)<> ""  and Trim(var_nombre) <> "" Then 
+    var_compuesto = "Att. " + var_nombre
+ELSE
+   IF Trim(var_nombre)<> "" Then   var_compuesto = "Att. " + var_nombre
+   IF Trim(var_razon) <> "" Then   var_compuesto = var_razon  
+END IF
+RETURN var_compuesto
+
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_depstock_familia_formato.srf
+global type f_depstock_familia_formato from function_object
+end type
+
+forward prototypes
+global function decimal f_depstock_familia_formato (string empresa, string familia, string formato, string calidad[])
+end prototypes
+
+global function decimal f_depstock_familia_formato (string empresa, string familia, string formato, string calidad[]);Dec st
+  SELECT sum(deplinubica.existencias) INTO :st FROM deplinubica  
+   WHERE  deplinubica.empresa     = :empresa  
+	AND    deplinubica.familia     = :familia
+	AND    deplinubica.formato     = :formato  
+	AND    deplinubica.calidad      in (:calidad[1],:calidad[2],:calidad[3],:calidad[4],:calidad[5]) 
+	Group By familia,formato;
+	
+	
+	IF IsNull(st) Then st = 0
+	Return st
+
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_tipo_unidad_familia.srf
+global type f_tipo_unidad_familia from function_object
+end type
+
+forward prototypes
+global function string f_tipo_unidad_familia (string ai_codemp, string ai_codfam)
+end prototypes
+
+global function string f_tipo_unidad_familia (string ai_codemp, string ai_codfam);string	ls
+
+  SELECT  familias.tipo_unidad  INTO :ls    FROM familias  
+   WHERE (familias.empresa = :ai_codemp )
+   AND   (familias.codigo  = :ai_codfam )   
+     USING SQLCA;
+
+RETURN ls
+end function
+

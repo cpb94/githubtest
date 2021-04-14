@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_existencias_articulo.srf
+global type f_existencias_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_articulo (string empresa, string articulo)
+end prototypes
+
+global function decimal f_existencias_articulo (string empresa, string articulo);Dec{4}   var_existencias
+
+SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads)  
+INTO   :var_existencias  
+FROM   almacenmovimientos  
+WHERE almacenmovimientos.empresa     = :empresa
+AND   almacenmovimientos.articulo = :articulo;
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :empresa
+AND   almlinubica.articulo = :articulo;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

@@ -1,0 +1,286 @@
+﻿$PBExportHeader$f_cobrar_efecto.srf
+$PBExportComments$Pasa el efecto al historico y lo divide si no se cobra en su totalidad
+global type f_cobrar_efecto from function_object
+end type
+
+forward prototypes
+global function boolean f_cobrar_efecto (string arg_empresa, integer arg_anyo, long arg_orden, decimal arg_importe_cobrado, decimal arg_cambio, datetime arg_fecha_cobro, string arg_banco_cobro)
+end prototypes
+
+global function boolean f_cobrar_efecto (string arg_empresa, integer arg_anyo, long arg_orden, decimal arg_importe_cobrado, decimal arg_cambio, datetime arg_fecha_cobro, string arg_banco_cobro);string    sel,naci_extra
+long      indice,total,cuantos_recibos,factura,anyo_detalle_agrupado,orden_detalle_agrupado,lineas_imprimir
+dec       pendiente_cobro,pendiente_cobro_moneda_empresa
+boolean   bien = true
+DataStore dw_detalle_agrupado
+datastore dw_imprimir_efecto
+
+str_carefectos   carefectos
+str_carhistorico historico
+
+// Selecciono datos del efecto y los inserto en carhistorico
+if isnull(arg_cambio) then arg_cambio = 0
+if arg_cambio = 0 then arg_cambio = 1
+
+if not(f_cargar_str_carefectos(arg_empresa,arg_anyo,arg_orden,carefectos)) then
+	bien = false
+	messagebox("Atención","Error al cargar los datos del efecto.")	
+end if
+
+f_pasa_str_carefectos_a_str_carhistorico(carefectos,historico)
+
+if IsNull(historico.agrupado) or Trim(historico.agrupado)= "" Then
+	historico.agrupado= "N"
+end if
+
+if historico.divisas <> arg_importe_cobrado then
+	IF historico.agrupado = "S" then
+		bien = false
+		messagebox("Atención","No se puede cobrar un recibo agrupado en parte.")
+	else
+		if messagebox("Fra. "+historico.factura+" cancelada en parte"," Desea anular el resto.",question!,yesno!) = 2 then
+			pendiente_cobro = historico.divisas - arg_importe_cobrado
+		else
+			pendiente_cobro = 0
+		end if
+		historico.divisas = arg_importe_cobrado
+		historico.importe = arg_importe_cobrado * arg_cambio				
+	end if
+else
+	pendiente_cobro = 0
+end if
+				
+historico.cambio_cobro = arg_cambio		
+historico.situacion    = "9"
+historico.fcobro       = arg_fecha_cobro
+historico.banco        = arg_banco_cobro
+
+if isnull(historico.observaciones) then historico.observaciones = ""
+historico.observaciones = historico.observaciones + "[**]"
+
+//Chequeo si ya existe algún registro en el histórico con el mismo nº de año y orden, si es asi cambio el numero de orden
+long ll_existe_registro,ll_efectoagrupa
+
+ll_existe_registro = 0
+
+SELECT isnull(count(*),0)
+INTO   :ll_existe_registro
+FROM   carhistorico  
+WHERE  carhistorico.empresa = :historico.empresa
+AND    carhistorico.anyo    = :historico.anyo
+AND    carhistorico.orden   = :historico.orden;
+
+if isnull(ll_existe_registro) then ll_existe_registro = 0
+
+if ll_existe_registro > 0 then
+	historico.orden = f_orden_carparam(codigo_empresa,arg_anyo)
+end if
+
+//Por si hemos cambiado el numero de orden y tenemos detalle de agrupado
+ll_efectoagrupa = historico.orden
+
+/*
+SELECT max(carhistorico.linea)
+INTO   :historico.linea
+FROM   carhistorico  
+WHERE  carhistorico.empresa = :historico.empresa
+AND    carhistorico.anyo    = :historico.anyo
+AND    carhistorico.orden   = :historico.orden;
+
+if isnull(historico.linea) then historico.linea = 0
+
+historico.linea ++
+*/
+historico.linea = 1
+
+if not f_insert_carhistorico(historico) then bien = false
+
+if pendiente_cobro = 0 then
+	DELETE FROM carefectos  
+	WHERE carefectos.empresa = :historico.empresa
+	AND   carefectos.anyo    = :arg_anyo 
+	AND  	carefectos.orden   = :arg_orden;
+		
+	if SQLCA.SQLCODE <> 0 Then 
+		bien = false
+	end if
+else
+	pendiente_cobro_moneda_empresa = dec(string(pendiente_cobro * historico.cambio,f_mascara_moneda(f_moneda_empresa(arg_empresa))))
+	UPDATE carefectos
+	SET    carefectos.divisas = :pendiente_cobro,
+			 carefectos.importe = :pendiente_cobro_moneda_empresa
+	WHERE carefectos.empresa = :historico.empresa
+	AND   carefectos.anyo    = :arg_anyo 
+	AND  	carefectos.orden   = :arg_orden;
+	
+	if SQLCA.SQLCODE <> 0 Then 
+		bien = false
+	end if
+end if
+
+// Busco si hay mas efectos con ese nº de remesa. En caso de ser el
+// último pongo carremesas en situacion de cancelada
+
+SELECT Count(*) 
+INTO   :cuantos_recibos
+FROM   carefectos
+WHERE  carefectos.empresa 		= :codigo_empresa
+AND    carefectos.banco	 		= :historico.banco
+AND    carefectos.anyo_remesa = :historico.anyo_remesa
+AND    carefectos.remesa		= :historico.remesa
+AND    carefectos.Nacional    = :historico.Nacional;
+
+if IsNull(cuantos_recibos) then cuantos_recibos = 0
+
+if cuantos_recibos = 0 then
+	if nacional = "S" then
+		naci_extra = "N"
+	else
+		naci_extra = "E"
+	end if
+	
+	UPDATE carremesas 
+	SET    carremesas.situacion   = '5'
+	WHERE  carremesas.empresa		= :historico.empresa
+	AND    carremesas.anyo			= :historico.anyo_remesa
+	AND    carremesas.banco			= :historico.banco
+	AND    carremesas.naci_extra 	= :naci_extra
+	AND    carremesas.remesa		= :historico.remesa;
+end if
+
+if historico.agrupado = "S" then
+	// Si el efecto es agrupado proceso el detalle	
+	
+	sel = "SELECT anyo,orden FROM carefectos " + &
+			"WHERE carefectos.empresa       =  '"+codigo_empresa +"' "+&
+			"AND   carefectos.situacion     =  '3' "+&
+			"AND   carefectos.anyoagrupa    =  "+String(arg_anyo,"####")+" "+&
+			"AND   carefectos.efectoagrupa  =  "+string(arg_orden,"#######") 
+	
+	dw_detalle_agrupado = f_cargar_cursor(sel)
+	total = dw_detalle_agrupado.rowcount()
+	
+	if total = 0 then
+		bien = false
+		messagebox("Atención","Agrupado sin detalle.")
+	else
+		for indice = 1 to total
+			// Selecciono datos del efecto y los inserto en carhistorico
+						
+			anyo_detalle_agrupado  = dw_detalle_agrupado.object.anyo[indice]
+			orden_detalle_agrupado = dw_detalle_agrupado.object.orden[indice] 
+			
+			if not(f_cargar_str_carefectos(arg_empresa,anyo_detalle_agrupado,orden_detalle_agrupado,carefectos)) then
+				bien = false
+				messagebox("Atención","Error al cargar los datos del efecto.")	
+			end if
+			f_pasa_str_carefectos_a_str_carhistorico(carefectos,historico)	
+	
+			historico.cambio_cobro = arg_cambio		
+			historico.fcobro       = arg_fecha_cobro	
+			historico.banco        = arg_banco_cobro
+	
+			historico.efectoagrupa = ll_efectoagrupa
+			
+			//Chequeo si ya existe algún registro en el histórico con el mismo nº de año y orden, si es asi cambio el numero de orden
+			
+			ll_existe_registro = 0
+			
+			SELECT isnull(count(*),0)
+			INTO   :ll_existe_registro
+			FROM   carhistorico  
+			WHERE  carhistorico.empresa = :historico.empresa
+			AND    carhistorico.anyo    = :historico.anyo
+			AND    carhistorico.orden   = :historico.orden;
+			
+			if isnull(ll_existe_registro) then ll_existe_registro = 0
+			
+			if ll_existe_registro > 0 then
+				historico.orden = f_orden_carparam(codigo_empresa,anyo_detalle_agrupado)
+			end if
+			
+			historico.linea = 1
+			
+			/*
+			SELECT max(carhistorico.linea)
+			INTO   :historico.linea
+			FROM   carhistorico  
+			WHERE  carhistorico.empresa = :historico.empresa
+			AND    carhistorico.anyo    = :historico.anyo
+			AND    carhistorico.orden   = :historico.orden;
+			
+			if isnull(historico.linea) then historico.linea = 0
+			
+			historico.linea ++
+			*/
+			
+			if not f_insert_carhistorico(historico) then bien = false
+			
+			DELETE FROM carefectos  
+			WHERE carefectos.empresa = :historico.empresa
+			AND   carefectos.anyo    = :historico.anyo 
+			AND  	carefectos.orden   = :orden_detalle_agrupado;
+				
+			if SQLCA.SQLCODE <> 0 Then 
+				bien = false
+			end if		
+			
+			// COMPRUEBO SI QUEDA ALGÚN RECIBO POR COBRAR
+			SELECT count(carefectos.recibo)  
+			INTO   :cuantos_recibos  
+			FROM   carefectos  
+			WHERE ( carefectos.empresa = :historico.empresa )
+			AND  	( carefectos.anyofra = :historico.anyofra )
+			AND  	( carefectos.factura = :historico.factura );
+			
+			if isnull(cuantos_recibos) then cuantos_recibos = 0
+			
+			if cuantos_recibos = 0 then
+				factura = Dec(historico.factura)
+				
+				UPDATE carcomisiones 
+				SET    carcomisiones.cobrado = "S",
+				 		 carcomisiones.fcobro  = :historico.fcobro
+				WHERE  carcomisiones.empresa = :historico.empresa
+				AND    carcomisiones.anyo    = :historico.anyofra
+				AND    carcomisiones.factura = :factura;
+				
+				if SQLCA.SQLCODE <> 0 Then 
+					bien = false
+				end if
+			end if		
+		next			
+	end if			
+else			
+	// COMPRUEBO SI QUEDA ALGÚN RECIBO POR COBRAR
+	SELECT count(carefectos.recibo)  
+	INTO   :cuantos_recibos  
+	FROM   carefectos  
+	WHERE ( carefectos.empresa = :historico.empresa )
+	AND  	( carefectos.anyofra = :historico.anyofra )
+	AND  	( carefectos.factura = :historico.factura );
+	
+	if isnull(cuantos_recibos) then cuantos_recibos = 0
+	
+	if cuantos_recibos = 0 then
+		factura = Dec(historico.factura)
+		
+		UPDATE carcomisiones 
+		SET    carcomisiones.cobrado = "S",
+				 carcomisiones.fcobro  = :historico.fcobro
+		WHERE  carcomisiones.empresa = :historico.empresa
+		AND    carcomisiones.anyo    = :historico.anyofra
+		AND    carcomisiones.factura = :factura;
+		
+		if SQLCA.SQLCODE <> 0 Then 
+			bien = false
+		end if
+	end if		
+end if			
+
+destroy dw_detalle_agrupado				
+			
+destroy dw_imprimir_efecto			
+			
+return bien
+end function
+

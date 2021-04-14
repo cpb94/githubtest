@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_mensaje_proceso2.srf
+global type f_mensaje_proceso2 from function_object
+end type
+
+forward prototypes
+global subroutine f_mensaje_proceso2 (string titulo, string men, decimal con1, decimal con2)
+end prototypes
+
+global subroutine f_mensaje_proceso2 (string titulo, string men, decimal con1, decimal con2);//Nuevo
+
+IF Not IsValid(wc_mensaje_proceso2) Then 
+	Open(wc_mensaje_proceso2)	
+	wc_mensaje_proceso2.barra_progreso.setrange(1,con2)
+END IF
+
+wc_mensaje_proceso2.setredraw(true)
+wc_mensaje_proceso2.title = titulo
+wc_mensaje_proceso2.mensaje.text = men
+wc_mensaje_proceso2.barra_progreso.position = con1
+
+IF con1 = con2 Then 
+	Close(wc_mensaje_proceso2)
+end if
+Return
+end subroutine
+

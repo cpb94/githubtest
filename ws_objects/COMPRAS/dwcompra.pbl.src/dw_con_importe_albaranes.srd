@@ -1,0 +1,73 @@
+﻿$PBExportHeader$dw_con_importe_albaranes.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33554431 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=332 color="536870912" )
+summary(height=144 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=comlinalb_empresa dbname="comlinalb.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=comlinalb_mprima dbname="comlinalb.mprima" )
+ column=(type=char(10) updatewhereclause=yes name=venmprima_proveedor dbname="venmprima.proveedor" )
+ column=(type=number updatewhereclause=yes name=ccant dbname="cant" )
+ column=(type=char(50) updatewhereclause=yes name=venmprima_descripcion dbname="venmprima.descripcion" )
+ column=(type=number updatewhereclause=yes name=cimp dbname="imp" )
+ column=(type=char(20) updatewhereclause=yes name=comlinalb_cuenta dbname="comlinalb.cuenta" )
+ column=(type=char(5) updatewhereclause=yes name=venmprima_tipo_materia dbname="venmprima.tipo_materia" )
+ column=(type=char(30) updatewhereclause=yes name=venmateria_descripcion dbname="venmateria.descripcion" )
+ retrieve="  SELECT comlinalb.empresa,   
+         comlinalb.mprima,   
+         venmprima.proveedor,   
+         sum(cantidad) cant,   
+         venmprima.descripcion,   
+         sum(cantidad * precio  * ( 1 - descuento / 100 ) ) imp,   
+         comlinalb.cuenta,   
+         venmprima.tipo_materia,  
+		venmateria.descripcion
+    FROM comlinalb,   
+         venmprima,   
+         comcabalb ,
+		venmateria
+   WHERE ( comlinalb.empresa = venmprima.empresa ) and  
+         ( comlinalb.mprima = venmprima.codigo ) and  
+         ( comlinalb.empresa = comcabalb.empresa ) and  
+         ( venmateria.empresa = comcabalb.empresa ) and  
+         ( venmprima.tipo_materia = venmateria.codigo ) and  
+         ( comlinalb.anyo = comcabalb.anyo ) and  
+         ( comlinalb.albaran = comcabalb.albaran ) and  
+         ( ( comlinalb.empresa = :arg_empresa ) AND  
+         ( comcabalb.fecha_alb between :arg_fdesde and :arg_fhasta ) AND  
+         ( comlinalb.situacion in (:arg_situacion) ) )   
+GROUP BY comlinalb.empresa,   
+         comlinalb.mprima,   
+         venmprima.proveedor,   
+         venmprima.descripcion,
+         comlinalb.cuenta,   
+         venmprima.tipo_materia,  
+		venmateria.descripcion  
+
+" arguments=(("arg_empresa", string),("arg_fdesde", datetime),("arg_fhasta", datetime),("arg_situacion", stringlist)) )
+group(level=1 header.height=64 trailer.height=80 by=("venmateria_descripcion" ) header.color="536870912" trailer.color="536870912"  sort="venmateria_descripcion A " )
+text(band=header alignment="2" text="Cuenta"border="6" color="0" x="14" y="260" height="60" width="352"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Mat. Prima"border="6" color="0" x="389" y="260" height="60" width="379"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Descripción"border="6" color="0" x="786" y="260" height="60" width="1056"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1865" y="260" height="60" width="325"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="2208" y="260" height="60" width="320"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Albaranes por Cuenta"border="0" color="0" x="901" y="32" height="132" width="1413"  font.face="Arial" font.height="-20" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="1" expression="now()"border="0" color="0" x="2802" y="100" height="44" width="338" format="hh:mm:ss"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="1" expression="today()"border="0" color="0" x="2802" y="40" height="56" width="338" format="dd-mm-yy"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=9 alignment="0" tabsequence=32766 border="0" color="32768" x="192" y="4" height="56" width="832" format="[general]"  name=venmateria_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=8 alignment="0" tabsequence=32766 border="0" color="32768" x="18" y="4" height="56" width="155" format="[general]"  name=venmprima_tipo_materia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_cuenta_mprima( comlinalb_empresa , comlinalb_mprima )"border="0" color="0" x="2414" y="464" height="60" width="343" format="[general]"  name=cuenta  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="379" y="8" height="56" width="402" format="[general]"  name=comlinalb_mprima edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="795" y="8" height="56" width="1056" format="[general]"  name=venmprima_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1861" y="8" height="56" width="329" format="[general]"  name=ccant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="2208" y="8" height="56" width="325" format="[general]"  name=cimp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="18" y="4" height="60" width="343" format="[general]"  name=comlinalb_cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="~"Total Grupo:~""border="0" color="8388736" x="736" y="16" height="56" width="1106" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression=" sum(ccant for group 1) "border="0" color="8388736" x="1861" y="16" height="56" width="329" format="[general]"  name=total_cantidad  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression=" sum(cimp for group 1)"border="0" color="8388736" x="2208" y="16" height="56" width="325" format="[general]"  name=total_importe  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="0" y1="0" x2="2601" y2="0" pen.style="0" pen.width="9" pen.color="8388736"  background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="Total General : "border="0" color="16711680" x="1659" y="40" height="64" width="453"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression=" sum(cimp for all)"border="0" color="16711680" x="2144" y="40" height="60" width="384" format="[general]"  name=total_general  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="1362" y="356" height="76" width="256" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

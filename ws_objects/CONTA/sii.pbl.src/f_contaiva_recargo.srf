@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_contaiva_recargo.srf
+global type f_contaiva_recargo from function_object
+end type
+
+forward prototypes
+global function string f_contaiva_recargo (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_contaiva_recargo (integer ejercicio, string empresa, string codigo);String parametro
+SELECT isnull(contaiva.recargo,'')  INTO :parametro   FROM contaiva  
+WHERE (contaiva.ejercicio = :ejercicio)
+AND   (contaiva.empresa   = :empresa)
+AND   (contaiva.tipoiva   = :codigo);
+
+Return parametro
+
+end function
+

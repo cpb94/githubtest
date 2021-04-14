@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_calidad_referencia.srf
+global type f_calidad_referencia from function_object
+end type
+
+forward prototypes
+global function string f_calidad_referencia (string referencia)
+end prototypes
+
+global function string f_calidad_referencia (string referencia);string	cod
+//cod = Mid(referencia,11,2)
+cod = Right(referencia,7)
+cod = left(cod,2)
+cod = String(Integer(cod))
+
+RETURN  cod
+end function
+

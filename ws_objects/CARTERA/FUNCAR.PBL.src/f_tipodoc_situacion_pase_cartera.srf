@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_tipodoc_situacion_pase_cartera.srf
+global type f_tipodoc_situacion_pase_cartera from function_object
+end type
+
+forward prototypes
+global function string f_tipodoc_situacion_pase_cartera (string cod_empresa, string cod_tipodoc)
+end prototypes
+
+global function string f_tipodoc_situacion_pase_cartera (string cod_empresa, string cod_tipodoc);String situacion
+
+SELECT  cartipodoc.situacion_pase_cartera   
+INTO    :situacion  
+FROM    cartipodoc 
+WHERE  (cartipodoc.empresa = :cod_empresa) AND  
+	  	 (cartipodoc.tipodoc = :cod_tipodoc)   
+USING SQLCA;
+
+if isnull(situacion) then situacion = ""
+//Si no hay situacion pasa en situacion 0 (Cartera)
+if trim(situacion) = "" then situacion = "0"
+	
+RETURN situacion
+
+
+end function
+

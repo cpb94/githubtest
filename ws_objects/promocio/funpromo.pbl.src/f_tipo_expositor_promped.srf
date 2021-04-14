@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_tipo_expositor_promped.srf
+global type f_tipo_expositor_promped from function_object
+end type
+
+forward prototypes
+global function string f_tipo_expositor_promped (string var_empresa, decimal var_anyo, integer var_pedido)
+end prototypes
+
+global function string f_tipo_expositor_promped (string var_empresa, decimal var_anyo, integer var_pedido);String variable
+  
+  SELECT promped.tipo_expositor
+    INTO :variable  
+    FROM promped  
+   WHERE ( promped.empresa = :var_empresa ) AND  
+         ( promped.anyo = :var_anyo ) AND  
+         ( promped.pedido = :var_pedido )   ;
+Return variable
+end function
+

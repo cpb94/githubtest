@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_coste_articulo.srf
+global type f_coste_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_coste_articulo (string empresa, string articulo)
+end prototypes
+
+global function decimal f_coste_articulo (string empresa, string articulo);Dec{4} var_variable
+
+  SELECT articulos.precio_coste
+  INTO :var_variable  
+  FROM articulos
+  Where articulos.empresa = :empresa
+  And   articulos.codigo  =:articulo;
+
+
+Return var_variable ;
+
+
+end function
+

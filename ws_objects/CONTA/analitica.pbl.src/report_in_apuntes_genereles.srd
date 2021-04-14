@@ -1,0 +1,14 @@
+﻿$PBExportHeader$report_in_apuntes_genereles.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=5 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=568 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1240 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=a dbname="a" )
+ unbound = "yes")
+report(band=header dataobject="report_cabecera" x="0" y="12" height="340" width="3365" border="0"  height.autosize=yes criteria="" nest_arguments=(("f_codigo_empresa()")) trail_footer = yes  name=dw_cabecera  slideup=directlyabove )
+report(band=header dataobject="report_in_apuntes_genereles3" x="352" y="428" height="136" width="2194" border="0"  height.autosize=yes criteria="" nest_arguments=(("f_codigo_empresa()")) trail_footer = yes  name=dw_3  slideup=directlyabove )
+report(band=detail dataobject="report_in_apuntes_genereles1" x="507" y="4" height="148" width="2853" border="0"  height.autosize=yes criteria="" nest_arguments=(("f_codigo_empresa()")) trail_footer = yes  name=dw_1  slideup=directlyabove )
+report(band=detail dataobject="report_in_apuntes_genereles2" x="507" y="976" height="136" width="2912" border="0"  height.autosize=yes criteria="" trail_footer = yes  name=dw_2  slideup=directlyabove )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

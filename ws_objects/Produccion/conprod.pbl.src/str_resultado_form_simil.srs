@@ -1,0 +1,5 @@
+﻿$PBExportHeader$str_resultado_form_simil.srs
+global type str_resultado_form_simil from structure
+	string		kk[]
+end type
+

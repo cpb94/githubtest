@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_controlar_digitos_analitica.srf
+$PBExportComments$Devuelve el nivel de la cuenta de analitica
+global type f_controlar_digitos_analitica from function_object
+end type
+
+forward prototypes
+global function integer f_controlar_digitos_analitica (string cuenta)
+end prototypes
+
+global function integer f_controlar_digitos_analitica (string cuenta);Integer longitud_cta,var_nivel,var_digitos1,var_digitos2
+
+var_digitos1 = 3
+var_digitos2 = 6
+
+longitud_cta = len(cuenta)
+
+CHOOSE CASE longitud_cta
+	CASE var_digitos1
+	     var_nivel =1
+   CASE var_digitos2
+	     var_nivel =2
+   CASE ELSE
+        var_nivel =0
+END CHOOSE
+Return var_nivel
+
+
+
+end function
+

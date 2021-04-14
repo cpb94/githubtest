@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_no_nulo.srf
+$PBExportComments$Controla que el valor de un editmask no sea nulo.
+global type f_no_nulo from function_object
+end type
+
+forward prototypes
+global subroutine f_no_nulo (editmask campo)
+end prototypes
+
+global subroutine f_no_nulo (editmask campo);IF IsNull(campo.text) THEN campo.text=""
+end subroutine
+

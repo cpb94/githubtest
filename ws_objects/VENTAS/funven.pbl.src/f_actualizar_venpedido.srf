@@ -1,0 +1,62 @@
+﻿$PBExportHeader$f_actualizar_venpedido.srf
+global type f_actualizar_venpedido from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_venpedido (string empresa, decimal periodo, decimal pedido)
+end prototypes
+
+global function boolean f_actualizar_venpedido (string empresa, decimal periodo, decimal pedido);Dec{0}   var_anyo,var_pedido
+String   var_empresa
+Dec{4}   var_importe,var_peso,var_peso_neto,var_bruto,var_importe_dto,var_impdtopp,var_importe_neto
+str_venped lstr_venped
+
+f_cargar_str_venped(empresa,periodo,pedido,lstr_venped)
+
+if lstr_venped.recalcular_packs = 'S' then
+	if f_precio_y_dtos_packs_pedido(empresa,periodo,pedido) then
+		commit;
+	else
+		rollback;
+	end if
+end if
+
+SELECT 	sum(venliped.peso),
+			sum(venliped.peso_neto),
+			sum(venliped.importedto),
+			sum(venliped.impdtopp),
+			sum(venliped.bruto),
+			sum(venliped.neto)
+INTO   	:var_peso,
+			:var_peso_neto,
+			:var_importe_dto,
+			:var_impdtopp,
+			:var_bruto,
+			:var_importe_neto
+FROM   venliped  
+WHERE (venliped.empresa = :codigo_empresa )
+AND   (venliped.anyo    = :periodo )
+AND   (venliped.pedido  = :pedido );
+
+IF SQLCA.SQLCODE <> 0 Then f_mensaje("Error Datos",sqlca.sqlErrtext)
+
+UPDATE  venped 
+SET 		venped.peso          		= :var_peso ,
+			venped.peso_neto     	= :var_peso_neto,  
+			venped.bruto         		= :var_bruto,
+			venped.total_neto    	= :var_importe_neto - :var_impdtopp
+
+WHERE 	(venped.empresa   		= :codigo_empresa)
+AND   	(venped.anyo      		= :periodo)
+AND   	(venped.pedido  			= :pedido);
+
+IF SQLCA.SQLCODE <> 0 Then 
+	f_mensaje("Error Datos",sqlca.sqlErrtext)
+	Return FALSE
+ELSE
+	return TRUE
+END IF
+
+
+end function
+

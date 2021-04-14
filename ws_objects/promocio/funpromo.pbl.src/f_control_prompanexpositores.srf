@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_control_prompanexpositores.srf
+global type f_control_prompanexpositores from function_object
+end type
+
+forward prototypes
+global function string f_control_prompanexpositores (string empresa, string expositor, string panel)
+end prototypes
+
+global function string f_control_prompanexpositores (string empresa, string expositor, string panel);Integer numero
+numero  = 0 
+ SELECT count(*)  
+    INTO :numero  
+    FROM prompanexpositores  
+   WHERE ( prompanexpositores.empresa = :empresa ) AND  
+         ( prompanexpositores.codigo = :expositor ) AND  
+         ( prompanexpositores.panel = :panel )   ;
+IF IsNull(numero) Then  numero = 0
+If numero = 0 Then
+   Return ""
+Else
+   Return "X"
+End If
+ 
+
+end function
+

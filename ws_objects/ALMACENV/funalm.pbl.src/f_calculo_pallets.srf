@@ -1,0 +1,80 @@
+﻿$PBExportHeader$f_calculo_pallets.srf
+$PBExportComments$Esta rutina calcula los pallets enteros a partir de un total,  articulo y tipo de pallet
+global type f_calculo_pallets from function_object
+end type
+
+forward prototypes
+global function integer f_calculo_pallets (string cod_empresa, string cod_articulo, string cod_pallet, string caja, decimal n_total)
+end prototypes
+
+global function integer f_calculo_pallets (string cod_empresa, string cod_articulo, string cod_pallet, string caja, decimal n_total); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Integer bien,total_cajas,total_pallets,cajas,n_piezascaja,n_cajaspallet
+ decimal  n_metroscaja
+ string cadena
+ 
+
+SELECT  articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja
+INTO    :cod_unidad,:n_piezascaja,:n_metroscaja    
+FROM    articulos,almartcajas  
+WHERE   articulos.empresa = :cod_empresa
+AND     articulos.codigo  = :cod_articulo
+AND     articulos.empresa = almartcajas.empresa
+AND     articulos.codigo  = almartcajas.articulo
+AND     almartcajas.caja  = :caja;   
+
+
+SELECT palarticulo.cajaspallet  
+INTO   :n_cajaspallet  
+FROM   palarticulo  
+WHERE  palarticulo.empresa  = :cod_empresa
+AND    palarticulo.articulo = :cod_articulo
+AND    palarticulo.codigo   = :cod_pallet
+AND    palarticulo.caja     = :caja; 
+
+if isnull(n_cajaspallet) then n_cajaspallet = 0
+
+CHOOSE CASE cod_unidad
+CASE  "1"
+  IF n_metroscaja <>0 THEN
+       total_cajas    = n_total / n_metroscaja
+		 		     ELSE
+       total_cajas    = 0
+  END IF
+  IF n_cajaspallet=0 THEN
+       total_pallets = 0
+     ELSE
+       total_pallets  = total_cajas / n_cajaspallet
+  END IF
+CASE "0"
+  n_total=Int(n_total)
+  IF n_piezascaja =0 THEN
+    total_cajas    = 0
+    bien = 1
+  ELSE
+    total_cajas    = n_total / n_piezascaja
+  END IF
+  IF n_cajaspallet =0 THEN
+    total_pallets  = 0
+    bien = 1
+  ELSE
+    total_pallets  = total_cajas / n_cajaspallet
+  END IF
+CASE  ELSE
+   bien=1
+END CHOOSE
+
+RETURN total_pallets
+
+
+
+
+
+
+
+
+
+
+
+end function
+

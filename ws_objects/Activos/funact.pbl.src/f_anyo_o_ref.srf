@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_anyo_o_ref.srf
+global type f_anyo_o_ref from function_object
+end type
+
+forward prototypes
+global function string f_anyo_o_ref (string empresa, decimal elemento)
+end prototypes
+
+global function string f_anyo_o_ref (string empresa, decimal elemento);String cadena,requiere_anyo,anyo_tipo,referencia_tipo  
+ 
+  SELECT act_tipobien.requiere_anyo,   
+         act_bienesdet.anyo_tipo,   
+         act_bienesdet.referencia_tipo  
+    INTO :requiere_anyo,   
+         :anyo_tipo,   
+         :referencia_tipo  
+    FROM act_bienesdet,   
+         act_tipobien  
+   WHERE ( act_bienesdet.empresa = act_tipobien.empresa ) and  
+         ( ( act_bienesdet.empresa = :empresa ) AND  
+         ( act_bienesdet.elemento = :elemento ) )   ;
+
+	requiere_anyo 	= 	trim(requiere_anyo)
+	anyo_tipo		=	trim(anyo_tipo)
+	referencia_tipo=	trim(referencia_tipo)
+
+
+IF SQLCA.SQLCode <> 0 THEN
+	If requiere_anyo='S' then
+	   cadena = anyo_tipo
+	Else
+		cadena = "Ref.: " + referencia_tipo
+	End If
+Else
+	cadena = ""
+END IF
+
+RETURN cadena
+end function
+

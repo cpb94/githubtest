@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_venmprima2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=357 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes key=yes name=empresa dbname="venmprima.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codigo dbname="venmprima.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="venmprima.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=tipo_materia dbname="venmprima.tipo_materia" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmprima~" ) COLUMN(NAME=~"venmprima.empresa~") COLUMN(NAME=~"venmprima.codigo~") COLUMN(NAME=~"venmprima.descripcion~") COLUMN(NAME=~"venmprima.tipo_materia~")WHERE(    EXP1 =~"~~~"venmprima~~~".~~~"empresa~~~"~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"~~~"venmprima~~~".~~~"codigo~~~"~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="venmprima" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="558" y="72" height="65" width="851" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Descripcion:"border="0" color="0" x="193" y="72" height="65" width="343"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Tipo Materia:"border="0" color="0" x="193" y="172" height="65" width="343"  name=tipo_materia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="5" color="0" x="558" y="172" height="65" width="165" format="[general]"  name=tipo_materia edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_materia( empresa , tipo_materia )"border="5" color="128" x="755" y="176" height="65" width="654"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

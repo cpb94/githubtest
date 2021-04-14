@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_piezascaja_formato_bis.srf
+global type f_piezascaja_formato_bis from function_object
+end type
+
+forward prototypes
+global function decimal f_piezascaja_formato_bis (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function decimal f_piezascaja_formato_bis (string ai_codemp, string ai_codfor);dec{0} piezas
+
+  SELECT formatos.piezascaja
+    INTO :piezas
+    FROM formatos  
+   WHERE ( formatos.empresa = :ai_codemp ) AND  
+         ( formatos.codigo  = :ai_codfor )
+    USING SQLCA;
+
+IF ISNULL(piezas) Then piezas =0
+RETURN piezas
+end function
+

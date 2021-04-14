@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_nombre_dia.srf
+global type f_nombre_dia from function_object
+end type
+
+forward prototypes
+global function string f_nombre_dia (datetime arg_fecha)
+end prototypes
+
+global function string f_nombre_dia (datetime arg_fecha);string  var_dia
+date    fecha
+
+fecha = date(arg_fecha)
+var_dia = DayName(fecha)
+choose case var_dia
+			case "Sunday"
+				var_dia = "Domingo"
+			case "Monday"
+				var_dia = "Lunes"
+			case "Tuesday"
+				var_dia = "Martes"
+			case "Wednesday"
+				var_dia = "Miércoles"
+			case "Thursday"
+				var_dia = "Jueves"
+			case "Friday"
+				var_dia = "Viernes"
+			case "Saturday"
+				var_dia = "Sábado"
+end choose
+
+return var_dia
+end function
+

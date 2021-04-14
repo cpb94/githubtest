@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_unidad.srf
+global type f_nombre_unidad from function_object
+end type
+
+forward prototypes
+global function string f_nombre_unidad (string ra_unidad)
+end prototypes
+
+global function string f_nombre_unidad (string ra_unidad);string ls_nombre
+
+  SELECT unidades.descripcion  
+    INTO :ls_nombre
+    FROM unidades  
+   WHERE unidades.codigo = :ra_unidad 
+   USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_completo_proveedor_carpagos.srf
+global type f_completo_proveedor_carpagos from function_object
+end type
+
+forward prototypes
+global function string f_completo_proveedor_carpagos (string arg_empresa, integer arg_anyo, long arg_orden)
+end prototypes
+
+global function string f_completo_proveedor_carpagos (string arg_empresa, integer arg_anyo, long arg_orden);string completo,proveedor
+
+select proveedor
+into   :proveedor
+from   carpagos
+where  empresa = :arg_empresa
+and    anyo    = :arg_anyo
+and    orden   = :arg_orden;
+
+//completo = f_nombre_proveedor_carpagos(arg_empresa,arg_anyo,arg_orden)+char(13)
+//completo = completo + f_direccion_proveedor_carpagos(arg_empresa,arg_anyo,arg_orden)+char(13)
+//completo = completo + f_poblacion_proveedor_carpagos(arg_empresa,arg_anyo,arg_orden)
+
+completo = f_completo_proveedor(arg_empresa,proveedor)
+
+return completo
+end function
+

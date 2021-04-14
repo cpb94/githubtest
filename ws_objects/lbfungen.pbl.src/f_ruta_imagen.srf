@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_ruta_imagen.srf
+global type f_ruta_imagen from function_object
+end type
+
+forward prototypes
+global function string f_ruta_imagen ()
+end prototypes
+
+global function string f_ruta_imagen ();string ruta
+select rutaimagenes
+into :ruta
+from empresas
+where empresa = :codigo_empresa;
+
+
+return ruta
+end function
+

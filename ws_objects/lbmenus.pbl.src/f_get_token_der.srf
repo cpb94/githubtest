@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_get_token_der.srf
+$PBExportComments$Obtiene los tokens comenzando por la derecha
+global type f_get_token_der from function_object
+end type
+
+forward prototypes
+global function string f_get_token_der (ref string as_tira, string as_separador)
+end prototypes
+
+global function string f_get_token_der (ref string as_tira, string as_separador);//////////////////////////////////////////////////////////////////////
+// © ISI S.A.      
+// Función		:	f_get_token_der
+// Descripción	:	Devuelve un token sin el caracter separador (la parte
+//						DERECHA de una tira desde el FINAL hasta un caracter
+//						separador) de la tira que recibe como argumento.
+//						Y además, deja dicha tira (argumento as_tira pasado
+//						por referencia) sin el token, ni el separador.
+//	Alcance		:	global
+// Acceso		:	público
+//	Argumentos	:	- as_tira (por referencia)
+//						- as_separador
+//	Valor ret.	:	string
+// Notas			:	Si en la tira no está el caracter separador, devuelve
+//						toda la tira como token y deja la tira as_tira en blanco.
+//////////////////////////////////////////////////////////////////////
+// Historial	:
+//
+// Fecha			Prog	Versión	Notas
+// ----------	----	--------	----------------------------------------
+// 04/10/2002	VN		v1.0		Versión inicial
+//////////////////////////////////////////////////////////////////////
+integer li_pos1,li_pos_sep,li_separador
+string ls_ret
+
+li_pos1 = Pos(as_tira,as_separador)  
+li_separador = len(as_separador)
+
+If li_pos1 > 0 then
+	//Obtiene la posición del ultimo separador
+	Do while li_pos1 > 0
+		li_pos_sep = li_pos1
+		li_pos1 = Pos(as_tira,as_separador,li_pos_sep + li_separador)
+	Loop 
+	
+	ls_ret = Mid(as_tira,li_pos_sep + li_separador,len(as_tira))
+	as_tira = Mid(as_tira,1,li_pos_sep - 1)
+Else
+	ls_ret = as_tira
+	as_tira = ""
+End if	
+
+Return ls_ret
+end function
+

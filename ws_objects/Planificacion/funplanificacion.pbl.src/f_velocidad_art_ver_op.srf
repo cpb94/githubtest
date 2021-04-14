@@ -1,0 +1,135 @@
+﻿$PBExportHeader$f_velocidad_art_ver_op.srf
+global type f_velocidad_art_ver_op from function_object
+end type
+
+forward prototypes
+global subroutine f_velocidad_art_ver_op (string arg_empresa, string arg_articulo, string arg_version, string arg_operacion, string arg_tipooperacion)
+end prototypes
+
+global subroutine f_velocidad_art_ver_op (string arg_empresa, string arg_articulo, string arg_version, string arg_operacion, string arg_tipooperacion);// CALCULA LAS VELOCIDADES DE UN ARTICULO-VERSION-OPERACION EN TODAS LAS LINEAS
+// HACIENDO MEDIAS DE LOS PARTES DEL ULTIMO AÑO
+
+datastore lineas
+decimal{8}  total_piezas, total_segundos, velocidad
+datetime hoy, antes
+string lineaprod, sel, aux, v_seccion
+integer i
+boolean fallo
+
+hoy = datetime(today())
+antes = datetime(RelativeDate ( today(), -365 ))
+
+sel = "select codigo "+&
+		"from prodlineas "+&
+		"where empresa = '"+arg_empresa+"' ";
+		
+//lineas = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel,lineas)
+fallo = false
+for i = 1 to lineas.RowCount()
+	// calculamos la velocidad de la operación en una línea de producción en concreto	
+	lineaprod = lineas.object.codigo[i]
+	select sum(buenas+malas) / sum(segundos) 
+	into :velocidad
+	from prodpartes_ot
+	where empresa = :arg_empresa
+	and articulo = :arg_articulo
+	and version = :arg_version
+	and ordenoperacion = :arg_operacion
+	and segundos <> 0
+	and segundos is not null
+	and fecha < :hoy
+	and fecha > :antes
+	and linea = :lineaprod;
+	
+	velocidad = velocidad * 3600
+	// si no hay ningún parte en esa línea de producción calcularemos la velocidad media de la sección
+	if isnull(velocidad)  or velocidad = 0 then
+		select seccion
+		into :v_seccion
+		from prodlineas
+		where empresa = :arg_empresa
+		and codigo = :lineaprod;
+			
+		select sum(prodpartes_ot.buenas+prodpartes_ot.malas) / sum(prodpartes_ot.segundos) 
+		into :velocidad
+		from prodpartes_ot, prodlineas
+		where prodpartes_ot.empresa = :arg_empresa
+		and prodlineas.empresa = :arg_empresa
+		and prodpartes_ot.linea = prodlineas.codigo
+		and prodpartes_ot.articulo = :arg_articulo
+		and prodpartes_ot.version = :arg_version
+		and prodpartes_ot.ordenoperacion = :arg_operacion
+		and prodpartes_ot.segundos <> 0
+		and prodpartes_ot.segundos is not null
+		and prodpartes_ot.fecha < :hoy
+		and prodpartes_ot.fecha > :antes
+		and prodlineas.seccion = :v_seccion;
+		
+		velocidad = velocidad * 3600
+		// si no existe ninguna velocidad utilizaremos velocidades por defecto para cada operacion
+		if isnull(velocidad)  or velocidad = 0 then	
+			choose case arg_tipooperacion
+				case '1, 28' 			// Monococción
+					velocidad = 2500
+				case '2', '15', '24' // Tercer Fuego. Cuarto Fuego. Quinto Fuego.
+					velocidad = 1000
+				case '5', '10'			// Corte. Corte + Encajado. 
+					velocidad = 900
+				case '7'	 				// Bicocción
+					velocidad = 2000
+				case '12'				// Pasta de Vidrio
+					velocidad = 1000
+				case '23'				// Cargar piezas en box
+					velocidad = 1000
+				case '30'				// INKCID
+					velocidad = 1000
+				case '35'				// IN2C
+					velocidad = 1000
+				case else 
+					velocidad = 999999
+			end choose
+		end if
+	end if
+	
+	select articulo
+	into :aux
+	from prodvelocidades
+	where empresa = :arg_empresa
+	and articulo = :arg_articulo
+	and version = :arg_version
+	and operacion = :arg_operacion
+	and linea = :lineaprod;
+
+	fallo = false
+	//  0 		: Success
+	// 100 	: Not found
+	//-1 		: Error
+	choose case SQLCA.SQLCode 				
+		case 0
+					connect using SQLCA;
+					update prodvelocidades 
+					set velocidad = :velocidad
+					where empresa = :arg_empresa
+					and articulo = :arg_articulo
+					and version = :arg_version
+					and operacion = :arg_operacion
+					and linea = :lineaprod;
+		case 100
+					insert into prodvelocidades  (empresa,  articulo, version, operacion,  linea,  velocidad, vel_prov )
+					values (:arg_empresa, :arg_articulo, :arg_version, :arg_operacion, :lineaprod, :velocidad, 0);
+		case -1 
+					fallo = true
+	end choose
+	
+	if not fallo then
+		commit using SQLCA;
+	else
+		rollback using SQLCA;
+	end if
+next
+
+destroy lineas
+
+end subroutine
+

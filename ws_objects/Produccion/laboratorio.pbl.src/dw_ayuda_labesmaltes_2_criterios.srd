@@ -1,0 +1,44 @@
+﻿$PBExportHeader$dw_ayuda_labesmaltes_2_criterios.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=80 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=92 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=prod_esmaltes_prueba dbname="prod_esmaltes.prueba" )
+ column=(type=char(15) updatewhereclause=yes name=prod_esmaltes_cliente dbname="prod_esmaltes.cliente" )
+ column=(type=char(50) updatewhereclause=yes name=prod_esmaltes_descripcion dbname="prod_esmaltes.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="prod_esmaltes.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=prod_esmaltes_formato_formato dbname="prod_esmaltes_formato.formato" )
+ column=(type=char(5) updatewhereclause=yes name=prod_esmaltes_formato_modelo dbname="prod_esmaltes_formato.modelo" )
+ column=(type=char(30) updatewhereclause=yes name=formatos_descripcion dbname="formatos.descripcion" )
+ retrieve="  SELECT prod_esmaltes.prueba,   
+         prod_esmaltes.cliente,   
+         prod_esmaltes.descripcion,   
+         prod_esmaltes.empresa,   
+         prod_esmaltes_formato.formato,   
+         prod_esmaltes_formato.modelo,   
+         formatos.descripcion  
+    FROM prod_esmaltes,   
+         formatos,   
+         prod_esmaltes_formato  
+   WHERE ( prod_esmaltes.empresa =* prod_esmaltes_formato.empresa) and  
+         ( prod_esmaltes.prueba =* prod_esmaltes_formato.prueba) and  
+         ( prod_esmaltes_formato.empresa = formatos.empresa ) and  
+         ( prod_esmaltes_formato.formato = formatos.codigo ) and  
+         ( prod_esmaltes.empresa = :empresa ) and
+			( upper(prod_esmaltes.descripcion) like :criterio ) AND
+			( upper(formatos.descripcion) like :criterio2 )     
+" arguments=(("empresa", string),("criterio", string),("criterio2", string)) )
+text(band=header alignment="2" text="Cód."border="6" color="0" x="197" y="8" height="60" width="133"  name=codigo_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="352" y="8" height="60" width="247"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="5" color="0" x="197" y="8" height="64" width="133" format="[general]"  name=prod_esmaltes_prueba edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="2" expression="f_nombre_formato_abr( empresa ,  prod_esmaltes_formato_formato   )"border="5" color="0" x="352" y="8" height="64" width="247" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Referencia"border="6" color="0" x="2117" y="8" height="60" width="805"  name=descripcion_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="2117" y="8" height="64" width="805" format="[general]"  name=prod_esmaltes_descripcion edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="1234" y="8" height="60" width="864"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_razon_genter( empresa ,~"C~", prod_esmaltes_cliente  )"border="5" color="0" x="1234" y="8" height="64" width="864" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Modelo"border="6" color="0" x="617" y="8" height="60" width="599"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_modelos(empresa,  prod_esmaltes_formato_modelo  )"border="5" color="0" x="617" y="8" height="64" width="594" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+
+sparse(names="prod_esmaltes_prueba")htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

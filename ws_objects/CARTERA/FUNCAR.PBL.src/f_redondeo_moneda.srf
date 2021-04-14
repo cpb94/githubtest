@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_redondeo_moneda.srf
+global type f_redondeo_moneda from function_object
+end type
+
+forward prototypes
+global function string f_redondeo_moneda (string moneda)
+end prototypes
+
+global function string f_redondeo_moneda (string moneda);String 	mascara
+Integer 	numdeci
+
+SELECT monedas.decimales INTO :numdeci FROM monedas
+WHERE monedas.moneda = :moneda;
+
+IF IsNull(numdeci) THEN numdeci = 0
+
+CHOOSE CASE numdeci
+	CASE 0
+		mascara = "#,###,###,##0"
+	CASE 1
+		mascara = "###,###,##0.0"
+	CASE 2
+		mascara = "##,###,##0.00"
+	CASE 3
+		mascara = "#,###,##0.000"
+	CASE 4
+		mascara = "#,###,##0.0000"
+END CHOOSE
+
+Return mascara
+
+end function
+

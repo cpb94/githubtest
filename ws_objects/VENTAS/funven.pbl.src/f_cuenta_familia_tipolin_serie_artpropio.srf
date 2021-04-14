@@ -1,0 +1,76 @@
+﻿$PBExportHeader$f_cuenta_familia_tipolin_serie_artpropio.srf
+global type f_cuenta_familia_tipolin_serie_artpropio from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_familia_tipolin_serie_artpropio (string empresa, string familia, string tipolinea, string serie)
+end prototypes
+
+global function string f_cuenta_familia_tipolin_serie_artpropio (string empresa, string familia, string tipolinea, string serie);String var_cuenta_resul,var_cuenta,var_control,var_ultdigitos,var_respeta_cuenta_familia
+
+Select ventipolin.respeta_cuenta_familia
+Into   :var_respeta_cuenta_familia
+From   ventipolin
+Where  (ventipolin.empresa = :empresa)
+And    (ventipolin.codigo  = :tipolinea);
+
+if isnull(var_respeta_cuenta_familia) then var_respeta_cuenta_familia = ""
+if trim(var_respeta_cuenta_familia) = "" then var_respeta_cuenta_familia = "N"
+
+if var_respeta_cuenta_familia = "S" then	
+	//El tipo de linea de ventas respeta la cuenta de la familia
+
+	Select vencuentasegunfam.ult_digitos_segun_serie,
+			 vencuentasegunfam.cuenta_mat_propio
+	Into   :var_control,
+			 :var_cuenta
+	From   vencuentasegunfam
+	Where  (vencuentasegunfam.empresa = :empresa)
+	And    (vencuentasegunfam.familia = :familia);
+	
+	if isnull(var_cuenta) then var_cuenta = ""
+	if trim(var_cuenta) = "" then
+		//La cuenta no esta introducida en la familia 
+		//la cogemos de el tipo de linea de ventas 
+		Select ventipolin.digitos_serie,ventipolin.cuenta
+		Into   :var_control,:var_cuenta
+		From   ventipolin
+		Where  (ventipolin.empresa = :empresa)
+		And    (ventipolin.codigo  = :tipolinea);			
+	end if
+else
+	//El tipo de linea de ventas no respeta la cuenta de la familia
+	//la cogemos de el tipo de linea de ventas 	
+	Select ventipolin.digitos_serie,ventipolin.cuenta
+	Into   :var_control,:var_cuenta
+	From   ventipolin
+	Where  (ventipolin.empresa = :empresa)
+	And    (ventipolin.codigo  = :tipolinea);	
+end if
+
+if isnull(var_control) then var_control = "N"
+
+If var_control="S" then
+	// la cuenta contable depende de la serie, y 
+ 	// cogemos los cuatro últimos dígitos de la serie
+	Select venseries.ultdigconta
+	Into   :var_ultdigitos
+	From   venseries
+	Where  (venseries.serie = :serie);
+	
+	if len(Trim(var_ultdigitos)) <> 4 then
+		messagebox("Error en datos","Los digitos finales definidos para"+&
+						"la serie "+f_nombre_venseries(codigo_empresa,serie)+" no son correctos")
+	end if
+	
+	var_cuenta_resul = Mid(var_cuenta,1,len(var_cuenta) - len(var_ultdigitos)) + Trim(var_ultdigitos)
+else
+	// la cuenta contable no depende de la serie,
+	// aplicamos el del tipo de línea
+	var_cuenta_resul = var_cuenta
+end if
+
+Return var_cuenta_resul
+
+end function
+

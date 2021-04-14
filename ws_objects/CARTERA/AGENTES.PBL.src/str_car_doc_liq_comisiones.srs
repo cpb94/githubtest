@@ -1,0 +1,22 @@
+﻿$PBExportHeader$str_car_doc_liq_comisiones.srs
+global type str_car_doc_liq_comisiones from structure
+	string		empresa
+	integer		anyo
+	integer		doc_liquidacion
+	string		agente
+	datetime		fliquidacion
+	decimal {6}	importe_liquidado
+	decimal {6}	importe_gastos_fletes
+	decimal {6}	importe_iva
+	decimal {6}	importe_irpf
+	string		tipo_iva
+	decimal {2}	iva
+	decimal {2}	irpf
+	datetime		fecha_inicio_facturas
+	datetime		fecha_fin_facturas
+	string		usuario
+	datetime		fecha_creacion_documento
+	string		usuario_ultima_modificacion
+	datetime		fecha_ultima_modificacion
+end type
+

@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_pasar_articulo_por_prensa.srf
+global type f_pasar_articulo_por_prensa from function_object
+end type
+
+forward prototypes
+global function string f_pasar_articulo_por_prensa (string arg_empresa, string arg_articulo, string arg_version)
+end prototypes
+
+global function string f_pasar_articulo_por_prensa (string arg_empresa, string arg_articulo, string arg_version);string pasar
+long   aplicaciones_de_prensa
+
+select count(*)
+into   :aplicaciones_de_prensa
+from   prodaplicaciones_articulo
+where  empresa  = :arg_empresa
+and    articulo = :arg_articulo
+and    version  = :arg_version
+and    aplicacion in 
+		  (select codigo 
+		   from   prodaplicaciones
+			where  empresa    = :arg_empresa
+			and    tipo_linea = 'P'); 
+			
+if isnull(aplicaciones_de_prensa) then aplicaciones_de_prensa = 0
+
+if aplicaciones_de_prensa > 0 then
+	pasar = "S"
+else
+	pasar = "N"
+end if
+
+return pasar
+end function
+

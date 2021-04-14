@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_expedir_pedidos.srd
+release 6;
+datawindow(units=1 timer_interval=0 color=33551093 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 24 print.margin.right = 24 print.margin.top = 24 print.margin.bottom = 24 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=19 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=18 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venped.empresa" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="venped.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="venped.pedido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venped~" )  TABLE(NAME=~"venliped~" ) COLUMN(NAME=~"venped.empresa~") COLUMN(NAME=~"venped.anyo~") COLUMN(NAME=~"venped.pedido~")    JOIN (LEFT=~"venped.empresa~"    OP =~"=~"RIGHT=~"venliped.empresa~" )    JOIN (LEFT=~"venped.anyo~"    OP =~"=~"RIGHT=~"venliped.anyo~" )    JOIN (LEFT=~"venped.pedido~"    OP =~"=~"RIGHT=~"venliped.pedido~" )WHERE(    EXP1 =~"venped.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venped.cliente~"   OP =~"=~"    EXP2 =~":cliente~" )  GROUP(NAME=~"venped.empresa~") GROUP(NAME=~"venped.anyo~") GROUP(NAME=~"venped.pedido~")) ORDER(NAME=~"venped.empresa~" ASC=yes )  ORDER(NAME=~"venped.anyo~" ASC=yes )  ORDER(NAME=~"venped.pedido~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("cliente", string))  sort="empresa A anyo A pedido A " )
+text(band=header alignment="2" text="Pedido"border="6" color="0" x="2" y="3" height="14" width="45"  name=matricula_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="2" expression=" String(pedido,~"###,###~")"border="0" color="0" x="1" y="1" height="16" width="45" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

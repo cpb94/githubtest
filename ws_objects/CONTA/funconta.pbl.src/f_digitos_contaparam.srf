@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_digitos_contaparam.srf
+global type f_digitos_contaparam from function_object
+end type
+
+forward prototypes
+global function integer f_digitos_contaparam (string empresa, integer ejercicio)
+end prototypes
+
+global function integer f_digitos_contaparam (string empresa, integer ejercicio);Integer  var_digitos
+       
+
+SELECT contaparam.digitos INTO :var_digitos FROM  contaparam  
+WHERE  contaparam.ejercicio = :ejercicio
+AND    contaparam.empresa   = :empresa;
+
+Return var_digitos
+
+
+
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_control_dtoesp_carforpag.srf
+global type f_control_dtoesp_carforpag from function_object
+end type
+
+forward prototypes
+global function string f_control_dtoesp_carforpag (string empresa, string codigo)
+end prototypes
+
+global function string f_control_dtoesp_carforpag (string empresa, string codigo);String var_control_dtoesp
+SELECT carforpag.control_dtoesp INTO :var_control_dtoesp FROM carforpag  
+ WHERE carforpag.empresa = :empresa
+ AND   carforpag.forma   = :codigo;
+	
+
+Return var_control_dtoesp
+
+end function
+

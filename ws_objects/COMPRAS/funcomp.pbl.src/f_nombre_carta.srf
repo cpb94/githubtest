@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_carta.srf
+$PBExportComments$Devuelve  el nombre de una carta.
+global type f_nombre_carta from function_object
+end type
+
+forward prototypes
+global function string f_nombre_carta (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_carta (string empresa, string codigo);String var_descripcion
+  SELECT mcartas.descripcion   INTO :var_descripcion    FROM mcartas  
+   WHERE mcartas.empresa = :empresa
+	AND   mcartas.codigo = :codigo;   
+
+Return var_descripcion;
+
+
+end function
+

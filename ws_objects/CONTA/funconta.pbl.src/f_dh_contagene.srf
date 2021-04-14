@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_dh_contagene.srf
+$PBExportComments$Devuelve D/H para el tipo de apunte
+global type f_dh_contagene from function_object
+end type
+
+forward prototypes
+global function string f_dh_contagene (string empresa, string codigo)
+end prototypes
+
+global function string f_dh_contagene (string empresa, string codigo);string dh
+
+dh = ""
+
+SELECT contagene.dh INTO :dh FROM contagene    
+WHERE  contagene.empresa = :empresa
+AND    contagene.codigo  = :codigo    ;
+
+return dh
+end function
+

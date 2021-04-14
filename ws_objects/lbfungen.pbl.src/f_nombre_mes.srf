@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_nombre_mes.srf
+$PBExportComments$Devuelve el nombre del mes.
+global type f_nombre_mes from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mes (integer mes)
+end prototypes
+
+global function string f_nombre_mes (integer mes);String xmes
+CHOOSE CASE mes
+CASE 1 
+    xmes ="Enero"
+CASE 2 
+    xmes ="Febrero"
+CASE 3 
+    xmes ="Marzo"
+CASE 4 
+    xmes ="Abril"
+CASE 5 
+    xmes ="Mayo"
+CASE 6 
+    xmes ="Junio"
+CASE 7 
+    xmes ="Julio"
+CASE 8 
+    xmes ="Agosto"
+CASE 9 
+    xmes ="Septiembre"
+CASE 10 
+    xmes ="Octubre"
+CASE 11 
+    xmes ="Noviembre"
+CASE 12 
+    xmes ="Diciembre"
+
+END CHOOSE
+
+xmes=upper(xmes)
+Return Trim(xmes)
+
+end function
+

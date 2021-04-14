@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_horas_calendario.srf
+global type f_horas_calendario from function_object
+end type
+
+forward prototypes
+global function decimal f_horas_calendario (string empresa, string seccion, string linea, datetime fdesde, datetime fhasta)
+end prototypes
+
+global function decimal f_horas_calendario (string empresa, string seccion, string linea, datetime fdesde, datetime fhasta);string v_calendario
+dec horas_cal
+
+v_calendario = ''
+select calendario
+into :v_calendario
+from prodlineas
+where empresa = :codigo_empresa
+and codigo = :linea;
+
+if isnull(v_calendario) or v_calendario = '' then
+	select calendario
+	into :v_calendario
+	from prodsecciones
+	where empresa = :codigo_empresa
+	and codigo = :seccion;
+end if 
+
+
+horas_cal = 0
+
+select sum(horas)
+into :horas_cal
+from prodmeses
+where calendario = :v_calendario
+and convert(datetime, convert(char,dia)+'/'+convert(char, mes)+'/'+convert(char,anyo)) >= :fdesde
+and convert(datetime, convert(char,dia)+'/'+convert(char, mes)+'/'+convert(char,anyo)) <= :fhasta
+and datename(dw,convert(datetime, convert(char,dia)+'/'+convert(char, mes)+'/'+convert(char,anyo))) <> 'Domingo'
+and datename(dw,convert(datetime, convert(char,dia)+'/'+convert(char, mes)+'/'+convert(char,anyo))) <> 'Sábado';
+
+return horas_cal
+end function
+

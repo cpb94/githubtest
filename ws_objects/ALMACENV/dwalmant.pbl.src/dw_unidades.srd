@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_unidades.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=377 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="unidades.codigo" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=descripcion dbname="unidades.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=abreviado dbname="unidades.abreviado" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=decimales dbname="unidades.decimales" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"unidades~" ) COLUMN(NAME=~"unidades.codigo~") COLUMN(NAME=~"unidades.descripcion~") COLUMN(NAME=~"unidades.abreviado~") COLUMN(NAME=~"unidades.decimales~")WHERE(    EXP1 =~"unidades.codigo~"   OP =~"=~"    EXP2 =~":cod_unidad~" ) ) ORDER(NAME=~"unidades.codigo~" ASC=yes ) ARG(NAME = ~"cod_unidad~" TYPE = string) " update="unidades" updatewhere=0 updatekeyinplace=no arguments=(("cod_unidad", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="101" y="56" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="490" y="56" height="77" width="590" format="[general]"  name=descripcion edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="142" y="168" height="65" width="316"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="490" y="168" height="77" width="165" format="[general]"  name=abreviado edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Decimales:"border="0" color="0" x="138" y="292" height="65" width="321"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="1" tabsequence=30 border="5" color="0" x="490" y="280" height="73" width="183" format="[general]"  name=decimales editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

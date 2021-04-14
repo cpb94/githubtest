@@ -1,0 +1,180 @@
+﻿$PBExportHeader$f_calculo_coste_fabricacion_general.srf
+global type f_calculo_coste_fabricacion_general from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_coste_fabricacion_general ()
+end prototypes
+
+global function boolean f_calculo_coste_fabricacion_general ();boolean exito, fallo
+long j, total_regs
+integer ordenoperacion
+string sel, articulo, ver, tipo_operacion, seccion
+datastore datos
+dec velocidad_segs, coste_std, correccion_velocidad, coste_fabricacion
+datetime hoy, antes
+dec segundos
+string operario, linea, turno, operacion, orientacion
+datetime fecha
+long contador, i
+dec longitud_horno = 29.4
+dec ancho, largo, ciclo, piezas_hora_horno, piezas_fila, piezas, piezas_hora
+
+exito = true
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// NO BORRAR TODO EL TEXTO COMENTADO DE ABAJO. ES PARA RECALCULAR LAS VELOCIDADES DEL HORNO SI FUESE NECESARIO.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+/*
+IF MessageBox("Atención", "Se van a recalcular las velocidades de las operaciones de horno en función de los ciclos.", Exclamation!, OKCancel!, 2) = 1 THEN
+
+	sel = " select prodpartes_ot.operario, prodpartes_ot.linea, prodpartes_ot.fecha, prodpartes_ot.turno, prodpartes_ot.contador, "+&
+			" prodpartes_ot.articulo, prodpartes_ot.version, prodpartes_ot.operacion, prodpartes_ot.ordenoperacion, "+&
+			" prodpartes_ot.seccion, prodpartes_ot.buenas "+&
+			" from prodpartes_ot "+&
+			" where prodpartes_ot.empresa = '"+codigo_empresa+"' "+&
+			" and ( prodpartes_ot.operacion = '3' or prodpartes_ot.operacion = '8' or prodpartes_ot.operacion = '20' ) "
+			
+	f_cargar_cursor_nuevo (sel, datos)	
+	total_regs = datos.rowcount() 
+	for i = 1 to total_regs
+		operario = datos.object.operario[i]
+		linea = datos.object.linea[i]
+		fecha = datos.object.fecha[i]
+		turno = datos.object.turno[i]
+		contador = datos.object.contador[i]
+		articulo = datos.object.articulo[i]
+		ver = datos.object.version[i]
+		ordenoperacion = datos.object.ordenoperacion[i]
+		piezas = datos.object.buenas[i]
+
+		select art_ver_op_aplicaciones.ciclo, art_Ver_operaciones.piezas_fila, art_ver_operaciones.orientacion, formatos.ancho, formatos.largo
+		into :ciclo, :piezas_fila, :orientacion, :ancho, :largo
+		from art_ver_op_aplicaciones, art_ver_operaciones, formatos
+		where art_ver_operaciones.empresa = art_Ver_op_aplicaciones.empresa 
+		and art_ver_operaciones.articulo = art_Ver_op_aplicaciones.articulo 
+		and art_ver_operaciones.version = art_Ver_op_aplicaciones.version 
+		and art_ver_operaciones.operacion = art_Ver_op_aplicaciones.operacion 
+		and art_ver_operaciones.empresa = formatos.empresa
+		and art_ver_operaciones.formato = formatos.codigo
+		and art_ver_operaciones.empresa = :codigo_empresa
+		and art_ver_operaciones.articulo = :articulo
+		and art_ver_operaciones.version = :ver
+		and art_ver_operaciones.orden = :ordenoperacion;
+
+		if largo = 0 or ciclo = 0 or isnull(largo) or isnull(ciclo ) then
+			piezas_hora_horno = 0
+		else
+			if orientacion = 'A' then
+				piezas_hora_horno = ( longitud_horno * piezas_fila * 60 ) / ( (ancho / 100) * ciclo ) 
+			else
+				piezas_hora_horno = ( longitud_horno * piezas_fila * 60 ) / ( (largo / 100) * ciclo ) 
+			end if
+		end if
+		if isnull(piezas_hora_horno ) or piezas_hora_horno = 0 then
+			velocidad_Segs = 0
+		else
+			velocidad_segs = piezas * 3600 / piezas_hora_horno
+		end if
+		
+		connect using SQLCA;
+		update prodpartes_ot set segundos = :velocidad_segs
+		where empresa = :codigo_empresa
+		and operario = :operario
+		and linea = :linea
+		and fecha = :fecha
+		and turno = :turno
+		and contador = :contador;
+	
+		if SQLCA.SQLCode <> 0 then
+			f_mensaje("Atención","Hubo un error al cálcular la velocidad de un parte de hornos. ")
+			rollback using SQLCA;
+		else
+			commit using SQLCA;		
+		end if
+		f_mensaje_proceso (string(i)+" / "+string(total_regs), i , total_regs)
+	next
+end if
+*/
+
+
+IF MessageBox("Atención", "Se va a calcular el coste de fab. de todas las operaciones de todos los articulos.", Exclamation!, OKCancel!, 2) = 1 THEN
+	hoy = datetime(today())
+	antes = datetime(RelativeDate ( today(), -365 ))
+	
+		
+	sel = " select distinct art_ver_operaciones.articulo, art_ver_operaciones.version, art_ver_operaciones.orden, art_ver_operaciones.tipo_operacion "+&
+			" from art_ver_operaciones "+&
+			" where art_ver_operaciones.empresa = '"+codigo_empresa+"' "
+
+	total_regs = f_cargar_cursor_transaccion(sqlca,datos,sel)
+	
+	for j = 1 to total_regs
+		articulo = datos.object.articulo[j]
+		ver = datos.object.version[j]
+		tipo_operacion = datos.object.tipo_operacion[j]
+		ordenoperacion = integer(datos.object.orden[j])
+	
+		// Consultamos los partes de toda la historia.
+		select sum(prodpartes_ot.buenas) / sum(prodpartes_ot.segundos) 
+		into :velocidad_segs
+		from prodpartes_ot, prodlineas
+		where prodpartes_ot.empresa = :codigo_empresa
+		and prodlineas.empresa = :codigo_empresa
+		and prodpartes_ot.linea = prodlineas.codigo
+		and prodpartes_ot.articulo = :articulo
+		and prodpartes_ot.version = :ver
+		and prodpartes_ot.ordenoperacion = :ordenoperacion 
+		and prodpartes_ot.segundos <> 0
+		and prodpartes_ot.segundos is not null
+		and prodpartes_ot.seccion <> '8';  // Sección de operaciones manuales excluída
+		
+		piezas_hora = velocidad_Segs * 3600
+		
+		select coste, correccion_velocidad
+		into :coste_std, :correccion_velocidad
+		from art_ver_tipooperacion
+		where	empresa = :codigo_empresa
+		and codigo = :tipo_operacion ;
+		
+		if piezas_hora = 0 or correccion_velocidad = 0 then 
+			coste_fabricacion = 0
+		else
+			coste_fabricacion = ( coste_std /  ( piezas_hora * correccion_velocidad ) )
+		end if
+		
+		update art_ver_operaciones
+		set coste_fab = :coste_fabricacion
+		where empresa = :codigo_empresa
+		and articulo = :articulo
+		and version = :ver
+		and orden = :ordenoperacion ;
+		
+		if SQLCA.SQLCode <> 0 then
+			f_mensaje("Atención","Hubo un error al cáclular el coste de fabricación. ")
+			exito = false
+			rollback;
+		else
+			commit;		
+		end if
+		// Añadimos el cálculo del coste de las mermas
+//		f_calculo_coste_mermas (codigo_empresa, datos.object.cod_Articulo[i] )		
+		
+		f_mensaje_proceso (string(j)+" / "+string(total_regs), j , total_regs)
+	next
+	destroy datos
+END IF
+		
+
+if exito then
+	messagebox("Información"," El proceso ha finalizado con éxito. ")
+else
+	messagebox("Información"," El proceso ha finalizado con errores. ")
+end if
+return exito
+
+end function
+

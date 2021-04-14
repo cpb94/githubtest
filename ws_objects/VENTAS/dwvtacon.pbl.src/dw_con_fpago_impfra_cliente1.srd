@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_con_fpago_impfra_cliente1.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\BMP\Mano.cur" )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venfpagoimpfra.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=cliente dbname="venfpagoimpfra.cliente" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes key=yes name=importe dbname="venfpagoimpfra.importe" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=codpago dbname="venfpagoimpfra.codpago" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venfpagoimpfra~" ) COLUMN(NAME=~"venfpagoimpfra.empresa~") COLUMN(NAME=~"venfpagoimpfra.cliente~") COLUMN(NAME=~"venfpagoimpfra.importe~") COLUMN(NAME=~"venfpagoimpfra.codpago~")WHERE(    EXP1 =~"venfpagoimpfra.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfpagoimpfra.cliente~"   OP =~"=~"    EXP2 =~":cliente~" ) ) ORDER(NAME=~"venfpagoimpfra.empresa~" ASC=yes )  ORDER(NAME=~"venfpagoimpfra.cliente~" ASC=yes )  ORDER(NAME=~"venfpagoimpfra.importe~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " update="venfpagoimpfra" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("cliente", string)) )
+text(band=header alignment="2" text="Forma de Pago"border="6" color="0" x="727" y="8" height="65" width="1834"  name=codpago_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="0" expression="f_nombre_carforpag(empresa,codpago)"border="0" color="128" x="723" y="4" height="65" width="1838" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="14" y="4" height="65" width="695" format="[general]"  name=importe editmask.mask="###,###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importe Ptas"border="6" color="0" x="14" y="8" height="65" width="695"  name=importe_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

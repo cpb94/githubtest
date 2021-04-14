@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_conversion_unidades.srf
+global type f_conversion_unidades from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_unidades (string unidad_origen, string unidad_destino, decimal cantidad, decimal densidad)
+end prototypes
+
+global function decimal f_conversion_unidades (string unidad_origen, string unidad_destino, decimal cantidad, decimal densidad);	decimal cambio, resultado
+	
+	if unidad_origen = unidad_destino then
+		resultado =  cantidad
+	else
+		select cambio
+		into :cambio
+		from conversion_unidades
+		where origen = :unidad_origen
+		and destino = :unidad_destino;
+		
+		if unidad_origen = '2' and unidad_destino = '1' then // De litros a Kg
+			resultado =  cantidad * cambio * ( densidad / 1000 )
+		elseif unidad_origen = '2' and unidad_destino = '3'  then // De litros a gr
+			resultado = cantidad * cambio *  densidad / 1000
+		elseif unidad_origen = '2' and unidad_destino = '4'  then // De litros a tm
+			resultado = cantidad * cambio * ( densidad / 1000 )
+		else
+			resultado = cantidad * cambio 
+		end if
+	end if
+	return resultado
+
+end function
+

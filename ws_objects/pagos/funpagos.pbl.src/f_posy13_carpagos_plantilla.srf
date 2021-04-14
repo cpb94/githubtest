@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_posy13_carpagos_plantilla.srf
+global type f_posy13_carpagos_plantilla from function_object
+end type
+
+forward prototypes
+global function decimal f_posy13_carpagos_plantilla (string empresa, string banco, string tipodoc)
+end prototypes
+
+global function decimal f_posy13_carpagos_plantilla (string empresa, string banco, string tipodoc);Dec var
+  SELECT carpagos_plantillas.posy13
+  
+    INTO :var  
+    FROM carpagos_plantillas  
+   WHERE ( carpagos_plantillas.empresa = :empresa ) AND  
+         ( carpagos_plantillas.banco = :banco ) AND  
+         ( carpagos_plantillas.tipodoc = :tipodoc )   ;
+	var = f_calculo_power_undy(var)
+return var
+end function
+

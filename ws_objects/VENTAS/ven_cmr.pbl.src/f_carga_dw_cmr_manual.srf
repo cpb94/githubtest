@@ -1,0 +1,102 @@
+﻿$PBExportHeader$f_carga_dw_cmr_manual.srf
+global type f_carga_dw_cmr_manual from function_object
+end type
+
+forward prototypes
+global function boolean f_carga_dw_cmr_manual (string arg_empresa, string arg_cliente, string arg_transportista, string arg_cond_entrega, string arg_envio, string arg_matricula, string arg_remolque, decimal arg_kilos, decimal arg_palets, datetime arg_fecha, ref datawindow arg_dw_cmr)
+end prototypes
+
+global function boolean f_carga_dw_cmr_manual (string arg_empresa, string arg_cliente, string arg_transportista, string arg_cond_entrega, string arg_envio, string arg_matricula, string arg_remolque, decimal arg_kilos, decimal arg_palets, datetime arg_fecha, ref datawindow arg_dw_cmr);//Variables necesarias para el desarrollo de la funcion
+
+string   ls_razon_cliente,ls_domicilio_cliente,ls_localidad_cliente,ls_pais_cliente
+string   ls_razon_envio,ls_domicilio_envio,ls_localidad_envio,ls_pais_envio
+string   ls_nombre_transportista,ls_direccion_transportista,ls_localidad_transportista,ls_pais_transportista,ls_cif_transportista,ls_telefono_transportista,ls_matricula,ls_remolque
+string   ls_descripcion_cond_entrega,ls_descripcion_cond_entrega2
+int	 	donde  
+
+//Sacamos los datos del albaran
+//SELECT	cliente, transportista, matricula, cod_entrega, falbaran, peso, envio, remolque
+//INTO		:arg_cliente, :arg_transportista, :arg_matricula, :arg_cond_entrega, :arg_fecha, :arg_kilos, :arg_envio, :arg_remolque
+//FROM		venalb
+//WHERE		empresa	= :arg_empresa
+//AND		anyo		= :arg_anyo
+//AND		albaran	= :arg_albaran;
+
+//Inicializamos los datos de la ventana
+arg_dw_cmr.reset()
+arg_dw_cmr.setredraw(false)
+
+ls_razon_cliente     = f_razon_genter(arg_empresa,'C',arg_cliente)
+ls_domicilio_cliente = f_domicilio_genter(arg_empresa,'C',arg_cliente)
+ls_localidad_cliente = f_postal_genter(arg_empresa,'C',arg_cliente)+" "+f_localidad_genter(arg_empresa,'C',arg_cliente)
+ls_pais_cliente      = f_nombre_provincia(f_pais_genter(arg_empresa,'C',arg_cliente),f_provincia_genter(arg_empresa,'C',arg_cliente))+" ("+f_nombre_pais(f_pais_genter(arg_empresa,'C',arg_cliente))+")"
+
+
+
+if trim(arg_envio) <> "" then
+	ls_razon_envio     = f_nombre_venenvio(arg_empresa,arg_cliente, arg_envio)
+	ls_domicilio_envio = f_direccion_envio(arg_empresa,arg_cliente, arg_envio)
+	ls_localidad_envio = f_codpostal_envio(arg_empresa,arg_cliente, arg_envio) + " " + f_localidad_envio(arg_empresa,arg_cliente,arg_envio)
+	ls_pais_envio      = f_nombre_provincia(f_pais_envio(arg_empresa,arg_cliente,arg_envio),f_provincia_envio(arg_empresa,arg_cliente,arg_envio))+" ("+f_nombre_pais(f_pais_envio(arg_empresa,arg_cliente,arg_envio))+")"
+else
+	ls_razon_envio = f_razon_genter(arg_empresa,'C',arg_cliente)
+	ls_domicilio_envio = f_domicilio_genter(arg_empresa,'C',arg_cliente)
+	ls_localidad_envio = f_postal_genter(arg_empresa,'C',arg_cliente)+" "+f_localidad_genter(arg_empresa,'C',arg_cliente)
+	ls_pais_envio      = f_nombre_provincia(f_pais_genter(arg_empresa,'C',arg_cliente),f_provincia_genter(arg_empresa,'C',arg_cliente))+" ("+f_nombre_pais(f_pais_genter(arg_empresa,'C',arg_cliente))+")"
+end if
+
+ls_nombre_transportista    = f_nombre_transportista(arg_empresa, arg_transportista)
+ls_direccion_transportista = f_direccion_ventransportista(arg_empresa, arg_transportista)
+ls_localidad_transportista = f_codpostal_transportista(arg_empresa, arg_transportista)+" "+f_localidad_transportista(arg_empresa, arg_transportista)
+ls_pais_transportista      = f_provincia_transportista(arg_empresa, arg_transportista)+ "(" +f_pais_transportista(arg_empresa, arg_transportista)+")"
+ls_cif_transportista       = f_cif_transportista(arg_empresa, arg_transportista)
+ls_telefono_transportista  = f_telefono_transportista(arg_empresa, arg_transportista)
+ls_matricula               = arg_matricula
+ls_remolque                = arg_remolque
+
+ls_descripcion_cond_entrega  = f_descripcion_cond_entrega (arg_empresa,arg_cond_entrega)
+if f_condicion_vencondentrega(arg_empresa,arg_cond_entrega) = "5" or f_condicion_vencondentrega(arg_empresa,arg_cond_entrega) = "6" then
+	ls_descripcion_cond_entrega2 = " PORTES  PAGADOS "
+else
+	ls_descripcion_cond_entrega2 = ""
+end if
+
+//Pasamos los datos a la datawindow
+donde = arg_dw_cmr.InsertRow(0)
+
+arg_dw_cmr.object.empresa[donde]		          = arg_empresa
+arg_dw_cmr.object.anyo[donde]			          = string(0,"###0")
+arg_dw_cmr.object.albaran[donde]		          = string(0,"######0")
+arg_dw_cmr.object.cliente[donde]		          = arg_cliente
+arg_dw_cmr.object.transportista[donde]        = arg_transportista
+arg_dw_cmr.object.matricula[donde]	          = arg_matricula
+arg_dw_cmr.object.remolque[donde]				 = arg_remolque
+arg_dw_cmr.object.fecha[donde]			       = arg_fecha
+arg_dw_cmr.object.kilos[donde]			       = arg_kilos
+arg_dw_cmr.object.cond_entrega[donde]         = arg_cond_entrega
+arg_dw_cmr.object.denvio[donde]		          = arg_envio
+arg_dw_cmr.object.naturaleza_mercancia[donde] = f_naturaleza_mercancia_cmr_venparametros(codigo_empresa)
+arg_dw_cmr.object.razon_cliente[donde]             = ls_razon_cliente
+arg_dw_cmr.object.domicilio_cliente[donde]         = ls_domicilio_cliente
+arg_dw_cmr.object.localidad_cliente[donde]         = ls_localidad_cliente
+arg_dw_cmr.object.pais_cliente[donde]              = ls_pais_cliente
+arg_dw_cmr.object.razon_envio[donde]               = ls_razon_envio
+arg_dw_cmr.object.domicilio_envio[donde]           = ls_domicilio_envio
+arg_dw_cmr.object.localidad_envio[donde]           = ls_localidad_envio
+arg_dw_cmr.object.pais_envio[donde]                = ls_pais_envio
+arg_dw_cmr.object.nombre_transportista[donde]      = ls_nombre_transportista
+arg_dw_cmr.object.direccion_transportista[donde]   = ls_direccion_transportista
+arg_dw_cmr.object.localidad_transportista[donde]   = ls_localidad_transportista
+arg_dw_cmr.object.pais_transportista[donde]        = ls_pais_transportista
+arg_dw_cmr.object.cif_transportista[donde]         = ls_cif_transportista
+arg_dw_cmr.object.telefono_transportista[donde]    = ls_telefono_transportista
+arg_dw_cmr.object.descripcion_cond_entrega[donde]  = ls_descripcion_cond_entrega
+arg_dw_cmr.object.descripcion_cond_entrega2[donde] = ls_descripcion_cond_entrega2
+arg_dw_cmr.object.pallets[donde]                   = arg_palets
+arg_dw_cmr.setredraw(true)
+
+//Esto es para que coja las copias parametrizadas en ven_parametros_impresoras
+arg_dw_cmr.Modify("datawindow.print.copies = 0")
+return true
+end function
+

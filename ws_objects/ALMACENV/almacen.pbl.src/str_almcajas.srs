@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_almcajas.srs
+global type str_almcajas from structure
+     STRING     empresa
+     STRING     codigo
+     STRING     descripcion
+     DECIMAL {4}     pesoenvase
+     STRING     descripcion_abr
+     STRING     codigo_compras
+end type
+

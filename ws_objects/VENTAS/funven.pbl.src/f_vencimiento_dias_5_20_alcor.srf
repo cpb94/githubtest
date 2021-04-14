@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_vencimiento_dias_5_20_alcor.srf
+global type f_vencimiento_dias_5_20_alcor from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_dias_5_20_alcor (date fecha_fact)
+end prototypes
+
+global function date f_vencimiento_dias_5_20_alcor (date fecha_fact);int mes_fact, anyo_fact, mes_actual, anyo_actual, i, dia_fact
+date fecha_vto, fecha_Actual, fecha_facturacion
+boolean encontrado = false
+
+dia_fact = day(fecha_fact)
+mes_fact = month(fecha_fact)
+anyo_fact =year(fecha_fact)
+
+mes_actual = mes_fact
+anyo_actual = anyo_fact
+fecha_actual = fecha_fact
+fecha_vto = date('00/00/00')
+fecha_facturacion = fecha_fact
+
+if dia_fact >= 1 and dia_fact <= 15 then
+	dia_fact = 5
+end if
+if dia_fact >= 16 and dia_fact <= 31 then
+	dia_fact = 20
+end if
+
+if mes_fact = 12 then
+	mes_fact = 1
+	anyo_fact++
+else
+	mes_fact ++
+end if
+fecha_vto = date(string(dia_fact)+"/"+string(mes_fact)+"/"+string(anyo_fact))
+
+return fecha_vto
+end function
+

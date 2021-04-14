@@ -1,0 +1,8 @@
+﻿$PBExportHeader$str_parametros_linea.srs
+global type str_parametros_linea from structure
+	integer		piezas
+	decimal { 4 }		metros
+	decimal { 4 }		metrosl
+	integer		pallets
+end type
+

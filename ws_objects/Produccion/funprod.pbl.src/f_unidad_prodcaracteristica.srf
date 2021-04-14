@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_unidad_prodcaracteristica.srf
+global type f_unidad_prodcaracteristica from function_object
+end type
+
+forward prototypes
+global function string f_unidad_prodcaracteristica (string arg_empresa, string arg_caracteristica)
+end prototypes
+
+global function string f_unidad_prodcaracteristica (string arg_empresa, string arg_caracteristica);string unidad
+
+select unidad
+into   :unidad
+from   prodcaracteristicas
+where  empresa = :arg_empresa
+and    codigo  = :arg_caracteristica;
+
+if isnull(unidad) then unidad = ""
+
+return trim(unidad)
+end function
+

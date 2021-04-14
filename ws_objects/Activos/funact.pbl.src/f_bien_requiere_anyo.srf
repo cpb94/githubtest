@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_bien_requiere_anyo.srf
+global type f_bien_requiere_anyo from function_object
+end type
+
+forward prototypes
+global function boolean f_bien_requiere_anyo (string empresa, string bien)
+end prototypes
+
+global function boolean f_bien_requiere_anyo (string empresa, string bien);String c1,c2
+
+If not (isnull(bien) or trim(bien)='') then
+	  SELECT act_tipobien.requiere_anyo, act_tipobien.tipo_bien  
+		 INTO :c1,:c2  
+		 FROM act_tipobien  
+		WHERE ( act_tipobien.empresa = :empresa ) AND  
+				( act_tipobien.tipo_bien = :bien )   ;
+				
+		c1 = trim(c1)
+		c2 = trim(c2)
+				
+		If SQLCA.SQLCode = 0 then
+			If isnull(c1) or c1<>'S' then
+				Return False
+			Else
+				Return True
+			End If 
+		End If
+End If
+
+end function
+

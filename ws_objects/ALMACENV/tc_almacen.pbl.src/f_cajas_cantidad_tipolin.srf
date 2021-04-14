@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_cajas_cantidad_tipolin.srf
+global type f_cajas_cantidad_tipolin from function_object
+end type
+
+forward prototypes
+global function long f_cajas_cantidad_tipolin (string arg_empresa, string arg_articulo, string arg_tipo_pallet, string arg_caja, decimal arg_cantidad, string arg_tipolinea)
+end prototypes
+
+global function long f_cajas_cantidad_tipolin (string arg_empresa, string arg_articulo, string arg_tipo_pallet, string arg_caja, decimal arg_cantidad, string arg_tipolinea);long   ll_pallets,ll_cajas,ll_total_cajas,ll_posi_aux,ll_posi
+dec    ld_cantidad,ld_mtrs_lineales
+string ls_cadena
+
+ls_cadena = f_calculo_unidades_tipolin(arg_empresa,&
+													arg_articulo,&
+                            				arg_tipo_pallet,&
+                            				arg_caja,&
+						 							0,&
+						 							0,&
+                            				arg_cantidad,&
+													arg_tipolinea)
+													
+ll_posi_aux = 1
+ll_posi = pos(ls_cadena,"|",1)
+if ll_posi <> 0 then
+	ll_pallets  = long(Mid(ls_cadena,1,ll_posi - 1))
+	ll_posi_aux = ll_posi + 1
+end if
+
+ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+if ll_posi <> 0 then
+	ll_cajas = long(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+	ll_posi_aux = ll_posi + 1
+end if
+
+ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+if ll_posi <>0 then
+	ll_total_cajas = long(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+	ll_posi_aux = ll_posi + 1
+end if
+
+ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+if ll_posi <>0 then
+	ld_cantidad = dec(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+	ll_posi_aux = ll_posi + 1
+end if
+
+ll_posi = pos(ls_cadena,"|",ll_posi_aux)
+if ll_posi <>0 then
+	 ld_mtrs_lineales = dec(Mid(ls_cadena,ll_posi_aux,ll_posi - ll_posi_aux ))
+end if													
+
+return ll_cajas
+end function
+

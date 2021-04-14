@@ -1,0 +1,19 @@
+﻿$PBExportHeader$ftc_caja_articulo.srf
+global type ftc_caja_articulo from function_object
+end type
+
+forward prototypes
+global function string ftc_caja_articulo (string empresa, string articulo)
+end prototypes
+
+global function string ftc_caja_articulo (string empresa, string articulo);String caja = ""
+
+SELECT TOP 1 caja INTO :caja
+FROM almartcajas 
+WHERE empresa = :empresa 
+AND articulo = :articulo 
+AND pordefecto = 'S';
+
+return caja
+end function
+

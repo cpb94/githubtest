@@ -1,0 +1,35 @@
+﻿$PBExportHeader$ftc_pedido_en_orden_carga.srf
+global type ftc_pedido_en_orden_carga from function_object
+end type
+
+forward prototypes
+global function boolean ftc_pedido_en_orden_carga (decimal anyo, decimal pedido)
+end prototypes
+
+global function boolean ftc_pedido_en_orden_carga (decimal anyo, decimal pedido);Long en_orden_carga
+
+/* Gestión Anterior
+SELECT isnull(count(*),0) 
+INTO   :en_orden_carga 
+FROM   orden_carga_linea 
+WHERE  empresa         = :codigo_empresa 
+AND    venliped_anyo   = :anyo 
+AND    venliped_pedido = :pedido;
+*/
+
+SELECT isnull(count(*),0) 
+INTO   :en_orden_carga 
+FROM   venliped
+WHERE  venliped.empresa = :codigo_empresa 
+AND    venliped.anyo    = :anyo 
+AND    venliped.pedido  = :pedido
+and    isnull(venliped.id_alm_orden_carga,0) <> 0;  
+ 
+if en_orden_carga > 0 then
+	return true
+else
+	return false
+end if
+
+end function
+

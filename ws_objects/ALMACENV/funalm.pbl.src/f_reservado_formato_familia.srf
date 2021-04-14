@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_reservado_formato_familia.srf
+global type f_reservado_formato_familia from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_formato_familia (string empresa, string formato, string familia, string calidad[])
+end prototypes
+
+global function decimal f_reservado_formato_familia (string empresa, string formato, string familia, string calidad[]);Dec{4} var_cantidad,var_cantidad_produccion
+
+SELECT  sum(venliped.cantidad)   
+INTO    :var_cantidad  
+FROM    venliped  
+WHERE   (venliped.empresa      = :empresa)
+AND     (venliped.formato      = :formato)
+AND     (venliped.familia      = :familia)   
+AND     (venliped.calidad      in (:calidad[1],:calidad[2],:calidad[3],:calidad[4],:calidad[5]) )
+ANd     (venliped.situacion    <>  'P');
+
+IF IsNull(var_cantidad) Then var_cantidad = 0
+
+SELECT  sum(cantidad)   
+INTO    :var_cantidad_produccion
+FROM    proddiaria_pendiente_comp_res
+WHERE   empresa      = :empresa
+AND     articulo     in (select codigo 
+								 from   articulos
+								 where  empresa = :empresa
+								 and    familia = :familia
+								 and    formato = :formato)
+AND     calidad      in (:calidad[1],:calidad[2],:calidad[3],:calidad[4],:calidad[5]);
+
+IF IsNull(var_cantidad_produccion) Then var_cantidad_produccion = 0
+
+Return var_cantidad + var_cantidad_produccion
+end function
+

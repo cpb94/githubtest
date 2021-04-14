@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cif_empresa.srf
+global type f_cif_empresa from function_object
+end type
+
+forward prototypes
+global function string f_cif_empresa (string arg_empresa)
+end prototypes
+
+global function string f_cif_empresa (string arg_empresa);string var_cif
+
+select cif
+into   :var_cif
+from   empresas
+where  empresa = :arg_empresa;
+
+if isnull(var_cif) then var_cif = ""
+
+return var_cif
+end function
+

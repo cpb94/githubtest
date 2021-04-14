@@ -1,0 +1,134 @@
+﻿$PBExportHeader$str_articulos.srs
+global type str_articulos from structure
+	string		empresa
+	string		codigo
+	string		descripcion
+	string		descripcion_arabe
+	string		familia
+	string		subfamilia
+	string		formato
+	string		formato_etiqueta
+	decimal { 2 }		ancho
+	decimal { 2 }		largo
+	decimal { 2 }		ancho_std
+	decimal { 2 }		largo_std
+	string		subformato
+	string		modelo
+	string		unidad
+	decimal { 6 }		precio_coste
+	datetime		fecha_alta
+	datetime		fecha_anulado
+	datetime		fecha_fin
+	string		cuenta
+	string		proveedor
+	string		decorado
+	string		sector
+	integer		conjunto
+	decimal { 6 }		pesopieza
+	decimal { 6 }		piezascaja
+	decimal { 6 }		pesocaja
+	decimal { 6 }		pesoenvase
+	decimal { 6 }		metroscaja
+	decimal { 6 }		metroslcaja
+	string		cuenta_contable
+	string		tono
+	string		calibre
+	string		compras
+	string		activo
+	string		unidad_est
+	string		prev_anular
+	string		empleado
+	string		molde
+	string		marco
+	string		plato_sup
+	string		plato_inf
+	string		calibre_min
+	string		calibre_max
+	string		cliente
+	string		uso
+	string		estilo
+	string		coleccion
+	string		color
+	string		imagen
+	string		referencia_laboratorio
+	integer		version_laboratorio
+	datetime		fecha_primera_produccion
+	string		tipo_pasta
+	string		codigo_pantallas
+	decimal { 2 }		espesor
+	decimal { 2 }		ciclo
+	decimal { 2 }		temp_inferior
+	decimal { 2 }		temp_superior
+	string		ean13
+	string		ventasitalia
+	string		usuario
+	decimal { 2 }		temp_inferior1
+	decimal { 2 }		temp_superior1
+	string		obs_ficha_hornos
+	string		tipo
+	string		partidaest
+	string		control_stock
+	decimal { 1 }		m2_sugeridos
+	decimal { 0 }		stock_min
+	string		ubi_muestras
+	decimal { 0 }		lote_minimo
+	decimal { 0 }		stocksugerido
+	datetime		fechastocksugerido
+	string		codigo_compras
+	decimal { 6 }		cant_compras
+	string		estandar
+	string		bloqueado
+	string		cod_cliente
+	string		canto_vivo
+	string		marcado
+	string		etiqueta_ce
+	integer		lote
+	string		observaciones
+	string		modelo_origen
+	string		pieza_origen
+	string		prueba_origen
+	string		ean13_aux
+	decimal { 2 }		bisel
+	string		relieve
+	string		cliente_marca
+	string		tipo_operacion
+	string		juegopantallas
+	decimal { 6 }		coste_estimado
+	string		coste
+	decimal { 6 }		coste_fab
+	decimal { 6 }		coste_mp
+	decimal { 6 }		coste_fab_mermas
+	decimal { 6 }		coste_mp_mermas
+	string		cod_cliente2
+	string		promocion
+	string		venta_conjuntos
+	string		costilla
+	integer		decimales_unidad
+	string		marcas_codigo
+	string		submarcas_codigo
+	string		t1
+	string		t2
+	string		t3
+	string		t4
+	string		t5
+	string		t6
+	string		t7
+	string		t8
+	string		t9
+	string		t10
+	decimal { 0 }		ultimo_lote
+	string		contra_stock
+	string		bloqueo_packing
+	string		tono_cliente
+	string		calibre_cliente
+	string		ean13_sga
+	string		ventipolin_codigo_por_defecto
+	string		tipo_abc
+	decimal { 6 }		porcentaje_dotacion
+	datetime		fecha_liquidacion
+	datetime		fecha_dotacion
+	decimal { 6 }		porcentaje_liquidacion
+	string		colecciones_ccc
+	string		tipo_ubicacion
+end type
+

@@ -1,0 +1,25 @@
+﻿$PBExportHeader$str_imput_gastos.srs
+global type str_imput_gastos from structure
+	string		banco
+	integer		anyo
+	integer		remesa
+	string		naci_extra
+	string		tipodoc
+	decimal {2}	importe
+	decimal {2}	intereses
+	integer		num_gastos
+	decimal {2}	gastos[50]
+	string		cuentas[50]
+	string		cta_intereses
+	integer		num_efectos
+	decimal {2}	efectos_orden[150]
+	datetime		efectos_fvto[150]
+	decimal {2}	efectos_importe[150]
+	boolean		visible_importe
+	decimal {2}	total_gastos
+	decimal {2}	importe_salida
+	boolean		correcto
+	boolean		calcula_intereses
+	decimal {0}	efectos_anyo[]
+end type
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_sendmime.srf
+global type f_sendmime from function_object
+end type
+
+forward prototypes
+global subroutine f_sendmime (string de, string para, string copia, string asunto, string mensaje)
+end prototypes
+
+global subroutine f_sendmime (string de, string para, string copia, string asunto, string mensaje);string texto, v_server
+
+v_server = '192.168.3.250'
+	
+texto  = 'c:\TENCER\sendmime.exe -S ' + v_server
+texto += ' -f ' + de
+texto += ' -t ' + para
+texto += ' -c ' + copia
+//	texto += ' -b ' + v_copia_oculta
+texto += ' -s "' + asunto + '" '
+texto += ' -m "' + mensaje + '" '
+//  texto += ' -a "' + path + '" '
+
+run(texto, Minimized! )	
+end subroutine
+

@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_registro_sistema.srs
+global type str_registro_sistema from structure
+	transaction		trans		descriptor "comment" = "Transaccion ya conectada (Útil para que se registren los cambios junto con la acción en la tabla afectada)"
+	string		tabla		descriptor "comment" = "Tabla en la que se producen los cambios"
+	string		accion		descriptor "comment" = "Acción (puede ser BORRAR, MODIFICAR, NUEVO)"
+	string		clave		descriptor "comment" = "Clave antigua (salvo en nuevo, que será el valor introducido)"
+	string		valor		descriptor "comment" = "Valor antiguo (salvo en nuevo, que será el valor introducido)"
+	string		usuario_windows		descriptor "comment" = "Usuario Windows (No se puede obtener en una función y debe ser parámetro)"
+end type
+

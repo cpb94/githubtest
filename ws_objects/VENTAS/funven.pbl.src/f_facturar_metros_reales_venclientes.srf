@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_facturar_metros_reales_venclientes.srf
+global type f_facturar_metros_reales_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_facturar_metros_reales_venclientes (string empresa, string cliente)
+end prototypes
+
+global function string f_facturar_metros_reales_venclientes (string empresa, string cliente);String facturar_metros_reales
+
+SELECT venclientes.facturar_metros_reales
+INTO   :facturar_metros_reales
+FROM   venclientes  
+Where  venclientes.empresa = :empresa
+And    venclientes.codigo = :cliente;
+
+if isnull(facturar_metros_reales) then facturar_metros_reales = ""
+if trim(facturar_metros_reales) = "" then facturar_metros_reales = "N"
+
+Return facturar_metros_reales
+
+end function
+

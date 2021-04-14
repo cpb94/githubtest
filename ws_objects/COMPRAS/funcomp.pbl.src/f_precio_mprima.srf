@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_precio_mprima.srf
+global type f_precio_mprima from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_mprima (string empresa, string prov, string codigo)
+end prototypes
+
+global function decimal f_precio_mprima (string empresa, string prov, string codigo);dec precio
+string sel
+datastore ds_precio
+
+sel = "SELECT precio "+&
+		"FROM comartpro "+&
+		"WHERE empresa   = '"+codigo_empresa+"' "+&
+		"AND   proveedor = '"+prov+"' "+&
+		"AND   mprima    = '"+codigo+"' "
+		
+//ds_precio = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, ds_precio)
+
+if ds_precio.rowcount() = 1 then
+	precio = ds_precio.object.precio[1]
+end if
+
+destroy ds_precio
+
+if isnull(precio) then precio=0
+
+return precio
+end function
+

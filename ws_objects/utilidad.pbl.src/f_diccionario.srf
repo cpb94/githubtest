@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_diccionario.srf
+$PBExportComments$Traduce un texto en el idioma deseado.
+global type f_diccionario from function_object
+end type
+
+forward prototypes
+global function string f_diccionario (string texto, string idioma)
+end prototypes
+
+global function string f_diccionario (string texto, string idioma);String  texto_idioma
+ 
+ SELECT utidiccionario.texto_idioma  
+    INTO :texto_idioma  
+    FROM utidiccionario  
+   WHERE ( UPPER(utidiccionario.texto_castellano) = UPPER(:texto) ) AND  
+         ( utidiccionario.idioma = :idioma )   ;
+			IF sqlca.sqlcode= 100 Then 
+				texto_idioma = texto
+			end if
+			
+Return texto_idioma
+
+end function
+

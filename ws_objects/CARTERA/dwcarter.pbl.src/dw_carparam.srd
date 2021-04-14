@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_carparam.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=352 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="carparam.empresa" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes key=yes name=anyo dbname="carparam.anyo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=orden dbname="carparam.orden" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=importe_min dbname="carparam.importe_min" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carparam~" ) COLUMN(NAME=~"carparam.empresa~") COLUMN(NAME=~"carparam.anyo~") COLUMN(NAME=~"carparam.orden~") COLUMN(NAME=~"carparam.importe_min~")WHERE(    EXP1 =~"( carparam.empresa~"   OP =~"=~"    EXP2 =~":empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( carparam.anyo~"   OP =~"=~"    EXP2 =~":anyo )~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number) " update="carparam" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("anyo", number)) )
+text(band=detail alignment="1" text="Orden del último efecto:"border="0" color="0" x="69" y="32" height="64" width="704"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="5" color="0" x="800" y="32" height="64" width="334" format="[general]"  name=orden editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Importe Minimo Efecto:"border="0" color="0" x="64" y="172" height="64" width="709"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=4 alignment="1" tabsequence=20 border="5" color="0" x="800" y="172" height="64" width="334" format="[general]"  name=importe_min editmask.mask="###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="(*) Solo en €"border="6" color="128" x="1179" y="172" height="64" width="407"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

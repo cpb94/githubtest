@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_saldo_cuenta_convertida_balance_npgc.srf
+global type f_saldo_cuenta_convertida_balance_npgc from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuenta_convertida_balance_npgc (integer ejerc, string emp, string cuenta, datetime fd, datetime fh)
+end prototypes
+
+global function decimal f_saldo_cuenta_convertida_balance_npgc (integer ejerc, string emp, string cuenta, datetime fd, datetime fh);dec retorno,ld_saldo_cuenta_anterior_npgc
+cuenta=trim(cuenta)
+
+String xempresa,xcuenta,orig_prev,ls_cuenta_anterior_npgc
+Dec    xejercicio
+
+select cuenta_vieja
+into   :ls_cuenta_anterior_npgc
+from   contaplan_equivalencia
+where  empresa      = :emp
+and    cuenta_equiv = :cuenta;
+
+if isnull(ls_cuenta_anterior_npgc) then ls_cuenta_anterior_npgc = ""
+
+if trim(ls_cuenta_anterior_npgc) <> "" then
+	ls_cuenta_anterior_npgc = ls_cuenta_anterior_npgc +"%"
+	
+	SELECT   sum(contaapun.debe - contaapun.haber) 
+	INTO   :ld_saldo_cuenta_anterior_npgc
+	FROM   contaapun  
+	WHERE  contaapun.ejercicio = :ejerc 
+	AND    contaapun.empresa = :emp 
+	AND    contaapun.origen not in ('97',"98")
+	AND	 contaapun.fapunte between :fd AND :fh
+	AND    contaapun.cuenta like :ls_cuenta_anterior_npgc;	
+	
+	if isnull(ld_saldo_cuenta_anterior_npgc) then ld_saldo_cuenta_anterior_npgc = 0
+else
+	ld_saldo_cuenta_anterior_npgc = 0
+end if
+
+cuenta = cuenta+"%"
+
+SELECT   sum(contaapun.debe - contaapun.haber) 
+INTO   :retorno
+FROM   contaapun  
+WHERE  contaapun.ejercicio = :ejerc 
+AND    contaapun.empresa = :emp 
+AND    contaapun.origen not in ('97',"98")
+AND	 contaapun.fapunte between :fd AND :fh
+AND    contaapun.cuenta like :cuenta;
+if isnull(retorno) then retorno=0
+
+retorno = retorno + ld_saldo_cuenta_anterior_npgc
+
+return retorno
+end function
+

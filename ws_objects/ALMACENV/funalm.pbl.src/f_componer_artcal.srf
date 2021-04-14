@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_componer_artcal.srf
+$PBExportComments$A partir de articulo, calidad construye el codigo del articulo.
+global type f_componer_artcal from function_object
+end type
+
+forward prototypes
+global function string f_componer_artcal (string ai_articulo, string ai_calidad)
+end prototypes
+
+global function string f_componer_artcal (string ai_articulo, string ai_calidad);string	ls_codarticulo,cur_empresa,cur_almacen
+Integer cur_anyo,bien
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+ 
+ in_programa="f_componer_artcal"
+
+ IF Trim(ai_articulo)="" THEN
+  in_incidencia="Argumento codigo del articulo Nulo"
+  f_grabar_incidencia(in_programa,in_incidencia)
+ END IF
+
+IF Trim(ai_calidad)="" THEN
+  IF f_sector_articulo(codigo_empresa,ai_articulo)= "S" Then
+	  in_incidencia="Argumento codigo de la calidad Nulo"
+	  f_grabar_incidencia(in_programa,in_incidencia)
+  END IF
+End if
+
+ ls_codarticulo = Trim(ai_articulo)+&
+                  String(Integer(ai_calidad),"00")
+                  
+RETURN ls_codarticulo
+end function
+

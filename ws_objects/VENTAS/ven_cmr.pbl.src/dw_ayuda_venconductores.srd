@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_ayuda_venconductores.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=codigo dbname="venconductores.codigo" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=transportista dbname="venconductores.transportista" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="venconductores.empresa" )
+ column=(type=char(40) updatewhereclause=yes name=nombre dbname="venconductores.nombre" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venconductores~" ) COLUMN(NAME=~"venconductores.codigo~") COLUMN(NAME=~"venconductores.transportista~") COLUMN(NAME=~"venconductores.empresa~") COLUMN(NAME=~"venconductores.nombre~")WHERE(    EXP1 =~"venconductores.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"UPPER(venconductores.nombre)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " update="venconductores" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Codigo"border="6" color="0" x="165" y="8" height="64" width="206"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Conductor"border="6" color="0" x="389" y="8" height="64" width="901"  name=nombrebanco_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=4 alignment="0" tabsequence=0 border="5" color="0" x="389" y="4" height="64" width="901"  name=nombre  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=0 border="5" color="0" x="187" y="4" height="64" width="160"  name=codigo  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

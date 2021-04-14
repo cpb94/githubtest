@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_ultimonivel_contaparam.srf
+global type f_ultimonivel_contaparam from function_object
+end type
+
+forward prototypes
+global function integer f_ultimonivel_contaparam (string empresa, integer ejercicio)
+end prototypes
+
+global function integer f_ultimonivel_contaparam (string empresa, integer ejercicio);Integer  var_nivel
+       
+
+SELECT contaparam.niveles INTO :var_nivel FROM  contaparam  
+WHERE  contaparam.ejercicio = :ejercicio
+AND    contaparam.empresa   = :empresa;
+
+Return var_nivel
+
+
+
+end function
+

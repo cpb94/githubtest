@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nombre_contalibros.srf
+global type f_nombre_contalibros from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo)
+end prototypes
+
+global function string f_nombre_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo);string	ls_nombre_libro
+
+  SELECT  contalibros.descripcion  
+    INTO  :ls_nombre_libro  
+    FROM  contalibros  
+   WHERE  contalibros.ejercicio = :ejercicio
+	AND    contalibros.empresa = :ai_codemp 
+	AND    contalibros.codigo  = :ai_codigo;
+
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_libro=""
+END IF
+
+RETURN ls_nombre_libro
+end function
+

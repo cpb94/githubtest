@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_banco_de_cobro_venfac.srf
+global type f_banco_de_cobro_venfac from function_object
+end type
+
+forward prototypes
+global function string f_banco_de_cobro_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_banco_de_cobro_venfac (string empresa, integer anyo, decimal factura);String var_banco
+
+
+SELECT venfac.banco_de_cobro
+INTO   :var_banco
+FROM   venfac  
+WHERE (venfac.empresa = :empresa)
+AND   (venfac.anyo    = :anyo)
+AND   (venfac.factura  = :factura);
+
+if isnull(var_banco) then var_banco = ""
+
+Return var_banco
+end function
+

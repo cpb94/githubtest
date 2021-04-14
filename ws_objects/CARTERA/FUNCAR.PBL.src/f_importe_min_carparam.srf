@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_importe_min_carparam.srf
+global type f_importe_min_carparam from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_min_carparam (string empresa, integer anyo)
+end prototypes
+
+global function decimal f_importe_min_carparam (string empresa, integer anyo);Dec{0}  var
+
+select carparam.importe_min Into :var From carparam
+Where  carparam.empresa   = :empresa
+And    carparam.anyo = :anyo;
+
+Return var
+end function
+

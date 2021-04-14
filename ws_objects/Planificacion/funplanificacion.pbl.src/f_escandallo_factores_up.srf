@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_escandallo_factores_up.srf
+global type f_escandallo_factores_up from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_factores_up (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado)
+end prototypes
+
+global subroutine f_escandallo_factores_up (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado);// arg_escandallo[100]:  	Vector de estructuras para almacenar todos los artículos que componen el árbol . (ver str_escandallo).
+// arg_articulo:				Código del artículo del cual buscaremos su escandallo.
+// indice:						Siempre deberá recibir un 1.
+// factor acumulado			Siempre deberá recibir un 1.
+
+string sel, articulo_up, v_Articulo, v_version
+integer i, nodo_hijo, nodo_raiz
+datastore registros 
+long nodo_actual, nodo_padre
+boolean procesado = false
+decimal{2} v_factor
+
+sel = " select articulo, version, articulo_ant, factor"+&
+		" from art_escandallo "+&
+		" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+		" and articulo_ant = '"+arg_articulo+"';"
+		
+f_cargar_cursor_nuevo (sel, registros )
+
+for i = 1 to registros.RowCount()
+	if registros.RowCount() = 0 then
+		articulo_up = "0"
+	else
+		v_articulo = registros.object.articulo[i]
+		v_version = registros.object.version[i]
+		articulo_up = registros.object.articulo[i]		
+	end if
+	
+	if articulo_up <> "0" then
+		if registros.object.factor[i] = 0 or isnull(registros.object.factor[i]) then
+			v_factor = factor_acumulado
+		else
+			v_factor = registros.object.factor[i] * factor_Acumulado
+		end if
+		f_escandallo_factores_up (arg_escandallo, articulo_up, indice, v_factor)
+	end if
+
+	if not procesado then
+		arg_escandallo[indice].articulo = v_articulo
+		arg_escandallo[indice].version = v_version
+//		arg_escandallo[indice].factor =  factor_Acumulado
+		arg_escandallo[indice].factor =  v_factor
+		procesado = true
+		indice++		
+	end if
+next
+
+destroy registros
+end subroutine
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_conjunto_articulo.srf
+global type f_conjunto_articulo from function_object
+end type
+
+forward prototypes
+global function integer f_conjunto_articulo (string empresa, string articulo)
+end prototypes
+
+global function integer f_conjunto_articulo (string empresa, string articulo);Integer var_variable
+
+  SELECT articulos.conjunto
+  INTO :var_variable  
+  FROM articulos
+  Where articulos.empresa = :empresa
+  And   articulos.codigo  =:articulo;
+
+if isnull(var_variable) then var_variable = 0
+Return var_variable ;
+
+end function
+

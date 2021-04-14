@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_controlar_numero_digitos_analitica.srf
+$PBExportComments$Devuelve la cta analitica completa
+global type f_controlar_numero_digitos_analitica from function_object
+end type
+
+forward prototypes
+global function string f_controlar_numero_digitos_analitica (string cuenta)
+end prototypes
+
+global function string f_controlar_numero_digitos_analitica (string cuenta);Integer longitud_cta
+String midcta,fincta
+
+longitud_cta = len(cuenta)
+IF longitud_cta <> 6 THEN
+	CHOOSE CASE longitud_cta
+		CASE 1
+			midcta = String(Dec(cuenta),"000")
+			fincta = ""
+		CASE 2
+			midcta = String(Dec(cuenta),"000")
+			fincta = ""
+		CASE 3
+			midcta = cuenta
+			fincta = ""
+		CASE 4
+			midcta = Mid(cuenta,1,1)
+			midcta = String(Dec(midcta),"000")
+			fincta = Mid(cuenta,2,3)
+		CASE 5
+			midcta = Mid(cuenta,1,2)
+			midcta = String(Dec(midcta),"000")
+			fincta = Mid(cuenta,3,3)
+		CASE ELSE
+			RETURN ""
+	END CHOOSE
+	cuenta = Trim(midcta) + Trim(fincta)
+END IF
+
+Return cuenta
+
+
+
+end function
+

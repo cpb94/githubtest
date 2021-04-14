@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_tarifa_almcolecciones.srf
+global type f_tarifa_almcolecciones from function_object
+end type
+
+forward prototypes
+global function string f_tarifa_almcolecciones (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function string f_tarifa_almcolecciones (string arg_empresa, string arg_codigo);string	retorno
+
+  SELECT tarifa  
+    INTO :retorno
+    FROM almcolecciones
+   WHERE ( empresa =:arg_empresa ) AND  
+         ( codigo = :arg_codigo )   
+     USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN 	retorno=""
+
+
+RETURN retorno
+end function
+

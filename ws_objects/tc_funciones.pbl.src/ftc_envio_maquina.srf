@@ -1,0 +1,13 @@
+﻿$PBExportHeader$ftc_envio_maquina.srf
+global type ftc_envio_maquina from function_object
+end type
+
+forward prototypes
+global function integer ftc_envio_maquina (structure str_envio_maquina)
+end prototypes
+
+global function integer ftc_envio_maquina (structure str_envio_maquina);Int resultado
+
+return resultado
+end function
+

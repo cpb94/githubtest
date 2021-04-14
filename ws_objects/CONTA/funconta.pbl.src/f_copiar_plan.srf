@@ -1,0 +1,112 @@
+﻿$PBExportHeader$f_copiar_plan.srf
+global type f_copiar_plan from function_object
+end type
+
+forward prototypes
+global function integer f_copiar_plan (integer par_ejer_orig, integer par_ejer_dest)
+end prototypes
+
+global function integer f_copiar_plan (integer par_ejer_orig, integer par_ejer_dest);// Copiamos plan contable del ejercicio origen al destino
+
+/* La función devuelve -1 si hay error al consultar BD
+  								0 No hay cuentas asociadas a ese ejercicio
+								1 si va bien  
+								
+*/
+
+// Copiamos el plan. utilizamos datastore
+
+datastore ds_copia
+
+string texto_sql
+texto_sql ="SELECT * " +&
+    		"FROM contaplan " +&	 
+   		"WHERE ( contaplan.empresa = '"+ codigo_empresa+"' ) AND "  + &
+         "( contaplan.ejercicio =" +string(par_ejer_orig)  +"  )"   
+
+
+ds_copia = create datastore
+//ds_copia=f_cargar_cursor(texto_sql)
+f_cargar_cursor_nuevo(texto_sql, ds_copia)
+
+ds_copia.settransobject(sqlca)
+int i,num
+num=ds_copia.retrieve()
+
+if num = 0 then 
+	// No hay cuentas para el último plan 
+	destroy ds_copia
+	return 0
+else
+	// hay cuentas
+	boolean correcto
+	
+	int niv
+	string emp,cuent,tit,analit,tipo_cuenta,direct,cost
+	string ls_cuenta_cargo,ls_cuenta_abono,ls_genter_tipoter,ls_genter_codigo
+	
+	correcto = true
+	
+	for i= 1 to num 
+		
+		emp			= ds_copia.getitemstring(i,"empresa")
+		cuent			= ds_copia.getitemstring(i,"cuenta")
+		tit			= ds_copia.getitemstring(i,"titulo")
+		analit		= ds_copia.getitemstring(i,"analitica")
+		tipo_cuenta	= ds_copia.getitemstring(i,"tipocta")
+		direct		= ds_copia.getitemstring(i,"directos")
+		niv			= ds_copia.getitemnumber(i,"nivel")
+		cost			= ds_copia.getitemstring(i,"coste")
+		ls_cuenta_cargo   = ds_copia.getitemstring(i,"cuenta_cargo")
+		ls_cuenta_abono   = ds_copia.getitemstring(i,"cuenta_abono")
+		ls_genter_tipoter = ds_copia.getitemstring(i,"genter_tipoter")
+		ls_genter_codigo  = ds_copia.getitemstring(i,"genter_codigo")
+		
+		  INSERT INTO contaplan  
+         ( ejercicio,   
+           empresa,   
+           cuenta,   
+           titulo,   
+           analitica,   
+           tipocta,   
+           directos,   
+           nivel,   
+           coste,
+			  cuenta_cargo,
+			  cuenta_abono,
+			  genter_tipoter,
+			  genter_codigo)  
+  			VALUES 
+			 ( :par_ejer_dest,   
+            :emp,   
+            :cuent,   
+            :tit,   
+            :analit,   
+            :tipo_cuenta,   
+            :direct,   
+            :niv,   
+            :cost,
+			   :ls_cuenta_cargo,
+			   :ls_cuenta_abono,
+			   :ls_genter_tipoter,
+			   :ls_genter_codigo );
+
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+			   exit
+			end if
+	next
+end if
+
+destroy ds_copia
+
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+
+end function
+

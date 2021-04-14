@@ -1,0 +1,50 @@
+﻿$PBExportHeader$f_imprimir_ean128.srf
+global type f_imprimir_ean128 from function_object
+end type
+
+forward prototypes
+global function string f_imprimir_ean128 (string arg_ean128)
+end prototypes
+
+global function string f_imprimir_ean128 (string arg_ean128);//
+// Initialize running total with value of start character, then scan the
+// string and add character value times position
+//
+long SUBTOT,INDICE,VALOR,CHKDIG
+string OUTSTRING,MYSTRING,C,CHKCHR
+
+MYSTRING = arg_ean128 //"(01)02003659821451(10)0001(30)25(91)1(92)5" //"(01)02003659821451(10)1200(92)5(91)ABCD"
+
+SUBTOT = 104
+FOR INDICE = 1 TO LEN(MYSTRING)
+	 C = MID(MYSTRING, INDICE, 1)
+	 VALOR = ASC(C) - 32
+	 SUBTOT = SUBTOT + (VALOR * INDICE)
+NEXT
+//
+// Calculate Modulo 103. This is the checksum
+//
+CHKDIG = MOD(SUBTOT, 103)
+//
+// Now convert numeric checksum to a character. This conversion takes
+// into account the particular mapping of the font being used (this
+// example is for the font published by Azalea Software).
+
+IF CHKDIG = 0 THEN
+	CHKCHR = CHAR(174)
+ELSE
+	IF CHKDIG < 94 THEN
+		CHKCHR = CHAR(CHKDIG + 32)
+	ELSE
+		CHKCHR = CHAR(CHKDIG + 71)
+	END IF	
+END IF
+//
+// Now format the final output string: start character,
+// data, check character, and stop character.
+//
+OUTSTRING = CHAR(204) + MYSTRING + CHKCHR + CHAR(206)
+
+return OUTSTRING
+end function
+

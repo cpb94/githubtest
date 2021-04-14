@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_calidad_venparametros.srf
+global type f_calidad_venparametros from function_object
+end type
+
+forward prototypes
+global function string f_calidad_venparametros (string arg_empresa)
+end prototypes
+
+global function string f_calidad_venparametros (string arg_empresa);String var_variable
+
+SELECT venparametros.calidad_defecto  INTO :var_variable FROM venparametros  
+ WHERE venparametros.empresa  =  :arg_empresa;
+	
+Return var_variable
+
+end function
+

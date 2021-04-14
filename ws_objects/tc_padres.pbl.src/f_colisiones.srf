@@ -1,0 +1,126 @@
+﻿$PBExportHeader$f_colisiones.srf
+global type f_colisiones from function_object
+end type
+
+forward prototypes
+global function string f_colisiones (ref transaction param_trans, str_colisiones parametros)
+end prototypes
+
+global function string f_colisiones (ref transaction param_trans, str_colisiones parametros);// PARÁMETROS
+// Transaccion: Transaccion para por referencia.
+// parametros.empresa: Código de empresa.
+// parametros.tabla: 	Tabla en la que buscaremos el siguiente código disponible
+// parametros.campo: 	Campo sobre el que buscaremos hacemos la búsqueda del valor máximo.
+// parametros.filtro: Filtro para añadir a la consulta SQL.
+// parametros.buscar_huecos: Busca huecos con valor true
+
+datastore ds_maximo, ds_total_registros, ds_hueco_minimo
+string sel, cadena_empresa1, cadena_empresa2
+long maximo, total_regs
+long nuevo_codigo
+long maximo_uti_colisiones
+
+if parametros.empresa = '' or isnull(parametros.empresa) then
+	sel = " select max(convert(decimal(10,0),"+parametros.campo+")) as maximo "+&
+			" from "+parametros.tabla 
+	if not isnull(parametros.filtro) and parametros.filtro <> '' then
+		sel = sel + " where " + parametros.filtro
+	end if
+	//POR COMPATIBILIDAD CON SISTEMA VIEJO (f_colisiones2) *******************************************************
+	select max(codigo)
+	into :maximo_uti_colisiones
+	from uti_colisiones
+	where empresa = :parametros.empresa 
+	and tabla = :parametros.tabla using param_trans;
+	//FIN POR COMPATIBILIDAD CON SISTEMA VIEJO *******************************************************
+else
+	sel = " select max(convert(decimal(10,0),"+parametros.campo+")) as maximo "+&
+			" from "+parametros.tabla+&
+			" where empresa = '"+parametros.empresa+"'"
+	if not isnull(parametros.filtro) and parametros.filtro <> '' then
+		sel = sel + " and " + parametros.filtro
+	end if
+	//POR COMPATIBILIDAD CON SISTEMA VIEJO (f_colisiones2) *******************************************************
+	select max(codigo)
+	into :maximo_uti_colisiones
+	from uti_colisiones
+	where empresa = :parametros.empresa 
+	and tabla = :parametros.tabla using param_trans;
+	//FIN POR COMPATIBILIDAD CON SISTEMA VIEJO *******************************************************
+end if
+
+f_cargar_cursor_transaccion (param_trans, ds_maximo, sel  )
+maximo = ds_maximo.object.maximo[1]
+
+if isnull(maximo) then
+	//No hay ninguna entrada - Por lo que el máximo será 1
+	destroy ds_maximo
+	destroy ds_total_registros
+	destroy ds_hueco_minimo
+	return "1"
+end if
+
+//POR COMPATIBILIDAD CON SISTEMA VIEJO (f_colisiones2) *******************************************************
+if not isnull(maximo_uti_colisiones) and maximo_uti_colisiones > 0 and maximo_uti_colisiones > maximo then
+	destroy ds_maximo
+	destroy ds_total_registros
+	destroy ds_hueco_minimo
+	
+	//Devolvemos el valor de la tabla uti_colisiones si es mayor que el máximo obtenido de la tabla
+	nuevo_codigo = maximo_uti_colisiones + 1
+	return string (nuevo_codigo)
+end if
+//FIN POR COMPATIBILIDAD CON SISTEMA VIEJO *******************************************************
+
+
+//BUSCAR TOTAL REGISTROS DE LA TABLA
+if parametros.empresa = '' or isnull(parametros.empresa) then
+	sel = " select count(*) as total "+&
+		" from "+parametros.tabla
+	cadena_empresa1 = ""
+	cadena_empresa2 = ""
+	if not isnull(parametros.filtro) and parametros.filtro <> '' then
+		sel = sel + " where " + parametros.filtro
+	end if
+else
+	sel = " select count(*) as total "+&
+		" from "+parametros.tabla+&
+		" where empresa = '"+parametros.empresa+"'"
+	cadena_empresa1 = "WHERE TABLA.empresa = '"+parametros.empresa+"'"
+	cadena_empresa2 = "TABLA.empresa = '"+parametros.empresa+"' and "
+	if not isnull(parametros.filtro) and parametros.filtro <> '' then
+		sel = sel + " and " + parametros.filtro
+	end if
+end if
+
+
+f_cargar_cursor_transaccion (param_trans, ds_total_registros, sel)
+total_regs = ds_total_registros.object.total[1]
+
+//BUSCAR HUECOS SI ASÍ SE HA INDICADO
+if total_regs < maximo and parametros.buscar_huecos = true then
+	sel = "  select min(convert(decimal(10,0),T1."+parametros.campo+")) as minimo "+&
+			"  from "+parametros.tabla+"  T1  "+&
+			" where " + f_reemplazar(cadena_empresa2,"TABLA","T1") + " convert(integer,T1."+parametros.campo+")+ 1 not IN (select convert(integer,T2."+parametros.campo+")  from "+parametros.tabla+" T2 " + f_reemplazar(cadena_empresa1,"TABLA","T2") + ") ";
+			
+	if not isnull(parametros.filtro) and parametros.filtro <> '' then
+		sel = "  select min(convert(decimal(10,0),T1."+parametros.campo+")) as minimo "+&
+			"  from "+parametros.tabla+"  T1  "+&
+			" where " + f_reemplazar(cadena_empresa2,"TABLA","T1") + f_reemplazar(parametros.filtro,parametros.tabla,"T1") + " and (convert(integer,T1."+parametros.campo+")+ 1) not IN (select convert(integer,T2."+parametros.campo+") from "+parametros.tabla+" T2 where "+f_reemplazar(cadena_empresa2,"TABLA","T2")+f_reemplazar(parametros.filtro,parametros.tabla,"T2")+") ";
+	end if
+	
+	f_cargar_cursor_transaccion (param_trans, ds_hueco_minimo, sel)
+	nuevo_codigo = ds_hueco_minimo.object.minimo[1] + 1
+else 
+	nuevo_codigo = maximo + 1
+end if
+
+destroy ds_maximo
+destroy ds_total_registros
+destroy ds_hueco_minimo
+
+return string (nuevo_codigo)
+
+
+end function
+

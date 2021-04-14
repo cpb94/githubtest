@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_genter.srf
+global type f_nombre_genter from function_object
+end type
+
+forward prototypes
+global function string f_nombre_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_nombre_genter (string ai_empresa, string as_tipoter, string as_codcli);string	ls_nombre_cliente
+
+IF as_codcli = "" THEN RETURN as_codcli
+
+  SELECT genter.nombre
+    INTO :ls_nombre_cliente  
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+    USING SQLCA;
+If IsNull(ls_nombre_cliente) Then ls_nombre_cliente = ""
+RETURN ls_nombre_cliente
+end function
+

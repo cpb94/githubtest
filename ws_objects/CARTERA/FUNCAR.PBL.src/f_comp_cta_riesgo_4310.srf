@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_comp_cta_riesgo_4310.srf
+global type f_comp_cta_riesgo_4310 from function_object
+end type
+
+forward prototypes
+global function string f_comp_cta_riesgo_4310 (string par_cuenta, string par_cod)
+end prototypes
+
+global function string f_comp_cta_riesgo_4310 (string par_cuenta, string par_cod);int long_cuenta,long_cod
+string cuenta_compuesta
+
+
+long_cuenta = len(trim(par_cuenta))
+long_cod = len(trim(par_cod))
+
+cuenta_compuesta = left(trim(par_cuenta),4) + right(trim(par_cod),6)
+
+return cuenta_compuesta
+end function
+

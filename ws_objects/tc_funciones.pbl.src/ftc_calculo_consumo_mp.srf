@@ -1,0 +1,134 @@
+﻿$PBExportHeader$ftc_calculo_consumo_mp.srf
+global type ftc_calculo_consumo_mp from function_object
+end type
+
+forward prototypes
+global function str_res_consumo ftc_calculo_consumo_mp (datetime fecha, string mp)
+end prototypes
+
+global function str_res_consumo ftc_calculo_consumo_mp (datetime fecha, string mp);String sel
+String ubicacion_stock, tipo_materia, familia, proveedor, moneda_proveedor
+Long total
+Int grupo
+Dec stock, importe_total, cantidad_total, precio, importe, cantidad, cambio_moneda_proveedor
+Datetime ultima_fecha_albaran, fecha_ultimo_albaran
+Boolean salir
+
+str_res_consumo resultado
+
+select sum(cantidade) - sum(cantidads)
+INTO :stock
+from commovhis 
+where empresa = :codigo_empresa
+and fechmov <= :fecha 
+and situacion <> 'A' 
+and mp = :mp;
+
+grupo           = 1
+ubicacion_stock = "Fabrica"
+
+if stock <> 0 then
+	
+	salir = false
+	importe_total  = 0
+	cantidad_total = 0
+	precio         = 0
+		
+	ultima_fecha_albaran = fecha
+	
+	// Si la materia prima no tiene precio en la ficha de materias primas, no debe valorar el stock
+	select max(precio)
+	into   :precio
+	from   comartpro
+	where  empresa = :codigo_empresa
+	and    mprima  = :mp;
+	if isnull(precio) then precio = 0
+	
+	if precio > 0 then
+		DO
+			setnull(fecha_ultimo_albaran)
+			select max(fecha_albaran)
+			into   :fecha_ultimo_albaran
+			from   comlinfac
+			where  empresa = :codigo_empresa
+			and    mprima  = :mp
+			and    fecha_albaran <= :ultima_fecha_albaran;
+	
+			if not(isnull(fecha_ultimo_albaran)) &
+				and year(date(fecha_ultimo_albaran)) <> 1900 then//& David 11-11-03
+//				and sqlca.sqlcode <> 0 then
+
+				select sum((comlinfac.cantidad * comlinfac.precio)/comcabfac.cambio)
+						,sum(comlinfac.cantidad)
+				into   :importe,:cantidad
+				from   comlinfac,comcabfac
+				where  comlinfac.empresa = :codigo_empresa
+				and    comlinfac.mprima  = :mp
+				and    comlinfac.fecha_albaran = :fecha_ultimo_albaran
+				and    comcabfac.empresa   = comlinfac.empresa
+				and    comcabfac.anyo      = comlinfac.anyo   
+				and    comcabfac.proveedor = comlinfac.proveedor
+				and    comcabfac.factura   = comlinfac.factura;
+				
+				ultima_fecha_albaran = datetime(relativedate(date(fecha_ultimo_albaran), -1))
+				
+				importe_total  = importe_total + importe
+				if isnull(importe_total) then importe_total = 0
+				cantidad_total = cantidad_total + cantidad
+				if isnull(cantidad_total) then cantidad_total = 0
+				if cantidad_total >= stock then
+					salir = true
+				end if
+			else
+				salir = true
+			end if
+		LOOP WHILE NOT(salir)
+	end if
+	
+	if cantidad_total > 0 then
+		precio = importe_total / cantidad_total
+	end if
+	if precio <= 0 then
+		//select min(precio)  David 10-11-03
+		select max(precio)
+		into   :precio
+		from   comartpro
+		where  empresa = :codigo_empresa
+		and    mprima  = :mp;
+		
+		if isnull(precio) then precio = 0
+		if precio > 0 then
+			select min(proveedor)
+			into   :proveedor
+			from   comartpro
+			where  empresa = :codigo_empresa
+			and    mprima  = :mp
+			and    precio  = :precio;
+			
+			if isnull(proveedor) then proveedor = ""
+			
+			if trim(proveedor) <> "" then
+				moneda_proveedor = f_moneda_genter(codigo_empresa,"P",proveedor)
+				
+				cambio_moneda_proveedor = f_cambio_moneda(moneda_proveedor)
+				
+				if cambio_moneda_proveedor > 0 then
+					precio = precio / cambio_moneda_proveedor
+				end if
+			end if
+		end if			
+	end if
+	
+	resultado.stock           = stock
+	resultado.precio           = precio
+	resultado.valor           = stock * precio
+
+else
+	resultado.stock           = 0
+	resultado.precio           = 0
+	resultado.valor           = 0
+end if
+
+return resultado
+end function
+

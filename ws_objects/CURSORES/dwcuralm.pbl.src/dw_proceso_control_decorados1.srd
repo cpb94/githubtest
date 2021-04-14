@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_control_decorados1.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="almdecorados.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=base dbname="almdecorados.base" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=decorado dbname="almdecorados.decorado" )
+ column=(type=number update=yes updatewhereclause=yes name=unidades dbname="almdecorados.unidades" )
+ column=(type=char(15) updatewhereclause=yes name=articulos_proveedor dbname="articulos.proveedor" )
+ column=(type=char(5) updatewhereclause=yes name=articulos_unidad dbname="articulos.unidad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almdecorados~" )  TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"almdecorados.empresa~") COLUMN(NAME=~"almdecorados.base~") COLUMN(NAME=~"almdecorados.decorado~") COLUMN(NAME=~"almdecorados.unidades~") COLUMN(NAME=~"articulos.proveedor~") COLUMN(NAME=~"articulos.unidad~")    JOIN (LEFT=~"almdecorados.empresa~"    OP =~"=~"RIGHT=~"articulos.empresa~"    OUTER1 =~"almdecorados.empresa~" )    JOIN (LEFT=~"almdecorados.decorado~"    OP =~"=~"RIGHT=~"articulos.codigo~"    OUTER1 =~"almdecorados.decorado~" )WHERE(    EXP1 =~"( almdecorados.empresa~"   OP =~"=~"    EXP2 =~":empresa )~" ) ) ORDER(NAME=~"almdecorados.empresa~" ASC=yes )  ORDER(NAME=~"articulos.proveedor~" ASC=yes )  ORDER(NAME=~"almdecorados.base~" ASC=yes )  ORDER(NAME=~"almdecorados.decorado~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) " arguments=(("empresa", string)) )
+text(band=header alignment="0" text="Cursor decorados"border="0" color="0" x="1" y="0" height="57" width="462"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="4" height="77" width="631" format="[general]"  name=articulos_proveedor edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="677" y="4" height="77" width="494" format="[general]"  name=decorado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1189" y="4" height="77" width="590" format="[general]"  name=base edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

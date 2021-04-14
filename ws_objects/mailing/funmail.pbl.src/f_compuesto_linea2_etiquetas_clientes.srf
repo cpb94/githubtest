@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_compuesto_linea2_etiquetas_clientes.srf
+$PBExportComments$Devuelve segunda linea a imprimir en las etiquetas de clientes.
+global type f_compuesto_linea2_etiquetas_clientes from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_linea2_etiquetas_clientes (string empresa, string codigo, string tipocli)
+end prototypes
+
+global function string f_compuesto_linea2_etiquetas_clientes (string empresa, string codigo, string tipocli);String var_apellido,var_codigo,var_empresa,var_tipoter,var_nombre,var_compuesto
+
+SELECT genter.empresa,genter.tipoter,genter.codigo,genter.nombre,genter.apellidos
+INTO   :var_empresa,:var_tipoter,:var_codigo,:var_nombre,:var_apellido
+FROM   genter
+WHERE (genter.empresa = :empresa )
+AND   (genter.codigo  = :codigo )   
+AND   (genter.tipoter = :tipocli);   
+
+IF IsNull(var_apellido) Then var_apellido=""
+IF IsNull(var_nombre)   Then var_nombre=""         
+
+If SQLCA.SQLcode=0 Then 
+    var_compuesto = Trim(var_nombre) + " " + Trim(var_apellido)
+Else
+    var_compuesto = ""
+End if
+
+IF IsNull(var_compuesto) Then var_compuesto = ""
+
+IF Trim(var_compuesto) <> "" Then var_compuesto = "Att. " + var_compuesto
+
+RETURN var_compuesto
+
+end function
+

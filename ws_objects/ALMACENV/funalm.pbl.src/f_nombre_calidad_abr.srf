@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_calidad_abr.srf
+global type f_nombre_calidad_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_calidad_abr (string ai_codemp, string ai_codcalidad)
+end prototypes
+
+global function string f_nombre_calidad_abr (string ai_codemp, string ai_codcalidad);string	ls_nombre
+
+  SELECT calidades.abreviado  
+    INTO :ls_nombre  
+    FROM calidades  
+   WHERE ( calidades.empresa = :ai_codemp) AND  
+         ( calidades.codigo = :ai_codcalidad ) 
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre = ""
+
+END IF
+
+RETURN ls_nombre
+
+end function
+

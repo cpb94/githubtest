@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_nuevo_nombre_articulo.srf
+global type f_nuevo_nombre_articulo from function_object
+end type
+
+forward prototypes
+global function string f_nuevo_nombre_articulo (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_nuevo_nombre_articulo (string ra_codemp, string ra_codart);string ls_nombre_articulo,cadena,cadena1
+long   formato
+
+SELECT articulos.descripcion  
+INTO   :ls_nombre_articulo  
+FROM   articulos  
+WHERE  articulos.empresa = :ra_codemp AND  
+       articulos.codigo  = :ra_codart
+USING SQLCA;
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_articulo = ""
+ELSE
+	cadena  = upper(trim(ls_nombre_articulo))
+	if pos(left(cadena,5),"X") <> 0 then
+		formato = pos(cadena," ")
+		if formato <> 0 then
+		   cadena1 = mid(cadena,formato+1,len(cadena))
+		else
+			cadena1 = cadena
+		end if
+	else
+		cadena1 = cadena
+	end if
+END IF
+
+Return cadena1
+
+end function
+

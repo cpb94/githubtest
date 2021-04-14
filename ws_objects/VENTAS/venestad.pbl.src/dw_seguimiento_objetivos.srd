@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_seguimiento_objetivos.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=5 HTMLDW=no print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=184 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=336 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=a dbname="a" )
+ unbound = "yes"arguments=(("empresa", string),("anyo", number),("mes", number)) )
+text(band=header alignment="2" text="Seguimiento Objetivos - Precio Medio - Stock - Producción" border="0" color="0" x="530" y="36" height="120" width="3310" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="" border="0" color="0" x="3863" y="36" height="120" width="329" html.valueishtml="0"  name=st_anyo visible="1"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=detail dataobject="dw_seguimiento_objetivos_generales" x="9" y="176" height="120" width="2432" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("anyo"),("mes")) trail_footer = yes  name=dw_1 visible="1"  slideup=directlyabove )
+report(band=detail dataobject="dw_seguimiento_objetivos_piezas_metros" x="2441" y="196" height="128" width="1115" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("anyo"),("mes")) trail_footer = yes  name=dw_2 visible="1"  slideup=directlyabove )
+report(band=detail dataobject="dw_seguimiento_objetivos_hornos" x="3557" y="196" height="128" width="1353" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("anyo"),("mes")) trail_footer = yes  name=dw_3 visible="1"  slideup=directlyabove )
+compute(band=footer alignment="0" expression=" pageCount()"border="0" color="0" x="713" y="276" height="88" width="773" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

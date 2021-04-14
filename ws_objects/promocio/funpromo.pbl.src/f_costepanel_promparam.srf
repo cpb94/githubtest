@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_costepanel_promparam.srf
+global type f_costepanel_promparam from function_object
+end type
+
+forward prototypes
+global function decimal f_costepanel_promparam (string arg_empresa)
+end prototypes
+
+global function decimal f_costepanel_promparam (string arg_empresa);Dec  argumento
+
+SELECT promparam.costepanelmano  
+INTO   :argumento  
+FROM   promparam  
+WHERE  promparam.empresa = :arg_empresa;
+
+if isnull(argumento) then argumento = 0
+
+Return argumento
+
+end function
+

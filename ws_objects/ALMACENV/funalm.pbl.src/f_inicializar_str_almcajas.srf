@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_inicializar_str_almcajas.srf
+global type f_inicializar_str_almcajas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_almcajas ( ref str_almcajas str_almcajas)
+end prototypes
+
+global function boolean f_inicializar_str_almcajas ( ref str_almcajas str_almcajas);boolean lb_correcto = true
+
+if isnull(str_almcajas.empresa) then str_almcajas.empresa = ''
+if isnull(str_almcajas.codigo) then str_almcajas.codigo = ''
+if isnull(str_almcajas.descripcion) then str_almcajas.descripcion = ''
+if isnull(str_almcajas.pesoenvase) then str_almcajas.pesoenvase = 0
+if isnull(str_almcajas.descripcion_abr) then str_almcajas.descripcion_abr = ''
+if isnull(str_almcajas.codigo_compras) then str_almcajas.codigo_compras = ''
+return lb_correcto
+end function
+

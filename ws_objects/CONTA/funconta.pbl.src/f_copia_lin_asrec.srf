@@ -1,0 +1,98 @@
+﻿$PBExportHeader$f_copia_lin_asrec.srf
+global type f_copia_lin_asrec from function_object
+end type
+
+forward prototypes
+global function integer f_copia_lin_asrec (integer par_ej_orig, integer par_ej_dest)
+end prototypes
+
+global function integer f_copia_lin_asrec (integer par_ej_orig, integer par_ej_dest);// Copiamos las lineas de asientos recurrentes desde el ejercicio origen al destino
+
+/* Devuelve -1 si hay error al consultar BD
+				0 si no hay lineas as. rec. para el ejercicio origen
+				1 bien
+
+*/
+
+
+
+datastore ds_copia
+
+string texto_sql
+texto_sql ="SELECT * " +&
+    		"FROM contarecurlin " +&	 
+   		"WHERE ( contarecurlin.empresa = '"+ codigo_empresa+"' ) AND "  + &
+         "( contarecurlin.ejercicio =" +string(par_ej_orig)  +"  )"   
+
+
+ds_copia = create datastore
+//ds_copia=f_cargar_cursor(texto_sql)
+f_cargar_cursor_nuevo(texto_sql, ds_copia)
+
+ds_copia.settransobject(sqlca)
+int i,num
+num=ds_copia.retrieve()
+
+if num = 0 then 
+	// No hay lineas en el ejercicio origen 
+	destroy ds_copia
+	return 0
+else
+	// hay lineas
+	boolean correcto
+	
+	int lin
+	string emp,cod,cuent,concept,ampli,dh
+	
+	correcto = true
+	
+	for i= 1 to num 
+		
+		emp			=ds_copia.getitemstring(i,"empresa")
+		cod			=ds_copia.getitemstring(i,"codigo")
+		lin			=ds_copia.getitemnumber(i,"linea")
+		cuent			=ds_copia.getitemstring(i,"cuenta")
+		concept		=ds_copia.getitemstring(i,"concepto")
+		ampli			=ds_copia.getitemstring(i,"ampliacion")
+		dh				=ds_copia.getitemstring(i,"debehaber")
+
+
+		  
+		  INSERT INTO contarecurlin  
+         ( ejercicio,
+			  empresa,	
+           codigo,   
+           linea,   
+           cuenta,   
+           concepto,   
+           ampliacion,   
+           debehaber)   
+                
+  			VALUES ( :par_ej_dest,  
+           :emp,   
+           :cod,   
+           :lin,   
+           :cuent,   
+           :concept,   
+           :ampli,   
+           :dh);   
+           
+
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+			   exit
+			end if
+	next
+end if
+destroy ds_copia
+
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+
+end function
+

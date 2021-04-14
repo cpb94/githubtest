@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_remolque_albaran_venlifac.srf
+global type f_remolque_albaran_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_remolque_albaran_venlifac (string empresa, decimal anyo, decimal albaran)
+end prototypes
+
+global function string f_remolque_albaran_venlifac (string empresa, decimal anyo, decimal albaran);String ls_matricula
+
+SELECT max(isnull(remolque,''))
+INTO   :ls_matricula
+FROM   venlifac
+WHERE  venlifac.empresa      = :empresa
+AND    venlifac.anyo_albaran = :anyo
+AND    venlifac.albaran      = :albaran
+USING  sqlca;
+
+If IsNull(ls_matricula) then ls_matricula = ""
+
+return ls_matricula
+
+
+end function
+

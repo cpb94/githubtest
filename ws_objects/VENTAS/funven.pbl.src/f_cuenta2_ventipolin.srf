@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_cuenta2_ventipolin.srf
+global type f_cuenta2_ventipolin from function_object
+end type
+
+forward prototypes
+global function string f_cuenta2_ventipolin (string empresa, string codigo)
+end prototypes
+
+global function string f_cuenta2_ventipolin (string empresa, string codigo);String var_cuenta
+SELECT ventipolin.cuenta2  INTO :var_cuenta  FROM ventipolin  
+WHERE  ventipolin.empresa   = :empresa
+AND    ventipolin.codigo    = :codigo;
+Return var_cuenta
+
+end function
+

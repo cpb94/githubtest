@@ -1,0 +1,195 @@
+﻿$PBExportHeader$f_imprimir_cmr_previsualizacion.srf
+global type f_imprimir_cmr_previsualizacion from function_object
+end type
+
+forward prototypes
+global function boolean f_imprimir_cmr_previsualizacion (string arg_empresa, integer arg_anyo, string arg_cmr, ref datawindow arg_dw_cmr)
+end prototypes
+
+global function boolean f_imprimir_cmr_previsualizacion (string arg_empresa, integer arg_anyo, string arg_cmr, ref datawindow arg_dw_cmr);//Variables necesarias para el desarrollo de la funcion
+string 	ls_cliente, ls_transportista, ls_matricula, ls_cond_entrega, ls_envio, ls_remolque,ls_sel,ls_ventaspromocion,ls_conductor,ls_subcliente
+datetime	ldt_fecha
+dec		var_palets, ld_kilos,ld_peso_promocion
+int	 	donde,il_albaranes 
+long     ll_bultos_promocion,ll_albaranes_promocion,ll_anyo,ll_albaran,ll_indice,ll_total,ll_albaranes
+boolean  lb_anyadir_datos,lb_anyadir_promocion
+datastore ds_datos
+
+//Inicializamos los datos de la ventana
+
+arg_dw_cmr.reset()
+
+arg_dw_cmr.setredraw(false)
+
+SELECT ven_cmr_cabecera.cliente, 
+		 ven_cmr_cabecera.fecha, 
+		 ven_cmr_cabecera.direccion_envio, 
+		 ven_cmr_cabecera.transportista, 
+		 ven_cmr_cabecera.matricula, 
+		 ven_cmr_cabecera.remolque, 
+		 ven_cmr_cabecera.cond_entrega, 
+		 ven_cmr_cabecera.peso_bruto, 
+		 ven_cmr_cabecera.bultos, 
+		 ven_cmr_cabecera.peso_bruto_muestras, 
+		 ven_cmr_cabecera.bultos_muestras, 
+		 ven_cmr_cabecera.albaranes, 
+		 ven_cmr_cabecera.albaranes_muestras, 
+		 ven_cmr_cabecera.venconductores_codigo,
+		 ven_cmr_cabecera.subcliente 
+INTO   :ls_cliente, 
+		 :ldt_fecha, 
+		 :ls_envio, 
+		 :ls_transportista, 
+		 :ls_matricula, 
+		 :ls_remolque, 
+		 :ls_cond_entrega, 
+		 :ld_kilos, 
+		 :var_palets, 
+		 :ld_peso_promocion, 
+		 :ll_bultos_promocion, 
+		 :ll_albaranes, 
+		 :ll_albaranes_promocion, 
+		 :ls_conductor,
+		 :ls_subcliente
+FROM   ven_cmr_cabecera
+WHERE  ven_cmr_cabecera.empresa   = :arg_empresa
+AND    ven_cmr_cabecera.ejercicio = :arg_anyo
+AND    ven_cmr_cabecera.codigo    = :arg_cmr;
+
+ll_total = ll_albaranes + ll_albaranes_promocion
+
+donde = arg_dw_cmr.InsertRow(0)
+
+arg_dw_cmr.object.empresa[donde]		          = arg_empresa
+arg_dw_cmr.object.anyo[donde]			          = string(arg_anyo,"###0")
+arg_dw_cmr.object.albaran[donde]		          = arg_cmr
+
+arg_dw_cmr.object.albaranes[donde]			    = ll_total
+arg_dw_cmr.object.kilos[donde]			       = ld_kilos	
+arg_dw_cmr.object.pallets[donde]			       = var_palets
+arg_dw_cmr.object.bultos_promocion[donde]     = ll_bultos_promocion
+arg_dw_cmr.object.kilos_promocion[donde]	    = ld_peso_promocion		
+
+arg_dw_cmr.object.cliente[donde]		          = ls_cliente
+arg_dw_cmr.object.subcliente[donde]		       = ls_subcliente
+arg_dw_cmr.object.transportista[donde]        = ls_transportista
+arg_dw_cmr.object.matricula[donde]	          = ls_matricula
+arg_dw_cmr.object.remolque[donde]				 = ls_remolque
+arg_dw_cmr.object.fecha[donde]			       = ldt_fecha
+
+arg_dw_cmr.object.cond_entrega[donde]         = ls_cond_entrega
+arg_dw_cmr.object.denvio[donde]		          = ls_envio
+arg_dw_cmr.object.naturaleza_mercancia[donde] = f_naturaleza_mercancia_cmr_venparametros(codigo_empresa)
+
+arg_dw_cmr.setredraw(true)
+
+arg_dw_cmr.Modify("datawindow.print.copies = 1")
+
+if arg_dw_cmr.rowcount() > 0 then
+//	for ll_indice = 1 to 4
+//		arg_dw_cmr.print(false)
+//	next
+	f_imprimir_datawindow(arg_dw_cmr)
+end if
+
+destroy ds_datos
+
+return true
+
+//ls_sel = "select ventaspromocion,"+&
+//			"       ejercicio_albaran,"+&
+//			"       albaran "+&
+//			"from   ven_cmr_lineas "+&
+//			"where  empresa   = '"+arg_empresa+"' "+&
+//			"and    ejercicio = "+string(arg_anyo,"###0")+" "+&
+//			"and    codigo    = '"+arg_cmr+"' "+&
+//			"order  by ventaspromocion Desc,ejercicio_albaran,albaran"
+//			
+//ll_total = f_cargar_cursor_transaccion(sqlca,ds_datos,ls_sel)	
+//
+//for ll_indice = 1 to ll_total
+//		
+//	ls_ventaspromocion = ds_datos.object.ventaspromocion[ll_indice]
+//	ll_anyo            = ds_datos.object.ejercicio_albaran[ll_indice]
+//	ll_albaran         = ds_datos.object.albaran[ll_indice]
+//	
+//	var_palets             = 0
+//	ld_kilos              = 0
+//	ll_bultos_promocion    = 0
+//	ld_peso_promocion      = 0
+//	ll_albaranes_promocion = 0
+//	
+//	if ls_ventaspromocion = 'V' then
+//		ld_peso_promocion =  0
+//		ll_bultos_promocion = 0
+//		//Sacamos los datos del albaran
+//		SELECT	cliente, transportista, matricula, cod_entrega, falbaran, peso, envio, remolque
+//		INTO		:ls_cliente, :ls_transportista, :ls_matricula, :ls_cond_entrega, :ldt_fecha, :ld_kilos, :ls_envio, :ls_remolque
+//		FROM		venalb
+//		WHERE		empresa	= :arg_empresa
+//		AND		anyo		= :ll_anyo
+//		AND		albaran	= :ll_albaran;
+//		
+//		var_palets = dec(f_pallets_albaran ( arg_empresa ,  ll_anyo , ll_albaran ))
+//	else
+//		ld_kilos = 0 
+//		var_palets = 0
+//		
+//		SELECT	isnull(cliente,''), isnull(transportista,''), isnull(matricula,''), '', isnull(peso_bruto,0), '', isnull(remolque,''), isnull(bultos,0), fecha_albaran
+//		INTO		:ls_cliente, :ls_transportista, :ls_matricula, :ls_cond_entrega, :ld_peso_promocion, :ls_envio, :ls_remolque , :ll_bultos_promocion,:ldt_fecha
+//		FROM		prom_cabecera_albaran
+//		WHERE		empresa	= :arg_empresa
+//		AND		anyo		= :ll_anyo
+//		AND		albaran	= :ll_albaran;		
+//	end if
+//	
+//	
+//	//Pasamos los datos a la datawindow
+//	if ll_indice = 1 then
+//		donde = arg_dw_cmr.InsertRow(0)
+//	end if
+//	
+//	arg_dw_cmr.object.empresa[donde]		          = arg_empresa
+//	arg_dw_cmr.object.anyo[donde]			          = string(arg_anyo,"###0")
+//	arg_dw_cmr.object.albaran[donde]		          = arg_cmr
+//	if ll_indice > 1 then	
+//		arg_dw_cmr.object.kilos[donde]			       = arg_dw_cmr.object.kilos[donde] + ld_kilos
+//		arg_dw_cmr.object.pallets[donde]			       = arg_dw_cmr.object.pallets[donde] + var_palets
+//		arg_dw_cmr.object.bultos_promocion[donde]     = arg_dw_cmr.object.bultos_promocion[donde] + ll_bultos_promocion
+//		arg_dw_cmr.object.kilos_promocion[donde]	    = arg_dw_cmr.object.kilos_promocion[donde] + ld_peso_promocion
+//	else
+//		arg_dw_cmr.object.albaranes[donde]			    = ll_total
+//		arg_dw_cmr.object.kilos[donde]			       = ld_kilos	
+//		arg_dw_cmr.object.pallets[donde]			       = var_palets
+//		arg_dw_cmr.object.bultos_promocion[donde]     = ll_bultos_promocion
+//		arg_dw_cmr.object.kilos_promocion[donde]	    = ld_peso_promocion		
+//	end if
+//	arg_dw_cmr.object.cliente[donde]		          = ls_cliente
+//	arg_dw_cmr.object.transportista[donde]        = ls_transportista
+//	arg_dw_cmr.object.matricula[donde]	          = ls_matricula
+//	arg_dw_cmr.object.remolque[donde]				 = ls_remolque
+//	arg_dw_cmr.object.fecha[donde]			       = ldt_fecha
+//	
+//	arg_dw_cmr.object.cond_entrega[donde]         = ls_cond_entrega
+//	arg_dw_cmr.object.denvio[donde]		          = ls_envio
+//	arg_dw_cmr.object.naturaleza_mercancia[donde] = f_naturaleza_mercancia_cmr_venparametros(codigo_empresa)
+//	
+//next
+//
+//arg_dw_cmr.setredraw(true)
+////Esto es para que coja las copias parametrizadas en ven_parametros_impresoras
+//arg_dw_cmr.Modify("datawindow.print.copies = 1")
+//
+//if arg_dw_cmr.rowcount() > 0 then
+//	for ll_indice = 1 to 4
+//		arg_dw_cmr.print(false)
+//	next
+//	//f_imprimir_datawindow(arg_dw_cmr)
+//end if
+//
+//destroy ds_datos
+//
+//return true
+
+end function
+

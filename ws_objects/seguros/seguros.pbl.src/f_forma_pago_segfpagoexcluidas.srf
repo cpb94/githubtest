@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_forma_pago_segfpagoexcluidas.srf
+global type f_forma_pago_segfpagoexcluidas from function_object
+end type
+
+forward prototypes
+global function string f_forma_pago_segfpagoexcluidas (string empresa, string codigo)
+end prototypes
+
+global function string f_forma_pago_segfpagoexcluidas (string empresa, string codigo);String var_forma
+  SELECT segfpagoexcluidas.forma_pago  
+    INTO :var_forma  
+    FROM segfpagoexcluidas  
+   WHERE ( segfpagoexcluidas.empresa = :empresa ) AND  
+         ( segfpagoexcluidas.forma_pago = :codigo )   ;
+			
+			IF SQLCA.SQLCODE = 100 Then var_forma = ""
+			return var_forma
+
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_provincia_venenvio.srf
+global type f_provincia_venenvio from function_object
+end type
+
+forward prototypes
+global function string f_provincia_venenvio (string empresa, string cliente, string envio)
+end prototypes
+
+global function string f_provincia_venenvio (string empresa, string cliente, string envio);String variable
+
+if isnull(envio) or envio = "" then
+	return f_provincia_genter(empresa,'C', cliente)
+end if
+
+  SELECT venenvio.provincia
+    INTO :variable  
+    FROM venenvio  
+   WHERE ( venenvio.empresa = :empresa ) AND  
+         ( venenvio.cliente = :cliente ) AND  
+         ( venenvio.codigo = :envio )   ;
+
+if isnull(variable) then variable = ""
+return variable
+
+end function
+

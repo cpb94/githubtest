@@ -1,0 +1,17 @@
+﻿$PBExportHeader$str_orden_carga.srs
+global type str_orden_carga from structure
+     STRING     empresa
+     INTEGER     anyo
+     STRING     codigo
+     DATETIME     fecha
+     STRING     finalizada
+     STRING     almacen_destino
+     STRING     zona_destino
+     INTEGER     fila_destino
+     INTEGER     altura_destino
+     STRING     cliente
+     INTEGER     expedicion_anyo
+     STRING     expedicion_codigo
+     DATETIME     fecha_fin
+end type
+

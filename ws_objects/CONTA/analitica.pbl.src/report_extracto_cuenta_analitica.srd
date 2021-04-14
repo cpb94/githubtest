@@ -1,0 +1,61 @@
+﻿$PBExportHeader$report_extracto_cuenta_analitica.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=708 color="536870912" )
+summary(height=72 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=80 color="536870912"  height.autosize=yes)
+table(column=(type=char(20) updatewhereclause=yes name=costesapu_cuenta dbname="costesapu.cuenta" )
+ column=(type=datetime updatewhereclause=yes name=costesapu_fapunte dbname="costesapu.fapunte" )
+ column=(type=char(40) updatewhereclause=yes name=costesapu_ampliacion dbname="costesapu.ampliacion" )
+ column=(type=decimal(4) updatewhereclause=yes name=costesapu_debe dbname="costesapu.debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=costesapu_haber dbname="costesapu.haber" )
+ column=(type=decimal(4) updatewhereclause=yes name=costesapu_asiento dbname="costesapu.asiento" )
+ column=(type=char(10) updatewhereclause=yes name=contaconcepto_resumido dbname="contaconcepto.resumido" )
+ column=(type=char(5) updatewhereclause=yes name=costesapu_origen dbname="costesapu.origen" )
+ column=(type=decimal(4) updatewhereclause=yes name=costesapu_ejercicio dbname="costesapu.ejercicio" )
+ retrieve="  SELECT   costesapu.cuenta,   
+				costesapu.fapunte,   
+           costesapu.ampliacion,   
+           costesapu.debe,   
+           costesapu.haber,   
+           costesapu.asiento,   
+           contaconcepto.resumido,   
+           costesapu.origen,   
+           costesapu.ejercicio  
+    FROM   costesapu,   
+           contaconcepto  
+   WHERE ( costesapu.empresa *= contaconcepto.empresa) and  
+         ( costesapu.concepto *= contaconcepto.codigo) and  
+         ((costesapu.empresa = :arg_empresa ) AND  
+         ( costesapu.fapunte between :arg_fecha_desde and :arg_fecha_hasta ) AND  
+         ( costesapu.coste = :arg_cuenta ) AND  
+         ( costesapu.concepto in ( :con ) OR   costesapu.concepto is null)   AND
+           costesapu.cuenta between :cta1 and :cta2)   
+ORDER BY costesapu.fapunte ASC,   
+         costesapu.asiento ASC   
+" arguments=(("arg_empresa", string),("arg_fecha_desde", datetime),("arg_fecha_hasta", datetime),("arg_cuenta", string),("arg_debe", number),("arg_haber", number),("con", stringlist),("cta1", string),("cta2", string)) )
+report(band=header dataobject="report_cabecera" x="0" y="0" height="368" width="3365" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="2" expression="~"EXTRACTO CENTRO DE COSTE :~"+arg_cuenta+~" ~" + f_nombre_costesplan( costesapu_ejercicio , arg_empresa , arg_cuenta ) + ~"    FECHA:   ~" +string( arg_fecha_desde ,~"dd-mm-yy~")+ ~" -~"  + string( arg_fecha_hasta ,~"dd-mm-yy~")"border="0" color="0" x="32" y="380" height="80" width="3323" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="59" y="620" height="60" width="183" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Fecha"border="1" color="0" x="306" y="620" height="64" width="229"  name=fechmov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Asto"border="1" color="0" x="553" y="620" height="64" width="183"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Ampliación"border="1" color="0" x="759" y="620" height="64" width="1097"  name=codtercero_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cuenta"border="1" color="0" x="1883" y="620" height="64" width="311"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Debe"border="1" color="0" x="2226" y="620" height="64" width="375"  name=cantidade_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Haber"border="1" color="0" x="2619" y="620" height="64" width="366"  name=cantidads_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Saldo"border="1" color="0" x="3003" y="620" height="64" width="357"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="~"RANGO CUENTAS  ~"+ IF (cta1= '.',~" TODOS~",~"DE  ~" + cta1 +~" A ~" + cta2 )"border="0" color="0" x="32" y="488" height="80" width="3328" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="  IF(IsNull(costesapu_fapunte ),~"~",String( costesapu_fapunte ,~"dd-mm-yy~"))  "border="0" color="0" x="311" y="4" height="64" width="224" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="562" y="12" height="56" width="165" format="[general]"  name=costesapu_asiento editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" IF ( costesapu_debe = 0 or isNull(costesapu_debe) , 0, costesapu_debe ) "border="0" color="0" x="2222" y="4" height="64" width="379" format="###,###,##0.00"  name=debe_t  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" IF ( costesapu_haber  = 0 or isNull( costesapu_haber ) , 0,costesapu_haber ) "border="0" color="0" x="2624" y="4" height="64" width="366" format="###,###,##0.00"  name=haber_t  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" cumulativeSum(  debe_t  for all ) - cumulativeSum(  haber_t  for all )"border="0" color="0" x="3013" y="4" height="64" width="357" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="400~tif(getrow()=rowCount(),700,400)"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1888" y="4" height="64" width="293" format="[general]"  name=costesapu_cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="759" y="12" height="56" width="1083" format="[general]"  name=costesapu_ampliacion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=summary alignment="1" text="Totales . . . :"border="0" color="0" x="1454" y="12" height="52" width="302"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="  sum(IF ( costesapu_debe = 0 or isNull(costesapu_debe) , 0, costesapu_debe ) for all)"border="0" color="0" x="2185" y="12" height="52" width="416" format="###,###,##0.00"  name=total_debe  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="  sum(IF (  costesapu_haber  = 0 or isNull( costesapu_haber ) , 0, costesapu_haber ) for all)"border="0" color="0" x="2619" y="12" height="48" width="366" format="###,###,##0.00"  name=total_haber  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression=" Dec(total_debe) - Dec(total_haber )"border="0" color="0" x="3003" y="12" height="48" width="361" format="###,###,##0.00"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="2016" y="8" height="60" width="782" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

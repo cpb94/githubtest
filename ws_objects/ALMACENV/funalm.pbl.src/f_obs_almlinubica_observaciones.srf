@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_obs_almlinubica_observaciones.srf
+global type f_obs_almlinubica_observaciones from function_object
+end type
+
+forward prototypes
+global function string f_obs_almlinubica_observaciones (string empresa, string ubicacion, decimal linea)
+end prototypes
+
+global function string f_obs_almlinubica_observaciones (string empresa, string ubicacion, decimal linea);String   observ
+
+
+SELECT almlinubica_observaciones.observaciones  
+INTO   :observ  
+FROM   almlinubica_observaciones  
+WHERE  almlinubica_observaciones.empresa     = :empresa
+AND    almlinubica_observaciones.ubicacion  = :ubicacion
+AND    almlinubica_observaciones.linea   = :linea;
+IF IsNull(observ) Then observ = ""
+Return  observ
+end function
+

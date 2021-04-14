@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_esperar_respuesta_sii.srf
+global type f_esperar_respuesta_sii from function_object
+end type
+
+forward prototypes
+global function boolean f_esperar_respuesta_sii (string arg_fichero_esperamos)
+end prototypes
+
+global function boolean f_esperar_respuesta_sii (string arg_fichero_esperamos);boolean lb_fichero_recibido = false
+boolean lb_cancelar_recepcion  = false
+long    ll_segundos_hemos_esperado
+pointer oldpointer
+
+oldpointer = SetPointer(HourGlass!)
+
+do
+	Sleep(1) //Comprobamos cada segundo si existe el fichero
+	
+	if fileexists(arg_fichero_esperamos) then
+		lb_fichero_recibido = true
+	else
+		ll_segundos_hemos_esperado ++
+	end if
+	
+	if ll_segundos_hemos_esperado = 5 then
+		SetPointer(oldpointer)
+		if messagebox("Periodo de espera excedido","Se ha excedido el periodo de espera de la respuesta.~n¿Desea seguir esperando la respuesta desde la AEAT?",StopSign!,YesNo!,1) = 1 then
+			ll_segundos_hemos_esperado = 0
+			SetPointer(HourGlass!)
+		else
+			lb_cancelar_recepcion = true
+		end if
+	end if
+loop while not(lb_fichero_recibido) and not(lb_cancelar_recepcion)
+
+SetPointer(oldpointer)
+
+return lb_fichero_recibido
+end function
+

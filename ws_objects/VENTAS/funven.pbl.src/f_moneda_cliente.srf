@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_moneda_cliente.srf
+global type f_moneda_cliente from function_object
+end type
+
+forward prototypes
+global function string f_moneda_cliente (string empresa, string codigo)
+end prototypes
+
+global function string f_moneda_cliente (string empresa, string codigo);String  var_parametro
+
+  SELECT genter.moneda  
+    INTO :var_parametro  
+    FROM genter
+   WHERE ( genter.empresa = :empresa ) AND  
+         ( genter.codigo = :codigo )   AND
+			( genter.tipoter = "C" );
+			
+Return var_parametro
+
+end function
+

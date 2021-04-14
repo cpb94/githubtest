@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_marcas_descripcion.srf
+global type f_marcas_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_marcas_descripcion (string a_codemp, string a_familia, string a_cod)
+end prototypes
+
+global function string f_marcas_descripcion (string a_codemp, string a_familia, string a_cod);string	ls_nombre
+
+  SELECT isnull(marcas.descripcion,'')
+    INTO :ls_nombre  
+    FROM marcas  
+   WHERE marcas.empresa = :a_codemp 
+	and    marcas.familias_codigo = :a_familia
+	AND   marcas.codigo = :a_cod
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+
+end function
+

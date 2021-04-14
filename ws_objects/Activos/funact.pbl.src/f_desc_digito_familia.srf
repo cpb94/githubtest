@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_desc_digito_familia.srf
+global type f_desc_digito_familia from function_object
+end type
+
+forward prototypes
+global function string f_desc_digito_familia (string empresa, integer num_digito)
+end prototypes
+
+global function string f_desc_digito_familia (string empresa, integer num_digito);string campo,d1,d2,d3,d4
+
+  SELECT act_parametros.dig1fam,   
+         act_parametros.dig2fam,   
+         act_parametros.dig3fam,   
+         act_parametros.digrfam  
+    INTO :d1,   
+         :d2,   
+         :d3,   
+         :d4  
+    FROM act_parametros  
+   WHERE act_parametros.empresa = :empresa   ;
+	
+	
+	d1 = trim(d1)
+	d2 = trim(d2)
+	d3 = trim(d3)
+	d4 = trim(d4)
+	
+	
+	choose case num_digito
+		case 1
+			campo = d1
+		case 2
+			campo = d2
+		case 3
+			campo = d3
+		case 4
+			campo = d4
+		case else
+			campo = ''
+	end choose
+	
+	If campo ='.' then campo = ''
+	
+	return campo
+
+end function
+

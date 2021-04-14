@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_riesgo_cliente.srf
+global type f_riesgo_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_riesgo_cliente (string arg_empresa, string arg_cliente)
+end prototypes
+
+global function decimal f_riesgo_cliente (string arg_empresa, string arg_cliente);dec alb,fac,cobro,nego,devo,gasto,venc
+dec pedidos_pdtes, stock_deposito
+tipo_array vencido
+
+alb = 0
+fac = 0
+cobro = 0
+nego = 0
+venc = 0
+devo = 0
+gasto = 0
+stock_deposito = 0
+pedidos_pdtes = 0
+
+alb=f_alb_pdtes_facturar(arg_empresa,arg_cliente)
+fac=f_fac_pdtes_actualizar(arg_empresa,arg_cliente)
+cobro=f_fac_pdtes_cobro(arg_empresa,arg_cliente)
+nego=f_negociado_pdtes_cobro(arg_empresa,arg_cliente)
+vencido=f_fac_vencidas(arg_empresa,arg_cliente)
+venc=dec(vencido.valor[1])+dec(vencido.valor[2])+dec(vencido.valor[3])+dec(vencido.valor[4])
+devo=f_fac_devuelto(arg_empresa,arg_cliente)
+gasto=f_fac_gasto(arg_empresa,arg_cliente)
+
+stock_deposito = f_importe_stock_deposito_cliente(arg_empresa,arg_cliente)
+pedidos_pdtes = f_pedidos_pdtes (arg_empresa,arg_cliente)
+
+return alb+fac+cobro+nego+venc+devo+gasto + pedidos_pdtes + stock_deposito
+end function
+

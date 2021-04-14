@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_preparado_articulo_calidad_tono_cali.srf
+global type f_preparado_articulo_calidad_tono_cali from function_object
+end type
+
+forward prototypes
+global function decimal f_preparado_articulo_calidad_tono_cali (string empresa, string articulo, string calidad, string tono, integer calibre)
+end prototypes
+
+global function decimal f_preparado_articulo_calidad_tono_cali (string empresa, string articulo, string calidad, string tono, integer calibre);Dec{4}   var_existencias
+
+SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads)  
+INTO   :var_existencias  
+FROM   almacenmovimientos  
+WHERE almacenmovimientos.empresa     = :empresa
+AND   almacenmovimientos.articulo    = :articulo
+AND   almacenmovimientos.calidad     = :calidad
+AND   almacenmovimientos.tono    = :tono
+AND   almacenmovimientos.calibre     = :calibre;
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :empresa
+AND   almlinubica.articulo    = :articulo
+AND   almlinubica.calidad     = :calidad
+AND   almlinubica.tonochar    = :tono
+AND   almlinubica.calibre     = :calibre
+AND   almlinubica.pedido  is not null;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

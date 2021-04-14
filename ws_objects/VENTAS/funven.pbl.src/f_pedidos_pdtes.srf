@@ -1,0 +1,50 @@
+﻿$PBExportHeader$f_pedidos_pdtes.srf
+global type f_pedidos_pdtes from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_pdtes (string empresa, string cliente)
+end prototypes
+
+global function decimal f_pedidos_pdtes (string empresa, string cliente);dec dinero1=0,dinero2=0
+string moneda
+  
+SELECT sum((venped.total_neto - (venped.total_neto * venped.dtopp / 100)) +  &
+			  (venped.total_neto - (venped.total_neto * venped.dtopp / 100)) * isnull (venped.iva, 0 ) / 100)  
+INTO :dinero1
+FROM venped  
+WHERE ( venped.empresa = :empresa ) AND  
+		( venped.cliente = :cliente )   and
+		( not venped.dtopp is null and venped.es_proforma = 'N');
+
+if isnull(dinero1) then dinero1=0
+
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando pedidos pendientes",sqlca.sqlerrtext)
+	dinero1=0
+else
+	moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+	dinero1=dinero1 * f_cambio_moneda(moneda)
+end if
+
+
+SELECT sum((venped.total_neto ) +  (venped.total_neto  * isnull(venped.iva, 0 ) / 100))  
+INTO :dinero2
+FROM venped  
+WHERE ( venped.empresa = :empresa ) AND  
+		( venped.cliente = :cliente )   and
+		( venped.dtopp is null and venped.es_proforma = 'N');
+
+if isnull(dinero2) then dinero2=0
+
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando pedidos pendientes",sqlca.sqlerrtext)
+	dinero2=0
+else
+	moneda=f_moneda_genter(codigo_empresa,"C",cliente)
+	dinero2 = dinero2 * f_cambio_moneda(moneda)
+end if
+
+return dinero1+dinero2
+end function
+

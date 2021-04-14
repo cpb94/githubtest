@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_stock_tarifa5_metros.srf
+global type f_stock_tarifa5_metros from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_tarifa5_metros (string empresa, integer anyo, integer mes)
+end prototypes
+
+global function decimal f_stock_tarifa5_metros (string empresa, integer anyo, integer mes);decimal metros
+  SELECT  sum((formatos.ancho * formatos.largo / 10000 *  almmovhis.cantidade) - (formatos.ancho * formatos.largo / 10000 *  almmovhis.cantidads)  ) as metros
+			
+	into :metros
+   FROM almmovhis,   
+         articulos,   
+         formatos,   
+         monedas,   
+         venlintarifas,   
+         ventarifas  
+   WHERE ( almmovhis.empresa = :empresa ) and  
+         ( articulos.empresa = :empresa ) and  
+         ( formatos.empresa = :empresa ) and  
+         ( venlintarifas.empresa = :empresa ) and  
+         ( ventarifas.empresa = :empresa ) and  
+         ( almmovhis.articulo = articulos.codigo ) and  
+         ( articulos.formato = formatos.codigo ) and  
+         ( venlintarifas.tarifa = ventarifas.codigo ) and  
+         ( articulos.codigo = venlintarifas.articulo ) and  
+         ( ventarifas.moneda = monedas.moneda ) and  
+		((year(almmovhis.fechmov) < :anyo) or (year(almmovhis.fechmov) = :anyo) and (month(almmovhis.fechmov) <= :mes)) and
+         ventarifas.codigo = '5'    ;
+
+return metros
+end function
+

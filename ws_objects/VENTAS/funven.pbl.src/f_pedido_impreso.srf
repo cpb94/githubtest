@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_pedido_impreso.srf
+global type f_pedido_impreso from function_object
+end type
+
+forward prototypes
+global function boolean f_pedido_impreso (string empresa, decimal anyo, decimal pedido)
+end prototypes
+
+global function boolean f_pedido_impreso (string empresa, decimal anyo, decimal pedido);Integer  var_veces,numero
+SELECT venped.veces  INTO :var_veces   FROM venped  
+WHERE venped.empresa = :codigo_empresa 
+AND   venped.anyo    = :anyo
+AND   venped.pedido  = :pedido;
+IF IsNull(var_veces) Then var_veces = 0
+IF var_veces <> 0 Then Return TRUE
+RETURN FALSE
+end function
+

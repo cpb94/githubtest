@@ -1,0 +1,82 @@
+﻿$PBExportHeader$f_imprime_vtos_factura_especial.srf
+$PBExportComments$Si la fra esta actualizada muestra los vtos de cartera, si no los calcula.
+global type f_imprime_vtos_factura_especial from function_object
+end type
+
+forward prototypes
+global function string f_imprime_vtos_factura_especial (string empresa, decimal anyo, decimal factura)
+end prototypes
+
+global function string f_imprime_vtos_factura_especial (string empresa, decimal anyo, decimal factura);String montaje,v_mascara,sel,str_factura
+str_vencimientos vto
+Integer r,cc,longitud
+long recibos_en_cartera,indice,total
+datastore recibos
+
+str_factura = string(factura)
+select count(*)
+into   :recibos_en_cartera
+from   carefectos
+where  empresa = :empresa
+and    anyofra = :anyo
+and    factura = :str_factura;
+
+if isnull(recibos_en_cartera) then recibos_en_cartera = 0
+
+if recibos_en_cartera = 0 then
+	//No hay nada en cartera,calculamos los vtos
+	vto  = f_vencimientos_factura(empresa,anyo,factura)
+	montaje = ""
+	cc = 1
+	IF IsNull(vto.efectos) or vto.efectos= 0 Then return ""
+	For r = 1 To vto.efectos
+		// *** Pesetas con decimales, excepto en vencimientos y totales de las
+		// facturas.
+		if f_divisa_venfac(empresa,anyo,factura)="1" then
+			v_mascara = "#,###,###,##0"
+		else
+			v_mascara = f_mascara_moneda(f_divisa_venfac(empresa,anyo,factura))
+		end if
+		longitud = len(String((vto.importe[r]),v_mascara))
+		if trim(montaje) = "" then
+			montaje = String(vto.vencimiento[r],"dd/mm/yy") +&
+						 " "+space(10 - longitud)+ String((vto.importe[r]),v_mascara)
+		else
+			montaje = montaje +char(13)+&
+						 String(vto.vencimiento[r],"dd/mm/yy") +&
+						 " "+space(10 - longitud)+ String((vto.importe[r]),v_mascara)
+			
+		end if
+	Next
+else
+	//Hay recibos en cartera,leemos los vtos
+	sel = "select recibo,fvto,importe,divisas "+&
+			"from carefectos "+&
+			"where empresa = '"+codigo_empresa+"' "+&
+			"and    anyofra = "+string(anyo)+" "+&
+			"and    factura = '"+str_factura+"'"
+			
+//	recibos = f_cargar_cursor(sel)			
+	f_cargar_cursor_nuevo(sel, recibos)
+	total = recibos.rowcount()
+	for indice = 1 to total
+		if f_divisa_venfac(empresa,anyo,factura)="1" then
+			v_mascara = "#,###,###,##0"
+		else
+			v_mascara = f_mascara_moneda(f_divisa_venfac(empresa,anyo,factura))
+		end if
+		longitud = len(String((recibos.object.divisas[indice]),v_mascara))
+		if trim(montaje) = "" then
+			montaje = String(recibos.object.fvto[indice],"dd/mm/yy") +&
+						 " "+space(10 - longitud)+ String((recibos.object.divisas[indice]),v_mascara)
+		else
+			montaje = montaje +char(13)+&
+						 String(recibos.object.fvto[indice],"dd/mm/yy") +&
+						 " "+space(10 - longitud)+ String((recibos.object.divisas[indice]),v_mascara)
+		end if
+	next
+end if
+destroy recibos
+Return montaje
+end function
+

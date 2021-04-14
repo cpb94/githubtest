@@ -1,0 +1,12 @@
+﻿$PBExportHeader$dw_cantidades_por_unidad.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(10) updatewhereclause=no name=tipo_unidad dbname="tipo_unidad" )
+ column=(type=decimal(4) updatewhereclause=no name=cantidad dbname="cantidad" )
+ )
+column(band=detail id=2 alignment="1" tabsequence=10 border="5" color="0" x="10" y="4" height="65" width="334" format="[general]"  name=cantidad editmask.mask="###,###.00"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_unidad_abr( tipo_unidad )"border="0" color="128" x="362" y="4" height="65" width="243" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

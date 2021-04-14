@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_insert_carremesas.srf
+global type f_insert_carremesas from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carremesas (str_carremesas cab)
+end prototypes
+
+global function boolean f_insert_carremesas (str_carremesas cab);
+INSERT INTO carremesas
+         (empresa,anyo,banco,naci_extra,remesa,fremesa,tipodoc,
+				situacion,moneda,importe,divisas,totgastos,tiporem)  
+    
+VALUES (:cab.empresa,:cab.anyo,:cab.banco,:cab.naci_extra,:cab.remesa,
+		    :cab.fremesa,:cab.tipodoc,:cab.situacion,
+			 :cab.moneda,:cab.importe,:cab.divisas,:cab.totgastos,
+			 :cab.tiporem) USING SQLCA;
+
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("(f_insert_carremesas) Error en base de datos",SQLCA.SQLERRTEXT)
+   Return FALSE
+ELSE
+   Return TRUE
+END IF
+end function
+

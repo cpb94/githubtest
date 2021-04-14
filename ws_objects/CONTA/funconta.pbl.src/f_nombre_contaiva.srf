@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_nombre_contaiva.srf
+global type f_nombre_contaiva from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contaiva (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contaiva (integer ejercicio, string empresa, string codigo);String var_descripcion
+SELECT contaiva.descripcion  INTO :var_descripcion    FROM contaiva  
+WHERE (contaiva.ejercicio = :ejercicio)
+AND   (contaiva.empresa   = :empresa)
+AND   (contaiva.tipoiva   = :codigo);
+Return var_descripcion
+
+end function
+

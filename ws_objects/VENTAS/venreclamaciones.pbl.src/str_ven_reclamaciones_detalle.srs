@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_ven_reclamaciones_detalle.srs
+global type str_ven_reclamaciones_detalle from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     reclamacion
+     DECIMAL {0}     anyo
+     DECIMAL {0}     factura
+     DECIMAL {0}     linea
+     DECIMAL {2}     cantidad
+     STRING     descripcion
+end type
+

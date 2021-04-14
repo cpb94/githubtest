@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_escandallo_articulo_version.srf
+global type f_escandallo_articulo_version from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_articulo_version (string arg_empresa, string arg_articulo, string arg_version, ref string arg_escandallo[], ref string arg_version_esc[])
+end prototypes
+
+global subroutine f_escandallo_articulo_version (string arg_empresa, string arg_articulo, string arg_version, ref string arg_escandallo[], ref string arg_version_esc[]);long      indice,total,indice2
+dec       cantidad,cantidad_articulo,cantesc
+string    sel,articulo,var_version
+boolean   introducido
+datastore escandallo
+
+arg_escandallo[UpperBound(arg_escandallo) +1]   = arg_articulo
+arg_version_esc[UpperBound(arg_version_esc) +1] = arg_version
+
+sel = "select producto "+&
+		"from   almcompuestoart "+&
+		"where  empresa = '"+arg_empresa+"' "+&
+		"and    producto_terminado = 'S' "+&
+		"and    articulo = '"+arg_articulo+"' "+&
+		"and    version  = '"+arg_version+"'"
+		
+escandallo = f_cargar_cursor(sel)
+total = escandallo.rowcount()
+if total > 0 then
+	for indice = 1 to total
+		introducido = false
+		articulo    = escandallo.object.producto[indice]
+		var_version = f_version_activa_articulo(codigo_empresa,articulo)
+		for indice2 = 1 to UpperBound(arg_escandallo)			
+			if arg_escandallo[indice2] = articulo and arg_version_esc[indice2] = var_version then
+				introducido = true
+			end if		
+		next
+		if not(introducido) then			
+			f_escandallo_articulo_version(arg_empresa,articulo,var_version,arg_escandallo,arg_version_esc)
+		end if
+	next
+end if
+destroy escandallo
+
+end subroutine
+

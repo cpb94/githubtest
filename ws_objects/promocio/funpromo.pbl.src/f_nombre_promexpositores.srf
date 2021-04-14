@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_promexpositores.srf
+global type f_nombre_promexpositores from function_object
+end type
+
+forward prototypes
+global function string f_nombre_promexpositores (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function string f_nombre_promexpositores (string ra_codemp, string ra_codigo); string ls_nombre
+
+ SELECT promexpositores.descripcion  
+    INTO :ls_nombre
+    FROM promexpositores 
+   WHERE ( promexpositores.empresa = :ra_codemp ) AND  
+         ( promexpositores.codigo = :ra_codigo )  
+  USING SQLCA;
+
+Return ls_nombre
+
+end function
+

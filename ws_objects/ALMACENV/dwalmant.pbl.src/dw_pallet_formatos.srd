@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_pallet_formatos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="palformato.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=formato dbname="palformato.formato" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=codigo dbname="palformato.codigo" )
+ column=(type=number updatewhereclause=yes name=cajaspallet dbname="palformato.cajaspallet" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"palformato~" ) COLUMN(NAME=~"palformato.empresa~") COLUMN(NAME=~"palformato.formato~") COLUMN(NAME=~"palformato.codigo~") COLUMN(NAME=~"palformato.cajaspallet~")WHERE(    EXP1 =~"palformato.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"palformato.formato~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string)  ARG(NAME = ~"articulo~" TYPE = string) " update="palformato" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("codigo", string),("articulo", string)) )
+compute(band=detail alignment="0" expression="f_nombre_pallet_abr(empresa,codigo)"border="0" color="128" x="18" y="4" height="64" width="50" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_formato_abr(empresa,formato)"border="0" color="0" x="82" y="4" height="64" width="251" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="f_piezascaja_articulo(empresa,articulo)"border="0" color="0" x="347" y="4" height="64" width="114" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="622" y="4" height="64" width="82" format="[general]"  name=cajaspallet edit.limit=0 edit.case=any edit.format="###" edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Cj/Pal"border="0" color="128" x="713" y="12" height="56" width="119"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Pzs/cj"border="0" color="128" x="475" y="12" height="56" width="133"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

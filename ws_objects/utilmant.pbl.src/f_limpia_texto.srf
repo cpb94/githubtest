@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_limpia_texto.srf
+global type f_limpia_texto from function_object
+end type
+
+forward prototypes
+global function string f_limpia_texto (string cadena)
+end prototypes
+
+global function string f_limpia_texto (string cadena);long donde
+
+donde = pos(cadena, "&")
+
+if donde > 0 then
+	cadena = replace(cadena, donde, 1, "")	
+end if
+
+donde = pos(cadena, "Shift+")
+
+if donde > 0 then
+	cadena = replace(cadena, donde, 6, "")	
+end if
+
+donde = pos(cadena, "Ctrl+")
+
+if donde > 0 then
+	cadena = replace(cadena, donde, 5, "")	
+end if
+
+donde = pos(cadena, "F1")
+
+if donde > 0 then
+	cadena = replace(cadena, donde, 2, "")	
+end if
+
+return cadena
+
+end function
+

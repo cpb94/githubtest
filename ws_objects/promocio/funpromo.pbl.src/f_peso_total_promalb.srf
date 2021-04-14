@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_peso_total_promalb.srf
+global type f_peso_total_promalb from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_total_promalb (string empresa, decimal anyo, integer albaran)
+end prototypes
+
+global function decimal f_peso_total_promalb (string empresa, decimal anyo, integer albaran);Dec{4} variable
+  
+  SELECT promalb.peso_total 
+    INTO :variable  
+    FROM promalb  
+   WHERE ( promalb.empresa  = :empresa ) AND  
+         ( promalb.anyo     = :anyo ) AND  
+         ( promalb.albaran  = :albaran )   ;
+Return variable
+end function
+

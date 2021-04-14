@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_codigo_empresa.srf
+$PBExportComments$Da el valor de la empresa por defecto.
+global type f_codigo_empresa from function_object
+end type
+
+forward prototypes
+global function string f_codigo_empresa ()
+end prototypes
+
+global function string f_codigo_empresa ();empresa_decimal = DEC(codigo_empresa)
+RETURN Trim(codigo_empresa)
+end function
+

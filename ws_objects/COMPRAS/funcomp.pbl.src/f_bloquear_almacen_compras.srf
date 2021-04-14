@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_bloquear_almacen_compras.srf
+global type f_bloquear_almacen_compras from function_object
+end type
+
+forward prototypes
+global function boolean f_bloquear_almacen_compras (string titulo)
+end prototypes
+
+global function boolean f_bloquear_almacen_compras (string titulo);IF Not f_bloquear("GESTION ALMACEN DE COMPRAS","ALMACEN_COMPRAS",titulo) Then
+	COMMIT;
+	Return FALSE
+ELSE
+  
+	Return TRUE
+END IF
+end function
+

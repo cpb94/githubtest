@@ -1,0 +1,75 @@
+﻿$PBExportHeader$report_con_ranking_articulos.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=724 color="553648127" )
+summary(height=180 color="536870912" )
+footer(height=72 color="536870912" )
+detail(height=88 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=moneda dbname="comodin.moneda" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcentaje dbname="comodin.porcentaje" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcac dbname="comodin.porcac" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=serie dbname="comodin.serie" )
+ column=(type=char(255) updatewhereclause=yes name=articulo dbname="comodin.articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_articulo dbname="comodin.nombre_articulo" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_formato dbname="comodin.nombre_formato" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_facturas dbname="comodin.importe_facturas" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad_piezas dbname="comodin.cantidad_piezas" )
+ column=(type=decimal(4) updatewhereclause=yes name=pm dbname="comodin.pm" )
+ column=(type=decimal(4) updatewhereclause=yes name=stock dbname="comodin.stock" )
+ column=(type=char(255) updatewhereclause=yes name=divisa dbname="comodin.divisa" )
+ column=(type=decimal(4) updatewhereclause=yes name=cambio dbname="comodin.cambio" )
+ column=(type=datetime updatewhereclause=yes name=fechad dbname="comodin.fechad" )
+ column=(type=datetime updatewhereclause=yes name=fechah dbname="comodin.fechah" )
+ retrieve="  SELECT comodin.empresa,  
+       numerico moneda,   
+       numerico porcentaje,
+		 numerico porcac,  
+       letras   cliente,   
+       letras   serie,
+		 letras   articulo,
+		 letras   nombre_articulo,
+		 letras   nombre_formato,
+		 numerico importe_facturas,
+		 numerico cantidad_piezas,
+		 numerico pm,
+		 numerico	stock,
+		 letras   divisa,
+		 numerico cambio,
+		 fecha    fechad,
+		 fecha    fechah
+FROM   comodin  
+WHERE  comodin.empresa = :empresa " arguments=(("empresa", string),("fechad", datetime),("fechaa", datetime),("cliente", string),("series", string))  sort="empresa A " )
+compute(band=header alignment="0" expression=" pageCount()"border="0" color="16777215" x="18" y="304" height="12" width="23" format="[general]"  name=total_paginas  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=header dataobject="report_cabecera" x="5" y="8" height="304" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="RANKING DE ARTÍCULOS"border="0" color="128" x="969" y="380" height="120" width="1376"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="P.M."border="6" color="0" x="2619" y="660" height="56" width="210"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="%"border="6" color="0" x="2853" y="660" height="56" width="174"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="% Ac."border="6" color="0" x="3049" y="660" height="56" width="155"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Código"border="6" color="0" x="14" y="660" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Código"border="6" color="0" x="14" y="660" height="56" width="206"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="233" y="660" height="56" width="242"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=header alignment="0" expression="~"DESDE : ~"+string(fechad,~"dd-mm-yy~")+~" HASTA : ~"+string(fechah,~"dd-mm-yy~")"border="0" color="128" x="974" y="540" height="84" width="2391" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="Descripción"border="6" color="0" x="494" y="660" height="56" width="951"  name=texto1  slideup=allabove  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="2117" y="660" height="56" width="485"  name=texto4  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1467" y="660" height="56" width="334"  name=texto3  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stock"border="6" color="0" x="1824" y="660" height="56" width="270"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="14" y="8" height="68" width="201" format="[general]"  name=articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="0" x="229" y="8" height="68" width="247" format="[general]"  name=nombre_formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="1" tabsequence=32766 border="0" color="0" x="2624" y="8" height="68" width="206" format=""  name=pm editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2853" y="8" height="68" width="174" format=""  name=porcentaje editmask.mask="#,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="3049" y="8" height="68" width="160" format="[general]"  name=porcac editmask.mask="#,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="489" y="8" height="68" width="955" format="[general]"  name=nombre_articulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2126" y="8" height="68" width="485" format="[general]"  name=importe_facturas editmask.mask="###,###,###.##" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="1819" y="8" height="68" width="288" format="###,###,###,###,###"  name=stock edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="0" x="1463" y="8" height="68" width="343" format="[general]"  name=cantidad_piezas editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="TOTAL:"border="0" color="0" x="1088" y="20" height="60" width="338"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum(cantidad_piezas for all),~"###,###,###~")"border="0" color="0" x="1463" y="20" height="60" width="338" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( stock for all )"border="0" color="0" x="1819" y="20" height="60" width="288" format="###,###,###,###"  name=toal_stock  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="string(sum( importe_facturas for all),~"###,###,##0.00~")"border="0" color="0" x="2130" y="20" height="60" width="466" format="~tf_mascara_moneda( moneda )"  name=total  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="dec(total) * 166.386"border="0" color="0" x="2135" y="100" height="60" width="462" format="###,###,###,###,###"  name=totalpts  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="€"border="0" color="0" x="2615" y="24" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="Pts"border="0" color="0" x="2615" y="108" height="56" width="96"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="2" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1298" y="8" height="52" width="928" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_diaspago3_venclientes.srf
+global type f_diaspago3_venclientes from function_object
+end type
+
+forward prototypes
+global function integer f_diaspago3_venclientes (string empresa, string cliente)
+end prototypes
+
+global function integer f_diaspago3_venclientes (string empresa, string cliente);String var_empresa,var_codigo
+Integer var_dia
+
+  SELECT venclientes.empresa,   
+         venclientes.codigo,   
+         venclientes.diaspago3
+    INTO :var_empresa,   
+         :var_codigo,   
+         :var_dia  
+    FROM venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente
+ORDER BY venclientes.empresa ASC,   
+         venclientes.codigo ASC  ;
+Return var_dia;
+
+end function
+

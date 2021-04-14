@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_insert_alm_bultos_lineas.srf
+global type f_insert_alm_bultos_lineas from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_alm_bultos_lineas (ref str_alm_bultos_lineas lstr_alm_bultos_lineas)
+end prototypes
+
+global function boolean f_insert_alm_bultos_lineas (ref str_alm_bultos_lineas lstr_alm_bultos_lineas);long    ll_donde
+boolean lb_correcto = true
+string  ls_error
+datastore ds_insert
+
+f_cargar_cursor_transaccion(sqlca,ds_insert ,"select * from alm_bultos_lineas where 0 = 1")
+
+ll_donde = ds_insert.insertrow(0)
+
+ds_insert.object.id_alm_bultos[ll_donde]     = lstr_alm_bultos_lineas.id_alm_bultos
+ds_insert.object.empresa[ll_donde]           = lstr_alm_bultos_lineas.empresa
+ds_insert.object.articulo[ll_donde]          = lstr_alm_bultos_lineas.articulo
+ds_insert.object.calidad[ll_donde]           = lstr_alm_bultos_lineas.calidad
+ds_insert.object.tono[ll_donde]              = lstr_alm_bultos_lineas.tono
+ds_insert.object.calibre[ll_donde]           = lstr_alm_bultos_lineas.calibre
+ds_insert.object.caja[ll_donde]              = lstr_alm_bultos_lineas.caja
+ds_insert.object.cantidad[ll_donde]          = lstr_alm_bultos_lineas.cantidad
+ds_insert.object.linea_orden_carga[ll_donde] = lstr_alm_bultos_lineas.linea_orden_carga 
+
+if ds_insert.update(true) = 1 then
+	lstr_alm_bultos_lineas.id = ds_insert.object.id[ll_donde]
+else
+	ls_error = sqlca.sqlerrtext
+	lstr_alm_bultos_lineas.id = 0
+	lb_correcto = false	
+	messagebox("¡Error!","Se ha producudo un error al crear un bulto nuevo.~n"+ls_error)
+end if
+
+destroy ds_insert
+
+return lb_correcto
+end function
+

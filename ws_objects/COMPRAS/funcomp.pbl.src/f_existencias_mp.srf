@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_existencias_mp.srf
+global type f_existencias_mp from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_mp (string empresa, string mp)
+end prototypes
+
+global function decimal f_existencias_mp (string empresa, string mp);Dec{4}   var_existencias
+
+
+SELECT sum(comlinubica.existencias)  
+INTO   :var_existencias  
+FROM   comlinubica
+WHERE comlinubica.empresa     = :empresa
+AND   comlinubica.mp  			= :mp;
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

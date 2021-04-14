@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_dias_minimos_segcompanyia.srf
+global type f_dias_minimos_segcompanyia from function_object
+end type
+
+forward prototypes
+global function decimal f_dias_minimos_segcompanyia (string empresa, string codigo)
+end prototypes
+
+global function decimal f_dias_minimos_segcompanyia (string empresa, string codigo);Dec{0} variable
+
+  SELECT  segcompanyias.dias_minimos   INTO :variable  
+    FROM  segcompanyias  
+   WHERE (segcompanyias.empresa = :empresa )
+	AND   (segcompanyias.codigo  = :codigo  );
+
+Return variable;
+end function
+

@@ -1,0 +1,48 @@
+﻿$PBExportHeader$dw_hoja_pallet.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 7 print.paper.size = 9 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=416 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=1980 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=codigo dbname="comodin.codigo" )
+ column=(type=char(255) updatewhereclause=yes name=caja dbname="comodin.caja" )
+ column=(type=char(255) updatewhereclause=yes name=palet dbname="comodin.palet" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=ncajas dbname="comodin.ncajas" )
+ column=(type=char(255) updatewhereclause=yes name=npiezas dbname="comodin.npiezas" )
+ column=(type=char(255) updatewhereclause=yes name=otra dbname="comodin.otra" )
+ column=(type=char(255) updatewhereclause=yes name=cajas dbname="comodin.cajas" )
+ column=(type=char(255) updatewhereclause=yes name=pzcj dbname="comodin.pzcj" )
+ column=(type=char(255) updatewhereclause=yes name=formato dbname="comodin.formato" )
+ retrieve="SELECT comodin.empresa,   
+         letras codigo,   
+			letras caja,
+         letras palet,
+			letras cliente,
+			letras nombre_cliente,   
+         letras ncajas,
+			letras npiezas,
+			letras otra,   
+			letras cajas,
+			letras pzcj,
+			letras formato
+FROM comodin  
+WHERE comodin.empresa = :arg_empresa    
+" arguments=(("arg_empresa", string),("arg_codigo", string),("arg_caja", string),("arg_palet", string),("arg_cliente", string),("arg_ncajas", string),("arg_npiezas", string),("arg_otra", string),("arg_cajas", string),("arg_pzcj", string)) )
+report(band=header dataobject="report_cabecera_legal_solo_logo" x="0" y="0" height="388" width="1070" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa")) trail_footer = yes visible="1~t0"  slideup=directlyabove )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="0" x="1129" y="16" height="88" width="96" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="number(ncajas)"border="0" color="0" x="9" y="1744" height="216" width="402" format="[general]"  name=numcajas  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="f_piezascaja_articulo(empresa,codigo,caja)"border="0" color="0" x="1463" y="1748" height="212" width="480" format="[general]"  name=pc  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="2" expression="pzcj"border="0" color="0" x="1979" y="1748" height="212" width="713" format="[general]"  name=pzcj_text  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="~"+ ~" + trim(npiezas) + ~" PZ.~""border="0" color="0" x="2720" y="1748" height="208" width="827" format="[general]"  name=sueltas  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="1" expression="string((f_piezascaja_articulo(empresa,codigo,caja) * number(ncajas) ) + number(npiezas),~"###,###~")"border="0" color="0" x="3570" y="1748" height="208" width="928" format="[general]"  name=total  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="0" text="PZ."border="0" color="0" x="4521" y="1748" height="208" width="306"  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="448" y="1748" height="208" width="987" format="[general]"  name=cajas edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-32" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1065" y="8" height="60" width="987" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="2" tabsequence=32766 border="0" color="0" x="18" y="20" height="384" width="4791" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-48" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="0" color="0" x="18" y="524" height="184" width="4791" format="[general]"  name=otra edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-28" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=12 alignment="2" tabsequence=32766 border="0" color="0" x="18" y="908" height="184" width="4791" format="[general]"  name=formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-28" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

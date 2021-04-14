@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_pagina_abajo.srf
+$PBExportComments$Baja  una pagina el la datawinodw recibida.
+global type f_pagina_abajo from function_object
+end type
+
+forward prototypes
+global subroutine f_pagina_abajo (datawindow arg_datawindow)
+end prototypes
+
+global subroutine f_pagina_abajo (datawindow arg_datawindow);arg_datawindow.ScrollNextPage()
+
+end subroutine
+

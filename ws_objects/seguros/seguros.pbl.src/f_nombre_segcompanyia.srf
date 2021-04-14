@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_segcompanyia.srf
+global type f_nombre_segcompanyia from function_object
+end type
+
+forward prototypes
+global function string f_nombre_segcompanyia (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_segcompanyia (string empresa, string codigo);String variable
+
+  SELECT  segcompanyias.nombre   INTO :variable  
+    FROM  segcompanyias  
+   WHERE (segcompanyias.empresa = :empresa )
+	AND   (segcompanyias.codigo  = :codigo  );
+
+Return variable;
+end function
+

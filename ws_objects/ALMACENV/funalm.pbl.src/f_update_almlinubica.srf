@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_update_almlinubica.srf
+global type f_update_almlinubica from function_object
+end type
+
+forward prototypes
+global function boolean f_update_almlinubica (str_almlinubica a)
+end prototypes
+
+global function boolean f_update_almlinubica (str_almlinubica a);Boolean bool
+bool = TRUE
+
+UPDATE almlinubica  
+SET existencias   = :a.existencias,   
+    anyo          = :a.anyo,   
+    pedido        = :a.pedido,   
+    linped        = :a.linped,   
+    cliente       = :a.cliente,   
+    observaciones = :a.observaciones,   
+    f_alta = :a.f_alta  
+WHERE (almlinubica.empresa   = :a.empresa )
+AND   (almlinubica.ubicacion = :a.ubicacion )
+AND   (almlinubica.linea     = :a.linea )   ;
+If sqlca.sqlcode <> 0 Then  bool = FALSE
+Return bool
+
+end function
+

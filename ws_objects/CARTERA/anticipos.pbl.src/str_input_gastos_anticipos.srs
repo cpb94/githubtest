@@ -1,0 +1,26 @@
+﻿$PBExportHeader$str_input_gastos_anticipos.srs
+global type str_input_gastos_anticipos from structure
+	string		banco
+	integer		anyo
+	integer		contador
+	integer		prorroga
+	decimal {2}	importe
+	decimal {2}	intereses
+	integer		num_gastos
+	decimal {2}	gastos[50]
+	string		cuentas[50]
+	string		cta_intereses
+	decimal {2}	total_gastos
+	decimal {2}	importe_salida
+	boolean		correcto
+	string		naci_extra
+	string		tipodoc
+	datetime		vencimiento
+	datetime		fecha_abono
+	string		abono_liq_teo
+	datetime		fecha_liquidacion
+	integer		situacion
+	integer		num_liquidacion
+	string		es_prorroga
+end type
+

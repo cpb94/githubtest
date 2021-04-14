@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_labcontadores.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=208 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="lab_param.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="lab_param.anyo" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=prueba dbname="lab_param.prueba" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"lab_param~" ) COLUMN(NAME=~"lab_param.empresa~") COLUMN(NAME=~"lab_param.anyo~") COLUMN(NAME=~"lab_param.prueba~")WHERE(    EXP1 =~"lab_param.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"lab_param.anyo~"   OP =~"=~"    EXP2 =~":arg_anyo~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_anyo~" TYPE = number) " update="lab_param" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_anyo", number)) )
+text(band=detail alignment="1" text="Contador Pruebas Esmaltes:"border="0" color="0" x="23" y="68" height="64" width="846"  name=pedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=10 border="5" color="0" x="896" y="68" height="64" width="279" format="[general]"  name=prueba edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_conversion_cantidad_ml.srf
+global type f_conversion_cantidad_ml from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_cantidad_ml (string cod_empresa, string cod_articulo, decimal n_total)
+end prototypes
+
+global function decimal f_conversion_cantidad_ml (string cod_empresa, string cod_articulo, decimal n_total); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Integer bien
+ decimal{3}  total_cantidad,ancho, largo
+ 
+ 
+ bien=0
+ SELECT  articulos.unidad,formatos.ancho, formatos.largo
+    INTO :cod_unidad,:ancho, :largo
+    FROM articulos,formatos
+   WHERE articulos.empresa = :cod_empresa
+	AND   articulos.codigo  = :cod_articulo
+	AND   formatos.empresa = articulos.empresa
+	AND   formatos.codigo = articulos.formato;
+	IF SQLCA.SQLCode<>0 THEN bien=1
+
+
+CHOOSE CASE cod_unidad
+CASE  "1" // la unidad del artículo es metros
+		// primero paso a unidades
+		total_cantidad =  (n_total * 10000) /(largo * ancho)
+		total_cantidad = total_cantidad * largo
+   
+CASE "0" // la unidad del artículo es unidades
+       total_cantidad = n_total * largo / 100
+ CASE  ELSE
+   bien=1
+END CHOOSE
+RETURN total_cantidad
+
+
+
+
+
+
+
+
+
+
+end function
+

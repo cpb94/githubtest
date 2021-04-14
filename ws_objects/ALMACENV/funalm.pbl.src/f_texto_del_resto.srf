@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_texto_del_resto.srf
+global type f_texto_del_resto from function_object
+end type
+
+forward prototypes
+global function string f_texto_del_resto (string empresa, string articulo, decimal cajas, decimal cantidad, string caja)
+end prototypes
+
+global function string f_texto_del_resto (string empresa, string articulo, decimal cajas, decimal cantidad, string caja);String texto
+Dec{0} piezascaja,cj,pz
+piezascaja = f_piezascaja_articulo(empresa,articulo,caja)
+IF piezascaja * cajas > cantidad Then
+  cj = cajas -1
+  pz = cantidad - (cj * piezascaja)
+ELSE
+  cj = cajas 
+  pz = cantidad - (cj * piezascaja)
+End if
+
+IF IsNull(cj) or cj = 0 Then
+	texto = ""
+ELSE
+	texto = String(cj)+"Cj x " + String(piezascaja) + "Pz"
+END IF
+
+IF pz <> 0 Then
+	texto = texto + " + " +String(pz) + " piezas"
+END IF
+Return texto
+end function
+

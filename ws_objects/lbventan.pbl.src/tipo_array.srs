@@ -1,0 +1,5 @@
+﻿$PBExportHeader$tipo_array.srs
+global type tipo_array from structure
+	string		valor[150]
+end type
+

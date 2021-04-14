@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_cargar_menu_new.srf
+global type f_cargar_menu_new from function_object
+end type
+
+forward prototypes
+global subroutine f_cargar_menu_new (window aw_ventana)
+end prototypes
+
+global subroutine f_cargar_menu_new (window aw_ventana);string v_apli
+menu nombre_menu
+
+nombre_menu = aw_ventana.MenuId
+v_apli      = f_codigo_aplicacion(codigo_empresa,  aw_ventana.tag)
+
+guo_menu_utigrupos.of_menu_cargar(nombre_menu, gs_usuarios_v_grupo, codigo_empresa, v_apli)
+
+end subroutine
+

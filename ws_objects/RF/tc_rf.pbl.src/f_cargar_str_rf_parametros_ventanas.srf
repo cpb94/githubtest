@@ -1,0 +1,79 @@
+﻿$PBExportHeader$f_cargar_str_rf_parametros_ventanas.srf
+global type f_cargar_str_rf_parametros_ventanas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_rf_parametros_ventanas (decimal arg_id, ref str_rf_parametros_ventanas str_rf_parametros_ventanas)
+end prototypes
+
+global function boolean f_cargar_str_rf_parametros_ventanas (decimal arg_id, ref str_rf_parametros_ventanas str_rf_parametros_ventanas);boolean lb_correcto = true
+
+SELECT rf_parametros_ventanas.id,
+       rf_parametros_ventanas.empresa,
+       rf_parametros_ventanas.descripcion,
+       rf_parametros_ventanas.texto_ventana,
+       rf_parametros_ventanas.tipo_ventana,
+       rf_parametros_ventanas.ayuda_ventana,
+       rf_parametros_ventanas.texto_paso1,
+       rf_parametros_ventanas.texto_paso2,
+       rf_parametros_ventanas.texto_paso3,
+       rf_parametros_ventanas.ayuda_paso1,
+       rf_parametros_ventanas.ayuda_paso2,
+       rf_parametros_ventanas.ayuda_paso3,
+       rf_parametros_ventanas.tipo_movimiento_entrada,
+       rf_parametros_ventanas.sugerir_ubicacion_entrada,
+       rf_parametros_ventanas.entrada_ubicacion_fija,
+       rf_parametros_ventanas.almacen_entrada,
+       rf_parametros_ventanas.zona_entrada,
+       rf_parametros_ventanas.fila_entrada,
+       rf_parametros_ventanas.altura_entrada,
+       rf_parametros_ventanas.tipo_movimiento_salida,
+       rf_parametros_ventanas.salida_ubicacion_fija,
+       rf_parametros_ventanas.almacen_salida,
+       rf_parametros_ventanas.zona_salida,
+       rf_parametros_ventanas.fila_salida,
+       rf_parametros_ventanas.altura_salida,
+		 rf_parametros_ventanas.permitir_en_bulto_con_lineas,
+		 rf_parametros_ventanas.tipologia_articulo, 
+		 rf_parametros_ventanas.permitir_en_bulto_de_ubicacion,
+		 rf_parametros_ventanas.mostrar_contenido_bulto_entrada,
+		 rf_parametros_ventanas.entrada_consume_cajas 
+INTO   :str_rf_parametros_ventanas.id,
+       :str_rf_parametros_ventanas.empresa,
+       :str_rf_parametros_ventanas.descripcion,
+       :str_rf_parametros_ventanas.texto_ventana,
+       :str_rf_parametros_ventanas.tipo_ventana,
+       :str_rf_parametros_ventanas.ayuda_ventana,
+       :str_rf_parametros_ventanas.texto_paso1,
+       :str_rf_parametros_ventanas.texto_paso2,
+       :str_rf_parametros_ventanas.texto_paso3,
+       :str_rf_parametros_ventanas.ayuda_paso1,
+       :str_rf_parametros_ventanas.ayuda_paso2,
+       :str_rf_parametros_ventanas.ayuda_paso3,
+       :str_rf_parametros_ventanas.tipo_movimiento_entrada,
+       :str_rf_parametros_ventanas.sugerir_ubicacion_entrada,
+       :str_rf_parametros_ventanas.entrada_ubicacion_fija,
+       :str_rf_parametros_ventanas.almacen_entrada,
+       :str_rf_parametros_ventanas.zona_entrada,
+       :str_rf_parametros_ventanas.fila_entrada,
+       :str_rf_parametros_ventanas.altura_entrada,
+       :str_rf_parametros_ventanas.tipo_movimiento_salida,
+       :str_rf_parametros_ventanas.salida_ubicacion_fija,
+       :str_rf_parametros_ventanas.almacen_salida,
+       :str_rf_parametros_ventanas.zona_salida,
+       :str_rf_parametros_ventanas.fila_salida,
+       :str_rf_parametros_ventanas.altura_salida,
+		 :str_rf_parametros_ventanas.permitir_en_bulto_con_lineas,
+		 :str_rf_parametros_ventanas.tipologia_articulo, 
+		 :str_rf_parametros_ventanas.permitir_en_bulto_de_ubicacion,
+		 :str_rf_parametros_ventanas.mostrar_contenido_bulto_entrada,
+		 :str_rf_parametros_ventanas.entrada_consume_cajas 
+FROM rf_parametros_ventanas
+WHERE rf_parametros_ventanas.id = :arg_id;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

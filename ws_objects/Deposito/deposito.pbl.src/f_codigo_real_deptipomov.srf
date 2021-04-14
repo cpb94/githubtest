@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_codigo_real_deptipomov.srf
+global type f_codigo_real_deptipomov from function_object
+end type
+
+forward prototypes
+global function string f_codigo_real_deptipomov (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_codigo_real_deptipomov (string ai_empresa, string as_tipo);string	real
+
+    SELECT deptipomov.codigo_real
+    INTO :real
+    FROM deptipomov  
+   WHERE ( deptipomov.empresa      = :ai_empresa ) AND  
+         ( deptipomov.tipomov      = :as_tipo )
+    USING SQLCA;
+
+RETURN real
+end function
+

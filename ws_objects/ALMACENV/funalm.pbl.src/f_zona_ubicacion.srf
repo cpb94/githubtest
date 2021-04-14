@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_zona_ubicacion.srf
+global type f_zona_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_zona_ubicacion (string ubicacion)
+end prototypes
+
+global function string f_zona_ubicacion (string ubicacion);string	ls_parametro
+  ls_parametro = Trim(String(Mid(ubicacion,6,5)))
+   
+RETURN ls_parametro
+end function
+

@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_borrar_cuentas_balance_dw.srf
+global type f_borrar_cuentas_balance_dw from function_object
+end type
+
+forward prototypes
+global subroutine f_borrar_cuentas_balance_dw (ref datawindow arw_data)
+end prototypes
+
+global subroutine f_borrar_cuentas_balance_dw (ref datawindow arw_data);
+long ll_cont,ll_filas
+string ls_cuenta,ls_cuenta_equiv
+
+ll_filas = arw_data.rowcount()
+
+if ll_filas > 0 then
+	
+	for ll_cont =  ll_filas to 1 step -1
+		
+	ls_cuenta = arw_data.object.cuenta[ll_cont]
+	 
+	/// leemos si tiene cuenta de equivalencia
+	select contaplan_equivalencia.cuenta_equiv into :ls_cuenta_equiv
+		from contaplan_equivalencia
+		where contaplan_equivalencia.cuenta_vieja =:ls_cuenta
+		and   contaplan_equivalencia.ejercicio = 2007
+		and   contaplan_equivalencia.empresa =:codigo_empresa
+		using sqlca;
+		
+	
+		
+		if not f_nulo_blanco(ls_cuenta_equiv) and &
+			trim(ls_cuenta_equiv) <> "D" then
+			
+			select contaplan_equivalencia.cuenta_equiv into :ls_cuenta_equiv
+		from contaplan_equivalencia
+		where contaplan_equivalencia.cuenta_equiv =:ls_cuenta
+		and   contaplan_equivalencia.ejercicio = 2007
+		and   contaplan_equivalencia.empresa =:codigo_empresa
+		using sqlca;
+		
+		if sqlca.sqlcode = 100 then
+			
+			arw_data.deleterow(ll_cont)
+			
+			ls_cuenta_equiv=""
+		end if
+			
+		end if
+		
+		
+		
+		
+	next
+	
+end if
+
+
+
+end subroutine
+

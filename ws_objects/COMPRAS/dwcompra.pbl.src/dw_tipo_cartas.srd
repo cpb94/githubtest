@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_tipo_cartas.srd
+$PBExportComments$Datawindow mantenimiento tipo de cartas.
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=285 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="mtipo_cartas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="mtipo_cartas.codigo" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=texto dbname="mtipo_cartas.texto" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=resumido dbname="mtipo_cartas.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mtipo_cartas~" ) COLUMN(NAME=~"mtipo_cartas.empresa~") COLUMN(NAME=~"mtipo_cartas.codigo~") COLUMN(NAME=~"mtipo_cartas.texto~") COLUMN(NAME=~"mtipo_cartas.resumido~")WHERE( EXP1 =~"mtipo_cartas.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"mtipo_cartas.codigo~" OP =~"=~" EXP2 =~":codigo~" ) ) ORDER(NAME=~"mtipo_cartas.empresa~" ASC=yes ) ORDER(NAME=~"mtipo_cartas.codigo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) " update="mtipo_cartas" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="87" y="76" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="87" y="184" height="65" width="357"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="471" y="76" height="73" width="828" format="[general]"  name=texto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="471" y="188" height="73" width="193" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

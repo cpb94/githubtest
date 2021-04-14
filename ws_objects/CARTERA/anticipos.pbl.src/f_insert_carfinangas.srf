@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_insert_carfinangas.srf
+global type f_insert_carfinangas from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carfinangas (str_carfinangas gasto)
+end prototypes
+
+global function boolean f_insert_carfinangas (str_carfinangas gasto);IF IsNUll(gasto.empresa) or isnull(gasto.anyo) or isnull(gasto.bancofinan) or &
+	isnull(gasto.contador) or isnull(gasto.num_prorroga) or isnull(gasto.aboliqteo) or &
+	isnull(gasto.liquidacion) or isnull(gasto.codgas) then 
+	f_mensaje("Error en Base de datos (f_insert_carfinangas)","Pase de parámetros")
+	return false
+end if
+	
+
+INSERT INTO carfinangas 
+		( empresa,anyo,bancofinan,contador,num_prorroga,
+		aboliqteo,liquidacion,codgas,porcentaje,importe_min,
+		cambio,divisas,importe,moneda,cuenta )
+		  
+VALUES ( :gasto.empresa,:gasto.anyo,:gasto.bancofinan,:gasto.contador,:gasto.num_prorroga,
+		:gasto.aboliqteo,:gasto.liquidacion,:gasto.codgas,:gasto.porcentaje,
+		:gasto.importe_min,:gasto.cambio,:gasto.divisas,:gasto.importe,
+		:gasto.moneda,:gasto.cuenta)  ;
+
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("Error en Base de datos (f_insert_carfinangas)",sqlca.sqlerrtext)
+ 	Return FALSE
+ELSE
+ 	Return TRUE
+END IF
+
+
+end function
+

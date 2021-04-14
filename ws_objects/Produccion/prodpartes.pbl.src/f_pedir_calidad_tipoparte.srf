@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pedir_calidad_tipoparte.srf
+global type f_pedir_calidad_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_pedir_calidad_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_pedir_calidad_tipoparte (string empresa, string linea);string pedir_calidad
+
+select pedir_calidad
+into   :pedir_calidad
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(pedir_calidad) then pedir_calidad = ""
+if trim(pedir_calidad) = "" then
+	pedir_calidad = "N"
+end if
+
+return pedir_calidad
+end function
+

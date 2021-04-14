@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_cantidad_alminvent_reservada.srf
+$PBExportComments$Calcula la cantidad preparada  em la tabla de inventarios a un inventario y referencia , tipo_pallet
+global type f_cantidad_alminvent_reservada from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_alminvent_reservada (string empresa, datetime fecha, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_cantidad_alminvent_reservada (string empresa, datetime fecha, string referencia, string tipo_pallet);Decimal{4} existencias  
+SELECT alminvent.empresa, alminvent.fecha_inv, alminvent.referencia,  alminvent.tipo_pallet, sum(alminvent.existencias)  
+INTO   :empresa,:fecha,:referencia,:tipo_pallet,:existencias  
+FROM   alminvent  
+WHERE (alminvent.empresa      =  :empresa )
+AND   (alminvent.fecha_inv    =  :fecha )
+AND   (alminvent.referencia   =  :referencia )
+AND   (alminvent.tipo_pallet  =  :tipo_pallet )   
+AND   (alminvent.pedido is null)
+GROUP BY alminvent.empresa, alminvent.fecha_inv,  alminvent.referencia, alminvent.tipo_pallet
+ORDER BY alminvent.empresa ASC,alminvent.fecha_inv ASC,  alminvent.referencia ASC,alminvent.tipo_pallet ASC;
+			
+IF IsNull(existencias) Then  existencias=0
+Return existencias
+
+end function
+

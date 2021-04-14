@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_digitos_familia.srf
+global type f_digitos_familia from function_object
+end type
+
+forward prototypes
+global function string f_digitos_familia (string empresa, integer digito, integer codigo)
+end prototypes
+
+global function string f_digitos_familia (string empresa, integer digito, integer codigo);string campo,tabla,cadena
+DataStore	ds_act_fcampos
+Integer rr
+
+tabla = "act_fcampo" + string(digito)
+
+cadena = "SELECT texto " +&
+			"FROM " + tabla +&
+			" WHERE empresa = '" + empresa + "'" +&
+			" AND codigo = " + string(codigo)
+
+//ds_act_fcampos = f_cargar_cursor(cadena)	
+f_cargar_cursor_nuevo(cadena, ds_act_fcampos)
+
+rr = ds_act_fcampos.RowCount()
+
+If rr = 0 then
+	campo = ''
+Else
+	campo = trim(ds_act_fcampos.GetItemString(1,"texto"))
+	If campo ='.' or campo ='' or isnull(campo) then campo = ''
+End If
+	
+Destroy(ds_act_fcampos)	
+	
+return campo
+end function
+

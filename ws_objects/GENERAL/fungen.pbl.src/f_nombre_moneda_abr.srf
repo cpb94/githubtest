@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_moneda_abr.srf
+$PBExportComments$Devualve el nombre de la moneda resumido.
+global type f_nombre_moneda_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_moneda_abr (string ai_codmoneda)
+end prototypes
+
+global function string f_nombre_moneda_abr (string ai_codmoneda);string ls_nommoneda
+
+  SELECT monedas.abreviado
+    INTO :ls_nommoneda  
+    FROM monedas  
+   WHERE monedas.moneda = :ai_codmoneda   
+  USING sqlca;
+
+IF IsNull(ls_nommoneda) Then ls_nommoneda=""
+RETURN ls_nommoneda
+end function
+

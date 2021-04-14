@@ -1,0 +1,81 @@
+﻿$PBExportHeader$f_calculo_coste_elemento.srf
+global type f_calculo_coste_elemento from function_object
+end type
+
+forward prototypes
+global function str_costes f_calculo_coste_elemento (string empresa, string articulo)
+end prototypes
+
+global function str_costes f_calculo_coste_elemento (string empresa, string articulo);datastore ds_operaciones
+string  sel
+long i
+decimal factor, coste_fab, coste_mp, coste_packing, coste_compras, coste_mp_mermas, coste_fab_mermas
+str_costes datos_costes
+
+factor = 1
+datos_costes.coste_mp = 0
+datos_costes.coste_fab = 0
+datos_costes.coste_packing = 0
+datos_costes.coste_compras = 0
+datos_costes.coste_mp_mermas = 0
+datos_costes.coste_fab_mermas = 0
+	
+sel = 	" select articulos.codigo, art_Ver_operaciones.factor, art_Ver_operaciones.coste_fab, art_Ver_operaciones.coste_mp, "+&
+		" art_ver_operaciones.coste_fab_mermas, art_ver_operaciones.coste_mp_mermas,  art_ver_operaciones.coste_packing,  "+&
+		" CASE articulos.cant_compras  "+&
+		"     WHEN  0 THEN 0 "+&
+		"     WHEN  NULL THEN 0 "+&
+		" ELSE (comartpro.precio / articulos.cant_compras) "+&
+		" END  coste_compras "+&
+		" from articulos "+&
+		" left outer join art_ver_operaciones on art_ver_operaciones.empresa = articulos.empresa  "+&
+		" 						and  art_ver_operaciones.articulo = articulos.codigo and art_ver_operaciones.version = '1' "+&
+		" left outer join art_versiones on  art_Ver_operaciones.empresa = art_versiones.empresa   "+&
+		" 						and art_Ver_operaciones.articulo = art_versiones.articulo   "+&
+		" 						and art_Ver_operaciones.version = art_Versiones.version   "+&
+		" 						and art_Versiones.version = '1'   "+&
+		" left outer join venmprima on articulos.empresa = venmprima.empresa   "+&
+		" 						and articulos.codigo_compras = venmprima.codigo  "+&
+		" left outer join comartpro on venmprima.empresa = comartpro.empresa  "+&
+		" 						and venmprima.codigo = comartpro.mprima   "+&
+		" 						and comartpro.proveedor = ( select top 1 C2.proveedor   "+&
+		" 													from comartpro  C2   "+&
+		" 													where C2.empresa = comartpro.empresa   "+&
+		" 													and C2.mprima = comartpro.mprima   "+&
+		" 													order by precio asc)  "+&
+		" where articulos.empresa = '"+codigo_empresa+"' "+&
+		"  and articulos.codigo = '"+articulo+"' "
+	
+
+f_cargar_cursor_nuevo(sel, ds_operaciones)
+for i = 1 to ds_operaciones.rowcount()
+	articulo = ds_operaciones.object.articulos_codigo[i]
+	coste_mp = ds_operaciones.object.art_ver_operaciones_coste_mp[i]
+	coste_fab =  ds_operaciones.object.art_ver_operaciones_coste_fab[i]
+	coste_fab_mermas  =  ds_operaciones.object.art_ver_operaciones_coste_fab_mermas[i]
+	coste_mp_mermas  =  ds_operaciones.object.art_ver_operaciones_coste_mp_mermas[i]
+	coste_packing = ds_operaciones.object.art_ver_operaciones_coste_packing[i]
+	coste_compras  =  ds_operaciones.object.coste_compras[i]
+
+	if isnull(coste_mp) then coste_mp = 0
+	if isnull(coste_fab)  then coste_fab = 0		
+	if isnull(coste_packing) then coste_packing = 0
+	if isnull(coste_compras) then coste_compras = 0
+	if isnull(coste_fab_mermas )  then coste_fab_mermas = 0
+	if isnull(coste_mp_mermas ) then coste_mp_mermas = 0
+	// Las mermas no las dividiremos por el factor, ya que el cálculo del coste se hace para la pieza equivalente a la final.
+	datos_costes.coste_mp += coste_mp / factor 
+	datos_costes.coste_fab += coste_fab / factor  
+	datos_costes.coste_packing += coste_packing / factor 
+	datos_costes.coste_compras += coste_compras / factor 
+	datos_costes.coste_mp_mermas += coste_mp_mermas
+	datos_costes.coste_fab_mermas += coste_fab_mermas 
+	
+next
+
+destroy ds_operaciones
+	
+return datos_costes
+
+end function
+

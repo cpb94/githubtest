@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_numserie_promalb.srf
+global type f_numserie_promalb from function_object
+end type
+
+forward prototypes
+global function string f_numserie_promalb (string empresa, decimal anyo, integer albaran)
+end prototypes
+
+global function string f_numserie_promalb (string empresa, decimal anyo, integer albaran);String variable
+  
+  SELECT promalb.numserie
+    INTO :variable  
+    FROM promalb  
+   WHERE ( promalb.empresa = :empresa ) AND  
+         ( promalb.anyo = :anyo ) AND  
+         ( promalb.albaran = :albaran	)   ;
+Return variable
+end function
+

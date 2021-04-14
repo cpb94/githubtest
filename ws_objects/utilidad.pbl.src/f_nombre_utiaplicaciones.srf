@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_nombre_utiaplicaciones.srf
+global type f_nombre_utiaplicaciones from function_object
+end type
+
+forward prototypes
+global function string f_nombre_utiaplicaciones (string codigo)
+end prototypes
+
+global function string f_nombre_utiaplicaciones (string codigo);String var_descripcion
+
+  SELECT utiaplicaciones.descripcion  
+    INTO :var_descripcion  
+    FROM utiaplicaciones  
+   WHERE utiaplicaciones.codigo = :codigo   ;
+Return var_descripcion;
+end function
+

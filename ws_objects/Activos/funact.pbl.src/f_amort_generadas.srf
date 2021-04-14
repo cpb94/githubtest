@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_amort_generadas.srf
+global type f_amort_generadas from function_object
+end type
+
+forward prototypes
+global function string f_amort_generadas (string empresa, decimal elemento)
+end prototypes
+
+global function string f_amort_generadas (string empresa, decimal elemento);Dec	total,inicial
+String	salida
+
+inicial = 0
+total = 0
+
+  SELECT act_bienesdet.amor_acumulada  
+    INTO :inicial  
+    FROM act_bienesdet  
+   WHERE ( act_bienesdet.empresa = :empresa ) AND  
+         ( act_bienesdet.elemento = :elemento )   ;
+
+	If isnull(inicial) then inicial = 0
+
+  SELECT sum(importe_amor)  
+    INTO :total  
+    FROM act_amortizaciones  
+   WHERE ( act_amortizaciones.empresa = :empresa ) AND  
+         ( act_amortizaciones.elemento = :elemento ) and 
+			( act_amortizaciones.actualizado = 'S')  ;
+			
+	If isnull(total) then total = 0
+	
+total = total + inicial
+	
+salida = String(total,f_mascara_moneda(f_paramemp_moneda_emp( empresa )))
+return salida
+end function
+

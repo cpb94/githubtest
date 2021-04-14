@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_ciclo_articulo.srf
+global type f_ciclo_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_ciclo_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function decimal f_ciclo_articulo (string arg_empresa, string arg_articulo);dec var_ciclo
+
+select ciclo
+into   :var_ciclo
+from   articulos  
+where  empresa = :arg_empresa
+and    codigo  = :arg_articulo;
+
+if isnull(var_ciclo) then var_ciclo = 0
+
+return var_ciclo
+end function
+

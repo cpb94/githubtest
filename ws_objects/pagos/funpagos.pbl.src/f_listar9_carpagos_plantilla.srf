@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_listar9_carpagos_plantilla.srf
+global type f_listar9_carpagos_plantilla from function_object
+end type
+
+forward prototypes
+global function string f_listar9_carpagos_plantilla (string empresa, string banco, string tipodoc)
+end prototypes
+
+global function string f_listar9_carpagos_plantilla (string empresa, string banco, string tipodoc);String var
+  SELECT carpagos_plantillas.visible9
+  
+    INTO :var  
+    FROM carpagos_plantillas  
+   WHERE ( carpagos_plantillas.empresa = :empresa ) AND  
+         ( carpagos_plantillas.banco = :banco ) AND  
+         ( carpagos_plantillas.tipodoc = :tipodoc )   ;
+return var
+end function
+

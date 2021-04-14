@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_almartcal.srs
+global type str_almartcal from structure
+     STRING     empresa
+     STRING     articulo
+     STRING     calidad
+     DECIMAL {6}     precio
+     DATETIME     fecha_alta
+     DECIMAL {2}     stockmin
+     DECIMAL {2}     stockmax
+     DECIMAL {2}     puntopedido
+end type
+

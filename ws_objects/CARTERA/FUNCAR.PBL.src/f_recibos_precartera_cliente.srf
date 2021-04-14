@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_recibos_precartera_cliente.srf
+global type f_recibos_precartera_cliente from function_object
+end type
+
+forward prototypes
+global function string f_recibos_precartera_cliente (string empresa, string cliente, string moneda)
+end prototypes
+
+global function string f_recibos_precartera_cliente (string empresa, string cliente, string moneda);STring     sel,text
+DataStore  dw
+Dec        r1,r,espacios
+
+
+sel = " Select carefectos.factura factura,carefectos.divisas importe,carefectos.recibo recibo  from carefectos " + &
+			" Where  carefectos.empresa   = '" + empresa + "'" + &
+			" And    carefectos.cliente   = '" + cliente + "'" + &
+			" And    carefectos.monedas    = '" + moneda + "'" + &
+			" And    carefectos.situacion = '4' " 
+	//dw = f_cargar_cursor(sel)
+	f_cargar_cursor_nuevo(sel, dw)
+	r1 = dw.RowCOunt()
+	IF r1 <> 0 Then
+			For r = 1 To r1
+  				   espacios = 30 -len(String(Dec(dw.GetItemSTring(r,"factura")),f_mascara_decimales(0)) +"/"+ String(dw.GetItemNumber(r,"recibo"),"##") + String(dw.GetItemDecimal(r,"importe"),f_mascara_moneda(moneda)))
+					text =  text + String(Dec(dw.GetItemSTring(r,"factura")),f_mascara_decimales(0)) +"/"+ String(dw.GetItemNumber(r,"recibo"),"##") + Space(espacios) + String(dw.GetItemDecimal(r,"importe"),f_mascara_moneda(moneda)) + Char(13)
+			Next
+	END IF
+destroy dw
+Return text 
+end function
+

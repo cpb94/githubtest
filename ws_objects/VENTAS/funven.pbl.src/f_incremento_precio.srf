@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_incremento_precio.srf
+$PBExportComments$Incrementa el precio si familia tiene incremento,se utiliza en ventas menores de 1 pallet.
+global type f_incremento_precio from function_object
+end type
+
+forward prototypes
+global function decimal f_incremento_precio (string empresa, string familia, string calidad, decimal precio, string pais)
+end prototypes
+
+global function decimal f_incremento_precio (string empresa, string familia, string calidad, decimal precio, string pais);String var_empresa,var_familia,var_calidad,var_incrementar,var_pais,var_tipo
+Decimal{4} var_incremento
+
+
+SELECT calidades.empresa,calidades.codigo,calidades.incremento  
+INTO :var_empresa,:var_calidad,:var_incrementar
+FROM calidades  
+WHERE ( calidades.empresa = :empresa)
+AND   ( calidades.codigo = :calidad)   
+ORDER BY calidades.empresa ASC,calidades.codigo ASC  ;
+IF ISNULL(var_incrementar) Then var_incrementar = "N" 
+
+IF var_incrementar = "N" Then
+        var_incremento=0
+   ELSE
+        SELECT  venincrempais.empresa,venincrempais.familia,venincrempais.pais,venincrempais.incremento,venincrempais.tipo
+        INTO    :var_empresa,:var_familia,:var_pais,:var_incremento,:var_tipo  
+        FROM    venincrempais
+        WHERE   (venincrempais.empresa = :empresa)
+        AND     (venincrempais.familia = :familia)   
+        AND     (venincrempais.pais    = :pais)   
+        ORDER BY venincrempais.empresa ASC,venincrempais.familia ASC,venincrempais.pais ASC;
+        IF IsNull(var_incremento)  Then var_incremento=0
+		  IF var_tipo = "P" Then  var_incremento = precio * var_incremento / 100
+ 		  precio = precio + var_incremento
+		
+End If
+Return precio
+
+
+
+
+
+end function
+

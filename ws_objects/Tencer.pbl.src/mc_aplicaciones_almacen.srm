@@ -1,0 +1,52 @@
+﻿$PBExportHeader$mc_aplicaciones_almacen.srm
+forward
+global type mc_aplicaciones_almacen from menu
+end type
+type m_aplicaciones from menu within mc_aplicaciones_almacen
+end type
+type m_almacen1 from menu within m_aplicaciones
+end type
+type m_aplicaciones from menu within mc_aplicaciones_almacen
+m_almacen1 m_almacen1
+end type
+end forward
+
+global type mc_aplicaciones_almacen from menu
+m_aplicaciones m_aplicaciones
+end type
+global mc_aplicaciones_almacen mc_aplicaciones_almacen
+
+on mc_aplicaciones_almacen.create
+mc_aplicaciones_almacen=this
+this.m_aplicaciones=create m_aplicaciones
+this.Item[]={this.m_aplicaciones}
+end on
+
+on mc_aplicaciones_almacen.destroy
+destroy(this.m_aplicaciones)
+end on
+
+type m_aplicaciones from menu within mc_aplicaciones_almacen
+m_almacen1 m_almacen1
+end type
+
+on m_aplicaciones.create
+this.Text="Aplicaciones"
+this.m_almacen1=create m_almacen1
+this.Item[]={this.m_almacen1}
+end on
+
+on m_aplicaciones.destroy
+destroy(this.m_almacen1)
+end on
+
+type m_almacen1 from menu within m_aplicaciones
+end type
+
+on clicked;Open (w_almacenv)
+end on
+
+on m_almacen1.create
+this.Text="Almacen"
+end on
+

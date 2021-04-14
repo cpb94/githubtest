@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_costematerial_promcabexpositores.srf
+global type f_costematerial_promcabexpositores from function_object
+end type
+
+forward prototypes
+global function decimal f_costematerial_promcabexpositores (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function decimal f_costematerial_promcabexpositores (string ra_codemp, string ra_codigo);Dec parametro
+
+SELECT promcabexpositores.costematerial
+INTO   :parametro
+FROM   promcabexpositores 
+WHERE  ( promcabexpositores.empresa = :ra_codemp )
+AND	 ( promcabexpositores.codigo = :ra_codigo );
+
+IF Isnull(parametro) Then parametro = 0
+
+Return parametro
+
+end function
+

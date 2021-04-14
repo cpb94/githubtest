@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_contadiario.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=297 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="contadiario.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="contadiario.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="contadiario.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="contadiario.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contadiario~" ) COLUMN(NAME=~"contadiario.empresa~") COLUMN(NAME=~"contadiario.codigo~") COLUMN(NAME=~"contadiario.descripcion~") COLUMN(NAME=~"contadiario.resumido~")WHERE( EXP1 =~"contadiario.empresa~" OP =~"=~" EXP2 =~":cod_empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"contadiario.codigo~" OP =~"=~" EXP2 =~":cod_codigo~" ) ) ORDER(NAME=~"contadiario.empresa~" ASC=yes ) ORDER(NAME=~"contadiario.descripcion~" ASC=yes ) ARG(NAME = ~"cod_empresa~" TYPE = string) ARG(NAME = ~"cod_codigo~" TYPE = string) " update="contadiario" updatewhere=0 updatekeyinplace=no arguments=(("cod_empresa", string),("cod_codigo", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="467" y="44" height="69" width="919" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="74" y="44" height="65" width="357"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="471" y="176" height="65" width="481" format="[general]"  name=resumido  tag="Texto resumido del tipo de documento." edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="119" y="176" height="65" width="307"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

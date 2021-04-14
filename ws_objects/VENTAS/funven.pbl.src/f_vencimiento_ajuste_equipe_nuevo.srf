@@ -1,0 +1,167 @@
+﻿$PBExportHeader$f_vencimiento_ajuste_equipe_nuevo.srf
+global type f_vencimiento_ajuste_equipe_nuevo from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_ajuste_equipe_nuevo (string var_empresa, string var_cliente, date var_vencimiento, date var_factura)
+end prototypes
+
+global function date f_vencimiento_ajuste_equipe_nuevo (string var_empresa, string var_cliente, date var_vencimiento, date var_factura);Dec ajuste,r
+Date fecha1,fecha2,fecha3,fecha_min
+Dec dia[3]
+Long h,mes_aux,anyo_aux
+Long dia_factura,dia_vencimiento,mes_vencimiento,anyo_vencimiento
+
+dia_factura = day(var_factura)
+
+SELECT venclientes.diaspago1,venclientes.diaspago2,venclientes.diaspago3
+INTO   :dia[1],:dia[2],:dia[3] 
+FROM   venclientes  
+WHERE  venclientes.empresa = :var_empresa
+AND    venclientes.codigo  = :var_cliente;   
+
+IF SQLCA.SQLCODE <0 Then f_mensaje("Error en calculo vto",sqlca.sqlerrtext)
+For r = 1 To 3
+	IF IsNull(dia[r]) Then dia[r] = 0
+NEXT
+
+// Ajustar recibo segun dias
+
+ajuste = 0
+fecha1 = date("31/12/2999")
+fecha2 = date("31/12/2999")
+fecha3 = date("31/12/2999")
+
+dia_vencimiento   = day(var_vencimiento)
+mes_vencimiento   = month(var_vencimiento)
+anyo_vencimiento  = year(var_vencimiento)
+
+IF dia[1] <> 0 Then
+	//David 30-10-2012: Controlo el mes de febrero
+	if mes_vencimiento = 2 then
+		if ftc_es_bisiesto (anyo_vencimiento) then
+			if dia[1] > 29 then dia[1] = 29
+		else
+			if dia[1] > 28 then dia[1] = 28
+		end if
+	end if
+		
+	h = 0
+	do
+		if dia_vencimiento > dia[1] then
+			mes_vencimiento = mes_vencimiento + 1
+			if mes_vencimiento = 13 then
+				mes_vencimiento = 1
+				anyo_vencimiento = anyo_vencimiento + 1
+			end if
+		end if
+		// Santiago
+		if dia_factura = 31 and dia[1] = 30 and dia_vencimiento = 1 then			
+			mes_vencimiento = mes_vencimiento - 1
+			if mes_vencimiento = 0 then
+				mes_vencimiento  = 12
+				anyo_vencimiento = anyo_vencimiento - 1
+			end if
+		end if
+		// fin santiago
+		string(dia[1]-h,"##")
+		fecha1 = date(string(anyo_vencimiento,"####")+"/"+string(mes_vencimiento,"##")+"/"+string(dia[1]-h,"##"))	
+		// David 5-11-07: Añado la asignación al día de vencimiento de dia[1]-h para que no siga restando meses al ser dia_vencimiento = 1
+		dia_vencimiento = dia[2]-h
+		
+		h = h + 1
+	loop while year(fecha1) = 1900
+	ajuste = 1
+END IF
+
+dia_vencimiento   = day(var_vencimiento)
+mes_vencimiento   = month(var_vencimiento)
+anyo_vencimiento  = year(var_vencimiento)
+
+IF dia[2] <> 0 Then
+	if mes_vencimiento = 2 then
+		if ftc_es_bisiesto (anyo_vencimiento) then
+			if dia[1] > 29 then dia[1] = 29
+		else
+			if dia[1] > 28 then dia[1] = 28
+		end if
+	end if
+	
+	h = 0
+	do
+		if dia_vencimiento > dia[2] then
+			mes_vencimiento = mes_vencimiento + 1
+			if mes_vencimiento = 13 then
+				mes_vencimiento = 1
+				anyo_vencimiento = anyo_vencimiento + 1
+			end if
+		end if
+		if dia_factura = 31 and dia[2] = 30 and dia_vencimiento = 1 then			
+			mes_vencimiento = mes_vencimiento - 1
+			if mes_vencimiento = 0 then
+				mes_vencimiento  = 12
+				anyo_vencimiento = anyo_vencimiento - 1
+			end if
+		end if
+		
+		fecha2 = date(string(anyo_vencimiento,"####")+"/"+string(mes_vencimiento,"##")+"/"+string(dia[2]-h,"##"))
+		// David 5-11-07: Añado la asignación al día de vencimiento de dia[1]-h para que no siga restando meses al ser dia_vencimiento = 1
+		dia_vencimiento = dia[2]-h
+		h = h + 1
+	loop while year(fecha2) = 1900
+	ajuste = 1
+END IF
+
+dia_vencimiento   = day(var_vencimiento)
+mes_vencimiento   = month(var_vencimiento)
+anyo_vencimiento  = year(var_vencimiento)
+
+IF dia[3] <> 0 Then
+	if mes_vencimiento = 2 then
+		if ftc_es_bisiesto (anyo_vencimiento) then
+			if dia[1] > 29 then dia[1] = 29
+		else
+			if dia[1] > 28 then dia[1] = 28
+		end if
+	end if
+	
+	h = 0
+	do
+		if dia_vencimiento > dia[3] then
+			mes_vencimiento = mes_vencimiento + 1
+			if mes_vencimiento = 13 then
+				mes_vencimiento = 1
+				anyo_vencimiento = anyo_vencimiento + 1
+			end if
+		end if
+		if dia_factura = 31 and dia[3] = 30 and dia_vencimiento = 1 then			
+			mes_vencimiento = mes_vencimiento - 1
+			if mes_vencimiento = 0 then
+				mes_vencimiento  = 12
+				anyo_vencimiento = anyo_vencimiento - 1
+			end if
+		end if
+		fecha3 =date(string(anyo_vencimiento,"####")+"/"+string(mes_vencimiento,"##")+"/"+string(dia[3]-h,"##"))	
+		// David 5-11-07: Añado la asignación al día de vencimiento de dia[1]-h para que no siga restando meses al ser dia_vencimiento = 1
+		dia_vencimiento = dia[2]-h
+
+		h = h + 1
+	loop while year(fecha3) = 1900
+	ajuste = 1
+END IF
+		
+if ajuste = 1 then
+	fecha_min = fecha1
+	if fecha2 <= fecha_min then
+		fecha_min = fecha2
+	else
+		if fecha3 <= fecha_min then
+			fecha_min = fecha3
+		end if
+	end if
+	var_vencimiento = fecha_min
+end if
+
+Return var_vencimiento
+end function
+

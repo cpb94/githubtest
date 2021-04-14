@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_nulo_cero.srf
+$PBExportComments$Devuelve true cuando el argumento es un número nulo o cero
+global type f_nulo_cero from function_object
+end type
+
+forward prototypes
+global function boolean f_nulo_cero (decimal ac_numero)
+end prototypes
+
+global function boolean f_nulo_cero (decimal ac_numero);return (IsNull(ac_numero) or ac_numero = 0)
+end function
+

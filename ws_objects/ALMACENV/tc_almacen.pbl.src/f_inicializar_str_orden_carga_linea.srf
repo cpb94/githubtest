@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_inicializar_str_orden_carga_linea.srf
+global type f_inicializar_str_orden_carga_linea from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_orden_carga_linea ( ref str_orden_carga_linea str_orden_carga_linea)
+end prototypes
+
+global function boolean f_inicializar_str_orden_carga_linea ( ref str_orden_carga_linea str_orden_carga_linea);boolean lb_correcto = true
+
+if isnull(str_orden_carga_linea.empresa) then str_orden_carga_linea.empresa = ''
+if isnull(str_orden_carga_linea.anyo) then str_orden_carga_linea.anyo = 0
+if isnull(str_orden_carga_linea.codigo) then str_orden_carga_linea.codigo = ''
+if isnull(str_orden_carga_linea.linea) then str_orden_carga_linea.linea = 0
+if isnull(str_orden_carga_linea.venliped_anyo) then str_orden_carga_linea.venliped_anyo = 0
+if isnull(str_orden_carga_linea.venliped_pedido) then str_orden_carga_linea.venliped_pedido = 0
+if isnull(str_orden_carga_linea.venliped_linea) then str_orden_carga_linea.venliped_linea = 0
+if isnull(str_orden_carga_linea.pallets_extra) then str_orden_carga_linea.pallets_extra = 0
+return lb_correcto
+end function
+

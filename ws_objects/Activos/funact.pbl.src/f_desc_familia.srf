@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_desc_familia.srf
+global type f_desc_familia from function_object
+end type
+
+forward prototypes
+global function string f_desc_familia (string empresa, string familia)
+end prototypes
+
+global function string f_desc_familia (string empresa, string familia);String cadena
+
+  SELECT act_familias.descripcion  
+    INTO :cadena
+    FROM act_familias  
+   WHERE ( act_familias.empresa = :empresa ) AND  
+         ( act_familias.familia = :familia )   ;
+			
+ cadena = trim(cadena)			
+
+IF SQLCA.SQLCode <> 0 THEN
+   cadena=""
+END IF
+RETURN cadena
+end function
+

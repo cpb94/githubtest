@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_contabal.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=305 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="contabal.empresa" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=titulo dbname="contabal.titulo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="contabal.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=balance dbname="contabal.balance" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contabal~" ) COLUMN(NAME=~"contabal.empresa~") COLUMN(NAME=~"contabal.titulo~") COLUMN(NAME=~"contabal.descripcion~") COLUMN(NAME=~"contabal.balance~")WHERE(    EXP1 =~"contabal.balance~"   OP =~"=~"    EXP2 =~":ra_codigo~" ) ) ARG(NAME = ~"ra_codigo~" TYPE = string) " update="contabal" updatewhere=0 updatekeyinplace=yes arguments=(("ra_codigo", string)) )
+text(band=detail alignment="1" text="Descripción :"border="0" color="0" x="37" y="68" height="65" width="375"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Título :"border="0" color="0" x="215" y="204" height="65" width="202"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="444" y="56" height="77" width="1500" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="0" x="439" y="200" height="77" width="1500" format="[general]"  name=titulo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

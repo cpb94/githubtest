@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_mascara_decimales_sin_ceros.srf
+$PBExportComments$Modifica la mascara de una datawindow, recibo datawindow, columna , pone con defecto  autofocus.(Sin ceros)
+global type f_mascara_decimales_sin_ceros from function_object
+end type
+
+forward prototypes
+global function string f_mascara_decimales_sin_ceros (integer decimales)
+end prototypes
+
+global function string f_mascara_decimales_sin_ceros (integer decimales);String mascara
+CHOOSE CASE decimales
+	CASE 0
+		mascara = "#,###,###,###"
+CASE 1
+		mascara = "###,###,###.#"
+CASE 2
+		mascara = "##,###,###.##"
+CASE 3
+		mascara = "#,###,###.###"
+END CHOOSE
+Return mascara
+
+end function
+

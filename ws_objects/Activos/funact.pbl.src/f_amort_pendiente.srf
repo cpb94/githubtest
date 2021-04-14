@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_amort_pendiente.srf
+global type f_amort_pendiente from function_object
+end type
+
+forward prototypes
+global function string f_amort_pendiente (string empresa, decimal elemento)
+end prototypes
+
+global function string f_amort_pendiente (string empresa, decimal elemento);Dec		importe,total,falta,inicial
+String	salida
+
+total = 0
+  
+  SELECT importe,amor_acumulada  
+    INTO :importe,:inicial  
+    FROM act_bienesdet  
+   WHERE ( act_bienesdet.empresa = :empresa ) AND  
+         ( act_bienesdet.elemento = :elemento ) ;
+
+	If isnull(importe) then importe = 0
+	If isnull(inicial) then inicial = 0
+
+importe = importe - inicial
+			
+  SELECT sum(importe_amor)  
+    INTO :total  
+    FROM act_amortizaciones  
+   WHERE ( act_amortizaciones.empresa = :empresa ) AND  
+         ( act_amortizaciones.elemento = :elemento ) AND  
+			( act_amortizaciones.actualizado = 'S' ) ;
+			
+	If isnull(total) then total = 0
+	
+	falta = importe - total
+	
+salida = String(falta,f_mascara_moneda(f_paramemp_moneda_emp( empresa )))
+return salida
+end function
+

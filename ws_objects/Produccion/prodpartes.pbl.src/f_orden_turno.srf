@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_orden_turno.srf
+global type f_orden_turno from function_object
+end type
+
+forward prototypes
+global function integer f_orden_turno (string arg_turno)
+end prototypes
+
+global function integer f_orden_turno (string arg_turno);long orden
+
+choose case arg_turno
+	case 'M'
+		orden=1
+	case 'T'
+		orden=2
+	case 'N'
+		orden=3
+end choose
+
+return orden
+end function
+

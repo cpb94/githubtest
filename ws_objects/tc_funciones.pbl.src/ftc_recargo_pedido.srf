@@ -1,0 +1,20 @@
+﻿$PBExportHeader$ftc_recargo_pedido.srf
+global type ftc_recargo_pedido from function_object
+end type
+
+forward prototypes
+global function decimal ftc_recargo_pedido (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function decimal ftc_recargo_pedido (string empresa, integer anyo, decimal pedido);Decimal resultado = 0
+
+SELECT TOP 1 R.tipoiva INTO :resultado
+FROM contaiva I 
+INNER JOIN venped ON I.empresa = venped.empresa AND I.ejercicio = venped.anyo AND I.tipoiva = venped.tipoiva  
+INNER JOIN contaiva R ON R.empresa = I.empresa AND R.ejercicio = I.ejercicio AND R.tipoiva = I.recargo 
+WHERE venped.empresa = :empresa AND venped.anyo = :anyo AND venped.pedido = :pedido;
+
+if isnull(resultado) then resultado = 0
+return resultado
+end function
+

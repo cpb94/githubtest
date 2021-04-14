@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_almorigen.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=305 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="almorigen.empresa" )
+ column=(type=char(5) update=yes key=yes name=origen dbname="almorigen.origen" )
+ column=(type=char(30) update=yes name=descripcion dbname="almorigen.descripcion" )
+ column=(type=char(5) update=yes name=resumido dbname="almorigen.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almorigen~" ) COLUMN(NAME=~"almorigen.empresa~") COLUMN(NAME=~"almorigen.origen~") COLUMN(NAME=~"almorigen.descripcion~") COLUMN(NAME=~"almorigen.resumido~")WHERE( EXP1 =~"almorigen.empresa~" OP =~"=~" EXP2 =~":cod_emp~" LOGIC =~"and~" ) WHERE( EXP1 =~"almorigen.origen~" OP =~"=~" EXP2 =~":cod_origen~" ) ) ORDER(NAME=~"almorigen.empresa~" ASC=yes ) ORDER(NAME=~"almorigen.origen~" ASC=yes ) ARG(NAME = ~"cod_emp~" TYPE = string) ARG(NAME = ~"cod_origen~" TYPE = string) " update="almorigen" updatewhere=1 updatekeyinplace=no arguments=(("cod_emp", string),("cod_origen", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="83" y="64" height="65" width="371"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="481" y="64" height="65" width="1047" format="[general]"  name=descripcion  tag="Descripcion origen movimiento." edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="97" y="188" height="65" width="353"  name=resumido_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="5" color="0" x="481" y="188" height="65" width="275" format="[general]"  name=resumido  tag="Resumido origen movimiento." edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

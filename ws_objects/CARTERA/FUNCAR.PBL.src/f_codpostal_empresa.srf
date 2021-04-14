@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_codpostal_empresa.srf
+global type f_codpostal_empresa from function_object
+end type
+
+forward prototypes
+global function string f_codpostal_empresa (string cod_empresa)
+end prototypes
+
+global function string f_codpostal_empresa (string cod_empresa);String ls_codpostal
+
+ SELECT    codpostal
+    INTO   :ls_codpostal
+    FROM empresas 
+   WHERE empresa= :cod_empresa;
+
+RETURN ls_codpostal
+
+
+end function
+

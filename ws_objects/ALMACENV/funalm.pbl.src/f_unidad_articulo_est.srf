@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_unidad_articulo_est.srf
+global type f_unidad_articulo_est from function_object
+end type
+
+forward prototypes
+global function string f_unidad_articulo_est (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_unidad_articulo_est (string ra_codemp, string ra_codart); string ls_nombre
+
+ SELECT articulos.unidad_est
+    INTO :ls_nombre
+    FROM articulos  
+   WHERE ( articulos.empresa = :ra_codemp ) AND  
+         ( articulos.codigo = :ra_codart )  
+  USING SQLCA;
+
+Return ls_nombre
+
+end function
+

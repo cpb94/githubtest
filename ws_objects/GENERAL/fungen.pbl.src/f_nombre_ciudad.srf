@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_ciudad.srf
+$PBExportComments$Nombre de la ciudad que corresponde a un codigo postal
+global type f_nombre_ciudad from function_object
+end type
+
+forward prototypes
+global function string f_nombre_ciudad (string as_codpais, string as_codpostal)
+end prototypes
+
+global function string f_nombre_ciudad (string as_codpais, string as_codpostal);string	ls_nombre_ciudad
+
+IF as_codpostal = '' THEN RETURN as_codpostal
+
+    SELECT codpostales.ciudad  
+    INTO :ls_nombre_ciudad  
+    FROM codpostales  
+   WHERE ( codpostales.pais      = :as_codpais ) AND  
+         ( codpostales.codpostal = :as_codpostal )
+    USING SQLCA;
+
+If IsNull(ls_nombre_ciudad) Then ls_nombre_ciudad = ""
+RETURN ls_nombre_ciudad
+end function
+

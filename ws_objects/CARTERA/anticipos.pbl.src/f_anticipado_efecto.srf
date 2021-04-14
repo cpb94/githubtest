@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_anticipado_efecto.srf
+global type f_anticipado_efecto from function_object
+end type
+
+forward prototypes
+global function string f_anticipado_efecto (string empresa, decimal anyo, decimal orden)
+end prototypes
+
+global function string f_anticipado_efecto (string empresa, decimal anyo, decimal orden);integer cuantos
+
+select count(*)
+into	 :cuantos
+from  carfinanefe
+where carfinanefe.empresa		= :empresa and
+		carfinanefe.ejercicio	= :anyo and
+		carfinanefe.orden		 	= :orden;
+
+
+if cuantos > 0 then
+	return "S"
+else
+	return "N"	
+end if	
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cajas_caja.srf
+global type f_cajas_caja from function_object
+end type
+
+forward prototypes
+global function decimal f_cajas_caja (string arg_empresa, string arg_articulo, string arg_cliente, integer arg_orden)
+end prototypes
+
+global function decimal f_cajas_caja (string arg_empresa, string arg_articulo, string arg_cliente, integer arg_orden);long	cajas_caja
+
+SELECT cajas_caja INTO :cajas_caja
+FROM   almean13
+WHERE empresa  = :arg_empresa
+AND   articulo = :arg_articulo
+AND   cliente  = :arg_cliente
+AND   orden    = :arg_orden;
+
+if isnull(cajas_caja) then cajas_caja = 0
+
+RETURN cajas_caja
+end function
+

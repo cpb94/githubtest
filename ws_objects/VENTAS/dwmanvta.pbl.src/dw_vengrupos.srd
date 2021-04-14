@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_vengrupos.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=297 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="vengrupos.empresa" )
+ column=(type=char(5) update=yes key=yes name=codigo dbname="vengrupos.codigo" )
+ column=(type=char(30) update=yes name=descripcion dbname="vengrupos.descripcion" )
+ column=(type=char(10) update=yes name=resumido dbname="vengrupos.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vengrupos~" ) COLUMN(NAME=~"vengrupos.empresa~") COLUMN(NAME=~"vengrupos.codigo~") COLUMN(NAME=~"vengrupos.descripcion~") COLUMN(NAME=~"vengrupos.resumido~")WHERE( EXP1 =~"vengrupos.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"vengrupos.codigo~" OP =~"=~" EXP2 =~":codigo~" ) ) ORDER(NAME=~"vengrupos.empresa~" ASC=yes ) ORDER(NAME=~"vengrupos.descripcion~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) " update="vengrupos" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="37" y="64" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="0" x="37" y="192" height="65" width="357"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="426" y="64" height="65" width="915" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="5" color="0" x="426" y="192" height="65" width="238" format="[general]"  name=resumido edit.limit=10 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

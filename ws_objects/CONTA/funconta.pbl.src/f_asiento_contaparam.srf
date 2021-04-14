@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_asiento_contaparam.srf
+global type f_asiento_contaparam from function_object
+end type
+
+forward prototypes
+global function decimal f_asiento_contaparam (decimal ejercicio, string empresa)
+end prototypes
+
+global function decimal f_asiento_contaparam (decimal ejercicio, string empresa);Dec{0}  var_asiento,var_numero
+
+select contaparam.asiento Into :var_asiento From contaparam
+Where  contaparam.ejercicio = :ejercicio
+And    contaparam.empresa   = :empresa;
+IF SQLCA.SQLCODE = 100 Then var_asiento = 0 
+IF IsNull(var_asiento) Then var_asiento = 0
+var_asiento = var_asiento + 1
+
+Select count(*) Into :var_numero From contaapun
+Where contaapun.ejercicio = :ejercicio
+And   contaapun.empresa   = :empresa
+And   contaapun.asiento   = :var_asiento;
+IF IsNull(var_numero) Then var_numero = 0
+	IF var_numero <> 0 then
+		Select max(contaapun.asiento) Into :var_asiento From contaapun
+		Where contaapun.ejercicio = :ejercicio
+		And   contaapun.empresa = :empresa;
+		var_asiento = var_asiento + 1
+		f_grabar_incidencia("Error en gestion de datos (contaparam)","He tenido que leer el maximo de contaparam")
+		f_actualizar_contaparam(ejercicio,empresa,var_asiento)
+	END IF
+Return var_asiento
+end function
+

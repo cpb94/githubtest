@@ -1,0 +1,195 @@
+﻿$PBExportHeader$f_calculo_unidades_tipolin_nuevo.srf
+$PBExportComments$Calculo de unidades,pallets y cajas según tipo de unidad del articulo recibe(articulo,pallets,cantidad) y devuelve pallets,cajas y cantidad
+global type f_calculo_unidades_tipolin_nuevo from function_object
+end type
+
+forward prototypes
+global function string f_calculo_unidades_tipolin_nuevo (string cod_empresa, string cod_articulo, string cod_pallet, string cod_caja, integer n_pallets, integer n_cajas, decimal n_total, string tipolin)
+end prototypes
+
+global function string f_calculo_unidades_tipolin_nuevo (string cod_empresa, string cod_articulo, string cod_pallet, string cod_caja, integer n_pallets, integer n_cajas, decimal n_total, string tipolin);String cod_formato,cod_modelo,cod_unidad
+Integer longitud,largo
+Integer bien
+dec n_piezascaja
+dec total_cantidad
+Dec n_metroscaja
+dec{4} t_t,total_lineales=0,total_cajas,total_pallets,cajas,n_cajaspallet
+string cadena
+/*
+// Redondeo siempre a dos decimales
+//t_t = n_total
+//n_total =  t_t
+
+IF IsNull(n_pallets) THEN     n_pallets=0
+IF IsNull(n_cajas)   THEN     n_cajas=0
+IF IsNull(parametros_linea.cajas)   THEN     parametros_linea.cajas = 0
+
+bien=0
+
+cod_empresa = trim(cod_empresa)
+cod_articulo = trim(cod_articulo)
+cod_caja = trim(cod_caja)
+
+SELECT  articulos.empresa,articulos.codigo, articulos.formato,   
+		  	articulos.unidad
+INTO 	  	:cod_empresa,:cod_articulo,:cod_formato,:cod_unidad
+FROM    	articulos
+WHERE  articulos.empresa = :cod_empresa
+AND     	articulos.codigo  = :cod_articulo;
+
+if tipolin = "4" then cod_unidad = "0" //SI LA LINEA ES DE PROMOCIÓN SIEMPRE TRABAJAMOS EN PIEZAS *************************************************************
+
+IF SQLCA.SQLCode<>0 THEN 
+	bien=1
+	if isnull(cod_articulo) then cod_articulo = ""
+	MESSAGEBOX("Atención","el articulo "+cod_articulo+" no existe")
+end if
+if bien = 0 then
+	SELECT  almartcajas.piezascaja,almartcajas.metroscaja  
+	INTO    	:n_piezascaja,:n_metroscaja  
+	FROM    	almartcajas  
+	WHERE  almartcajas.empresa   = :cod_empresa
+	AND     	almartcajas.articulo  = :cod_articulo
+	AND     	almartcajas.caja      = :cod_caja;
+	IF SQLCA.SQLCode<>0 THEN 
+		bien=1
+	end if
+end if
+
+IF bien = 0 THEN
+	SELECT  palarticulo.cajaspallet			 
+	INTO :n_cajaspallet
+	FROM  palarticulo
+	WHERE palarticulo.empresa  = :cod_empresa
+	AND   palarticulo.articulo = :cod_articulo
+	AND   palarticulo.codigo   = :cod_pallet
+	AND   palarticulo.caja     = :cod_caja;
+	if isnull(n_cajaspallet) then n_cajaspallet = 0
+	IF SQLCA.SQLCode<>0 THEN
+     	bien=1  
+    END IF
+END IF
+
+largo = f_largo_formato(cod_empresa,cod_formato)
+
+//n_metroscaja = round(n_metroscaja,2)
+
+CHOOSE CASE cod_unidad
+		
+CASE  "1"
+  	total_cajas = n_cajas+(n_pallets * n_cajaspallet)
+
+	IF total_cajas <> 0 THEN
+		total_cantidad = total_cajas * n_metroscaja
+	ELSE
+		// Modificacion redondeo por encima
+		IF n_metroscaja = 0 THEN 
+		  	total_cajas = 0
+		ELSE
+			total_cajas    = truncate(n_total / n_metroscaja,0)
+			if mod(n_total, n_metroscaja) <> 0 then
+				total_cajas ++
+			end if
+   		END IF
+   		IF n_cajaspallet = 0 THEN
+    			total_pallets = 0
+   		ELSE
+	  		total_pallets  = truncate(total_cajas / n_cajaspallet,0)  
+   		END IF
+   		total_cantidad  = total_cajas * n_metroscaja
+		//NO ES CORRECTO - Existen muchos decimales y aproxima erróneamente. Solucionado con la función mod y truncate a lo largo del código
+//		IF total_cantidad < n_total Then 
+//			total_cajas    = total_cajas + 1
+//			total_cantidad = total_cajas  * n_metroscaja
+//			if n_cajaspallet<>0 then total_pallets  = total_cajas / n_cajaspallet  //David 03-04-2003
+//		END IF
+	//------------------------------------
+	// total_cantidad=n_total
+END IF
+IF n_metroscaja=0 THEN 
+  	total_cajas = 0
+ELSE
+  	total_cajas    = total_cantidad / n_metroscaja
+END IF
+IF n_cajaspallet=0 THEN
+ 	total_pallets = 0
+ELSE
+ 	total_pallets  = truncate(total_cajas / n_cajaspallet,0)
+END IF
+
+cajas = total_cajas - (total_pallets*n_cajaspallet)
+total_cantidad  = total_cajas * n_metroscaja
+if largo<>0 then total_lineales = (cajas*n_piezascaja) * (largo / 100) 
+
+  
+CASE "0"
+	//  n_total=Dec(n_total)
+  	IF n_total <> 0 THEN
+    		IF n_piezascaja = 0 or isnull(n_piezascaja) THEN 	
+   			total_cajas = 0											
+		ELSE																	
+			total_cantidad = n_total			
+			
+			// Quito el ceiling porque peta con Power Builder 12.5 y SQL 2008. David 07-02-2012
+//     		total_cajas = CEILING(n_total / n_piezascaja)  
+     		if mod (n_total , n_piezascaja ) =  0 then
+				total_cajas = n_total / n_piezascaja 
+			else
+				total_cajas = n_total / n_piezascaja 
+				total_cajas = truncate (total_cajas, 0)
+				total_cajas ++
+			end if
+
+     		cajas = TRUNCATE(n_total / n_piezascaja, 0)
+			
+			if n_cajaspallet > 0 then
+		         total_pallets  = truncate(total_cajas / n_cajaspallet,0) 
+			else 
+				total_pallets = 0
+			end if
+		END IF																
+	ELSE
+		IF n_cajas <> 0 THEN
+			total_cantidad = n_cajas * n_piezascaja
+			total_cajas = n_cajas
+			cajas = n_cajas
+			IF n_cajaspallet <> 0 then
+				total_pallets = truncate(n_cajas / n_cajaspallet,0) 
+			ELSE
+				total_pallets = 0
+			END IF
+		ELSE
+			IF n_pallets <> 0 THEN
+			  	cajas = TRUNCATE(n_pallets * n_cajaspallet, 0)
+				total_cajas = cajas
+				total_cantidad = cajas * n_piezascaja
+				total_pallets = n_pallets
+			END IF
+		END IF
+	END IF
+  	
+  	IF largo<>0 THEN
+		total_lineales = total_cantidad * (largo / 100)
+	END IF
+
+CASE  ELSE
+	bien=1
+	
+END CHOOSE
+
+if cod_caja = "901" then //SIN CAJA
+	cajas = 0
+	total_cajas = 0
+end if
+
+cadena = &
+Trim(String(total_pallets))+"|"+&
+Trim(String(cajas))+"|"+&
+Trim(String(total_cajas))+"|"+&
+Trim(String(total_cantidad))+"|"+&
+Trim(String(total_lineales))+"|"
+*/         
+RETURN cadena
+
+end function
+

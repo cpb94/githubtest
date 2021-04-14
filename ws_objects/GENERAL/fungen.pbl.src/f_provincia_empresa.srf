@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_provincia_empresa.srf
+global type f_provincia_empresa from function_object
+end type
+
+forward prototypes
+global function string f_provincia_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_provincia_empresa (string ai_codigo_empresa);string provincia
+
+	SELECT empresas.provincia 
+	INTO   :provincia 
+	FROM   empresas  
+	WHERE  empresas.empresa = :ai_codigo_empresa;
+	
+	IF IsNull(provincia) Then provincia = "" 
+	
+RETURN provincia
+end function
+

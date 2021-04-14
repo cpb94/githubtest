@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_preciocoste_panelmano.srf
+global type f_preciocoste_panelmano from function_object
+end type
+
+forward prototypes
+global function decimal f_preciocoste_panelmano (string empresa)
+end prototypes
+
+global function decimal f_preciocoste_panelmano (string empresa);dec costepanelmano
+
+SELECT promparam.costepanelmano
+INTO   :costepanelmano
+FROM   promparam
+WHERE  promparam.empresa = :empresa;
+
+IF ISNULL(costepanelmano) Then costepanelmano = 0
+
+RETURN costepanelmano
+
+end function
+

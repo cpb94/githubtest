@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_paramemp_moneda_emp.srf
+global type f_paramemp_moneda_emp from function_object
+end type
+
+forward prototypes
+global function string f_paramemp_moneda_emp (string empresa)
+end prototypes
+
+global function string f_paramemp_moneda_emp (string empresa);string moneda_emp
+
+SELECT paramemp.moneda_emp
+		INTO :moneda_emp
+		FROM paramemp
+WHERE paramemp.empresa	= :empresa USING SQLCA;
+
+RETURN moneda_emp
+end function
+

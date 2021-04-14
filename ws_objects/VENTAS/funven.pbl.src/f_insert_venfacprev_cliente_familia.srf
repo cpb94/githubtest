@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_insert_venfacprev_cliente_familia.srf
+global type f_insert_venfacprev_cliente_familia from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_venfacprev_cliente_familia (str_venfacprev_cliente_familia arg_str_venfacprev_cliente_familia)
+end prototypes
+
+global function boolean f_insert_venfacprev_cliente_familia (str_venfacprev_cliente_familia arg_str_venfacprev_cliente_familia);int ll_existe_registro
+boolean lb_correcto
+
+select isnull(count(*),0)
+into   :ll_existe_registro
+from   venfacprev_cliente_familia
+where  venfacprev_cliente_familia.empresa           = :arg_str_venfacprev_cliente_familia.empresa
+and    venfacprev_cliente_familia.ejercicio         = :arg_str_venfacprev_cliente_familia.ejercicio
+and    venfacprev_cliente_familia.genter_codigo     = :arg_str_venfacprev_cliente_familia.genter_codigo
+and    venfacprev_cliente_familia.familias_codigo   = :arg_str_venfacprev_cliente_familia.familias_codigo;
+
+if ll_existe_registro = 0 then
+	insert into venfacprev_cliente_familia
+		(venfacprev_cliente_familia.empresa,
+		 venfacprev_cliente_familia.ejercicio,
+		 venfacprev_cliente_familia.genter_codigo,
+		 venfacprev_cliente_familia.familias_codigo,
+		 venfacprev_cliente_familia.prevision_precio_medio,
+		 venfacprev_cliente_familia.prevision_importe,
+		 venfacprev_cliente_familia.prevision_metros)
+	values
+		(:arg_str_venfacprev_cliente_familia.empresa,
+		 :arg_str_venfacprev_cliente_familia.ejercicio,
+		 :arg_str_venfacprev_cliente_familia.genter_codigo,
+		 :arg_str_venfacprev_cliente_familia.familias_codigo,
+		 :arg_str_venfacprev_cliente_familia.prevision_precio_medio,
+		 :arg_str_venfacprev_cliente_familia.prevision_importe,
+		 :arg_str_venfacprev_cliente_familia.prevision_metros);	
+else
+	update venfacprev_cliente_familia
+	set    venfacprev_cliente_familia.prevision_precio_medio = :arg_str_venfacprev_cliente_familia.prevision_precio_medio,
+			 venfacprev_cliente_familia.prevision_importe      = :arg_str_venfacprev_cliente_familia.prevision_importe,
+			 venfacprev_cliente_familia.prevision_metros       = :arg_str_venfacprev_cliente_familia.prevision_metros
+	where  venfacprev_cliente_familia.empresa           = :arg_str_venfacprev_cliente_familia.empresa
+	and    venfacprev_cliente_familia.ejercicio         = :arg_str_venfacprev_cliente_familia.ejercicio
+	and    venfacprev_cliente_familia.genter_codigo       = :arg_str_venfacprev_cliente_familia.genter_codigo
+	and    venfacprev_cliente_familia.familias_codigo   = :arg_str_venfacprev_cliente_familia.familias_codigo;
+end if
+
+if sqlca.sqlcode <> 0 then 
+	lb_correcto = false
+else
+	lb_correcto = true
+end if
+
+return lb_correcto
+end function
+

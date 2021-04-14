@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fecha_doc2.srf
+global type f_fecha_doc2 from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_doc2 (string par_empresa, integer par_documento)
+end prototypes
+
+global function datetime f_fecha_doc2 (string par_empresa, integer par_documento);datetime fecha
+
+select distinct carcomisiones.fliquidacion into :fecha
+from carcomisiones
+where (carcomisiones.empresa = :par_empresa)	and
+		(carcomisiones.doc_liquidacion = :par_documento);
+
+
+return fecha
+end function
+

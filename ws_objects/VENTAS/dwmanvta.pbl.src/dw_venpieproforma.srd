@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_venpieproforma.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=225 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venpieproforma.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=idioma dbname="venpieproforma.idioma" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=texto dbname="venpieproforma.texto" )
+ column=(type=char(255) update=yes updatewhereclause=yes name=texto1 dbname="venpieproforma.texto1" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venpieproforma~" ) COLUMN(NAME=~"venpieproforma.empresa~") COLUMN(NAME=~"venpieproforma.idioma~") COLUMN(NAME=~"venpieproforma.texto~") COLUMN(NAME=~"venpieproforma.texto1~")WHERE(    EXP1 =~"venpieproforma.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venpieproforma.idioma~"   OP =~"=~"    EXP2 =~":idioma~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"idioma~" TYPE = string) " update="venpieproforma" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("idioma", string)) )
+text(band=detail alignment="1" text="Pie factura:"border="0" color="0" x="23" y="136" height="65" width="334"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Pie lineas:"border="0" color="0" x="51" y="44" height="65" width="307"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="389" y="40" height="65" width="2346" format="[general]"  name=texto1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="389" y="136" height="65" width="2346" format="[general]"  name=texto edit.limit=255 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

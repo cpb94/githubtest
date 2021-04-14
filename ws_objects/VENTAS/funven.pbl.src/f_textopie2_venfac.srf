@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_textopie2_venfac.srf
+global type f_textopie2_venfac from function_object
+end type
+
+forward prototypes
+global function string f_textopie2_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_textopie2_venfac (string empresa, integer anyo, decimal factura);String var
+
+
+  SELECT venfac.textopie2
+    INTO :var
+    FROM venfac  
+   WHERE (venfac.empresa = :empresa)
+   AND   (venfac.anyo    = :anyo)
+   AND   (venfac.factura  = :factura)   ;
+
+
+IF IsNUll(var) Then var = ""
+iF Trim(var) = "" Then var = "TOTAL  "
+Return var
+end function
+

@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_nombre_causas.srf
+$PBExportComments$Devuelve el nombre del pais.
+global type f_nombre_causas from function_object
+end type
+
+forward prototypes
+global function string f_nombre_causas (string ra_empresa, string ra_codcausas)
+end prototypes
+
+global function string f_nombre_causas (string ra_empresa, string ra_codcausas);string ls_nombre
+
+SELECT  ven_reclamaciones_causas.descripcion 
+INTO :ls_nombre
+FROM  ven_reclamaciones_causas
+WHERE  ven_reclamaciones_causas.codigo = :ra_codcausas
+AND     ven_reclamaciones_causas.empresa = :ra_empresa
+ORDER BY  ven_reclamaciones_causas.codigo ASC USING SQLCA;
+	
+IF IsNull(ls_nombre) Then ls_nombre=""
+
+RETURN ls_nombre
+
+
+
+
+
+
+
+end function
+

@@ -1,0 +1,489 @@
+﻿$PBExportHeader$report_con_cuadro_analitica.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=352 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=68 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes key=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(50) updatewhereclause=yes name=cuenta dbname="comodin.cuenta" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_cuenta dbname="comodin.codigo_cuenta" )
+ column=(type=char(50) updatewhereclause=yes name=fila1 dbname="comodin.fila1" )
+ column=(type=char(50) updatewhereclause=yes name=fila2 dbname="comodin.fila2" )
+ column=(type=char(50) updatewhereclause=yes name=fila3 dbname="comodin.fila3" )
+ column=(type=char(50) updatewhereclause=yes name=fila4 dbname="comodin.fila4" )
+ column=(type=char(50) updatewhereclause=yes name=fila5 dbname="comodin.fila5" )
+ column=(type=char(50) updatewhereclause=yes name=fila6 dbname="comodin.fila6" )
+ column=(type=char(50) updatewhereclause=yes name=fila7 dbname="comodin.fila7" )
+ column=(type=char(50) updatewhereclause=yes name=fila8 dbname="comodin.fila8" )
+ column=(type=char(50) updatewhereclause=yes name=fila9 dbname="comodin.fila9" )
+ column=(type=char(50) updatewhereclause=yes name=fila10 dbname="comodin.fila10" )
+ column=(type=char(50) updatewhereclause=yes name=fila11 dbname="comodin.fila11" )
+ column=(type=char(50) updatewhereclause=yes name=fila12 dbname="comodin.fila12" )
+ column=(type=char(50) updatewhereclause=yes name=fila13 dbname="comodin.fila13" )
+ column=(type=char(50) updatewhereclause=yes name=fila14 dbname="comodin.fila14" )
+ column=(type=char(50) updatewhereclause=yes name=fila15 dbname="comodin.fila15" )
+ column=(type=char(50) updatewhereclause=yes name=fila16 dbname="comodin.fila16" )
+ column=(type=char(50) updatewhereclause=yes name=fila17 dbname="comodin.fila17" )
+ column=(type=char(50) updatewhereclause=yes name=fila18 dbname="comodin.fila18" )
+ column=(type=char(50) updatewhereclause=yes name=fila19 dbname="comodin.fila19" )
+ column=(type=char(50) updatewhereclause=yes name=fila20 dbname="comodin.fila20" )
+ column=(type=char(50) updatewhereclause=yes name=fila21 dbname="comodin.fila21" )
+ column=(type=char(50) updatewhereclause=yes name=fila22 dbname="comodin.fila22" )
+ column=(type=char(50) updatewhereclause=yes name=fila23 dbname="comodin.fila23" )
+ column=(type=char(50) updatewhereclause=yes name=fila24 dbname="comodin.fila24" )
+ column=(type=char(50) updatewhereclause=yes name=fila25 dbname="comodin.fila25" )
+ column=(type=char(50) updatewhereclause=yes name=fila26 dbname="comodin.fila26" )
+ column=(type=char(50) updatewhereclause=yes name=fila27 dbname="comodin.fila27" )
+ column=(type=char(50) updatewhereclause=yes name=fila28 dbname="comodin.fila28" )
+ column=(type=char(50) updatewhereclause=yes name=fila29 dbname="comodin.fila29" )
+ column=(type=char(50) updatewhereclause=yes name=fila30 dbname="comodin.fila30" )
+ column=(type=char(50) updatewhereclause=yes name=fila31 dbname="comodin.fila31" )
+ column=(type=char(50) updatewhereclause=yes name=fila32 dbname="comodin.fila32" )
+ column=(type=char(50) updatewhereclause=yes name=fila33 dbname="comodin.fila33" )
+ column=(type=char(50) updatewhereclause=yes name=fila34 dbname="comodin.fila34" )
+ column=(type=char(50) updatewhereclause=yes name=fila35 dbname="comodin.fila35" )
+ column=(type=char(50) updatewhereclause=yes name=fila36 dbname="comodin.fila36" )
+ column=(type=char(50) updatewhereclause=yes name=fila37 dbname="comodin.fila37" )
+ column=(type=char(50) updatewhereclause=yes name=fila38 dbname="comodin.fila38" )
+ column=(type=char(50) updatewhereclause=yes name=fila39 dbname="comodin.fila39" )
+ column=(type=char(50) updatewhereclause=yes name=fila40 dbname="comodin.fila40" )
+ column=(type=char(50) updatewhereclause=yes name=fila41 dbname="comodin.fila41" )
+ column=(type=char(50) updatewhereclause=yes name=fila42 dbname="comodin.fila42" )
+ column=(type=char(50) updatewhereclause=yes name=fila43 dbname="comodin.fila43" )
+ column=(type=char(50) updatewhereclause=yes name=fila44 dbname="comodin.fila44" )
+ column=(type=char(50) updatewhereclause=yes name=fila45 dbname="comodin.fila45" )
+ column=(type=char(50) updatewhereclause=yes name=fila46 dbname="comodin.fila46" )
+ column=(type=char(50) updatewhereclause=yes name=fila47 dbname="comodin.fila47" )
+ column=(type=char(50) updatewhereclause=yes name=fila48 dbname="comodin.fila48" )
+ column=(type=char(50) updatewhereclause=yes name=fila49 dbname="comodin.fila49" )
+ column=(type=char(50) updatewhereclause=yes name=fila50 dbname="comodin.fila50" )
+ column=(type=char(50) updatewhereclause=yes name=fila51 dbname="comodin.fila51" )
+ column=(type=char(50) updatewhereclause=yes name=fila52 dbname="comodin.fila52" )
+ column=(type=char(50) updatewhereclause=yes name=fila53 dbname="comodin.fila53" )
+ column=(type=char(50) updatewhereclause=yes name=fila54 dbname="comodin.fila54" )
+ column=(type=char(50) updatewhereclause=yes name=fila55 dbname="comodin.fila55" )
+ column=(type=char(50) updatewhereclause=yes name=fila56 dbname="comodin.fila56" )
+ column=(type=char(50) updatewhereclause=yes name=fila57 dbname="comodin.fila57" )
+ column=(type=char(50) updatewhereclause=yes name=fila58 dbname="comodin.fila58" )
+ column=(type=char(50) updatewhereclause=yes name=fila59 dbname="comodin.fila59" )
+ column=(type=char(50) updatewhereclause=yes name=fila60 dbname="comodin.fila60" )
+ column=(type=char(50) updatewhereclause=yes name=fila61 dbname="comodin.fila61" )
+ column=(type=char(50) updatewhereclause=yes name=fila62 dbname="comodin.fila62" )
+ column=(type=char(50) updatewhereclause=yes name=fila63 dbname="comodin.fila63" )
+ column=(type=char(50) updatewhereclause=yes name=fila64 dbname="comodin.fila64" )
+ column=(type=char(50) updatewhereclause=yes name=fila65 dbname="comodin.fila65" )
+ column=(type=char(50) updatewhereclause=yes name=fila66 dbname="comodin.fila66" )
+ column=(type=char(50) updatewhereclause=yes name=fila67 dbname="comodin.fila67" )
+ column=(type=char(50) updatewhereclause=yes name=fila68 dbname="comodin.fila68" )
+ column=(type=char(50) updatewhereclause=yes name=fila69 dbname="comodin.fila69" )
+ column=(type=char(50) updatewhereclause=yes name=fila70 dbname="comodin.fila70" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila1 dbname="comodin.codigo_fila1" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila2 dbname="comodin.codigo_fila2" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila3 dbname="comodin.codigo_fila3" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila4 dbname="comodin.codigo_fila4" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila5 dbname="comodin.codigo_fila5" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila6 dbname="comodin.codigo_fila6" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila7 dbname="comodin.codigo_fila7" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila8 dbname="comodin.codigo_fila8" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila9 dbname="comodin.codigo_fila9" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila10 dbname="comodin.codigo_fila10" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila11 dbname="comodin.codigo_fila11" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila12 dbname="comodin.codigo_fila12" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila13 dbname="comodin.codigo_fila13" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila14 dbname="comodin.codigo_fila14" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila15 dbname="comodin.codigo_fila15" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila16 dbname="comodin.codigo_fila16" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila17 dbname="comodin.codigo_fila17" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila18 dbname="comodin.codigo_fila18" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila19 dbname="comodin.codigo_fila19" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila20 dbname="comodin.codigo_fila20" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila21 dbname="comodin.codigo_fila21" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila22 dbname="comodin.codigo_fila22" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila23 dbname="comodin.codigo_fila23" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila24 dbname="comodin.codigo_fila24" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila25 dbname="comodin.codigo_fila25" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila26 dbname="comodin.codigo_fila26" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila27 dbname="comodin.codigo_fila27" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila28 dbname="comodin.codigo_fila28" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila29 dbname="comodin.codigo_fila29" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila30 dbname="comodin.codigo_fila30" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila31 dbname="comodin.codigo_fila31" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila32 dbname="comodin.codigo_fila32" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila33 dbname="comodin.codigo_fila33" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila34 dbname="comodin.codigo_fila34" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila35 dbname="comodin.codigo_fila35" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila36 dbname="comodin.codigo_fila36" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila37 dbname="comodin.codigo_fila37" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila38 dbname="comodin.codigo_fila38" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila39 dbname="comodin.codigo_fila39" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila40 dbname="comodin.codigo_fila40" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila41 dbname="comodin.codigo_fila41" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila42 dbname="comodin.codigo_fila42" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila43 dbname="comodin.codigo_fila43" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila44 dbname="comodin.codigo_fila44" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila45 dbname="comodin.codigo_fila45" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila46 dbname="comodin.codigo_fila46" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila47 dbname="comodin.codigo_fila47" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila48 dbname="comodin.codigo_fila48" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila49 dbname="comodin.codigo_fila49" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila50 dbname="comodin.codigo_fila50" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila51 dbname="comodin.codigo_fila51" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila52 dbname="comodin.codigo_fila52" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila53 dbname="comodin.codigo_fila53" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila54 dbname="comodin.codigo_fila54" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila55 dbname="comodin.codigo_fila55" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila56 dbname="comodin.codigo_fila56" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila57 dbname="comodin.codigo_fila57" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila58 dbname="comodin.codigo_fila58" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila59 dbname="comodin.codigo_fila59" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila60 dbname="comodin.codigo_fila60" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila61 dbname="comodin.codigo_fila61" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila62 dbname="comodin.codigo_fila62" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila63 dbname="comodin.codigo_fila63" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila64 dbname="comodin.codigo_fila64" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila65 dbname="comodin.codigo_fila65" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila66 dbname="comodin.codigo_fila66" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila67 dbname="comodin.codigo_fila67" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila68 dbname="comodin.codigo_fila68" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila69 dbname="comodin.codigo_fila69" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila70 dbname="comodin.codigo_fila70" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe1 dbname="comodin.importe1" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe2 dbname="comodin.importe2" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe3 dbname="comodin.importe3" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe4 dbname="comodin.importe4" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe5 dbname="comodin.importe5" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe6 dbname="comodin.importe6" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe7 dbname="comodin.importe7" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe8 dbname="comodin.importe8" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe9 dbname="comodin.importe9" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe10 dbname="comodin.importe10" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe11 dbname="comodin.importe11" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe12 dbname="comodin.importe12" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe13 dbname="comodin.importe13" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe14 dbname="comodin.importe14" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe15 dbname="comodin.importe15" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe16 dbname="comodin.importe16" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe17 dbname="comodin.importe17" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe18 dbname="comodin.importe18" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe19 dbname="comodin.importe19" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe20 dbname="comodin.importe20" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe21 dbname="comodin.importe21" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe22 dbname="comodin.importe22" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe23 dbname="comodin.importe23" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe24 dbname="comodin.importe24" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe25 dbname="comodin.importe25" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe26 dbname="comodin.importe26" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe27 dbname="comodin.importe27" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe28 dbname="comodin.importe28" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe29 dbname="comodin.importe29" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe30 dbname="comodin.importe30" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe31 dbname="comodin.importe31" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe32 dbname="comodin.importe32" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe33 dbname="comodin.importe33" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe34 dbname="comodin.importe34" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe35 dbname="comodin.importe35" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe36 dbname="comodin.importe36" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe37 dbname="comodin.importe37" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe38 dbname="comodin.importe38" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe39 dbname="comodin.importe39" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe40 dbname="comodin.importe40" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe41 dbname="comodin.importe41" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe42 dbname="comodin.importe42" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe43 dbname="comodin.importe43" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe44 dbname="comodin.importe44" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe45 dbname="comodin.importe45" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe46 dbname="comodin.importe46" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe47 dbname="comodin.importe47" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe48 dbname="comodin.importe48" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe49 dbname="comodin.importe49" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe50 dbname="comodin.importe50" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe51 dbname="comodin.importe51" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe52 dbname="comodin.importe52" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe53 dbname="comodin.importe53" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe54 dbname="comodin.importe54" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe55 dbname="comodin.importe55" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe56 dbname="comodin.importe56" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe57 dbname="comodin.importe57" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe58 dbname="comodin.importe58" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe59 dbname="comodin.importe59" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe60 dbname="comodin.importe60" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe61 dbname="comodin.importe61" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe62 dbname="comodin.importe62" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe63 dbname="comodin.importe63" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe64 dbname="comodin.importe64" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe65 dbname="comodin.importe65" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe66 dbname="comodin.importe66" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe67 dbname="comodin.importe67" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe68 dbname="comodin.importe68" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe69 dbname="comodin.importe69" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe70 dbname="comodin.importe70" initial="0" )
+ column=(type=long updatewhereclause=yes name=hoja dbname="comodin.hoja" )
+ column=(type=datetime updatewhereclause=yes name=f1 dbname="comodin.f1" )
+ column=(type=datetime updatewhereclause=yes name=f2 dbname="comodin.f2" )
+ column=(type=decimal(4) updatewhereclause=yes name=nivelcta dbname="comodin.nivelcta" )
+ column=(type=decimal(4) updatewhereclause=yes name=nivelcoste dbname="comodin.nivelcoste" )
+ column=(type=char(50) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(50) updatewhereclause=yes name=cal dbname="comodin.cal" initial="1" )
+ retrieve="  SELECT comodin.empresa,   
+         letras cuenta,   
+         letras codigo_cuenta,   
+         letras  fila1,   
+         letras  fila2,   
+         letras  fila3,   
+         letras  fila4,   
+         letras  fila5,   
+         letras  fila6,   
+         letras  fila7,   
+         letras  fila8,   
+         letras  fila9,   
+         letras  fila10,   
+         letras  fila11,   
+         letras  fila12,   
+         letras  fila13,   
+         letras  fila14,   
+         letras  fila15,   
+         letras  fila16,   
+         letras  fila17,   
+         letras  fila18,   
+         letras  fila19,   
+         letras  fila20,   
+         letras  fila21,   
+         letras  fila22,   
+         letras  fila23,   
+         letras  fila24,   
+         letras  fila25,   
+         letras  fila26,   
+         letras  fila27,   
+         letras  fila28,   
+         letras  fila29,   
+         letras  fila30,   
+         letras  fila31,   
+         letras  fila32,   
+         letras  fila33,   
+         letras  fila34,   
+         letras  fila35,   
+         letras  fila36,   
+         letras  fila37,   
+         letras  fila38,   
+         letras  fila39,   
+         letras  fila40,   
+         letras  fila41,   
+         letras  fila42,   
+         letras  fila43,   
+         letras  fila44,   
+         letras  fila45,   
+         letras  fila46,   
+         letras  fila47,   
+         letras  fila48,   
+         letras  fila49,   
+         letras  fila50,   
+         letras  fila51,   
+         letras  fila52,   
+         letras  fila53,   
+         letras  fila54,   
+         letras  fila55,   
+         letras  fila56,   
+         letras  fila57,   
+         letras  fila58,   
+         letras  fila59,   
+         letras  fila60,   
+         letras  fila61,   
+         letras  fila62,   
+         letras  fila63,   
+         letras  fila64,   
+         letras  fila65,   
+         letras  fila66,   
+         letras  fila67,   
+         letras  fila68,   
+         letras  fila69,   
+         letras  fila70,   
+         letras  codigo_fila1,   
+         letras  codigo_fila2,   
+         letras  codigo_fila3,   
+         letras  codigo_fila4,   
+         letras  codigo_fila5,   
+         letras  codigo_fila6,   
+         letras  codigo_fila7,   
+         letras  codigo_fila8,   
+         letras  codigo_fila9,   
+         letras  codigo_fila10,   
+         letras  codigo_fila11,   
+         letras  codigo_fila12,   
+         letras  codigo_fila13,   
+         letras  codigo_fila14,   
+         letras  codigo_fila15,   
+         letras  codigo_fila16,   
+         letras  codigo_fila17,   
+         letras  codigo_fila18,   
+         letras  codigo_fila19,   
+         letras  codigo_fila20,   
+         letras  codigo_fila21,   
+         letras  codigo_fila22,   
+         letras  codigo_fila23,   
+         letras  codigo_fila24,   
+         letras  codigo_fila25,   
+         letras  codigo_fila26,   
+         letras  codigo_fila27,   
+         letras  codigo_fila28,   
+         letras  codigo_fila29,   
+         letras  codigo_fila30,   
+         letras  codigo_fila31,   
+         letras  codigo_fila32,   
+         letras  codigo_fila33,   
+         letras  codigo_fila34,   
+         letras  codigo_fila35,   
+         letras  codigo_fila36,   
+         letras  codigo_fila37,   
+         letras  codigo_fila38,   
+         letras  codigo_fila39,   
+         letras  codigo_fila40,   
+         letras  codigo_fila41,   
+         letras  codigo_fila42,   
+         letras  codigo_fila43,   
+         letras  codigo_fila44,   
+         letras  codigo_fila45,   
+         letras  codigo_fila46,   
+         letras  codigo_fila47,   
+         letras  codigo_fila48,   
+         letras  codigo_fila49,   
+         letras  codigo_fila50,   
+         letras  codigo_fila51,   
+         letras  codigo_fila52,   
+         letras  codigo_fila53,   
+         letras  codigo_fila54,   
+         letras  codigo_fila55,   
+         letras  codigo_fila56,   
+         letras  codigo_fila57,   
+         letras  codigo_fila58,   
+         letras  codigo_fila59,   
+         letras  codigo_fila60,
+         letras  codigo_fila61,
+         letras  codigo_fila62,
+         letras  codigo_fila63,
+         letras  codigo_fila64,
+         letras  codigo_fila65,
+         letras  codigo_fila66,
+         letras  codigo_fila67,
+         letras  codigo_fila68,
+         letras  codigo_fila69,
+         letras  codigo_fila70,
+         numero  importe1,   
+         numero  importe2,   
+         numero  importe3,   
+         numero  importe4,   
+         numero  importe5,   
+         numero  importe6,   
+         numero  importe7,   
+         numero  importe8,   
+         numero  importe9,   
+         numero  importe10,   
+         numero  importe11,   
+         numero  importe12,   
+         numero  importe13,   
+         numero  importe14,   
+         numero  importe15,   
+         numero  importe16,   
+         numero  importe17,   
+         numero  importe18,   
+         numero  importe19,   
+         numero  importe20,   
+         numero  importe21,   
+         numero  importe22,   
+         numero  importe23,   
+         numero  importe24,   
+         numero  importe25,   
+         numero  importe26,   
+         numero  importe27,   
+         numero  importe28,   
+         numero  importe29,   
+         numero  importe30,   
+         numero  importe31,   
+         numero  importe32,   
+         numero  importe33,   
+         numero  importe34,   
+         numero  importe35,   
+         numero  importe36,   
+         numero  importe37,   
+         numero  importe38,   
+         numero  importe39,   
+         numero  importe40,   
+         numero  importe41,   
+         numero  importe42,   
+         numero  importe43,   
+         numero  importe44,   
+         numero  importe45,   
+         numero  importe46,   
+         numero  importe47,   
+         numero  importe48,   
+         numero  importe49,   
+         numero  importe50,   
+         numero  importe51,   
+         numero  importe52,   
+         numero  importe53,   
+         numero  importe54,   
+         numero  importe55,   
+         numero  importe56,   
+         numero  importe57,   
+         numero  importe58,   
+         numero  importe59,   
+         numero  importe60,   
+         numero  importe61,   
+         numero  importe62,   
+         numero  importe63,   
+         numero  importe64,   
+         numero  importe65,
+         numero  importe66,
+         numero  importe67,
+         numero  importe68,
+         numero  importe69,
+         numero  importe70,
+			0       hoja,
+			fecha   f1,
+			fecha   f2,
+			numero  nivelcta,
+			numero  nivelcoste,
+			letras   empresa,
+			letras   cal
+
+ 
+
+
+
+    FROM comodin  
+   WHERE comodin.empresa = :empresa    
+" update="comodin" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string)) )
+group(level=1 header.height=0 trailer.height=148 by=("cal" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Titulo Cuenta"border="1" color="0" x="14" y="272" height="64" width="827"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=4 alignment="2" tabsequence=32766 border="1" color="0" x="869" y="272" height="64" width="471" format="[general]"  name=fila1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=5 alignment="2" tabsequence=32766 border="1" color="0" x="1367" y="272" height="64" width="471" format="[general]"  name=fila2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=6 alignment="2" tabsequence=32766 border="1" color="0" x="1865" y="272" height="64" width="471" format="[general]"  name=fila3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="2" tabsequence=32766 border="1" color="0" x="2363" y="272" height="64" width="471" format="[general]"  name=fila4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="2" tabsequence=32766 border="1" color="0" x="2862" y="272" height="64" width="471" format="[general]"  name=fila5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=9 alignment="2" tabsequence=32766 border="1" color="0" x="3360" y="272" height="64" width="471" format="[general]"  name=fila6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=10 alignment="2" tabsequence=32766 border="1" color="0" x="3858" y="272" height="64" width="471" format="[general]"  name=fila7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=11 alignment="2" tabsequence=32766 border="1" color="0" x="4357" y="272" height="64" width="471" format="[general]"  name=fila8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="CUADRO DE ANALITICA"border="0" color="0" x="9" y="160" height="80" width="919"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_nombre_empresa(empresa)"border="0" color="0" x="0" y="0" height="108" width="1019" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"Fecha:  ~" +  String(f1,~"dd-mm-yy~") + ~" - ~" + String(f2,~"dd-mm-yy~") + ~"    Nivel Cta: ~" + String( nivelcta ,~"####~") + ~"  ~" + ~"    Nivel Coste: ~" + String( nivelcoste ,~"####~")"border="0" color="0" x="946" y="160" height="80" width="3877" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="0" y="4" height="64" width="846" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=144 alignment="1" tabsequence=32766 border="0" color="0" x="869" y="4" height="64" width="471" format="[general]"  name=importe1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=145 alignment="1" tabsequence=32766 border="0" color="0" x="1367" y="4" height="64" width="471" format="[general]"  name=importe2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=146 alignment="1" tabsequence=32766 border="0" color="0" x="1865" y="4" height="64" width="471" format="[general]"  name=importe3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=147 alignment="1" tabsequence=32766 border="0" color="0" x="2363" y="4" height="64" width="471" format="[general]"  name=importe4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=148 alignment="1" tabsequence=32766 border="0" color="0" x="2862" y="4" height="64" width="471" format="[general]"  name=importe5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=149 alignment="1" tabsequence=32766 border="0" color="0" x="3360" y="4" height="64" width="471" format="[general]"  name=importe6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=150 alignment="1" tabsequence=32766 border="0" color="0" x="3858" y="4" height="64" width="471" format="[general]"  name=importe7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=151 alignment="1" tabsequence=32766 border="0" color="0" x="4357" y="4" height="64" width="471" format="[general]"  name=importe8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="~"PRECIO POR KILO:~""border="0" color="0" x="5" y="12" height="64" width="832" format="[general]" visible="1~tIF ( cal = '1',0,1)"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe1,0) for all),Sum(If (cal = ~"1~",importe1,0) for all)/ Sum(If (cal = ~"2~",importe1,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="869" y="8" height="64" width="475" format="[general]"  name=t1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe2,0) for all),Sum(If (cal = ~"1~",importe2,0) for all)/ Sum(If (cal = ~"2~",importe2,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="1367" y="8" height="64" width="471" format="[general]"  name=t2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe3,0) for all),Sum(If (cal = ~"1~",importe3,0) for all)/ Sum(If (cal = ~"2~",importe3,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="1865" y="8" height="64" width="471" format="[general]"  name=t3  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe4,0) for all),Sum(If (cal = ~"1~",importe4,0) for all)/ Sum(If (cal = ~"2~",importe4,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="2363" y="8" height="64" width="471" format="[general]"  name=t4  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe5,0) for all),Sum(If (cal = ~"1~",importe5,0) for all)/ Sum(If (cal = ~"2~",importe5,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="2862" y="8" height="64" width="471" format="[general]"  name=t5  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe6,0) for all),Sum(If (cal = ~"1~",importe6,0) for all)/ Sum(If (cal = ~"2~",importe6,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="3360" y="8" height="64" width="471" format="[general]"  name=t6  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe7,0) for all),Sum(If (cal = ~"1~",importe7,0) for all)/ Sum(If (cal = ~"2~",importe7,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="3858" y="8" height="64" width="471" format="[general]"  name=t7  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(IF (cal = ~"1~",Sum(If (cal = ~"1~",importe8,0) for all),Sum(If (cal = ~"1~",importe8,0) for all)/ Sum(If (cal = ~"2~",importe8,0) for all)), IF (cal='1',f_mascara_decimales(0),f_mascara_decimales(2)))"border="0" color="0" x="4357" y="8" height="64" width="471" format="[general]"  name=t8  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="0" y1="80" x2="4827" y2="80" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="~"Hoja ~"+ String(hoja,'##') +  ~"(~"+STring(page(),~"##~")+~"-~"+String(pagecount(),~"##~")+~")~""border="0" color="0" x="2359" y="0" height="56" width="1248" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

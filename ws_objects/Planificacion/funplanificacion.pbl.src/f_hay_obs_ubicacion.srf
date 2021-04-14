@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_hay_obs_ubicacion.srf
+global type f_hay_obs_ubicacion from function_object
+end type
+
+forward prototypes
+global function boolean f_hay_obs_ubicacion (string articulo)
+end prototypes
+
+global function boolean f_hay_obs_ubicacion (string articulo);long v_observaciones
+
+select count(*)
+into :v_observaciones
+from almacenmovimientos
+where empresa = :codigo_empresa
+and articulo = :articulo
+and observaciones is not null;
+	
+if v_observaciones > 0 then
+	return true
+else
+	return false
+//	dw_1.object.stockbase.Color = RGB(255, 0, 0)		
+
+end if
+	
+
+
+
+end function
+

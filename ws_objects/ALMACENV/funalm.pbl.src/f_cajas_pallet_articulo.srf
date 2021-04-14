@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cajas_pallet_articulo.srf
+global type f_cajas_pallet_articulo from function_object
+end type
+
+forward prototypes
+global function integer f_cajas_pallet_articulo (string empresa, string articulo, string cod_pallet, string caja)
+end prototypes
+
+global function integer f_cajas_pallet_articulo (string empresa, string articulo, string cod_pallet, string caja);integer var_pallet = 0
+
+	 SELECT palarticulo.cajaspallet  
+    INTO   :var_pallet  
+    FROM   palarticulo  
+   WHERE ( palarticulo.empresa = :empresa ) AND  
+         ( palarticulo.articulo = :articulo ) AND  
+         ( palarticulo.codigo  = :cod_pallet ) AND
+			( palarticulo.caja  = :caja );
+
+	 if isnull(var_pallet) then var_pallet = 0
+	 Return var_pallet
+
+end function
+

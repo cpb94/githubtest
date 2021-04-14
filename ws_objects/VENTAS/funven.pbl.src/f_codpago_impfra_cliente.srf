@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_codpago_impfra_cliente.srf
+global type f_codpago_impfra_cliente from function_object
+end type
+
+forward prototypes
+global function string f_codpago_impfra_cliente (string empresa, string cliente, decimal importe)
+end prototypes
+
+global function string f_codpago_impfra_cliente (string empresa, string cliente, decimal importe);String v_pago
+Dec v_imp
+
+  SELECT Max(importe)   INTO :v_imp    FROM venfpagoimpfra  
+   WHERE venfpagoimpfra.empresa = :empresa 
+	AND   venfpagoimpfra.cliente = :cliente 
+	AND   venfpagoimpfra.importe <= :importe ;
+	IF IsNUll(v_imp) Then Return ""
+	
+	SELECT codpago   INTO :v_pago    FROM venfpagoimpfra  
+   WHERE venfpagoimpfra.empresa = :empresa 
+	AND   venfpagoimpfra.cliente = :cliente 
+	AND   venfpagoimpfra.importe = :v_imp ;
+	
+
+
+Return v_pago
+end function
+

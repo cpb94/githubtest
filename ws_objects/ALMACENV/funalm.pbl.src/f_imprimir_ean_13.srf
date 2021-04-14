@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_imprimir_ean_13.srf
+global type f_imprimir_ean_13 from function_object
+end type
+
+forward prototypes
+global function string f_imprimir_ean_13 (string a_bar)
+end prototypes
+
+global function string f_imprimir_ean_13 (string a_bar);//fn_barcode_to_barfont (string a_bar) returns string
+int i , li_cur_digit , li_order_index
+int li_left_h_a, li_left_h_b, li_right_h, li_first_flag, li_second_flag, li_check_digit, li_center_guard
+string ls_actual_bar = '' , as_order[10] , ls_cur_char
+
+if len (a_bar) <> 13 then return ''
+
+li_left_h_a = 48
+li_left_h_b = 64
+li_right_h = 80
+li_first_flag = 33
+li_second_flag = 96
+li_check_digit = 112
+li_center_guard = 124
+
+as_order[1] = 'aaaaa'
+as_order[2] = 'ababb'
+as_order[3] = 'abbab'
+as_order[4] = 'abbba'
+as_order[5] = 'baabb'
+as_order[6] = 'bbaab'
+as_order[7] = 'bbbaa'
+as_order[8] = 'babab'
+as_order[9] = 'babba'
+as_order[10] = 'bbaba'
+// ------------------ first flag --------------------
+ls_cur_char = left (a_bar, 1)
+li_order_index = integer (ls_cur_char)
+ls_actual_bar += string (char (li_first_flag + li_order_index))
+// ------------------ second flag --------------------
+ls_cur_char = mid (a_bar, 2, 1)
+ls_actual_bar += string (char (li_second_flag + integer (ls_cur_char)))
+
+for i = 3 to 7
+ls_cur_char = mid (a_bar, i, 1)
+li_cur_digit = integer (ls_cur_char)
+choose case mid (as_order[li_order_index+1], i - 2, 1)
+case 'a'
+ls_actual_bar += string (char (li_left_h_a + li_cur_digit))
+case 'b'
+ls_actual_bar += string (char (li_left_h_b + li_cur_digit))
+end choose
+next
+ls_actual_bar += string (char (li_center_guard))
+for i = 8 to 12
+ls_cur_char = mid (a_bar, i, 1)
+li_cur_digit = integer (ls_cur_char)
+ls_actual_bar += string (char (li_right_h + li_cur_digit))
+next
+ls_cur_char = right (a_bar, 1)
+ls_actual_bar += string (char (li_check_digit + integer (ls_cur_char)))
+
+return ls_actual_bar
+end function
+

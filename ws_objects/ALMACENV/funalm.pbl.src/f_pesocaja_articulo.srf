@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pesocaja_articulo.srf
+global type f_pesocaja_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_pesocaja_articulo (string empresa, string articulo, string caja)
+end prototypes
+
+global function decimal f_pesocaja_articulo (string empresa, string articulo, string caja);Dec{4} var_peso
+
+SELECT almartcajas.pesocaja INTO :var_peso
+FROM almartcajas
+Where almartcajas.empresa = :empresa
+And   almartcajas.articulo  = :articulo
+And   almartcajas.caja    = :caja;
+
+
+Return var_peso ;
+
+end function
+

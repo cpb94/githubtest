@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_proceso_vendtofamforcli.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="vendtofamforcli.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=cliente dbname="vendtofamforcli.cliente" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=familia dbname="vendtofamforcli.familia" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=formato dbname="vendtofamforcli.formato" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=calidad dbname="vendtofamforcli.calidad" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=dto dbname="vendtofamforcli.dto" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=pallets dbname="vendtofamforcli.pallets" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendtofamforcli~" ) COLUMN(NAME=~"vendtofamforcli.empresa~") COLUMN(NAME=~"vendtofamforcli.cliente~") COLUMN(NAME=~"vendtofamforcli.familia~") COLUMN(NAME=~"vendtofamforcli.formato~") COLUMN(NAME=~"vendtofamforcli.calidad~") COLUMN(NAME=~"vendtofamforcli.dto~") COLUMN(NAME=~"vendtofamforcli.pallets~")WHERE(    EXP1 =~"vendtofamforcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamforcli.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " update="vendtofamforcli" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("cliente", string),("familia", string),("calidad", string)) )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1" y="0" height="77" width="1418" format="[general]"  name=pallets edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

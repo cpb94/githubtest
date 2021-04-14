@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_num_precinto_venalb_venlifac.srf
+global type f_num_precinto_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_num_precinto_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_num_precinto_venalb_venlifac (string empresa, integer anyo, decimal albaran);String var_precinto
+
+
+  SELECT venlifac.precinto
+    INTO :var_precinto  
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo_albaran    = :anyo)
+   AND   (venlifac.albaran  = :albaran)
+	group by empresa,anyo_albaran,albaran,precinto;
+
+if IsNull(var_precinto) then var_precinto= ""
+
+Return var_precinto
+end function
+

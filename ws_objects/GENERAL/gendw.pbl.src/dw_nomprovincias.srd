@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_nomprovincias.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0)
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(5) key=yes update=yes name=pais dbname="provincias.pais"  )
+column=(type=char(5) key=yes name=provincia dbname="provincias.provincia"  )
+column=(type=char(30) update=yes initial="spaces" name=nombre dbname="provincias.nombre"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"provincias~" ) COLUMN(NAME=~"provincias.pais~") COLUMN(NAME=~"provincias.provincia~") COLUMN(NAME=~"provincias.nombre~")WHERE( EXP1 =~"provincias.pais~" OP =~"=~" EXP2 =~":ra_codpais~" ) ) ORDER(NAME=~"provincias.nombre~" ASC=yes ) ARG(NAME = ~"ra_codpais~" TYPE = string) "
+  update="provincias" updatewhere=1 updatekeyinplace=no
+  arguments=(("ra_codpais", string))
+)
+column(name=nombre band=detail id=3 x="407" y="8" height="65" width="810" color="0" border="5" alignment="0" format="[general]" edit.name="mayusculas" editmask.focusrectangle=no editmask.autoskip=no editmask.required=no editmask.readonly=no editmask.codetable=no editmask.spin=no editmask.mask="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="System" font.family="2" font.height="-10" font.pitch="2" font.weight="400" tabsequence=20 )
+column(name=provincia band=detail id=2 x="188" y="8" height="65" width="161" color="0" border="5" alignment="0" format="[general]" edit.autohscroll=no edit.autoselect=yes edit.autovscroll=no edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.limit=0 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="System" font.family="2" font.height="-10" font.pitch="2" font.weight="400" tabsequence=10 )

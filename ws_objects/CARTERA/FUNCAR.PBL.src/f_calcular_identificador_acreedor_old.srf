@@ -1,0 +1,166 @@
+﻿$PBExportHeader$f_calcular_identificador_acreedor_old.srf
+global type f_calcular_identificador_acreedor_old from function_object
+end type
+
+forward prototypes
+global function string f_calcular_identificador_acreedor_old (string arg_nif, string arg_pais)
+end prototypes
+
+global function string f_calcular_identificador_acreedor_old (string arg_nif, string arg_pais);string ls_ccc,ls_identificador,ls_codigo_pais,ls_letra,ls_equivalente_codigo_pais,ls_digito_control,ls_codigo_comercial_acreedor = "001"
+string ls_equivalente_identificador,ls_equivalente
+int    li_equivalente_letra,li_letra
+long   ll_modulo97,ll_digito_de_control
+
+//Obtenemos las dos letras equivalentes al pais
+select isnull(clave,'')
+into  :ls_codigo_pais
+from  paises
+where pais = :arg_pais;
+
+//Creamos un identificador provisional añadiendo el codigo del pais y 00 como digitos de control
+ls_identificador = ls_codigo_pais+'00'+ls_codigo_comercial_acreedor+arg_nif
+//Pasamos los 4 primeros caracteres al final del iban
+ls_identificador = right(ls_identificador,len(ls_identificador)-4)+left(ls_identificador,4)
+
+//Pasamos los 3 primeros caracteres que son el codigo comercial
+ls_identificador = right(ls_identificador,len(ls_identificador)-3)
+
+//Convertimos cada letra a su equivalente en numero
+ls_equivalente_identificador = ''
+
+for li_letra = 1 to len(ls_identificador)
+	ls_letra = mid(ls_identificador,li_letra,1)
+	
+	choose case ls_letra
+		case 'A'
+			li_equivalente_letra = 10
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'B'
+			li_equivalente_letra = 11
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'C'
+			li_equivalente_letra = 12
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'D'
+			li_equivalente_letra = 13
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'E'
+			li_equivalente_letra = 14
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'F'
+			li_equivalente_letra = 15
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'G'
+			li_equivalente_letra = 16
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'H'
+			li_equivalente_letra = 17
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'I'
+			li_equivalente_letra = 18
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'J'
+			li_equivalente_letra = 19		
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'K'
+			li_equivalente_letra = 20
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'L'
+			li_equivalente_letra = 21
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'M'
+			li_equivalente_letra = 22
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'N'
+			li_equivalente_letra = 26
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'O'
+			li_equivalente_letra = 24
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'P'
+			li_equivalente_letra = 25
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'Q'
+			li_equivalente_letra = 26
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'R'
+			li_equivalente_letra = 27
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'S'
+			li_equivalente_letra = 28
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'T'
+			li_equivalente_letra = 29		
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'U'
+			li_equivalente_letra = 30
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'V'
+			li_equivalente_letra = 31
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'W'
+			li_equivalente_letra = 32
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'X'
+			li_equivalente_letra = 33
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'Y'
+			li_equivalente_letra = 34
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case 'Z'
+			li_equivalente_letra = 35
+			ls_equivalente = string(li_equivalente_letra,"00")
+		case else
+			ls_equivalente = ls_letra
+	end choose
+	
+	ls_equivalente_identificador += ls_equivalente
+next
+
+//Sustituimos el codigo del pais por el equivalente en numero
+ls_identificador = ls_equivalente_identificador//left(ls_identificador,len(ls_identificador)-4)+ls_equivalente_codigo_pais+right(ls_identificador,2)
+
+//calculamos el modulo 97
+//No se puede realizar en una sola operacion
+//Lo haremos en grupode de 9 digitos
+ll_modulo97 = mod(long(left(ls_identificador,9)),97)
+
+ls_identificador = right(ls_identificador,len(ls_identificador) -9)
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+if len(string(ll_modulo97,"#0")) = 1 then
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,8)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -8)
+else
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,7)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -7)
+end if
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+if len(string(ll_modulo97,"#0")) = 1 then
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,8)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -8)
+else
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,7)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -7)
+end if
+
+//si el resultado son 2 digitos solo cogeremos 7 mas
+if len(string(ll_modulo97,"#0")) = 1 then
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,8)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -8)
+else
+	ll_modulo97 = mod(long(string(ll_modulo97,"#0")+left(ls_identificador,7)),97)
+	ls_identificador = right(ls_identificador,len(ls_identificador) -7)
+end if
+
+//Y sacamos la diferencia entre 98 y el modulo que seria el digito de control
+ll_digito_de_control = 98 - ll_modulo97
+//Le aplicamos la mascara
+ls_digito_control = string(ll_digito_de_control,"00")
+//Y ya componemos el iban definitivo
+ls_identificador = ls_codigo_pais+ls_digito_control+ls_codigo_comercial_acreedor+arg_nif
+
+return ls_identificador
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_nombre_almtipotransportes.srf
+global type f_nombre_almtipotransportes from function_object
+end type
+
+forward prototypes
+global function string f_nombre_almtipotransportes (string as_codempresa, string as_codalmacen)
+end prototypes
+
+global function string f_nombre_almtipotransportes (string as_codempresa, string as_codalmacen);string	ls_nombre
+ SELECT descripcion INTO :ls_nombre
+    FROM almtipotransportes  
+   WHERE (almtipotransportes.empresa      = :as_codempresa)
+   AND   (almtipotransportes.codigo       = :as_codalmacen)  USING SQLCA;
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre= ""
+END IF
+RETURN ls_nombre
+end function
+

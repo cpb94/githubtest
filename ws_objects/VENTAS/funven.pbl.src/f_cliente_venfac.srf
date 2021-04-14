@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cliente_venfac.srf
+global type f_cliente_venfac from function_object
+end type
+
+forward prototypes
+global function string f_cliente_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_cliente_venfac (string empresa, integer anyo, decimal factura);String var_cliente
+
+  SELECT venfac.cliente
+    INTO :var_cliente
+    FROM venfac  
+   WHERE venfac.empresa = :empresa
+   AND   venfac.anyo    = :anyo
+   AND   venfac.factura  = :factura;
+
+
+
+Return var_cliente
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_ppago_comprov.srf
+global type f_ppago_comprov from function_object
+end type
+
+forward prototypes
+global function decimal f_ppago_comprov (string empresa, string codigo)
+end prototypes
+
+global function decimal f_ppago_comprov (string empresa, string codigo);dec var
+
+  SELECT comproveedores.dtopp INTO :var   
+  	FROM comproveedores  
+   WHERE comproveedores.empresa = :empresa 
+	AND   comproveedores.codigo  = :codigo ;
+	
+Return var
+
+end function
+

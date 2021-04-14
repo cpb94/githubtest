@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cantidad_promlinped.srf
+global type f_cantidad_promlinped from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_promlinped (string ra_codemp, integer ra_anyo, decimal ra_pedido, string ra_panel)
+end prototypes
+
+global function decimal f_cantidad_promlinped (string ra_codemp, integer ra_anyo, decimal ra_pedido, string ra_panel);Dec{2} cantidad
+
+ SELECT sum(promlinped.cantidad)   INTO :cantidad
+    FROM promlinped
+   WHERE ( promlinped.empresa = :ra_codemp ) AND  
+         ( promlinped.anyo  = :ra_anyo )  AND
+			( promlinped.pedido  = :ra_pedido )  AND
+         ( promlinped.panel  = :ra_panel )  
+  USING SQLCA;
+if IsNull(cantidad) Then cantidad =0
+Return cantidad
+
+end function
+

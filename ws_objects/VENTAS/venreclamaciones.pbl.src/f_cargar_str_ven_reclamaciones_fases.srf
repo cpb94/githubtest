@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_fases.srf
+global type f_cargar_str_ven_reclamaciones_fases from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_fases (STRING arg_empresa, STRING arg_codigo,  ref str_ven_reclamaciones_fases str_ven_reclamaciones_fases)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_fases (STRING arg_empresa, STRING arg_codigo,  ref str_ven_reclamaciones_fases str_ven_reclamaciones_fases);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_fases.empresa,
+       ven_reclamaciones_fases.codigo,
+       ven_reclamaciones_fases.descripcion,
+       ven_reclamaciones_fases.descripcion_abr,
+       ven_reclamaciones_fases.situacion_inicial
+INTO   :str_ven_reclamaciones_fases.empresa,
+       :str_ven_reclamaciones_fases.codigo,
+       :str_ven_reclamaciones_fases.descripcion,
+       :str_ven_reclamaciones_fases.descripcion_abr,
+       :str_ven_reclamaciones_fases.situacion_inicial
+FROM ven_reclamaciones_fases
+WHERE ven_reclamaciones_fases.empresa = :arg_empresa AND ven_reclamaciones_fases.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

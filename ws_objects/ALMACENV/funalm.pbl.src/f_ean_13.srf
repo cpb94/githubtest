@@ -1,0 +1,106 @@
+﻿$PBExportHeader$f_ean_13.srf
+global type f_ean_13 from function_object
+end type
+
+forward prototypes
+global function string f_ean_13 (string codigo)
+end prototypes
+
+global function string f_ean_13 (string codigo);string ean13
+string c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13
+
+codigo = trim(codigo)
+
+if len(codigo) <> 13 then return ''
+
+c1  = char(integer(mid(codigo,1,1))  + 33)
+c2  = char(integer(mid(codigo,2,1))  + 96)
+c3  = char(integer(mid(codigo,3,1))  + 64)
+c4  = char(integer(mid(codigo,4,1))  + 48)
+c5  = char(integer(mid(codigo,5,1))  + 64)
+c6  = char(integer(mid(codigo,6,1))  + 64)
+c7  = char(integer(mid(codigo,7,1))  + 48)
+c8  = char(integer(mid(codigo,8,1))  + 80)
+c9  = char(integer(mid(codigo,9,1))  + 80)
+c10 = char(integer(mid(codigo,10,1)) + 80)
+c11 = char(integer(mid(codigo,11,1)) + 80)
+c12 = char(integer(mid(codigo,12,1)) + 80)
+c13 = char(integer(mid(codigo,13,1)) + 112)
+
+ean13 =  c1+c2+c3+c4+c5+c6+c7+char(124)+c8+c9+c10+c11+c12+c13
+
+return ean13
+
+/*
+Public Function ean13(ByVal chaine As String) As String
+
+        Dim i, checksum, first As Integer
+        Dim CodeBarre As String
+        Dim tableA As Boolean
+
+        ean13 = ""
+        If Len(chaine) = 12 Then
+            For i = 1 To 12
+                If Asc(Mid(chaine, i, 1)) < 48 Or Asc(Mid(chaine, i, 1)) > 57 Then
+                    i = 0
+                    Exit For
+                End If
+            Next
+            If i = 13 Then
+                For i = 2 To 12 Step 2
+                    checksum = checksum + Val(Mid(chaine, i, 1))
+                Next
+                checksum = checksum * 3
+                For i = 1 To 11 Step 2
+                    checksum = checksum + Val(Mid(chaine, i, 1))
+                Next
+                chaine = chaine & (10 - checksum Mod 10) Mod 10
+                CodeBarre = Left(chaine, 1) & Chr(65 + Val(Mid(chaine, 2, 1)))
+                first = Val(Left(chaine, 1))
+                For i = 3 To 7
+                    tableA = False
+                    Select Case i
+                        Case 3
+                            Select Case first
+                                Case 0 To 3
+                                    tableA = True
+                            End Select
+                        Case 4
+                            Select Case first
+                                Case 0, 4, 7, 8
+                                    tableA = True
+                            End Select
+                        Case 5
+                            Select Case first
+                                Case 0, 1, 4, 5, 9
+                                    tableA = True
+                            End Select
+                        Case 6
+                            Select Case first
+                                Case 0, 2, 5, 6, 7
+                                    tableA = True
+                            End Select
+                        Case 7
+                            Select Case first
+                                Case 0, 3, 6, 8, 9
+                                    tableA = True
+                            End Select
+                    End Select
+                    If tableA Then
+                        CodeBarre = CodeBarre & Chr(65 + Val(Mid(chaine, i, 1)))
+                    Else
+                        CodeBarre = CodeBarre & Chr(75 + Val(Mid(chaine, i, 1)))
+                    End If
+                Next
+                CodeBarre = CodeBarre & "*"
+                For i = 8 To 13
+                    CodeBarre = CodeBarre & Chr(97 + Val(Mid(chaine, i, 1)))
+                Next
+                CodeBarre = CodeBarre & "+"
+                ean13 = CodeBarre
+            End If
+        End If
+    End Function
+*/
+end function
+

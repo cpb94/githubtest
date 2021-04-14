@@ -1,0 +1,63 @@
+﻿$PBExportHeader$f_crear_transaccion.srf
+global type f_crear_transaccion from function_object
+end type
+
+forward prototypes
+global subroutine f_crear_transaccion (ref transaction transaccion, string bd, string servidor, boolean autocommit, string lock, string opciones)
+end prototypes
+
+global subroutine f_crear_transaccion (ref transaction transaccion, string bd, string servidor, boolean autocommit, string lock, string opciones);/*
+Función para conectar a la base de datos utilizando transacciones f_crear_transaccion
+
+Parámetros
+String bd - Base de datos (Por defecto 'TENCER')
+String servidor - Servidor de Base de datos (Por defecto 'RHIN')
+Boolean autocommit - Modo de transaccion. Con valor true se realiza un commit despues de cada consulta (Por defecto true)
+String lock - Modo de bloqueo de tabla/registro utilizado. RC para realizar lecturas sin bloqueo, TS para bloquear el registro a consultar/actualizar durante la transacción (Por defecto RC)
+String opciones - Para ampliaciones de la función (Por defecto '')
+*/
+
+if isNull(bd) or bd = '' then
+	bd = global_base_datos
+end if
+
+if isNull(servidor) or servidor = '' then
+	servidor =global_servidor
+end if
+
+if isNull(autocommit) then
+	autocommit = true
+end if
+
+//if isNull(autocommit) then
+//	autocommit = false
+//end if
+
+if isNull(lock) or lock = '' then
+	lock = 'RU'
+else
+	if lock = 'TS' then
+		autocommit = false
+	end if
+end if
+
+// DAVID: Ponemos RU a piñon para ver si se evitan los bloqueos no contralados
+lock = 'RU'
+//autocommit = true
+
+
+transaccion = CREATE transaction
+
+transaccion.DBMS 	= "SNC SQL Native Client(OLE DB)"
+transaccion.Database = bd
+transaccion.ServerName = servidor
+transaccion.LogId = "sa"
+transaccion.UserId = "dbo"
+transaccion.LogPass = "1.-Tencer"
+transaccion.lock = lock
+transaccion.AutoCommit = autocommit
+transaccion.DBParm =  "Database='"+bd+"',TrimSpaces=1,CommitOnDisconnect='No',NCharBind=0,DateFormat='\''yyyy-mm-dd\''',DateTimeFormat='\''yyyy-dd-mm hh:mm:ss\''',OJSyntax='PB'" //, DecimalSeparator=','
+
+
+end subroutine
+

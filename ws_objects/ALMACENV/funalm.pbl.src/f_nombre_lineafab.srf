@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_lineafab.srf
+global type f_nombre_lineafab from function_object
+end type
+
+forward prototypes
+global function string f_nombre_lineafab (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function string f_nombre_lineafab (string ra_codemp, string ra_codigo);string	ls_nombre 
+
+ SELECT lineas.descripcion  
+    INTO :ls_nombre
+    FROM lineas  
+   WHERE ( lineas.empresa = :ra_codemp ) AND  
+         ( lineas.codigo = :ra_codigo )   
+     USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN	ls_nombre =    ""
+
+RETURN ls_nombre
+
+end function
+

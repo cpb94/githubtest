@@ -1,0 +1,38 @@
+﻿$PBExportHeader$dw_ayuda_almcliartdesc.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=76 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes name=orden dbname="almcliartdesc.orden" )
+ column=(type=char(20) updatewhereclause=yes name=codigo dbname="articulos.codigo" )
+ column=(type=char(40) updatewhereclause=yes name=descripcion dbname="articulos.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="articulos.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=formato dbname="articulos.formato" )
+ column=(type=char(60) updatewhereclause=yes name=almcliartdesc_descripcion dbname="almcliartdesc.descripcion" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="almcliartdesc.cliente" )
+ retrieve="  SELECT almcliartdesc.orden,
+			articulos.codigo,   
+         articulos.descripcion,   
+         articulos.empresa, 
+         articulos.formato,   
+         almcliartdesc.descripcion,
+			almcliartdesc.cliente
+    FROM articulos,   
+         almcliartdesc
+   WHERE ( articulos.empresa = almcliartdesc.empresa ) and  
+         ( articulos.codigo = almcliartdesc.articulo ) and  
+         ( ( articulos.empresa = :empresa ) AND
+			( UPPER(almcliartdesc.descripcion) like :ra_criterio ) )   
+ORDER BY almcliartdesc.orden ASC   
+" arguments=(("empresa", string),("ra_criterio", string)) )
+text(band=header alignment="2" text="Formato"border="6" color="33554432" x="535" y="12" height="64" width="242"  name=codigo_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Descripción"border="6" color="33554432" x="795" y="12" height="64" width="937"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cód."border="6" color="33554432" x="119" y="12" height="64" width="165"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="302" y="12" height="64" width="215"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=detail alignment="0" expression="f_nombre_formato_abr( empresa , formato )"border="5" color="0~tif(isnull(articulos_fecha_anulado),0,255)" x="535" y="4" height="64" width="247" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="5" color="0" x="800" y="4" height="64" width="942" format="[general]"  name=almcliartdesc_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="5" color="0" x="119" y="4" height="64" width="165" format="[general]"  name=orden edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="5" color="0" x="302" y="4" height="64" width="215" format="[general]"  name=cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

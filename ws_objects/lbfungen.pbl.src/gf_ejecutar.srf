@@ -1,0 +1,75 @@
+﻿$PBExportHeader$gf_ejecutar.srf
+global type gf_ejecutar from function_object
+end type
+
+forward prototypes
+global function integer gf_ejecutar (string spruta)
+end prototypes
+
+global function integer gf_ejecutar (string spruta);//-------------------------------------------------------------------------
+// Función    : long gf_Ejecutar(String spRuta)
+// Propósito  : Ejecuta un fichero, sea lo que sea (doc, pdf, xls, mp3...)
+// Parámetros : spRuta.- Ruta del fichero a ejecutar.
+// Devuelve   : 1.- Todo bien
+//             -1.- Hay error.
+//-------------------------------------------------------------------------
+Long   lRetorno
+String sError, sNulo
+
+SetNull(sNulo)
+// Se ejecuta la ruta pasada.
+lRetorno = ShellExecute(Handle(this), sNulo, spRuta, sNulo, sNulo, 1)
+//El último argumento es el estilo de la ventana:
+//SW_HIDE 0
+//SW_SHOWNORMAL 1
+//SW_NORMAL 1
+//SW_SHOWMINIMIZED 2
+//SW_SHOWMAXIMIZED 3
+//SW_MAXIMIZE 3
+//SW_SHOWNOACTIVATE 4
+//SW_SHOW 5
+//SW_MINIMIZE 6
+//SW_SHOWMINNOACTIVATE 7
+//SW_SHOWNA 8
+//SW_RESTORE 9
+//SW_SHOWDEFAULT 10
+//SW_MAX 10
+
+IF lRetorno <= 32 THEN
+ // Hay error
+ CHOOSE CASE lRetorno
+  CASE 2
+   sError = "Fichero no encontrado"
+  CASE 3
+   sError = "Ruta no encontrada"
+  CASE 5
+   sError = "Acceso denegado"
+  CASE 8
+   sError = "Fuera de memoria"
+  CASE 32
+   sError = "DLL no encontrada"
+  CASE 26
+   sError = "A sharing violation occurred"
+  CASE 27
+   sError = "Asociación a fichero no válida o incompleta"
+  CASE 28
+   sError = "DDE Time out"
+  CASE 29
+   sError = "DDE transaction failed"
+  CASE 30
+   sError = "DDE busy"
+  CASE 31
+   sError = "No existe ninguna asociación a la extensión del fichero"
+  CASE 11
+   sError = "Invalid EXE file or error in EXE image"
+  CASE ELSE
+   sError = "Error desconocido"
+ END CHOOSE
+ Messagebox("Error..." + String(lRetorno),sError)
+ Return -1
+END IF
+
+// Todo bien.
+Return 1
+end function
+

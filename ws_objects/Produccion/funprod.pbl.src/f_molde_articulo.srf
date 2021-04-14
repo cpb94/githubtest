@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_molde_articulo.srf
+global type f_molde_articulo from function_object
+end type
+
+forward prototypes
+global function string f_molde_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function string f_molde_articulo (string arg_empresa, string arg_articulo);string var_molde
+
+select molde 
+into   :var_molde
+from   articulos  
+where  empresa = :arg_empresa
+and    codigo  = :arg_articulo;
+
+if isnull(var_molde) then var_molde = ""
+
+return var_molde
+end function
+

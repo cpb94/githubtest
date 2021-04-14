@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_medida_promlinexpositores.srf
+global type f_medida_promlinexpositores from function_object
+end type
+
+forward prototypes
+global function string f_medida_promlinexpositores (string empresa, string tipo_expositor, string tipo_panel)
+end prototypes
+
+global function string f_medida_promlinexpositores (string empresa, string tipo_expositor, string tipo_panel);String medida
+
+SELECT promlinexpositores.medida  
+    INTO :medida  
+    FROM promlinexpositores  
+   WHERE ( promlinexpositores.empresa = :empresa ) AND  
+         ( promlinexpositores.codigo  = :tipo_expositor ) AND
+			( promlinexpositores.tipo    = :tipo_panel);
+
+IF SQLCA.SQLCODE = 100 Then medida = ""
+Return medida
+
+end function
+

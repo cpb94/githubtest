@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_cta_vendomiciliacion.srf
+global type f_cta_vendomiciliacion from function_object
+end type
+
+forward prototypes
+global function string f_cta_vendomiciliacion (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_cta_vendomiciliacion (string empresa, string cliente, string codigo);String var_empresa,var_codigo,var_cliente,var_entidad,var_oficina,var_cuenta,var_control
+String compuesto,var_iban
+
+ SELECT  vendomiciliacion.empresa,   
+         vendomiciliacion.cliente,   
+         vendomiciliacion.codigo,
+			vendomiciliacion.cuenta,   
+         vendomiciliacion.entidad,   
+         vendomiciliacion.oficina,   
+         vendomiciliacion.control,
+			vendomiciliacion.iban  
+    INTO :var_empresa,   
+         :var_cliente,   
+         :var_codigo,   
+         :var_cuenta,
+			:var_entidad,
+			:var_oficina,
+			:var_control,
+			:var_iban			
+    FROM vendomiciliacion  
+   WHERE ( vendomiciliacion.empresa = :empresa ) AND  
+         ( vendomiciliacion.cliente = :cliente ) AND  
+         ( vendomiciliacion.codigo = :codigo )   
+
+ORDER BY vendomiciliacion.empresa ASC,   
+         vendomiciliacion.cliente ASC,   
+         vendomiciliacion.codigo ASC  ;
+			
+IF sqlca.sqlcode = 100 Then Return ""
+
+IF IsNull(var_cuenta)    Then  var_cuenta    =  ""
+IF IsNull(var_entidad)   Then  var_entidad   =  ""
+IF IsNull(var_oficina)   Then  var_oficina   =  ""
+IF IsNull(var_control)   Then  var_control   =  ""
+if isnull(var_iban)      then  var_iban      = ""
+if Trim(var_iban) <> "" then
+	var_iban = "IBAN: "+Trim(var_iban)+" "
+end if
+compuesto = var_iban+var_cuenta + ' Ent: ' + var_entidad + ' Ofi: '+var_oficina+ ' Dc: '+var_control
+
+Return compuesto
+
+end function
+

@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_contasii_calendario_bloqueado.srf
+global type f_contasii_calendario_bloqueado from function_object
+end type
+
+forward prototypes
+global function boolean f_contasii_calendario_bloqueado (string arg_empresa, datetime arg_fecha)
+end prototypes
+
+global function boolean f_contasii_calendario_bloqueado (string arg_empresa, datetime arg_fecha);integer li_bloqueado
+boolean lb_bloqueado
+
+//If f_gestion_contable_empresa ( arg_empresa ) = 'S' Then
+	SELECT isnull(contasii_calendario.bloqueado,0)
+	INTO   :li_bloqueado
+	FROM  contasii_calendario	
+	WHERE contasii_calendario.empresa = :arg_empresa
+	AND   contasii_calendario.fecha   = :arg_fecha;
+	
+	if li_bloqueado = 1 then
+		lb_bloqueado = true
+	else
+		lb_bloqueado = false
+	end if
+//Else
+//	lb_bloqueado = false	
+//End If
+
+Return lb_bloqueado
+end function
+

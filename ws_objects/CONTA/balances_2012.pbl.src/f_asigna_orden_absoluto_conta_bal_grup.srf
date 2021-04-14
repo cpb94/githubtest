@@ -1,0 +1,78 @@
+﻿$PBExportHeader$f_asigna_orden_absoluto_conta_bal_grup.srf
+global type f_asigna_orden_absoluto_conta_bal_grup from function_object
+end type
+
+forward prototypes
+global function boolean f_asigna_orden_absoluto_conta_bal_grup (string as_empresa, string arg_balance, string as_grupo, ref string as_array[])
+end prototypes
+
+global function boolean f_asigna_orden_absoluto_conta_bal_grup (string as_empresa, string arg_balance, string as_grupo, ref string as_array[]);string  ls_sel,ls_grupo_padre,ls_grupos_a_cargar[]
+long    ll_indice,ll_total,ll_orden_absoluto,ll_conceptos
+boolean correcto = true
+
+datastore lds_datos
+
+if upperbound(as_array) = 0 then
+
+	//En primer lugar obtenemos el grupo de coste raiz
+	select conta_bal_grup_codigo
+	into   :ls_grupo_padre
+	from   conta_bal_grup
+	where  empresa = :as_empresa
+	and   isnull(conta_bal_grup_codigo,'') = '';
+	
+	if isnull(ls_grupo_padre) then ls_grupo_padre = ""	
+
+	//Acto seguido obtenemos todos los grupos de coste que cuelgan de este
+	ls_sel = "select codigo from conta_bal_grup" + &
+				" where empresa = '" + as_empresa +"'" + &
+				" and   conta_bal_cab_codigo = '"+arg_balance+"' " +&  
+				" and   conta_bal_grup_codigo = '" + ls_grupo_padre +"'" + &
+				" order by orden "					
+else
+	ls_grupo_padre = as_grupo
+	//Obtenemos todos los grupos de coste que cuelgan de este
+	ls_sel = "select codigo from conta_bal_grup" + &
+				" where empresa = '" + as_empresa +"'" + &
+				" and   conta_bal_cab_codigo = '"+arg_balance+"' " +& 
+				" and   conta_bal_grup_codigo = '" + ls_grupo_padre +"'" + &
+				" order by orden "	
+end if
+
+f_cargar_cursor_transaccion(sqlca,lds_datos,ls_sel)
+
+ll_total = lds_datos.rowcount()
+
+ll_conceptos = 0  
+
+ll_orden_absoluto = upperbound(as_array)
+
+update conta_bal_grup
+set    orden_absoluto = :ll_orden_absoluto
+where  empresa = :as_empresa
+and    conta_bal_cab_codigo = :arg_balance
+and    codigo  = :ls_grupo_padre;
+
+if sqlca.sqlcode <> 0 then
+	rollback;
+else
+	commit;
+end if
+
+as_array[upperbound(as_array)+1] = ls_grupo_padre
+
+for ll_indice = 1 to ll_total
+	ls_grupos_a_cargar[upperbound(ls_grupos_a_cargar)+1] = lds_datos.object.codigo[ll_indice]
+next
+
+destroy lds_datos
+
+for ll_indice = 1 to ll_total
+	yield()
+	f_asigna_orden_absoluto_conta_bal_grup(as_empresa,arg_balance,ls_grupos_a_cargar[ll_indice],as_array)
+next
+
+return correcto
+
+end function
+

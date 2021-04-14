@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_naturaleza_mercancia_cmr_venparametros.srf
+global type f_naturaleza_mercancia_cmr_venparametros from function_object
+end type
+
+forward prototypes
+global function string f_naturaleza_mercancia_cmr_venparametros (string arg_empresa)
+end prototypes
+
+global function string f_naturaleza_mercancia_cmr_venparametros (string arg_empresa);String var_variable
+
+SELECT isnull(venparametros.naturaleza_mercancia_cmr,'')  INTO :var_variable FROM venparametros  
+ WHERE venparametros.empresa  =  :arg_empresa;
+	
+if trim(var_variable) = "" then
+	var_variable = 'CERAMICA~n6908.90.93'	
+end if
+	
+Return var_variable
+
+end function
+

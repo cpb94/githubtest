@@ -1,0 +1,17 @@
+﻿$PBExportHeader$str_carremesas.srs
+global type str_carremesas from structure
+	string		empresa
+	integer		anyo
+	string		banco
+	string		naci_extra
+	integer		remesa
+	datetime		fremesa
+	string		tipodoc
+	string		situacion
+	string		moneda
+	decimal {4}	importe
+	decimal {4}	divisas
+	decimal {4}	totgastos
+	string		tiporem
+end type
+

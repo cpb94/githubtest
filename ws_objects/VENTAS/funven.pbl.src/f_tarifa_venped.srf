@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tarifa_venped.srf
+global type f_tarifa_venped from function_object
+end type
+
+forward prototypes
+global function string f_tarifa_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_tarifa_venped (string empresa, integer anyo, decimal pedido);String var_tarifa
+
+  SELECT venped.tarifa  
+    INTO :var_tarifa  
+    FROM venped  
+   WHERE venped.empresa = :empresa
+   AND   venped.anyo    = :anyo
+   AND   venped.pedido  = :pedido   ;
+
+if isnull(var_tarifa) then var_tarifa =""
+Return var_tarifa
+end function
+

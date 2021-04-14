@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_tiempo_limite_uti_parametros.srf
+global type f_tiempo_limite_uti_parametros from function_object
+end type
+
+forward prototypes
+global function decimal f_tiempo_limite_uti_parametros (string codigo)
+end prototypes
+
+global function decimal f_tiempo_limite_uti_parametros (string codigo);Dec var
+  SELECT uti_parametros.tiempo_limite
+    INTO :var  
+    FROM uti_parametros  
+   WHERE uti_parametros.empresa = :codigo   ;
+	IF SQLCA.SQLCODE = 100 Then var = 10
+	var =  var * 60
+	Return var
+
+end function
+

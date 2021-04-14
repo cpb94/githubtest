@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_fabricar_referencia_tipo_pallet_caja.srf
+global type f_fabricar_referencia_tipo_pallet_caja from function_object
+end type
+
+forward prototypes
+global function decimal f_fabricar_referencia_tipo_pallet_caja (string empresa, string referencia, string tipo_pallet, string caja)
+end prototypes
+
+global function decimal f_fabricar_referencia_tipo_pallet_caja (string empresa, string referencia, string tipo_pallet, string caja);Dec{4}   var_cantidad
+
+
+SELECT    sum(venliped.cantidad)   
+INTO     :var_cantidad  
+FROM     venliped  
+WHERE   (venliped.empresa      = :empresa)
+AND     (venliped.referencia   = :referencia)
+AND     (venliped.tipo_pallet  = :tipo_pallet)   
+ANd     (venliped.situacion    =  'F')
+AND     (venliped.caja         = :caja);
+
+IF IsNull(var_cantidad) Then var_cantidad =0
+
+Return var_cantidad
+end function
+

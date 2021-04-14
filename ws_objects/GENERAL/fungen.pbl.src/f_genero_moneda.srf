@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_genero_moneda.srf
+global type f_genero_moneda from function_object
+end type
+
+forward prototypes
+global function decimal f_genero_moneda (string ai_codmoneda)
+end prototypes
+
+global function decimal f_genero_moneda (string ai_codmoneda);Dec var
+
+  SELECT monedas.genero 
+    INTO :var 
+    FROM monedas  
+   WHERE monedas.moneda = :ai_codmoneda   
+  USING sqlca;
+
+IF IsNUll(var) Then var = 0
+RETURN var
+end function
+

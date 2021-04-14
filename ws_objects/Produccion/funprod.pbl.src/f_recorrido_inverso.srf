@@ -1,0 +1,139 @@
+﻿$PBExportHeader$f_recorrido_inverso.srf
+global type f_recorrido_inverso from function_object
+end type
+
+forward prototypes
+global subroutine f_recorrido_inverso (string elemento, string ver, ref decimal necesidad)
+end prototypes
+
+global subroutine f_recorrido_inverso (string elemento, string ver, ref decimal necesidad);string articulo, articulo_sup
+dec{3} factor, necesidad_total
+long i, k, total
+datastore datos
+string sel
+
+dec cantidad_30, cantidad_90, cantidad_365, stock, pedidos
+String fecha_30, fecha_90, fecha_365
+
+sel = " select articulo, factor "+&
+		" from art_escandallo "+&
+		" where empresa = '"+codigo_empresa+"' "+&
+		" and articulo_ant = '"+elemento+"' "+&
+		" and version = "+ver
+	
+f_cargar_cursor_nuevo (sel, datos)			
+total = datos.rowcount()
+if total > 0 then
+	for i = 1 to total
+		necesidad = 0
+		articulo = datos.object.articulo[i]
+		f_recorrido_inverso(articulo, ver, necesidad)
+	next
+end if
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+pedidos = 0
+select isnull(sum(cantidad) , 0 )
+into :pedidos
+from venliped
+where empresa = :codigo_empresa
+and articulo =  :elemento;
+
+necesidad_total = necesidad_total + necesidad		
+necesidad = necesidad + pedidos
+
+
+messagebox("Articulo", "ARTICULO: "+string (elemento)+"   NECESIDAD: "+ string (necesidad)+"  NECESIDAD TOTAL: "+ string (necesidad_total))		
+
+//&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+		
+
+		
+		
+
+
+// Calculos para cada nodo
+/*
+cantidad_30 = 0
+fecha_30 = string(relativeDate (today(), -30))
+select isnull(sum(cantidads) , 0 )
+into :cantidad_30
+from almacenmovimientos
+where articulo =  :elemento
+and ( tipomov = '100' or tipomov = '206')
+and fecha_mov >= :fecha_30;
+
+cantidad_90 = 0
+fecha_90 = string(relativeDate (today(), -90))
+select isnull(sum(cantidads) , 0 )
+into :cantidad_90
+from almacenmovimientos
+where articulo =  :elemento
+and ( tipomov = '100' or tipomov = '206')
+and fecha_mov >= :fecha_90;
+
+cantidad_365 = 0
+fecha_365 = string(relativeDate (today(), -365))
+select isnull(sum(cantidads) , 0 )
+into :cantidad_365
+from almacenmovimientos
+where articulo =  :elemento
+and ( tipomov = '100' or tipomov = '206')
+and fecha_mov >= :fecha_365;
+
+pedidos = 0
+select isnull(sum(cantidad) , 0 )
+into :pedidos
+from venliped
+where empresa = :codigo_empresa
+and articulo =  :elemento;
+
+stock = 0
+select isnull(sum(cantidade - cantidads) , 0 )
+into :stock
+from almacenmovimientos
+where empresa = :codigo_empresa
+and articulo =  :elemento;
+
+necesidad = necesidad + pedidos + cantidad_90 - stock
+*/
+/*
+for k = 1 to total
+	articulo_sup = datos.object.articulo[k]
+	factor = datos.object.factor[k]
+	
+	cantidad_90 = 0
+	fecha_90 = string(relativeDate (today(), -90))
+	select isnull(sum(cantidads) , 0 )
+	into :cantidad_90
+	from almacenmovimientos
+	where articulo =  :articulo_sup
+	and ( tipomov = '100' or tipomov = '206')
+	and fecha_mov >= :fecha_90;
+	
+	pedidos = 0
+	select isnull(sum(cantidad) , 0 )
+	into :pedidos
+	from venliped
+	where empresa = :codigo_empresa
+	and articulo =  :articulo_sup;
+	
+	stock = 0
+	select isnull(sum(cantidade - cantidads) , 0 )
+	into :stock
+	from almacenmovimientos
+	where empresa = :codigo_empresa
+	and articulo =  :articulo_sup;
+	
+	necesidad = necesidad + pedidos + cantidad_90 - stock
+next
+
+
+messagebox("Articulo", "ARTICULO: "+string (elemento)+"   NECESIDAD: "+ string (necesidad))
+*/
+
+
+
+end subroutine
+

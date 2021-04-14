@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_reservado_referencia_tipo_pallet.srf
+global type f_reservado_referencia_tipo_pallet from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_referencia_tipo_pallet (string empresa, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_reservado_referencia_tipo_pallet (string empresa, string referencia, string tipo_pallet);Dec{4} var_cantidad,var_cantidad_produccion
+string articulo,calidad,tono
+int    calibre
+
+SELECT  sum(venliped.cantidad)   
+INTO    :var_cantidad  
+FROM    venliped  
+WHERE   (venliped.empresa      = :empresa)
+AND     (venliped.referencia   = :referencia)
+AND     (venliped.tipo_pallet  = :tipo_pallet)   
+ANd     (venliped.situacion    <>  'P');
+
+IF IsNull(var_cantidad) Then var_cantidad = 0
+
+articulo = f_articulo_referencia(referencia)
+calidad  = f_calidad_referencia(referencia)
+tono     = f_tono_referencia(referencia)
+calibre  = dec(f_calibre_referencia(referencia))
+
+SELECT  sum(cantidad)   
+INTO    :var_cantidad_produccion
+FROM    proddiaria_pendiente_comp_res
+WHERE   empresa      = :empresa
+AND     articulo     = :articulo
+AND     calidad      = :calidad
+AND     tono         = :tono
+AND     calibre      = :calibre
+AND     tipo_pallet  = :tipo_pallet;
+
+IF IsNull(var_cantidad_produccion) Then var_cantidad_produccion = 0
+
+Return var_cantidad + var_cantidad_produccion
+end function
+

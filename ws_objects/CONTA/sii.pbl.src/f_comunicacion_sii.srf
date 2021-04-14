@@ -1,0 +1,146 @@
+﻿$PBExportHeader$f_comunicacion_sii.srf
+global type f_comunicacion_sii from function_object
+end type
+
+forward prototypes
+global function string f_comunicacion_sii (string arg_directorio_ficheros, string arg_fichero_certificado, string arg_password_certificado, string arg_fichero_envio, string arg_tipo_fichero, integer arg_total_registros_fichero, string arg_version_sii)
+end prototypes
+
+global function string f_comunicacion_sii (string arg_directorio_ficheros, string arg_fichero_certificado, string arg_password_certificado, string arg_fichero_envio, string arg_tipo_fichero, integer arg_total_registros_fichero, string arg_version_sii);string ls_fichero_respuesta
+
+string ls_direccionWS                              = ""
+string ls_direccionWSEmitidas7                     = "https://www7.aeat.es/wlpl/SSII-FACT/ws/fe/SiiFactFEV1SOAP"
+string ls_direccionWSRecibidas7                    = "https://www7.aeat.es/wlpl/SSII-FACT/ws/fr/SiiFactFRV1SOAP"
+string ls_direccionWSBienes7                       = "https://www7.aeat.es/wlpl/SSII-FACT/ws/bi/SiiFactBIV1SOAP" //"https://www7.aeat.es/wlpl/SSII-FACT/ws/bi/SiiFactBIV1SOAP"
+string ls_direccionWSOperacionesIntra7             = "https://www7.aeat.es/wlpl/SSII-FACT/ws/oi/SiiFactOIV1SOAP"
+string ls_direccionWSCobrosEmitidas7               = "https://www7.aeat.es/wlpl/SSII-FACT/ws/fe/SiiFactCOBV1SOAP"
+string ls_direccionWSOperacionesConTranscendencia7 = "https://www7.aeat.es/wlpl/SSII-FACT/ws/pm/SiiFactCMV1SOAP"
+string ls_direccionWSPagosRecibidas7               = "https://www7.aeat.es/wlpl/SSII-FACT/ws/fr/SiiFactPAGV1SOAP"
+string ls_direccionWSInmueblesAdicionales7         = "https://www7.aeat.es/wlpl/SSII-FACT/ws/fe/SiiFactINMV1SOAP"
+string ls_direccionWSBienesConsigna7               = "https://www7.aeat.es/wlpl/SSII-FACT/ws/vb/SiiFactVBV1SOAP"
+
+string ls_direccionWSContado7 = "https://www7.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/pm/SiiFactCMV1SOAP"
+
+string ls_direccionWSEmitidas                      = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/fe/SiiFactFEV1SOAP"
+string ls_direccionWSRecibidas                     = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/fr/SiiFactFRV1SOAP"
+string ls_direccionWSBienes                        = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/bi/SiiFactBIV1SOAP" //"https://www1.aeat.es/wlpl/SSII-FACT/ws/bi/SiiFactBIV1SOAP";
+string ls_direccionWSOperacionesIntra              = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/oi/SiiFactOIV1SOAP"
+string ls_direccionWSCobrosEmitidas                = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/fe/SiiFactCOBV1SOAP"
+string ls_direccionWSOperacionesConTranscendencia  = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/pm/SiiFactCMV1SOAP"
+string ls_direccionWSPagosRecibidas                = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/fr/SiiFactPAGV1SOAP"
+string ls_direccionWSInmueblesAdicionales          = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/fe/SiiFactINMV1SOAP"
+string ls_direccionWSBienesConsigna                = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/vb/SiiFactVBV1SOAP"
+
+string ls_direccionWSContado  = "https://www1.agenciatributaria.gob.es/wlpl/SSII-FACT/ws/pm/SiiFactCMV1SOAP"
+
+string ls_param = "sii_.exe --connect-timeout 300 -d "
+
+string ls_tipoter
+datetime ldt_fecha_envio
+Integer li_indice_nodo,li_indice_elementos_nodo
+String  ls_valor,ls_faultcode,ls_faultstring
+boolean lb_error_de_cabecera = false
+string  ls_nif_emisor,ls_numseriefacturaemisor,ls_fechaexpedicionfacturaemisor,ls_estadoregistro
+long    ll_donde		
+string  ls_sel_respuesta
+datastore ds_fichero_respuesta
+		
+ldt_fecha_envio = datetime(today(),now())
+
+choose case arg_tipo_fichero //E Emitidas/R Recibidas/B Bienes Inversión/O Operaciones Intra/C Cobros/T Transcendencia/P Pagos/I Inmuebles Adicionales/BC Bienes Consigna
+	case 'E'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSEmitidas7
+		else
+			ls_direccionWS = ls_direccionWSEmitidas
+		end if
+	case 'R'
+		ls_tipoter = "P"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSRecibidas7
+		else
+			ls_direccionWS = ls_direccionWSRecibidas
+		end if
+	case 'B'
+		ls_tipoter = "P"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSBienes7
+		else
+			ls_direccionWS = ls_direccionWSBienes
+		end if
+	case 'O'
+		ls_tipoter = "P"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSOperacionesIntra7
+		else
+			ls_direccionWS = ls_direccionWSOperacionesIntra
+		end if				
+	case 'C'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSCobrosEmitidas7
+		else
+			ls_direccionWS = ls_direccionWSCobrosEmitidas
+		end if			
+	case 'T'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSOperacionesConTranscendencia7
+		else
+			ls_direccionWS = ls_direccionWSOperacionesConTranscendencia
+		end if	
+		
+	case 'P'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSPagosRecibidas7
+		else
+			ls_direccionWS = ls_direccionWSPagosRecibidas
+		end if
+		
+	case 'I'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSInmueblesAdicionales7
+		else
+			ls_direccionWS = ls_direccionWSInmueblesAdicionales
+		end if
+				
+	case 'BC'
+		ls_tipoter = "C"
+		if arg_version_sii = "0.7" then
+			ls_direccionWS = ls_direccionWSBienesConsigna7
+		else
+			ls_direccionWS = ls_direccionWSBienesConsigna
+		end if
+				
+	case else
+		messagebox("ERROR COMUNICACIÓN SII","TIPO FICHERO NO CONTEMPLADO")
+		return ""
+end choose
+
+ls_fichero_respuesta = arg_fichero_envio+"_RESP.xml"
+
+//Ejemplo: curl --connect-timeout 300 -d "@AltaFacturaEmitida.xml" -o "Respuesta.xml" -E "FICHEROCERTIFICADO.pem:PASSWORD" https://www7.aeat.es/wlpl/SSII-FACT/ws/fe/SiiFactFEV1SOAP
+
+ls_param += '"@'+ arg_fichero_envio +'.xml" -o "'+ ls_fichero_respuesta +'" -E "'+ arg_fichero_certificado +':'+ arg_password_certificado +'" '+ ls_direccionWS
+
+if run(ls_param) = 1 then
+	//Comprobar que tenemos respuesta
+	if f_esperar_respuesta_sii(ls_fichero_respuesta) then	
+		//estructura fichero respuesta en txt
+		ls_fichero_respuesta = f_leer_respuesta_sii(arg_fichero_envio,ls_fichero_respuesta,ls_tipoter)
+	else
+		ls_fichero_respuesta = ""
+		messagebox("Atención","No Se ha recibido respuesta.")
+	end if	
+else
+	ls_fichero_respuesta = ""
+	messagebox("Atención","Se ha producido un error al llamar al módulo de comunicación.")
+	clipboard(ls_param)
+end if
+
+return ls_fichero_respuesta
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_venclientes_cuenta_impagados.srf
+global type f_venclientes_cuenta_impagados from function_object
+end type
+
+forward prototypes
+global function string f_venclientes_cuenta_impagados (string empresa, string cliente)
+end prototypes
+
+global function string f_venclientes_cuenta_impagados (string empresa, string cliente);String valor
+
+SELECT isnull(venclientes.cuenta_impagados,'')
+INTO     :valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente;
+
+Return valor;
+
+end function
+

@@ -1,0 +1,1603 @@
+﻿$PBExportHeader$u_sle_codbar_original.sru
+forward
+global type u_sle_codbar_original from userobject
+end type
+type dw_detalle_bultos from datawindow within u_sle_codbar_original
+end type
+type pb_ver_detalle_bulto from picturebutton within u_sle_codbar_original
+end type
+type st_texto from statictext within u_sle_codbar_original
+end type
+type st_descripcion from statictext within u_sle_codbar_original
+end type
+type sle_codbar from singlelineedit within u_sle_codbar_original
+end type
+type p_codbar from picture within u_sle_codbar_original
+end type
+end forward
+
+global type u_sle_codbar_original from userobject
+integer width = 3360
+integer height = 1192
+long backcolor = 67108864
+string text = "none"
+long tabtextcolor = 33554432
+long picturemaskcolor = 536870912
+event getfocus pbm_ensetfocus
+event clicked pbm_bnclicked
+event modified pbm_enmodified
+event ue_refrescar ( )
+event ue_siguiente_objeto ( )
+dw_detalle_bultos dw_detalle_bultos
+pb_ver_detalle_bulto pb_ver_detalle_bulto
+st_texto st_texto
+st_descripcion st_descripcion
+sle_codbar sle_codbar
+p_codbar p_codbar
+end type
+global u_sle_codbar_original u_sle_codbar_original
+
+type variables
+string is_tipo_codigo = 'EAN13' //Posibles valores EAN13,EAN128
+
+string is_descripcion
+//Ubicacion
+long   il_id_ubicacion
+string is_almacen,is_zona
+int    ii_fila,ii_altura
+int    ii_bultos,ii_lineas_bulto,ii_indice_lineas_bulto
+//Bulto
+long   il_id_bulto,il_piezas,il_linea_orden_carga
+string is_codigo_articulo,is_codigo_caja,is_codigo_pallet,is_codigo_calidad,is_lote,is_orden_carga
+int    ii_calibre,ii_anyo_orden_carga
+//Articulo
+string is_descripcion_articulo
+//Siguiente Objeto a pasar el foco
+//Object io_siguiente_objeto
+end variables
+
+forward prototypes
+public subroutine f_leer_ubicacion ()
+public subroutine f_leer_bulto ()
+public subroutine f_leer_ean128 ()
+public subroutine f_leer_articulo ()
+public subroutine f_inicializar_variables_instancia ()
+public function long f_setrow (long row)
+public function integer f_reset ()
+end prototypes
+
+event getfocus;sle_codbar.setfocus()
+sle_codbar.event getfocus()
+end event
+
+event clicked;this.event getfocus()
+end event
+
+event ue_refrescar();sle_codbar.event modified()
+end event
+
+event ue_siguiente_objeto();//Escribir aqui el script para pasar de objeto cuando la lectura haya sido correcta
+//siguiente_objeto.SetFocus()
+end event
+
+public subroutine f_leer_ubicacion ();/*		 
+//Ubicacion
+long   il_id_ubicacion
+string is_almacen,is_zona
+int    ii_fila,ii_altura
+//Bulto
+long   il_id_bulto
+string is_codigo_articulo,is_codigo_caja,is_codigo_calidad,is_lote
+int    ii_calibre		 
+*/
+string ls_ean13
+
+ls_ean13 = this.sle_codbar.text
+
+f_inicializar_variables_instancia()
+
+select isnull(almubimapa_codbar.almacen,''),
+		 isnull(almubimapa_codbar.zona,''),
+		 isnull(almubimapa_codbar.fila,''),
+		 isnull(almubimapa_codbar.altura,''),
+		 isnull(almubimapa_codbar.id,0) 
+into   :is_almacen,
+		 :is_zona,
+		 :ii_fila,
+		 :ii_altura,
+		 :il_id_ubicacion 
+from   almubimapa_codbar 
+where  almubimapa_codbar.empresa = :codigo_empresa 
+and    almubimapa_codbar.ean13   = :ls_ean13;
+
+dw_detalle_bultos.setfilter("")
+dw_detalle_bultos.filter()
+
+select count(alm_bultos.id) 
+into   :ii_bultos 
+from   alm_bultos 
+where  alm_bultos.empresa      = :codigo_empresa 
+and    alm_bultos.id_ubicacion = :il_id_ubicacion;
+
+if dw_detalle_bultos.retrieve(codigo_empresa,il_id_ubicacion) > 0 then
+	ii_lineas_bulto = dw_detalle_bultos.rowcount()
+	ii_indice_lineas_bulto = 1
+	f_setrow(1)
+	il_id_bulto     = dw_detalle_bultos.object.alm_bultos_id[1]
+	ii_lineas_bulto = dw_detalle_bultos.rowcount()
+
+else
+	il_id_bulto     = 0
+end if
+
+this.st_descripcion.text = is_almacen+'-'+is_zona+'-'+string(ii_fila,"##0")+"-"+string(ii_altura,"##0")+' '+string(il_id_bulto,"0000000000")
+
+if il_id_ubicacion > 0 then
+	this.event ue_siguiente_objeto()
+end if
+end subroutine
+
+public subroutine f_leer_bulto ();string ls_ean13
+long   ll_id_ubicacion
+
+ls_ean13 = this.sle_codbar.text
+
+f_inicializar_variables_instancia()
+
+select isnull(alm_bultos.id,0), 
+		 isnull(alm_bultos.id_ubicacion,0) 
+into   :il_id_bulto, 
+		 :ll_id_ubicacion 
+from   alm_bultos 
+where  alm_bultos.empresa = :codigo_empresa 
+and    alm_bultos.ean13   = :ls_ean13;
+
+select isnull(almubimapa_codbar.almacen,''),
+		 isnull(almubimapa_codbar.zona,''),
+		 isnull(almubimapa_codbar.fila,''),
+		 isnull(almubimapa_codbar.altura,''),
+		 isnull(almubimapa_codbar.id,0) 
+into   :is_almacen,
+		 :is_zona,
+		 :ii_fila,
+		 :ii_altura,
+		 :il_id_ubicacion 
+from   almubimapa_codbar 
+where  almubimapa_codbar.empresa = :codigo_empresa 
+and    almubimapa_codbar.id      = :ll_id_ubicacion;
+
+dw_detalle_bultos.setfilter("alm_bultos_id = "+string(il_id_bulto,"#########0"))
+dw_detalle_bultos.filter()
+
+ii_bultos = 1
+
+if dw_detalle_bultos.retrieve(codigo_empresa,il_id_ubicacion) > 0 then
+	ii_lineas_bulto = dw_detalle_bultos.rowcount()
+	f_setrow(1)
+	ii_indice_lineas_bulto = 1
+	il_id_bulto     = dw_detalle_bultos.object.alm_bultos_id[1]
+end if
+
+this.st_descripcion.text = is_almacen+'-'+is_zona+'-'+string(ii_fila,"##0")+"-"+string(ii_altura,"##0")+' '+string(il_id_bulto,"0000000000")
+
+if il_id_bulto > 0 then
+	this.event ue_siguiente_objeto()
+end if
+end subroutine
+
+public subroutine f_leer_ean128 ();string ls_codigo_articulo,ls_descripcion_articulo
+string ls_ean128,ls_ean13
+
+ls_ean128 = this.sle_codbar.text
+
+f_inicializar_variables_instancia()
+
+//Vamos a obtener el ean13 del ean128
+long   ll_donde,ll_desde,ll_hasta
+string ls_campo_busco
+
+//Ean13
+ls_campo_busco = "(01)"
+
+ll_donde = pos(ls_ean128,ls_campo_busco)
+
+if ll_donde > 0 then
+	ll_desde = ll_donde + len(ls_campo_busco)
+	ll_hasta = 13
+	
+	ls_ean13 = Mid(ls_ean128,ll_desde,ll_hasta)
+	
+	select isnull(articulos.codigo,""), 
+			 isnull(articulos.descripcion,"") 
+	into   :is_codigo_articulo, 
+			 :is_descripcion_articulo 
+	from   articulos 
+	where  articulos.empresa = :codigo_empresa 
+	and    articulos.ean13   = :ls_ean13;
+
+	//Datos de Calidad,Lote,Calibre,Pallet,Caja
+	
+	//Calidad
+	ls_campo_busco = "(240)"
+	
+	ll_donde = pos(ls_ean128,ls_campo_busco)
+	
+	if ll_donde > 0 then
+		ll_desde = ll_donde + len(ls_campo_busco)
+		ll_hasta = pos(ls_ean128,"-",ll_desde)
+		
+		if ll_hasta > 0 then
+			ll_hasta = ll_hasta - ll_desde
+		else
+			ll_hasta = (len(ls_ean128) - ll_desde) +1
+		end if
+		
+		is_codigo_calidad = Mid(ls_ean128,ll_desde,ll_hasta)
+		
+		ls_ean128 = left(ls_ean128,ll_desde -1) + right(ls_ean128,len(ls_ean128) - (ll_desde + ll_hasta))
+	end if			
+	
+	//Lote
+	ls_campo_busco = "(240)"
+	
+	ll_donde = pos(ls_ean128,ls_campo_busco)
+	
+	if ll_donde > 0 then
+		ll_desde = ll_donde + len(ls_campo_busco)
+		ll_hasta = pos(ls_ean128,"-",ll_desde)
+		
+		if ll_hasta > 0 then
+			ll_hasta = ll_hasta - ll_desde
+		else
+			ll_hasta = (len(ls_ean128) - ll_desde) +1
+		end if
+		
+		is_lote = Mid(ls_ean128,ll_desde,ll_hasta)
+		
+		ls_ean128 = left(ls_ean128,ll_desde -1) + right(ls_ean128,len(ls_ean128) - (ll_desde + ll_hasta))
+	end if
+		
+	//Calibre
+	ls_campo_busco = "(240)"
+	
+	ll_donde = pos(ls_ean128,ls_campo_busco)
+	
+	if ll_donde > 0 then
+		ll_desde = ll_donde + len(ls_campo_busco)
+		ll_hasta = pos(ls_ean128,"-",ll_desde)
+		
+		if ll_hasta > 0 then
+			ll_hasta = ll_hasta - ll_desde
+		else
+			ll_hasta = (len(ls_ean128) - ll_desde) +1
+		end if
+		
+		ii_calibre = integer(Mid(ls_ean128,ll_desde,ll_hasta))
+		
+		ls_ean128 = left(ls_ean128,ll_desde -1) + right(ls_ean128,len(ls_ean128) - (ll_desde + ll_hasta))
+	end if		
+
+	//Pallet
+	ls_campo_busco = "(240)"
+	
+	ll_donde = pos(ls_ean128,ls_campo_busco)
+	
+	if ll_donde > 0 then
+		ll_desde = ll_donde + len(ls_campo_busco)
+		ll_hasta = pos(ls_ean128,"-",ll_desde)
+		
+		if ll_hasta > 0 then
+			ll_hasta = ll_hasta - ll_desde
+		else
+			ll_hasta = (len(ls_ean128) - ll_desde) +1
+		end if
+		
+		is_codigo_pallet = Mid(ls_ean128,ll_desde,ll_hasta)
+		
+		ls_ean128 = left(ls_ean128,ll_desde -1) + right(ls_ean128,len(ls_ean128) - (ll_desde + ll_hasta))
+	end if	
+
+	//Caja
+	ls_campo_busco = "(240)"
+	
+	ll_donde = pos(ls_ean128,ls_campo_busco)
+	
+	if ll_donde > 0 then
+		ll_desde = ll_donde + len(ls_campo_busco)
+		ll_hasta = pos(ls_ean128,"-",ll_desde)
+		
+		if ll_hasta > 0 then
+			ll_hasta = ll_hasta - ll_desde
+		else
+			ll_hasta =(len(ls_ean128) - ll_desde) +1
+		end if
+		
+		is_codigo_caja = Mid(ls_ean128,ll_desde,ll_hasta)
+		
+		ls_ean128 = left(ls_ean128,ll_desde -1) + right(ls_ean128,len(ls_ean128) - (ll_desde + ll_hasta))
+	end if
+	
+	this.st_descripcion.text = '['+is_codigo_articulo+'] '+is_descripcion_articulo+' CL='+is_codigo_calidad+' LOTE='+is_lote+' C='+string(ii_calibre)+' CJ='+is_codigo_caja+' PLT='+is_codigo_pallet
+else
+	st_descripcion.text = sle_codbar.text
+end if
+
+if is_codigo_articulo <> "" then
+	this.event ue_siguiente_objeto()
+end if
+
+/* Ejemplo un poco raro
+program GS1;
+ 
+{$APPTYPE CONSOLE}
+ 
+uses
+  Windows, SysUtils, Classes;  
+ 
+type
+  TRegTipo = (rtTexto, rtNumero, rtFecha, rtEAN13);
+ 
+  TRegUnidades = (ruNinguna, ruKg, ruMetros, ruMetros2, ruMetros3, ruLitros,
+    ruLibras, ruPulgadas, ruPulgadas2, ruPulgadas3, ruPies, ruPies2, ruPies3,
+    ruYardas, ruYardas2, ruYardas3, ruOnzas, ruQuarts, ruGalones);
+ 
+  TRegistro = record
+    AI: String;
+    Tipo: TRegTipo;
+    Valor: String;
+    Decimales: Integer;
+    Unidades: TRegUnidades;
+    Descripcion: String;
+  end;
+ 
+function LeerRegistro(var Codigo: String): TRegistro;
+var
+  C: Char;
+begin
+  if Copy(Codigo,1,2) = '00' then
+    with Result do
+    begin
+      AI:= '00';
+      Valor:= Copy(Codigo,3,18);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Serial Shipping Container';
+      Delete(Codigo,1,20);
+    end else
+  if Copy(Codigo,1,2) = '01' then
+    with Result do
+    begin
+      AI:= '01';
+      Valor:= Copy(Codigo,3,14);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Shipping Container Code';
+      Delete(Codigo,1,16);
+    end else
+  if Copy(Codigo,1,2) = '02' then
+    with Result do
+    begin
+      AI:= '02';
+      Valor:= Copy(Codigo,3,14);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Number of containers';
+      Delete(Codigo,1,16);
+    end else
+  if Copy(Codigo,1,2) = '10' then
+    with Result do
+    begin
+      AI:= '10';
+      Tipo:= rtTexto;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Batch Number';
+      Delete(Codigo,1,2);
+      Valor:= EmptyStr;
+      while Length(Codigo) > 0 do
+      begin
+        C:= Codigo[1];
+        Delete(Codigo,1,1);
+        if C = #$1D then
+          break
+        else
+          Valor:= Valor + C;
+      end;
+    end else
+  if Copy(Codigo,1,2) = '11' then
+    with Result do
+    begin
+      AI:= '11';
+      Valor:= Copy(Codigo,3,6);
+      Tipo:= rtFecha;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Production Date';
+      Delete(Codigo,1,8);
+    end else
+  if Copy(Codigo,1,2) = '13' then
+    with Result do
+    begin
+      AI:= '13';
+      Valor:= Copy(Codigo,3,6);
+      Tipo:= rtFecha;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Packaging Date';
+      Delete(Codigo,1,8);
+    end else
+  if Copy(Codigo,1,2) = '15' then
+    with Result do
+    begin
+      AI:= '15';
+      Valor:= Copy(Codigo,3,6);
+      Tipo:= rtFecha;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Sell by Date';
+      Delete(Codigo,1,8);
+    end else
+  if Copy(Codigo,1,2) = '17' then
+    with Result do
+    begin
+      AI:= '17';
+      Valor:= Copy(Codigo,3,6);
+      Tipo:= rtFecha;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Expiration Date';
+      Delete(Codigo,1,8);
+    end else
+  if Copy(Codigo,1,2) = '20' then
+    with Result do
+    begin
+      AI:= '20';
+      Valor:= Copy(Codigo,3,2);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Product Variant';
+      Delete(Codigo,1,4);
+    end else
+  if Copy(Codigo,1,2) = '21' then
+    with Result do
+    begin
+      AI:= '21';
+      Tipo:= rtTexto;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Serial Number';
+      Delete(Codigo,1,2);
+      Valor:= EmptyStr;
+      while Length(Codigo) > 0 do
+      begin
+        C:= Codigo[1];
+        Delete(Codigo,1,1);
+        if C = #$1D then
+          break
+        else
+          Valor:= Valor + C;
+      end;
+    end else
+  if Copy(Codigo,1,3) = '310' then
+    with Result do
+    begin
+      AI:= '310';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruKg;
+      Descripcion:= 'Product Net Weight';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '311' then
+    with Result do
+    begin
+      AI:= '311';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Product Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '312' then
+    with Result do
+    begin
+      AI:= '312';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Product Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '313' then
+    with Result do
+    begin
+      AI:= '313';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Product Depth/Thickness/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '314' then
+    with Result do
+    begin
+      AI:= '314';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros2;
+      Descripcion:= 'Product Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '315' then
+    with Result do
+    begin
+      AI:= '315';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruLitros;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '316' then
+    with Result do
+    begin
+      AI:= '316';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros3;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '320' then
+    with Result do
+    begin
+      AI:= '320';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruLibras;
+      Descripcion:= 'Product Net Weight';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '321' then
+    with Result do
+    begin
+      AI:= '321';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Product Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '322' then
+    with Result do
+    begin
+      AI:= '322';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Product Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '323' then
+    with Result do
+    begin
+      AI:= '323';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Product Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '324' then
+    with Result do
+    begin
+      AI:= '324';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Product Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '325' then
+    with Result do
+    begin
+      AI:= '325';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Product Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '326' then
+    with Result do
+    begin
+      AI:= '326';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Product Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '327' then
+    with Result do
+    begin
+      AI:= '327';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Product Depth/Thickness/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '328' then
+    with Result do
+    begin
+      AI:= '328';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Product Depth/Thickness/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '329' then
+    with Result do
+    begin
+      AI:= '329';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Product Depth/Thickness/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '330' then
+    with Result do
+    begin
+      AI:= '330';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruKg;
+      Descripcion:= 'Container Gross Weight';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '331' then
+    with Result do
+    begin
+      AI:= '331';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Container Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '332' then
+    with Result do
+    begin
+      AI:= '332';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Container Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '333' then
+    with Result do
+    begin
+      AI:= '333';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros;
+      Descripcion:= 'Container Depth/Thickness/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '334' then
+    with Result do
+    begin
+      AI:= '334';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros2;
+      Descripcion:= 'Container Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '335' then
+    with Result do
+    begin
+      AI:= '335';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruLitros;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '336' then
+    with Result do
+    begin
+      AI:= '336';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruMetros3;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '340' then
+    with Result do
+    begin
+      AI:= '340';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruLibras;
+      Descripcion:= 'Container Gross Weight';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '341' then
+    with Result do
+    begin
+      AI:= '341';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Container Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '342' then
+    with Result do
+    begin
+      AI:= '342';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Container Length/1st Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '343' then
+    with Result do
+    begin
+      AI:= '343';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Container Length/1st Dimension in';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '343' then
+    with Result do
+    begin
+      AI:= '343';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Container Length/1st Dimension in';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '344' then
+    with Result do
+    begin
+      AI:= '344';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Container Width/Diamater/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '345' then
+    with Result do
+    begin
+      AI:= '345';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Container Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '346' then
+    with Result do
+    begin
+      AI:= '346';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Container Width/Diameter/2nd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '347' then
+    with Result do
+    begin
+      AI:= '347';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas;
+      Descripcion:= 'Container Depth/Thickness/Height/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '348' then
+    with Result do
+    begin
+      AI:= '348';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies;
+      Descripcion:= 'Container Depth/Thickness/Height/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '349' then
+    with Result do
+    begin
+      AI:= '349';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas;
+      Descripcion:= 'Container Depth/Thickness/Height/3rd Dimension';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '350' then
+    with Result do
+    begin
+      AI:= '350';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas2;
+      Descripcion:= 'Product Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '351' then
+    with Result do
+    begin
+      AI:= '351';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies2;
+      Descripcion:= 'Product Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '352' then
+    with Result do
+    begin
+      AI:= '352';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas2;
+      Descripcion:= 'Product Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '353' then
+    with Result do
+    begin
+      AI:= '353';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas2;
+      Descripcion:= 'Container Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '354' then
+    with Result do
+    begin
+      AI:= '354';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies2;
+      Descripcion:= 'Container Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '355' then
+    with Result do
+    begin
+      AI:= '355';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas2;
+      Descripcion:= 'Container Area';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '356' then
+    with Result do
+    begin
+      AI:= '356';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruOnzas;
+      Descripcion:= 'Net Weight';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '360' then
+    with Result do
+    begin
+      AI:= '360';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruQuarts;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '361' then
+    with Result do
+    begin
+      AI:= '361';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruGalones;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '362' then
+    with Result do
+    begin
+      AI:= '362';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruQuarts;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '363' then
+    with Result do
+    begin
+      AI:= '363';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruGalones;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '364' then
+    with Result do
+    begin
+      AI:= '364';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas3;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '365' then
+    with Result do
+    begin
+      AI:= '365';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies3;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '366' then
+    with Result do
+    begin
+      AI:= '366';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas3;
+      Descripcion:= 'Product Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '367' then
+    with Result do
+    begin
+      AI:= '364';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPulgadas3;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '368' then
+    with Result do
+    begin
+      AI:= '365';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruPies3;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,3) = '369' then
+    with Result do
+    begin
+      AI:= '366';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= StrToInt(Copy(Codigo,4,1));
+      Unidades:= ruYardas3;
+      Descripcion:= 'Container Gross Volume';
+      Delete(Codigo,1,10);
+    end else
+  if Copy(Codigo,1,2) = '37' then
+    with Result do
+    begin
+      AI:= '37';
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Number of Units Contained';
+      Delete(Codigo,1,2);
+      Valor:= EmptyStr;
+      while Length(Codigo) > 0 do
+      begin
+        C:= Codigo[1];
+        Delete(Codigo,1,1);
+        if C = #$1D then
+          break
+        else
+          Valor:= Valor + C;
+      end;
+    end else
+  if Copy(Codigo,1,2) = '400' then
+    with Result do
+    begin
+      AI:= '400';
+      Tipo:= rtTexto;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Customer Purchase Order Number';
+      Delete(Codigo,1,3);
+      Valor:= EmptyStr;
+      while Length(Codigo) > 0 do
+      begin
+        C:= Codigo[1];
+        Delete(Codigo,1,1);
+        if C = #$1D then
+          break
+        else
+          Valor:= Valor + C;
+      end;
+    end else
+  if Copy(Codigo,1,2) = '410' then
+    with Result do
+    begin
+      AI:= '410';
+      Valor:= Copy(Codigo,4,13);
+      Tipo:= rtEAN13;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Ship To/Deliver To Location Code';
+      Delete(Codigo,1,16);
+    end else
+  if Copy(Codigo,1,2) = '411' then
+    with Result do
+    begin
+      AI:= '411';
+      Valor:= Copy(Codigo,4,13);
+      Tipo:= rtEAN13;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Bill To/Invoice Location Code';
+      Delete(Codigo,1,16);
+    end else
+  if Copy(Codigo,1,2) = '412' then
+    with Result do
+    begin
+      AI:= '412';
+      Valor:= Copy(Codigo,4,13);
+      Tipo:= rtEAN13;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Purchase From Location Code';
+      Delete(Codigo,1,16);
+    end else
+  if Copy(Codigo,1,2) = '8001' then
+    with Result do
+    begin
+      AI:= '8001';
+      Valor:= Copy(Codigo,5,14);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Roll Products - Width/Length/Core Diameter';
+      Delete(Codigo,1,18);
+    end else
+  if Copy(Codigo,1,2) = '8004' then
+    with Result do
+    begin
+      AI:= '8004';
+      Tipo:= rtTexto;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'UPC/EAN Serial Identification';
+      Delete(Codigo,1,4);
+      Valor:= EmptyStr;
+      while Length(Codigo) > 0 do
+      begin
+        C:= Codigo[1];
+        Delete(Codigo,1,1);
+        if C = #$1D then
+          break
+        else
+          Valor:= Valor + C;
+      end;
+    end else
+  if Copy(Codigo,1,2) = '8005' then
+    with Result do
+    begin
+      AI:= '8005';
+      Valor:= Copy(Codigo,5,6);
+      Tipo:= rtNumero;
+      Decimales:= 0;
+      Unidades:= ruNinguna;
+      Descripcion:= 'Price per Unit of Measure';
+      Delete(Codigo,1,10);
+    end else
+      raise Exception.Create('AI desconocido');
+end;
+ 
+function UnidToStr(Unidad: TRegUnidades): String;
+begin
+  case Unidad of
+    ruNinguna: Result:= EmptyStr;
+    ruKg: Result:= 'Kilogramos';
+    ruMetros: Result:= 'Metros';
+    ruMetros2: Result:= 'Metros cuadrados';
+    ruMetros3: Result:= 'Metros cubicos';
+    ruLitros: Result:= 'Litros';
+    ruLibras: Result:= 'Libras';
+    ruPulgadas: Result:= 'Pulgadas';
+    ruPulgadas2: Result:= 'Pulgadas cuadradas';
+    ruPulgadas3: Result:= 'Pulgadas cubicas';
+    ruPies: Result:= 'Pies';
+    ruPies2: Result:= 'Pies cuadrados';
+    ruPies3: Result:= 'Pies cubicos';
+    ruYardas: Result:= 'Yardas';
+    ruYardas2: Result:= 'Yardas cuadradas';
+    ruYardas3: Result:= 'Yardas cubicas';
+    ruOnzas: Result:= 'Onzas';
+    ruQuarts: Result:= 'Quarts';
+    ruGalones: Result:= 'Galones';
+  end;
+end;
+ 
+ 
+var
+  Str: String;
+  i: Integer;
+  d: Double;
+  Registro: TRegistro;
+begin
+  while TRUE do
+  try
+    Readln(Str);
+    while Str <> EmptyStr do
+    begin
+      Writeln;
+      Registro:= LeerRegistro(Str);
+      Writeln('AI: ' + Registro.AI);
+      Writeln('Descr: ' + Registro.Descripcion);
+      Writeln('Valor: ' + Registro.Valor);
+      case Registro.Tipo of
+        rtTexto:  Writeln('Tipo: Texto');
+        rtNumero:
+          begin
+            Writeln('Tipo: Numero');
+            Writeln('Decimales: ' + IntToStr(Registro.Decimales));
+            Writeln('Unidades: ' + UnidToStr(Registro.Unidades));
+            d:= StrToFloat(Registro.Valor);
+            i:= Registro.Decimales;
+            while i>0 do
+            begin
+              d:= d / 10;
+              dec(i);
+            end;
+            Writeln('Valor: ' + FloatToStr(d));
+          end;
+        rtFecha:
+          begin
+            Writeln('Tipo: Fecha');
+            with Registro do
+              Writeln('Fecha: ' + Copy(Valor,5,2) + '/' + Copy(Valor,3,2)
+                + '/' + Copy(Valor,1,2));
+          end;
+        rtEAN13:  Writeln('Tipo: EAN13');
+      end;
+    end;
+    Writeln;
+  except
+    On E: Exception do
+    begin
+      Writeln;
+      Writeln('Error al leer codigo');
+      Writeln;
+    end;
+  end;
+end.
+*/
+end subroutine
+
+public subroutine f_leer_articulo ();string ls_codigo_articulo,ls_descripcion_articulo
+string ls_ean13
+
+ls_ean13 = this.sle_codbar.text
+
+f_inicializar_variables_instancia()
+
+select isnull(articulos.codigo,""), 
+		 isnull(articulos.descripcion,"") 
+into   :is_codigo_articulo, 
+		 :is_descripcion_articulo 
+from   articulos 
+where  articulos.empresa = :codigo_empresa 
+and    articulos.ean13   = :ls_ean13;
+
+this.st_descripcion.text = '['+is_codigo_articulo+'] '+is_descripcion_articulo
+
+if trim(is_codigo_articulo) <> "" then
+	this.event ue_siguiente_objeto()
+end if
+end subroutine
+
+public subroutine f_inicializar_variables_instancia ();//Ubicacion
+il_id_ubicacion = 0
+is_almacen = ""
+is_zona = ""
+ii_fila = 0
+ii_altura = 0
+ii_bultos = 0
+ii_lineas_bulto = 0
+ii_indice_lineas_bulto = 0
+//Bulto
+il_id_bulto = 0
+il_piezas = 0
+il_linea_orden_carga = 0
+is_codigo_articulo = ""
+is_codigo_caja = ""
+is_codigo_pallet = ""
+is_codigo_calidad = ""
+is_lote = ""
+is_orden_carga = ""
+ii_calibre = 0
+ii_anyo_orden_carga = 0
+//Articulo
+is_descripcion_articulo = ""
+
+end subroutine
+
+public function long f_setrow (long row);long ll_resultado
+
+if dw_detalle_bultos.setrow(row) = 1 then
+	ll_resultado = row
+	/*
+	//Ubicacion
+	il_id_ubicacion = 0
+	is_almacen = ""
+	is_zona = ""
+	ii_fila = 0
+	ii_altura = 0
+	ii_bultos = 0
+	ii_lineas_bulto = 0	
+	ii_indice_lineas_bulto = row
+	//Bulto
+	il_id_bulto = 0
+	il_piezas               = dw_detalle_bultos.object.[row]
+	il_linea_orden_carga    = dw_detalle_bultos.object.[row]
+	is_codigo_articulo      = dw_detalle_bultos.object.[row]
+	is_codigo_caja          = dw_detalle_bultos.object.[row]
+	is_codigo_pallet        = dw_detalle_bultos.object.[row]
+	is_codigo_calidad       = dw_detalle_bultos.object.[row]
+	is_lote                 = dw_detalle_bultos.object.[row]
+	is_orden_carga          = dw_detalle_bultos.object.[row]
+	ii_calibre              = dw_detalle_bultos.object.[row]
+	ii_anyo_orden_carga     = dw_detalle_bultos.object.[row]
+	//Articulo
+	is_descripcion_articulo = dw_detalle_bultos.object.[row]
+	*/
+else
+	ll_resultado = 0
+end if
+
+return ll_resultado
+end function
+
+public function integer f_reset ();f_inicializar_variables_instancia()
+dw_detalle_bultos.reset()
+sle_codbar.text     = "Esperando Lectura"
+st_descripcion.text = ""
+
+return 1
+end function
+
+on u_sle_codbar_original.create
+this.dw_detalle_bultos=create dw_detalle_bultos
+this.pb_ver_detalle_bulto=create pb_ver_detalle_bulto
+this.st_texto=create st_texto
+this.st_descripcion=create st_descripcion
+this.sle_codbar=create sle_codbar
+this.p_codbar=create p_codbar
+this.Control[]={this.dw_detalle_bultos,&
+this.pb_ver_detalle_bulto,&
+this.st_texto,&
+this.st_descripcion,&
+this.sle_codbar,&
+this.p_codbar}
+end on
+
+on u_sle_codbar_original.destroy
+destroy(this.dw_detalle_bultos)
+destroy(this.pb_ver_detalle_bulto)
+destroy(this.st_texto)
+destroy(this.st_descripcion)
+destroy(this.sle_codbar)
+destroy(this.p_codbar)
+end on
+
+event constructor;dw_detalle_bultos.settransobject(sqlca)
+
+choose case is_tipo_codigo
+	case 'EAN13'
+		//st_texto.facename = "EAN-13"
+	case 'EAN128'
+		//st_texto.facename = "Code 128"
+	case else
+		
+end choose
+
+st_texto.text = is_descripcion
+end event
+
+type dw_detalle_bultos from datawindow within u_sle_codbar_original
+integer x = 5
+integer y = 236
+integer width = 3346
+integer height = 952
+integer taborder = 30
+string title = "none"
+string dataobject = "dw_u_sle_codbar_original"
+boolean vscrollbar = true
+boolean livescroll = true
+borderstyle borderstyle = stylelowered!
+end type
+
+event rowfocuschanged;this.selectrow(0,false)
+
+if currentrow > 0 and currentrow <= rowcount() then
+	this.selectrow(currentrow,true)
+	//this.setrow(currentrow)
+	
+	il_id_ubicacion = this.object.almubimapa_codbar_id[currentrow]
+	is_almacen      = this.object.almubimapa_codbar_almacen[currentrow]
+	is_zona         = this.object.almubimapa_codbar_zona[currentrow]
+	ii_fila         = this.object.almubimapa_codbar_fila[currentrow]
+	ii_altura       = this.object.almubimapa_codbar_altura[currentrow]
+
+	il_id_bulto             = this.object.alm_bultos_id[currentrow]
+	is_codigo_articulo      = this.object.alm_bultos_lineas_articulo[currentrow]
+	is_descripcion_articulo = this.object.articulos_descripcion[currentrow]
+	is_codigo_caja          = this.object.alm_bultos_lineas_caja[currentrow]
+	is_codigo_pallet        = this.object.alm_bultos_tipo_pallet[currentrow]
+	is_codigo_calidad       = this.object.alm_bultos_lineas_calidad[currentrow]
+	is_lote                 = this.object.alm_bultos_lineas_tono[currentrow]
+	ii_calibre              = this.object.alm_bultos_lineas_calibre[currentrow]
+	il_piezas               = this.object.alm_bultos_lineas_cantidad[currentrow]
+	
+	ii_anyo_orden_carga     = this.object.alm_bultos_anyo_orden_carga[currentrow]
+	is_orden_carga          = this.object.alm_bultos_codigo_orden_carga[currentrow]
+	il_linea_orden_carga    = this.object.alm_bultos_lineas_linea_orden_carga[currentrow]
+	
+	parent.event modified()
+end if
+end event
+
+event retrieveend;if rowcount > 0 then
+	this.event rowfocuschanged(1)
+end if
+end event
+
+type pb_ver_detalle_bulto from picturebutton within u_sle_codbar_original
+integer x = 3250
+integer y = 124
+integer width = 110
+integer height = 96
+integer taborder = 20
+integer textsize = -10
+integer weight = 400
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+string picturename = "EditDataGrid!"
+alignment htextalign = left!
+end type
+
+event clicked;if parent.height = 232 then
+	parent.height = 1190	
+else
+	parent.height = 232
+end if
+end event
+
+type st_texto from statictext within u_sle_codbar_original
+integer x = 1467
+integer width = 1888
+integer height = 112
+integer textsize = -12
+integer weight = 700
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 67108864
+alignment alignment = center!
+boolean border = true
+boolean focusrectangle = false
+end type
+
+event clicked;sle_codbar.setfocus()	
+end event
+
+type st_descripcion from statictext within u_sle_codbar_original
+integer x = 5
+integer y = 116
+integer width = 3241
+integer height = 112
+integer textsize = -12
+integer weight = 700
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 16777215
+alignment alignment = center!
+boolean border = true
+borderstyle borderstyle = stylelowered!
+boolean focusrectangle = false
+end type
+
+event clicked;sle_codbar.setfocus()
+end event
+
+type sle_codbar from singlelineedit within u_sle_codbar_original
+event keydown pbm_keydown
+event clicked pbm_bnclicked
+integer x = 133
+integer width = 1330
+integer height = 112
+integer taborder = 10
+integer textsize = -12
+integer weight = 700
+fontcharset fontcharset = ansi!
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 33554432
+long backcolor = 16777215
+string text = "Esperando Lectura"
+borderstyle borderstyle = stylelowered!
+end type
+
+event keydown;if KeyDown(KeyEnter!) then
+	//Comprobamos el valor del codigo de barras y lanzamos el evento modified 
+	choose case is_tipo_codigo
+		case 'EAN13'
+			if len(this.text) <> 13 then
+				this.text = ''
+			end if			
+		case 'EAN128'
+			
+		case else
+			
+	end choose
+	this.event modified()
+end if
+end event
+
+event clicked;sle_codbar.event getfocus()
+end event
+
+event modified;string ls_prefijo
+
+choose case is_tipo_codigo
+	case 'EAN13'
+		ls_prefijo = left(this.text,2)		
+
+		choose case ls_prefijo
+			case '20','21','22','23','24'
+				//Ubicacion
+				f_leer_ubicacion()
+			case '25','26','27','28','29'
+				//Bulto
+				f_leer_bulto()
+			case else
+				//Articulo
+				f_leer_articulo()
+		end choose
+	case 'EAN128'
+		f_leer_ean128()
+	case else	
+end choose
+
+parent.event modified()
+/*
+SingleLineEdit sle_which
+CommandButton cb_which
+string ls_text_valueDrag
+Object which_control
+which_control = DraggedObject()
+CHOOSE CASE TypeOf(which_control)
+	CASE CommandButton!    
+		cb_which = which_control    
+		ls_text_value = cb_which.Text
+	CASE SingleLineEdit!    
+		sle_which = which_control    
+		ls_text_value = sle_which.Text
+END CHOOSE
+
+if isvalid(ipo_siguiente_objeto) then
+	typeof
+	ipo_siguiente_objeto.SetFocus()
+end if
+*/
+/*
+//this.event getfocus()
+//
+//GraphicObject object 
+Message.Processed = true 
+Message.ReturnValue = 0 
+//object = GetFocus() 
+Send ( handle ( this ), 256, 9, long ( 0, 0 ) ) 
+*/
+end event
+
+event getfocus;this.SelectText(1,len(this.text))
+end event
+
+type p_codbar from picture within u_sle_codbar_original
+integer width = 128
+integer height = 112
+boolean originalsize = true
+string picturename = "C:\bmp\Bar Code.gif"
+boolean focusrectangle = false
+end type
+
+event clicked;sle_codbar.setfocus()
+end event
+

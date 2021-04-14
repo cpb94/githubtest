@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_convertir_piezas_metrosl.srf
+global type f_convertir_piezas_metrosl from function_object
+end type
+
+forward prototypes
+global function decimal f_convertir_piezas_metrosl (string emp, string art, decimal piezas)
+end prototypes
+
+global function decimal f_convertir_piezas_metrosl (string emp, string art, decimal piezas);string form
+dec{2} largo
+
+  SELECT articulos.formato
+    INTO :form
+    FROM articulos  
+   WHERE ( articulos.empresa = :emp ) AND  
+         ( articulos.codigo = :art );
+	if sqlca.sqlcode<>0 then 
+		messagebox("Error f_convertir_piezas_metrosl",sqlca.sqlerrtext)
+		return piezas
+	end if
+	select largo
+	 into :largo
+	from formatos
+	where formatos.empresa =:emp
+	and 	formatos.codigo  =:form;
+
+//f_mensaje("desde f_convertir_piezas_metrosl",string((piezas*largo/100),'###.##'))
+return dec(string((piezas*largo/100),'###.##'))
+end function
+

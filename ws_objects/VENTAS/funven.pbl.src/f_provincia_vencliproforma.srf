@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_provincia_vencliproforma.srf
+global type f_provincia_vencliproforma from function_object
+end type
+
+forward prototypes
+global function string f_provincia_vencliproforma (string empresa, string codigo)
+end prototypes
+
+global function string f_provincia_vencliproforma (string empresa, string codigo);String var
+
+  SELECT vencliproforma.provincia
+    INTO :var  
+    FROM vencliproforma  
+   WHERE ( vencliproforma.empresa = :empresa )
+	AND   ( vencliproforma.codigo = :codigo )   ;
+	Return var
+
+end function
+

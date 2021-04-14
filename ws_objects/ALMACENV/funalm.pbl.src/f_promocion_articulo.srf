@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_promocion_articulo.srf
+global type f_promocion_articulo from function_object
+end type
+
+forward prototypes
+global function string f_promocion_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_promocion_articulo (string empresa, string articulo);String var_resultado
+
+SELECT articulos.promocion  
+INTO   :var_resultado
+FROM   articulos
+Where  articulos.empresa = :empresa
+And    articulos.codigo  = :articulo;
+
+if isnull(var_resultado) then var_resultado = ""
+
+Return var_resultado
+
+end function
+

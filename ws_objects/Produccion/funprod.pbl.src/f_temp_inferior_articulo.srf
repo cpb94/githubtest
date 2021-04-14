@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_temp_inferior_articulo.srf
+global type f_temp_inferior_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_temp_inferior_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function decimal f_temp_inferior_articulo (string arg_empresa, string arg_articulo);dec var_temp_inferior
+
+select temp_inferior
+into   :var_temp_inferior
+from   articulos  
+where  empresa = :arg_empresa
+and    codigo  = :arg_articulo;
+
+if isnull(var_temp_inferior) then var_temp_inferior = 0
+
+return var_temp_inferior
+end function
+

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$report_con_dto_cliente3.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=65 color="536870912"  height.autosize=yes)
+table(column=(type=char(20) updatewhereclause=yes name=cliente dbname="vendtofamcli.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="vendtofamcli.calidad" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="vendtofamcli.familia" )
+ column=(type=decimal(4) updatewhereclause=yes name=pallets dbname="vendtofamcli.pallets" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto dbname="vendtofamcli.dto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendtofamcli~" ) COLUMN(NAME=~"vendtofamcli.cliente~") COLUMN(NAME=~"vendtofamcli.calidad~") COLUMN(NAME=~"vendtofamcli.familia~") COLUMN(NAME=~"vendtofamcli.pallets~") COLUMN(NAME=~"vendtofamcli.dto~")WHERE(    EXP1 =~"vendtofamcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamcli.familia~"   OP =~"=~"    EXP2 =~":familia~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string) " arguments=(("empresa", string),("cliente", string),("familia", string)) )
+column(band=detail id=4 alignment="1" tabsequence=0 border="0" color="0" x="165" y="4" height="61" width="101"  name=pallets editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=0 border="0" color="0" x="279" y="4" height="61" width="183"  name=dto editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_calidad_abr(empresa,calidad)"border="0" color="0" x="10" y="4" height="61" width="142"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

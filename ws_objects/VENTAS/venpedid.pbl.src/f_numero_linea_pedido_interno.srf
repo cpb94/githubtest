@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_numero_linea_pedido_interno.srf
+global type f_numero_linea_pedido_interno from function_object
+end type
+
+forward prototypes
+global function long f_numero_linea_pedido_interno ()
+end prototypes
+
+global function long f_numero_linea_pedido_interno ();int anyo
+Dec{0} registros, n_linped
+
+anyo = year(today())
+
+registros = 0
+
+SELECT contpedint.linped
+INTO :registros  
+FROM contpedint
+WHERE contpedint.empresa = :codigo_empresa  
+AND   contpedint.anyo    = :anyo;
+
+IF IsNull(registros) Then registros=1
+   
+If Sqlca.Sqlcode=100 Then
+	 INSERT INTO contpedint
+			  (empresa,anyo,linped)  
+	 VALUES (:codigo_empresa,:anyo,:registros );
+	 COMMIT;
+else
+	registros=registros + 1
+
+	UPDATE contpedint
+	SET    linped = :registros  
+	WHERE  contpedint.empresa = :codigo_empresa
+	And    contpedint.anyo    = :anyo;
+	COMMIT;
+End If
+
+return registros
+
+
+end function
+

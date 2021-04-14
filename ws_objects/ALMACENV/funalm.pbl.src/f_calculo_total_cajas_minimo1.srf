@@ -1,0 +1,55 @@
+﻿$PBExportHeader$f_calculo_total_cajas_minimo1.srf
+global type f_calculo_total_cajas_minimo1 from function_object
+end type
+
+forward prototypes
+global function integer f_calculo_total_cajas_minimo1 (string cod_empresa, string cod_articulo, decimal n_total, string caja)
+end prototypes
+
+global function integer f_calculo_total_cajas_minimo1 (string cod_empresa, string cod_articulo, decimal n_total, string caja); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Integer bien,total_cajas,cajas,n_piezascaja,n_cajaspallet
+ decimal{3} total_cantidad
+ decimal n_metroscaja
+ string cadena
+
+
+ SELECT  articulos.empresa,articulos.codigo, articulos.formato,   
+         articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja    
+    INTO :cod_empresa,:cod_articulo,:cod_formato,:cod_unidad,
+	      :n_piezascaja,:n_metroscaja
+    FROM articulos,almartcajas  
+   WHERE articulos.empresa = :cod_empresa 
+	AND   articulos.codigo  = :cod_articulo
+	AND   almartcajas.empresa = articulos.empresa
+	AND   almartcajas.articulo = articulos.codigo
+	AND   almartcajas.caja = :caja;
+
+
+ 
+CHOOSE CASE cod_unidad
+CASE  "1"
+  cajas=(n_total/n_metroscaja)
+  IF cajas = 0 or IsNull(cajas) Then cajas = 1        
+CASE "0"
+  n_total=Dec(n_total)
+  cajas =(n_total / n_piezascaja) 
+  
+CASE  ELSE
+   bien=1
+END CHOOSE
+
+RETURN cajas
+
+
+
+
+
+
+
+
+
+
+
+end function
+

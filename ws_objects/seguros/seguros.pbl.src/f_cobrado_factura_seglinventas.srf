@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cobrado_factura_seglinventas.srf
+global type f_cobrado_factura_seglinventas from function_object
+end type
+
+forward prototypes
+global function decimal f_cobrado_factura_seglinventas (string empresa, decimal anyo_fra, decimal factura, decimal recibo)
+end prototypes
+
+global function decimal f_cobrado_factura_seglinventas (string empresa, decimal anyo_fra, decimal factura, decimal recibo);Dec p
+
+Select sum(seglinventas.importe) Into :p From seglinventas
+Where  seglinventas.empresa = :empresa
+And    seglinventas.anyo = :anyo_fra
+And    seglinventas.fra = :factura
+And    seglinventas.recibo  = :recibo
+And    seglinventas.situacion = "4";
+IF IsNUll(p) then p = 0
+Return p
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_activo_cliente.srf
+global type f_activo_cliente from function_object
+end type
+
+forward prototypes
+global function string f_activo_cliente (string empresa, string cliente)
+end prototypes
+
+global function string f_activo_cliente (string empresa, string cliente);String var_activo
+
+  SELECT genter.activo
+    INTO :var_activo
+    FROM genter  
+   WHERE (genter.empresa = :empresa)
+   AND   (genter.codigo  = :cliente)
+   AND   (genter.tipoter = "C");
+
+if isnull(var_activo) then var_activo = "N"
+
+Return var_activo
+end function
+

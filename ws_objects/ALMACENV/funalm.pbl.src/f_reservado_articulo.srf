@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_reservado_articulo.srf
+global type f_reservado_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_reservado_articulo (string empresa, string referencia)
+end prototypes
+
+global function decimal f_reservado_articulo (string empresa, string referencia);Dec{4} var_cantidad,var_cantidad_produccion
+string articulo,calidad,tono
+int    calibre
+
+SELECT  sum(venliped.cantidad)   
+INTO    :var_cantidad  
+FROM    venliped  
+WHERE   (venliped.empresa      = :empresa)
+AND     (venliped.articulo     = :referencia)
+ANd     (venliped.situacion    =  'C');
+
+IF IsNull(var_cantidad) Then var_cantidad = 0
+
+Return var_cantidad
+end function
+

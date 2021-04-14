@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nombre_prodtipopartes.srf
+global type f_nombre_prodtipopartes from function_object
+end type
+
+forward prototypes
+global function string f_nombre_prodtipopartes (string empresa, string linea)
+end prototypes
+
+global function string f_nombre_prodtipopartes (string empresa, string linea);string v_nom
+
+select descripcion
+into   :v_nom
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if sqlca.sqlcode <> 0 then
+	v_nom = ""
+end if
+
+if isnull(v_nom) then v_nom = ""
+
+return v_nom
+end function
+

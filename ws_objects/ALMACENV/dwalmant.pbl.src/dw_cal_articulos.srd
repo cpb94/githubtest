@@ -1,0 +1,22 @@
+﻿$PBExportHeader$dw_cal_articulos.srd
+$PBExportComments$Calidades por Artículos
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=105 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=93 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="almartcal.empresa" )
+ column=(type=char(20) update=yes key=yes name=articulo dbname="almartcal.articulo" )
+ column=(type=char(5) update=yes key=yes name=calidad dbname="almartcal.calidad" values=" 	 " )
+ column=(type=decimal(4) update=yes name=precio dbname="almartcal.precio" )
+ column=(type=datetime update=yes name=fecha_alta dbname="almartcal.fecha_alta" initial="today" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almartcal~" ) COLUMN(NAME=~"almartcal.empresa~") COLUMN(NAME=~"almartcal.articulo~") COLUMN(NAME=~"almartcal.calidad~") COLUMN(NAME=~"almartcal.precio~") COLUMN(NAME=~"almartcal.fecha_alta~")WHERE( EXP1 =~"almartcal.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" LOGIC =~"and~" ) WHERE( EXP1 =~"almartcal.articulo~" OP =~"=~" EXP2 =~":ra_articulo~" ) ) ORDER(NAME=~"almartcal.empresa~" ASC=yes ) ORDER(NAME=~"almartcal.articulo~" ASC=yes ) ORDER(NAME=~"almartcal.calidad~" ASC=yes ) ARG(NAME = ~"ra_codemp~" TYPE = string) ARG(NAME = ~"ra_articulo~" TYPE = string) " update="almartcal" updatewhere=1 updatekeyinplace=no arguments=(("ra_codemp", string),("ra_articulo", string)) )
+text(band=header alignment="2" text="Precio"border="6" color="0" x="988" y="28" height="65" width="357"  name=precio_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha Alta"border="6" color="0" x="1372" y="28" height="65" width="389"  name=fecha_alta_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Calidad"border="6" color="0" x="165" y="28" height="65" width="801"  name=calidad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+bitmap(band=header filename="\BMP\CARPETA.BMP" x="65" y="28" height="65" width="74" border="6"  name=pb_carpeta pointer="\bmp\MANO.CUR" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="5" color="0" x="161" y="12" height="65" width="225" format="[general]"  name=calidad  tag="Codigo calidad por articulo." edit.name=" " edit.limit=5 edit.case=any edit.format=" " edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_calidad(empresa , calidad)"border="0" color="128" x="412" y="12" height="65" width="535" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="5" color="0" x="988" y="12" height="65" width="357" format="[general]"  name=precio  tag="Precio Venta Articulo por Calidad" editmask.mask="###,###.00"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="2" tabsequence=50 border="5" color="0" x="1372" y="12" height="65" width="389" format="[general]"  name=fecha_alta  tag="Fecha de alta calidad por Articulo." edit.name="DD/MM/YYYY" editmask.mask="DD/MM/YYYY" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

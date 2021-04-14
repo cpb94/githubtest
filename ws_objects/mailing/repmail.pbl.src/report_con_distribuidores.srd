@@ -1,0 +1,22 @@
+﻿$PBExportHeader$report_con_distribuidores.srd
+$PBExportComments$Listado distribuidores.
+release 4;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=521 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=165 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) key=yes name=pais dbname="provincias.pais" )
+ column=(type=char(5) key=yes name=provincia dbname="provincias.provincia" )
+ column=(type=char(30) name=nombre dbname="provincias.nombre" )
+ column=(type=char(10) name=abreviado dbname="provincias.abreviado" )
+ column=(type=char(4) name=prefijo dbname="provincias.prefijo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"provincias~" ) COLUMN(NAME=~"provincias.pais~") COLUMN(NAME=~"provincias.provincia~") COLUMN(NAME=~"provincias.nombre~") COLUMN(NAME=~"provincias.abreviado~") COLUMN(NAME=~"provincias.prefijo~")WHERE( EXP1 =~"provincias.pais~" OP =~"=~" EXP2 =~":pais~" LOGIC =~"and~" ) WHERE( EXP1 =~"provincias.provincia~" OP =~"=~" EXP2 =~":provincia~" ) ) ORDER(NAME=~"provincias.pais~" ASC=yes ) ORDER(NAME=~"provincias.provincia~" ASC=yes ) ARG(NAME = ~"pais~" TYPE = string) ARG(NAME = ~"provincia~" TYPE = string) " update="provincias" updatewhere=0 updatekeyinplace=no arguments=(("pais", string),("provincia", string)) )
+text(band=header alignment="0" text="Distribuidor"border="2" color="0" x="10" y="472" height="45" width="887"  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Domicilio"border="2" color="0" x="915" y="472" height="45" width="906"  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="C.Postal"border="2" color="0" x="1843" y="472" height="45" width="243"  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Localidad"border="2" color="0" x="2108" y="472" height="45" width="805"  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="Teléfono"border="2" color="0" x="2935" y="472" height="45" width="407"  font.face="Small Fonts" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="~"LISTADO DISTRIBUIDORES DE ~" + f_nombre_provincia( pais , provincia )"border="0" color="128" x="732" y="340" height="89" width="2085" format="[GENERAL]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="19" y="288" height="57" width="563" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=detail dataobject="report_distribuidores_por_zona" x="1" y="0" height="157" width="3603" border="0"  height.autosize=yes criteria="" nest_arguments=(("f_codigo_empresa()"),("pais"),("provincia")) trail_footer = yes  slideup=directlyabove )

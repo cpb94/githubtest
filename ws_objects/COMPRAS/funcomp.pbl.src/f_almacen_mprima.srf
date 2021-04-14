@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_almacen_mprima.srf
+global type f_almacen_mprima from function_object
+end type
+
+forward prototypes
+global function string f_almacen_mprima (string empresa, string codigo)
+end prototypes
+
+global function string f_almacen_mprima (string empresa, string codigo);String almacen
+
+SELECT almacen_entra 
+INTO   :almacen 
+FROM   venmprima  
+WHERE  empresa = :codigo_empresa
+AND    codigo  = :codigo ;
+
+IF IsNull(almacen ) THEN almacen = ""
+
+return almacen
+end function
+

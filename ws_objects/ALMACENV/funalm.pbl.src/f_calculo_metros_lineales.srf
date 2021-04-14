@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_calculo_metros_lineales.srf
+global type f_calculo_metros_lineales from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_metros_lineales (string cod_empresa, string cod_articulo, decimal cantidad)
+end prototypes
+
+global function decimal f_calculo_metros_lineales (string cod_empresa, string cod_articulo, decimal cantidad);String cod_formato
+dec{2} largo
+cod_formato = f_formato_articulo(cod_empresa,cod_articulo)
+
+ SELECT formatos.largo   INTO  :largo  FROM   formatos  
+    WHERE formatos.empresa = :cod_empresa 
+    AND   formatos.codigo = :cod_formato    ;
+
+Return (largo / 100) * cantidad
+end function
+

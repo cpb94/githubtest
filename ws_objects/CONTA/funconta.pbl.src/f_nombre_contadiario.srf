@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_nombre_contadiario.srf
+global type f_nombre_contadiario from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contadiario (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contadiario (string empresa, string codigo);string	ls_titulo
+  SELECT contadiario.descripcion  INTO :ls_titulo
+    FROM contadiario 
+   WHERE contadiario.empresa = :empresa
+   AND   contadiario.codigo = :codigo   USING SQLCA;
+
+RETURN ls_titulo
+end function
+

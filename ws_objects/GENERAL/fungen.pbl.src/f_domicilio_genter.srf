@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_domicilio_genter.srf
+$PBExportComments$Devuelve el domicilio de un cliente proveedor tercero (calle,domicilio,numero).
+global type f_domicilio_genter from function_object
+end type
+
+forward prototypes
+global function string f_domicilio_genter (string empresa, string tipoter, string codigo)
+end prototypes
+
+global function string f_domicilio_genter (string empresa, string tipoter, string codigo);String var_empresa,var_tipoter,var_codigo,var_domicilio,&
+       var_cl_domicilio,var_nu_domicilio,var_compuesto
+SELECT genter.empresa,genter.tipoter,genter.codigo,genter.domicilio,   
+       genter.cl_domicilio,genter.nu_domicilio  
+INTO   :var_empresa,:var_tipoter,:var_codigo,:var_domicilio,   
+       :var_cl_domicilio,:var_nu_domicilio  
+FROM   genter  
+WHERE (genter.empresa = :empresa )
+AND   (genter.tipoter = :tipoter )
+AND   (genter.codigo  = :codigo )   
+ORDER BY genter.empresa ASC,genter.tipoter ASC,genter.codigo ASC  ;
+IF IsNull(var_cl_domicilio) Then var_cl_domicilio=""
+IF IsNull(var_nu_domicilio) Then var_nu_domicilio=""
+IF IsNull(var_domicilio) Then var_domicilio=""
+
+if Trim(var_cl_domicilio)<>"" then 
+       var_compuesto = Trim(var_cl_domicilio) + ". " + Trim(var_domicilio) + " " + &
+                       Trim(var_nu_domicilio)
+	else	
+       var_compuesto = Trim(var_domicilio) + " " + Trim(var_nu_domicilio)
+End if
+
+iF IsNull(var_compuesto) Then var_compuesto= ""
+Return var_compuesto
+
+
+end function
+

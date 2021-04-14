@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipodoc_carforpag.srf
+global type f_tipodoc_carforpag from function_object
+end type
+
+forward prototypes
+global function string f_tipodoc_carforpag (string empresa, string codigo)
+end prototypes
+
+global function string f_tipodoc_carforpag (string empresa, string codigo);String var_descripcion  
+
+SELECT carforpag.tipodoc INTO :var_descripcion FROM carforpag  
+WHERE carforpag.empresa = :empresa
+AND   carforpag.forma = :codigo ;
+			
+if IsNull(var_descripcion) then var_descripcion = ""
+
+Return var_descripcion
+
+end function
+

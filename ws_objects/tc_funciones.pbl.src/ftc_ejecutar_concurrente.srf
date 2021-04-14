@@ -1,0 +1,25 @@
+﻿$PBExportHeader$ftc_ejecutar_concurrente.srf
+global type ftc_ejecutar_concurrente from function_object
+end type
+
+forward prototypes
+global function integer ftc_ejecutar_concurrente (string comando, integer modo, boolean concurrente)
+end prototypes
+
+global function integer ftc_ejecutar_concurrente (string comando, integer modo, boolean concurrente);OleObject wsh
+integer  li_rc
+
+CONSTANT integer MAXIMIZED = 3
+CONSTANT integer MINIMIZED = 2
+CONSTANT integer NORMAL = 1
+CONSTANT boolean WAIT = TRUE
+CONSTANT boolean NOWAIT = FALSE
+
+wsh = CREATE OleObject
+li_rc = wsh.ConnectToNewObject( "WScript.Shell" )
+
+li_rc = wsh.Run(comando, modo, concurrente)
+
+return li_rc
+end function
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_contacoste.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=9 color="536870912" )
+footer(height=5 color="536870912" )
+detail(height=265 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="contacoste.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=seccion dbname="contacoste.seccion" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="contacoste.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="contacoste.descripcion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="contacoste.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contacoste~" ) COLUMN(NAME=~"contacoste.empresa~") COLUMN(NAME=~"contacoste.seccion~") COLUMN(NAME=~"contacoste.codigo~") COLUMN(NAME=~"contacoste.descripcion~") COLUMN(NAME=~"contacoste.resumido~")WHERE(    EXP1 =~"contacoste.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contacoste.seccion~"   OP =~"=~"    EXP2 =~":seccion~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contacoste.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"seccion~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="contacoste" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("seccion", string),("codigo", string)) )
+column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="471" y="52" height="69" width="993" format="[general]"  name=descripcion edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=20 border="5" color="0" x="471" y="160" height="65" width="330" format="[general]"  name=resumido edit.limit=0 edit.case=upper edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="2" text="Descripción:"border="0" color="0" x="60" y="52" height="69" width="366"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Abreviado:"border="0" color="0" x="87" y="164" height="65" width="357"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

@@ -1,0 +1,42 @@
+﻿$PBExportHeader$str_contaapun.srs
+global type str_contaapun from structure
+	integer		ejercicio
+	string		empresa
+	decimal {4}	asiento
+	decimal {4}	apunte
+	string		cuenta
+	datetime		fapunte
+	string		diario
+	string		concepto
+	string		ampliacion
+	decimal {4}	debe
+	decimal {4}	haber
+	string		tipoapu
+	string		documento
+	string		factura
+	datetime		ffactura
+	decimal {4}	imponible
+	string		tipoiva
+	decimal {4}	iva
+	decimal {4}	divisas
+	string		deducible
+	string		actualizado
+	string		listado
+	decimal {4}	registro
+	string		origen
+	string		tipoter
+	string		clipro
+	string		conciliado
+	string		nif
+	string		punteado
+	datetime		fvalor
+	string		docpunteo
+	string		coste
+	datetime		fregistro
+	decimal {6}	cambio
+	string		moneda
+	decimal {0}	mes
+	decimal {0}	orden_apunte
+	decimal {6}	cambio_euros
+end type
+

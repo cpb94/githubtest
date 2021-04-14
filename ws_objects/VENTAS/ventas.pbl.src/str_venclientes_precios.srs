@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_venclientes_precios.srs
+global type str_venclientes_precios from structure
+     STRING     empresa
+     STRING     venclientes_codigo
+     STRING     articulos_codigo
+     STRING     calidades_codigo
+     DECIMAL {6}     precio
+     STRING     no_aplicar_dtos_tarifa
+end type
+

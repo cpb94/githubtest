@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_comforenv.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=357 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="comforenv.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="comforenv.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="comforenv.descripcion" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=abreviado dbname="comforenv.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comforenv~" ) COLUMN(NAME=~"comforenv.empresa~") COLUMN(NAME=~"comforenv.codigo~") COLUMN(NAME=~"comforenv.descripcion~") COLUMN(NAME=~"comforenv.abreviado~")WHERE(    EXP1 =~"~~~"comforenv~~~".~~~"empresa~~~"~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"~~~"comforenv~~~".~~~"codigo~~~"~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="comforenv" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripcion...:"border="0" color="0" x="51" y="104" height="65" width="412"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=detail alignment="1" text="Abreviado.....:"border="0" color="0" x="51" y="232" height="65" width="412"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="481" y="104" height="65" width="1409" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="481" y="232" height="65" width="659" format="[general]"  name=abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

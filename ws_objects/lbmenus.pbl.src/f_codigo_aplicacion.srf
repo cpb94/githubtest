@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_codigo_aplicacion.srf
+global type f_codigo_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_codigo_aplicacion (string empresa, string descripcion)
+end prototypes
+
+global function string f_codigo_aplicacion (string empresa, string descripcion);int  v_codigo
+string v_valor
+
+Select codigo
+Into   :v_codigo
+From   grupo_aplicacion
+where  empresa = :empresa
+and    descripcion  = :descripcion;
+
+if isnull(v_codigo) then v_codigo = 0
+v_valor = string(v_codigo)
+
+return v_valor
+end function
+

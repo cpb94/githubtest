@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_busca_contacto_crm_preferencia.srf
+global type f_busca_contacto_crm_preferencia from function_object
+end type
+
+forward prototypes
+global function string f_busca_contacto_crm_preferencia (string arg_empresa, string arg_crm_tercero_codigo)
+end prototypes
+
+global function string f_busca_contacto_crm_preferencia (string arg_empresa, string arg_crm_tercero_codigo);
+string ls_codigo_contacto
+dec lc_registros
+
+if f_nulo_blanco(arg_crm_tercero_codigo) then  return ls_codigo_contacto
+
+select count(*) into :lc_registros from crm_contactos
+where empresa = :arg_empresa
+and   crm_tercero_codigo = :arg_crm_tercero_codigo
+and   preferencia_contacto = 'S'
+using sqlca;
+
+if lc_registros > 1 then
+	
+	
+	return ls_codigo_contacto
+end if
+
+select codigo into :ls_codigo_contacto from crm_contactos
+where empresa = :arg_empresa
+and   crm_tercero_codigo = :arg_crm_tercero_codigo
+and   preferencia_contacto = 'S'
+using sqlca;
+
+if f_nulo_blanco(ls_codigo_contacto) then ls_codigo_contacto= ""
+
+
+return ls_codigo_contacto
+end function
+

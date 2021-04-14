@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_activar_directorio.srf
+global type f_activar_directorio from function_object
+end type
+
+forward prototypes
+global function boolean f_activar_directorio (string arg_directorio)
+end prototypes
+
+global function boolean f_activar_directorio (string arg_directorio);//SetCurrentDirectoryA( )
+//This function changes the current directory that the OS is pointing to. There is no PowerBuilder equivalent.
+//
+//Global External Function:
+//FUNCTION boolean SetCurrentDirectoryA(ref string cdir) LIBRARY "kernel32.dll"
+
+boolean bien
+  
+bien = SetCurrentDirectoryA(arg_directorio)   
+
+return bien
+
+end function
+

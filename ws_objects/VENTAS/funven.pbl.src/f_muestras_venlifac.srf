@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_muestras_venlifac.srf
+global type f_muestras_venlifac from function_object
+end type
+
+forward prototypes
+global function boolean f_muestras_venlifac (string empresa, integer anyo, long factura)
+end prototypes
+
+global function boolean f_muestras_venlifac (string empresa, integer anyo, long factura);boolean resultado
+String    sel,var_clase
+int      total
+
+resultado = true
+
+select count(*)
+into :total
+from venlifac
+where empresa = :empresa
+and anyo = :anyo
+and factura = :factura
+and clase = 'M';
+
+if total <= 0 then	
+	resultado = false
+end if
+	
+Return resultado
+end function
+

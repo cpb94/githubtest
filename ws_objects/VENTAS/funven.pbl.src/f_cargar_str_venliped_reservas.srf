@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_cargar_str_venliped_reservas.srf
+global type f_cargar_str_venliped_reservas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_venliped_reservas (string arg_empresa, integer arg_anyo, decimal arg_pedido, integer arg_linea, decimal arg_id_alm_bultos_lineas, ref str_venliped_reservas str_venliped_reservas)
+end prototypes
+
+global function boolean f_cargar_str_venliped_reservas (string arg_empresa, integer arg_anyo, decimal arg_pedido, integer arg_linea, decimal arg_id_alm_bultos_lineas, ref str_venliped_reservas str_venliped_reservas);boolean lb_correcto = true
+
+SELECT venliped_reservas.empresa,
+       venliped_reservas.anyo,
+       venliped_reservas.pedido,
+       venliped_reservas.linea,
+       venliped_reservas.alm_bultos_lineas_id,
+       venliped_reservas.cantidad,
+		 venliped_reservas.id_ubicacion_original,
+		 venliped_reservas.id_ubicacion_destino,
+		 venliped_reservas.bulto_orden_carga,
+		 venliped_reservas.preparado 
+INTO   :str_venliped_reservas.empresa,
+       :str_venliped_reservas.anyo,
+       :str_venliped_reservas.pedido,
+       :str_venliped_reservas.linea,
+       :str_venliped_reservas.alm_bultos_lineas_id,
+       :str_venliped_reservas.cantidad,
+		 :str_venliped_reservas.id_ubicacion_original,
+		 :str_venliped_reservas.id_ubicacion_destino,
+		 :str_venliped_reservas.bulto_orden_carga,
+		 :str_venliped_reservas.preparado 
+FROM venliped_reservas
+WHERE venliped_reservas.empresa = :arg_empresa AND venliped_reservas.anyo = :arg_anyo AND venliped_reservas.pedido = :arg_pedido AND venliped_reservas.linea = :arg_linea AND venliped_reservas.alm_bultos_lineas_id = :arg_id_alm_bultos_lineas;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

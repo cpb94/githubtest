@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_texto_con_decimales.srf
+global type f_texto_con_decimales from function_object
+end type
+
+forward prototypes
+global function string f_texto_con_decimales (decimal arg_cantidad, string arg_moneda)
+end prototypes
+
+global function string f_texto_con_decimales (decimal arg_cantidad, string arg_moneda);string parte_entera,parte_decimal,total,centi
+int importe_decimal 
+
+parte_entera = f_nombre_numero(truncate(arg_cantidad,0),f_genero_moneda(arg_moneda))
+parte_entera = parte_entera + " " + f_nombre_moneda(arg_moneda)
+
+importe_decimal = f_parte_decimal(arg_cantidad,arg_moneda)
+IF importe_decimal = 1 THEN
+	centi = " CENT"
+ELSE
+	centi = " CENTS"
+END IF
+
+if importe_decimal > 0 then	
+	parte_decimal = f_nombre_numero(importe_decimal,f_genero_moneda(arg_moneda))
+	total = parte_entera +  " CON " + parte_decimal + centi 
+else
+	total = parte_entera
+end if
+
+total = total + " "
+
+return total
+end function
+

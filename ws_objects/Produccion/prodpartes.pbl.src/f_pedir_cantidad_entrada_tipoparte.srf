@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pedir_cantidad_entrada_tipoparte.srf
+global type f_pedir_cantidad_entrada_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_pedir_cantidad_entrada_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_pedir_cantidad_entrada_tipoparte (string empresa, string linea);string pedir_cantidad_entrada
+
+select pedir_cantidad_entrada
+into   :pedir_cantidad_entrada
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(pedir_cantidad_entrada) then pedir_cantidad_entrada = ""
+if trim(pedir_cantidad_entrada) = "" then
+	pedir_cantidad_entrada = "N"
+end if
+
+return pedir_cantidad_entrada
+end function
+

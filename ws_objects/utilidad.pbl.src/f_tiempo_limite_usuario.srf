@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_tiempo_limite_usuario.srf
+global type f_tiempo_limite_usuario from function_object
+end type
+
+forward prototypes
+global function string f_tiempo_limite_usuario (string codigo)
+end prototypes
+
+global function string f_tiempo_limite_usuario (string codigo);String para
+
+    SELECT usuarios.tiempo_limite
+    INTO :para  
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :codigo   ;
+	IF Trim(para) = "" Then  para = "S"
+
+Return para
+end function
+

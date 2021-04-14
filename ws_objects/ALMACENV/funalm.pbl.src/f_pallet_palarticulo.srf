@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_pallet_palarticulo.srf
+global type f_pallet_palarticulo from function_object
+end type
+
+forward prototypes
+global function boolean f_pallet_palarticulo (string empresa, string articulo, string pallet, string caja)
+end prototypes
+
+global function boolean f_pallet_palarticulo (string empresa, string articulo, string pallet, string caja);string var_empresa,var_articulo,var_pallet ,var_caja
+  
+  SELECT empresa,   
+         articulo,   
+         codigo  ,
+			caja
+    INTO :var_empresa,   
+         :var_articulo,   
+         :var_pallet,
+			:var_caja
+    FROM palarticulo
+
+   WHERE ( empresa  = :empresa ) AND  
+         ( articulo = :articulo ) AND  
+         ( codigo   = :pallet )    and
+			( caja     = :caja  );
+
+If SQLCA.SQLcode=0 then
+	 Return True
+else
+	 Return False
+End if
+end function
+

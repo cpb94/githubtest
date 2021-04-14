@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_pase_proformas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=69 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=anyo dbname="venproformas.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=proforma dbname="venproformas.proforma" )
+ column=(type=datetime updatewhereclause=yes name=fproforma dbname="venproformas.fproforma" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venproformas.cliente" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venproformas~" ) COLUMN(NAME=~"venproformas.anyo~") COLUMN(NAME=~"venproformas.proforma~") COLUMN(NAME=~"venproformas.fproforma~") COLUMN(NAME=~"venproformas.cliente~")WHERE(    EXP1 =~"venproformas.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venproformas.cliente~"   OP =~"=~"    EXP2 =~":cliente~" ) ) ORDER(NAME=~"venproformas.cliente~" ASC=yes )  ORDER(NAME=~"venproformas.fproforma~" ASC=no) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("cliente", string)) )
+bitmap(band=header filename="\BMP\Exit1.bmp" x="10" y="8" height="61" width="74" border="6"  name=salir )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="522" y="8" height="61" width="417"  name=fproforma_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Nº Proforma"border="6" color="0" x="101" y="8" height="61" width="403"  name=proforma_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="110" y="4" height="61" width="357" format="[general]"  name=proforma editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="0" x="522" y="4" height="61" width="417" format="[shortdate] [time]"  name=fproforma editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

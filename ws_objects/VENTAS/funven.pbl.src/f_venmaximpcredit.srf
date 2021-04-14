@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_venmaximpcredit.srf
+global type f_venmaximpcredit from function_object
+end type
+
+forward prototypes
+global function decimal f_venmaximpcredit (string empresa, string condicion, string moneda, decimal importe)
+end prototypes
+
+global function decimal f_venmaximpcredit (string empresa, string condicion, string moneda, decimal importe);Dec{4}  var_margen,var_importe,var_mas
+var_margen = f_margenmas_vencondimporte(empresa,condicion)
+var_mas = importe * var_margen / 100
+var_mas = Dec(String(var_mas,f_mascara_moneda(moneda)))
+var_importe = importe + var_mas
+return var_importe
+end function
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pedir_tono_tipoparte.srf
+global type f_pedir_tono_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_pedir_tono_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_pedir_tono_tipoparte (string empresa, string linea);string pedir_tono
+
+select pedir_tono
+into   :pedir_tono
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(pedir_tono) then pedir_tono = ""
+if trim(pedir_tono) = "" then
+	pedir_tono = "N"
+end if
+
+return pedir_tono
+end function
+

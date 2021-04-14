@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_digitos_analitica_primer_nivel.srf
+global type f_digitos_analitica_primer_nivel from function_object
+end type
+
+forward prototypes
+global function integer f_digitos_analitica_primer_nivel ()
+end prototypes
+
+global function integer f_digitos_analitica_primer_nivel ();Return 3
+end function
+

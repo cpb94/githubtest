@@ -1,0 +1,113 @@
+﻿$PBExportHeader$f_escandallo_factores_cantidad_stock.srf
+global type f_escandallo_factores_cantidad_stock from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_factores_cantidad_stock (ref str_escandallo_nuevo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel, boolean generar_base, decimal cantidad)
+end prototypes
+
+global subroutine f_escandallo_factores_cantidad_stock (ref str_escandallo_nuevo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel, boolean generar_base, decimal cantidad);// arg_escandallo[50]:  	Vector de estructuras para almacenar todos los artículos que componen el árbol . (ver str_escandallo).
+// arg_articulo:				Código del artículo del cual buscaremos su escandallo.
+// indice:						Siempre deberá recibir un 1 en la llamada principal.
+// factor acumulado:		Siempre deberá recibir un 1 en la llamada principal.
+// generar_base:			Si vale false no genera la base en la estructura. Si vale true también genera la base.
+
+string sel, articulo_ant, v_Articulo, v_version, articulos_uso, descripcion, uso
+integer i, nodo_hijo, nodo_raiz, k, cabeza_estructura  
+datastore registros 
+long nodo_actual, nodo_padre, contador_cabeza, cantidad_subcontratada
+boolean procesado = false
+decimal{2} v_factor, stock, l_cantidad, cantidad_def
+
+
+nivel ++
+cabeza_estructura = 0  //0 - INTERMEDIO , 1 - CABEZA
+cantidad_subcontratada = 0
+
+if nivel < 300 then
+	arg_escandallo[300].articulo = "CORRECTO"
+	sel = " select articulo, version, articulo_ant, factor, articulos.uso"+&
+			" from art_escandallo, articulos "+&
+			" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+			" and articulo = '"+arg_articulo+"' " +&
+			" and version = '1' "+&
+			" and art_escandallo.empresa = articulos.empresa "+&
+			" and art_Escandallo.articulo_ant = articulos.codigo "
+			
+	f_cargar_cursor_nuevo (sel, registros )
+	
+	select descripcion into :descripcion from articulos where codigo = :arg_articulo using SQLCA;
+	
+	select isnull(sum(isnull(cantidad,0)),0) into :stock from alm_bultos_lineas where alm_bultos_lineas.articulo = :arg_articulo using SQLCA;
+
+	select count(*) into :contador_cabeza from art_escandallo where articulo_ant =:arg_articulo using SQLCA;
+	
+	select cantidad_subcontratada into :cantidad_subcontratada from subcontratacion_promocion where cod_articulo =:arg_articulo and empresa = :codigo_empresa using SQLCA;
+	
+	if contador_cabeza = 0 then
+		
+		cabeza_estructura = 1
+		
+	end if
+	
+	
+	l_cantidad = (cantidad - (stock + cantidad_subcontratada))
+	
+	if l_cantidad < 0 then
+		
+		l_cantidad = 0
+		
+	end if
+	
+	for i = 1 to registros.RowCount()
+
+		if registros.RowCount() = 0 then
+			articulo_ant = "0"
+		else
+			v_articulo = registros.object.articulo[i]
+			v_version = registros.object.version[i]
+			articulo_ant = registros.object.articulo_ant[i]		
+			articulos_uso = registros.object.articulos_uso[i]
+		end if
+
+		if articulo_ant <> "0" and (generar_base or (not generar_base and articulos_uso <> '1' and not ftc_articulo_base(articulo_ant))) then
+			if registros.object.factor[i] = 0 or isnull(registros.object.factor[i]) then
+				v_factor = factor_acumulado
+			else
+				v_factor = registros.object.factor[i] * factor_Acumulado
+			end if
+			
+			cantidad_def = l_cantidad / v_factor
+			
+			select uso into :uso from articulos where codigo = :articulo_ant using SQLCA;
+			
+			if uso = '3' then
+		
+				f_escandallo_factores_cantidad_stock (arg_escandallo, articulo_ant, indice, v_factor, nivel, generar_base,cantidad_def)
+			
+			end if
+			
+		end if
+	
+		if not procesado and indice > 0  then
+			arg_escandallo[indice].articulo = v_articulo
+			arg_escandallo[indice].version = v_version
+			arg_escandallo[indice].factor =  factor_Acumulado
+			arg_escandallo[indice].nivel =  nivel
+			arg_escandallo[indice].cantidad = cantidad	
+			arg_escandallo[indice].stock = stock
+			arg_escandallo[indice].descripcion = descripcion
+			arg_escandallo[indice].cabeza_estructura = cabeza_estructura
+			arg_escandallo[indice].cantidad_subcontratada = cantidad_subcontratada
+			procesado = true
+			indice++
+		end if
+		
+	next
+else
+	arg_escandallo[300].articulo = "ERROR"
+	destroy registros
+end if
+destroy registros
+end subroutine
+

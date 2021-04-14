@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_almrefcontador.srf
+global type f_almrefcontador from function_object
+end type
+
+forward prototypes
+global function decimal f_almrefcontador (string empresa, decimal anyo, string cliente)
+end prototypes
+
+global function decimal f_almrefcontador (string empresa, decimal anyo, string cliente);Dec{0} numero 
+  SELECT almrefcontador.contador INTO :numero FROM almrefcontador  
+   WHERE (almrefcontador.empresa  = :empresa)
+	AND   (almrefcontador.anyo     = :anyo)
+	AND   (almrefcontador.cliente  = :cliente);
+			IF SQLCA.SQLCODE = 100 Then
+				numero = 1
+			  INSERT INTO almrefcontador (empresa,anyo,cliente,contador)  
+			  VALUES (:empresa,:anyo,:cliente,:numero);
+			ELSE
+				numero = numero + 1
+				UPDATE almrefcontador  
+            SET     contador = :numero  
+            WHERE  (almrefcontador.empresa = :empresa)
+			   AND    (almrefcontador.anyo    = :anyo)
+			   AND    (almrefcontador.cliente = :cliente);
+			END IF
+			COMMIT;
+			
+Return numero
+
+end function
+

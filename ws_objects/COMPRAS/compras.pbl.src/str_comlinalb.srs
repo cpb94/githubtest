@@ -1,0 +1,31 @@
+﻿$PBExportHeader$str_comlinalb.srs
+global type str_comlinalb from structure
+	string		empresa
+	string		anyo
+	string		albaran
+	string		linea
+	string		mprima
+	decimal {2}	cantidad
+	decimal {6}	precio
+	datetime		fecha_entrega
+	string		unidad_medida
+	string		pedido
+	string		linea_pedido
+	string		situacion
+	string		observaciones
+	string		libre
+	string		anyo_pedido
+	datetime		fecha_control
+	string		seccion
+	string		subseccion
+	string		descripcion
+	string		envase
+	string		cuenta
+	decimal {6}	importe
+	string		automatico
+	string		ubicado
+	string		pedido_por
+	datetime		fecha_pedido
+	decimal {0}	descuento
+end type
+

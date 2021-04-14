@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_nombre_cliente_laboratorio.srf
+global type f_nombre_cliente_laboratorio from function_object
+end type
+
+forward prototypes
+global function string f_nombre_cliente_laboratorio (string arg_empresa, string arg_cliente, string arg_busqueda)
+end prototypes
+
+global function string f_nombre_cliente_laboratorio (string arg_empresa, string arg_cliente, string arg_busqueda);string codigo_venclientes,codigo_laboratorio
+string nombre1,nombre2
+
+nombre1 = ""
+nombre2 = ""
+
+if arg_busqueda = "L" then
+	select nombre
+	into   :nombre1
+	from   venclientes_laboratorio
+	where  empresa = :codigo_empresa
+	and    codigo  = :arg_cliente;
+	
+	if isnull(nombre1) then 
+		nombre1 = ""
+	else
+		nombre1 = nombre1 + " / "
+	end if
+	
+	select codigo
+	into   :codigo_venclientes
+	from   venclientes
+	where  empresa = :codigo_empresa
+	and    codigo_lab  = :arg_cliente;
+	
+	if isnull(codigo_venclientes) then 
+		nombre2 = ""
+	else	
+		nombre2 = f_razon_genter(codigo_empresa,"C",codigo_venclientes)
+	end if
+else
+	select codigo_lab
+	into   :codigo_venclientes
+	from   venclientes
+	where  empresa = :codigo_empresa
+	and    codigo  = :arg_cliente;
+	
+	select codigo,nombre
+	into   :codigo_laboratorio,:nombre1
+	from   venclientes_laboratorio
+	where  empresa = :codigo_empresa
+	and    codigo  = :codigo_venclientes;
+	
+	if isnull(codigo_laboratorio) or (codigo_laboratorio = "0") then 
+		nombre1 = ""
+	else
+		nombre1 = nombre1 + " / "
+	end if
+	
+	nombre2 = f_razon_genter(codigo_empresa,"C",arg_cliente)
+	if isnull(nombre2) then nombre2 = ""
+	
+end if
+return trim(nombre1)+trim(nombre2)
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_peso_venped.srf
+$PBExportComments$Devuelve el peso de un pedido.
+global type f_peso_venped from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function decimal f_peso_venped (string empresa, integer anyo, decimal pedido);String var_empresa
+Decimal{2} var_peso
+  SELECT venped.peso_neto  INTO :var_peso   FROM venped  
+   WHERE venped.empresa = :empresa
+   AND   venped.anyo    = :anyo
+   AND   venped.pedido  = :pedido;
+
+Return var_peso
+end function
+

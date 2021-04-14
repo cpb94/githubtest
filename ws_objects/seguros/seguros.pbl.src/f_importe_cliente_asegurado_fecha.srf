@@ -1,0 +1,91 @@
+﻿$PBExportHeader$f_importe_cliente_asegurado_fecha.srf
+global type f_importe_cliente_asegurado_fecha from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_cliente_asegurado_fecha (string arg_empresa, string arg_companyia, string arg_cliente, datetime arg_fecha)
+end prototypes
+
+global function decimal f_importe_cliente_asegurado_fecha (string arg_empresa, string arg_companyia, string arg_cliente, datetime arg_fecha);long     orden,orden_anterior
+datetime fecha,fecha_anterior
+dec      riesgo,riesgo_anterior
+string   situacion
+
+situacion = f_situacion_cliente_asegurado_fecha(arg_empresa,arg_companyia,arg_cliente,arg_fecha)
+
+if situacion <> "Denegado" and situacion <> "No solicitado" then
+	select max(fecha)
+	into   :fecha
+	from   venriesgoclienteshis
+	where  empresa =  :arg_empresa
+	and    cliente =  :arg_cliente
+	and    fecha   <= :arg_fecha
+	and    companyia = :arg_companyia;
+	
+	if isnull(fecha) then
+		riesgo = 0
+	else
+		select max(orden)
+		into   :orden
+		from   venriesgoclienteshis
+		where  empresa = :arg_empresa
+		and    cliente = :arg_cliente
+		and    fecha   = :fecha
+		and    companyia = :arg_companyia;
+		
+		select riesgo
+		into   :riesgo
+		from   venriesgoclienteshis
+		where  empresa = :arg_empresa
+		and    cliente = :arg_cliente
+		and    fecha   = :fecha
+		and    orden   = :orden
+		and    companyia = :arg_companyia;
+		
+		if isnull(riesgo) then riesgo = 0
+		
+		if situacion = "Solicitado" then
+			//Comprobamos si se solicita una revisión
+			
+			select max(fecha)
+			into   :fecha_anterior
+			from   venriesgoclienteshis
+			where  empresa  = :arg_empresa
+			and    cliente  = :arg_cliente
+			and    fecha   <= :fecha
+			and    orden   <> :orden
+			and    companyia = :arg_companyia;
+			
+			if not isnull(fecha_anterior) then
+				select max(orden)
+				into   :orden_anterior
+				from   venriesgoclienteshis
+				where  empresa =  :arg_empresa
+				and    cliente =  :arg_cliente
+				and    fecha   =  :fecha_anterior
+				and    orden   <> :orden
+				and    companyia = :arg_companyia;
+				
+				select riesgo
+				into   :riesgo_anterior
+				from   venriesgoclienteshis
+				where  empresa = :arg_empresa
+				and    cliente = :arg_cliente
+				and    fecha   = :fecha_anterior
+				and    orden   = :orden_anterior
+				and    companyia = :arg_companyia;
+				
+				if isnull(riesgo_anterior) then riesgo_anterior = 0			
+				
+				if riesgo_anterior <> 0 then
+					riesgo = riesgo_anterior
+				end if
+			end if
+	
+		end if
+	end if
+end if
+
+return riesgo
+end function
+

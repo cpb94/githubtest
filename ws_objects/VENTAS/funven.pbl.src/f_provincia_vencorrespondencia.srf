@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_provincia_vencorrespondencia.srf
+global type f_provincia_vencorrespondencia from function_object
+end type
+
+forward prototypes
+global function string f_provincia_vencorrespondencia (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_provincia_vencorrespondencia (string empresa, string cliente, string codigo);String var
+
+  SELECT vencorrespondencia.provincia
+    INTO :var  
+    FROM vencorrespondencia  
+   WHERE  vencorrespondencia.empresa = :empresa
+	AND    vencorrespondencia.cliente = :cliente
+	AND    vencorrespondencia.codigo = :codigo    ;
+if isnull(var) then var=""
+	Return var
+
+end function
+

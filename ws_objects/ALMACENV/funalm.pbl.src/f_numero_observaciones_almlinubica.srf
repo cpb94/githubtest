@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_numero_observaciones_almlinubica.srf
+global type f_numero_observaciones_almlinubica from function_object
+end type
+
+forward prototypes
+global function decimal f_numero_observaciones_almlinubica (string empresa, string ubicacion, decimal linea)
+end prototypes
+
+global function decimal f_numero_observaciones_almlinubica (string empresa, string ubicacion, decimal linea);Integer numero
+  SELECT count(*) INTO :numero FROM almlinubica_observaciones  
+   WHERE  almlinubica_observaciones.empresa = :empresa 
+	AND    almlinubica_observaciones.ubicacion = :ubicacion 
+	AND    almlinubica_observaciones.linea = :linea;
+IF IsNull(numero) Then numero = 0
+Return numero			
+
+end function
+

@@ -1,0 +1,78 @@
+﻿$PBExportHeader$dw_con_extracto_cuenta_punteo.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=84 color="536870912" )
+summary(height=4 color="536870912" )
+footer(height=60 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=fapunte dbname="contaapun.fapunte" )
+ column=(type=char(50) updatewhereclause=yes name=ampliacion dbname="contaapun.ampliacion" )
+ column=(type=decimal(4) updatewhereclause=yes name=debe dbname="contaapun.debe" )
+ column=(type=decimal(4) updatewhereclause=yes name=haber dbname="contaapun.haber" )
+ column=(type=char(10) updatewhereclause=yes name=documento dbname="contaapun.documento" )
+ column=(type=datetime updatewhereclause=yes name=ffactura dbname="contaapun.ffactura" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=asiento dbname="contaapun.asiento" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=contaapun_origen dbname="contaapun.origen" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=contaapun_ejercicio dbname="contaapun.ejercicio" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=punteado dbname="contaapun.punteado" values="	S/	N" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=contaapun_empresa dbname="contaapun.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes key=yes name=contaapun_apunte dbname="contaapun.apunte" )
+ column=(type=char(5) updatewhereclause=yes name=contaapun_diario dbname="contaapun.diario" )
+ column=(type=long updatewhereclause=yes key=yes name=contaapun_mes dbname="contaapun.mes" )
+ column=(type=char(5) updatewhereclause=yes name=concepto dbname="contaapun.concepto" )
+ retrieve="  SELECT contaapun.fapunte,   
+         contaapun.ampliacion,   
+         contaapun.debe,   
+         contaapun.haber,   
+         contaapun.documento,   
+         contaapun.ffactura,   
+         contaapun.asiento,   
+         contaapun.origen,   
+         contaapun.ejercicio,   
+         contaapun.punteado,   
+         contaapun.empresa,   
+         contaapun.apunte,   
+         contaapun.diario,   
+         contaapun.mes,
+	      contaapun.concepto
+    FROM contaapun  
+   WHERE ( contaapun.empresa = :arg_empresa ) AND  
+         ( contaapun.fapunte between :arg_fecha_desde and :arg_fecha_hasta ) AND  
+         ( contaapun.cuenta = :arg_cuenta ) AND  
+         ( contaapun.origen <> '100' )   AND 
+			( contaapun.punteado = :arg_punteado)         
+ORDER BY contaapun.fapunte ASC,   
+         contaapun.asiento ASC   
+" update="contaapun" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_fecha_desde", datetime),("arg_fecha_hasta", datetime),("arg_cuenta", string),("arg_punteado", string)) )
+text(band=header alignment="2" text="F/Doc"border="6" color="0" x="827" y="8~t if (arg_ini =1,112,10)" height="64" width="197"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="NºDoc."border="6" color="0" x="622" y="8~t if (arg_ini =1,112,10)" height="64" width="187"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="C.C."border="6" color="0" x="457" y="8~t if (arg_ini =1,112,10)" height="64" width="146"  name=numdoc_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Asto"border="6" color="0" x="256" y="8~t if (arg_ini =1,112,10)" height="64" width="183"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Fecha"border="6" color="0" x="9" y="8~t if (arg_ini =1,112,10)" height="64" width="229"  name=fechmov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Debe"border="6" color="0" x="1915" y="8~t if (arg_ini =1,112,10)" height="64" width="375"  name=cantidade_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Haber"border="6" color="0" x="2309" y="8~t if (arg_ini =1,112,10)" height="64" width="366"  name=cantidads_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Ampliación"border="6" color="0" x="1042" y="8~t if (arg_ini =1,112,10)" height="64" width="850"  name=codtercero_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="P"border="6" color="16711680" x="2693" y="8~t if (arg_ini =1,112,10)" height="64" width="64"  name=punta pointer="D:\bmp\Mano.cur"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+line(band=detail x1="5" y1="76" x2="2766" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" IF(IsNull( fapunte ),~"~",String( fapunte ,~"dd-mm-yy~")) "border="0" color="0" x="14" y="4" height="64" width="224" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="622" y="4" height="64" width="187" format="[general]"  name=documento edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2766" y1="4" x2="2766" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="814" y1="4" x2="814" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="608" y1="4" x2="608" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="443" y1="4" x2="443" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="247" y1="4" x2="247" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="5" y1="4" x2="5" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1029" y1="4" x2="1029" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+line(band=detail x1="1897" y1="4" x2="1897" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression=" IF(IsNull( ffactura  ),~"~",String(  ffactura  ,~"dd-mm-yy~")) "border="0" color="0" x="823" y="4" height="64" width="201" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="261" y="4" height="64" width="178" format="[general]"  name=asiento editmask.mask="######" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="255" x="2693" y="4" height="56" width="55" format="[general]"  name=punteado checkbox.text="" checkbox.on="S" checkbox.off="N" checkbox.scale=no checkbox.threed=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2299" y1="4" x2="2299" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF ( debe = 0 or isNull(debe) , 0, debe )"border="0" color="0" x="1911" y="4" height="64" width="379" format="###,###,###,##0.00 "  name=debe_t  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression="IF (  haber  = 0 or isNull( haber ) , 0, haber )"border="0" color="0" x="2309" y="4" height="64" width="366" format="###,###,###,##0.00"  name=haber_t  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="2679" y1="4" x2="2679" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1042" y="4" height="64" width="846" format="[general]"  name=ampliacion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_concepto( arg_empresa, concepto  )"border="0" color="0" x="457" y="4" height="64" width="142" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="(*) Doble click conecta con asiento."border="0" color="128" x="14" y="4" height="52" width="951"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=footer alignment="0" text="(*) Boton derecho para puntear o despuntear"border="0" color="128" x="1001" y="4" height="56" width="1125"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

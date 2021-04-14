@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pedir_tipo_pallet_tipoparte.srf
+global type f_pedir_tipo_pallet_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_pedir_tipo_pallet_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_pedir_tipo_pallet_tipoparte (string empresa, string linea);string pedir_tipo_pallet
+
+select pedir_tipo_pallet
+into   :pedir_tipo_pallet
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(pedir_tipo_pallet) then pedir_tipo_pallet = ""
+if trim(pedir_tipo_pallet) = "" then
+	pedir_tipo_pallet = "N"
+end if
+
+return pedir_tipo_pallet
+end function
+

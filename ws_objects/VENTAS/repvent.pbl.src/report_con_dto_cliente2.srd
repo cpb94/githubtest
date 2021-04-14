@@ -1,0 +1,13 @@
+﻿$PBExportHeader$report_con_dto_cliente2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912"  height.autosize=yes)
+table(column=(type=char(20) updatewhereclause=yes name=cliente dbname="vendtofamcli.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=familia dbname="vendtofamcli.familia" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="vendtofamcli.calidad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendtofamcli~" ) COLUMN(NAME=~"vendtofamcli.cliente~") COLUMN(NAME=~"vendtofamcli.familia~") COLUMN(NAME=~"vendtofamcli.calidad~")WHERE(    EXP1 =~"vendtofamcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamcli.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtofamcli.calidad~"   OP =~"=~"    EXP2 =~":calidad~" )  GROUP(NAME=~"vendtofamcli.cliente~") GROUP(NAME=~"vendtofamcli.familia~") GROUP(NAME=~"vendtofamcli.calidad~")) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " arguments=(("empresa", string),("cliente", string),("familia", string),("calidad", string)) )
+report(band=detail dataobject="report_con_dto_cliente4" x="604" y="4" height="73" width="1838" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("cliente"),("familia"),("calidad")) trail_footer = yes  slideup=directlyabove )
+report(band=detail dataobject="report_con_dto_cliente3" x="69" y="4" height="73" width="435" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa"),("cliente"),("familia")) trail_footer = yes  slideup=directlyabove )

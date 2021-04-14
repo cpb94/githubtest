@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_facturas_agrupado.srf
+global type f_facturas_agrupado from function_object
+end type
+
+forward prototypes
+global function string f_facturas_agrupado (string empresa, decimal anyo, decimal orden)
+end prototypes
+
+global function string f_facturas_agrupado (string empresa, decimal anyo, decimal orden);String   sel,facturas
+Dec  r,r1
+DataStore  d
+facturas = ""
+sel = " Select factura from carefectos " +&
+      " Where  empresa      = '"+empresa+"'" +&
+		" ANd    anyoagrupa   = "+String(anyo,"#####") +&
+		" And    efectoagrupa ="+String(orden,"##########") +&
+		" ANd    situacion = '3'ORDER BY ffra Desc"
+//d =f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, d)
+r1 = d.rowCount()
+IF r1 = 0 Then Return ""
+For r = 1 To r1
+	IF r > 1 Then facturas = facturas + "/"
+	facturas = facturas  + d.GetItemString(r,"factura")
+NEXT
+
+destroy d		
+Return facturas
+end function
+

@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_nombre_palarticulocaja.srf
+global type f_nombre_palarticulocaja from function_object
+end type
+
+forward prototypes
+global function string f_nombre_palarticulocaja (string empresa, string articulo, string pallet, string caja)
+end prototypes
+
+global function string f_nombre_palarticulocaja (string empresa, string articulo, string pallet, string caja);string  ls_nombre,clase
+Integer numero
+
+//Control para el pallet "00000" (Sin pallet)
+if pallet <> "00000" then
+	Select count(*) Into :numero From palarticulo
+	Where  empresa  = :empresa
+	And    articulo = :articulo
+	And    codigo  = :pallet
+	And    caja    = :caja;
+	
+	IF IsNull(numero) Then numero = 0
+	
+	IF numero= 0 Then return ""
+end if
+
+SELECT descripcion 
+Into :ls_nombre   
+FROM pallets  
+WHERE  empresa = :empresa 
+AND    codigo  = :pallet;
+
+IF SQLCA.SQLCode <> 0 THEN	ls_nombre = ""
+
+RETURN ls_nombre
+end function
+

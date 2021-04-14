@@ -1,0 +1,62 @@
+﻿$PBExportHeader$f_nombre_numero_cen.srf
+global type f_nombre_numero_cen from function_object
+end type
+
+forward prototypes
+global function string f_nombre_numero_cen (integer dig1, integer dig2, integer dig3, integer genero)
+end prototypes
+
+global function string f_nombre_numero_cen (integer dig1, integer dig2, integer dig3, integer genero);string C1[0 TO 1],C[2 TO 9],gen
+
+if genero=1 then
+	gen="AS"
+else
+	gen="OS"
+end if
+	
+C1[0]="CIEN"
+C1[1]="CIENTO"
+
+C[2]="DOSCIENT" + gen
+C[3]="TRESCIENT"+ gen
+C[4]="CUATROCIENT"+ gen
+C[5]="QUINIENT"+ gen
+C[6]="SEISCIENT"+ gen
+C[7]="SETECIENT"+ gen
+C[8]="OCHOCIENT"+ gen
+C[9]="NOVECIENT"+ gen
+
+string nombre
+choose case dig1
+	case 0
+		nombre=f_nombre_numero_dec(dig2,dig3,genero)
+	case 1
+		choose case dig2
+			case 0
+				choose case dig3
+					case 0
+						nombre=C1[0]
+					case else
+						nombre=C1[1]+" "+f_nombre_numero_dec(0,dig3,genero)
+				end choose
+			case else
+				nombre=C1[1]+" "+f_nombre_numero_dec(dig2,dig3,genero)
+		end choose
+	case else
+		choose case dig2
+			case 0
+				choose case dig3
+					case 0
+						nombre=C[dig1]
+					case else
+						nombre=C[dig1]+" "+f_nombre_numero_dec(0,dig3,genero)
+				end choose
+			case else
+				nombre=C[dig1]+" "+f_nombre_numero_dec(dig2,dig3,genero)
+		end choose
+end choose
+
+return Trim(nombre)
+
+end function
+

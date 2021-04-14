@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_cliente_promped.srf
+global type f_cliente_promped from function_object
+end type
+
+forward prototypes
+global function string f_cliente_promped (string empresa, decimal anyo, integer pedido)
+end prototypes
+
+global function string f_cliente_promped (string empresa, decimal anyo, integer pedido);String variable
+  
+  SELECT promped.cliente
+    INTO :variable  
+    FROM promped  
+   WHERE ( promped.empresa = :empresa ) AND  
+         ( promped.anyo = :anyo ) AND  
+         ( promped.pedido = :pedido )   ;
+Return variable
+end function
+

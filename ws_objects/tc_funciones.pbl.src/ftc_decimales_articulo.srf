@@ -1,0 +1,19 @@
+﻿$PBExportHeader$ftc_decimales_articulo.srf
+global type ftc_decimales_articulo from function_object
+end type
+
+forward prototypes
+global function integer ftc_decimales_articulo (string empresa, string codigo)
+end prototypes
+
+global function integer ftc_decimales_articulo (string empresa, string codigo);Int resultado
+
+SELECT decimales_unidad INTO :resultado
+FROM articulos 
+WHERE empresa = :empresa AND codigo = :codigo;
+
+if isnull(resultado) then resultado = 0
+
+return resultado
+end function
+

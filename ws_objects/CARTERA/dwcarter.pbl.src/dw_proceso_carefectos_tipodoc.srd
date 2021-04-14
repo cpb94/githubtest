@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_proceso_carefectos_tipodoc.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=173 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="cartipodoc.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=tipodoc dbname="cartipodoc.tipodoc" )
+ column=(type=char(30) updatewhereclause=yes name=texto dbname="cartipodoc.texto" )
+ column=(type=char(10) updatewhereclause=yes name=resumido dbname="cartipodoc.resumido" )
+ column=(type=char(1) updatewhereclause=yes name=control_banco dbname="cartipodoc.control_banco" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cartipodoc~" ) COLUMN(NAME=~"cartipodoc.empresa~") COLUMN(NAME=~"cartipodoc.tipodoc~") COLUMN(NAME=~"cartipodoc.texto~") COLUMN(NAME=~"cartipodoc.resumido~") COLUMN(NAME=~"cartipodoc.control_banco~")WHERE(    EXP1 =~"cartipodoc.empresa~"   OP =~"=~"    EXP2 =~":cod_emp~" ) ) ARG(NAME = ~"cod_emp~" TYPE = string) " update="cartipodoc" updatewhere=0 updatekeyinplace=no arguments=(("cod_emp", string)) )
+text(band=header alignment="2" text="TIPOS DE documentos"border="6" color="0" x="37" y="16" height="65" width="650"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Contador"border="0" color="0" x="23" y="100" height="65" width="266"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="rowcount()"border="5" color="0" x="316" y="100" height="65" width="362" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

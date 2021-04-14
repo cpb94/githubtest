@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_calculo_power_undx.srf
+global type f_calculo_power_undx from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_power_undx (decimal var)
+end prototypes
+
+global function decimal f_calculo_power_undx (decimal var);Return (var+ 4000) * f_powerund() / 1000
+end function
+

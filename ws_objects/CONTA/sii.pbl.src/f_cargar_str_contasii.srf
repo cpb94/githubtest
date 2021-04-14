@@ -1,0 +1,53 @@
+﻿$PBExportHeader$f_cargar_str_contasii.srf
+global type f_cargar_str_contasii from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_contasii (string arg_empresa, decimal arg_ejercicio, string arg_factura, string arg_tipoter, string arg_tercero, ref str_contasii str_contasii)
+end prototypes
+
+global function boolean f_cargar_str_contasii (string arg_empresa, decimal arg_ejercicio, string arg_factura, string arg_tipoter, string arg_tercero, ref str_contasii str_contasii);boolean lb_correcto = true
+
+SELECT contasii.empresa,
+       contasii.ejercicio,
+       contasii.factura,
+       contasii.tipoter,
+       contasii.tercero,
+       contasii.numseriefactura,
+       contasii.fechaexpedicion,
+       contasii.fechaoperacion,
+       contasii.fecharegcontable,
+       contasii.tipofactura,
+       contasii.clave,
+       contasii.descripcionoperacion,
+       contasii.importetotal,
+       contasii.situacioninmueble,
+       contasii.referenciacatastral,
+		 contasii.id_tercero,
+		 contasii.fecharegcontablesii 
+INTO   :str_contasii.empresa,
+       :str_contasii.ejercicio,
+       :str_contasii.factura,
+       :str_contasii.tipoter,
+       :str_contasii.tercero,
+       :str_contasii.numseriefactura,
+       :str_contasii.fechaexpedicion,
+       :str_contasii.fechaoperacion,
+       :str_contasii.fecharegcontable,
+       :str_contasii.tipofactura,
+       :str_contasii.clave,
+       :str_contasii.descripcionoperacion,
+       :str_contasii.importetotal,
+       :str_contasii.situacioninmueble,
+       :str_contasii.referenciacatastral,
+		 :str_contasii.id_tercero,
+		 :str_contasii.fecharegcontablesii 
+FROM contasii
+WHERE contasii.empresa = :arg_empresa AND contasii.ejercicio = :arg_ejercicio AND contasii.factura = :arg_factura AND contasii.tipoter = :arg_tipoter AND contasii.tercero = :arg_tercero;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

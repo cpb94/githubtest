@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_cargar_str_almartcal.srf
+global type f_cargar_str_almartcal from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_almartcal (STRING arg_empresa, STRING arg_articulo, STRING arg_calidad,  ref str_almartcal str_almartcal)
+end prototypes
+
+global function boolean f_cargar_str_almartcal (STRING arg_empresa, STRING arg_articulo, STRING arg_calidad,  ref str_almartcal str_almartcal);boolean lb_correcto = true
+
+SELECT almartcal.empresa,
+       almartcal.articulo,
+       almartcal.calidad,
+       almartcal.precio,
+       almartcal.fecha_alta,
+       almartcal.stockmin,
+       almartcal.stockmax,
+       almartcal.puntopedido
+INTO   :str_almartcal.empresa,
+       :str_almartcal.articulo,
+       :str_almartcal.calidad,
+       :str_almartcal.precio,
+       :str_almartcal.fecha_alta,
+       :str_almartcal.stockmin,
+       :str_almartcal.stockmax,
+       :str_almartcal.puntopedido
+FROM almartcal
+WHERE almartcal.empresa = :arg_empresa AND almartcal.articulo = :arg_articulo AND almartcal.calidad = :arg_calidad;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

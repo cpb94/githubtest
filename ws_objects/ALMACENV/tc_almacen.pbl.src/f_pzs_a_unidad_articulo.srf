@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_pzs_a_unidad_articulo.srf
+global type f_pzs_a_unidad_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_pzs_a_unidad_articulo (string arg_empresa, string arg_articulo, string arg_caja, long arg_piezas)
+end prototypes
+
+global function decimal f_pzs_a_unidad_articulo (string arg_empresa, string arg_articulo, string arg_caja, long arg_piezas);string ls_unidad_articulo
+dec    ld_metroscaja,ld_cantidad_articulo
+long   ll_piezascaja
+int    li_decimales_unidad_articulo
+
+SELECT isnull(articulos.unidad,''),
+		 isnull(articulos.decimales_unidad,0),
+		 isnull(almartcajas.metroscaja,0),
+		 isnull(almartcajas.piezascaja,0)  
+INTO   :ls_unidad_articulo,
+		 :li_decimales_unidad_articulo,
+		 :ld_metroscaja,
+		 :ll_piezascaja
+FROM   articulos,almartcajas 
+WHERE  articulos.empresa    = almartcajas.empresa
+AND    articulos.codigo     = almartcajas.articulo
+AND    almartcajas.empresa  = :arg_empresa 
+AND    almartcajas.articulo = :arg_articulo 
+AND    almartcajas.caja     = :arg_caja;
+
+if ls_unidad_articulo = '1' then
+	ld_cantidad_articulo = round(((arg_piezas / ll_piezascaja) * ld_metroscaja),li_decimales_unidad_articulo)
+else
+	ld_cantidad_articulo = arg_piezas
+end if
+
+return ld_cantidad_articulo
+end function
+

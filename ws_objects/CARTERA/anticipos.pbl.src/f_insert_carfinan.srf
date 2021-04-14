@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_insert_carfinan.srf
+global type f_insert_carfinan from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carfinan (str_carfinan anticipo)
+end prototypes
+
+global function boolean f_insert_carfinan (str_carfinan anticipo);  INSERT INTO carfinan
+         ( empresa,bancofinan,contador,num_prorroga,refbanco,ordencarga,
+			fvalor,moneda,divisasfinan,plazo,vencimiento,plazoreal,cliente,
+			situacion,prorroga_activa,banco_abono,facabono,divisa_abono,
+			importe_abono,cambio_abono,anyo,moneda_abono,anyo_fac,serie_fac,
+			factura,fpago,fanticipo,fecha_abono,pdte_liquidar)  
+    
+  VALUES(:anticipo.empresa,					:anticipo.bancofinan,
+  			:anticipo.contador,					:anticipo.num_prorroga,
+			:anticipo.refbanco,					:anticipo.ordencarga,
+			:anticipo.fvalor,						:anticipo.moneda,
+			:anticipo.divisasfinan,				:anticipo.plazo,
+			:anticipo.vencimiento,				:anticipo.plazoreal,
+			:anticipo.cliente,					:anticipo.situacion,
+			:anticipo.prorroga_activa,			:anticipo.banco_abono,
+			:anticipo.facabono,					:anticipo.divisa_abono,
+			:anticipo.importe_abono,			:anticipo.cambio_abono,
+			:anticipo.anyo,						:anticipo.moneda_abono,
+			:anticipo.anyo_fac,					:anticipo.serie_fac,
+			:anticipo.factura,					:anticipo.fpago,
+			:anticipo.fanticipo,					:anticipo.fecha_abono,
+			:anticipo.pdte_liquidar)  ;
+
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("Error en base de datos f_insert_carfinan ",SQLCA.SQLERRTEXT)
+   Return FALSE
+ELSE
+   Return TRUE
+END IF
+end function
+

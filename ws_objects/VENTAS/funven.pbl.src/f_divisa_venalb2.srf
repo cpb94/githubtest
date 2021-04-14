@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_divisa_venalb2.srf
+global type f_divisa_venalb2 from function_object
+end type
+
+forward prototypes
+global function string f_divisa_venalb2 (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_divisa_venalb2 (string empresa, integer anyo, decimal albaran);String var_divisa
+
+  SELECT venalb2.divisa
+    INTO :var_divisa
+    FROM venalb2  
+   WHERE (venalb2.empresa = :empresa)
+   AND   (venalb2.anyo    = :anyo)
+   AND   (venalb2.albaran  = :albaran);
+
+
+
+Return var_divisa
+end function
+

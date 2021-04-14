@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_observaciones_almcargas.srf
+global type f_observaciones_almcargas from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_almcargas (string empresa, integer anyo, decimal orden)
+end prototypes
+
+global function string f_observaciones_almcargas (string empresa, integer anyo, decimal orden);String para
+  SELECT observaciones
+    INTO :para
+    FROM almcargas  
+   WHERE ( almcargas.empresa = :empresa ) AND  
+         ( almcargas.anyo = :anyo) AND  
+         ( almcargas.orden = :orden) ;
+
+			IF isNull(para)  then para= ""
+			Return para
+
+end function
+

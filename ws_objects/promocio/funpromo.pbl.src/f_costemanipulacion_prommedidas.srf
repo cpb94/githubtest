@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_costemanipulacion_prommedidas.srf
+global type f_costemanipulacion_prommedidas from function_object
+end type
+
+forward prototypes
+global function decimal f_costemanipulacion_prommedidas (string empresa, string codigo)
+end prototypes
+
+global function decimal f_costemanipulacion_prommedidas (string empresa, string codigo);dec parametro
+  
+SELECT prommedidas.coste_manipulacion
+INTO   :parametro  
+FROM   prommedidas  
+WHERE  ( prommedidas.empresa = :empresa )
+AND    ( prommedidas.codigo = :codigo )   ;
+
+if isnull(parametro) then parametro = 0
+
+Return parametro
+
+
+end function
+

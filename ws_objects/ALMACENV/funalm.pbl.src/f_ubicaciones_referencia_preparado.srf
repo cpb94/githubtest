@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_ubicaciones_referencia_preparado.srf
+global type f_ubicaciones_referencia_preparado from function_object
+end type
+
+forward prototypes
+global function string f_ubicaciones_referencia_preparado (string empresa, string referencia, string tipo_pallet, decimal anyo, decimal pedido, decimal linea)
+end prototypes
+
+global function string f_ubicaciones_referencia_preparado (string empresa, string referencia, string tipo_pallet, decimal anyo, decimal pedido, decimal linea);String ubicacion,calidad,articulo
+Dec{2} altura,fila,reg,v,v1,registros
+DataStore data 
+Integer contador_ubicaciones
+String compuesto,errores,sys
+articulo   = f_articulo_referencia(referencia)
+calidad    = f_calidad_referencia(referencia)
+// ubicaciones
+
+compuesto = " Select ubicacion from almlinubica "+&
+            " Where almlinubica.empresa  = '" + codigo_empresa + "'" +&
+            " And   almlinubica.referencia = '" + referencia   + "'" +&
+				" And   almlinubica.tipo_pallet = '" + tipo_pallet + "'" +&
+				" And   almlinubica.anyo = " +  String(anyo,"#######")   + &
+				" And   almlinubica.pedido = " + String(pedido,"########") + &
+				" And   almlinubica.linped = " + String(linea,"########")
+
+//data= f_cargar_cursor(compuesto)		
+f_cargar_cursor_nuevo(compuesto, data)
+
+registros = data.RowCount()
+contador_ubicaciones = 0
+IF registros <> 0 Then
+ FOR reg = 1 To registros
+   ubicacion   = data.GetItemString(reg,"ubicacion")
+	Exit
+Next
+END IF
+
+destroy data
+Return ubicacion
+ 
+
+
+end function
+

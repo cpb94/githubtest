@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_cargar_str_alm_bultos_lineas.srf
+global type f_cargar_str_alm_bultos_lineas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_alm_bultos_lineas (decimal arg_id, ref str_alm_bultos_lineas str_alm_bultos_lineas)
+end prototypes
+
+global function boolean f_cargar_str_alm_bultos_lineas (decimal arg_id, ref str_alm_bultos_lineas str_alm_bultos_lineas);boolean lb_correcto = true
+
+SELECT alm_bultos_lineas.id,
+       alm_bultos_lineas.id_alm_bultos,
+       alm_bultos_lineas.empresa,
+       alm_bultos_lineas.articulo,
+       alm_bultos_lineas.calidad,
+       alm_bultos_lineas.tono,
+       alm_bultos_lineas.calibre,
+       alm_bultos_lineas.caja,
+       alm_bultos_lineas.cantidad,
+		 alm_bultos_lineas.linea_orden_carga 
+INTO   :str_alm_bultos_lineas.id,
+       :str_alm_bultos_lineas.id_alm_bultos,
+       :str_alm_bultos_lineas.empresa,
+       :str_alm_bultos_lineas.articulo,
+       :str_alm_bultos_lineas.calidad,
+       :str_alm_bultos_lineas.tono,
+       :str_alm_bultos_lineas.calibre,
+       :str_alm_bultos_lineas.caja,
+       :str_alm_bultos_lineas.cantidad,
+		 :str_alm_bultos_lineas.linea_orden_carga 
+FROM alm_bultos_lineas
+WHERE alm_bultos_lineas.id = :arg_id;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

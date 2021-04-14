@@ -1,0 +1,244 @@
+﻿$PBExportHeader$f_precio_y_dtos_packs_pedido.srf
+global type f_precio_y_dtos_packs_pedido from function_object
+end type
+
+forward prototypes
+global function boolean f_precio_y_dtos_packs_pedido (string arg_empresa, integer arg_anyo, long arg_pedido)
+end prototypes
+
+global function boolean f_precio_y_dtos_packs_pedido (string arg_empresa, integer arg_anyo, long arg_pedido);boolean lb_correcto = true
+string  ls_sel,ls_cadena,ls_unidad_articulo
+long    ll_indice,ll_total,ll_pallets,ll_cajas,ll_total_cajas,ll_pzs,ll_posi_aux,ll_posi,ll_donde
+dec     ld_precio,ld_descuento,ld_descuento2,ld_metros,ld_dto_equivalente
+
+string   ls_cliente,ls_tarifa,ls_articulo,ls_calidad,ls_caja,ls_pallet,ls_tipo_linea,ls_venpacks_codigo
+datetime ldt_fecha_pedido
+dec      ld_cantidad
+long     ll_linea,ll_total_lineas,ll_venliped_linea
+
+string   ls_m2,ls_pzs,ls_pallets,ls_total_cajas
+
+str_precio_y_dtos_articulo_cliente lstr_precio_y_dtos_articulo_cliente
+
+datastore ds_precios_pack,ds_dtos_pack
+datastore ds_dtos_aplicables_pack
+datastore ds_lineas_pedido_con_pack
+
+select isnull(venped.cliente,''),
+		 isnull(venped.tarifa,''),
+		 venped.fpedido
+into   :ls_cliente,
+		 :ls_tarifa,
+		 :ldt_fecha_pedido
+from   venped
+where  venped.empresa = :arg_empresa
+and    venped.anyo    = :arg_anyo
+and    venped.pedido  = :arg_pedido;
+
+ls_sel = "SELECT venliped.linea, "+&
+         "		  venliped.tipolinea, "+&
+         "		  venliped.articulo, "+&
+         "		  venliped.calidad, "+&
+         "		  case when articulos.unidad  = '1' then venliped.cantidad else venliped.cantidad / ((isnull(formatos.largo,0) * isnull(formatos.ancho,0)) / 10000) end as m2, "+&
+			"		  case when articulos.unidad <> '1' then venliped.cantidad else venliped.cantidad * ((isnull(formatos.largo,0) * isnull(formatos.ancho,0)) / 10000) end as pzs, "+&
+         "		  venliped.pallets, "+&
+         "		  venliped.total_cajas, "+&
+         "		  venliped.tipo_pallet, "+&
+         "		  venliped.caja, "+&
+         "		  venpacks.codigo, "+&
+         "		  ventarifas_precios_packs.precio "+&
+         "FROM   venliped, "+&
+         "		  venpacks, "+&
+         "		  ventarifas_precios_packs, "+&   
+         "		  venped, "+&
+         "		  ventarifas, "+&
+			"       articulos, "+&
+			"       formatos "+&
+         "WHERE ( venped.empresa                            = venliped.empresa ) "+&
+         "and   ( venped.anyo                               = venliped.anyo ) "+&
+         "and   ( venped.pedido                             = venliped.pedido ) "+&
+         "and   ( venped.empresa                            = ventarifas.empresa ) "+&
+         "and   ( venped.tarifa                             = ventarifas.codigo ) "+&
+         "and   ( ventarifas.empresa                        = ventarifas_precios_packs.empresa ) "+&
+         "and   ( ventarifas.codigo                         = ventarifas_precios_packs.ventarifas_codigo ) "+&
+         "and   ( ventarifas.activa                         = ventarifas_precios_packs.ventarifas_activa ) "+&
+         "and   ( ventarifas_precios_packs.empresa          = venliped.empresa ) "+&
+         "and   ( ventarifas_precios_packs.articulos_codigo = venliped.articulo ) "+&
+         "and   ( ventarifas_precios_packs.calidades_codigo = venliped.calidad ) "+&
+         "and   ( ventarifas_precios_packs.empresa          = venpacks.empresa ) "+&
+         "and   ( ventarifas_precios_packs.venpacks_codigo  = venpacks.codigo ) "+&
+			"and   ( venliped.empresa                          = articulos.empresa ) "+&
+			"and   ( venliped.articulo                         = articulos.codigo ) "+&
+			"and   ( articulos.empresa                         = formatos.empresa ) "+&
+			"and   ( articulos.formato                         = formatos.codigo ) "+&
+			"and   ( venliped.clase                         = 'V' ) "+&
+         "and   ( ( venliped.empresa = '"+arg_empresa+"' ) "+&
+         "AND     ( venliped.anyo    = "+string(arg_anyo,'###0')+" ) "+&
+         "AND     ( venliped.pedido  = "+string(arg_pedido,'#######0')+" ) ) "+&
+			"ORDER BY venliped.linea "
+			
+ll_total_lineas = f_cargar_cursor_transaccion(sqlca,ds_lineas_pedido_con_pack,ls_sel)
+
+if ll_total_lineas > 0 then
+	for ll_linea = 1 to ll_total_lineas 
+		f_mensaje_proceso("Packs "+string(ll_linea,"000")+"/"+string(ll_total_lineas,"000"),ll_linea,ll_total_lineas )
+		ll_venliped_linea = ds_lineas_pedido_con_pack.object.venliped_linea[ll_linea]
+		ls_articulo   = ds_lineas_pedido_con_pack.object.venliped_articulo[ll_linea]
+		ls_calidad    = ds_lineas_pedido_con_pack.object.venliped_calidad[ll_linea]
+		ls_pallet     = ds_lineas_pedido_con_pack.object.venliped_tipo_pallet[ll_linea]
+		ls_caja       = ds_lineas_pedido_con_pack.object.venliped_caja[ll_linea]
+		ls_tipo_linea = ds_lineas_pedido_con_pack.object.venliped_tipolinea[ll_linea]
+		ls_venpacks_codigo = ds_lineas_pedido_con_pack.object.venpacks_codigo[ll_linea]
+		
+		//Calculo_de las unidades			
+				
+		ls_m2  = ds_lineas_pedido_con_pack.describe('evaluate("sum(if (venpacks_codigo = ~''+ls_venpacks_codigo+'~',m2,0) for all)",1)')		
+		ld_metros = dec(ls_m2)
+		
+		ls_pzs = ds_lineas_pedido_con_pack.describe('evaluate("sum(if (venpacks_codigo = ~''+ls_venpacks_codigo+'~',pzs,0) for all)",1)')		
+		ll_pzs = dec(ls_pzs)	
+		
+		ls_pallets = ds_lineas_pedido_con_pack.describe('evaluate("sum(if (venpacks_codigo = ~''+ls_venpacks_codigo+'~',venliped_pallets,0) for all)",1)')		
+		ll_pallets = dec(ls_pallets)
+		
+		ls_total_cajas = ds_lineas_pedido_con_pack.describe('evaluate("sum(if (venpacks_codigo = ~''+ls_venpacks_codigo+'~',venliped_total_cajas,0) for all)",1)')		
+		ll_total_cajas = dec(ls_total_cajas)
+			
+		f_cargar_cursor_transaccion(sqlca,ds_dtos_aplicables_pack,"select 0.00 as dto")
+		ds_dtos_aplicables_pack.reset()
+		
+		ls_sel = "SELECT isnull(ventarifas_precios_packs.precio,0) as precio "+&
+					"FROM   ventarifas, "+&
+					"       ventarifas_precios_packs "+&
+					"WHERE ( ventarifas_precios_packs.empresa = ventarifas.empresa ) "+&
+					"and   ( ventarifas_precios_packs.ventarifas_codigo = ventarifas.codigo ) "+&
+					"and   ( ventarifas_precios_packs.ventarifas_activa = ventarifas.activa ) "+&
+					"and   ( ( ventarifas.empresa = '"+arg_empresa+"' ) "+&
+					"AND   ( ventarifas.codigo = '"+ls_tarifa+"' ) "+&
+					"AND   ( ventarifas_precios_packs.articulos_codigo = '"+ls_articulo+"' ) "+&
+					"AND   ( ventarifas_precios_packs.calidades_codigo = '"+ls_calidad+"' ) )"
+		
+		f_cargar_cursor_transaccion(sqlca,ds_precios_pack,ls_sel)
+		
+		ls_sel = "SELECT isnull(ventarifas_descuentos_packs.cantidad,0) as cantidad, "+&
+					"       isnull(ventarifas_descuentos_packs.tipo_cantidad,'') as tipo_cantidad, "+&
+					"       isnull(ventarifas_descuentos_packs.descuento,0) as descuento "+&
+					"FROM   ventarifas, "+&
+					"       ventarifas_descuentos_packs "+&
+					"WHERE ( ventarifas_descuentos_packs.empresa = ventarifas.empresa ) "+&
+					"and   ( ventarifas_descuentos_packs.ventarifas_codigo = ventarifas.codigo ) "+&
+					"and   ( ventarifas_descuentos_packs.ventarifas_activa = ventarifas.activa ) "+&
+					"and   ( ( ventarifas.empresa = '"+arg_empresa+"' ) "+&
+					"AND   ( ventarifas.codigo = '"+ls_tarifa+"' ) "+&
+					"AND   ( ventarifas_descuentos_packs.venpacks_codigo = '"+ls_venpacks_codigo+"' ) "+&
+					"AND   ( ventarifas_descuentos_packs.calidades_codigo = '"+ls_calidad+"' ) "+&
+					"AND ( ( isnull(ventarifas_descuentos_packs.fecha_inicio_descuento,'"+string(ldt_fecha_pedido,formato_fecha_cursores)+"') <= '"+string(ldt_fecha_pedido,formato_fecha_cursores)+"' ) "+&
+					"AND   ( isnull(ventarifas_descuentos_packs.fecha_fin_descuento,'"+string(ldt_fecha_pedido,formato_fecha_cursores)+"') >= '"+string(ldt_fecha_pedido,formato_fecha_cursores)+"' ) ) ) "
+		
+		f_cargar_cursor_transaccion(sqlca,ds_dtos_pack,ls_sel)
+		ds_dtos_pack.setsort("tipo_cantidad A, cantidad A")
+		
+		lstr_precio_y_dtos_articulo_cliente.precio     = 0
+		lstr_precio_y_dtos_articulo_cliente.descuento1 = 0
+		lstr_precio_y_dtos_articulo_cliente.descuento2 = 0
+			
+		if ds_precios_pack.rowcount() = 1 then
+			lstr_precio_y_dtos_articulo_cliente.precio = ds_precios_pack.object.precio[1]
+		else
+			lstr_precio_y_dtos_articulo_cliente.precio = 0
+		end if
+		//*****
+		
+		if ds_dtos_pack.rowcount() > 0 then
+			//Buscamos el dto a aplicar
+			//Pallets
+			ds_dtos_pack.setfilter("tipo_cantidad = 'PLT' and cantidad <= "+string(ll_pallets,"#####0"))
+			ds_dtos_pack.filter()
+			ds_dtos_pack.sort()
+			ll_total = ds_dtos_pack.rowcount()
+			
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_pack.insertrow(0)
+				ds_dtos_aplicables_pack.object.dto[ll_donde] = ds_dtos_pack.object.descuento[ll_total]	
+			end if
+			
+			//Cajas
+			ds_dtos_pack.setfilter("tipo_cantidad = 'CJS' and cantidad <= "+string(ll_total_cajas,"#####0"))
+			ds_dtos_pack.filter()
+			ds_dtos_pack.sort()
+			ll_total = ds_dtos_pack.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_pack.insertrow(0)
+				ds_dtos_aplicables_pack.object.dto[ll_donde] = ds_dtos_pack.object.descuento[ll_total]	
+			end if
+			
+			//Metros
+			ds_dtos_pack.setfilter("tipo_cantidad = 'MTS' and cantidad <= "+f_sustituir(string(ld_metros,"#####0.00"),",","."))
+			ds_dtos_pack.filter()
+			ds_dtos_pack.sort()
+			ll_total = ds_dtos_pack.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_pack.insertrow(0)
+				ds_dtos_aplicables_pack.object.dto[ll_donde] = ds_dtos_pack.object.descuento[ll_total]	
+			end if
+			
+			//Piezas
+			ds_dtos_pack.setfilter("tipo_cantidad = 'PZS' and cantidad <= "+string(ll_pzs,"#####0"))
+			ds_dtos_pack.filter()
+			ds_dtos_pack.sort()
+			ll_total = ds_dtos_pack.rowcount()
+			if ll_total > 0 then
+				ll_donde = ds_dtos_aplicables_pack.insertrow(0)
+				ds_dtos_aplicables_pack.object.dto[ll_donde] = ds_dtos_pack.object.descuento[ll_total]	
+			end if															
+			//****
+			if ds_dtos_aplicables_pack.rowcount() > 0 then
+				//Ordenamos y cogemos el máximo descuento de la tarifa
+				ds_dtos_aplicables_pack.setsort("dto D")
+				ds_dtos_aplicables_pack.sort()				
+				lstr_precio_y_dtos_articulo_cliente.descuento1 = ds_dtos_aplicables_pack.object.dto[1]
+			end if							
+						
+		end if
+	
+		destroy ds_precios_pack
+		destroy ds_dtos_pack
+		
+		destroy ds_dtos_aplicables_pack
+	
+		update venliped
+		set    venliped.precio = :lstr_precio_y_dtos_articulo_cliente.precio,
+				 venliped.dtoesp = :lstr_precio_y_dtos_articulo_cliente.descuento1
+		where  venliped.empresa = :arg_empresa
+		and    venliped.anyo    = :arg_anyo
+		and    venliped.pedido  = :arg_pedido
+		and    venliped.linea   = :ll_venliped_linea;
+		
+		if sqlca.sqlcode <> 0 then
+			lb_correcto = false
+		else
+			IF Not f_actualizar_linea_venpedido(arg_empresa,arg_anyo,arg_pedido,ll_venliped_linea) Then
+				lb_correcto = false
+				messagebox("¡Error!","1)-Se ha producido un error al calcular los descuentos de los packs")
+			end if	
+		end if
+	next 	
+	
+//	if lb_correcto then	
+//		if f_actualizar_venpedido(arg_empresa,arg_anyo,arg_pedido) then
+//			commit;
+//		else
+//			rollback;
+//			messagebox("¡Error!","2)-Se ha producido un error al calcular los descuentos de los packs")
+//		end if
+//	else
+//		rollback;
+//		messagebox("¡Error!","3)-Se ha producido un error al calcular los descuentos de los packs")
+//	end if
+end if
+
+destroy ds_lineas_pedido_con_pack
+
+return lb_correcto
+end function
+

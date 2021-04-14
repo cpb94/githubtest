@@ -1,0 +1,58 @@
+﻿$PBExportHeader$f_calculo_cajas.srf
+$PBExportComments$Este rutina calcula el resto de cajas a partir de un articulo,tipo de pallet, y numero de pallets y cantidad total.
+global type f_calculo_cajas from function_object
+end type
+
+forward prototypes
+global function integer f_calculo_cajas (string cod_empresa, string cod_articulo, string cod_pallet, string caja, integer n_pallets, decimal n_total)
+end prototypes
+
+global function integer f_calculo_cajas (string cod_empresa, string cod_articulo, string cod_pallet, string caja, integer n_pallets, decimal n_total); String      cod_unidad
+ Integer     longitud
+ Integer     bien,total_cajas,cajas,n_piezascaja,n_cajaspallet
+ decimal{3}  total_cantidad
+ decimal n_metroscaja
+ string      cadena
+
+ IF IsNull(n_pallets) THEN n_pallets=0
+
+ SELECT   articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja  
+    INTO :cod_unidad,
+	      :n_piezascaja,:n_metroscaja   
+    FROM articulos,almartcajas  
+   WHERE (articulos.empresa = :cod_empresa ) AND  
+         (articulos.codigo  = :cod_articulo ) AND 
+			(articulos.empresa = almartcajas.empresa) AND
+			(articulos.codigo  = almartcajas.articulo) AND
+			(almartcajas.caja  = :caja);
+
+   SELECT  palarticulo.cajaspallet  
+     INTO  :n_cajaspallet  
+     FROM  palarticulo  
+     WHERE palarticulo.empresa  = :cod_empresa 
+	  AND   palarticulo.articulo = :cod_articulo
+	  AND   palarticulo.codigo   = :cod_pallet 
+	  AND   palarticulo.caja     = :caja;
+
+CHOOSE CASE cod_unidad
+CASE  "1"
+	IF n_metroscaja = 0 Then
+		  cajas = 0
+	ELSE
+		  cajas = (n_total/n_metroscaja)-(n_pallets*n_cajaspallet)
+	END IF
+CASE "0"
+  n_total=Dec(n_total)
+  IF n_piezascaja = 0 Then
+	  cajas = 0
+  ELSE
+	  cajas =(n_total / n_piezascaja)  - (n_pallets*n_cajaspallet)
+  END IF
+CASE  ELSE
+   bien=1
+END CHOOSE
+        
+RETURN cajas
+
+end function
+

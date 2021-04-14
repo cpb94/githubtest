@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_ean13.srf
+global type f_nombre_ean13 from function_object
+end type
+
+forward prototypes
+global function string f_nombre_ean13 (string arg_empresa, string arg_articulo, string arg_cliente, integer arg_orden)
+end prototypes
+
+global function string f_nombre_ean13 (string arg_empresa, string arg_articulo, string arg_cliente, integer arg_orden);string	ean13
+
+SELECT ean13 INTO :ean13
+FROM   almean13
+WHERE empresa  = :arg_empresa
+AND   articulo = :arg_articulo
+AND   cliente  = :arg_cliente
+AND   orden    = :arg_orden;
+
+RETURN ean13
+end function
+

@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_codigo_aplicacion_new.srf
+global type f_codigo_aplicacion_new from function_object
+end type
+
+forward prototypes
+global subroutine f_codigo_aplicacion_new (string as_empresa, string as_programa, ref string as_codigo, ref string as_descripcion)
+end prototypes
+
+global subroutine f_codigo_aplicacion_new (string as_empresa, string as_programa, ref string as_codigo, ref string as_descripcion);int  v_codigo
+string v_valor
+
+Int			li_codigo
+String	ls_descripcion
+
+Select codigo, descripcion
+Into   :li_codigo, :ls_descripcion
+From   grupo_aplicacion
+where  empresa = :as_empresa
+and    ventana  = :as_programa;
+
+if isnull(li_codigo) then li_codigo = 0
+if isnull(ls_descripcion) then ls_descripcion = ""
+
+as_codigo = String ( li_codigo )
+as_descripcion = ls_descripcion
+
+
+
+
+
+end subroutine
+

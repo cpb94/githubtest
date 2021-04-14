@@ -1,0 +1,16 @@
+﻿$PBExportHeader$rep_con_proov2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=441 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=97 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="empresa" )
+ column=(type=number updatewhereclause=yes name=codigo_int dbname="codigo_int" )
+ column=(type=char(40) updatewhereclause=yes name=razon dbname="razon" )
+ )
+text(band=header alignment="1" text="Codigo Int:"border="0" color="0" x="165" y="376" height="65" width="307"  name=codigo_int_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="165" y="4" height="77" width="311" format="[general]"  name=codigo_int edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Razon:"border="0" color="0" x="522" y="372" height="65" width="2021"  name=razon_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="526" y="4" height="77" width="2012" format="[general]"  name=razon edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=header dataobject="report_cabecera" x="147" y="104" height="229" width="3333" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )

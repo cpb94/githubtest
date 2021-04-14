@@ -1,0 +1,180 @@
+﻿$PBExportHeader$f_leer_respuesta_sii.srf
+global type f_leer_respuesta_sii from function_object
+end type
+
+forward prototypes
+global function string f_leer_respuesta_sii (string arg_fichero_envio, string arg_fichero_respuesta, string arg_tipoter)
+end prototypes
+
+global function string f_leer_respuesta_sii (string arg_fichero_envio, string arg_fichero_respuesta, string arg_tipoter);datetime ldt_fecha_envio
+Integer li_indice_nodo,li_indice_elementos_nodo,ll_indice_idfactura,ll_indice_idemisorfactura,ll_indice_idotro
+String  ls_valor,ls_faultcode,ls_faultstring
+boolean lb_error_de_cabecera = false
+string  ls_nif_empresa,ls_nif_emisor,ls_numseriefacturaemisor,ls_fechaexpedicionfacturaemisor,ls_estadoregistro,ls_CodigoErrorRegistro,ls_DescripcionErrorRegistro
+long    ll_donde		
+string  ls_sel_respuesta
+datastore ds_fichero_respuesta
+		
+ls_nif_empresa  = f_cif_empresa(codigo_empresa)
+ldt_fecha_envio = datetime(today(),now())
+
+ls_sel_respuesta = 'Select space(9) as nif_empresa,'+&
+						 '       0        as ejercicio,'+&
+						 '       space(15) as factura,'+&
+						 '       space(1) as tipoter,'+&
+						 '       space(20) as nif_o_codigo_tercero,'+&
+						 '       getdate() as fecha_envio,'+&
+						 '       space(255) as fichero_envio,'+&
+						 '       space(500) as resultado '+&
+						 'from   empresas where 0 = 1'		
+
+f_cargar_cursor_transaccion(sqlca,ds_fichero_respuesta,ls_sel_respuesta)
+
+pbdom_builder  pbdom_lector
+pbdom_document pbdom_documento_respuesta
+pbdom_document pbdom_documento_envio
+ 
+pbdom_lector = Create pbdom_builder
+
+pbdom_documento_respuesta = pbdom_lector.BuildFromFile (arg_fichero_respuesta) // Convierte un fichero xml a documento PBDOM_DOCUMENT
+ 
+DESTROY pbdom_lector
+ 
+//Declaramos los elementos
+pbdom_element pbdom_nodos_respuesta[], pbdom_elementos_nodo_respuesta[]//,pbdom_element_vacio[]
+pbdom_element pbdom_nodos_envio[], pbdom_elementos_nodo_envio[]		 
+pbdom_element pbdom_idfactura[],pbdom_idemisorfactura[],pbdom_idotro[]
+
+// Ubicamos el nodo raiz (env:Fault)
+pbdom_documento_respuesta.getElementsByTagname ("env:Fault", pbdom_nodos_respuesta)
+ 
+if UpperBound (pbdom_nodos_respuesta) > 0 then
+	lb_error_de_cabecera = true
+	// Obtenemos un array de todos los Elementos del nodo raiz (env:Fault)
+	pbdom_nodos_respuesta[1].getchildelements (pbdom_elementos_nodo_respuesta)
+	 
+	//Recorremos cada elemento del arreglo para extraer el elemento deseado
+	for li_indice_nodo = 1 to UpperBound (pbdom_elementos_nodo_respuesta)
+		if pbdom_elementos_nodo_respuesta[li_indice_nodo].getname( ) = "faultcode" then
+			ls_faultcode = pbdom_elementos_nodo_respuesta[li_indice_nodo].GetText( )		
+			
+			choose case ls_faultcode
+				case "env:Client"
+					//Error por nuestra culpa
+					for li_indice_elementos_nodo = li_indice_nodo+1 to UpperBound (pbdom_elementos_nodo_respuesta)
+						if pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getname( ) = "faultstring" then
+							ls_faultstring = pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].GetText( )	
+						end if
+					next
+				case else
+					//Error por culpa del servicio
+					ls_faultstring = "Reenviar mensaje"
+			end choose
+		end if			 
+	next
+	arg_fichero_respuesta = ""
+	messagebox("Error en el envio",ls_faultcode+"~n"+ls_faultstring)
+else
+	//Buscamos el resultado de cada nodo RespuestaLinea
+	
+	// Ubicamos el nodo raiz (siiR:RespuestaLinea)
+	//pbdom_nodos_respuesta = pbdom_element_vacio//Inicializamos el array
+	
+	pbdom_documento_respuesta.getElementsByTagname ("siiR:RespuestaLinea", pbdom_nodos_respuesta)			 
+	
+	if UpperBound (pbdom_nodos_respuesta) > 0 then		
+		// Obtenemos un array de todos los Elementos del nodo raiz (siiR:RespuestaLinea)
+		for li_indice_nodo = 1 to UpperBound (pbdom_nodos_respuesta)
+			//pbdom_elementos_nodo_respuesta = pbdom_element_vacio//Inicializamos el array
+			
+			pbdom_nodos_respuesta[li_indice_nodo].getchildelements (pbdom_elementos_nodo_respuesta)
+			ls_nif_emisor            = ""
+			ls_numseriefacturaemisor = ""
+			ls_estadoregistro        = ""
+			ls_CodigoErrorRegistro   = ""
+			ls_DescripcionErrorRegistro = ""
+			//Recorremos cada elemento del arreglo para extraer el elemento deseado
+			for li_indice_elementos_nodo = 1 to UpperBound (pbdom_elementos_nodo_respuesta)
+				//Vamos a cargar los elementos que vamos encontrando
+				if pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getname( ) = "IDFactura" then
+					//Desglosar nivel IDFactura
+					pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getchildelements (pbdom_idfactura)
+					
+					for ll_indice_idfactura = 1 to UpperBound (pbdom_idfactura)
+						if pbdom_idfactura[ll_indice_idfactura].getname( ) = "IDEmisorFactura" then
+							pbdom_idfactura[ll_indice_idfactura].getchildelements (pbdom_idemisorfactura)
+							
+							for ll_indice_idemisorfactura = 1 to UpperBound (pbdom_idemisorfactura)
+								if pbdom_idemisorfactura[ll_indice_idemisorfactura].getname( ) = "NIF" then
+									ls_nif_emisor = pbdom_idemisorfactura[ll_indice_idemisorfactura].GetText( )	
+								else
+									if pbdom_idemisorfactura[ll_indice_idemisorfactura].getname( ) = "IDOtro" then
+										pbdom_idemisorfactura[ll_indice_idemisorfactura].getchildelements (pbdom_idotro)
+										
+										for ll_indice_idotro = 1 to UpperBound (pbdom_idotro)
+											if pbdom_idotro[ll_indice_idotro].getname( ) = "ID" then
+												ls_nif_emisor = pbdom_idotro[ll_indice_idotro].GetText( )
+											end if
+										next
+									end if
+								end if
+							next
+						else
+							if pbdom_idfactura[ll_indice_idfactura].getname( ) = "NumSerieFacturaEmisor" then
+								ls_numseriefacturaemisor = pbdom_idfactura[ll_indice_idfactura].GetText( )
+							else
+								if pbdom_idfactura[ll_indice_idfactura].getname( ) = "FechaExpedicionFacturaEmisor" then
+									ls_fechaexpedicionfacturaemisor = pbdom_idfactura[ll_indice_idfactura].GetText( )		
+								end if
+							end if
+						end if
+					next
+					
+				else
+					if pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getname( ) = "EstadoRegistro" then
+						ls_estadoregistro = pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].GetText( )	
+					end if		
+					if ls_estadoregistro = "Incorrecto" then
+						if pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getname( ) = "CodigoErrorRegistro" then
+							ls_CodigoErrorRegistro = pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].GetText( )	
+							ls_CodigoErrorRegistro = " "+ls_CodigoErrorRegistro
+						end if		
+						if pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].getname( ) = "DescripcionErrorRegistro" then
+							ls_DescripcionErrorRegistro = pbdom_elementos_nodo_respuesta[li_indice_elementos_nodo].GetText( )	
+							ls_DescripcionErrorRegistro = " "+ls_DescripcionErrorRegistro
+						end if	
+					else
+						ls_CodigoErrorRegistro = ""
+						ls_DescripcionErrorRegistro = ""
+					end if
+				end if			 
+				
+			next		
+			
+			//Insertamos en el fichero de respuesta
+			ll_donde = ds_fichero_respuesta.insertrow(0)
+			
+			ds_fichero_respuesta.object.nif_empresa[ll_donde]          = ls_nif_empresa
+			ds_fichero_respuesta.object.ejercicio[ll_donde]            = year(date(ls_fechaexpedicionfacturaemisor))	
+			ds_fichero_respuesta.object.factura[ll_donde]              = ls_numseriefacturaemisor	
+			ds_fichero_respuesta.object.tipoter[ll_donde]              = arg_tipoter	
+			ds_fichero_respuesta.object.nif_o_codigo_tercero[ll_donde] = ls_nif_emisor
+			ds_fichero_respuesta.object.fecha_envio[ll_donde]          = ldt_fecha_envio	
+			ds_fichero_respuesta.object.fichero_envio[ll_donde]        = arg_fichero_envio	
+			ds_fichero_respuesta.object.resultado[ll_donde]            = ls_estadoregistro+ls_CodigoErrorRegistro+ls_DescripcionErrorRegistro
+			
+		next				
+		
+		arg_fichero_respuesta = left(arg_fichero_respuesta,len(arg_fichero_respuesta)-4)+".txt"
+		if ds_fichero_respuesta.saveas(arg_fichero_respuesta,text!,false) = -1 then 
+			messagebox("ERROR","AL GRABAR EL FICHERO")
+			arg_fichero_respuesta = ""
+		end if			
+		destroy ds_fichero_respuesta
+	end if
+	
+end if
+
+return arg_fichero_respuesta
+end function
+

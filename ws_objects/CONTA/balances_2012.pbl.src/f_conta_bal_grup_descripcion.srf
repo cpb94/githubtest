@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_conta_bal_grup_descripcion.srf
+global type f_conta_bal_grup_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_conta_bal_grup_descripcion (string empresa, string arg_balance, string codigo)
+end prototypes
+
+global function string f_conta_bal_grup_descripcion (string empresa, string arg_balance, string codigo);string	ls_titulo
+
+
+  SELECT isnull(conta_bal_grup.descripcion,'')
+    INTO :ls_titulo
+    FROM conta_bal_grup 
+   WHERE   (conta_bal_grup.empresa = :empresa )
+	and     (conta_bal_grup.conta_bal_cab_codigo = :arg_balance)
+   AND     (conta_bal_grup.codigo = :codigo)
+    USING SQLCA;
+
+RETURN ls_titulo
+end function
+

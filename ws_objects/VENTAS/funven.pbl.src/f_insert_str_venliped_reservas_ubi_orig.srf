@@ -1,0 +1,62 @@
+﻿$PBExportHeader$f_insert_str_venliped_reservas_ubi_orig.srf
+global type f_insert_str_venliped_reservas_ubi_orig from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_venliped_reservas_ubi_orig (ref str_venliped_reservas_ubi_orig str_venliped_reservas_ubi_orig)
+end prototypes
+
+global function boolean f_insert_str_venliped_reservas_ubi_orig (ref str_venliped_reservas_ubi_orig str_venliped_reservas_ubi_orig);boolean lb_correcto = true
+integer li_existe
+
+
+SELECT isnull(count(*),0)
+INTO   :li_existe
+FROM   venliped_reservas_ubi_orig
+WHERE  venliped_reservas_ubi_orig.empresa              = :str_venliped_reservas_ubi_orig.empresa
+AND    venliped_reservas_ubi_orig.anyo                 = :str_venliped_reservas_ubi_orig.anyo
+AND    venliped_reservas_ubi_orig.pedido               = :str_venliped_reservas_ubi_orig.pedido
+AND    venliped_reservas_ubi_orig.linea                = :str_venliped_reservas_ubi_orig.linea
+AND    venliped_reservas_ubi_orig.alm_bultos_lineas_id = :str_venliped_reservas_ubi_orig.alm_bultos_lineas_id;
+
+if li_existe = 0 then
+	INSERT INTO venliped_reservas_ubi_orig
+		  ( venliped_reservas_ubi_orig.empresa,
+			 venliped_reservas_ubi_orig.anyo,
+			 venliped_reservas_ubi_orig.pedido,
+			 venliped_reservas_ubi_orig.linea,
+			 venliped_reservas_ubi_orig.alm_bultos_lineas_id,
+			 venliped_reservas_ubi_orig.cantidad,
+			 venliped_reservas_ubi_orig.id_ubicacion_original,
+			 venliped_reservas_ubi_orig.alm_bultos_id,
+			 venliped_reservas_ubi_orig.id_ubicacion_destino ) 
+	VALUES
+		  ( :str_venliped_reservas_ubi_orig.empresa,
+			 :str_venliped_reservas_ubi_orig.anyo,
+			 :str_venliped_reservas_ubi_orig.pedido,
+			 :str_venliped_reservas_ubi_orig.linea,
+			 :str_venliped_reservas_ubi_orig.alm_bultos_lineas_id,
+			 :str_venliped_reservas_ubi_orig.cantidad,
+			 :str_venliped_reservas_ubi_orig.id_ubicacion_original,
+			 :str_venliped_reservas_ubi_orig.alm_bultos_id,
+			 :str_venliped_reservas_ubi_orig.id_ubicacion_destino );
+
+else
+	
+	UPDATE venliped_reservas_ubi_orig
+	SET    venliped_reservas_ubi_orig.id_ubicacion_destino = :str_venliped_reservas_ubi_orig.id_ubicacion_destino
+	WHERE  venliped_reservas_ubi_orig.empresa              = :str_venliped_reservas_ubi_orig.empresa
+	AND    venliped_reservas_ubi_orig.anyo                 = :str_venliped_reservas_ubi_orig.anyo
+	AND    venliped_reservas_ubi_orig.pedido               = :str_venliped_reservas_ubi_orig.pedido
+	AND    venliped_reservas_ubi_orig.linea                = :str_venliped_reservas_ubi_orig.linea
+	AND    venliped_reservas_ubi_orig.alm_bultos_lineas_id = :str_venliped_reservas_ubi_orig.alm_bultos_lineas_id;
+ 	
+end if
+
+if sqlca.sqlcode <> 0 then
+	messagebox("¡Error!",sqlca.sqlerrtext)
+	lb_correcto = false
+end if
+return lb_correcto
+end function
+

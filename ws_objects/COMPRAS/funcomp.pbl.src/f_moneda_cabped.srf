@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_moneda_cabped.srf
+global type f_moneda_cabped from function_object
+end type
+
+forward prototypes
+global function string f_moneda_cabped (string empresa, string anyo, string pedido)
+end prototypes
+
+global function string f_moneda_cabped (string empresa, string anyo, string pedido);string moneda
+
+SELECT comcabpedpro.moneda
+INTO   :moneda  
+FROM   comcabpedpro  
+WHERE  ( comcabpedpro.empresa = :empresa ) AND  
+	    ( comcabpedpro.anyo = :anyo ) AND  
+	    ( comcabpedpro.pedido = :pedido );
+			
+return moneda
+end function
+

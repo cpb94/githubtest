@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_programa_contarecur.srf
+global type f_programa_contarecur from function_object
+end type
+
+forward prototypes
+global function string f_programa_contarecur (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_programa_contarecur (integer ejercicio, string empresa, string codigo);String var
+
+
+  SELECT contarecur.programa INTO :var  FROM  contarecur
+  WHERE contarecur.ejercicio = :ejercicio
+  AND   contarecur.empresa   = :empresa 
+  AND   contarecur.codigo    = :codigo;
+Return var
+end function
+

@@ -1,0 +1,96 @@
+﻿$PBExportHeader$f_asignacion_costes_asiento.srf
+global type f_asignacion_costes_asiento from function_object
+end type
+
+forward prototypes
+global function boolean f_asignacion_costes_asiento (decimal ejercicio, string empresa, decimal mes, string origen, decimal asiento)
+end prototypes
+
+global function boolean f_asignacion_costes_asiento (decimal ejercicio, string empresa, decimal mes, string origen, decimal asiento);
+  
+  //---------------------------//
+ //--Asignacion de costes-----//
+//---------------------------//
+
+
+DataStore f
+str_contaapun con
+Dec tot,t
+String sel,ana
+con.empresa   = empresa
+con.ejercicio = ejercicio
+con.origen    = origen
+con.mes       = mes
+con.asiento   = asiento
+Delete from costesapu
+Where costesapu.ejercicio = :con.ejercicio
+And   costesapu.empresa   = :con.empresa
+And   costesapu.origen    = :con.origen
+And   costesapu.mes       = :con.mes
+And   costesapu.asiento   = :con.asiento
+and   costesapu.apunte Not In( Select apunte from contaapun 
+										 Where  contaapun.ejercicio = :con.ejercicio
+										 And    contaapun.empresa   = :con.empresa
+										 And    contaapun.origen    = :con.origen
+										 And    contaapun.mes       = :con.mes
+										 And    contaapun.asiento   = :con.asiento
+										 And    contaapun.cuenta    In (Select   contaplan.cuenta  From contaplan
+										 										   Where   contaplan.ejercicio = :con.ejercicio
+																					And     contaplan.empresa   = :con.empresa
+																					And     contaplan.analitica = 'S'));
+COMMIT;										 
+
+sel = " Select * from contaapun " +&
+		" Where empresa   = '" + empresa   + "'"+&
+		" and   ejercicio =  " + String(ejercicio,"####") +    +&
+		" and   mes       =  " + String(mes,"##")       +    +&
+		" and   origen    = '" + origen    +"'"    +&
+		" and   asiento   =  " + String(asiento,"########") +&
+		"Order By ejercicio,empresa,asiento,apunte"
+//f = f_cargar_cursor(sel)	
+f_cargar_cursor_nuevo(sel, f)
+tot = f.Rowcount()	
+For t = 1 To tot
+	con.fapunte     = f.object.fapunte[t]
+	con.apunte     = f.object.apunte[t]
+	con.cuenta     = f.object.cuenta[t]
+	con.concepto   = f.object.concepto[t]
+	con.debe       = f.object.debe[t]
+	con.haber      = f.object.haber[t]
+	con.ampliacion = f.object.ampliacion[t]
+	SELECT contaplan.analitica INTO :ana FROM contaplan  
+   WHERE contaplan.ejercicio = :con.ejercicio
+	AND   contaplan.empresa   = :con.empresa
+	AND   contaplan.cuenta    = :con.cuenta ;
+	IF ana <> 'S'  OR  IsNull(ana) = TRUE Then	Continue 
+//	IF Trim(ampliacion) = "" THEN
+//		ampliacion  = "Fra.: " + em_fra.text + " " + Trim(uo_proveedor.em_campo.text)
+//	END IF
+	
+	str_parametros lstr_param
+	
+	lstr_param.s_argumentos[1] = String(con.mes)
+	lstr_param.s_argumentos[2] = con.origen
+	lstr_param.s_argumentos[3] = String(con.asiento)
+	lstr_param.s_argumentos[4] = con.cuenta
+	lstr_param.s_argumentos[5] = String(con.debe)
+	lstr_param.s_argumentos[6] = string(con.apunte)
+	lstr_param.s_argumentos[7] = con.concepto
+	lstr_param.s_argumentos[8] = con.ampliacion
+	lstr_param.s_argumentos[9]  = String(con.fapunte,"dd-mm-yyyy")
+	lstr_param.s_argumentos[10] = String(con.haber)
+	lstr_param.s_argumentos[11] = String(con.ejercicio,"####")
+	
+	String vale_st
+	OpenWithParm(w_costes,lstr_param)
+	vale_st = Message.StringParm
+	IF vale_st = "0" THEN
+		destroy f;
+		Return FALSE
+	END IF
+Next
+destroy f;
+Return True
+
+end function
+

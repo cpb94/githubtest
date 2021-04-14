@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_cargar_cursor_trans.srf
+global type f_cargar_cursor_trans from function_object
+end type
+
+forward prototypes
+global subroutine f_cargar_cursor_trans (ref transaction transaccion, string compuesto, ref datastore datos)
+end prototypes
+
+global subroutine f_cargar_cursor_trans (ref transaction transaccion, string compuesto, ref datastore datos);
+STring  sys,errores
+Datos  = CREATE u_datastore
+
+sys = transaccion.SyntaxFromSQL(compuesto ,"",errores)
+//COMMIT using trans_cursor;
+IF Len(errores) > 0 Then
+	f_mensaje("Error  al generar SYS",errores+" "+compuesto)
+END IF
+datos.Create(sys,errores)
+IF Len(errores) > 0 Then
+	f_mensaje("Error  al CREAR DATAWINDOW ",errores+" "+sys)
+END IF
+datos.SetTransObject(transaccion)
+datos.Retrieve() 
+
+
+
+
+
+end subroutine
+

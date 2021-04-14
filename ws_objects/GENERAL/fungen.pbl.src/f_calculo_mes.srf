@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_calculo_mes.srf
+global type f_calculo_mes from function_object
+end type
+
+forward prototypes
+global function long f_calculo_mes (integer arg_mes, integer arg_suma)
+end prototypes
+
+global function long f_calculo_mes (integer arg_mes, integer arg_suma);string  var_mes
+long    calculo_mes
+
+calculo_mes = 12 - arg_mes + arg_suma + 1
+if calculo_mes >= 13 then
+	calculo_mes = calculo_mes - 12
+end if
+
+return calculo_mes
+end function
+

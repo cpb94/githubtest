@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_tipodoc_carpagosparam.srf
+global type f_tipodoc_carpagosparam from function_object
+end type
+
+forward prototypes
+global function string f_tipodoc_carpagosparam (string empresa)
+end prototypes
+
+global function string f_tipodoc_carpagosparam (string empresa);STring    var
+  SELECT carpagosparam.tipodoc  
+    INTO :var  
+    FROM carpagosparam  
+   WHERE carpagosparam.empresa = :empresa   ;
+	
+Return var
+
+end function
+

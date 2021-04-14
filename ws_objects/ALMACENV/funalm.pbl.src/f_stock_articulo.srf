@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_stock_articulo.srf
+global type f_stock_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_stock_articulo (string arg_empresa, string arg_articulo)
+end prototypes
+
+global function decimal f_stock_articulo (string arg_empresa, string arg_articulo);Dec{2} var_stock
+var_stock = 0
+
+SELECT  sum(cantidad)  
+INTO    :var_stock  
+FROM    vista_almacen  
+WHERE  (empresa     = :arg_empresa )
+AND    (articulo    = :arg_articulo);
+
+IF IsNull(var_stock) Then var_stock = 0
+
+Return  var_stock
+
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_poblacion.srf
+global type f_nombre_poblacion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_poblacion (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_nombre_poblacion (string ai_empresa, string as_tipoter, string as_codcli);string	ls_nombre
+
+  SELECT genter.localidad
+    INTO :ls_nombre
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+    USING SQLCA;
+If IsNull(ls_nombre) Then ls_nombre = ""
+RETURN ls_nombre
+
+end function
+

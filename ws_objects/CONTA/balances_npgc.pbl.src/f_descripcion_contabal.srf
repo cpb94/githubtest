@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_descripcion_contabal.srf
+global type f_descripcion_contabal from function_object
+end type
+
+forward prototypes
+global function string f_descripcion_contabal (string emp, string codbal)
+end prototypes
+
+global function string f_descripcion_contabal (string emp, string codbal);string retorno
+
+  SELECT contabal.descripcion INTO :retorno  FROM contabal  
+   WHERE ( contabal.empresa = :emp ) AND  
+			( contabal.balance = :codbal );
+         
+if isnull(retorno) then retorno=""
+
+return retorno
+end function
+

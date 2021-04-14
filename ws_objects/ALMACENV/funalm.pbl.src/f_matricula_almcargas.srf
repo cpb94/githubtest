@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_matricula_almcargas.srf
+global type f_matricula_almcargas from function_object
+end type
+
+forward prototypes
+global function string f_matricula_almcargas (string empresa, integer anyo, decimal orden)
+end prototypes
+
+global function string f_matricula_almcargas (string empresa, integer anyo, decimal orden);string parametro
+  
+SELECT almcargas.matricula  
+INTO   :parametro  
+FROM   almcargas  
+WHERE ( almcargas.empresa = :empresa ) AND  
+	   ( almcargas.anyo    = :anyo ) AND  
+	   ( almcargas.orden   = :orden );
+			
+REturn parametro
+
+end function
+

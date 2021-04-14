@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_promo_stock.srf
+global type f_promo_stock from function_object
+end type
+
+forward prototypes
+global function integer f_promo_stock (string tipo, string articulo)
+end prototypes
+
+global function integer f_promo_stock (string tipo, string articulo);dec{0} var_stock
+
+select stock
+into   :var_stock
+from   promstock
+where  tipo = :tipo and
+		 articulo = :articulo;
+		 
+if isnull(var_stock) then var_stock = 0
+
+return var_stock
+end function
+

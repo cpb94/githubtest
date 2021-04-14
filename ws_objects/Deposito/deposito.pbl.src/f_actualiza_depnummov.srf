@@ -1,0 +1,50 @@
+﻿$PBExportHeader$f_actualiza_depnummov.srf
+global type f_actualiza_depnummov from function_object
+end type
+
+forward prototypes
+global function boolean f_actualiza_depnummov (string v_empresa, integer v_anyo, decimal v_nummov)
+end prototypes
+
+global function boolean f_actualiza_depnummov (string v_empresa, integer v_anyo, decimal v_nummov);Integer cur_anyo,bien
+String  cur_empresa,cur_almacen
+ 
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+   in_programa="f_actualiza_nummov"
+
+ SELECT  depparam.empresa,depparam.anyo
+    INTO :cur_empresa,:cur_anyo
+    FROM depparam  
+   WHERE depparam.empresa = :v_empresa 
+	AND   depparam.anyo    = :v_anyo;
+
+
+IF SQLCA.SQLCode=100 THEN
+  INSERT INTO depparam  
+         ( empresa,anyo,nummov )  
+  VALUES ( :v_empresa,:v_anyo,:v_nummov )  USING SQLCA  ;
+  IF SQLCA.SQLCode<>0 THEN
+    in_incidencia = "Error al grabar em depparam"
+    f_grabar_incidencia(in_programa,in_incidencia)
+    bien=1
+  END IF
+ELSE
+   UPDATE depparam  
+     SET  nummov = :v_nummov  
+   WHERE (depparam.empresa = :v_empresa ) AND  
+         (depparam.anyo    = :v_anyo ) ;
+
+   IF SQLCA.SQLCode<>0 THEN
+     in_incidencia = "Error al modificar em depparam"
+     f_grabar_incidencia(in_programa,in_incidencia)
+     bien=1
+   END IF
+END IF
+IF bien=0 THEN
+  RETURN TRUE
+ELSE
+  RETURN FALSE
+END IF
+end function
+

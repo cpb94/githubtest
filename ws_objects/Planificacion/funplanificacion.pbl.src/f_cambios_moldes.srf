@@ -1,0 +1,257 @@
+﻿$PBExportHeader$f_cambios_moldes.srf
+global type f_cambios_moldes from function_object
+end type
+
+forward prototypes
+global subroutine f_cambios_moldes (string empresa)
+end prototypes
+
+global subroutine f_cambios_moldes (string empresa);
+//DEFINICIÓN DE VARIABLES
+
+string select_moldes, select_lineas, codigo_molde_aux, molde, molde_aux, linea, linea_aux, linea_descripcion, codigo_molde, evento, reset, articulo
+
+integer hora, dia, mes, anyo, cambios, i, lineas, total_lineas_lineas, total_lineas_moldes
+
+datetime fecha, fecha_aux, fecha_max, fecha_min
+
+boolean fallo
+
+datastore reg_moldes, reg_lineas
+
+long id_cambios_molde, cantidad_metros
+
+
+
+//PROGRAMA
+
+delete from cambios_molde using sqlca; //BORRO LOS REGISTROS DE LA TABLA PRINCIPAL
+
+delete from cambios_molde_sin_solapar using sqlca; //BORRO LOS REGISTROS DE LA TABLA DE APOYO
+
+reset = "DBCC CHECKIDENT (cambios_molde,RESEED,0)"
+
+execute immediate :reset using SQLCA; //RESET DE LAS ID's AUTOINCREMENTATIVAS
+
+select_lineas = "SELECT codigo "+&
+					"FROM prodlineas "+&
+					"WHERE seccion = '2'"
+
+f_cargar_cursor_trans(SQLCA, select_lineas, reg_lineas)
+
+total_lineas_lineas = reg_lineas.rowcount()
+
+fallo = false
+
+if total_lineas_lineas > 0 then
+	
+	select max(planificacion.fecha_fin), min(planificacion.fecha_fin)
+	into :fecha_max, :fecha_min
+	from planificacion
+	INNER JOIN prodlineas ON planificacion.empresa = prodlineas.empresa AND planificacion.lineaprod = prodlineas.codigo  
+	where planificacion.empresa = :codigo_empresa
+	and prodlineas.seccion = '2';
+	
+	fecha_min = datetime ( date(fecha_min) , time("00:00:00"))
+	fecha_max = datetime ( date(fecha_max) , time("00:00:00"))
+
+	do while fecha_min <= fecha_max		
+		
+		for hora = 0 to 23
+			anyo = year (date(fecha_min))
+			mes = month (date(fecha_min))
+			dia = day (date(fecha_min))
+					
+			fecha = datetime(date(fecha_min),time(string(hora)))
+			insert into cambios_molde (empresa, fecha, dayName, anyo, mes, monthName, dia, hora,cambios)
+			values (:codigo_empresa, :fecha, 
+				CASE
+					WHEN DATEPART(dw,:fecha_min) = 1
+					then 'Lunes'
+					WHEN DATEPART(dw,:fecha_min) = 2
+					then 'Martes'
+					when DATEPART(dw,:fecha_min) = 3
+					then 'Miércoles'
+					WHEN DATEPART(dw,:fecha_min) = 4
+					then 'Jueves'
+					WHEN DATEPART(dw,:fecha_min) = 5
+					then 'Viernes'
+					WHEN DATEPART(dw,:fecha_min) = 6
+					then 'Sábado'
+					WHEN DATEPART(dw,:fecha_min) = 7
+					then 'Domingo'
+				END
+				,:anyo, :mes,
+				
+				CASE
+					WHEN DATEPART(mm,:fecha_min) = 1
+					then 'Enero'
+					WHEN DATEPART(mm,:fecha_min) = 2
+					then 'Febrero'
+					when DATEPART(mm,:fecha_min) = 3
+					then 'Marzo'
+					WHEN DATEPART(mm,:fecha_min) = 4
+					then 'Abril'
+					WHEN DATEPART(mm,:fecha_min) = 5
+					then 'Mayo'
+					WHEN DATEPART(mm,:fecha_min) = 6
+					then 'Junio'
+					WHEN DATEPART(mm,:fecha_min) = 7
+					then 'Julio'
+					WHEN DATEPART(mm,:fecha_min) = 8
+					then 'Agosto'
+					WHEN DATEPART(mm,:fecha_min) = 9
+					then 'Septiembre'
+					WHEN DATEPART(mm,:fecha_min) = 10
+					then 'Octubre'
+					WHEN DATEPART(mm,:fecha_min) = 11
+					then 'Noviembre'
+					WHEN DATEPART(mm,:fecha_min) = 12
+					then 'Diciembre'
+				END
+				,:dia,:hora,0);
+				
+				if SQLCA.SQLCode <> 0 then
+					fallo = true
+				end if
+		next
+		fecha_min = Datetime ( RelativeDate(Date(fecha_min), 1), time("00:00:00"))
+	loop
+
+	if not fallo then
+		
+		select_moldes = "SELECT prodlineas.descripcion "+&
+				" ,prodlineas.codigo " +&
+				" ,prodlineas.descripcion "+&
+				" ,planificacion.fecha_fin "+&
+				" ,prodmoldes.codigo "+&
+				" ,prodmoldes.descripcion "+&
+				" ,planificacion.cod_articulo "+&
+				" ,(planificacion.cantidad * formatos.ancho * formatos.largo) / 10000 as cantidad_metros "+&
+				" FROM planificacion "+&
+				" INNER JOIN articulos ON articulos.empresa = planificacion.empresa AND articulos.codigo = planificacion.cod_articulo "+&
+				" INNER JOIN formatos ON articulos.empresa = formatos.empresa AND articulos.formato = formatos.codigo "+&
+				" INNER JOIN prodlineas ON articulos.empresa = prodlineas.empresa AND planificacion.lineaprod = prodlineas.codigo  "+&
+				" INNER JOIN prodmoldes ON articulos.empresa = prodmoldes.empresa AND articulos.molde = prodmoldes.codigo "+&
+				" WHERE planificacion.empresa = '" + codigo_empresa + "' "+&
+				" AND planificacion.fecha_fin is not null		 				"+&
+				" AND articulos.molde is not null		 						"+&
+				" AND prodlineas.seccion = '2' 									"+&
+				" AND planificacion.ajuste <> 'S' 									"+&
+				" ORDER BY planificacion.lineaprod,planificacion.fecha_fin"
+	
+		f_cargar_cursor_trans(SQLCA, select_moldes, reg_moldes)
+		
+		total_lineas_moldes = reg_moldes.rowcount()
+		
+		if total_lineas_moldes > 0 then
+		
+			//COJO EL PRIMER REGISTRO DE LA BASE DE DATOS PARA HACER LA COMPARACIÓN DE MOLDES
+			
+			codigo_molde_aux = reg_moldes.object.prodmoldes_codigo[1]
+			molde_aux = reg_moldes.object.prodmoldes_descripcion[1]
+			fecha_aux = reg_moldes.object.planificacion_fecha_fin[1]
+			linea_aux = reg_moldes.object.prodlineas_codigo[1]
+			cantidad_metros = reg_moldes.object.cantidad_metros[1]
+			
+			for i = 1 to total_lineas_moldes
+				
+				linea = reg_moldes.object.prodlineas_codigo[i]
+				
+				if linea <> linea_aux then
+					
+					codigo_molde_aux = reg_moldes.object.prodmoldes_codigo[i]
+					molde_aux = reg_moldes.object.prodmoldes_descripcion[i]
+					fecha_aux = reg_moldes.object.planificacion_fecha_fin[i]
+					linea_aux = linea
+					cantidad_metros = reg_moldes.object.cantidad_metros[i]
+					
+				else
+					
+					codigo_molde = reg_moldes.object.prodmoldes_codigo[i]
+					
+					molde = reg_moldes.object.prodmoldes_descripcion[i]
+					
+					linea_descripcion = reg_moldes.object.prodlineas_descripcion[i]
+					
+					articulo = reg_moldes.object.planificacion_cod_articulo[i]
+					
+					if codigo_molde <> codigo_molde_aux then
+						
+						dia = day(date(fecha_aux))
+						mes = month(date(fecha_aux))
+						anyo = year(date(fecha_aux))
+						hora = hour(time(fecha_aux))
+						
+						select isnull(evento,""), cambios, id
+						into :evento, :cambios, :id_cambios_molde
+						from cambios_molde
+						where hora = :hora
+						and dia = :dia
+						and mes = :mes
+						and anyo = :anyo
+						and empresa = :codigo_empresa;
+						
+						evento = evento + "L: " +linea_descripcion+ " "+"   MO:  "+molde_aux+" "+"   MD :  "+molde+"~r~n" 
+						cambios = cambios + 1
+						
+						update cambios_molde
+						set evento = :evento,
+						cambios = :cambios
+						where hora = :hora
+						and dia = :dia
+						and mes = :mes
+						and anyo = :anyo 
+						and empresa = :codigo_empresa
+						using SQLCA;
+						
+						if SQLCA.SQLCode <> 0 then
+							fallo = true
+						end if
+						
+						insert into cambios_molde_sin_solapar
+						values (:id_cambios_molde,:codigo_empresa,:linea,:codigo_molde_aux,:codigo_molde,:fecha_aux,:cantidad_metros)
+						using SQLCA;
+						
+						if SQLCA.SQLCode <> 0 then
+							fallo = true
+						end if
+						
+						cantidad_metros = reg_moldes.object.cantidad_metros[i]
+						
+						codigo_molde_aux = codigo_molde
+						
+						molde_aux = molde
+						
+					else		
+						
+						cantidad_metros = cantidad_metros + reg_moldes.object.cantidad_metros[i]
+										
+					end if
+					
+					fecha_aux = reg_moldes.object.planificacion_fecha_fin[i]
+					
+				end if
+					
+				f_mensaje_proceso("Calculando cambios de moldes :",i,total_lineas_moldes)
+				
+			next
+		end if	
+	end if
+end if
+	
+if fallo = true then
+	rollback using sqlca;
+	messagebox ("","Se ha producido un error en el proceso.")		
+	
+else
+	commit using sqlca;
+	messagebox ("","Éxito al hacer el calculo de los cambios de molde")		
+end if
+
+destroy reg_moldes
+destroy reg_lineas
+
+
+end subroutine
+

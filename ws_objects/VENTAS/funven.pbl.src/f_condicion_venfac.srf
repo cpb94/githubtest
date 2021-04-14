@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_condicion_venfac.srf
+global type f_condicion_venfac from function_object
+end type
+
+forward prototypes
+global function string f_condicion_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_condicion_venfac (string empresa, integer anyo, decimal factura);String var_condicion
+
+ SELECT venfac.condicion
+ INTO :var_condicion
+ FROM venfac  
+ WHERE  venfac.empresa = :empresa
+ AND    venfac.anyo    = :anyo
+ AND    venfac.factura = :factura;
+
+Return var_condicion
+end function
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_con_expositores_act_cliente.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\BMP\Mano.cur" )
+header(height=81 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=77 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="promlinalb.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_expositor dbname="promlinalb.tipo_expositor" )
+ column=(type=char(10) updatewhereclause=yes name=numserie dbname="promlinalb.numserie" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"promlinalb~" ) COLUMN(NAME=~"promlinalb.empresa~") COLUMN(NAME=~"promlinalb.tipo_expositor~") COLUMN(NAME=~"promlinalb.numserie~")WHERE(    EXP1 =~"promlinalb.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promlinalb.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promlinalb.tipo_cliente~"   OP =~"=~"    EXP2 =~":tipo_cli~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promlinalb.activo~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"promlinalb.tipo~"   OP =~"=~"    EXP2 =~"~~~"2~~~"~" )  GROUP(NAME=~"promlinalb.empresa~") GROUP(NAME=~"promlinalb.tipo_expositor~") GROUP(NAME=~"promlinalb.numserie~")) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"tipo_cli~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("tipo_cli", string),("cliente", string)) )
+text(band=header alignment="2" text="Nº Serie"border="6" color="0" x="10" y="12" height="61" width="243"  name=numserie_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Expositor"border="6" color="0" x="270" y="12" height="61" width="855"  name=expositor_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="65" width="234" format="[general]"  name=numserie edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" f_nombre_promexpositores(empresa,tipo_expositor) "border="0" color="0" x="270" y="4" height="65" width="851" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="RowCount()"border="0" color="0" x="878" y="4" height="65" width="225" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=footer alignment="0" text="Total Expositores"border="0" color="0" x="362" y="4" height="65" width="499"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )

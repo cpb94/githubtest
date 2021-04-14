@@ -1,0 +1,16 @@
+﻿$PBExportHeader$str_orden_carga_linea_origen.srs
+global type str_orden_carga_linea_origen from structure
+     STRING     empresa
+     INTEGER     anyo
+     STRING     codigo
+     INTEGER     linea
+     STRING     almacen
+     STRING     zona
+     INTEGER     fila
+     INTEGER     altura
+     DECIMAL {6}     cantidad
+     STRING     tono
+     INTEGER     calibre
+     STRING     calidad
+end type
+

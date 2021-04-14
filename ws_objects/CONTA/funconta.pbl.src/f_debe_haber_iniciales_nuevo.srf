@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_debe_haber_iniciales_nuevo.srf
+global type f_debe_haber_iniciales_nuevo from function_object
+end type
+
+forward prototypes
+global function any f_debe_haber_iniciales_nuevo (string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta)
+end prototypes
+
+global function any f_debe_haber_iniciales_nuevo (string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta);tipo_array debe_haber
+Dec{2} debe,haber,debe_aux,haber_aux,debe_aux2,haber_aux2
+Long anyo_i,anyo_f,anyo_ant
+
+debe       = 0
+haber      = 0
+debe_aux   = 0
+haber_aux  = 0
+
+anyo_i = Year(date(fecha_desde))
+anyo_f = Year(date(fecha_hasta))
+anyo_ant = anyo_i -1
+
+// Calculamos saldos iniciales origen = 101
+SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe,:haber 
+FROM  contaapun  
+WHERE contaapun.empresa   = :empresa
+AND   contaapun.origen    = 101
+AND   contaapun.ejercicio = :anyo_i
+AND   contaapun.cuenta    = :cuenta;
+
+if sqlca.sqlcode = -1 THEN f_mensaje("Error en d_debe_haber",sqlca.sqlerrtext)
+
+if isnull(debe) and isnull(haber) then
+	// Calculamos saldos iniciales del ejercicio anterior
+	// si todavia no se ha hecho el asiento de apertura
+	SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe,:haber 
+	FROM  contaapun  
+	WHERE contaapun.empresa   = :empresa
+	AND   contaapun.ejercicio = :anyo_ant
+	AND   contaapun.cuenta    = :cuenta;
+end if
+
+if isnull(debe) or isnull(haber) then
+	if isnull(debe) then debe   = 0
+	if isnull(haber) then haber = 0
+end if
+// Calculamos saldos iniciales al periodo de cálculo
+SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe_aux,:haber_aux
+FROM  contaapun  
+WHERE contaapun.empresa   = :empresa
+AND   contaapun.origen    <> 101
+AND   contaapun.ejercicio between :anyo_i and :anyo_f
+AND   contaapun.fapunte < :fecha_desde
+AND   contaapun.cuenta    = :cuenta;
+
+if isnull(debe_aux) or isnull(haber_aux) then
+	if isnull(debe_aux) then debe_aux   = 0
+	if isnull(haber_aux) then haber_aux = 0
+end if
+
+debe_aux2 = debe + debe_aux
+haber_aux2 = haber + haber_aux
+
+debe_haber.valor[1]=string(debe_aux2)
+debe_haber.valor[2]=string(haber_aux2)
+
+return debe_haber
+end function
+

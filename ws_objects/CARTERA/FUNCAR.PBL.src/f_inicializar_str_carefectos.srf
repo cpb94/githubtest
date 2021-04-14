@@ -1,0 +1,70 @@
+﻿$PBExportHeader$f_inicializar_str_carefectos.srf
+global type f_inicializar_str_carefectos from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_carefectos ( ref str_carefectos str_carefectos)
+end prototypes
+
+global function boolean f_inicializar_str_carefectos ( ref str_carefectos str_carefectos);boolean lb_correcto = true
+
+if isnull(str_carefectos.empresa) then str_carefectos.empresa = ''
+if isnull(str_carefectos.anyo) then str_carefectos.anyo = 0
+if isnull(str_carefectos.orden) then str_carefectos.orden = 0
+if isnull(str_carefectos.anyofra) then str_carefectos.anyofra = 0
+if isnull(str_carefectos.factura) then str_carefectos.factura = ''
+if isnull(str_carefectos.recibo) then str_carefectos.recibo = 0
+if isnull(str_carefectos.importe) then str_carefectos.importe = 0
+if isnull(str_carefectos.divisas) then str_carefectos.divisas = 0
+if isnull(str_carefectos.monedas) then str_carefectos.monedas = ''
+if isnull(str_carefectos.fpago) then str_carefectos.fpago = ''
+if isnull(str_carefectos.tipodoc) then str_carefectos.tipodoc = ''
+if isnull(str_carefectos.banco) then str_carefectos.banco = ''
+if isnull(str_carefectos.remesa) then str_carefectos.remesa = 0
+if isnull(str_carefectos.situacion) then str_carefectos.situacion = ''
+if isnull(str_carefectos.agente1) then str_carefectos.agente1 = ''
+if isnull(str_carefectos.pais) then str_carefectos.pais = ''
+if isnull(str_carefectos.cuenta) then str_carefectos.cuenta = ''
+if isnull(str_carefectos.domiciliacion) then str_carefectos.domiciliacion = ''
+if isnull(str_carefectos.Nacional) then str_carefectos.Nacional = ''
+if isnull(str_carefectos.observaciones) then str_carefectos.observaciones = ''
+if isnull(str_carefectos.libre) then str_carefectos.libre = ''
+if isnull(str_carefectos.gasto) then str_carefectos.gasto = ''
+if isnull(str_carefectos.agrupado) then str_carefectos.agrupado = ''
+if isnull(str_carefectos.efectoagrupa) then str_carefectos.efectoagrupa = 0
+if isnull(str_carefectos.anyoagrupa) then str_carefectos.anyoagrupa = 0
+if isnull(str_carefectos.cliente) then str_carefectos.cliente = ''
+if isnull(str_carefectos.anyo_remesa) then str_carefectos.anyo_remesa = 0
+if isnull(str_carefectos.comision11) then str_carefectos.comision11 = 0
+if isnull(str_carefectos.comision12) then str_carefectos.comision12 = 0
+if isnull(str_carefectos.agente2) then str_carefectos.agente2 = ''
+if isnull(str_carefectos.comision21) then str_carefectos.comision21 = 0
+if isnull(str_carefectos.comision22) then str_carefectos.comision22 = 0
+if isnull(str_carefectos.agente3) then str_carefectos.agente3 = ''
+if isnull(str_carefectos.comision31) then str_carefectos.comision31 = 0
+if isnull(str_carefectos.comision32) then str_carefectos.comision32 = 0
+if isnull(str_carefectos.cambio) then str_carefectos.cambio = 0
+if isnull(str_carefectos.serie) then str_carefectos.serie = ''
+if isnull(str_carefectos.remesa_total) then str_carefectos.remesa_total = ''
+if isnull(str_carefectos.tipo_remesa) then str_carefectos.tipo_remesa = ''
+if isnull(str_carefectos.veces) then str_carefectos.veces = 0
+if isnull(str_carefectos.nomcli) then str_carefectos.nomcli = ''
+if isnull(str_carefectos.domicli) then str_carefectos.domicli = ''
+if isnull(str_carefectos.poblacli) then str_carefectos.poblacli = ''
+if isnull(str_carefectos.paiscli) then str_carefectos.paiscli = ''
+if isnull(str_carefectos.nombanco) then str_carefectos.nombanco = ''
+if isnull(str_carefectos.dirbanco1) then str_carefectos.dirbanco1 = ''
+if isnull(str_carefectos.dirbanco2) then str_carefectos.dirbanco2 = ''
+if isnull(str_carefectos.recibir_dmto) then str_carefectos.recibir_dmto = ''
+if isnull(str_carefectos.punteado) then str_carefectos.punteado = ''
+if isnull(str_carefectos.clase_efecto) then str_carefectos.clase_efecto = ''
+if isnull(str_carefectos.cambio_euros) then str_carefectos.cambio_euros = 0
+if isnull(str_carefectos.cambio_asegurado) then str_carefectos.cambio_asegurado = 0
+if isnull(str_carefectos.devuelto_notificado_agente) then str_carefectos.devuelto_notificado_agente = ''
+if isnull(str_carefectos.devuelto_notificado_agente2) then str_carefectos.devuelto_notificado_agente2 = ''
+if isnull(str_carefectos.devuelto_notificado_agente3) then str_carefectos.devuelto_notificado_agente3 = ''
+if isnull(str_carefectos.banco_docu) then str_carefectos.banco_docu = ''
+if isnull(str_carefectos.pago_a_cuenta) then str_carefectos.pago_a_cuenta = ''
+return lb_correcto
+end function
+

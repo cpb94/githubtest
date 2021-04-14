@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_total_tipo_paneles_panexpositores.srf
+global type f_total_tipo_paneles_panexpositores from function_object
+end type
+
+forward prototypes
+global function integer f_total_tipo_paneles_panexpositores (string var_empresa, string var_expositor, string var_tipo)
+end prototypes
+
+global function integer f_total_tipo_paneles_panexpositores (string var_empresa, string var_expositor, string var_tipo);Integer numero
+    SELECT count(*)
+    INTO :numero  
+    FROM prompanexpositores  
+   WHERE ( prompanexpositores.empresa = :var_empresa ) AND  
+         ( prompanexpositores.codigo  = :var_expositor ) AND  
+         ( prompanexpositores.tipo    = :var_tipo )   ;
+IF IsNull(numero)  Then numero = 0 
+			
+Return numero
+
+end function
+

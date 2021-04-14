@@ -1,0 +1,109 @@
+﻿$PBExportHeader$f_agrupa_ubicaciones.srf
+global type f_agrupa_ubicaciones from function_object
+end type
+
+forward prototypes
+global subroutine f_agrupa_ubicaciones ()
+end prototypes
+
+global subroutine f_agrupa_ubicaciones ();datastore ubicaciones
+string  sel
+long    indice,total
+long    linea,lineas,calibre
+string  ubicacion,articulo,calidad,tonochar,tipo_pallet,caja
+dec     existencias
+boolean bien = true
+IF Not f_bloquear_almacen("Proceso de agrupación de ubicaciones") Then
+	
+	delete almlinubica
+	where   empresa = :codigo_empresa
+	and existencias = 0;
+	
+	if sqlca.sqlcode = 0 then
+		commit;
+	else
+		rollback;
+	end if
+	
+	sel = "select articulo,calidad,tonochar,calibre,tipo_pallet,caja,"+&
+			"ubicacion,sum(existencias) existencias ,max(linea) linea ,count(*) lineas "+&
+			"from almlinubica where empresa = '"+codigo_empresa+"' "+&
+			"group by articulo,calidad,tonochar,calibre,tipo_pallet,caja,ubicacion"
+			
+	//ubicaciones = f_cargar_cursor(sel)		
+	f_cargar_cursor_nuevo(sel, ubicaciones)
+	
+	
+	total = ubicaciones.rowcount()
+	
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando_ubicaciones",indice,total)
+		lineas = ubicaciones.object.lineas[indice]
+		if lineas > 1 then
+			linea       = ubicaciones.object.linea[indice]
+			ubicacion   = ubicaciones.object.ubicacion[indice]
+			articulo    = ubicaciones.object.articulo[indice]
+			calidad     = ubicaciones.object.calidad[indice]
+			tonochar    = ubicaciones.object.tonochar[indice]
+			calibre     = ubicaciones.object.calibre[indice]
+			tipo_pallet = ubicaciones.object.tipo_pallet[indice]
+			caja        = ubicaciones.object.caja[indice]
+			existencias = ubicaciones.object.existencias[indice]
+			if bien then
+				if existencias <> 0 then
+					update almlinubica
+					set existencias = :existencias
+					where   empresa = :codigo_empresa
+					and   ubicacion = :ubicacion
+					and       linea = :linea
+					and    articulo = :articulo
+					and     calidad = :calidad
+					and    tonochar = :tonochar
+					and     calibre = :calibre
+					and tipo_pallet = :tipo_pallet
+					and        caja = :caja;
+				else
+					delete almlinubica
+					where   empresa = :codigo_empresa
+					and   ubicacion = :ubicacion
+					and       linea = :linea
+					and    articulo = :articulo
+					and     calidad = :calidad
+					and    tonochar = :tonochar
+					and     calibre = :calibre
+					and tipo_pallet = :tipo_pallet
+					and        caja = :caja;					
+				end if
+				
+				if sqlca.sqlcode <> 0 then
+					bien = false
+				else
+					delete almlinubica
+					where   empresa = :codigo_empresa
+					and   ubicacion = :ubicacion
+					and       linea <> :linea
+					and    articulo = :articulo
+					and     calidad = :calidad
+					and    tonochar = :tonochar
+					and     calibre = :calibre
+					and tipo_pallet = :tipo_pallet
+					and        caja = :caja;
+					
+					if sqlca.sqlcode <> 0 then
+						bien = false
+					end if
+				end if
+			end if
+		end if
+	next
+	if bien then
+		commit;
+	else
+		rollback;
+	end if
+	f_desbloquear_almacen("Proceso de agrupación de ubicaciones")
+end if
+
+destroy ubicaciones
+end subroutine
+

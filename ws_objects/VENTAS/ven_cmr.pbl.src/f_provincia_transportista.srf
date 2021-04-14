@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_provincia_transportista.srf
+global type f_provincia_transportista from function_object
+end type
+
+forward prototypes
+global function string f_provincia_transportista (string empresa, string transportista)
+end prototypes
+
+global function string f_provincia_transportista (string empresa, string transportista);String var_pais, var_provincia
+
+SELECT	pais, provincia
+INTO		:var_pais, :var_provincia
+FROM		ventransportista
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:transportista;
+
+if isnull(var_provincia) then 
+	var_provincia = ""
+else
+	SELECT	nombre
+	INTO		:var_provincia
+	FROM		provincias
+	WHERE		provincia	= :var_provincia
+	AND		pais			= :var_pais;
+	
+	if isnull(var_provincia) then var_provincia = ""
+end if 
+
+Return var_provincia
+end function
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_inicializar_str_venliped_reservas.srf
+global type f_inicializar_str_venliped_reservas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venliped_reservas (ref str_venliped_reservas str_venliped_reservas)
+end prototypes
+
+global function boolean f_inicializar_str_venliped_reservas (ref str_venliped_reservas str_venliped_reservas);boolean lb_correcto = true
+
+if isnull(str_venliped_reservas.empresa) then str_venliped_reservas.empresa = ''
+if isnull(str_venliped_reservas.anyo) then str_venliped_reservas.anyo = 0
+if isnull(str_venliped_reservas.pedido) then str_venliped_reservas.pedido = 0
+if isnull(str_venliped_reservas.linea) then str_venliped_reservas.linea = 0
+if isnull(str_venliped_reservas.alm_bultos_lineas_id) then str_venliped_reservas.alm_bultos_lineas_id = 0
+if isnull(str_venliped_reservas.cantidad) then str_venliped_reservas.cantidad = 0
+if isnull(str_venliped_reservas.id_ubicacion_original) then str_venliped_reservas.id_ubicacion_original = 0
+if isnull(str_venliped_reservas.id_ubicacion_destino) then str_venliped_reservas.id_ubicacion_destino = 0
+if isnull(str_venliped_reservas.bulto_orden_carga) then str_venliped_reservas.bulto_orden_carga = 0
+if isnull(str_venliped_reservas.preparado) then str_venliped_reservas.preparado = 'N'
+
+return lb_correcto
+end function
+

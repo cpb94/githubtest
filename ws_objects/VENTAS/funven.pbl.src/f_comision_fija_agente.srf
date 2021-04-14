@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_comision_fija_agente.srf
+global type f_comision_fija_agente from function_object
+end type
+
+forward prototypes
+global function string f_comision_fija_agente (string empresa, string agente)
+end prototypes
+
+global function string f_comision_fija_agente (string empresa, string agente);string comision_fija
+
+select comision_fija
+into   :comision_fija
+from   venagentes
+where  empresa = :empresa
+and    agente  = :agente;
+
+if isnull(comision_fija) then comision_fija = "N"
+
+return comision_fija
+end function
+

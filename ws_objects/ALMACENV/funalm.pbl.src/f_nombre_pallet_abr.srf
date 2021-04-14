@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_nombre_pallet_abr.srf
+global type f_nombre_pallet_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_pallet_abr (string ai_cod_emp, string ac_codpallet)
+end prototypes
+
+global function string f_nombre_pallet_abr (string ai_cod_emp, string ac_codpallet);string	ls_nombre
+
+  SELECT pallets.resumido  
+    INTO :ls_nombre  
+    FROM pallets  
+   WHERE ( pallets.empresa = :ai_cod_emp ) AND  
+         ( pallets.codigo  = :ac_codpallet )   
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre = ""
+
+END IF
+
+RETURN ls_nombre
+
+end function
+

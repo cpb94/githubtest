@@ -1,0 +1,22 @@
+﻿$PBExportHeader$dw_cal_formato.srd
+$PBExportComments$Datawindow ayuda de Calidades por formato
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=101 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=5 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=decimal(4) update=yes name=precioventa dbname="calformato.precioventa" )
+ column=(type=char(5) update=yes key=yes name=empresa dbname="calformato.empresa" )
+ column=(type=char(5) update=yes key=yes name=formato dbname="calformato.formato" )
+ column=(type=char(5) update=yes key=yes name=calidad dbname="calformato.calidad" values=" 	 " )
+ column=(type=datetime update=yes name=fechaalta dbname="calformato.fechaalta" initial="today" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"calformato~" ) COLUMN(NAME=~"calformato.precioventa~") COLUMN(NAME=~"calformato.empresa~") COLUMN(NAME=~"calformato.formato~") COLUMN(NAME=~"calformato.calidad~") COLUMN(NAME=~"calformato.fechaalta~")WHERE( EXP1 =~"calformato.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" LOGIC =~"and~" ) WHERE( EXP1 =~"calformato.formato~" OP =~"=~" EXP2 =~":ra_codfor~" ) ) ORDER(NAME=~"calformato.empresa~" ASC=yes ) ORDER(NAME=~"calformato.formato~" ASC=yes ) ARG(NAME = ~"ra_codemp~" TYPE = string) ARG(NAME = ~"ra_codfor~" TYPE = string) " update="calformato" updatewhere=0 updatekeyinplace=no arguments=(("ra_codemp", string),("ra_codfor", string)) )
+bitmap(band=header filename="\BMP\CARPETA.BMP" x="42" y="16" height="65" width="74" border="6"  name=pb_carpeta pointer="\bmp\MANO.CUR" )
+text(band=header alignment="2" text="Calidad"border="6" color="33554432" x="142" y="16" height="65" width="773"  name=calidad_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Precio de Venta"border="6" color="33554432" x="942" y="16" height="65" width="458"  name=precioventa_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Fecha Alta"border="6" color="33554432" x="1427" y="16" height="65" width="353"  name=fechaalta_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+compute(band=detail alignment="0" expression="f_nombre_calidad (empresa,calidad )"border="0" color="128" x="467" y="4" height="65" width="439" format="[GENERAL]"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=1 alignment="1" tabsequence=20 border="5" color="0" x="956" y="4" height="65" width="421" format="[general]"  name=precioventa  tag="Precio de Venta del formato/calidad" edit.name="importes-0" editmask.mask="###,###,###;\-[red]###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=10 border="5" color="0" x="133" y="4" height="65" width="321" format="[general]"  name=calidad edit.name=" " edit.limit=5 edit.case=any edit.format=" " edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=30 border="5" color="0" x="1422" y="4" height="65" width="366" format="[shortdate] [time]"  name=fechaalta accelerator=" " editmask.mask="DD/MM/YY " editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

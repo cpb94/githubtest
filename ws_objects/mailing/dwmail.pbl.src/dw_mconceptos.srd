@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_mconceptos.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=225 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="mconceptos.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="mconceptos.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="mconceptos.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mconceptos~" ) COLUMN(NAME=~"mconceptos.empresa~") COLUMN(NAME=~"mconceptos.codigo~") COLUMN(NAME=~"mconceptos.descripcion~")WHERE(    EXP1 =~"mconceptos.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mconceptos.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="mconceptos" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="87" y="76" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="467" y="76" height="65" width="1651"  name=descripcion  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

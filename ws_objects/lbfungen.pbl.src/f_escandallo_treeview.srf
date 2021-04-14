@@ -1,0 +1,126 @@
+﻿$PBExportHeader$f_escandallo_treeview.srf
+global type f_escandallo_treeview from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_treeview (string articulo, integer nodo, ref treeview arbol)
+end prototypes
+
+global subroutine f_escandallo_treeview (string articulo, integer nodo, ref treeview arbol);// PARAMETROS
+// recibe el artículo del que hay que extraer el escandallo.
+// recibe el nodo raíz del árbol a partir del cual generaremos la estructura.
+// arbol: Objeto treeview sobre el que construimos la estrucutra del artículo. pasado por referencia.
+
+string sel, articulo_ant, v_Articulo, v_version, des_articulo, v_control_stock, v_uso
+integer i, nodo_hijo, nodo_raiz, k
+datastore registros 
+long nodo_actual, nodo_padre
+dec v_factor
+Boolean insertado = false
+string des_operacion, formato
+long resto
+
+sel = " select art_escandallo.articulo, art_escandallo.version, art_escandallo.articulo_ant, articulos.descripcion, formatos.abreviado, "+&
+		" articulos.control_stock, art_escandallo.factor, articulos.uso, art_ver_tipooperacion.descripcion_abr "+&  
+		" from art_escandallo "+&
+		" inner join articulos on articulos.empresa = art_escandallo.empresa and articulos.codigo = art_escandallo.articulo  "+&
+		" left outer join formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo  "+&
+		" left outer join art_ver_operaciones on art_escandallo.empresa = art_ver_operaciones.empresa and art_escandallo.articulo = art_ver_operaciones.articulo and art_escandallo.version = art_ver_operaciones.version "+&
+		" left outer join art_ver_tipooperacion on art_ver_operaciones.empresa = art_ver_tipooperacion.empresa and art_ver_operaciones.tipo_operacion = art_ver_tipooperacion.codigo "+&
+		" where art_escandallo.articulo = '"+articulo+"' "+&
+		" and art_ver_operaciones.orden = " +& 
+											"(select min (B.orden) " +&
+											" from art_ver_operaciones B " +&
+											" where B.empresa = art_ver_operaciones.empresa and B.articulo = art_ver_operaciones.articulo and B.version = art_ver_operaciones.version ) "+& 		
+		" order by convert(integer,art_escandallo.version) desc, convert(integer,art_escandallo.articulo_ant) desc;"
+
+
+
+f_cargar_cursor_nuevo (sel, registros)
+
+//Dibujar base
+if registros.rowcount() = 0 then //bases de cliente
+	SELECT articulos.uso, articulos.descripcion, formatos.abreviado INTO :v_uso, :des_articulo, :formato 
+	FROM articulos 
+	LEFT OUTER JOIN formatos on articulos.empresa = formatos.empresa and articulos.formato = formatos.codigo 
+	WHERE articulos.empresa = :codigo_empresa AND articulos.codigo = :articulo;
+		
+	nodo_actual = arbol.InsertItemFirst(nodo, "BASE     "+formato+"     ["+articulo+"]  "+des_articulo+"       F: "+string(v_factor), 1)			
+end if
+
+for i = 1 to registros.RowCount()
+	v_articulo = registros.object.art_escandallo_articulo[i] 
+/*
+	for k =  10 - len (v_Articulo)  to 10
+		v_articulo = v_Articulo + " "
+	next
+	*/
+	v_version = registros.object.art_escandallo_version[i]
+	v_factor = registros.object.art_escandallo_factor[i]
+	v_uso = registros.object.articulos_uso[i]
+	des_operacion = registros.object.art_ver_tipooperacion_descripcion_abr[i]
+	formato = registros.object.formatos_abreviado[i]
+	if isnull(formato) then
+		formato = ""
+	end if
+	
+	choose case v_uso
+		case '1' 
+			v_uso = 'BASE'
+		case '2' 
+			v_uso = 'SEMIELABORADO'
+		case '3'
+			v_uso = 'ACABADO'
+	end choose
+	
+	if isnull(registros.object.articulos_control_stock[i]) or registros.object.articulos_control_stock[i] = '' then
+		v_control_stock = 'N'
+	else 
+		v_control_Stock = registros.object.articulos_control_stock[i]
+	end if
+	
+	des_articulo = registros.object.articulos_descripcion[i]
+	
+	/*
+	if not isnull(registros.object.formatos_abreviado[i]) then
+		des_articulo = registros.object.articulos_descripcion[i] +" : "+registros.object.formatos_abreviado[i]
+	else
+		des_articulo = registros.object.articulos_descripcion[i] +" : FORMATO NO DEFINIDO "
+	end if
+	*/
+	
+	if registros.RowCount() = 0 then
+		articulo_ant = "0"
+	else
+		articulo_ant = registros.object.art_escandallo_articulo_ant[i]
+	end if
+
+	if isnull(v_factor) then
+		v_factor = 0
+	end if
+	
+	if not insertado then
+		nodo_actual = arbol.InsertItemFirst(nodo, des_operacion+"     "+formato+"     ["+v_articulo+"]  "+des_articulo+"       F: "+string(v_factor), 1)				
+		insertado = true
+	end if
+
+	if not isnull(articulo_ant) and articulo_ant <> "0" and articulo_ant <> v_articulo then
+		if i < 200 then
+			if not isnull(nodo_actual) and nodo_actual > 300 then
+				MessageBox("Error", "El artículo tiene un problema en su escandallo (Se han detectado más de 300 nodos). Avise al administrador.")
+			else
+				f_escandallo_treeview (articulo_ant, nodo_actual, arbol)
+			end if
+		else
+			MessageBox("Error", "El artículo tiene un problema en su escandallo (Demasiados artículos detectados en el mismo nivel). Avise al administrador.")
+		end if
+	end if
+	articulo_ant = '0'
+next
+
+nodo_raiz = arbol.FindItem(RootTreeItem! , 0)
+arbol.ExpandAll(nodo_raiz)
+
+destroy registros
+end subroutine
+

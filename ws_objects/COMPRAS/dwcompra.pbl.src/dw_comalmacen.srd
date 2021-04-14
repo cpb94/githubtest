@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_comalmacen.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="-1" )
+footer(height=4 color="-1" )
+detail(height=412 color="-1" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="comalmacen.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="comalmacen.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="comalmacen.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=resumido dbname="comalmacen.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comalmacen~" ) COLUMN(NAME=~"comalmacen.empresa~") COLUMN(NAME=~"comalmacen.codigo~") COLUMN(NAME=~"comalmacen.descripcion~") COLUMN(NAME=~"comalmacen.resumido~")WHERE(    EXP1 =~"comalmacen.empresa~"   OP =~"=~"    EXP2 =~":ra_codemp~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"comalmacen.codigo~"   OP =~"=~"    EXP2 =~":ra_almacen~" ) ) ARG(NAME = ~"ra_codemp~" TYPE = string)  ARG(NAME = ~"ra_almacen~" TYPE = string) " update="comalmacen" updatewhere=0 updatekeyinplace=no arguments=(("ra_codemp", string),("ra_almacen", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="78" y="112" height="64" width="370"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="489" y="112" height="64" width="1280" format=""  name=descripcion editmask.mask="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="128" y="244" height="64" width="320"  name=codigo_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="489" y="244" height="64" width="443" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

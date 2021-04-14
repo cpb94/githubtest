@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_ayuda_vencartascredito.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=101 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=num_credito dbname="vencartascredito.num_credito" )
+ column=(type=decimal(4) updatewhereclause=yes name=divisas dbname="vencartascredito.divisas" )
+ column=(type=char(5) updatewhereclause=yes name=moneda dbname="vencartascredito.moneda" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="vencartascredito.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vencartascredito~" ) COLUMN(NAME=~"vencartascredito.num_credito~") COLUMN(NAME=~"vencartascredito.divisas~") COLUMN(NAME=~"vencartascredito.moneda~") COLUMN(NAME=~"vencartascredito.empresa~")WHERE(    EXP1 =~"vencartascredito.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"(vencartascredito.nombre_ord~"   OP =~"like~"    EXP2 =~":criterio)~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " arguments=(("empresa", string),("criterio", string)) )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr(moneda)"border="0" color="128" x="1111" y="4" height="69" width="101" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Num Credito"border="6" color="0" x="183" y="24" height="65" width="577"  name=num_credito_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="183" y="4" height="65" width="577" format="[general]"  name=num_credito edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="782" y="24" height="65" width="421"  name=divisas_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="5" color="0" x="782" y="4" height="65" width="316" format="[general]"  name=divisas editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

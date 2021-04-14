@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_divisa_venped.srf
+global type f_divisa_venped from function_object
+end type
+
+forward prototypes
+global function string f_divisa_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_divisa_venped (string empresa, integer anyo, decimal pedido);String var_divisa
+
+
+  SELECT venped.divisa
+    INTO :var_divisa
+    FROM venped  
+   WHERE (venped.empresa = :empresa)
+   AND   (venped.anyo    = :anyo)
+   AND   (venped.pedido  = :pedido)   ;
+
+
+
+Return var_divisa
+end function
+

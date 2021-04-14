@@ -1,0 +1,14 @@
+﻿$PBExportHeader$str_alm_bultos_lineas.srs
+global type str_alm_bultos_lineas from structure
+	decimal { 0 }		id
+	decimal { 0 }		id_alm_bultos
+	string		empresa
+	string		articulo
+	string		calidad
+	string		tono
+	integer		calibre
+	string		caja
+	decimal { 6 }		cantidad
+	integer		linea_orden_carga
+end type
+

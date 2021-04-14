@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_inicio.srf
+global type f_inicio from function_object
+end type
+
+forward prototypes
+global subroutine f_inicio (boolean arg)
+end prototypes
+
+global subroutine f_inicio (boolean arg);IF arg Then 
+	OpenWithParm(w_inicio,"S")
+Else
+	OpenWithParm(w_inicio,"N")
+End If
+	
+end subroutine
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_etiqueta_ce.srf
+global type f_nombre_etiqueta_ce from function_object
+end type
+
+forward prototypes
+global function string f_nombre_etiqueta_ce (string arg_empresa, string arg_cliente, string arg_tipo)
+end prototypes
+
+global function string f_nombre_etiqueta_ce (string arg_empresa, string arg_cliente, string arg_tipo);string descripcion
+
+select descripcion 
+into   :descripcion
+from   ce_marcado 
+where  empresa = :arg_empresa
+and cliente = :arg_cliente
+and tipo  = :arg_tipo;
+
+if isnull(descripcion) then descripcion = ""
+
+return trim(descripcion)
+end function
+

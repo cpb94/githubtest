@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_extension_fichero.srf
+global type f_extension_fichero from function_object
+end type
+
+forward prototypes
+global function string f_extension_fichero (string arg_fichero)
+end prototypes
+
+global function string f_extension_fichero (string arg_fichero);string caracter,extension
+long   caracteres_cogemos,longitud
+
+extension = ''
+
+longitud = len(arg_fichero)
+caracteres_cogemos = 0
+
+do
+	caracter = mid(arg_fichero,longitud - caracteres_cogemos,1)
+	caracteres_cogemos ++
+loop while not(caracter = '.')
+
+extension = lower(Right(arg_fichero,caracteres_cogemos -1))
+
+
+return extension
+
+
+
+end function
+

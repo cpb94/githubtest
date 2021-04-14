@@ -1,0 +1,31 @@
+﻿$PBExportHeader$str_comlinubicahis.srs
+global type str_comlinubicahis from structure
+	string		empresa
+	integer		anyo
+	string		almacen
+	double		orden
+	double		nummov
+	string		zona
+	integer		fila
+	integer		altura
+	string		ubicacion
+	decimal {4}	cantidads
+	decimal {4}	cantidade
+	string		mp
+	string		familia
+	string		calidad
+	string		tipomov
+	string		tipo_unidad
+	datetime		f_alta
+	string		usuario
+	string		observaciones
+	string		externo
+	string		envase
+	datetime		fecha
+	string		situacion
+	decimal {6}	precio
+	string		comp_almacen
+	integer		comp_anyo
+	long		comp_nummov
+end type
+

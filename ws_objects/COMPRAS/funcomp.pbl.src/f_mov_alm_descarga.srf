@@ -1,0 +1,236 @@
+﻿$PBExportHeader$f_mov_alm_descarga.srf
+$PBExportComments$Movimiento almacén de descarga
+global type f_mov_alm_descarga from function_object
+end type
+
+forward prototypes
+global function boolean f_mov_alm_descarga (str_linalbmov lin)
+end prototypes
+
+global function boolean f_mov_alm_descarga (str_linalbmov lin);//integer y1,longitudes,numero,controles,x2,x1
+//Decimal{4} total_cantidad,v_precio,v_cantidad,v_fila,v_altura
+//String mensaje,nombre,campo,anyo_st,obs,antealmacen,albaran,linea_alb
+//String v_almacen,v_zona,titulo,tabla,seleccion
+//String criterio[3]
+//Datetime fecha
+//str_almlinubica ubi
+//str_almmovhis mov
+//str_almlinubicahis ubihis
+//
+//anyo_st   = String(lin.anyo)
+//albaran   = lin.albaran
+//v_precio  = lin.precio
+//linea_alb = lin.linea
+//obs       = lin.observaciones
+//
+////	ALMACEN DE DESCARGA. No hay zonas ni na de na.
+//v_almacen    = '2'	
+//v_zona       = '1'	
+//v_fila       = 1
+//v_altura     = 1
+//v_cantidad   = lin.cantidad
+// 
+//// Contador de movimiento y orden de lineas de  ubicacion
+//   integer contador_nummov,contador_orden 
+//
+//// Valor de controles funcionamiento
+//   integer bien
+////--------------------------------------------
+//// valores HISTORICO DE UBICACIONES
+//
+//ubihis.usuario       = nombre_usuario
+//ubihis.empresa       = codigo_empresa
+//ubihis.anyo          = integer(anyo_st)
+//ubihis.almacen       = v_almacen
+//ubihis.articulo      = Trim(lin.mprima)
+//ubihis.referencia    = lin.mprima
+//ubihis.fecha         = DateTime(today())
+//ubihis.f_alta        = DateTime(Today(),now())
+//ubihis.observaciones = lin.observaciones
+//ubihis.tipomov       = '101'
+//ubihis.zona          = v_zona	
+//ubihis.fila          = v_fila	
+//ubihis.altura        = v_altura
+//ubihis.cantidade     = v_cantidad
+//ubihis.cantidads     = 0
+//ubihis.envase			= lin.envase
+//ubihis.ubicacion     = f_componer_ubicacion(ubihis.almacen,ubihis.zona,&
+//												 ubihis.fila,ubihis.altura)
+//
+//
+//SELECT venmprima.familia,venmprima.tipo_materia,venmprima.tipo_unidad
+// INTO :ubihis.familia,:ubihis.tipo_materia,:ubihis.tipo_unidad
+// FROM venmprima  
+//WHERE (venmprima.empresa= :ubihis.empresa ) AND  
+//		(venmprima.codigo = :ubihis.articulo );
+//IF SQLCA.SQLCode<>0 THEN
+//	bien=1
+//	MessageBox("Movimientos de Almacén","Error al leer Materia")
+//END IF
+//
+//// Valores LINEAS DE UBICACION
+//
+//ubi.empresa     = ubihis.empresa
+//ubi.almacen     = ubihis.almacen
+//ubi.articulo    = ubihis.articulo
+//ubi.familia     = ubihis.familia
+//ubi.zona        = ubihis.zona
+//ubi.fila        = ubihis.fila
+//ubi.altura      = ubihis.altura
+//ubi.existencias = ubihis.cantidade
+//ubi.ubicacion   = ubihis.ubicacion
+//ubi.envase      = ubihis.envase
+//
+//SetNull(ubi.anyo)
+//SetNull(ubi.pedido) 
+//SetNull(ubi.linped)
+//SetNull(ubi.cliente)
+//ubi.tipo_unidad=  ubihis.tipo_unidad
+//ubi.tipo_materia=	ubihis.tipo_materia
+//ubi.referencia =  ubihis.referencia
+//ubi.f_alta     =  Datetime(today(),now())
+//
+//// Valores HISTORICO DE MOVIMIENTOS
+//
+//mov.usuario      = nombre_usuario
+//mov.empresa      = ubihis.empresa
+//mov.almacen      = ubihis.almacen
+//mov.articulo     = ubihis.articulo
+//mov.familia      = ubihis.familia
+//mov.tipo_unidad  = ubihis.tipo_unidad
+//mov.referencia   = ubihis.referencia
+//mov.f_alta       = DateTime(Today(),now())
+//fecha            = DateTime(Today(),now())
+//mov.anyo         = integer(anyo_st)
+//mov.origen       = "3"
+//mov.fechmov      = ubihis.fecha
+//mov.tipomov      = ubihis.tipomov
+//mov.cantidade    = v_cantidad
+//mov.cantidads    = 0
+//mov.precio       = v_precio
+//mov.tipo_materia = ubihis.tipo_materia
+//mov.codtercero   = lin.proveedor
+//mov.numdoc       = lin.albaran
+//mov.situacion    = "N"
+//mov.observaciones = lin.observaciones
+//SetNull(mov.punteado)
+//mov.antexist     = 0
+//mov.envase       = lin.envase
+//
+//
+// // Variable utilizada para montaje observaciones en lineas de ubicacion
+//  String var_observaciones
+////-------------------------------------------------------------------
+//titulo        =  "w_pedidos_alb.title"
+//longitudes      =  len(trim(codigo_empresa))
+//criterio[1]   =  trim(codigo_empresa)+ space(20-longitudes)
+//longitudes      =  len(trim(anyo_st))
+//criterio[2]   =  trim(anyo_st)+space(20-longitudes)
+//longitudes      =  len(trim(v_almacen))
+//criterio[3]   =  trim(v_almacen)+space(20-longitudes)
+//seleccion     =  criterio[1]+criterio[2]+criterio[3]
+//tabla         =  "almparam"
+//IF NOT f_bloquear(tabla,seleccion,titulo) THEN
+//	COMMIT Using SQLCA; //Solucion nivel insolacion
+//	contador_nummov= f_almparam_nummov(codigo_empresa,v_almacen,integer(anyo_st))
+//	contador_orden = f_almparam_numorden(codigo_empresa,v_almacen,integer(anyo_st))
+//	mov.nummov     = contador_nummov
+//	ubihis.orden   = contador_orden
+//	ubihis.nummov  = contador_nummov
+//
+//  //------------------------------------------------------------------
+//  // Inserto en el historico de lineas de ubicacion por movimiento
+//  //------------------------------------------------------------------
+//  	ubihis.observaciones =  String(today(),"dd/mm/yy") + "-" + obs 
+//  	IF Not f_insert_almlinubicahis(ubihis) Then
+//		bien=1
+//		MessageBox("Fin de proceso","Error en insert de almlinubicahis",Exclamation!, OK!,1)
+//	END IF
+//
+//
+//	//----------------------------------------------------------
+//	// Busco si hay linea del articulo en almlinubica
+//	//---------------------------------------------------------
+//	Integer registros,linea
+//	Integer grabado,salir
+//	Decimal existencia
+//	
+//	grabado = 0
+//	salir   = 0
+//	
+//	linea = f_ult_linea_ubi_art(codigo_empresa,ubi.ubicacion,lin.mprima,"")
+//			
+//	IF linea > 0 THEN
+//		SELECT almlinubica.existencias INTO :existencia FROM almlinubica
+//		WHERE almlinubica.empresa   = :codigo_empresa
+//		AND   almlinubica.ubicacion = :ubi.ubicacion
+//		AND   almlinubica.articulo  = :lin.mprima
+//		AND   almlinubica.linea     = :linea;
+//		IF IsNull(existencia) THEN existencia = 0
+//		ubi.existencias = ubi.existencias + existencia
+//		mov.observaciones =  mov.observaciones+space(30-len(mov.observaciones)) 
+//		UPDATE almlinubica  SET existencias   = :ubi.existencias,   
+//										f_alta        = :ubi.f_alta
+//		WHERE almlinubica.empresa   = :codigo_empresa
+//		AND   almlinubica.ubicacion = :ubi.ubicacion
+//		AND   almlinubica.articulo  = :lin.mprima
+//		AND   almlinubica.linea     = :linea  USING SQLCA;
+//		
+//		grabado = 1
+//		
+//		IF SQLCA.SQLCode<>0 THEN
+//			bien=1
+//			MessageBox("Fin de proceso","Error en update de almlinubica",Exclamation!, OK!,1)
+//		END IF
+//		
+//	END IF
+//	
+//	IF grabado=0 THEN
+//		 linea = f_ult_linea_ubi(codigo_empresa,ubi.ubicacion)
+//		 ubi.linea = linea + 1
+//		 ubi.observaciones=String(today(),"dd/mm/yy") + "-" + mov.observaciones
+//		 IF NOT f_insert_almlinubica(ubi) Then
+//			bien=1
+//			MessageBox("Fin de proceso","Error en insert de almlinubica",Exclamation!, OK!,1)
+//		 END IF
+//	END IF
+//	
+//// Grabar el movimiento en el historico por el total de existencias
+//   IF NOT f_insert_almmovhis(mov) Then
+//      MessageBox("Error en proceso","Grabando almmovhis",Exclamation!, OK!,1)
+//      bien=1
+//   END IF
+//   IF NOT f_actualiza_nummov(mov.empresa,mov.almacen,integer(anyo_st),mov.nummov) THEN
+//      MessageBox("Error en proceso","Grabando numero movimiento",Exclamation!, OK!,1)
+//      bien=1
+//   END IF
+//   IF NOT f_actualiza_numorden(ubihis.empresa,ubihis.almacen,integer(anyo_st),ubihis.nummov) THEN
+//      MessageBox("Error en proceso","Grabando numero orden",Exclamation!, OK!,1)
+//      bien=1
+//   END IF
+//
+//	CHOOSE CASE bien
+//	CASE 1
+//	  ROLLBACK USING SQLCA;
+//	CASE 0
+//	  COMMIT USING SQLCA;
+//	CASE ELSE
+//	  ROLLBACK USING SQLCA;
+//	END CHOOSE
+//	
+//	f_desbloquear(tabla,seleccion,titulo)
+//	COMMIT using sqlca;
+//	IF bien = 0 then
+//		RETURN TRUE
+//	ELSE
+//		RETURN FALSE
+//	END IF
+//END IF
+//
+//MessageBox("Fin de proceso","Error en funcion bloquear",Exclamation!, OK!,1)
+//
+//RETURN FALSE
+
+return true
+end function
+

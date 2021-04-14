@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_amort_fiscal_ejercicio.srf
+global type f_amort_fiscal_ejercicio from function_object
+end type
+
+forward prototypes
+global function integer f_amort_fiscal_ejercicio (string arg_empresa, decimal arg_elemento, decimal arg_ejercicio)
+end prototypes
+
+global function integer f_amort_fiscal_ejercicio (string arg_empresa, decimal arg_elemento, decimal arg_ejercicio);Dec suma,inicial
+DateTime	fecha
+
+suma = 0
+
+SELECT sum(importe_amorfis)  
+ INTO :suma  
+ FROM act_amortizaciones  
+WHERE ( act_amortizaciones.empresa = :arg_empresa ) AND  
+		( act_amortizaciones.elemento = :arg_elemento ) AND  
+		( act_amortizaciones.ejercicio = :arg_ejercicio ) AND  
+		( act_amortizaciones.actualizado = 'S' )   ;
+
+If isnull(suma) then suma = 0
+
+SELECT act_bienesdet.amor_acumulada,   
+		act_bienesdet.fechainamor  
+ INTO :inicial,:fecha  
+ FROM act_bienesdet  
+WHERE ( act_bienesdet.empresa = :arg_empresa ) AND  
+		( act_bienesdet.elemento = :arg_elemento )   ;
+
+If Year(RelativeDate(Date(fecha),-1)) = arg_ejercicio then
+	If not isnull(inicial) then 
+		suma = suma + inicial 		
+	end If
+End If	
+
+
+Return suma
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_completo_agente.srf
+global type f_completo_agente from function_object
+end type
+
+forward prototypes
+global function string f_completo_agente (string cod_empresa, string cod_agente)
+end prototypes
+
+global function string f_completo_agente (string cod_empresa, string cod_agente);string completo,var_pais,var_provincia
+var_pais=f_pais_banco(cod_empresa,cod_agente)
+var_provincia=f_provincia_banco(cod_empresa,cod_agente)
+
+completo=f_nombre_agente(cod_empresa,cod_agente)+ char(13)
+completo=completo + f_direccion_agente(cod_empresa,cod_agente)+ char(13)
+completo=completo + f_codpostal_agente(cod_empresa,cod_agente)+" "
+completo=completo + f_localidad_agente(cod_empresa,cod_agente)
+completo=completo + char(13) + " ("+ f_nombre_provincia(var_pais,var_provincia) +")"
+
+return completo
+end function
+

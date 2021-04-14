@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_desc_clase.srf
+global type f_desc_clase from function_object
+end type
+
+forward prototypes
+global function string f_desc_clase (string empresa, integer clase)
+end prototypes
+
+global function string f_desc_clase (string empresa, integer clase);String cadena
+
+  SELECT act_clase.descripcion  
+    INTO :cadena
+    FROM act_clase  
+   WHERE ( act_clase.empresa = :empresa ) AND  
+         ( act_clase.clase = :clase )   ;
+
+cadena = trim(cadena)
+
+
+IF SQLCA.SQLCode <> 0 THEN
+   cadena=""
+END IF
+RETURN cadena
+end function
+

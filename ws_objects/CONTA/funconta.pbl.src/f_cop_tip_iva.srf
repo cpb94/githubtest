@@ -1,0 +1,106 @@
+﻿$PBExportHeader$f_cop_tip_iva.srf
+global type f_cop_tip_iva from function_object
+end type
+
+forward prototypes
+global function integer f_cop_tip_iva (integer par_ejer_orig, integer par_ejer_dest)
+end prototypes
+
+global function integer f_cop_tip_iva (integer par_ejer_orig, integer par_ejer_dest);// Copiamos los tipos de IVA desde el ejercicio origen al destino
+
+/* Devuelve -1 si hay error al consultar BD
+				0 si no hay tipos de IVA para el ejercicio origen
+				1 bien
+
+*/
+
+
+// copiamos con datastore
+datastore ds_copia
+
+string texto_sql
+texto_sql ="SELECT * " +&
+    		"FROM contaiva " +&	 
+   		"WHERE ( contaiva.empresa = '"+ codigo_empresa+"' ) AND "  + &
+         "( contaiva.ejercicio =" +string(par_ejer_orig)  +"  )"   
+
+
+ds_copia = create datastore
+//ds_copia=f_cargar_cursor(texto_sql)
+f_cargar_cursor_nuevo(texto_sql, ds_copia)
+
+ds_copia.settransobject(sqlca)
+int i,num
+num=ds_copia.retrieve()
+
+if num = 0 then 
+	// No hay tipos para el ejercicio origen 
+	destroy ds_copia
+	return 0
+else
+	// hay tipos
+	boolean correcto
+	
+	dec{2} el_iva
+	string emp,tip_iva,descrip,resum,cuenta_iva,recarg,deducib,lib,ls_incluir_en_modelo_347,ls_incluir_en_modelo_349
+	
+	correcto = true
+	
+	for i= 1 to num 
+		
+		emp			= ds_copia.getitemstring(i,"empresa")
+		tip_iva		= ds_copia.getitemstring(i,"tipoiva")
+		el_iva		= ds_copia.getitemnumber(i,"iva")
+		descrip		= ds_copia.getitemstring(i,"descripcion")
+		resum			= ds_copia.getitemstring(i,"resumido")
+		cuenta_iva	= ds_copia.getitemstring(i,"ctaiva")
+		recarg		= ds_copia.getitemstring(i,"recargo")
+		deducib		= ds_copia.getitemstring(i,"deducible")
+		lib			= ds_copia.getitemstring(i,"libro")
+		ls_incluir_en_modelo_347 = ds_copia.getitemstring(i,"incluir_en_modelo_347")
+		ls_incluir_en_modelo_349 = ds_copia.getitemstring(i,"incluir_en_modelo_349")
+		
+		  INSERT INTO contaiva  
+         ( ejercicio,
+			  empresa,	
+           tipoiva,   
+           iva,   
+           descripcion,   
+           resumido,   
+           ctaiva,   
+           recargo,   
+           deducible,   
+           libro,
+			  incluir_en_modelo_347,
+			  incluir_en_modelo_349)  
+  			VALUES ( :par_ejer_dest,   
+           :emp,   
+           :tip_iva,   
+           :el_iva,   
+           :descrip,   
+           :resum,   
+           :cuenta_iva,   
+           :recarg,   
+           :deducib,
+			  :lib,
+			  :ls_incluir_en_modelo_347,
+			  :ls_incluir_en_modelo_349);
+
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+			   exit
+			end if
+	next
+end if
+
+destroy ds_copia
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+
+end function
+

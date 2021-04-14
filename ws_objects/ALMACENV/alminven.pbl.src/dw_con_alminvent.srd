@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_con_alminvent.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=73 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=73 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="alminvent.empresa" )
+ column=(type=char(5) updatewhereclause=yes name=almacen dbname="alminvent.almacen" )
+ column=(type=char(1) updatewhereclause=yes name=zona dbname="alminvent.zona" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"alminvent~" ) COLUMN(NAME=~"alminvent.empresa~") COLUMN(NAME=~"alminvent.almacen~") COLUMN(NAME=~"alminvent.zona~")WHERE(    EXP1 =~"alminvent.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"alminvent.almacen~"   OP =~"=~"    EXP2 =~":arg_almacen~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"alminvent.fecha_inv~"   OP =~"=~"    EXP2 =~":arg_fecha~" )  GROUP(NAME=~"alminvent.empresa~") GROUP(NAME=~"alminvent.almacen~") GROUP(NAME=~"alminvent.zona~")) ORDER(NAME=~"alminvent.empresa~" ASC=yes )  ORDER(NAME=~"alminvent.almacen~" ASC=yes )  ORDER(NAME=~"alminvent.zona~" ASC=yes ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_fecha~" TYPE = datetime)  ARG(NAME = ~"arg_almacen~" TYPE = string) " arguments=(("arg_empresa", string),("arg_fecha", datetime),("arg_almacen", string)) )
+text(band=header alignment="2" text="Zona"border="6" color="0" x="83" y="8" height="57" width="289"  name=zona_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="2" expression="f_nombre_zona_abr(empresa,almacen,zona)"border="0" color="128" x="165" y="4" height="65" width="188" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

@@ -1,0 +1,46 @@
+﻿$PBExportHeader$dw_prodaplicaciones_articulo_conjunto.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="prodaplicaciones_articulo.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=articulo dbname="prodaplicaciones_articulo.articulo" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=version dbname="prodaplicaciones_articulo.version" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=aplicacion dbname="prodaplicaciones_articulo.aplicacion" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=contador dbname="prodaplicaciones_articulo.contador" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=orden dbname="prodaplicaciones_articulo.orden" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=comentarios dbname="prodaplicaciones_articulo.comentarios" )
+ column=(type=char(1) updatewhereclause=yes name=pantalla dbname="prodaplicaciones_articulo.pantalla" )
+ column=(type=char(1) updatewhereclause=yes name=hilos_pant dbname="prodaplicaciones_articulo.hilos_pant" )
+ column=(type=char(1) updatewhereclause=yes name=nombre_for dbname="prodaplicaciones_articulo.nombre_for" )
+ retrieve="  SELECT prodaplicaciones_articulo.empresa,   
+         prodaplicaciones_articulo.articulo,   
+         prodaplicaciones_articulo.version,   
+         prodaplicaciones_articulo.aplicacion,   
+         prodaplicaciones_articulo.contador,   
+         prodaplicaciones_articulo.orden,   
+         prodaplicaciones_articulo.comentarios,
+			~"~" pantalla,
+			~"~" hilos_pant,
+			~"~" nombre_for  
+    FROM prodaplicaciones_articulo  
+   WHERE ( prodaplicaciones_articulo.empresa = :arg_empresa ) AND  
+         ( prodaplicaciones_articulo.articulo = :arg_articulo ) AND  
+         ( prodaplicaciones_articulo.version = :arg_version )    
+" update="prodaplicaciones_articulo" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_articulo", string),("arg_version", string))  sort="orden A " )
+text(band=header alignment="2" text="Orden"border="6" color="8388608" x="14" y="8" height="56" width="174"  name=orden_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Aplicacion"border="6" color="8388608" x="206" y="8" height="56" width="443"  name=aplicacion_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Pant."border="6" color="8388608" x="667" y="8" height="56" width="178"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Comentarios"border="6" color="8388608" x="1554" y="8" height="56" width="384"  name=comentarios_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Formulación"border="6" color="8388608" x="1111" y="8" height="56" width="425"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Hilos"border="6" color="8388608" x="869" y="8" height="56" width="224"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=6 alignment="2" tabsequence=10 border="5" color="0" x="14" y="8" height="64" width="174" format="[general]"  name=orden editmask.mask="#,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="206" y="8" height="64" width="165" format="[general]"  name=aplicacion edit.limit=5 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_aplicacion_abr( empresa , aplicacion )"border="6" color="8388608~tif(f_tipo_linea_aplicacion( empresa , aplicacion ) = ~"H~" , rgb(255,0,0) , rgb(0,0,0) )" x="389" y="8" height="60" width="261" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="2" tabsequence=32766 border="6" color="8388608" x="667" y="8" height="60" width="174" format="[general]"  name=pantalla edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=7 alignment="0" tabsequence=30 border="5" color="0" x="1554" y="4" height="64" width="384" format="[general]"  name=comentarios edit.limit=50 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="6" color="8388608" x="1115" y="8" height="60" width="421" format="[general]"  name=nombre_for edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=detail id=9 alignment="2" tabsequence=32766 border="6" color="8388608" x="864" y="8" height="60" width="229" format="[general]"  name=hilos_pant edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

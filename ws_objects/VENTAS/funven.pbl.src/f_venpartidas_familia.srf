@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_venpartidas_familia.srf
+global type f_venpartidas_familia from function_object
+end type
+
+forward prototypes
+global function boolean f_venpartidas_familia (string empresa, string partida, string familia)
+end prototypes
+
+global function boolean f_venpartidas_familia (string empresa, string partida, string familia);Integer n
+  SELECT count(*)  
+    INTO :n  
+    FROM venpartidasfamilias  
+   WHERE ( venpartidasfamilias.empresa = :empresa ) AND  
+         ( venpartidasfamilias.partida = :partida ) AND  
+         ( venpartidasfamilias.familia = :familia )   ;
+			IF IsNUll(n) Then n= 0
+			IF n=0 Then Return FALSE
+			Return TRUE
+
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$str_vendomiciliacion.srs
+global type str_vendomiciliacion from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     codigo
+     STRING     nombrebanco
+     STRING     pais
+     STRING     provincia
+     STRING     codpostal
+     STRING     localidad
+     STRING     domicilio
+     STRING     cuenta
+     STRING     entidad
+     STRING     oficina
+     STRING     control
+     STRING     swift
+     STRING     iban
+     STRING     codigo_iban
+     STRING     codigo_swift
+end type
+

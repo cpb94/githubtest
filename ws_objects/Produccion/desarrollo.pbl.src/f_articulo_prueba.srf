@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_articulo_prueba.srf
+global type f_articulo_prueba from function_object
+end type
+
+forward prototypes
+global function string f_articulo_prueba (string arg_empresa, string arg_solicitud, string arg_trabajo, integer arg_prueba)
+end prototypes
+
+global function string f_articulo_prueba (string arg_empresa, string arg_solicitud, string arg_trabajo, integer arg_prueba);string v_articulo
+int v_prueba
+
+
+select codigo
+into :v_articulo
+from articulos
+where empresa = :arg_empresa
+and solicitud = :arg_solicitud
+and trabajo = :arg_trabajo
+and prueba = :arg_prueba;
+
+return v_articulo
+end function
+

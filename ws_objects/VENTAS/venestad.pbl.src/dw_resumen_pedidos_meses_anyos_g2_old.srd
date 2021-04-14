@@ -1,0 +1,135 @@
+﻿$PBExportHeader$dw_resumen_pedidos_meses_anyos_g2_old.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=1090519039 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=4 HTMLDW=no print.printername="" print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file=""  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+header[2](height=64 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=72 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=60 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(20) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=number updatewhereclause=yes name=importe_moneda dbname="importe_moneda" )
+ retrieve="select 	venliped.empresa,   
+         venliped.anyo,   
+         venliped.pedido,   
+         venliped.linea,  
+			venliped.fpedido,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 ) ) / venped.cambio as importe_moneda,
+         venliped.cantidad,
+         articulos.fecha_alta,
+			formatos.ancho,
+			formatos.largo,
+			formatos.ancho * formatos.largo * venliped.cantidad / 10000 as metros,
+			formatos.largo * venliped.cantidad / 100 as metros_largo
+
+from venliped, articulos, formatos, venped, art_codestadistico, art_grupo2
+where venliped.empresa = :empresa 
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and formatos.empresa = :empresa   
+and venped.empresa = :empresa   
+and venped.anyo = venliped.anyo
+and venped.pedido = venliped.pedido
+and venliped.articulo = articulos.codigo
+and articulos.formato = formatos.codigo
+and venliped.fpedido >= :fdesde
+and venliped.fpedido <= :fhasta
+and venliped.cliente like :cliente
+
+union
+
+select 	venlialb.empresa,
+			venlialb.anyo_pedido_origen, 
+			venlialb.pedido_origen, 
+			venlialb.linea_pedido_origen, 
+			venlialb.fpedido_origen,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venlialb.cantidad * venlialb.precio * ( 1 -  venlialb.dtoesp / 100  )* ( 1 -  venlialb.dtoesp2 / 100  ) ) / venalb.cambio as importe_moneda,
+			venlialb.cantidad,
+			articulos.fecha_alta,
+			formatos.ancho,
+			formatos.largo,
+			formatos.ancho * formatos.largo * venlialb.cantidad / 10000 as metros, 
+			formatos.largo * venlialb.cantidad / 100 as metros_largo
+
+from venlialb, articulos, formatos, venalb, art_codestadistico, art_grupo2
+where venlialb.empresa = :empresa    
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and formatos.empresa = :empresa   
+and venalb.empresa = :empresa
+and venalb.anyo = venlialb.anyo
+and venalb.albaran = venlialb.albaran
+and venlialb.articulo = articulos.codigo
+and articulos.formato = formatos.codigo
+and venlialb.fpedido_origen >= :fdesde
+and venlialb.fpedido_origen <= :fhasta
+and venlialb.cliente like :cliente
+
+union
+
+select 	venlifac.empresa, 
+			venlifac.anyo_pedido_origen, 
+			venlifac.pedido_origen, 
+			venlifac.linea_pedido_origen, 
+			venlifac.fpedido_origen,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venlifac.cantidad * venlifac.precio * ( 1 -  venlifac.dtoesp / 100  ) * ( 1 -  venlifac.dtoesp2 / 100 ) ) / venfac.cambio as importe_moneda,
+			venlifac.cantidad,
+			articulos.fecha_alta,
+			formatos.ancho,
+			formatos.largo,
+			formatos.ancho * formatos.largo * venlifac.cantidad / 10000 as metros, 
+			formatos.largo * venlifac.cantidad / 100 as metros_largo
+
+from venlifac, articulos, formatos, venfac, art_codestadistico, art_grupo2
+where venlifac.empresa = :empresa    
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and formatos.empresa = :empresa   
+and venfac.empresa = :empresa
+and venfac.anyo = venlifac.anyo
+and venfac.factura = venlifac.factura
+and venlifac.articulo = articulos.codigo
+and articulos.formato = formatos.codigo
+and venlifac.fpedido_origen >= :fdesde
+and venlifac.fpedido_origen <= :fhasta
+and ( venlifac.factura_deposito <> 'S' or venlifac.factura_deposito is null )
+and venlifac.cliente like :cliente
+
+" arguments=(("empresa", string),("cliente", string),("fdesde", date),("fhasta", date))  sort="descripcion A " )
+text(band=header[1] alignment="0" text="Sum Of Importe Moneda" border="0" color="33554432" x="9" y="4" height="64" width="457" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header[1] alignment="0" text="Anyo" border="0" color="33554432" x="475" y="4" height="64" width="288" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header[2] alignment="2" text="G2" border="0" color="16777215" x="9" y="4" height="56" width="457" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header[2] alignment="2" text="@anyo" border="0" color="16777215" x="475" y="4" height="56" width="288" html.valueishtml="0"  name=importe_moneda_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header[2] alignment="2" text="TOTAL" border="0" color="16777215" x="773" y="4" height="56" width="402" html.valueishtml="0"  name=grand_sum_importe_moneda_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388736" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="33554432" x="9" y="4" height="76" width="457" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="33554432" x="475" y="4" height="76" width="288" format="###,###,###,##0.00" html.valueishtml="0"  name=importe_moneda visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes crosstab.repeat=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="30337023" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="2" color="33554432" x="773" y="4" height="76" width="402" format="###,###,###,##0.00" html.valueishtml="0"  name=grand_sum_importe_moneda visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="32636137" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=summary alignment="1" expression="sum(grand_sum_importe_moneda for all )"border="2" color="16777215" x="773" y="4" height="76" width="402" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=summary alignment="1" expression="sum(importe_moneda for all )"border="2" color="16777215" x="475" y="4" height="76" width="288" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=summary alignment="1" expression="~"Total~""border="0" color="16777215" x="9" y="4" height="76" width="457" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=footer alignment="0" expression="pageCount()"border="0" color="16777215" x="475" y="260" height="56" width="288" format="[General]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="8388608" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "anyo" rows = "descripcion" values = "sum(importe_moneda for crosstab)" sourcenames = "empresa, anyo, pedido, linea, fpedido, g2, descripcion, importe_moneda, cantidad, fecha_alta, ancho, largo, metros, metros_largo")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_inicializar_str_art_versiones.srf
+global type f_inicializar_str_art_versiones from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_art_versiones ( ref str_art_versiones str_art_versiones)
+end prototypes
+
+global function boolean f_inicializar_str_art_versiones ( ref str_art_versiones str_art_versiones);boolean lb_correcto = true
+
+if isnull(str_art_versiones.empresa) then str_art_versiones.empresa = ''
+if isnull(str_art_versiones.articulo) then str_art_versiones.articulo = ''
+if isnull(str_art_versiones.version) then str_art_versiones.version = ''
+if isnull(str_art_versiones.base) then str_art_versiones.base = ''
+if isnull(str_art_versiones.descripcion) then str_art_versiones.descripcion = ''
+if isnull(str_art_versiones.observaciones) then str_art_versiones.observaciones = ''
+if isnull(str_art_versiones.aprovechar_base) then str_art_versiones.aprovechar_base = ''
+if isnull(str_art_versiones.tipo_version) then str_art_versiones.tipo_version = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_proceso_almalmacen.srd
+$PBExportComments$Cursor almacenes selecciona todos los  almacenes de una empresa.
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=173 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=29 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="almalmacen.empresa" )
+ column=(type=char(5) update=yes key=yes name=codigo dbname="almalmacen.codigo" )
+ column=(type=char(40) update=yes name=descripcion dbname="almalmacen.descripcion" )
+ column=(type=char(15) update=yes name=codcli dbname="almalmacen.codcli" )
+ column=(type=char(5) update=yes name=tipoalm dbname="almalmacen.tipoalm" )
+ column=(type=char(5) update=yes name=resumido dbname="almalmacen.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almalmacen~" ) COLUMN(NAME=~"almalmacen.empresa~") COLUMN(NAME=~"almalmacen.codigo~") COLUMN(NAME=~"almalmacen.descripcion~") COLUMN(NAME=~"almalmacen.codcli~") COLUMN(NAME=~"almalmacen.tipoalm~") COLUMN(NAME=~"almalmacen.resumido~")WHERE( EXP1 =~"almalmacen.empresa~" OP =~"=~" EXP2 =~":cod_emp~" ) ) ORDER(NAME=~"almalmacen.empresa~" ASC=yes ) ORDER(NAME=~"almalmacen.codigo~" ASC=yes ) ARG(NAME = ~"cod_emp~" TYPE = string) " update="almalmacen" updatewhere=1 updatekeyinplace=no arguments=(("cod_emp", string)) )
+text(band=header alignment="2" text="ALMACENES"border="6" color="0" x="19" y="16" height="65" width="668"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Contador"border="0" color="0" x="23" y="100" height="65" width="266"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="rowcount()"border="5" color="0" x="316" y="100" height="65" width="362" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_cargar_str_almubimapa_codbar.srf
+global type f_cargar_str_almubimapa_codbar from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_almubimapa_codbar (DECIMAL {0} arg_id,  ref str_almubimapa_codbar str_almubimapa_codbar)
+end prototypes
+
+global function boolean f_cargar_str_almubimapa_codbar (DECIMAL {0} arg_id,  ref str_almubimapa_codbar str_almubimapa_codbar);boolean lb_correcto = true
+
+SELECT almubimapa_codbar.id,
+       almubimapa_codbar.empresa,
+       almubimapa_codbar.almacen,
+       almubimapa_codbar.zona,
+       almubimapa_codbar.fila,
+       almubimapa_codbar.altura,
+       almubimapa_codbar.code39,
+       almubimapa_codbar.color_fondo,
+       almubimapa_codbar.color_texto,
+       almubimapa_codbar.ean13,
+       almubimapa_codbar.activo,
+       almubimapa_codbar.clasificacion_abc,
+       almubimapa_codbar.largo_cm,
+       almubimapa_codbar.ancho_cm,
+       almubimapa_codbar.alto_cm,
+       almubimapa_codbar.peso_maximo_kg,
+       almubimapa_codbar.apilado_en_bloque,
+       almubimapa_codbar.id_alm_bultos,
+       almubimapa_codbar.gestionar_en_piezas,
+       almubimapa_codbar.tipo_ubicacion,
+       almubimapa_codbar.permitir_reservas,
+       almubimapa_codbar.distancia,
+       almubimapa_codbar.sugerida
+INTO   :str_almubimapa_codbar.id,
+       :str_almubimapa_codbar.empresa,
+       :str_almubimapa_codbar.almacen,
+       :str_almubimapa_codbar.zona,
+       :str_almubimapa_codbar.fila,
+       :str_almubimapa_codbar.altura,
+       :str_almubimapa_codbar.code39,
+       :str_almubimapa_codbar.color_fondo,
+       :str_almubimapa_codbar.color_texto,
+       :str_almubimapa_codbar.ean13,
+       :str_almubimapa_codbar.activo,
+       :str_almubimapa_codbar.clasificacion_abc,
+       :str_almubimapa_codbar.largo_cm,
+       :str_almubimapa_codbar.ancho_cm,
+       :str_almubimapa_codbar.alto_cm,
+       :str_almubimapa_codbar.peso_maximo_kg,
+       :str_almubimapa_codbar.apilado_en_bloque,
+       :str_almubimapa_codbar.id_alm_bultos,
+       :str_almubimapa_codbar.gestionar_en_piezas,
+       :str_almubimapa_codbar.tipo_ubicacion,
+       :str_almubimapa_codbar.permitir_reservas,
+       :str_almubimapa_codbar.distancia,
+       :str_almubimapa_codbar.sugerida
+FROM almubimapa_codbar
+WHERE almubimapa_codbar.id = :arg_id;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

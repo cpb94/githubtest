@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_proveedor_articulo.srf
+global type f_proveedor_articulo from function_object
+end type
+
+forward prototypes
+global function string f_proveedor_articulo (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_proveedor_articulo (string ra_codemp, string ra_codart);string ls_proveedor
+
+ SELECT   articulos.empresa,articulos.codigo,articulos.proveedor
+    INTO  :ra_codemp,:ra_codart,:ls_proveedor
+    FROM  articulos  
+    
+    WHERE (articulos.empresa = :ra_codemp ) AND  
+         (articulos.codigo = :ra_codart )  
+    
+    ORDER BY articulos.empresa Asc, articulos.codigo;
+    IF SQLCA.SQLCode <> 0 THEN	ls_proveedor = ""
+
+   Return ls_proveedor
+
+end function
+

@@ -1,0 +1,106 @@
+﻿$PBExportHeader$str_venalb.srs
+global type str_venalb from structure
+	string		empresa
+	integer		anyo
+	decimal { 0 }		albaran
+	datetime		falbaran
+	datetime		fentrega
+	datetime		falta
+	string		cliente
+	datetime		flistado
+	string		observaciones
+	string		codpago
+	string		agente1
+	string		agente2
+	decimal { 6 }		comision1
+	decimal { 6 }		comision2
+	decimal { 6 }		comision11
+	decimal { 6 }		comision22
+	decimal { 6 }		dtopp
+	decimal { 6 }		dtoesp1
+	decimal { 6 }		dtoesp2
+	decimal { 6 }		dtoesp3
+	decimal { 6 }		dtoesp4
+	string		tipodto1
+	string		tipodto2
+	string		tipodto3
+	string		tipodto4
+	string		explicaciondto1
+	string		explicaciondto2
+	string		explicaciondto3
+	string		explicaciondto4
+	string		tipoiva
+	decimal { 6 }		iva
+	string		numpedcli
+	string		idioma
+	string		divisa
+	decimal { 6 }		cambio
+	string		tarifa
+	datetime		ftarifa
+	datetime		fbloqueo
+	string		transportista
+	string		serie
+	string		zona
+	string		envio
+	string		correspondencia
+	string		domiciliacion
+	string		forma_envio
+	string		cod_entrega
+	string		usuario
+	string		tipo_portes
+	string		periodo_fac
+	decimal { 6 }		peso
+	string		usuario_pedido
+	string		agente3
+	decimal { 6 }		comision31
+	decimal { 6 }		comision32
+	integer		veces
+	string		textcomercial1
+	string		textcomercial2
+	string		textaduanaesp1
+	string		textaduanaesp2
+	string		textaduanaext1
+	string		textaduanaext2
+	string		textopie1
+	string		textopie2
+	string		condicion
+	decimal { 6 }		peso_neto
+	string		banco_de_cobro
+	decimal { 6 }		porcentaje_aduana
+	decimal { 6 }		bruto
+	decimal { 6 }		importe_dto
+	decimal { 6 }		total_neto
+	string		calculo_dto
+	decimal { 0 }		anyo_pedido_origen
+	decimal { 0 }		pedido_origen
+	datetime		fcarga
+	string		agrupa
+	string		deposito
+	string		almacen_deposito
+	string		abono
+	string		facturar
+	string		precartera
+	string		cartera
+	string		contenedor
+	string		calculo_dtoesp
+	decimal { 6 }		impdtopp
+	string		consumo_deposito
+	string		precinto
+	string		matricula
+	string		comision_fija1
+	string		comision_fija2
+	string		comision_fija3
+	string		dni
+	decimal { 0 }		bultos
+	string		conductor
+	decimal { 6 }		peso_bascula_kg
+	integer		expedicion_anyo
+	string		expedicion_codigo
+	string		venconductores_codigo
+	string		remolque
+	string		booking
+	decimal { 2 }		tara_contenedor
+	string		metodo_verificacion_masa_bruta
+	decimal { 2 }		dtoesp
+end type
+

@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_pendiente_cobro_factura.srf
+global type f_pendiente_cobro_factura from function_object
+end type
+
+forward prototypes
+global function decimal f_pendiente_cobro_factura (string arg_empresa, integer arg_anyo, long arg_factura)
+end prototypes
+
+global function decimal f_pendiente_cobro_factura (string arg_empresa, integer arg_anyo, long arg_factura);dec    pendiente_cartera
+string var_factura_s
+
+var_factura_s = string(arg_factura,"########")
+		
+select sum(importe)
+into   :pendiente_cartera
+from   carefectos
+where  empresa   = :arg_empresa
+and    anyofra   = :arg_anyo
+and    factura   = :var_factura_s
+and    situacion <> '9'
+and    (agrupado <>'S' or agrupado is null);
+
+if isnull(pendiente_cartera) then pendiente_cartera = 0
+
+return pendiente_cartera
+end function
+

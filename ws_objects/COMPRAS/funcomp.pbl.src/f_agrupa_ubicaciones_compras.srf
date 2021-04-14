@@ -1,0 +1,92 @@
+﻿$PBExportHeader$f_agrupa_ubicaciones_compras.srf
+global type f_agrupa_ubicaciones_compras from function_object
+end type
+
+forward prototypes
+global subroutine f_agrupa_ubicaciones_compras ()
+end prototypes
+
+global subroutine f_agrupa_ubicaciones_compras ();datastore ubicaciones
+string  sel
+long    indice,total
+long    linea,lineas,calibre
+string  ubicacion,mp,calidad
+dec     existencias
+boolean bien = true
+IF Not f_bloquear_almacen_compras("Proceso de agrupación de ubicaciones") Then
+	
+	delete  comlinubica
+	where   empresa = :codigo_empresa
+	and     existencias = 0;
+	
+	if sqlca.sqlcode = 0 then
+		commit;
+	else
+		rollback;
+	end if
+	
+	sel = "select mp,calidad,"+&
+			"ubicacion,sum(existencias) existencias ,max(linea) linea ,count(*) lineas "+&
+			"from comlinubica where empresa = '"+codigo_empresa+"' "+&
+			"group by mp,calidad,ubicacion"
+			
+	//ubicaciones = f_cargar_cursor(sel)		
+	f_cargar_cursor_nuevo(sel, ubicaciones)
+	
+	total = ubicaciones.rowcount()
+	
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando_ubicaciones",indice,total)
+		lineas = ubicaciones.object.lineas[indice]
+		if lineas > 1 then
+			linea       = ubicaciones.object.linea[indice]
+			ubicacion   = ubicaciones.object.ubicacion[indice]
+			mp          = ubicaciones.object.mp[indice]
+			calidad     = ubicaciones.object.calidad[indice]
+			existencias = ubicaciones.object.existencias[indice]
+			if bien then
+				if existencias <> 0 then
+					update comlinubica
+					set    existencias = :existencias
+					where  empresa   = :codigo_empresa
+					and    ubicacion = :ubicacion
+					and    linea     = :linea
+					and    mp        = :mp
+					and    calidad   = :calidad;
+				else
+					delete  comlinubica
+					where   empresa   = :codigo_empresa
+					and     ubicacion = :ubicacion
+					and     linea     = :linea
+					and     mp        = :mp
+					and     calidad   = :calidad;					
+				end if
+				
+				if sqlca.sqlcode <> 0 then
+					bien = false
+				else
+					delete  comlinubica
+					where   empresa   = :codigo_empresa
+					and     ubicacion = :ubicacion
+					and     linea    <> :linea
+					and     mp        = :mp
+					and     calidad   = :calidad;					
+					
+					if sqlca.sqlcode <> 0 then
+						bien = false
+					end if
+				end if
+			end if
+		end if
+	next
+	if bien then
+		commit;
+	else
+		rollback;
+	end if
+	f_desbloquear_almacen_compras("Proceso de agrupación de ubicaciones")
+end if
+
+destroy ubicaciones
+end subroutine
+

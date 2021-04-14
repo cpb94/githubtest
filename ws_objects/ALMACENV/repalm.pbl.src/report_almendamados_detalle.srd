@@ -1,0 +1,11 @@
+﻿$PBExportHeader$report_almendamados_detalle.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=articulo dbname="almendamadosdetalle.articulo" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almendamadosdetalle~" )  TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"almendamadosdetalle.articulo~") COLUMN(NAME=~"articulos.descripcion~")    JOIN (LEFT=~"almendamadosdetalle.empresa~"    OP =~"=~"RIGHT=~"articulos.empresa~"    OUTER1 =~"almendamadosdetalle.empresa~" )    JOIN (LEFT=~"almendamadosdetalle.articulo~"    OP =~"=~"RIGHT=~"articulos.codigo~"    OUTER1 =~"almendamadosdetalle.articulo~" )WHERE(    EXP1 =~"almendamadosdetalle.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almendamadosdetalle.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " arguments=(("empresa", string),("codigo", string)) )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="8" height="65" width="1418" format="[general]"  name=articulos_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

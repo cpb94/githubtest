@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_pesopanel_promparam.srf
+global type f_pesopanel_promparam from function_object
+end type
+
+forward prototypes
+global function decimal f_pesopanel_promparam (string arg_empresa)
+end prototypes
+
+global function decimal f_pesopanel_promparam (string arg_empresa);Dec{4}  argumento
+  SELECT promparam.pesopanelmano  
+    INTO :argumento  
+    FROM promparam  
+   WHERE promparam.empresa = :arg_empresa   ;
+	return argumento
+
+end function
+

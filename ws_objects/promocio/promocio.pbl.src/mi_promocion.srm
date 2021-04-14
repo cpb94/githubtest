@@ -1,0 +1,1156 @@
+﻿$PBExportHeader$mi_promocion.srm
+forward
+global type mi_promocion from mc_menu_sheets
+end type
+type m_mantcontadores from menu within m_programas
+end type
+type m_mantparametrospromocion from menu within m_programas
+end type
+type m_mant from menu within m_programas
+end type
+type m_gestindealmacn from menu within m_programas
+end type
+type m_entradasdealmacndeporomocin from menu within m_gestindealmacn
+end type
+type m_gestindealmacn from menu within m_programas
+m_entradasdealmacndeporomocin m_entradasdealmacndeporomocin
+end type
+type m_gestintipoexpositores from menu within m_programas
+end type
+type m_introduccintipoexpositores from menu within m_gestintipoexpositores
+end type
+type m_mantpanelesporexpositor1 from menu within m_gestintipoexpositores
+end type
+type m_mantpanelesporexpositor2 from menu within m_gestintipoexpositores
+end type
+type m_gestintipoexpositores from menu within m_programas
+m_introduccintipoexpositores m_introduccintipoexpositores
+m_mantpanelesporexpositor1 m_mantpanelesporexpositor1
+m_mantpanelesporexpositor2 m_mantpanelesporexpositor2
+end type
+type m_mantpaneles from menu within m_programas
+end type
+type m_mantpaneles1 from menu within m_mantpaneles
+end type
+type m_mantmapadepaneles1 from menu within m_mantpaneles
+end type
+type m_-5 from menu within m_mantpaneles
+end type
+type m_manttipodepaneles from menu within m_mantpaneles
+end type
+type m_mantclasesdepaneles from menu within m_mantpaneles
+end type
+type m_m from menu within m_mantpaneles
+end type
+type m_-4 from menu within m_mantpaneles
+end type
+type m_mantpanelespormedidas from menu within m_mantpaneles
+end type
+type m_-6 from menu within m_mantpaneles
+end type
+type m_consultapanelespormedidas from menu within m_mantpaneles
+end type
+type m_consultapanelesmano from menu within m_mantpaneles
+end type
+type m_panelesanulados from menu within m_mantpaneles
+end type
+type m_mantpaneles from menu within m_programas
+m_mantpaneles1 m_mantpaneles1
+m_mantmapadepaneles1 m_mantmapadepaneles1
+m_-5 m_-5
+m_manttipodepaneles m_manttipodepaneles
+m_mantclasesdepaneles m_mantclasesdepaneles
+m_m m_m
+m_-4 m_-4
+m_mantpanelespormedidas m_mantpanelespormedidas
+m_-6 m_-6
+m_consultapanelespormedidas m_consultapanelespormedidas
+m_consultapanelesmano m_consultapanelesmano
+m_panelesanulados m_panelesanulados
+end type
+type m_gestinexpositores from menu within m_programas
+end type
+type m_mantexpositores from menu within m_gestinexpositores
+end type
+type m_detalleexpositor from menu within m_gestinexpositores
+end type
+type m_gestinexpositores from menu within m_programas
+m_mantexpositores m_mantexpositores
+m_detalleexpositor m_detalleexpositor
+end type
+type m_gestionmapapaneles from menu within m_programas
+end type
+type m_introduccinmapapaneles from menu within m_gestionmapapaneles
+end type
+type m_detallemapadepaneles from menu within m_gestionmapapaneles
+end type
+type m_gestionmapapaneles from menu within m_programas
+m_introduccinmapapaneles m_introduccinmapapaneles
+m_detallemapadepaneles m_detallemapadepaneles
+end type
+type m_gestindepedidos from menu within m_programas
+end type
+type m_introduccindepedidos from menu within m_gestindepedidos
+end type
+type m_consultapedidos from menu within m_gestindepedidos
+end type
+type m_portipoexpositor from menu within m_consultapedidos
+end type
+type m_porcliente from menu within m_consultapedidos
+end type
+type m_porpanel1 from menu within m_consultapedidos
+end type
+type m_porrepresentante from menu within m_consultapedidos
+end type
+type m_porcliente1 from menu within m_consultapedidos
+end type
+type m_consultapedidos from menu within m_gestindepedidos
+m_portipoexpositor m_portipoexpositor
+m_porcliente m_porcliente
+m_porpanel1 m_porpanel1
+m_porrepresentante m_porrepresentante
+m_porcliente1 m_porcliente1
+end type
+type m_etiquetaspedidos from menu within m_gestindepedidos
+end type
+type m_situacionpdospdtes from menu within m_gestindepedidos
+end type
+type m_conslistpedidospreparados from menu within m_gestindepedidos
+end type
+type m_gestindepedidos from menu within m_programas
+m_introduccindepedidos m_introduccindepedidos
+m_consultapedidos m_consultapedidos
+m_etiquetaspedidos m_etiquetaspedidos
+m_situacionpdospdtes m_situacionpdospdtes
+m_conslistpedidospreparados m_conslistpedidospreparados
+end type
+type m_gestiondealbaranes from menu within m_programas
+end type
+type m_generacindealbaranes from menu within m_gestiondealbaranes
+end type
+type m_consultasalbaranes from menu within m_gestiondealbaranes
+end type
+type m_poralbaran from menu within m_consultasalbaranes
+end type
+type m_protipoexpositor from menu within m_consultasalbaranes
+end type
+type m_porclientes from menu within m_consultasalbaranes
+end type
+type m_porrepresentantes from menu within m_consultasalbaranes
+end type
+type m_porpais from menu within m_consultasalbaranes
+end type
+type m_porpanel from menu within m_consultasalbaranes
+end type
+type m_consultasalbaranes from menu within m_gestiondealbaranes
+m_poralbaran m_poralbaran
+m_protipoexpositor m_protipoexpositor
+m_porclientes m_porclientes
+m_porrepresentantes m_porrepresentantes
+m_porpais m_porpais
+m_porpanel m_porpanel
+end type
+type m_gestiondealbaranes from menu within m_programas
+m_generacindealbaranes m_generacindealbaranes
+m_consultasalbaranes m_consultasalbaranes
+end type
+type m_controlseriesexpositores from menu within m_programas
+end type
+type m_mantseries from menu within m_controlseriesexpositores
+end type
+type m_asignacionseriespedidos from menu within m_controlseriesexpositores
+end type
+type m_consultaporproveedor from menu within m_controlseriesexpositores
+end type
+type m_consultaseries from menu within m_controlseriesexpositores
+end type
+type m_consultamuebles from menu within m_controlseriesexpositores
+end type
+type m_consultaexpositoresporcliente from menu within m_controlseriesexpositores
+end type
+type m_traspasoexpositoresentreclientes from menu within m_controlseriesexpositores
+end type
+type m_controlseriesexpositores from menu within m_programas
+m_mantseries m_mantseries
+m_asignacionseriespedidos m_asignacionseriespedidos
+m_consultaporproveedor m_consultaporproveedor
+m_consultaseries m_consultaseries
+m_consultamuebles m_consultamuebles
+m_consultaexpositoresporcliente m_consultaexpositoresporcliente
+m_traspasoexpositoresentreclientes m_traspasoexpositoresentreclientes
+end type
+type m_-7 from menu within m_programas
+end type
+type m_recalculos from menu within m_programas
+end type
+type m_recalculopaneles1 from menu within m_recalculos
+end type
+type m_recalculopedidos from menu within m_recalculos
+end type
+type m_recalculoalbaranes from menu within m_recalculos
+end type
+type m_recalculos from menu within m_programas
+m_recalculopaneles1 m_recalculopaneles1
+m_recalculopedidos m_recalculopedidos
+m_recalculoalbaranes m_recalculoalbaranes
+end type
+type m_-8 from menu within m_programas
+end type
+type m_familiasexcuidas%incremento from menu within m_programas
+end type
+end forward
+
+global type mi_promocion from mc_menu_sheets
+end type
+global mi_promocion mi_promocion
+
+on mi_promocion.create
+mi_promocion=this
+call super::create
+end on
+
+on mi_promocion.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_promocion
+m_mantcontadores m_mantcontadores
+m_mantparametrospromocion m_mantparametrospromocion
+m_mant m_mant
+m_gestindealmacn m_gestindealmacn
+m_gestintipoexpositores m_gestintipoexpositores
+m_mantpaneles m_mantpaneles
+m_gestinexpositores m_gestinexpositores
+m_gestionmapapaneles m_gestionmapapaneles
+m_gestindepedidos m_gestindepedidos
+m_gestiondealbaranes m_gestiondealbaranes
+m_controlseriesexpositores m_controlseriesexpositores
+m_-7 m_-7
+m_recalculos m_recalculos
+m_-8 m_-8
+m_familiasexcuidas%incremento m_familiasexcuidas%incremento
+end type
+
+on m_programas.create
+call super::create
+this.m_mantcontadores=create m_mantcontadores
+this.m_mantparametrospromocion=create m_mantparametrospromocion
+this.m_mant=create m_mant
+this.m_gestindealmacn=create m_gestindealmacn
+this.m_gestintipoexpositores=create m_gestintipoexpositores
+this.m_mantpaneles=create m_mantpaneles
+this.m_gestinexpositores=create m_gestinexpositores
+this.m_gestionmapapaneles=create m_gestionmapapaneles
+this.m_gestindepedidos=create m_gestindepedidos
+this.m_gestiondealbaranes=create m_gestiondealbaranes
+this.m_controlseriesexpositores=create m_controlseriesexpositores
+this.m_-7=create m_-7
+this.m_recalculos=create m_recalculos
+this.m_-8=create m_-8
+this.m_familiasexcuidas%incremento=create m_familiasexcuidas%incremento
+this.Item[UpperBound(this.item)+1]=this.m_mantcontadores
+this.Item[UpperBound(this.item)+1]=this.m_mantparametrospromocion
+this.Item[UpperBound(this.item)+1]=this.m_mant
+this.Item[UpperBound(this.item)+1]=this.m_gestindealmacn
+this.Item[UpperBound(this.item)+1]=this.m_gestintipoexpositores
+this.Item[UpperBound(this.item)+1]=this.m_mantpaneles
+this.Item[UpperBound(this.item)+1]=this.m_gestinexpositores
+this.Item[UpperBound(this.item)+1]=this.m_gestionmapapaneles
+this.Item[UpperBound(this.item)+1]=this.m_gestindepedidos
+this.Item[UpperBound(this.item)+1]=this.m_gestiondealbaranes
+this.Item[UpperBound(this.item)+1]=this.m_controlseriesexpositores
+this.Item[UpperBound(this.item)+1]=this.m_-7
+this.Item[UpperBound(this.item)+1]=this.m_recalculos
+this.Item[UpperBound(this.item)+1]=this.m_-8
+this.Item[UpperBound(this.item)+1]=this.m_familiasexcuidas%incremento
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_mantcontadores)
+destroy(this.m_mantparametrospromocion)
+destroy(this.m_mant)
+destroy(this.m_gestindealmacn)
+destroy(this.m_gestintipoexpositores)
+destroy(this.m_mantpaneles)
+destroy(this.m_gestinexpositores)
+destroy(this.m_gestionmapapaneles)
+destroy(this.m_gestindepedidos)
+destroy(this.m_gestiondealbaranes)
+destroy(this.m_controlseriesexpositores)
+destroy(this.m_-7)
+destroy(this.m_recalculos)
+destroy(this.m_-8)
+destroy(this.m_familiasexcuidas%incremento)
+end on
+
+type m_mantcontadores from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promcontador, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantcontadores.create
+this.Text="Mant.Contadores"
+end on
+
+on m_mantcontadores.destroy
+end on
+
+type m_mantparametrospromocion from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promparam, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_mantparametrospromocion.create
+this.Text="Mant. Parametros promocion"
+end on
+
+type m_mant from menu within m_programas
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promgrupos, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_mant.create
+this.Text="Mant. Grupos."
+end on
+
+type m_gestindealmacn from menu within m_programas
+m_entradasdealmacndeporomocin m_entradasdealmacndeporomocin
+end type
+
+on m_gestindealmacn.create
+this.Text="Gestión de Almacén"
+this.m_entradasdealmacndeporomocin=create m_entradasdealmacndeporomocin
+this.Item[]={this.m_entradasdealmacndeporomocin}
+end on
+
+on m_gestindealmacn.destroy
+destroy(this.m_entradasdealmacndeporomocin)
+end on
+
+type m_entradasdealmacndeporomocin from menu within m_gestindealmacn
+end type
+
+on m_entradasdealmacndeporomocin.create
+this.Text="Entradas de Almacén de Promoción"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_entradas_stock_promocion, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_gestintipoexpositores from menu within m_programas
+m_introduccintipoexpositores m_introduccintipoexpositores
+m_mantpanelesporexpositor1 m_mantpanelesporexpositor1
+m_mantpanelesporexpositor2 m_mantpanelesporexpositor2
+end type
+
+on m_gestintipoexpositores.create
+this.Text="Gestión Muebles."
+this.m_introduccintipoexpositores=create m_introduccintipoexpositores
+this.m_mantpanelesporexpositor1=create m_mantpanelesporexpositor1
+this.m_mantpanelesporexpositor2=create m_mantpanelesporexpositor2
+this.Item[]={this.m_introduccintipoexpositores, &
+this.m_mantpanelesporexpositor1, &
+this.m_mantpanelesporexpositor2}
+end on
+
+on m_gestintipoexpositores.destroy
+destroy(this.m_introduccintipoexpositores)
+destroy(this.m_mantpanelesporexpositor1)
+destroy(this.m_mantpanelesporexpositor2)
+end on
+
+type m_introduccintipoexpositores from menu within m_gestintipoexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promexpositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_introduccintipoexpositores.create
+this.Text="Introducción Tipo Muebles."
+end on
+
+type m_mantpanelesporexpositor1 from menu within m_gestintipoexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promlinexpositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantpanelesporexpositor1.create
+this.Text="Mant. tipos de panel por Mueble."
+end on
+
+type m_mantpanelesporexpositor2 from menu within m_gestintipoexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promembexpositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantpanelesporexpositor2.create
+this.Text="Mant. Embalajes por Mueble."
+end on
+
+type m_mantpaneles from menu within m_programas
+m_mantpaneles1 m_mantpaneles1
+m_mantmapadepaneles1 m_mantmapadepaneles1
+m_-5 m_-5
+m_manttipodepaneles m_manttipodepaneles
+m_mantclasesdepaneles m_mantclasesdepaneles
+m_m m_m
+m_-4 m_-4
+m_mantpanelespormedidas m_mantpanelespormedidas
+m_-6 m_-6
+m_consultapanelespormedidas m_consultapanelespormedidas
+m_consultapanelesmano m_consultapanelesmano
+m_panelesanulados m_panelesanulados
+end type
+
+on m_mantpaneles.create
+this.Text="Gestión Paneles."
+this.m_mantpaneles1=create m_mantpaneles1
+this.m_mantmapadepaneles1=create m_mantmapadepaneles1
+this.m_-5=create m_-5
+this.m_manttipodepaneles=create m_manttipodepaneles
+this.m_mantclasesdepaneles=create m_mantclasesdepaneles
+this.m_m=create m_m
+this.m_-4=create m_-4
+this.m_mantpanelespormedidas=create m_mantpanelespormedidas
+this.m_-6=create m_-6
+this.m_consultapanelespormedidas=create m_consultapanelespormedidas
+this.m_consultapanelesmano=create m_consultapanelesmano
+this.m_panelesanulados=create m_panelesanulados
+this.Item[]={this.m_mantpaneles1, &
+this.m_mantmapadepaneles1, &
+this.m_-5, &
+this.m_manttipodepaneles, &
+this.m_mantclasesdepaneles, &
+this.m_m, &
+this.m_-4, &
+this.m_mantpanelespormedidas, &
+this.m_-6, &
+this.m_consultapanelespormedidas, &
+this.m_consultapanelesmano, &
+this.m_panelesanulados}
+end on
+
+on m_mantpaneles.destroy
+destroy(this.m_mantpaneles1)
+destroy(this.m_mantmapadepaneles1)
+destroy(this.m_-5)
+destroy(this.m_manttipodepaneles)
+destroy(this.m_mantclasesdepaneles)
+destroy(this.m_m)
+destroy(this.m_-4)
+destroy(this.m_mantpanelespormedidas)
+destroy(this.m_-6)
+destroy(this.m_consultapanelespormedidas)
+destroy(this.m_consultapanelesmano)
+destroy(this.m_panelesanulados)
+end on
+
+type m_mantpaneles1 from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prompaneles, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantpaneles1.create
+this.Text="Introducción Paneles"
+end on
+
+type m_mantmapadepaneles1 from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prommapapaneles, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantmapadepaneles1.create
+this.Text="Mant. lineas de  paneles"
+end on
+
+type m_-5 from menu within m_mantpaneles
+end type
+
+on m_-5.create
+this.Text="-"
+end on
+
+type m_manttipodepaneles from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promtipopaneles, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_manttipodepaneles.create
+this.Text="Mant. Tipo de paneles"
+end on
+
+type m_mantclasesdepaneles from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promclasepaneles, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantclasesdepaneles.create
+this.Text="Mant. Clases de paneles"
+end on
+
+type m_m from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_prommedidas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_m.create
+this.Text="Mant. Medidas paneles"
+end on
+
+type m_-4 from menu within m_mantpaneles
+end type
+
+on m_-4.create
+this.Text="-"
+end on
+
+type m_mantpanelespormedidas from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promclasemedidas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantpanelespormedidas.create
+this.Text="Mant. paneles por medidas"
+end on
+
+type m_-6 from menu within m_mantpaneles
+end type
+
+on m_-6.create
+this.Text="-"
+end on
+
+type m_consultapanelespormedidas from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_paneles_medidas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultapanelespormedidas.create
+this.Text="Consulta paneles por Medidas"
+end on
+
+type m_consultapanelesmano from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_paneles_mano, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultapanelesmano.create
+this.Text="Consulta paneles mano"
+end on
+
+type m_panelesanulados from menu within m_mantpaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_paneles_anulados, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_panelesanulados.create
+this.Text="Paneles anulados"
+end on
+
+type m_gestinexpositores from menu within m_programas
+m_mantexpositores m_mantexpositores
+m_detalleexpositor m_detalleexpositor
+end type
+
+on m_gestinexpositores.create
+this.Text="Gestión Expositores."
+this.m_mantexpositores=create m_mantexpositores
+this.m_detalleexpositor=create m_detalleexpositor
+this.Item[]={this.m_mantexpositores, &
+this.m_detalleexpositor}
+end on
+
+on m_gestinexpositores.destroy
+destroy(this.m_mantexpositores)
+destroy(this.m_detalleexpositor)
+end on
+
+type m_mantexpositores from menu within m_gestinexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promcabexpositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mantexpositores.create
+this.Text="Introducción Expositores."
+end on
+
+type m_detalleexpositor from menu within m_gestinexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_prompanexpositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_detalleexpositor.create
+this.Text="Detalle Expositor"
+this.Visible=false
+end on
+
+type m_gestionmapapaneles from menu within m_programas
+m_introduccinmapapaneles m_introduccinmapapaneles
+m_detallemapadepaneles m_detallemapadepaneles
+end type
+
+on m_gestionmapapaneles.create
+this.Text="Gestion mapa paneles mano"
+this.Visible=false
+this.m_introduccinmapapaneles=create m_introduccinmapapaneles
+this.m_detallemapadepaneles=create m_detallemapadepaneles
+this.Item[]={this.m_introduccinmapapaneles, &
+this.m_detallemapadepaneles}
+end on
+
+on m_gestionmapapaneles.destroy
+destroy(this.m_introduccinmapapaneles)
+destroy(this.m_detallemapadepaneles)
+end on
+
+type m_introduccinmapapaneles from menu within m_gestionmapapaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_promcabmapa, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_introduccinmapapaneles.create
+this.Text="Introducción mapa paneles."
+end on
+
+type m_detallemapadepaneles from menu within m_gestionmapapaneles
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_promlinmapa, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_detallemapadepaneles.create
+this.Text="Detalle mapa de paneles."
+end on
+
+type m_gestindepedidos from menu within m_programas
+m_introduccindepedidos m_introduccindepedidos
+m_consultapedidos m_consultapedidos
+m_etiquetaspedidos m_etiquetaspedidos
+m_situacionpdospdtes m_situacionpdospdtes
+m_conslistpedidospreparados m_conslistpedidospreparados
+end type
+
+on m_gestindepedidos.create
+this.Text="Gestión de pedidos."
+this.m_introduccindepedidos=create m_introduccindepedidos
+this.m_consultapedidos=create m_consultapedidos
+this.m_etiquetaspedidos=create m_etiquetaspedidos
+this.m_situacionpdospdtes=create m_situacionpdospdtes
+this.m_conslistpedidospreparados=create m_conslistpedidospreparados
+this.Item[]={this.m_introduccindepedidos, &
+this.m_consultapedidos, &
+this.m_etiquetaspedidos, &
+this.m_situacionpdospdtes, &
+this.m_conslistpedidospreparados}
+end on
+
+on m_gestindepedidos.destroy
+destroy(this.m_introduccindepedidos)
+destroy(this.m_consultapedidos)
+destroy(this.m_etiquetaspedidos)
+destroy(this.m_situacionpdospdtes)
+destroy(this.m_conslistpedidospreparados)
+end on
+
+type m_introduccindepedidos from menu within m_gestindepedidos
+end type
+
+on m_introduccindepedidos.create
+this.Text="Introducción de pedidos."
+end on
+
+on m_introduccindepedidos.destroy
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_prompedidos, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_consultapedidos from menu within m_gestindepedidos
+m_portipoexpositor m_portipoexpositor
+m_porcliente m_porcliente
+m_porpanel1 m_porpanel1
+m_porrepresentante m_porrepresentante
+m_porcliente1 m_porcliente1
+end type
+
+on m_consultapedidos.create
+this.Text="Consulta pedidos"
+this.m_portipoexpositor=create m_portipoexpositor
+this.m_porcliente=create m_porcliente
+this.m_porpanel1=create m_porpanel1
+this.m_porrepresentante=create m_porrepresentante
+this.m_porcliente1=create m_porcliente1
+this.Item[]={this.m_portipoexpositor, &
+this.m_porcliente, &
+this.m_porpanel1, &
+this.m_porrepresentante, &
+this.m_porcliente1}
+end on
+
+on m_consultapedidos.destroy
+destroy(this.m_portipoexpositor)
+destroy(this.m_porcliente)
+destroy(this.m_porpanel1)
+destroy(this.m_porrepresentante)
+destroy(this.m_porcliente1)
+end on
+
+type m_portipoexpositor from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromped1, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_portipoexpositor.create
+this.Text="Por tipo expositor"
+end on
+
+type m_porcliente from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromped2, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porcliente.create
+this.Text="Por cliente"
+end on
+
+type m_porpanel1 from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromped3, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porpanel1.create
+this.Text="Por panel"
+end on
+
+type m_porrepresentante from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromped4, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porrepresentante.create
+this.Text="Por representante"
+end on
+
+type m_porcliente1 from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromped5, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porcliente1.create
+this.Text="Por pais"
+end on
+
+type m_etiquetaspedidos from menu within m_gestindepedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_prometiquetas_ped, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_etiquetaspedidos.create
+this.Text="Etiquetas Pedidos"
+end on
+
+type m_situacionpdospdtes from menu within m_gestindepedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_situacion_pedidos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_situacionpdospdtes.create
+this.Text="Situacion Pdos Pdtes"
+end on
+
+type m_conslistpedidospreparados from menu within m_gestindepedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pallets_preparados, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_conslistpedidospreparados.create
+this.Text="Cons/List. Pedidos Preparados"
+end on
+
+type m_gestiondealbaranes from menu within m_programas
+m_generacindealbaranes m_generacindealbaranes
+m_consultasalbaranes m_consultasalbaranes
+end type
+
+on m_gestiondealbaranes.create
+this.Text="Gestion de Albaranes"
+this.m_generacindealbaranes=create m_generacindealbaranes
+this.m_consultasalbaranes=create m_consultasalbaranes
+this.Item[]={this.m_generacindealbaranes, &
+this.m_consultasalbaranes}
+end on
+
+on m_gestiondealbaranes.destroy
+destroy(this.m_generacindealbaranes)
+destroy(this.m_consultasalbaranes)
+end on
+
+type m_generacindealbaranes from menu within m_gestiondealbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_promalb, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_generacindealbaranes.create
+this.Text="Generación de albaranes"
+end on
+
+type m_consultasalbaranes from menu within m_gestiondealbaranes
+m_poralbaran m_poralbaran
+m_protipoexpositor m_protipoexpositor
+m_porclientes m_porclientes
+m_porrepresentantes m_porrepresentantes
+m_porpais m_porpais
+m_porpanel m_porpanel
+end type
+
+on m_consultasalbaranes.create
+this.Text="Consultas albaranes"
+this.m_poralbaran=create m_poralbaran
+this.m_protipoexpositor=create m_protipoexpositor
+this.m_porclientes=create m_porclientes
+this.m_porrepresentantes=create m_porrepresentantes
+this.m_porpais=create m_porpais
+this.m_porpanel=create m_porpanel
+this.Item[]={this.m_poralbaran, &
+this.m_protipoexpositor, &
+this.m_porclientes, &
+this.m_porrepresentantes, &
+this.m_porpais, &
+this.m_porpanel}
+end on
+
+on m_consultasalbaranes.destroy
+destroy(this.m_poralbaran)
+destroy(this.m_protipoexpositor)
+destroy(this.m_porclientes)
+destroy(this.m_porrepresentantes)
+destroy(this.m_porpais)
+destroy(this.m_porpanel)
+end on
+
+type m_poralbaran from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_promalbaranes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_poralbaran.create
+this.Text="Por albaran."
+end on
+
+type m_protipoexpositor from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromalb1, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_protipoexpositor.create
+this.Text="Por tipo expositor."
+end on
+
+type m_porclientes from menu within m_consultasalbaranes
+end type
+
+on m_porclientes.create
+this.Text="Por clientes"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromalb2, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_porrepresentantes from menu within m_consultasalbaranes
+end type
+
+on m_porrepresentantes.create
+this.Text="Por representante"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromalb4, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_porpais from menu within m_consultasalbaranes
+end type
+
+on m_porpais.create
+this.Text="Por pais"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromalb3, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_porpanel from menu within m_consultasalbaranes
+end type
+
+on m_porpanel.create
+this.Text="Por panel"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_conpromalb5,lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_controlseriesexpositores from menu within m_programas
+m_mantseries m_mantseries
+m_asignacionseriespedidos m_asignacionseriespedidos
+m_consultaporproveedor m_consultaporproveedor
+m_consultaseries m_consultaseries
+m_consultamuebles m_consultamuebles
+m_consultaexpositoresporcliente m_consultaexpositoresporcliente
+m_traspasoexpositoresentreclientes m_traspasoexpositoresentreclientes
+end type
+
+on m_controlseriesexpositores.create
+this.Text="Control Series expositores"
+this.m_mantseries=create m_mantseries
+this.m_asignacionseriespedidos=create m_asignacionseriespedidos
+this.m_consultaporproveedor=create m_consultaporproveedor
+this.m_consultaseries=create m_consultaseries
+this.m_consultamuebles=create m_consultamuebles
+this.m_consultaexpositoresporcliente=create m_consultaexpositoresporcliente
+this.m_traspasoexpositoresentreclientes=create m_traspasoexpositoresentreclientes
+this.Item[]={this.m_mantseries, &
+this.m_asignacionseriespedidos, &
+this.m_consultaporproveedor, &
+this.m_consultaseries, &
+this.m_consultamuebles, &
+this.m_consultaexpositoresporcliente, &
+this.m_traspasoexpositoresentreclientes}
+end on
+
+on m_controlseriesexpositores.destroy
+destroy(this.m_mantseries)
+destroy(this.m_asignacionseriespedidos)
+destroy(this.m_consultaporproveedor)
+destroy(this.m_consultaseries)
+destroy(this.m_consultamuebles)
+destroy(this.m_consultaexpositoresporcliente)
+destroy(this.m_traspasoexpositoresentreclientes)
+end on
+
+type m_mantseries from menu within m_controlseriesexpositores
+end type
+
+event clicked;IF f_pedir_clave("3") THEN 
+	 str_parametros lstr_param
+    OpenSheetWithParm(wi_mant_promseries, lstr_param, ParentWindow, 3,original!)
+End if
+end event
+
+on m_mantseries.create
+this.Text="Mant. Series"
+end on
+
+type m_asignacionseriespedidos from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_asignacion_series, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_asignacionseriespedidos.create
+this.Text="Asignacion series Pedidos"
+end on
+
+type m_consultaporproveedor from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_seriesproveedor, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaporproveedor.create
+this.Text="Consulta por proveedor"
+end on
+
+type m_consultaseries from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_series, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaseries.create
+this.Text="Consulta Series"
+end on
+
+type m_consultamuebles from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_series_muebles, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultamuebles.create
+this.Text="Consulta muebles"
+end on
+
+type m_consultaexpositoresporcliente from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_expositores_act_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_consultaexpositoresporcliente.create
+this.Text="Consulta Expositores Por cliente"
+end on
+
+type m_traspasoexpositoresentreclientes from menu within m_controlseriesexpositores
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_traspaso_expositores, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_traspasoexpositoresentreclientes.create
+this.Text="Traspaso Expositores entre Clientes"
+end on
+
+type m_-7 from menu within m_programas
+end type
+
+on m_-7.create
+this.Text="-"
+end on
+
+type m_recalculos from menu within m_programas
+m_recalculopaneles1 m_recalculopaneles1
+m_recalculopedidos m_recalculopedidos
+m_recalculoalbaranes m_recalculoalbaranes
+end type
+
+on m_recalculos.create
+this.Text="Recalculos"
+this.m_recalculopaneles1=create m_recalculopaneles1
+this.m_recalculopedidos=create m_recalculopedidos
+this.m_recalculoalbaranes=create m_recalculoalbaranes
+this.Item[]={this.m_recalculopaneles1, &
+this.m_recalculopedidos, &
+this.m_recalculoalbaranes}
+end on
+
+on m_recalculos.destroy
+destroy(this.m_recalculopaneles1)
+destroy(this.m_recalculopedidos)
+destroy(this.m_recalculoalbaranes)
+end on
+
+type m_recalculopaneles1 from menu within m_recalculos
+end type
+
+event clicked;IF f_pedir_clave("3") THEN 
+   str_parametros lstr_param
+   OpenSheetWithParm(w_recalcular_paneles, lstr_param, ParentWindow, 3,original!)
+End if
+end event
+
+on m_recalculopaneles1.create
+this.Text="Recalculo paneles"
+end on
+
+type m_recalculopedidos from menu within m_recalculos
+end type
+
+event clicked;IF f_pedir_clave("3") THEN 
+   str_parametros lstr_param
+   OpenSheetWithParm(w_recalcular_prompedidos, lstr_param, ParentWindow, 3,original!)
+End if
+end event
+
+on m_recalculopedidos.create
+this.Text="Recalculo Pedidos"
+end on
+
+type m_recalculoalbaranes from menu within m_recalculos
+end type
+
+event clicked;IF f_pedir_clave("3") THEN 
+   str_parametros lstr_param
+   OpenSheetWithParm(w_recalcular_promalb, lstr_param, ParentWindow, 3,original!)
+End if
+end event
+
+on m_recalculoalbaranes.create
+this.Text="Recalculo Albaranes"
+end on
+
+type m_-8 from menu within m_programas
+end type
+
+on m_-8.create
+this.Text="-"
+end on
+
+type m_familiasexcuidas%incremento from menu within m_programas
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_familias_exclu_incre_promocion, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_familiasexcuidas%incremento.create
+this.Text="Familias excluidas % incremento"
+end on
+

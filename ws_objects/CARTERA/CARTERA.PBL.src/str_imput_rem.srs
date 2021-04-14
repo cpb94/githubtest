@@ -1,0 +1,6 @@
+﻿$PBExportHeader$str_imput_rem.srs
+global type str_imput_rem from structure
+	decimal {0}	dato1
+	decimal {0}	dato2
+end type
+

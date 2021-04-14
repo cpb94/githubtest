@@ -1,0 +1,41 @@
+﻿$PBExportHeader$ftc_imprimir_ficha_tecnica_bases.srf
+global type ftc_imprimir_ficha_tecnica_bases from function_object
+end type
+
+forward prototypes
+global subroutine ftc_imprimir_ficha_tecnica_bases ()
+end prototypes
+
+global subroutine ftc_imprimir_ficha_tecnica_bases ();string escandallo[],version_esc[],camino
+long   indice,total,i, ot
+tipo_array val,ent
+datawindow DW, report
+string articulo, version1 , version2
+
+DW = w_planificacion_tencer_wide.dw_1
+report = w_planificacion_tencer_wide.dw_listado_ficha
+
+report.reset()
+
+articulo = DW.object.cod_articulo[DW.GetRow()]
+version1 = DW.object.planificacion_version[DW.GetRow()]
+version2 = DW.object.planificacion_version[DW.GetRow()]
+ot = DW.object.ot[DW.GetRow()]
+
+f_imprimir_ficha_tecnica_ot(report,articulo,version1,version2, ot)
+if f_imprimir_datawindow(report) then
+	w_planificacion_tencer_wide.dw_imagenes_extra.settransobject(sqlca)
+	if w_planificacion_tencer_wide.dw_imagenes_extra.retrieve(codigo_empresa, articulo, "2", "", "") > 0 then
+		w_planificacion_tencer_wide.dw_imagenes_extra.Print(false)
+		/*
+		if MessageBox("Atención", "El artículo tiene imágenes de encajado adicionales. ¿Desea imprimirlas?", Question!, YesNo!, 2) = 1 then
+			f_imprimir_datawindow(w_planificacion_tencer_wide.dw_imagenes_extra)
+		end if
+		*/
+	end if
+end if
+
+
+
+end subroutine
+

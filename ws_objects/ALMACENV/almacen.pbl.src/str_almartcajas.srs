@@ -1,0 +1,17 @@
+﻿$PBExportHeader$str_almartcajas.srs
+global type str_almartcajas from structure
+     STRING     empresa
+     STRING     articulo
+     STRING     caja
+     DECIMAL {4}     piezascaja
+     DECIMAL {4}     metroscaja
+     DECIMAL {4}     metroslcaja
+     DECIMAL {4}     pesocaja
+     DECIMAL {4}     metros_reales_caja
+     DECIMAL {4}     peso_real_caja
+     DECIMAL {4}     metros_reales
+     STRING     descripcion
+     STRING     codigo
+     STRING     pordefecto
+end type
+

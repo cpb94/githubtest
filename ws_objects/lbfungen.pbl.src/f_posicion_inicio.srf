@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_posicion_inicio.srf
+global type f_posicion_inicio from function_object
+end type
+
+forward prototypes
+global subroutine f_posicion_inicio (window w)
+end prototypes
+
+global subroutine f_posicion_inicio (window w);w.x=16
+w.y=293
+end subroutine
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_list_almlinubica_articulo.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=69 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=almacen dbname="almlinubica.almacen" )
+ column=(type=char(1) updatewhereclause=yes name=zona dbname="almlinubica.zona" )
+ column=(type=long updatewhereclause=yes name=fila dbname="almlinubica.fila" )
+ column=(type=long updatewhereclause=yes name=altura dbname="almlinubica.altura" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="almlinubica.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almlinubica~" ) COLUMN(NAME=~"almlinubica.almacen~") COLUMN(NAME=~"almlinubica.zona~") COLUMN(NAME=~"almlinubica.fila~") COLUMN(NAME=~"almlinubica.altura~") COLUMN(NAME=~"almlinubica.empresa~")WHERE(    EXP1 =~"almlinubica.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica.articulo~"   OP =~"=~"    EXP2 =~":cod_articulo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica.calidad~"   OP =~"=~"    EXP2 =~":cod_calidad~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica.externo~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica.almacen~"   OP =~"<>~"    EXP2 =~"'10'~" ) ) ORDER(NAME=~"almlinubica.altura~" ASC=yes ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"cod_articulo~" TYPE = string)  ARG(NAME = ~"cod_calidad~" TYPE = string) " arguments=(("cod_empresa", string),("cod_articulo", string),("cod_calidad", string))  sort="altura A " )
+compute(band=detail alignment="0" expression="f_nombre_almacen(empresa,almacen)"border="0" color="0" x="14" y="4" height="57" width="613" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="805" y="4" height="57" width="133" format="[general]"  name=fila edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1020" y="4" height="57" width="174" format="[general]"  name=altura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="2" expression=" f_nombre_zona_abr( empresa , almacen , zona ) "border="0" color="0" x="654" y="4" height="57" width="129" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

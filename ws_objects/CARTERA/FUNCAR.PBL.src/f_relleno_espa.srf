@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_relleno_espa.srf
+global type f_relleno_espa from function_object
+end type
+
+forward prototypes
+global function string f_relleno_espa (string cadena, integer cantidad)
+end prototypes
+
+global function string f_relleno_espa (string cadena, integer cantidad);int l
+
+l = len(trim(cadena))
+
+cadena = trim(cadena)
+
+IF l < cantidad THEN cadena = cadena + space(cantidad - l) 
+
+RETURN upper(cadena)
+
+
+end function
+

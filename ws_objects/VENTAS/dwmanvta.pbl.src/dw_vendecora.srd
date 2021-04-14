@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_vendecora.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\BMP\MANO.CUR" )
+header(height=101 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=vendecotar_empresa dbname="vendecotar.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=vendecotar_decorado dbname="vendecotar.decorado" )
+ column=(type=char(20) updatewhereclause=yes name=vendecotar_base dbname="vendecotar.base" )
+ column=(type=char(40) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendecotar~" )  TABLE(NAME=~"articulos~" ) COLUMN(NAME=~"vendecotar.empresa~") COLUMN(NAME=~"vendecotar.decorado~") COLUMN(NAME=~"vendecotar.base~") COLUMN(NAME=~"articulos.descripcion~")    JOIN (LEFT=~"vendecotar.empresa~"    OP =~"=~"RIGHT=~"articulos.empresa~"    OUTER1 =~"vendecotar.empresa~" )    JOIN (LEFT=~"vendecotar.base~"    OP =~"=~"RIGHT=~"articulos.codigo~"    OUTER1 =~"vendecotar.base~" )WHERE(    EXP1 =~"vendecotar.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendecotar.decorado~"   OP =~"=~"    EXP2 =~":arg_base~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_base~" TYPE = string) " arguments=(("arg_empresa", string),("arg_base", string)) )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="4" height="69" width="1011" format="[general]"  name=articulos_descripcion edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Bases"border="6" color="0" x="23" y="24" height="65" width="1011"  name=articulos_descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

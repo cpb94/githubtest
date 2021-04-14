@@ -1,0 +1,21 @@
+﻿$PBExportHeader$str_comcabalb.srs
+global type str_comcabalb from structure
+	string		empresa
+	string		anyo
+	string		albaran
+	string		proveedor
+	datetime		fecha_alb
+	datetime		fecha_entrega
+	string		forma_envio
+	string		forma_pago
+	string		incidencias
+	string		libre
+	string		recibido_por
+	string		moneda
+	decimal {2}	dtopp
+	decimal {2}	dto1
+	string		albaran_proveedor
+	decimal {6}	cambio
+	integer		decimales_precios
+end type
+

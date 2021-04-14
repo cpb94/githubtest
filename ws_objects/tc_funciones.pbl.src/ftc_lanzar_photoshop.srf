@@ -1,0 +1,43 @@
+﻿$PBExportHeader$ftc_lanzar_photoshop.srf
+global type ftc_lanzar_photoshop from function_object
+end type
+
+forward prototypes
+global function integer ftc_lanzar_photoshop (string archivo)
+end prototypes
+
+global function integer ftc_lanzar_photoshop (string archivo);Boolean encontrado = true
+String ejecutable
+
+//CS6
+ejecutable = "C:\Program Files\Adobe\Adobe Photoshop CS6 (64 Bit)\Photoshop.exe"
+if not FileExists (ejecutable) then
+	ejecutable = "C:\Program Files (x86)\Adobe\Adobe Photoshop CS6\Photoshop.exe"		
+	//CS5
+	ejecutable = "C:\Program Files\Adobe\Adobe Photoshop CS5 (64 Bit)\Photoshop.exe"
+	if not FileExists (ejecutable) then
+		ejecutable = "C:\Program Files (x86)\Adobe\Adobe Photoshop CS5\Photoshop.exe"
+		if not FileExists (ejecutable) then
+			//CS4
+			ejecutable = "C:\Program Files\Adobe\Adobe Photoshop CS4 (64 Bit)\Photoshop.exe"
+			if not FileExists (ejecutable) then
+				ejecutable = "C:\Program Files (x86)\Adobe\Adobe Photoshop CS4\Photoshop.exe"
+				if not FileExists (ejecutable) then
+					//CS2
+					ejecutable = "C:\Program Files (x86)\Adobe\Adobe Photoshop CS2\Photoshop.exe"
+					if not FileExists (ejecutable) then
+						encontrado = false						
+					end if		
+				end if
+			end if			
+		end if
+	end if	
+end if	
+
+if encontrado then
+	return run(ejecutable + " " + archivo)
+else
+	return -100 //Photoshop no instalado en ruta defecto
+end if
+end function
+

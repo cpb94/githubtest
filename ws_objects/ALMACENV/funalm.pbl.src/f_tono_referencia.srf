@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_tono_referencia.srf
+global type f_tono_referencia from function_object
+end type
+
+forward prototypes
+global function string f_tono_referencia (string referencia)
+end prototypes
+
+global function string f_tono_referencia (string referencia);string	cod
+//cod = Mid(referencia,13,4)
+cod = Right(referencia,5)
+cod = trim(left(cod,4))
+
+RETURN  cod
+end function
+

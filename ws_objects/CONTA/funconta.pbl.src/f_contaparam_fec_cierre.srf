@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_contaparam_fec_cierre.srf
+global type f_contaparam_fec_cierre from function_object
+end type
+
+forward prototypes
+global function datetime f_contaparam_fec_cierre (decimal ejercicio, string empresa)
+end prototypes
+
+global function datetime f_contaparam_fec_cierre (decimal ejercicio, string empresa);Datetime	fec
+
+select contaparam.cierre Into :fec From contaparam
+Where  contaparam.ejercicio = :ejercicio
+And    contaparam.empresa   = :empresa;
+
+Return fec
+end function
+

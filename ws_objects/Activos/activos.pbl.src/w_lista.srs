@@ -1,0 +1,9 @@
+﻿$PBExportHeader$w_lista.srs
+$PBExportComments$€
+global type w_lista from structure
+	integer		nummes
+	string		nommes
+	integer		amortizaciones
+	decimal {2}	importes
+end type
+

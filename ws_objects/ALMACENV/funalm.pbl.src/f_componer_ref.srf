@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_componer_ref.srf
+$PBExportComments$A partir de articulo, calidad, tono y calibre construye el codigo del articulo.
+global type f_componer_ref from function_object
+end type
+
+forward prototypes
+global function string f_componer_ref (string ai_articulo, string ai_calidad, string ai_tono, decimal ai_calibre)
+end prototypes
+
+global function string f_componer_ref (string ai_articulo, string ai_calidad, string ai_tono, decimal ai_calibre);string	ls_codarticulo,cur_empresa,cur_almacen,v_tono
+Integer cur_anyo,bien
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+ 
+ in_programa="f_componer_ref"
+
+ IF Trim(ai_articulo)="" THEN
+  in_incidencia="Argumento codigo del articulo Nulo"
+  f_grabar_incidencia(in_programa,in_incidencia)
+ END IF
+
+IF Trim(ai_calidad)="" THEN
+	IF f_sector_articulo(codigo_empresa,ai_articulo)= "S" Then
+	  in_incidencia="Argumento codigo de la calidad Nulo"
+	  f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+ END IF
+//Rellenamos el tono a espacios por la izquierda hasta completar
+//los cuatro caracteres que le corresponden en esta ref.
+//v_tono = Fill("0",4-len(Trim(ai_tono)))+Trim(ai_tono)
+v_tono = Space(4-len(Trim(ai_tono)))+Trim(ai_tono)
+
+ ls_codarticulo = Trim(ai_articulo)+&
+                  String(Integer(ai_calidad),"00")+&
+                  v_tono + &
+                  String(ai_calibre,"0")
+			
+RETURN ls_codarticulo
+end function
+

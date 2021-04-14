@@ -1,0 +1,93 @@
+﻿$PBExportHeader$f_copia_as_rec.srf
+global type f_copia_as_rec from function_object
+end type
+
+forward prototypes
+global function integer f_copia_as_rec (integer par_ej_orig, integer par_ej_dest)
+end prototypes
+
+global function integer f_copia_as_rec (integer par_ej_orig, integer par_ej_dest);// Copiamos asientos recurrentes del ejercicio origen al destino
+
+/* La función devuelve -1 si hay error al consultar BD
+  								0 No hay asientos rec. sociados a ese ejercicio
+								1 si va bien  
+								
+*/
+
+
+
+datastore ds_copia
+
+string texto_sql
+texto_sql ="SELECT * " +&
+    		"FROM contarecur " +&	 
+   		"WHERE ( contarecur.empresa = '"+ codigo_empresa+"' ) AND "  + &
+         "( contarecur.ejercicio =" +string(par_ej_orig)  +"  )"   
+
+
+ds_copia = create datastore
+//ds_copia=f_cargar_cursor(texto_sql)
+f_cargar_cursor_nuevo(texto_sql, ds_copia)
+
+ds_copia.settransobject(sqlca)
+int i,num
+num=ds_copia.retrieve()
+
+if num = 0 then 
+	// No hay asientos rec. en el último plan 
+	destroy ds_copia
+	return 0
+else
+	// hay asientos
+	boolean correcto
+	
+	
+	string emp,cod,descripci,res,progra,orig
+	
+	correcto = true
+	
+	for i= 1 to num 
+		
+		emp			=ds_copia.getitemstring(i,"empresa")
+		cod			=ds_copia.getitemstring(i,"codigo")
+		descripci	=ds_copia.getitemstring(i,"descripcion")
+		res			=ds_copia.getitemstring(i,"resumido")
+		progra		=ds_copia.getitemstring(i,"programa")
+		orig			=ds_copia.getitemstring(i,"origen")
+		
+		
+		
+		  INSERT INTO contarecur  
+         ( ejercicio,   
+           empresa,   
+           codigo,   
+           descripcion,   
+           resumido,   
+           programa,   
+           origen )   
+                           
+  			VALUES ( :par_ej_dest,   
+           :emp,   
+           :cod,   
+           :descripci,   
+           :res,   
+           :progra,   
+           :orig );   
+
+			if sqlca.sqlcode <> 0 then
+				correcto = false
+			   exit
+			end if
+	next
+end if
+
+destroy ds_copia
+if correcto then 
+	return 1
+else
+	return -1
+end if
+
+
+end function
+

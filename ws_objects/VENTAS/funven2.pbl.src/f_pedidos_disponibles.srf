@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_pedidos_disponibles.srf
+global type f_pedidos_disponibles from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_disponibles (string empresa)
+end prototypes
+
+global function decimal f_pedidos_disponibles (string empresa);//Calculamos Pedidos disponibles
+
+dec pedidos
+
+select sum(venliped.importe/ venped.cambio)
+into :pedidos
+from venliped, venped 
+where venliped.empresa = :codigo_empresa 
+and venliped.empresa = venped.empresa
+and venliped.anyo = venped.anyo
+and venliped.pedido = venped.pedido 
+and venped.es_proforma = 'N' 
+and venliped.bloqueado = '0';
+
+if isnull(pedidos) then
+	pedidos = 0
+end if
+
+return pedidos
+end function
+

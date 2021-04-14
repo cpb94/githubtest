@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_buscar_tipooperacion.srf
+global type f_buscar_tipooperacion from function_object
+end type
+
+forward prototypes
+global function string f_buscar_tipooperacion (string tipooperacion)
+end prototypes
+
+global function string f_buscar_tipooperacion (string tipooperacion);string resultado
+
+select descripcion_abr 
+into :resultado
+from art_ver_tipooperacion
+where art_ver_tipooperacion.codigo = :tipooperacion
+and art_ver_tipooperacion.empresa = :codigo_empresa;
+
+return resultado
+end function
+

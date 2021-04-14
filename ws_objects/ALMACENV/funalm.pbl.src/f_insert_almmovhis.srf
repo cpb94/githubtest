@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_insert_almmovhis.srf
+global type f_insert_almmovhis from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_almmovhis (str_almmovhis mov)
+end prototypes
+
+global function boolean f_insert_almmovhis (str_almmovhis mov);
+if mov.tipo = '' or isnull (mov.tipo) then
+	mov.tipo   = f_tipo_almtipomov(mov.empresa,mov.tipomov)
+end if
+mov.externo= f_externo_almtipo(mov.empresa,f_tipoalm_almalmacen(mov.empresa,mov.almacen))
+
+INSERT INTO almmovhis
+		 (empresa,almacen,
+		 anyo,nummov,
+		 origen,articulo,
+		 fechmov,tipomov,
+		 cantidade,cantidads,
+		 precio,codtercero,   
+       numdoc,situacion,
+		 observaciones,punteado,
+		 antexist,familia,
+		 formato,modelo,
+		 calidad,tonochar,
+		 calibre,caja,   
+       tipo_unidad,referencia,
+		 f_alta,usuario,
+		 tipo_pallet,sector,
+		 externo,tipo,
+		 subfamilia,subformato,
+		 comp_almacen,comp_anyo,comp_nummov)  
+VALUES (:mov.empresa,:mov.almacen,
+		 :mov.anyo,:mov.nummov,
+		 :mov.origen,:mov.articulo,
+		 :mov.fechmov,:mov.tipomov,
+		 :mov.cantidade,:mov.cantidads,
+		 :mov.precio,:mov.codtercero,
+		 :mov.numdoc,:mov.situacion,
+		 :mov.observaciones,:mov.punteado,
+		 :mov.antexist,:mov.familia,
+		 :mov.formato,:mov.modelo,
+		 :mov.calidad,:mov.tonochar,   
+       :mov.calibre,:mov.caja,
+		 :mov.tipo_unidad,:mov.referencia,
+		 :mov.f_alta,:mov.usuario,
+		 :mov.tipo_pallet,:mov.sector,
+		 :mov.externo,:mov.tipo,
+		 :mov.subfamilia,:mov.subformato,
+		 :mov.comp_almacen,:mov.comp_anyo,:mov.comp_nummov);
+		 
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("Error","En funcion Insert Almmovhis")
+	Return FALSE
+ELSE
+	Return TRUE
+END IF
+end function
+

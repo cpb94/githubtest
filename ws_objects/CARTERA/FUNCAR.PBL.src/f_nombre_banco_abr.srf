@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_banco_abr.srf
+global type f_nombre_banco_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_banco_abr (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_nombre_banco_abr (string cod_empresa, string cod_banco);String ls_nombre 
+
+ SELECT    carbancos.resumido
+    INTO   :ls_nombre  
+    FROM carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+
+RETURN ls_nombre
+//
+
+end function
+

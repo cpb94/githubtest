@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_cargar_str_art_escandallo.srf
+global type f_cargar_str_art_escandallo from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_art_escandallo (STRING arg_empresa, STRING arg_articulo, STRING arg_version, STRING arg_articulo_ant,  ref str_art_escandallo str_art_escandallo)
+end prototypes
+
+global function boolean f_cargar_str_art_escandallo (STRING arg_empresa, STRING arg_articulo, STRING arg_version, STRING arg_articulo_ant,  ref str_art_escandallo str_art_escandallo);boolean lb_correcto = true
+
+SELECT art_escandallo.empresa,
+       art_escandallo.articulo,
+       art_escandallo.version,
+       art_escandallo.articulo_ant,
+       art_escandallo.factor,
+       art_escandallo.aprovecha
+INTO   :str_art_escandallo.empresa,
+       :str_art_escandallo.articulo,
+       :str_art_escandallo.version,
+       :str_art_escandallo.articulo_ant,
+       :str_art_escandallo.factor,
+       :str_art_escandallo.aprovecha
+FROM art_escandallo
+WHERE art_escandallo.empresa = :arg_empresa AND art_escandallo.articulo = :arg_articulo AND art_escandallo.version = :arg_version AND art_escandallo.articulo_ant = :arg_articulo_ant;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

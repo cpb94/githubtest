@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_tipoiva_comprov.srf
+global type f_tipoiva_comprov from function_object
+end type
+
+forward prototypes
+global function string f_tipoiva_comprov (string empresa, string codigo)
+end prototypes
+
+global function string f_tipoiva_comprov (string empresa, string codigo);String 	ls_iva
+
+SELECT comproveedores.tipo_iva
+  INTO  :ls_iva  
+  FROM  comproveedores
+  WHERE (comproveedores.empresa = :empresa ) AND  
+        (comproveedores.codigo = :codigo );
+		  
+Return ls_iva
+
+end function
+

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_forma_envio_venfac.srf
+global type f_forma_envio_venfac from function_object
+end type
+
+forward prototypes
+global function string f_forma_envio_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_forma_envio_venfac (string empresa, integer anyo, decimal factura);String var_forma_envio
+
+  SELECT venfac.forma_envio
+    INTO :var_forma_envio
+    FROM venfac  
+   WHERE venfac.empresa = :empresa
+   AND   venfac.anyo    = :anyo
+   AND   venfac.factura = :factura;
+
+
+
+Return var_forma_envio
+end function
+

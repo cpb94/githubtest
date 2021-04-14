@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_porcentaje_promclasepaneles.srf
+global type f_porcentaje_promclasepaneles from function_object
+end type
+
+forward prototypes
+global function decimal f_porcentaje_promclasepaneles (string empresa, string clasepanel)
+end prototypes
+
+global function decimal f_porcentaje_promclasepaneles (string empresa, string clasepanel);dec variable
+
+  SELECT promclasepaneles.porcentaje  
+    INTO :variable  
+    FROM promclasepaneles  
+   WHERE promclasepaneles.empresa = :empresa 
+	AND   promclasepaneles.codigo  = :clasepanel ;
+	
+	if isnull(variable) then variable = 0
+	
+	Return variable
+	
+
+end function
+

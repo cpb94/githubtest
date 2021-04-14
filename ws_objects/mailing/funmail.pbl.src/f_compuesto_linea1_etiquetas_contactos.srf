@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_compuesto_linea1_etiquetas_contactos.srf
+$PBExportComments$Devuelve primera linea a imprimir en las etiquetas de contactos.
+global type f_compuesto_linea1_etiquetas_contactos from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_linea1_etiquetas_contactos (string empresa, string codigo)
+end prototypes
+
+global function string f_compuesto_linea1_etiquetas_contactos (string empresa, string codigo);String var_empresa,var_codigo,var_nombre,var_apellido,var_compuesto,var_razon
+
+ var_razon=f_razon_contacto(empresa,codigo)
+ var_compuesto=f_compuesto_contacto(empresa,codigo)
+If IsNull(var_compuesto) Then   var_compuesto = ""
+If IsNull(var_razon)     Then   var_razon     = ""
+
+IF Trim(var_razon)<> "" and Trim(var_compuesto)<> "" Then 
+  var_compuesto = var_razon
+ELSE
+  var_compuesto = ""
+END IF
+RETURN var_compuesto
+
+end function
+

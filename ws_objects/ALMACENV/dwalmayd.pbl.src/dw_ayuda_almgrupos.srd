@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_ayuda_almgrupos.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=93 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=codigo dbname="almgrupos.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=descripcion dbname="almgrupos.descripcion" )
+ column=(type=char(10) updatewhereclause=yes name=abreviado dbname="almgrupos.abreviado" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="almgrupos.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almgrupos~" ) COLUMN(NAME=~"almgrupos.codigo~") COLUMN(NAME=~"almgrupos.descripcion~") COLUMN(NAME=~"almgrupos.abreviado~") COLUMN(NAME=~"almgrupos.empresa~")WHERE(    EXP1 =~"almgrupos.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"upper(almgrupos.descripcion)~"   OP =~"like~"    EXP2 =~":nombre~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"nombre~" TYPE = string) " update="almgrupos" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("nombre", string)) )
+text(band=header alignment="2" text="Código"border="6" color="33554432" x="188" y="20" height="65" width="261"  name=tipomov_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Descripción"border="6" color="33554432" x="471" y="20" height="65" width="1057"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="183" y="4" height="65" width="266" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="471" y="4" height="65" width="1070" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

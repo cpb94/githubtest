@@ -1,0 +1,23 @@
+﻿$PBExportHeader$report_tiposllamadas.srd
+$PBExportComments$Listado mantenimiento llamadas.
+release 4;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=669 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=69 color="536870912" )
+detail(height=89 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes key=yes name=empresa dbname="mtiposllamadas.empresa" )
+ column=(type=char(5) update=yes key=yes name=codigo dbname="mtiposllamadas.codigo" )
+ column=(type=char(30) update=yes name=descripcion dbname="mtiposllamadas.descripcion" )
+ column=(type=char(5) update=yes name=abreviado dbname="mtiposllamadas.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mtiposllamadas~" ) COLUMN(NAME=~"mtiposllamadas.empresa~") COLUMN(NAME=~"mtiposllamadas.codigo~") COLUMN(NAME=~"mtiposllamadas.descripcion~") COLUMN(NAME=~"mtiposllamadas.abreviado~")WHERE( EXP1 =~"mtiposllamadas.empresa~" OP =~"=~" EXP2 =~":empresa~" ) ) ARG(NAME = ~"empresa~" TYPE = string) " update="mtiposllamadas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string)) )
+report(band=header dataobject="report_cabecera" x="14" y="12" height="281" width="2702" border="0" criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO TIPOS DE LLAMADAS"border="0" color="128" x="599" y="408" height="65" width="1537"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Abreviado"border="2" color="0" x="1852" y="588" height="65" width="462"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripción"border="2" color="0" x="791" y="588" height="65" width="1015"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Código"border="2" color="0" x="462" y="588" height="65" width="284"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="0" color="0" x="462" y="4" height="65" width="284" format="[general]"  name=codigo edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=30 border="0" color="0" x="791" y="4" height="65" width="1015" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1852" y="4" height="65" width="462" format="[general]"  name=abreviado edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="128" x="942" y="4" height="73" width="727" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="19" y="288" height="57" width="563" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

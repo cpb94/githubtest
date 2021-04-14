@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_cosbal.srf
+global type f_nombre_cosbal from function_object
+end type
+
+forward prototypes
+global function string f_nombre_cosbal (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_cosbal (string empresa, string codigo);String var_descripcion
+
+SELECT descripcion INTO :var_descripcion FROM  cosbal
+WHERE  empresa = :empresa
+AND    codigo  = :codigo;
+
+
+IF SQLCA.SQLCode<>0 OR IsNull(var_descripcion) THEN
+	Return ""
+ELSE
+	Return var_descripcion
+END IF
+
+
+end function
+

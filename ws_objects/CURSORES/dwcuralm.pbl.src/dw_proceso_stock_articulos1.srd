@@ -1,0 +1,27 @@
+﻿$PBExportHeader$dw_proceso_stock_articulos1.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\bmp\MANO.CUR" )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=93 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="almlinubica.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=referencia dbname="almlinubica.referencia" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_pallet dbname="almlinubica.tipo_pallet" )
+ column=(type=number updatewhereclause=yes name=existencias dbname="compute_0004" )
+ retrieve="  SELECT almlinubica.empresa,   
+         almlinubica.referencia,   
+         almlinubica.tipo_pallet,   
+         sum(almlinubica.existencias)  
+    FROM almlinubica  
+   WHERE (  almlinubica.empresa = :empresa  ) AND  
+         (  almlinubica.articulo = :articulo  )   
+GROUP BY almlinubica.empresa,   
+         almlinubica.referencia,   
+         almlinubica.tipo_pallet  
+ORDER BY almlinubica.empresa ASC,   
+         almlinubica.referencia ASC,   
+         almlinubica.tipo_pallet ASC   
+" arguments=(("empresa", string),("articulo", string)) )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1495" y="12" height="57" width="407" format="[general]"  name=existencias edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="0" text="referencia y tipo de pallets de un articulo en stock"border="0" color="0" x="1" y="4" height="65" width="1454"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

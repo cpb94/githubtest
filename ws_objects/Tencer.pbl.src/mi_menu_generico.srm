@@ -1,0 +1,840 @@
+﻿$PBExportHeader$mi_menu_generico.srm
+forward
+global type mi_menu_generico from menu
+end type
+type m_archivo from menu within mi_menu_generico
+end type
+type m_cerrarventana from menu within m_archivo
+end type
+type m_1 from menu within m_archivo
+end type
+type m_salir0 from menu within m_archivo
+end type
+type m_archivo from menu within mi_menu_generico
+m_cerrarventana m_cerrarventana
+m_1 m_1
+m_salir0 m_salir0
+end type
+type m_ventana from menu within mi_menu_generico
+end type
+type m_utilidades from menu within mi_menu_generico
+end type
+type m_cartera from menu within m_utilidades
+end type
+type m_nacional from menu within m_cartera
+end type
+type m_exportación from menu within m_cartera
+end type
+type m_ambos from menu within m_cartera
+end type
+type m_cartera from menu within m_utilidades
+m_nacional m_nacional
+m_exportación m_exportación
+m_ambos m_ambos
+end type
+type m_2 from menu within m_utilidades
+end type
+type m_agenda from menu within m_utilidades
+end type
+type m_mapadecaracteres from menu within m_utilidades
+end type
+type m_calculadora from menu within m_utilidades
+end type
+type m_mensajes from menu within m_utilidades
+end type
+type m_0 from menu within m_utilidades
+end type
+type m_imprimirpantalla from menu within m_utilidades
+end type
+type m_utilidades from menu within mi_menu_generico
+m_cartera m_cartera
+m_2 m_2
+m_agenda m_agenda
+m_mapadecaracteres m_mapadecaracteres
+m_calculadora m_calculadora
+m_mensajes m_mensajes
+m_0 m_0
+m_imprimirpantalla m_imprimirpantalla
+end type
+type m_ayuda from menu within mi_menu_generico
+end type
+type m_informacióndeventana from menu within m_ayuda
+end type
+type m_ayuda from menu within mi_menu_generico
+m_informacióndeventana m_informacióndeventana
+end type
+global type mi_menu_generico from menu
+m_archivo m_archivo
+m_ventana m_ventana
+m_utilidades m_utilidades
+m_ayuda m_ayuda
+end type
+end forward
+
+global type mi_menu_generico from menu
+m_archivo m_archivo
+m_ventana m_ventana
+m_utilidades m_utilidades
+m_ayuda m_ayuda
+end type
+global mi_menu_generico mi_menu_generico
+
+on mi_menu_generico.create
+mi_menu_generico=this
+call super::create
+this.text = "mi_menu_generico"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_archivo=create m_archivo
+this.m_ventana=create m_ventana
+this.m_utilidades=create m_utilidades
+this.m_ayuda=create m_ayuda
+this.Item[UpperBound(this.Item)+1]=this.m_archivo
+this.Item[UpperBound(this.Item)+1]=this.m_ventana
+this.Item[UpperBound(this.Item)+1]=this.m_utilidades
+this.Item[UpperBound(this.Item)+1]=this.m_ayuda
+end on
+
+on mi_menu_generico.destroy
+call super::destroy
+destroy(this.m_archivo)
+destroy(this.m_ventana)
+destroy(this.m_utilidades)
+destroy(this.m_ayuda)
+end on
+
+type m_archivo from menu within mi_menu_generico
+m_cerrarventana m_cerrarventana
+m_1 m_1
+m_salir0 m_salir0
+end type
+
+on m_archivo.create
+call super::create
+this.text = "Archivo"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_cerrarventana=create m_cerrarventana
+this.m_1=create m_1
+this.m_salir0=create m_salir0
+this.Item[UpperBound(this.Item)+1]=this.m_cerrarventana
+this.Item[UpperBound(this.Item)+1]=this.m_1
+this.Item[UpperBound(this.Item)+1]=this.m_salir0
+end on
+
+on m_archivo.destroy
+call super::destroy
+destroy(this.m_cerrarventana)
+destroy(this.m_1)
+destroy(this.m_salir0)
+end on
+
+type m_cerrarventana from menu within m_archivo
+end type
+
+on m_cerrarventana.create
+call super::create
+this.text = "Cerrar Ventana"
+this.menuimage = "NotFound!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cerrarventana.destroy
+call super::destroy
+end on
+
+event clicked;Window w
+w = ParentWindow
+
+if isvalid(w) and w.className() = "w_inicio_tencer2" then
+	if MessageBox("Aviso","Si cierra esta ventana cerrara la aplicación de Tencer. ¿Desea continuar?", Question!, YesNo!, 2) = 2 then
+		return
+	end if
+end if
+
+Close(ParentWindow)
+end event
+
+type m_1 from menu within m_archivo
+end type
+
+on m_1.create
+call super::create
+this.text = "-------------------"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_1.destroy
+call super::destroy
+end on
+
+type m_salir0 from menu within m_archivo
+end type
+
+on m_salir0.create
+call super::create
+this.text = "Salir Tencer"
+this.menuimage = "StopSign!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_salir0.destroy
+call super::destroy
+end on
+
+event clicked;f_menu_cerrar_aplicacion(false)
+end event
+
+type m_ventana from menu within mi_menu_generico
+end type
+
+on m_ventana.create
+call super::create
+this.visible = false
+this.text = "Ventana"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_utilidades from menu within mi_menu_generico
+m_cartera m_cartera
+m_2 m_2
+m_agenda m_agenda
+m_mapadecaracteres m_mapadecaracteres
+m_calculadora m_calculadora
+m_mensajes m_mensajes
+m_0 m_0
+m_imprimirpantalla m_imprimirpantalla
+end type
+
+on m_utilidades.create
+call super::create
+this.text = "Utilidades"
+this.toolbaritemvisible = false
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_cartera=create m_cartera
+this.m_2=create m_2
+this.m_agenda=create m_agenda
+this.m_mapadecaracteres=create m_mapadecaracteres
+this.m_calculadora=create m_calculadora
+this.m_mensajes=create m_mensajes
+this.m_0=create m_0
+this.m_imprimirpantalla=create m_imprimirpantalla
+this.Item[UpperBound(this.Item)+1]=this.m_cartera
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_agenda
+this.Item[UpperBound(this.Item)+1]=this.m_mapadecaracteres
+this.Item[UpperBound(this.Item)+1]=this.m_calculadora
+this.Item[UpperBound(this.Item)+1]=this.m_mensajes
+this.Item[UpperBound(this.Item)+1]=this.m_0
+this.Item[UpperBound(this.Item)+1]=this.m_imprimirpantalla
+end on
+
+on m_utilidades.destroy
+call super::destroy
+destroy(this.m_cartera)
+destroy(this.m_2)
+destroy(this.m_agenda)
+destroy(this.m_mapadecaracteres)
+destroy(this.m_calculadora)
+destroy(this.m_mensajes)
+destroy(this.m_0)
+destroy(this.m_imprimirpantalla)
+end on
+
+type m_cartera from menu within m_utilidades
+m_nacional m_nacional
+m_exportación m_exportación
+m_ambos m_ambos
+end type
+
+on m_cartera.create
+call super::create
+this.text = "Cartera"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_nacional=create m_nacional
+this.m_exportación=create m_exportación
+this.m_ambos=create m_ambos
+this.Item[UpperBound(this.Item)+1]=this.m_nacional
+this.Item[UpperBound(this.Item)+1]=this.m_exportación
+this.Item[UpperBound(this.Item)+1]=this.m_ambos
+end on
+
+on m_cartera.destroy
+call super::destroy
+destroy(this.m_nacional)
+destroy(this.m_exportación)
+destroy(this.m_ambos)
+end on
+
+type m_nacional from menu within m_cartera
+end type
+
+event clicked;tipo_vista="Nacional"
+mi_menu_generico.m_utilidades.m_cartera.m_ambos.checked=false
+mi_menu_generico.m_utilidades.m_cartera.m_exportación.checked=false
+mi_menu_generico.m_utilidades.m_cartera.m_nacional.checked=true
+end event
+
+on m_nacional.create
+call super::create
+this.text = "Nacional"
+this.menuimage = "c:\bmp\nacional.bmp"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_nacional.destroy
+call super::destroy
+end on
+
+type m_exportación from menu within m_cartera
+end type
+
+event clicked;tipo_vista="Exportacion"
+mi_menu_generico.m_utilidades.m_cartera.m_ambos.checked=false
+mi_menu_generico.m_utilidades.m_cartera.m_exportación.checked=true
+mi_menu_generico.m_utilidades.m_cartera.m_nacional.checked=false
+end event
+
+on m_exportación.create
+call super::create
+this.text = "Exportación"
+this.menuimage = "c:\bmp\export.bmp"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_exportación.destroy
+call super::destroy
+end on
+
+type m_ambos from menu within m_cartera
+end type
+
+event clicked;tipo_vista="Ambos"
+mi_menu_generico.m_utilidades.m_cartera.m_ambos.checked=true
+mi_menu_generico.m_utilidades.m_cartera.m_exportación.checked=false
+mi_menu_generico.m_utilidades.m_cartera.m_nacional.checked=false
+end event
+
+on m_ambos.create
+call super::create
+this.text = "Ambos"
+this.menuimage = "c:\bmp\globo2.bmp"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_ambos.destroy
+call super::destroy
+end on
+
+type m_2 from menu within m_utilidades
+end type
+
+on m_2.create
+call super::create
+this.visible = false
+this.text = "------------------------"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_agenda from menu within m_utilidades
+end type
+
+event clicked;Open(w_agenda)
+end event
+
+on m_agenda.create
+call super::create
+this.text = "Agenda"
+this.toolbaritemvisible = false
+this.menuimage = "Custom070!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_agenda.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from menu within m_utilidades
+end type
+
+event clicked;run("charmap")
+end event
+
+on m_mapadecaracteres.create
+call super::create
+this.text = "Mapa de Caracteres"
+this.menuimage = "StaticText!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from menu within m_utilidades
+end type
+
+event clicked;run("calc")
+end event
+
+on m_calculadora.create
+call super::create
+this.text = "Calculadora"
+this.menuimage = "Compute!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from menu within m_utilidades
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_mensajes_entre_usuarios, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_mensajes.create
+call super::create
+this.visible = false
+this.text = "Mensajes"
+this.menuimage = "Custom002!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_0 from menu within m_utilidades
+end type
+
+on m_0.create
+call super::create
+this.text = "------------------------"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_0.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from menu within m_utilidades
+end type
+
+event clicked;window lw_sheet_activa
+long  spooler, job, ancho, ancho_impresion, largo, largo_impresion
+
+job = PrintSetup()
+//lw_sheet_activa = ParentWindow.GetActiveSheet()
+if job <> -1 then
+	lw_sheet_activa = ParentWindow
+	spooler = PrintOpen(ParentWindow.title, false)
+	if spooler <> -1 then
+		ancho = ParentWindow.width
+		largo = ParentWindow.height
+		//A4 máximo 7500 x 10000
+		if ancho > largo then
+			ancho_impresion = 7500
+			largo_impresion = ancho_impresion - ancho + largo
+		else
+			largo_impresion = 10000
+			ancho_impresion = largo_impresion - largo + ancho
+		end if
+		ParentWindow.Print(Spooler,200,200,ancho_impresion,largo_impresion)
+		//PrintScreen(Spooler,500,500)
+		PrintClose(Spooler)
+	end if
+end if
+end event
+
+on m_imprimirpantalla.create
+call super::create
+this.text = "Imprimir Pantalla"
+this.menuimage = "Print!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_ayuda from menu within mi_menu_generico
+m_informacióndeventana m_informacióndeventana
+end type
+
+on m_ayuda.create
+call super::create
+this.text = "Ayuda"
+this.toolbaritemvisible = false
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.menuanimation = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_informacióndeventana=create m_informacióndeventana
+this.Item[UpperBound(this.Item)+1]=this.m_informacióndeventana
+end on
+
+on m_ayuda.destroy
+call super::destroy
+destroy(this.m_informacióndeventana)
+end on
+
+type m_informacióndeventana from menu within m_ayuda
+end type
+
+event clicked;window pw
+ClassDefinition pc
+pw = parentwindow.GetActiveSheet()
+if isvalid(pw) then
+	
+	pc = FindClassDefinition(pw.classname())
+	messagebox("Información ventana activa",pc.LibraryName + "-" + pc.name)
+	return
+end if
+
+pw = parentwindow
+if isvalid(pw) then
+	pc = FindClassDefinition(pw.classname())
+	messagebox("Información ventana activa","Nombre: " + pc.LibraryName + "-" + pc.name)
+	return
+end if
+end event
+
+on m_informacióndeventana.create
+call super::create
+this.text = "Información de ventana"
+this.menuimage = "Help!"
+this.menustyle = contemporarymenu!
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbarstyle = contemporarytoolbar!
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_informacióndeventana.destroy
+call super::destroy
+end on
+

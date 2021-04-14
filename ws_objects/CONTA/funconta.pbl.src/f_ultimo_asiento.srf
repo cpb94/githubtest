@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_ultimo_asiento.srf
+global type f_ultimo_asiento from function_object
+end type
+
+forward prototypes
+global function decimal f_ultimo_asiento (decimal ejercicio, string empresa, integer mes, string origen)
+end prototypes
+
+global function decimal f_ultimo_asiento (decimal ejercicio, string empresa, integer mes, string origen);Dec  sto
+Select Max(contaapun.asiento) Into :sto From contaapun
+Where  contaapun.ejercicio = :ejercicio
+And    contaapun.empresa   = :empresa
+And    contaapun.mes       = :mes
+And    contaapun.origen    = :origen;
+IF IsNull(sto) Then sto = 0
+IF sto = 0 Then sto = f_asientoinicial_contaorigen(empresa,origen)
+	
+Return sto + 1
+end function
+

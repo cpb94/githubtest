@@ -1,0 +1,298 @@
+﻿$PBExportHeader$f_movimiento_almacen_traspaso_bultos.srf
+global type f_movimiento_almacen_traspaso_bultos from function_object
+end type
+
+forward prototypes
+global function boolean f_movimiento_almacen_traspaso_bultos (ref str_movimiento_almacen_traspaso_bultos arg_movimiento)
+end prototypes
+
+global function boolean f_movimiento_almacen_traspaso_bultos (ref str_movimiento_almacen_traspaso_bultos arg_movimiento);string  ls_sel
+long    ll_indice,ll_total_bultos,ll_piezas_pallet,ll_piezascaja,ll_cajaspallet,ll_id_linea_igual,ll_almubimapa_codbar_id_alm_bultos_salida,ll_almubimapa_codbar_id_alm_bultos_entrada 
+dec     ld_cantidad_pendiente_salida,ld_cantidad_pendiente_entrada
+boolean lb_correcto = true
+
+datastore ds_bultos
+
+str_almacenmovimientos lstr_almacenmovimientos
+str_alm_bultos lstr_alm_bultos
+str_alm_bultos_lineas lstr_alm_bultos_lineas
+
+//Cargamos la estructura del movimiento
+lstr_almacenmovimientos.empresa    = arg_movimiento.empresa
+lstr_almacenmovimientos.fecha_mov  = datetime(arg_movimiento.fecha)
+lstr_almacenmovimientos.orden      = 0
+lstr_almacenmovimientos.fecha_intr = datetime(today(),now())
+lstr_almacenmovimientos.origen     = ""
+
+if arg_movimiento.id_alm_bultos <> 0 then
+	lstr_almacenmovimientos.id_alm_bultos = arg_movimiento.id_alm_bultos
+else
+	lstr_almacenmovimientos.id_alm_bultos = 0
+end if
+
+if arg_movimiento.id_ubicacion_salida <> 0 then		
+	select almubimapa_codbar.almacen, 
+			 almubimapa_codbar.zona, 
+			 almubimapa_codbar.fila, 
+			 almubimapa_codbar.altura,
+			 isnull(almubimapa_codbar.id_alm_bultos,0) 
+	into  :arg_movimiento.almacen_salida,
+			:arg_movimiento.zona_salida,
+			:arg_movimiento.fila_salida,
+			:arg_movimiento.altura_salida,
+			:ll_almubimapa_codbar_id_alm_bultos_salida 
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :arg_movimiento.empresa
+	and   almubimapa_codbar.id      = :arg_movimiento.id_ubicacion_salida;
+	
+else	
+	select isnull(almubimapa_codbar.id,0),
+			 isnull(almubimapa_codbar.id_alm_bultos,0) 
+	into  :arg_movimiento.id_ubicacion_salida,
+			:ll_almubimapa_codbar_id_alm_bultos_salida 
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :arg_movimiento.empresa
+	and   almubimapa_codbar.almacen = :arg_movimiento.almacen_salida
+	and   almubimapa_codbar.zona    = :arg_movimiento.zona_salida
+	and	almubimapa_codbar.fila    = :arg_movimiento.fila_salida
+	and	almubimapa_codbar.altura  = :arg_movimiento.altura_salida;
+
+	if arg_movimiento.id_ubicacion_salida = 0 then
+		lb_correcto = false
+		messagebox("¡Error!","No existe ID para la ubicación de salida seleccionada.~nInforme del error al departamento de sistemas.")
+	end if	
+end if
+
+if arg_movimiento.id_ubicacion_entrada <> 0 then		
+	select almubimapa_codbar.almacen, 
+			 almubimapa_codbar.zona, 
+			 almubimapa_codbar.fila, 
+			 almubimapa_codbar.altura,
+			 isnull(almubimapa_codbar.id_alm_bultos,0) 
+	into  :arg_movimiento.almacen_entrada,
+			:arg_movimiento.zona_entrada,
+			:arg_movimiento.fila_entrada,
+			:arg_movimiento.altura_entrada,
+			:ll_almubimapa_codbar_id_alm_bultos_entrada 
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :arg_movimiento.empresa
+	and   almubimapa_codbar.id      = :arg_movimiento.id_ubicacion_entrada;		
+else
+	select isnull(almubimapa_codbar.id,0),
+			 isnull(almubimapa_codbar.id_alm_bultos,0) 
+	into  :arg_movimiento.id_ubicacion_entrada,
+			:ll_almubimapa_codbar_id_alm_bultos_entrada 
+	from  almubimapa_codbar 
+	where almubimapa_codbar.empresa = :arg_movimiento.empresa
+	and   almubimapa_codbar.almacen = :arg_movimiento.almacen_entrada
+	and   almubimapa_codbar.zona    = :arg_movimiento.zona_entrada
+	and	almubimapa_codbar.fila    = :arg_movimiento.fila_entrada
+	and	almubimapa_codbar.altura  = :arg_movimiento.altura_entrada;
+
+	if arg_movimiento.id_ubicacion_entrada = 0 then
+		lb_correcto = false
+		messagebox("¡Error!","No existe ID para la ubicación de entrada seleccionada.~nInforme del error al departamento de sistemas.")
+	end if	
+end if	
+
+//Si la ubicacion tiene un bulto asociado este será el que asociaremos al movimiento de manera obligatoria
+if ll_almubimapa_codbar_id_alm_bultos_entrada <> 0 or ll_almubimapa_codbar_id_alm_bultos_salida <> 0 then
+	lb_correcto = false
+	messagebox("¡Error!","No se puede realizar el traspaso entre las ubicaciones seleccionadas.~nInforme del error al departamento de sistemas.")
+end if
+
+lstr_almacenmovimientos.articulo   = arg_movimiento.articulo
+lstr_almacenmovimientos.familia    = ""
+lstr_almacenmovimientos.formato    = ""
+lstr_almacenmovimientos.calidad    = arg_movimiento.calidad
+lstr_almacenmovimientos.tono       = arg_movimiento.tono
+lstr_almacenmovimientos.calibre    = arg_movimiento.calibre
+lstr_almacenmovimientos.tipo_pallet = arg_movimiento.tipo_pallet
+lstr_almacenmovimientos.caja        = arg_movimiento.caja 
+lstr_almacenmovimientos.tipo_unidad  = ""
+lstr_almacenmovimientos.usuario      = nombre_usuario
+lstr_almacenmovimientos.observaciones = arg_movimiento.observaciones 
+lstr_almacenmovimientos.trazabilidad  = ""
+
+SELECT articulos.familia,
+		 articulos.formato,
+		 articulos.unidad 
+INTO   :lstr_almacenmovimientos.familia,
+		 :lstr_almacenmovimientos.formato,   
+		 :lstr_almacenmovimientos.tipo_unidad 
+FROM   articulos  
+WHERE  articulos.empresa= :lstr_almacenmovimientos.empresa 
+AND    articulos.codigo = :lstr_almacenmovimientos.articulo;
+
+//Fin de Cargamos la estructura del movimiento
+
+//Hacemos la gestion de entrada o salida en el bulto
+SELECT isnull(almartcajas.piezascaja,0)
+INTO   :ll_piezascaja 
+FROM   almartcajas  
+WHERE  almartcajas.empresa   = :lstr_almacenmovimientos.empresa
+AND    almartcajas.articulo  = :lstr_almacenmovimientos.articulo
+AND    almartcajas.caja      = :lstr_almacenmovimientos.caja;
+	
+SELECT isnull(palarticulo.cajaspallet,0) 
+INTO   :ll_cajaspallet
+FROM   palarticulo
+WHERE  palarticulo.empresa  = :lstr_almacenmovimientos.empresa
+AND    palarticulo.articulo = :lstr_almacenmovimientos.articulo
+AND    palarticulo.codigo   = :lstr_almacenmovimientos.tipo_pallet
+AND    palarticulo.caja     = :lstr_almacenmovimientos.caja;
+
+ll_piezas_pallet = ll_piezascaja * ll_cajaspallet
+
+if lstr_almacenmovimientos.id_alm_bultos = 0 then
+	//Si no recibimos el bulto del que hacemos la salida cogemos todos los bultos dependiendo de si pertenecen a un orden de carga o no		
+	
+	ls_sel = "SELECT   alm_bultos.id, "+&
+				"			 alm_bultos_lineas.id, "+&
+				"			 alm_bultos_lineas.cantidad "+&
+				"FROM     alm_bultos, "+&
+				"			 alm_bultos_lineas "+&
+				"WHERE    ( alm_bultos.id                       = alm_bultos_lineas.id_alm_bultos ) "+&
+				"AND      ( ( alm_bultos.empresa                = '"+arg_movimiento.empresa+"' ) "+&					
+				"AND      ( alm_bultos.id_ubicacion             = "+string(arg_movimiento.id_ubicacion_salida,"#########0")+" ) "+&
+				"AND      ( alm_bultos_lineas.articulo          = '"+arg_movimiento.articulo+"' ) "+&
+				"AND      ( alm_bultos_lineas.calidad           = '"+arg_movimiento.calidad+"' ) "+&
+				"AND      ( alm_bultos_lineas.tono              = '"+arg_movimiento.tono+"' ) "+&
+				"AND      ( alm_bultos_lineas.calibre           = "+string(arg_movimiento.calibre,"#0")+" ) "+&
+				"AND      ( alm_bultos.tipo_pallet              = '"+arg_movimiento.tipo_pallet+"' ) "+&
+				"AND      ( alm_bultos_lineas.caja              = '"+arg_movimiento.caja+"' ) "+&
+				"AND      ( alm_bultos.anyo_orden_carga         = "+string(arg_movimiento.orden_carga_anyo,"###0")+" ) "+&
+				"AND      ( alm_bultos.codigo_orden_carga       = '"+arg_movimiento.orden_carga_codigo+"' ) "+&
+				"AND      ( isnull(alm_bultos_lineas.linea_orden_carga,0) = "+string(arg_movimiento.orden_carga_linea,"#####0")+" ) ) "+&
+				"ORDER BY alm_bultos.id ASC, "+&
+				"			 alm_bultos_lineas.id ASC"		
+
+else
+	//Si ya recibimos el bulto del que hacemos la salida filtramos por ese id
+	//"AND      ( alm_bultos.id_ubicacion             = "+string(lstr_almacenmovimientos.id_ubicacion,"#########0")+" ) "+&
+	
+	ls_sel = "SELECT   alm_bultos.id, "+&
+				"			 alm_bultos_lineas.id, "+&
+				"			 alm_bultos_lineas.cantidad "+&
+				"FROM     alm_bultos, "+&
+				"			 alm_bultos_lineas "+&
+				"WHERE    ( alm_bultos.id                       = alm_bultos_lineas.id_alm_bultos ) "+&
+				"AND      ( ( alm_bultos.empresa                = '"+arg_movimiento.empresa+"' ) "+&
+				"AND      ( alm_bultos.id                       = "+string(arg_movimiento.id_alm_bultos,"#########0")+" ) "+&					
+				"AND      ( alm_bultos_lineas.articulo          = '"+arg_movimiento.articulo+"' ) "+&
+				"AND      ( alm_bultos_lineas.calidad           = '"+arg_movimiento.calidad+"' ) "+&
+				"AND      ( alm_bultos_lineas.tono              = '"+arg_movimiento.tono+"' ) "+&
+				"AND      ( alm_bultos_lineas.calibre           = "+string(arg_movimiento.calibre,"#0")+" ) "+&
+				"AND      ( alm_bultos_lineas.caja              = '"+arg_movimiento.caja+"' ) "+&
+				"AND      ( isnull(alm_bultos_lineas.linea_orden_carga,0) = "+string(arg_movimiento.orden_carga_linea,"#####0")+" ) ) "+&
+				"ORDER BY alm_bultos.id ASC, "+&
+				"			 alm_bultos_lineas.id ASC"
+				
+//					"AND      ( alm_bultos.anyo_orden_carga         = "+string(arg_movimiento.orden_carga_anyo,"###0")+" ) "+&
+//					"AND      ( alm_bultos.codigo_orden_carga       = '"+arg_movimiento.orden_carga_codigo+"' ) "+&					
+				
+	//El tipo de pallet viene dado por el bulto			
+	//					"AND      ( alm_bultos.tipo_pallet              = '"+lstr_almacenmovimientos.tipo_pallet+"' ) "+&
+
+end if
+
+ll_total_bultos = f_cargar_cursor_transaccion(sqlca,ds_bultos,ls_sel)
+
+//Pasamos la cantidad pendiente a positivo
+ld_cantidad_pendiente_salida = arg_movimiento.cantidad * -1
+
+if ll_total_bultos > 0 then
+	ll_indice = 1
+	do
+		lstr_alm_bultos_lineas.id_alm_bultos = ds_bultos.object.alm_bultos_id[ll_indice]
+		lstr_alm_bultos_lineas.id            = ds_bultos.object.alm_bultos_lineas_id[ll_indice]
+		lstr_alm_bultos_lineas.cantidad      = ds_bultos.object.alm_bultos_lineas_cantidad[ll_indice]
+		
+		if not(f_cargar_str_alm_bultos(lstr_alm_bultos_lineas.id_alm_bultos,lstr_alm_bultos)) then
+			lb_correcto = false
+		else				
+			//Asignamos el tipo de pallet del bulto
+			lstr_almacenmovimientos.tipo_pallet = lstr_alm_bultos.tipo_pallet			
+		end if				
+		
+		if lstr_alm_bultos_lineas.cantidad >= ld_cantidad_pendiente_salida then
+			lstr_almacenmovimientos.cantidads = ld_cantidad_pendiente_salida
+			lstr_almacenmovimientos.cantidade = 0
+			lstr_alm_bultos_lineas.cantidad   = lstr_alm_bultos_lineas.cantidad - ld_cantidad_pendiente_salida
+			ld_cantidad_pendiente_salida      = 0
+		else
+			lstr_almacenmovimientos.cantidads = lstr_alm_bultos_lineas.cantidad
+			lstr_almacenmovimientos.cantidade = 0
+			ld_cantidad_pendiente_salida      = ld_cantidad_pendiente_salida - lstr_alm_bultos_lineas.cantidad
+			lstr_alm_bultos_lineas.cantidad   = 0
+		end if
+								
+		if lstr_alm_bultos_lineas.cantidad = 0 then
+			update alm_bultos
+			set    alm_bultos.id_ubicacion = :arg_movimiento.id_ubicacion_entrada
+			where  alm_bultos.id           = :lstr_alm_bultos.id;
+			
+			if sqlca.sqlcode <> 0 then
+				messagebox("¡Error!",sqlca.sqlerrtext)
+				lb_correcto = false					
+			end if
+		else
+			//No se puede traspasar parcialmente
+			messagebox("¡Error!","No se puede realizar un traspaso que deje un resto en el almacen.~nAvise al administrador del sistema",StopSign!)
+			lb_correcto = false										
+		end if
+		
+		lstr_almacenmovimientos.id_alm_bultos = lstr_alm_bultos_lineas.id_alm_bultos
+		
+		//Salida
+		lstr_almacenmovimientos.tipomov      = arg_movimiento.tipo_movimiento_salida
+		lstr_almacenmovimientos.id_ubicacion = arg_movimiento.id_ubicacion_salida
+		lstr_almacenmovimientos.almacen      = arg_movimiento.almacen_salida
+		lstr_almacenmovimientos.zona         = arg_movimiento.zona_salida
+		lstr_almacenmovimientos.fila         = arg_movimiento.fila_salida
+		lstr_almacenmovimientos.altura       = arg_movimiento.altura_salida
+		
+		if not(f_insert_almacenmovimientos(lstr_almacenmovimientos)) then
+			lb_correcto = false
+		end if			
+		
+		//Entrada
+		lstr_almacenmovimientos.tipomov      = arg_movimiento.tipo_movimiento_entrada
+		lstr_almacenmovimientos.id_ubicacion = arg_movimiento.id_ubicacion_entrada
+		lstr_almacenmovimientos.almacen      = arg_movimiento.almacen_entrada
+		lstr_almacenmovimientos.zona         = arg_movimiento.zona_entrada
+		lstr_almacenmovimientos.fila         = arg_movimiento.fila_entrada
+		lstr_almacenmovimientos.altura       = arg_movimiento.altura_entrada		
+		
+		lstr_almacenmovimientos.cantidade = lstr_almacenmovimientos.cantidads
+		lstr_almacenmovimientos.cantidads = 0		
+		
+		if not(f_insert_almacenmovimientos(lstr_almacenmovimientos)) then
+			lb_correcto = false
+		end if			
+
+				
+		ll_indice ++
+		
+	loop while ld_cantidad_pendiente_salida > 0 and ll_indice <= ll_total_bultos
+	
+	if ld_cantidad_pendiente_salida > 0 then
+		lb_correcto = false
+		messagebox("Error","No hay suficiente cantidad para hacer el traspaso~nBulto:"+string(arg_movimiento.id_alm_bultos,"0000000000"))		
+	end if
+else
+	lb_correcto = false
+	messagebox("Error","No se han encontrado bultos para realizar el traspaso~nBulto:"+string(arg_movimiento.id_alm_bultos,"0000000000"))
+end if
+
+destroy ds_bultos
+
+//Fin de Hacemos la gestion de salida y entrada del bulto
+
+if lb_correcto and arg_movimiento.id_alm_bultos = 0 then
+	arg_movimiento.id_alm_bultos = lstr_almacenmovimientos.id_alm_bultos
+end if
+
+return lb_correcto
+end function
+

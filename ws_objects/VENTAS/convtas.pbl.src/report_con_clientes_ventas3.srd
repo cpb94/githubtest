@@ -1,0 +1,124 @@
+﻿$PBExportHeader$report_con_clientes_ventas3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=600 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=64 color="536870912" )
+detail(height=156 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="genter.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=codigo dbname="genter.codigo" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=cod_postal dbname="genter.cod_postal" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=localidad dbname="genter.localidad" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=telefono dbname="genter.telefono" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=pais dbname="genter.pais" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=provincia dbname="genter.provincia" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipoter dbname="genter.tipoter" )
+ column=(type=number updatewhereclause=yes name=venclientes_dtopp dbname="venclientes.dtopp" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago1 dbname="venclientes.diaspago1" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago2 dbname="venclientes.diaspago2" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago3 dbname="venclientes.diaspago3" )
+ column=(type=char(5) updatewhereclause=yes name=venclientes_cod_pago dbname="venclientes.cod_pago" )
+ column=(type=char(5) updatewhereclause=yes name=venclientes_domiciliacion dbname="venclientes.domiciliacion" )
+ column=(type=char(30) updatewhereclause=yes name=genter_cif dbname="genter.cif" )
+ column=(type=char(50) updatewhereclause=yes name=genter_domicilio dbname="genter.domicilio" )
+ column=(type=char(1) updatewhereclause=yes name=genter_activo dbname="genter.activo" )
+ column=(type=char(30) updatewhereclause=yes name=telefonos_contacto dbname="telefonos.contacto" )
+ column=(type=decimal(4) updatewhereclause=yes name=venriesgoclientes_riesgo_solicitado dbname="venriesgoclientes.riesgo_solicitado" )
+ column=(type=decimal(4) updatewhereclause=yes name=venriesgoclientes_riesgo_concedido dbname="venriesgoclientes.riesgo_concedido" )
+ column=(type=char(10) updatewhereclause=yes name=genter_cl_domicilio dbname="genter.cl_domicilio" )
+ column=(type=char(10) updatewhereclause=yes name=genter_nu_domicilio dbname="genter.nu_domicilio" )
+ column=(type=char(30) updatewhereclause=yes name=genter_fax dbname="genter.fax" )
+ column=(type=decimal(2) updatewhereclause=yes name=venclientes_dto1 dbname="venclientes.dto1" )
+ column=(type=decimal(2) updatewhereclause=yes name=venclientes_dto2 dbname="venclientes.dto2" )
+ column=(type=char(5) updatewhereclause=yes name=genter_prefijo_provincia dbname="genter.prefijo_provincia" )
+ retrieve="  SELECT genter.empresa,   
+         genter.codigo,   
+         genter.cod_postal,   
+         genter.localidad,   
+         genter.telefono,   
+         genter.pais,   
+         genter.provincia,   
+         genter.razon,   
+         genter.tipoter,   
+         venclientes.dtopp,   
+         venclientes.diaspago1,   
+         venclientes.diaspago2,   
+         venclientes.diaspago3,   
+         venclientes.cod_pago,   
+         venclientes.domiciliacion,   
+         genter.cif,   
+         genter.domicilio,   
+         genter.activo,   
+         telefonos.contacto,   
+         venriesgoclientes.riesgo_solicitado,   
+         venriesgoclientes.riesgo_concedido,   
+         genter.cl_domicilio,   
+         genter.nu_domicilio,   
+         genter.fax,   
+         venclientes.dto1,   
+         venclientes.dto2,   
+         genter.prefijo_provincia  
+    FROM genter,   
+         venclientes,   
+         telefonos,   
+         venriesgoclientes  
+   WHERE ( genter.empresa *= telefonos.empresa) and  
+         ( genter.codigo *= telefonos.codigo) and  
+         ( genter.empresa *= venriesgoclientes.empresa) and  
+         ( genter.cuenta *= venriesgoclientes.cuenta) and  
+         ( genter.empresa = venclientes.empresa ) and  
+         ( genter.codigo = venclientes.codigo ) and  
+         ( genter.empresa = :empresa ) AND  
+         ( genter.pais = :pais ) AND  
+         ( genter.provincia like :prov) AND  
+         ( genter.tipoter = 'C') AND  
+         ( telefonos.tipoter = 'C') AND
+			( (convert(char,venclientes.diaspago1) like :dia or convert(char,venclientes.diaspago2) like :dia or convert(char,venclientes.diaspago3) like :dia ))
+" arguments=(("empresa", string),("pais", string),("prov", string),("dia", string))  sort="provincia A razon A " )
+group(level=1 header.height=88 trailer.height=0 by=("empresa" , "provincia" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="0" y="0" height="284" width="3753" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="Listado de Clientes por Días de Pago"border="0" color="128" x="1801" y="324" height="92" width="1664"  moveable=1  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="27" y="504" height="4" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Codigo"border="2" color="0" x="14" y="548" height="44" width="160"  name=codigo_t  resizeable=1  moveable=1  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Razon"border="2" color="0" x="197" y="548" height="44" width="763"  name=nombre_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_nombre_pais( pais )"border="0" color="0" x="201" y="428" height="80" width="599" format="[general]"  name=nom_pais  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Pais:"border="0" color="128" x="23" y="428" height="80" width="151"  resizeable=1  moveable=1  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="C.P."border="2" color="0" x="1993" y="548" height="44" width="128"  name=cod_postal_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Localidad"border="2" color="0" x="2135" y="548" height="44" width="443"  name=localidad_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Prefijo"border="2" color="0" x="2592" y="548" height="44" width="142"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Telefono"border="2" color="0" x="2747" y="548" height="44" width="274"  name=telefono_t  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dirección"border="2" color="0" x="978" y="548" height="44" width="997"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fax"border="2" color="0" x="3040" y="548" height="44" width="283"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dias fijos"border="2" color="0" x="3922" y="492" height="44" width="192"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dto PP"border="2" color="0" x="3337" y="548" height="44" width="201"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dtos"border="2" color="0" x="3552" y="548" height="44" width="352"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="1º"border="2" color="0" x="3922" y="548" height="44" width="55"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="2º"border="2" color="0" x="3991" y="548" height="44" width="55"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="3º"border="2" color="0" x="4059" y="548" height="44" width="55"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="0" expression="f_nombre_provincia( pais , provincia )"border="0" color="0" x="18" y="12" height="60" width="1221" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="2" text="Persona Contacto"border="2" color="0" x="14" y="80" height="44" width="521"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="2" text="Riesgo Solicitado"border="2" color="0" x="1189" y="80" height="44" width="786"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="2" tabsequence=10 border="0" color="0" x="14" y="4" height="48" width="165" format="[general]"  name=codigo  resizeable=1  moveable=1 height.autosize=yes edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=20 border="0" color="0" x="197" y="4" height="48" width="763" format="[general]"  name=razon edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=30 border="0" color="0" x="1993" y="4" height="48" width="128" format="[general]"  name=cod_postal edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="2135" y="4" height="48" width="443" format="[general]"  name=localidad edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="0" tabsequence=32766 border="0" color="0" x="1129" y="4" height="48" width="672" format="[general]"  name=genter_domicilio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=22 alignment="0" tabsequence=32766 border="0" color="0" x="974" y="4" height="48" width="137" format="[general]"  name=genter_cl_domicilio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=23 alignment="0" tabsequence=32766 border="0" color="0" x="1819" y="4" height="48" width="151" format="[general]"  name=genter_nu_domicilio edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=27 alignment="0" tabsequence=32766 border="0" color="0" x="2592" y="4" height="48" width="137" format="[general]"  name=genter_prefijo_provincia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="2" tabsequence=50 border="0" color="0" x="2752" y="4" height="48" width="274" format="[general]"  name=telefono edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="0" tabsequence=32766 border="0" color="0" x="3045" y="4" height="48" width="274" format="[general]"  name=genter_fax edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="2" tabsequence=32766 border="0" color="0" x="3337" y="4" height="48" width="201" format="[general]"  name=venclientes_dtopp edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="0" x="3561" y="4" height="48" width="165" format="[general]"  name=venclientes_dto1 editmask.mask="###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="3744" y="4" height="48" width="160" format="[general]"  name=venclientes_dto2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=11 alignment="0" tabsequence=32766 border="0" color="0" x="3922" y="4" height="48" width="55" format="[general]"  name=venclientes_diaspago1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=12 alignment="0" tabsequence=32766 border="0" color="0" x="3991" y="4" height="48" width="55" format="[general]"  name=venclientes_diaspago2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="4059" y="4" height="48" width="55" format="[general]"  name=venclientes_diaspago3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="562" y="80" height="48" width="539" format="[general]"  name=telefonos_contacto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=20 alignment="0" tabsequence=32766 border="0" color="0" x="1989" y="80" height="48" width="462" format="[general]"  name=venriesgoclientes_riesgo_solicitado editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="5" y1="144" x2="4114" y2="144" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=detail alignment="2" text="Riesgo Concedido"border="2" color="0" x="2523" y="80" height="44" width="786"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="3333" y="80" height="48" width="777" format="[general]"  name=venriesgoclientes_riesgo_concedido editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-6" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Pagina ' + page() + ' de ' + pageCount()"border="0" color="0" x="2213" y="4" height="48" width="805" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

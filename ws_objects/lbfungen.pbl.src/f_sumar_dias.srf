@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_sumar_dias.srf
+$PBExportComments$Suma dias a una fecha recibo fecha y dias a sumar.
+global type f_sumar_dias from function_object
+end type
+
+forward prototypes
+global function datetime f_sumar_dias (datetime fecha, integer dias_sumar)
+end prototypes
+
+global function datetime f_sumar_dias (datetime fecha, integer dias_sumar);Datetime compuesto
+compuesto = Datetime(RelativeDate(Date(fecha),dias_sumar))
+Return compuesto
+end function
+

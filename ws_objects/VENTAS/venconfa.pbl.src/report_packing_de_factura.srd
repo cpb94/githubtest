@@ -1,0 +1,167 @@
+﻿$PBExportHeader$report_packing_de_factura.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1244 color="536870912" )
+summary(height=936 color="536870912" )
+footer(height=136 color="536870912" )
+detail(height=100 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=venlifac_empresa dbname="venlifac.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_anyo dbname="venlifac.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_factura dbname="venlifac.factura" )
+ column=(type=long updatewhereclause=yes name=venlifac_linea dbname="venlifac.linea" )
+ column=(type=char(15) updatewhereclause=yes name=venfac_cliente dbname="venfac.cliente" )
+ column=(type=char(20) updatewhereclause=yes name=venlifac_articulo dbname="venlifac.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=venlifac_calidad dbname="venlifac.calidad" )
+ column=(type=char(20) updatewhereclause=yes name=venlifac_montajeartcal dbname="venlifac.montajeartcal" )
+ column=(type=long updatewhereclause=yes name=venlifac_tono dbname="venlifac.tono" )
+ column=(type=long updatewhereclause=yes name=venlifac_calibre dbname="venlifac.calibre" )
+ column=(type=char(5) updatewhereclause=yes name=venlifac_tipo_pallet dbname="venlifac.tipo_pallet" )
+ column=(type=long updatewhereclause=yes name=venlifac_cajas dbname="venlifac.cajas" )
+ column=(type=long updatewhereclause=yes name=venlifac_total_cajas dbname="venlifac.total_cajas" )
+ column=(type=number updatewhereclause=yes name=venlifac_cantidad dbname="venlifac.cantidad" )
+ column=(type=char(5) updatewhereclause=yes name=venlifac_tipo_unidad dbname="venlifac.tipo_unidad" )
+ column=(type=long updatewhereclause=yes name=venlifac_paldesde dbname="venlifac.paldesde" )
+ column=(type=long updatewhereclause=yes name=venlifac_palhasta dbname="venlifac.palhasta" )
+ column=(type=char(50) updatewhereclause=yes name=venlifac_descripcion dbname="venlifac.descripcion" )
+ column=(type=char(3) updatewhereclause=yes name=calidades_abreviado dbname="calidades.abreviado" )
+ column=(type=long updatewhereclause=yes name=venlifac_pallets dbname="venlifac.pallets" )
+ column=(type=char(10) updatewhereclause=yes name=pallets_resumido dbname="pallets.resumido" )
+ column=(type=char(5) updatewhereclause=yes name=venlifac_formato dbname="venlifac.formato" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_peso dbname="venlifac.peso" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_peso_neto dbname="venlifac.peso_neto" )
+ column=(type=datetime updatewhereclause=yes name=venlifac_ffactura dbname="venlifac.ffactura" )
+ column=(type=char(4099) updatewhereclause=no name=venfac_observaciones dbname="venfac.observaciones" )
+ column=(type=char(20) updatewhereclause=yes name=venfac_contenedor dbname="venfac.contenedor" )
+ column=(type=decimal(4) updatewhereclause=yes name=venfac_peso dbname="venfac.peso" )
+ column=(type=decimal(4) updatewhereclause=yes name=venfac_peso_neto dbname="venfac.peso_neto" )
+ column=(type=char(5) updatewhereclause=yes name=venfac_idioma dbname="venfac.idioma" )
+ column=(type=long updatewhereclause=yes name=venlifac_anyo_albaran dbname="venlifac.anyo_albaran" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_albaran dbname="venlifac.albaran" )
+ column=(type=decimal(4) updatewhereclause=yes name=venlifac_linea_factura dbname="venlifac.linea_factura" )
+ column=(type=char(4) updatewhereclause=yes name=venlifac_tonochar dbname="venlifac.tonochar" )
+ column=(type=datetime updatewhereclause=yes name=venlifac_ffactura dbname="venlifac.ffactura" )
+ column=(type=decimal(0) updatewhereclause=yes name=venlifac_numpalet dbname="venlifac.numpalet" )
+ column=(type=char(5) updatewhereclause=yes name=venfac_serie dbname="venfac.serie" )
+ retrieve="  SELECT  venlifac.empresa ,
+          venlifac.anyo ,
+          venlifac.factura ,
+          venlifac.linea ,
+          venfac.cliente , 
+          venlifac.articulo ,    
+          venlifac.calidad , 
+          venlifac.montajeartcal , 
+          venlifac.tono , 
+          venlifac.calibre , 
+          venlifac.tipo_pallet , 
+          venlifac.cajas ,  
+          venlifac.total_cajas , 
+          venlifac.cantidad , 
+          venlifac.tipo_unidad ,  
+          venlifac.paldesde , 
+          venlifac.palhasta , 
+          venlifac.descripcion ,  
+          calidades.abreviado , 
+          venlifac.pallets , 
+          pallets.resumido , 
+          venlifac.formato , 
+          venlifac.peso ,  
+          venlifac.peso_neto , 
+          venlifac.ffactura , 
+          venfac.observaciones , 
+          venfac.contenedor , 
+          venfac.peso , 
+          venfac.peso_neto ,  
+          venfac.idioma , 
+          venlifac.anyo_albaran , 
+          venlifac.albaran , 
+          venlifac.linea_factura  ,	
+          venlifac.tonochar   , 
+          venlifac.ffactura , 
+			 venlifac.numpalet,
+          venfac.serie
+        FROM venlifac , 
+             venfac ,  
+             calidades ,    
+             pallets     
+        WHERE ( venlifac.empresa *= calidades.empresa) and
+              ( venlifac.calidad *= calidades.codigo) and
+              ( venlifac.empresa *= pallets.empresa) and
+              ( venlifac.tipo_pallet *= pallets.codigo) and
+              ( venfac.empresa = venlifac.empresa ) and 
+              ( venfac.anyo = venlifac.anyo ) and
+              ( venfac.factura = venlifac.factura ) and 
+              ( venlifac.empresa = :empresa ) and 
+              ( venlifac.anyo = :anyo ) and  
+              ( venlifac.factura = :factura ) and
+				  ( venlifac.tipolinea <> ~"14~" ) and 
+				  ( venlifac.tipolinea <> ~"15~" ) and
+  				  ( venlifac.tipolinea <> ~"16~" )
+        " arguments=(("empresa", string),("anyo", number),("factura", number),("ver_cabecera", string))  sort="venlifac_empresa A venlifac_anyo_albaran A venlifac_albaran A venlifac_numpalet A " )
+group(level=1 header.height=164 trailer.height=68 by=("venlifac_anyo_albaran" , "venlifac_albaran" ) header.color="553648127" trailer.color="536870912" )
+rectangle(band=header x="1079" y="924" height="156" width="859" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="0" )
+compute(band=header alignment="0" expression="~"~""border="2" color="0" x="2034" y="572" height="556" width="1321" format="[general]"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=5 alignment="1" tabsequence=32766 border="0" color="0" x="2967" y="1036" height="60" width="343" format=""  name=venfac_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_correspondencia_venclientes( empresa ,  venfac_cliente  )"border="0" color="0" x="1929" y="776" height="48" width="64" format="[general]"  name=cod_correspondencia visible="1~t0"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="if (trim( cod_correspondencia )<>~"~",f_nombre_vencorrespondencia( empresa , venfac_cliente , cod_correspondencia ),f_razon_genter(empresa,'C', venfac_cliente ))"border="0" color="0" x="2089" y="604" height="68" width="1216" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="if (trim(cod_correspondencia)<>~"~", f_domicilio_vencorrespondencia(empresa, venfac_cliente , cod_correspondencia ),f_domicilio_genter(empresa,'C', venfac_cliente ))"border="0" color="0" x="2089" y="676" height="68" width="1216" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="if ( Trim(cod_correspondencia)<>~"~",Trim(f_postal_vencorrespondencia(empresa, venfac_cliente , cod_correspondencia ))+~" ~"+f_localidad_vencorrespondencia(empresa, venfac_cliente ,cod_correspondencia),Trim(f_postal_genter(empresa,~"C~", venfac_cliente )+~" ~"+f_localidad_genter(empresa,'C', venfac_cliente )))"border="0" color="0" x="2089" y="748" height="68" width="1216" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression=" if (trim(cod_correspondencia)<>~"~",f_nombre_provincia(f_pais_vencorrespondencia(empresa, venfac_cliente ,cod_correspondencia),f_provincia_vencorrespondencia(empresa, venfac_cliente ,cod_correspondencia))+~"(~"+f_nombre_pais(f_pais_vencorrespondencia(empresa, venfac_cliente ,cod_correspondencia))+~")~",
+f_nombre_provincia(f_pais_genter(empresa,'C', venfac_cliente ),f_provincia_genter(empresa,'C', venfac_cliente ))+~" (~"+f_nombre_pais(f_pais_genter(empresa,'C', venfac_cliente ))+~")~")"border="0" color="0" x="2089" y="820" height="68" width="1216" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_cif_genter(empresa,~"C~", venfac_cliente )"border="0" color="0" x="2089" y="1000" height="92" width="658" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="PageCOUNT()"border="0" color="16777215" x="1573" y="724" height="8" width="9" format="[general]"  name=total_paginas  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=header x1="1083" y1="1000" x2="1938" y2="1000" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+line(band=header x1="1486" y1="940" x2="1486" y2="1000" pen.style="5" pen.width="5" pen.color="553648127"  background.mode="2" background.color="0" )
+line(band=header x1="1545" y1="924" x2="1545" y2="1076" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=header alignment="2" expression="String(factura,~"######~") "border="0" color="0" x="1093" y="1012" height="56" width="443" format="[general]"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Factura"border="0" color="0" x="1093" y="936" height="56" width="443"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Fecha"border="0" color="0" x="1559" y="936" height="56" width="366"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header id=35 alignment="2" tabsequence=32766 border="0" color="0" x="1559" y="1012" height="56" width="366" format="[shortdate] [time]"  name=venlifac_ffactura editmask.mask="dd/mm/yy " editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_diccionario(~"Articulo~",venfac_idioma)"border="2" color="0" x="73" y="1152" height="76" width="1111" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="f_diccionario(~"Formato~",venfac_idioma)"border="2" color="0" x="1202" y="1152" height="76" width="549" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cl"border="2" color="0" x="1769" y="1152" height="76" width="128"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="To"border="2" color="0" x="1911" y="1152" height="76" width="160"  name=tono_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="C"border="2" color="0" x="2085" y="1152" height="76" width="78"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pal"border="2" color="0" x="2176" y="1152" height="76" width="123"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="f_diccionario(~"Cajas~",venfac_idioma)"border="2" color="0" x="2313" y="1152" height="76" width="197" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="f_diccionario(~"Pzas.~",venfac_idioma)"border="2" color="0" x="2533" y="1152" height="76" width="197" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="f_diccionario(~"Metros~",venfac_idioma)"border="2" color="0" x="2752" y="1152" height="76" width="279" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Palet Nº"border="2" color="0" x="3054" y="1152" height="76" width="288"  name=fecha_ped_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+report(band=header dataobject="report_cabecera" x="55" y="4" height="372" width="3301" border="0"  height.autosize=yes criteria="" nest_arguments=(("venlifac_empresa")) trail_footer = yes visible="1~tif (ver_cabecera = 'S', 1, 0)"  slideup=directlyabove )
+compute(band=header alignment="2" expression=" ~"PACKING LIST~""border="0" color="128" x="55" y="428" height="112" width="3301" format="[general]"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="0" expression="if(venfac_idioma <> ~"1~" , f_diccionario(~"Albarán~",venfac_idioma) , ~"Albarán~")+~" : ~"+string( venlifac_albaran ,~"########~")"border="0" color="0" x="73" y="28" height="60" width="1019" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="0" expression="if(venfac_idioma <> ~"1~" , f_diccionario(~"Nº Contenedor~",venfac_idioma) , ~"Nº Contenedor~")+ ~" ~" +f_contenedor_venlifac ( venlifac_empresa ,  venlifac_anyo_albaran  , venlifac_albaran  )"border="0" color="0" x="1106" y="28" height="56" width="2222" format="[general]" visible="1~tif(f_contenedor_venlifac ( venlifac_empresa , venlifac_anyo , venlifac_albaran  ) <> ~"~" ,1,0)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="0" expression="if(venfac_idioma <> ~"1~" , f_diccionario(~"Precinto~",venfac_idioma) , ~"Precinto~")+ ~" ~" +f_precinto_venlifac ( venlifac_empresa ,  venlifac_anyo_albaran  , venlifac_albaran  )"border="0" color="0" x="1106" y="100" height="56" width="2222" format="[general]" visible="1~tif(f_contenedor_venlifac ( venlifac_empresa , venlifac_anyo , venlifac_albaran  ) <> ~"~" ,1,0)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=detail x1="69" y1="96" x2="3346" y2="96" pen.style="0" pen.width="5~t1" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="1769" y="24" height="64" width="128" format="[general]"  name=calidades_abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="1" tabsequence=32766 border="0" color="0" x="2185" y="24" height="64" width="123" format="[general]"  name=venlifac_pallets edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="1" expression=" if (venlifac_tipo_unidad = ~"0~",String(venlifac_cantidad,f_mascara_decimales(0)),~"~") "border="0" color="0" x="2528" y="24" height="64" width="206" format="[general]"  name=t_unidades  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression=" f_nombre_formato(venlifac_empresa,f_formato_articulo(venlifac_empresa,venlifac_articulo)) "border="0" color="0" x="1225" y="24" height="64" width="530" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=32766 border="0" color="0" x="73" y="24" height="64" width="1115" format="[general]"  name=venlifac_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=32766 border="0" color="0" x="2327" y="24" height="64" width="187" format="###,###,##0"  name=venlifac_total_cajas edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=34 alignment="2" tabsequence=32766 border="0" color="0" x="1911" y="24" height="64" width="174" format="[general]"  name=venlifac_tonochar edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=10 alignment="2" tabsequence=32766 border="0" color="0" x="2098" y="24" height="64" width="73" format=""  name=venlifac_calibre editmask.mask="##" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=36 alignment="2" tabsequence=32766 border="0" color="0" x="3049" y="24" height="64" width="279" format="[general]"  name=venlifac_numpalet edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression="string(f_calculo_metros_cuadrados( venlifac_empresa , venlifac_articulo , venlifac_cantidad ),~"###,###.00~")"border="0" color="0" x="2752" y="24" height="64" width="279" format="[general]"  name=t_metros  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=trailer.1 x1="69" y1="64" x2="3346" y2="64" pen.style="0" pen.width="5~t1" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="string( sum(venlifac_total_cajas for group 1) ,~"###,###~")"border="0" color="0" x="2322" y="4" height="52" width="192" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(sum(Dec(t_unidades) for group 1),f_mascara_decimales(0))"border="0" color="0" x="2528" y="4" height="52" width="219" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="String(sum(Dec(t_metros) for group 1),f_mascara_decimales(2))"border="0" color="0" x="2761" y="4" height="52" width="274" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=trailer.1 alignment="1" expression="count(venlifac_numpalet for group 1distinct) "border="0" color="0" x="3049" y="4" height="52" width="279" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="if(venfac_idioma <> ~"1~",f_diccionario(~"Peso Neto~",venfac_idioma),~"Peso Neto~")+~" : ~""border="0" color="0" x="78" y="312" height="64" width="590" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=summary id=29 alignment="1" tabsequence=32766 border="0" color="0" x="681" y="312" height="64" width="549" format="###,###,##0"  name=venfac_peso_neto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="KG."border="0" color="0" x="1243" y="312" height="64" width="105"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=summary id=28 alignment="1" tabsequence=32766 border="0" color="0" x="681" y="392" height="64" width="549" format="###,###,##0"  name=venfac_peso edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="KG."border="0" color="0" x="1243" y="392" height="64" width="105"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="if(venfac_idioma <> ~"1~",f_diccionario(~"Observaciones~",venfac_idioma),~"Observaciones~")"border="2" color="0" x="73" y="468" height="76" width="599" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+line(band=summary x1="69" y1="552" x2="3365" y2="552" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="16777215" )
+column(band=summary id=26 alignment="0" tabsequence=32766 border="0" color="0" x="69" y="564" height="300" width="3278" format="[general]"  name=venfac_observaciones edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="0" expression="if (venfac_idioma <> ~"1~",f_diccionario(~"Condición de entrega~",venfac_idioma),~"Condición de entrega~")+ ~" : ~"+f_textopie2_venfac( empresa , anyo , factura )"border="0" color="0" x="78" y="220" height="60" width="2085" format="[general]" visible="1~t0"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="if(venfac_idioma <> ~"1~",f_diccionario(~"Peso Bruto~",venfac_idioma),~"Peso Bruto~")+~" : ~""border="0" color="0" x="78" y="392" height="64" width="590" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="0" expression="if (venfac_idioma <> ~"1~",f_diccionario(~"Partida Estadística~" ,venfac_idioma),~"Partida Estadística~" )+~" : ~"+ f_valor1_partidas_venfac ( venlifac_empresa ,  venlifac_anyo ,  venlifac_factura )"border="0" color="0" x="82" y="132" height="64" width="2080" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression=" string(sum(venlifac_total_cajas for all) ,~"###,###~")"border="0" color="0" x="2322" y="8" height="52" width="192" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="String(sum(Dec(t_unidades) for all),f_mascara_decimales(0))"border="0" color="0" x="2528" y="8" height="52" width="219" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="String(sum(Dec(t_metros) for all),f_mascara_decimales(2))"border="0" color="0" x="2761" y="8" height="52" width="274" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="count(venlifac_numpalet for all distinct) "border="0" color="0" x="3049" y="8" height="52" width="279" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression=" f_inscripcion_empresa(empresa)"border="0" color="0" x="9" y="4" height="52" width="3346" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1431" y="80" height="48" width="823" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

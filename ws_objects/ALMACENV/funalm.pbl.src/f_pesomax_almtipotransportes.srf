@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_pesomax_almtipotransportes.srf
+global type f_pesomax_almtipotransportes from function_object
+end type
+
+forward prototypes
+global function decimal f_pesomax_almtipotransportes (string as_codempresa, string as_codalmacen)
+end prototypes
+
+global function decimal f_pesomax_almtipotransportes (string as_codempresa, string as_codalmacen);Dec{4}	para
+ SELECT pesomax INTO :para
+    FROM almtipotransportes  
+   WHERE (almtipotransportes.empresa      = :as_codempresa)
+   AND   (almtipotransportes.codigo       = :as_codalmacen)  USING SQLCA;
+IF SQLCA.SQLCode <> 0 THEN
+para= 0
+END IF
+RETURN para
+end function
+

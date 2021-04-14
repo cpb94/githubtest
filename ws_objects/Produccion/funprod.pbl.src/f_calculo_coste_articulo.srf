@@ -1,0 +1,76 @@
+﻿$PBExportHeader$f_calculo_coste_articulo.srf
+global type f_calculo_coste_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_coste_articulo (string empresa, string articulo)
+end prototypes
+
+global function decimal f_calculo_coste_articulo (string empresa, string articulo);// By Pako M. (14-12-98) \\
+// Función que calcula el coste de un articulo , devuelve -1 en caso de error\\
+
+// Pako M. (26/01/00)
+// El coste se calcula de la versión activa del articulo,
+// convirtiendo el gramaje en las aplicaciones que lo requieren.
+// ¡¡Como pasa el tiempo!!
+//
+//datastore data
+//
+//string seleccion,formulacion,aplicacion
+//string formato_articulo,formato_gramaje_aplicacion,v_version
+//dec coste_formula,gramaje,coste_articulo
+//int indice,total
+//boolean bien = true
+//
+//formato_articulo = f_formato_articulo(empresa,articulo)
+//v_version        = f_version_activa_articulo(empresa,articulo)
+
+//seleccion = "select aplicacion,formulacion,gramaje from proddetartic "+&
+//				"where empresa ='"+empresa+"' and "+&
+//				"articulo = '"+articulo+"' and "+&
+//				"version  = '"+v_version+"'"
+//
+//data = f_cargar_cursor(seleccion)
+//
+//total = data.rowcount()
+//
+//if total > 0 then
+//	coste_articulo = 0
+//	for indice = 1 to total
+//		aplicacion  = data.getitemstring(indice,"aplicacion")
+//		formulacion = data.getitemstring(indice,"formulacion")
+//		if isnull(formulacion) then formulacion = ""
+//		gramaje     = data.getitemdecimal(indice,"gramaje")
+//		if isnull(gramaje) then gramaje = 0
+//		if gramaje > 0 and trim(formulacion) <> "" then
+//			
+//			select coste_formula 
+//			into   :coste_formula
+//			from   prodformula 
+//			where  empresa = :empresa
+//			and    formula = :formulacion;			
+//			
+//			if sqlca.sqlcode <> 0 then
+//				f_mensaje("Calculo_coste_articulo",f_nombre_articulo(empresa,articulo)+"~nError: "+sqlca.sqlerrtext)
+//				bien = false
+//			else
+//				formato_gramaje_aplicacion = f_formato_gramaje_aplicacion(empresa,aplicacion)
+//				if formato_gramaje_aplicacion <> "" then
+//					gramaje = (gramaje/f_superficie_formato(empresa,formato_gramaje_aplicacion))*f_superficie_formato(empresa,formato_articulo)
+//				end if
+//				coste_articulo = coste_articulo+((gramaje*coste_formula)/1000)
+//			end if
+//		end if
+//	next
+//else	
+//	bien = false
+//end if
+//destroy data
+//if bien then
+//	return coste_articulo
+//else
+	return -1
+//end if
+
+end function
+

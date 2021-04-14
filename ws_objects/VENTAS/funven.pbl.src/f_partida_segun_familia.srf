@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_partida_segun_familia.srf
+global type f_partida_segun_familia from function_object
+end type
+
+forward prototypes
+global function string f_partida_segun_familia (string empresa, string familia)
+end prototypes
+
+global function string f_partida_segun_familia (string empresa, string familia);String variable
+
+  SELECT venpartidasfamilias.partida  
+    INTO :variable  
+    FROM venpartidasfamilias  
+   WHERE venpartidasfamilias.empresa = :empresa 
+	AND   venpartidasfamilias.familia = :familia ;
+	
+	if isnull(variable) then variable = "1"
+	
+	return variable
+
+end function
+

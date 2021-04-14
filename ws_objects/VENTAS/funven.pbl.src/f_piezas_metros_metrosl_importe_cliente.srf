@@ -1,0 +1,176 @@
+﻿$PBExportHeader$f_piezas_metros_metrosl_importe_cliente.srf
+global type f_piezas_metros_metrosl_importe_cliente from function_object
+end type
+
+forward prototypes
+global subroutine f_piezas_metros_metrosl_importe_cliente (ref decimal arg_piezas, ref decimal arg_metros, ref decimal arg_importe, ref decimal arg_metros_lin, date fecha1, date fecha2, string cliente)
+end prototypes
+
+global subroutine f_piezas_metros_metrosl_importe_cliente (ref decimal arg_piezas, ref decimal arg_metros, ref decimal arg_importe, ref decimal arg_metros_lin, date fecha1, date fecha2, string cliente);decimal importe_ped = 0, importe_alb = 0, importe_fac = 0, metros_lin_ped = 0
+decimal piezas_ped = 0, piezas_alb = 0, piezas_fac = 0, metros_lin_fac = 0
+decimal metros_ped = 0, metros_alb = 0, metros_fac = 0, metros_lin_alb = 0
+datastore datos
+string sel
+long i
+
+sel = &
+" select venliped.empresa,   "+&
+"        venliped.anyo,     "+&
+"        venliped.pedido,     "+&
+"        venliped.linea,    "+&
+"			venliped.fpedido,  "+&
+"			(venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 ) ) / venped.cambio as importe, "+&
+"			(CASE WHEN venliped.tipo_unidad = '0' THEN venliped.cantidad ELSE (floor(venliped.cantidad / av.metroscaja) * av.piezascaja) END) * 1 as piezas, "+&
+"			(CASE WHEN venliped.tipo_unidad = '1' THEN venliped.cantidad ELSE formatos.ancho * formatos.largo * venliped.cantidad / 10000 END) as metros, "+&
+"			(CASE WHEN venliped.tipo_unidad = '1' THEN venliped.cantidad ELSE formatos.largo * venliped.cantidad / 100 END) as metros_lin "+&
+" from venliped "+&
+" INNER JOIN articulos ON venliped.articulo = articulos.codigo "+&
+" INNER JOIN venped ON venped.anyo = venliped.anyo and venped.pedido = venliped.pedido "+&
+" INNER JOIN formatos ON articulos.formato = formatos.codigo "+&
+" LEFT OUTER JOIN almartcajas av ON venliped.empresa = av.empresa AND venliped.articulo = av.articulo AND venliped.caja = av.caja "+&
+" where venliped.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venped.empresa = '"+codigo_empresa+  "' "+&
+" and venped.es_proforma = 'N' "+&
+" and av.metroscaja <> 0 "+&
+" and venliped.fpedido >= '"+string(fecha1)+  "' "+&
+" and venliped.fpedido <= '"+string(fecha2)+  "' "+&
+" and venliped.cliente like '"+cliente+  "' "+&
+" union "+&
+" select venlialb.empresa, "+&
+" 			venlialb.anyo_pedido_origen,  "+&
+" 			venlialb.pedido_origen,  "+&
+" 			venlialb.linea_pedido_origen,  "+&
+" 			venlialb.fpedido_origen, "+&
+"			( venlialb.cantidad * venlialb.precio * ( 1 -  venlialb.dtoesp / 100  )* ( 1 -  venlialb.dtoesp2 / 100  ) ) / venalb.cambio as importe,  "+&
+" 			(CASE WHEN venlialb.tipo_unidad = '0' THEN venlialb.cantidad ELSE (floor(venlialb.cantidad / av.metroscaja) * av.piezascaja) END) * 1 as piezas,  "+&
+" 			(CASE WHEN venlialb.tipo_unidad = '1' THEN venlialb.cantidad ELSE formatos.ancho * formatos.largo * venlialb.cantidad / 10000 END) as metros, "+&
+" 			(CASE WHEN venlialb.tipo_unidad = '1' THEN venlialb.cantidad ELSE formatos.largo * venlialb.cantidad / 100 END) as metros_lin "+&
+" from venlialb "+&
+" INNER JOIN venalb ON venalb.anyo = venlialb.anyo and venalb.albaran = venlialb.albaran "+&
+" INNER JOIN articulos ON venlialb.articulo = articulos.codigo "+&
+" INNER JOIN formatos ON articulos.formato = formatos.codigo "+&
+" LEFT OUTER JOIN almartcajas av ON venlialb.empresa = av.empresa AND venlialb.articulo = av.articulo AND venlialb.caja = av.caja "+&
+" where venlialb.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venalb.empresa = '"+codigo_empresa+  "' "+&
+" and venlialb.fpedido_origen >= '"+string(fecha1)+  "' "+&
+" and venlialb.fpedido_origen <= '"+string(fecha2)+  "' "+&
+" and av.metroscaja <> 0 "+&
+" and venlialb.cliente like '"+cliente+  "' "+&
+" union "+&
+" select venlifac.empresa,  "+&
+" 			venlifac.anyo_pedido_origen,  "+&
+" 			venlifac.pedido_origen,  "+&
+" 			venlifac.linea_pedido_origen,  "+&
+" 			venlifac.fpedido_origen, "+&
+" 			( venlifac.cantidad * venlifac.precio * ( 1 -  venlifac.dtoesp / 100  ) * ( 1 -  venlifac.dtoesp2 / 100 ) ) / venlifac.cambio as importe,  "+&
+" 			(CASE WHEN venlifac.tipo_unidad = '0' THEN venlifac.cantidad ELSE (floor(venlifac.cantidad / av.metroscaja) * av.piezascaja) END)  * 1 as piezas, "+&
+" 			(CASE WHEN venlifac.tipo_unidad = '1' THEN venlifac.cantidad ELSE formatos.ancho * formatos.largo * venlifac.cantidad / 10000 END) as metros, "+&
+" 			(CASE WHEN venlifac.tipo_unidad = '1' THEN venlifac.cantidad ELSE formatos.largo * venlifac.cantidad / 100 END) as metros_lin "+&
+" from venlifac "+&
+" INNER JOIN articulos ON venlifac.articulo = articulos.codigo "+& 
+" INNER JOIN formatos ON articulos.formato = formatos.codigo "+&
+" INNER JOIN venfac  ON venfac.anyo = venlifac.anyo and venfac.factura = venlifac.factura "+&
+" LEFT OUTER JOIN almartcajas av ON venlifac.empresa = av.empresa AND venlifac.articulo = av.articulo AND venlifac.caja = av.caja "+&
+" where venlifac.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venfac.empresa = '"+codigo_empresa+  "' "+&
+" and ( venlifac.factura_deposito <> 'S' or venlifac.factura_deposito is null ) "+&
+" and venlifac.fpedido_origen >= '"+string(fecha1)+  "' "+&
+" and venlifac.fpedido_origen <= '"+string(fecha2)+  "' "+&
+" and av.metroscaja <> 0 "+&
+" and venlifac.cliente like '"+cliente+  "' "
+
+
+/*
+//SIN METROS
+sel = &
+" select venliped.empresa,   "+&
+"        venliped.anyo,     "+&
+"        venliped.pedido,     "+&
+"        venliped.linea,    "+&
+"			venliped.fpedido,  "+&
+"			(venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 ) ) / venped.cambio as importe, "+&
+"			venliped.cantidad * 1 as piezas, "+&
+"			formatos.ancho * formatos.largo * venliped.cantidad / 10000 as metros, "+&
+"			formatos.largo * venliped.cantidad / 100 as metros_lin "+&
+" from venliped, articulos, formatos, venped  "+&
+" where venliped.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venped.empresa = '"+codigo_empresa+  "' "+&
+" and venped.anyo = venliped.anyo "+&
+" and venped.pedido = venliped.pedido "+&
+" and venliped.articulo = articulos.codigo "+&
+" and articulos.formato = formatos.codigo "+&
+" and venped.es_proforma = 'N' "+&
+" and venliped.fpedido >= '"+string(fecha1)+  "' "+&
+" and venliped.fpedido <= '"+string(fecha2)+  "' "+&
+" and venliped.cliente like '"+cliente+  "' "+&
+" union "+&
+" select venlialb.empresa, "+&
+" 			venlialb.anyo_pedido_origen,  "+&
+" 			venlialb.pedido_origen,  "+&
+" 			venlialb.linea_pedido_origen,  "+&
+" 			venlialb.fpedido_origen, "+&
+"			( venlialb.cantidad * venlialb.precio * ( 1 -  venlialb.dtoesp / 100  )* ( 1 -  venlialb.dtoesp2 / 100  ) ) / venalb.cambio as importe,  "+&
+" 			venlialb.cantidad * 1 as piezas,  "+&
+" 			formatos.ancho * formatos.largo * venlialb.cantidad / 10000 as metros, "+&
+" 			formatos.largo * venlialb.cantidad / 100 as metros_lin "+&
+" from venlialb, articulos, formatos, venalb "+&
+" where venlialb.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venalb.empresa = '"+codigo_empresa+  "' "+&
+" and venalb.anyo = venlialb.anyo "+&
+" and venalb.albaran = venlialb.albaran "+&
+" and venlialb.articulo = articulos.codigo "+&
+" and articulos.formato = formatos.codigo "+&
+" and venlialb.fpedido_origen >= '"+string(fecha1)+  "' "+&
+" and venlialb.fpedido_origen <= '"+string(fecha2)+  "' "+&
+" and venlialb.cliente like '"+cliente+  "' "+&
+" union "+&
+" select venlifac.empresa,  "+&
+" 			venlifac.anyo_pedido_origen,  "+&
+" 			venlifac.pedido_origen,  "+&
+" 			venlifac.linea_pedido_origen,  "+&
+" 			venlifac.fpedido_origen, "+&
+" 			( venlifac.cantidad * venlifac.precio * ( 1 -  venlifac.dtoesp / 100  ) * ( 1 -  venlifac.dtoesp2 / 100 ) ) / venlifac.cambio as importe,  "+&
+" 			venlifac.cantidad  * 1 as piezas, "+&
+" 			formatos.ancho * formatos.largo * venlifac.cantidad / 10000 as metros, "+&
+" 			formatos.largo * venlifac.cantidad / 100 as metros_lin "+&
+" from venlifac, articulos, formatos, venfac "+&
+" where venlifac.empresa = '"+codigo_empresa+  "' "+&
+" and articulos.empresa = '"+codigo_empresa+  "' "+&
+" and formatos.empresa = '"+codigo_empresa+  "' "+&
+" and venfac.empresa = '"+codigo_empresa+  "' "+&
+" and venfac.anyo = venlifac.anyo "+&
+" and venfac.factura = venlifac.factura "+&
+" and ( venlifac.factura_deposito <> 'S' or venlifac.factura_deposito is null ) "+&
+" and venlifac.articulo = articulos.codigo "+&
+" and articulos.formato = formatos.codigo "+&
+" and venlifac.fpedido_origen >= '"+string(fecha1)+  "' "+&
+" and venlifac.fpedido_origen <= '"+string(fecha2)+  "' "+&
+" and venlifac.cliente like '"+cliente+  "' "
+*/
+f_cargar_cursor_nuevo (sel, datos )
+
+arg_importe = 0
+arg_piezas = 0
+arg_metros = 0
+arg_metros_lin = 0
+for i = 1 to datos.rowcount()
+	arg_importe = arg_importe + datos.object.importe[i]	
+	arg_piezas = arg_piezas + datos.object.piezas[i]	
+	arg_metros = arg_metros + datos.object.metros[i]	
+	arg_metros_lin = arg_metros_lin + datos.object.metros_lin[i]	
+next
+
+destroy datos
+
+end subroutine
+

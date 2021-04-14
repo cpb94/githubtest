@@ -1,0 +1,32 @@
+﻿$PBExportHeader$str_promlindetallped.srs
+global type str_promlindetallped from structure
+	string		empresa
+	decimal {0}	anyo
+	decimal {0}	pedido
+	decimal {0}	linea
+	decimal {0}	orden
+	string		panel
+	string		articulo
+	string		calidad
+	string		montajeartcal
+	decimal {0}	piezas
+	string		usuario
+	string		usuario_pedido
+	string		observaciones
+	decimal {2}	peso
+	decimal {0}	coste
+	decimal {0}	venta
+	string		pais
+	string		cliente
+	string		tipo
+	string		reposicion
+	string		situacion
+	datetime		f_pedido
+	datetime		f_entrega
+	string		agente1
+	string		agente2
+	string		agente3
+	string		tipo_expositor
+	string		expositor
+end type
+

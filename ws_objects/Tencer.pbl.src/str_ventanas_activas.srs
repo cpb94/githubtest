@@ -1,0 +1,7 @@
+﻿$PBExportHeader$str_ventanas_activas.srs
+global type str_ventanas_activas from structure
+	string		nombre
+	window		ventana
+	boolean		activa
+end type
+

@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_pagina_arriba.srf
+$PBExportComments$Sube  una pagina el la datawinodw recibida.
+global type f_pagina_arriba from function_object
+end type
+
+forward prototypes
+global subroutine f_pagina_arriba (datawindow arg_datawindow)
+end prototypes
+
+global subroutine f_pagina_arriba (datawindow arg_datawindow);arg_datawindow.ScrollPriorPage()
+
+end subroutine
+

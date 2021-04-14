@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_tipo_ventransportista.srf
+global type f_tipo_ventransportista from function_object
+end type
+
+forward prototypes
+global function string f_tipo_ventransportista (string empresa, string codigo)
+end prototypes
+
+global function string f_tipo_ventransportista (string empresa, string codigo);String var_tipo
+
+SELECT ventransportista.tipo
+INTO :var_tipo
+FROM ventransportista
+WHERE (ventransportista.empresa   = :empresa)
+AND   (ventransportista.codigo  = :codigo);
+
+if isnull(var_tipo) then var_tipo='A'
+
+Return var_tipo
+
+end function
+

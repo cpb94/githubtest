@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_cargar_str_alm_bultos.srf
+global type f_cargar_str_alm_bultos from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_alm_bultos (decimal arg_id, ref str_alm_bultos str_alm_bultos)
+end prototypes
+
+global function boolean f_cargar_str_alm_bultos (decimal arg_id, ref str_alm_bultos str_alm_bultos);boolean lb_correcto = true
+
+SELECT alm_bultos.id,
+       alm_bultos.empresa,
+       alm_bultos.ean13,
+       alm_bultos.tipo_pallet,
+       alm_bultos.alto,
+       alm_bultos.usuario,
+       alm_bultos.fecha_hora_alta,
+       alm_bultos.id_ubicacion,
+       alm_bultos.anyo_orden_carga,
+       alm_bultos.codigo_orden_carga,
+		 alm_bultos.observaciones 
+INTO   :str_alm_bultos.id,
+       :str_alm_bultos.empresa,
+       :str_alm_bultos.ean13,
+       :str_alm_bultos.tipo_pallet,
+       :str_alm_bultos.alto,
+       :str_alm_bultos.usuario,
+       :str_alm_bultos.fecha_hora_alta,
+       :str_alm_bultos.id_ubicacion,
+       :str_alm_bultos.anyo_orden_carga,
+       :str_alm_bultos.codigo_orden_carga,
+		 :str_alm_bultos.observaciones 
+FROM alm_bultos
+WHERE alm_bultos.id = :arg_id;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

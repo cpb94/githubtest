@@ -1,0 +1,13 @@
+﻿$PBExportHeader$str_ven_reclamaciones.srs
+global type str_ven_reclamaciones from structure
+     STRING     empresa
+     STRING     cliente
+     STRING     reclamacion
+     DATETIME     fecha
+     STRING     descripcion
+     STRING     texto
+     STRING     codigo_ven_reclamaciones_tipos
+     STRING     codigo_ven_reclamaciones_situa
+     STRING     codigo_ven_reclamaciones_causa
+end type
+

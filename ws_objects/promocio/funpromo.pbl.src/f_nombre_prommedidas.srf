@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_prommedidas.srf
+global type f_nombre_prommedidas from function_object
+end type
+
+forward prototypes
+global function STRING f_nombre_prommedidas (string empresa, string codigo)
+end prototypes
+
+global function STRING f_nombre_prommedidas (string empresa, string codigo);String parametro
+  
+  SELECT prommedidas.descripcion  
+    INTO :parametro  
+    FROM prommedidas  
+   WHERE ( prommedidas.empresa = :empresa ) AND  
+         ( prommedidas.codigo = :codigo )   ;
+			
+			
+Return parametro
+end function
+

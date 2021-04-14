@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_cambio_moneda.srf
+global type f_cambio_moneda from function_object
+end type
+
+forward prototypes
+global function decimal f_cambio_moneda (string ai_codmoneda)
+end prototypes
+
+global function decimal f_cambio_moneda (string ai_codmoneda);string sel
+datastore ds
+dec variable
+
+sel=" SELECT euros "+&
+    "FROM monedas  "+&
+   " WHERE monedas.moneda = '"+ai_codmoneda+"'"
+
+//ds=f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, ds)
+
+if ds.rowcount()>0 then
+	variable=ds.object.euros[1]
+else
+	variable=0
+end if
+	
+if variable=0 then
+	messagebox("Atención","No se dispone del equivalente de "+f_nombre_moneda(ai_codmoneda)+" en Euros.")
+end if
+//variable = dec(cambio)
+destroy ds
+Return variable
+
+end function
+

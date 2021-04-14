@@ -1,0 +1,99 @@
+﻿$PBExportHeader$f_escandallo_articulo_cantidad.srf
+global type f_escandallo_articulo_cantidad from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_articulo_cantidad (string arg_empresa, string arg_articulo, string arg_version, decimal arg_cantidad, ref string arg_escandallo[], ref decimal arg_cantesc[])
+end prototypes
+
+global subroutine f_escandallo_articulo_cantidad (string arg_empresa, string arg_articulo, string arg_version, decimal arg_cantidad, ref string arg_escandallo[], ref decimal arg_cantesc[]);long      indice,total,indice2
+dec       cantidad,cantidad_articulo,cantesc
+string    sel,articulo,var_version,formato
+string    pasar_por_horno,pasar_por_esmaltadora,pasar_por_prensa
+dec       cantidad_horno,cantidad_prensa,cantidad_esmaltadora,perdidas
+dec       cantidad_articulo_siguiente
+boolean   introducido
+datastore escandallo
+
+arg_escandallo[UpperBound(arg_escandallo) +1] = arg_articulo
+arg_cantesc[UpperBound(arg_cantesc) +1]       = arg_cantidad
+
+pasar_por_prensa      = f_pasar_articulo_por_prensa(arg_empresa,arg_articulo,arg_version)
+pasar_por_esmaltadora = f_pasar_articulo_por_esmaltadora(arg_empresa,arg_articulo,arg_version)
+pasar_por_horno       = f_pasar_articulo_por_horno(arg_empresa,arg_articulo,arg_version)	
+formato               = f_formato_articulo(arg_empresa,arg_articulo)
+
+if pasar_por_horno = "S" then
+	perdidas = f_perdidas_tipo_linea_formato(arg_empresa,"H",formato)		
+	cantidad_horno = arg_cantidad *(1 +(perdidas / 100))
+else
+	cantidad_horno = 0
+end if			
+
+if pasar_por_esmaltadora = "S" then
+	perdidas = f_perdidas_tipo_linea_formato(arg_empresa,"E",formato)			
+	if cantidad_horno = 0 then
+		cantidad_esmaltadora = arg_cantidad *(1 +(perdidas / 100))
+	else
+		cantidad_esmaltadora = cantidad_horno *(1 +(perdidas / 100))
+	end if
+else
+	cantidad_esmaltadora = 0
+end if	
+
+if pasar_por_prensa = "S" then
+	perdidas = f_perdidas_tipo_linea_formato(arg_empresa,"P",formato)			
+	if cantidad_esmaltadora = 0 then
+		if cantidad_horno = 0 then
+			cantidad_prensa = arg_cantidad *(1 +(perdidas / 100))
+		else
+			cantidad_prensa = cantidad_horno *(1 +(perdidas / 100))
+		end if
+	else
+		cantidad_prensa = cantidad_esmaltadora *(1 +(perdidas / 100))
+	end if				
+else
+	cantidad_prensa = 0
+end if
+
+if cantidad_prensa > 0 then
+	cantidad_articulo_siguiente = cantidad_prensa
+else
+	if cantidad_esmaltadora > 0 then
+		cantidad_articulo_siguiente = cantidad_esmaltadora
+	else
+		cantidad_articulo_siguiente = cantidad_horno
+	end if	
+end if
+
+sel = "select producto,cantidad,cantidad_articulo "+&
+		"from   almcompuestoart "+&
+		"where  empresa = '"+arg_empresa+"' "+&
+		"and    producto_terminado = 'S' "+&
+		"and    articulo = '"+arg_articulo+"' "+&
+		"and    version  = '"+arg_version+"'"
+		
+escandallo = f_cargar_cursor(sel)
+total = escandallo.rowcount()
+if total > 0 then
+	for indice = 1 to total
+		introducido = false
+		articulo = escandallo.object.producto[indice]
+		for indice2 = 1 to UpperBound(arg_escandallo)			
+			if arg_escandallo[indice2] = articulo then
+				introducido = true
+			end if		
+		next
+		if not(introducido) then
+			var_version       = f_version_activa_articulo(codigo_empresa,articulo)
+			cantidad          = escandallo.object.cantidad[indice]
+			cantidad_articulo = escandallo.object.cantidad_articulo[indice]
+			cantesc           = cantidad * (cantidad_articulo_siguiente/cantidad_articulo)
+			f_escandallo_articulo_cantidad(arg_empresa,articulo,var_version,cantesc,arg_escandallo,arg_cantesc[])
+		end if
+	next
+end if
+destroy escandallo
+
+end subroutine
+

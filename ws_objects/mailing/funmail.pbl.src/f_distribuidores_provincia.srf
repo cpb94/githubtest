@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_distribuidores_provincia.srf
+$PBExportComments$Devuelve el total de clientes y subclientes que son distribuidores.
+global type f_distribuidores_provincia from function_object
+end type
+
+forward prototypes
+global function integer f_distribuidores_provincia (string empresa, string pais, string provincia)
+end prototypes
+
+global function integer f_distribuidores_provincia (string empresa, string pais, string provincia);Integer numero
+   SELECT count(*)  INTO :numero 
+    FROM genter  
+   WHERE (genter.empresa      = :empresa)
+   AND   (genter.tipoter IN ("C","S"))
+   AND   (genter.pais         = :pais)
+   AND   (genter.provincia    = :provincia)
+   AND   (genter.distribuidor = "S");
+IF IsNull(numero) Then numero=0
+Return numero
+
+end function
+

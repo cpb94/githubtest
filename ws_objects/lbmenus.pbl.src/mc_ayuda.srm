@@ -1,0 +1,152 @@
+﻿$PBExportHeader$mc_ayuda.srm
+$PBExportComments$Menu de Ayuda al usuario.
+forward
+global type mc_ayuda from menu
+end type
+type m_help from menu within mc_ayuda
+end type
+type m_indice from menu within m_help
+end type
+type m_ventactual from menu within m_help
+end type
+type m_usoayuda from menu within m_help
+end type
+type m_line4 from menu within m_help
+end type
+type m_acerca from menu within m_help
+end type
+type m_help from menu within mc_ayuda
+m_indice m_indice
+m_ventactual m_ventactual
+m_usoayuda m_usoayuda
+m_line4 m_line4
+m_acerca m_acerca
+end type
+end forward
+
+global type mc_ayuda from menu
+m_help m_help
+end type
+global mc_ayuda mc_ayuda
+
+type variables
+string is_msg =" maintenance window..."
+end variables
+
+on mc_ayuda.create
+mc_ayuda=this
+this.m_help=create m_help
+this.Item[]={this.m_help}
+end on
+
+on mc_ayuda.destroy
+destroy(this.m_help)
+end on
+
+type m_help from menu within mc_ayuda
+m_indice m_indice
+m_ventactual m_ventactual
+m_usoayuda m_usoayuda
+m_line4 m_line4
+m_acerca m_acerca
+end type
+
+on m_help.create
+this.Text="Ay&uda"
+this.m_indice=create m_indice
+this.m_ventactual=create m_ventactual
+this.m_usoayuda=create m_usoayuda
+this.m_line4=create m_line4
+this.m_acerca=create m_acerca
+this.Item[]={this.m_indice, &
+this.m_ventactual, &
+this.m_usoayuda, &
+this.m_line4, &
+this.m_acerca}
+end on
+
+on m_help.destroy
+destroy(this.m_indice)
+destroy(this.m_ventactual)
+destroy(this.m_usoayuda)
+destroy(this.m_line4)
+destroy(this.m_acerca)
+end on
+
+type m_indice from menu within m_help
+end type
+
+on clicked;// Abre el fichero de ayuda y visualiza el indice.
+
+//ShowHelp(<fichero a buscar>, Index!)
+end on
+
+on m_indice.create
+this.Text="&Indice~tF1"
+this.Microhelp="Visualiza el indice de la ayuda."
+this.ToolBarItemOrder=97
+this.ToolBarItemSpace=2
+this.Shortcut=112
+end on
+
+type m_ventactual from menu within m_help
+end type
+
+on clicked;//// This script displays the help topics for the current window
+//
+//w_base_sheet	lw_sheet			// local sheet window variable...
+//
+//lw_sheet = w_frame.GetActiveSheet()		// Check for open MDI sheet...
+//
+//if IsValid(lw_sheet) then					// If sheet open...
+//	gw_current.wf_help()						// call function
+//else
+//	ShowHelp(gs_helpfile, Index!)			// otherwise, show help index
+//end if
+//
+end on
+
+on m_ventactual.create
+this.Text="&Ventana Actual~tShift+F1"
+this.Microhelp="Visualiza ayuda de la ventana Actual"
+this.ToolBarItemName="Help!"
+this.ToolBarItemText="Help"
+this.ToolBarItemOrder=97
+this.ToolBarItemSpace=2
+this.Shortcut=1136
+end on
+
+type m_usoayuda from menu within m_help
+end type
+
+on clicked;// Abre el fichero de ayuda de windows...
+
+ShowHelp("WINHELP.HLP", Index!)
+end on
+
+on m_usoayuda.create
+this.Text="&Uso de la Ayuda"
+this.Microhelp="Muestra como usar las opciones de ayuda."
+end on
+
+type m_line4 from menu within m_help
+end type
+
+on m_line4.create
+this.Text="-"
+end on
+
+type m_acerca from menu within m_help
+end type
+
+on clicked;// Abre la ventana de versiones...
+
+SetPointer(HourGlass!)
+//Open(w_acerca)
+end on
+
+on m_acerca.create
+this.Text="&Acerca..."
+this.Microhelp="Version del producto."
+end on
+

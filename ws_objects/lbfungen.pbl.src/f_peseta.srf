@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_peseta.srf
+global type f_peseta from function_object
+end type
+
+forward prototypes
+global function string f_peseta ()
+end prototypes
+
+global function string f_peseta ();Return "5"
+end function
+

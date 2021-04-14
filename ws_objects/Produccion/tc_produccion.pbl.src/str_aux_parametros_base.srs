@@ -1,0 +1,18 @@
+﻿$PBExportHeader$str_aux_parametros_base.srs
+global type str_aux_parametros_base from structure
+	string		molde
+	string		plato_sup
+	string		plato_inf
+	string		costilla
+	string		familia
+	string		relieve
+	string		cliente
+	string		descripcion
+	string		formato
+	string		espesor
+	string		pesopieza
+	string		marco
+	string		espesor_lateral
+	string		pt
+end type
+

@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_incremento_formula_en_aplicacion.srf
+global type f_incremento_formula_en_aplicacion from function_object
+end type
+
+forward prototypes
+global function decimal f_incremento_formula_en_aplicacion (string empresa, string aplicacion, decimal cantidad)
+end prototypes
+
+global function decimal f_incremento_formula_en_aplicacion (string empresa, string aplicacion, decimal cantidad);dec incremento
+string tipo_incremento
+
+select incremento_base,tipo_incremento
+into :incremento,:tipo_incremento
+from prodaplicaciones
+where empresa = :empresa
+and codigo =:aplicacion;
+
+if not(isnull(incremento)) then
+	if tipo_incremento = "P" then
+		//Incremento porcentual
+		cantidad = cantidad + ((cantidad / 100) * incremento)
+	else
+		//Incremento fijo kg
+		cantidad = cantidad + incremento
+	end if
+end if
+
+return cantidad
+end function
+

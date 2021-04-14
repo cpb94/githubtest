@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_ayuda_carforpag.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=93 color="-1" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=65 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=forma dbname="carforpag.forma" )
+ column=(type=char(60) updatewhereclause=yes name=texto1 dbname="carforpag.texto1" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="carforpag.empresa" )
+ column=(type=char(30) updatewhereclause=yes name=cartipodoc_texto dbname="cartipodoc.texto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carforpag~" )  TABLE(NAME=~"cartipodoc~" ) COLUMN(NAME=~"carforpag.forma~") COLUMN(NAME=~"carforpag.texto1~") COLUMN(NAME=~"carforpag.empresa~") COLUMN(NAME=~"cartipodoc.texto~")    JOIN (LEFT=~"carforpag.empresa~"    OP =~"=~"RIGHT=~"cartipodoc.empresa~"    OUTER1 =~"carforpag.empresa~" )    JOIN (LEFT=~"carforpag.tipodoc~"    OP =~"=~"RIGHT=~"cartipodoc.tipodoc~"    OUTER1 =~"carforpag.tipodoc~" )WHERE(    EXP1 =~"carforpag.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"UPPER(carforpag.texto1)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ORDER(NAME=~"carforpag.empresa~" ASC=yes )  ORDER(NAME=~"carforpag.texto1~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Cod."border="6" color="33554432" x="124" y="16" height="65" width="133"  name=forma_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Descripción"border="6" color="33554432" x="275" y="16" height="65" width="1029"  name=texto1_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Control"border="6" color="33554432" x="1322" y="16" height="65" width="407"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="5" color="0" x="115" y="4" height="57" width="147" format="[general]"  name=forma  tag="Codigo forma dd pago." edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="279" y="4" height="57" width="1025" format="[general]"  name=texto1  tag="Texto forma de pago en castellano." edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="5" color="0" x="1322" y="4" height="57" width="417" format="[general]"  name=cartipodoc_texto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

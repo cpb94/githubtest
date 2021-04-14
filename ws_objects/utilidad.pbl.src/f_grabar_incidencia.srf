@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_grabar_incidencia.srf
+$PBExportComments$Gestion incidencias.
+global type f_grabar_incidencia from function_object
+end type
+
+forward prototypes
+global subroutine f_grabar_incidencia (string in_programa, string in_incidencia)
+end prototypes
+
+global subroutine f_grabar_incidencia (string in_programa, string in_incidencia);IF f_incidencias_uti_parametros(codigo_empresa)= "N" Then  Return
+
+datetime in_fecha
+string titulo_ventana_activa
+//if isvalid(ventana_activa) then 
+//	titulo_ventana_activa = ventana_activa.Title
+//end if
+
+in_fecha=datetime(today(),now())
+IF trim(in_incidencia)<>"" THEN
+    INSERT INTO utiincidencias  
+              ( programa,fecha,incidencia,usuario,titulo_ventana_activa)  
+    VALUES    (:in_programa,:in_fecha,:in_incidencia,:nombre_usuario,:titulo_ventana_activa)
+	 Using trans_cursor;
+	 IF trans_cursor.sqlcode = 0 then	
+		 COMMIT using trans_cursor;
+	else
+		rollback using trans_cursor;
+	end if
+END IF
+
+
+
+
+
+end subroutine
+

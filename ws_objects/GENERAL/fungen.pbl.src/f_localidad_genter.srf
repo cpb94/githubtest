@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_localidad_genter.srf
+global type f_localidad_genter from function_object
+end type
+
+forward prototypes
+global function string f_localidad_genter (string empresa, string tipoter, string codigo)
+end prototypes
+
+global function string f_localidad_genter (string empresa, string tipoter, string codigo);String localidad
+
+SELECT genter.localidad   
+INTO   :localidad
+FROM   genter  
+WHERE genter.empresa = :empresa 
+AND   genter.tipoter = :tipoter 
+AND   genter.codigo  = :codigo ;
+
+If IsNull(localidad) Then localidad = ""
+Return localidad
+
+
+end function
+

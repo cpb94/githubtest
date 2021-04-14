@@ -1,0 +1,14 @@
+﻿$PBExportHeader$f_segsituaciones.srf
+global type f_segsituaciones from function_object
+end type
+
+forward prototypes
+global function string f_segsituaciones (string sit)
+end prototypes
+
+global function string f_segsituaciones (string sit);IF sit = "1" Then Return "Gest.Cobro."
+IF sit = "2" Then Return "Devoluciones"
+IF sit = "3" Then Return "Renovaciones"
+IF sit = "4" Then Return "Cobrado"
+end function
+

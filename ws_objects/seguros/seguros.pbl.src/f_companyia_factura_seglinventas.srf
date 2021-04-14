@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_companyia_factura_seglinventas.srf
+global type f_companyia_factura_seglinventas from function_object
+end type
+
+forward prototypes
+global function string f_companyia_factura_seglinventas (string empresa, decimal anyo_fra, string factura)
+end prototypes
+
+global function string f_companyia_factura_seglinventas (string empresa, decimal anyo_fra, string factura);String cad
+
+Select companyia Into :cad From seglinventas
+Where  seglinventas.empresa = :empresa
+And    seglinventas.anyo = :anyo_fra
+And    seglinventas.fra = :factura
+And    seglinventas.recibo  = 1;
+IF IsNUll(cad) then cad = ""
+
+Return cad
+end function
+

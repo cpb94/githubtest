@@ -1,0 +1,11 @@
+﻿$PBExportHeader$str_costes.srs
+global type str_costes from structure
+	string		articulo
+	decimal		coste_mp
+	decimal		coste_fab
+	decimal		coste_packing
+	decimal		coste_compras
+	decimal		coste_mp_mermas
+	decimal		coste_fab_mermas
+end type
+

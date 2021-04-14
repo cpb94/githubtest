@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_genera_entrada_almacen_tipoparte.srf
+global type f_genera_entrada_almacen_tipoparte from function_object
+end type
+
+forward prototypes
+global function string f_genera_entrada_almacen_tipoparte (string empresa, string linea)
+end prototypes
+
+global function string f_genera_entrada_almacen_tipoparte (string empresa, string linea);string genera_entrada_almacen
+
+select genera_entrada_almacen
+into   :genera_entrada_almacen
+from   prodtipopartes
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if isnull(genera_entrada_almacen) then genera_entrada_almacen = ""
+if trim(genera_entrada_almacen) = "" then
+	genera_entrada_almacen = "N"
+end if
+
+return genera_entrada_almacen
+end function
+

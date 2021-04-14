@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_articulos_calibre_cliente.srf
+global type f_articulos_calibre_cliente from function_object
+end type
+
+forward prototypes
+global function string f_articulos_calibre_cliente (string ai_codemp, string ai_codart)
+end prototypes
+
+global function string f_articulos_calibre_cliente (string ai_codemp, string ai_codart);string	ls_calibre
+
+  SELECT articulos.calibre_cliente INTO :ls_calibre FROM articulos  
+   WHERE articulos.empresa =:ai_codemp
+	AND   articulos.codigo = :ai_codart USING SQLCA;
+
+if isnull(ls_calibre) or trim(ls_calibre)="" then ls_calibre = "N"
+
+RETURN ls_calibre
+end function
+

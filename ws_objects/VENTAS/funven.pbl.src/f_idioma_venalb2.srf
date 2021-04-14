@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_idioma_venalb2.srf
+global type f_idioma_venalb2 from function_object
+end type
+
+forward prototypes
+global function string f_idioma_venalb2 (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_idioma_venalb2 (string empresa, integer anyo, decimal albaran);String var_idioma
+
+
+  SELECT venalb2.idioma
+    INTO :var_idioma
+    FROM venalb2  
+   WHERE (venalb2.empresa = :empresa)
+   AND   (venalb2.anyo    = :anyo)
+   AND   (venalb2.albaran  = :albaran);
+
+
+
+Return var_idioma
+end function
+

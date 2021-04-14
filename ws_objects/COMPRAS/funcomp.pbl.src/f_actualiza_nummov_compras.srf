@@ -1,0 +1,48 @@
+﻿$PBExportHeader$f_actualiza_nummov_compras.srf
+global type f_actualiza_nummov_compras from function_object
+end type
+
+forward prototypes
+global function boolean f_actualiza_nummov_compras (string v_empresa, integer v_anyo, decimal v_nummov)
+end prototypes
+
+global function boolean f_actualiza_nummov_compras (string v_empresa, integer v_anyo, decimal v_nummov);Integer cur_anyo,bien,numero
+String  cur_empresa,cur_almacen
+
+
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+   in_programa="f_actualiza_nummov"
+
+ SELECT  Count(*) INTO :numero FROM comparam  
+   WHERE comparam.empresa = :v_empresa 
+	AND   comparam.anyo    = :v_anyo  using sqlca;
+	IF IsNUll(numero) Then numero =0
+
+
+IF numero =0 THEN
+  INSERT INTO comparam ( empresa,anyo,nummov )  
+					  VALUES(:v_empresa,:v_anyo,:v_nummov)
+					  USING sqlca  ;
+  IF sqlca.SQLCode<>0 THEN
+    in_incidencia = "Error al grabar en comparam"
+    f_grabar_incidencia(in_programa,in_incidencia)
+    bien=1
+  END IF
+ELSE
+   UPDATE comparam   SET nummov = :v_nummov  
+   WHERE comparam.empresa = :v_empresa 
+	AND   comparam.anyo    = :v_anyo  using sqlca;
+   IF sqlca.SQLCode<>0 THEN
+     in_incidencia = "Error al modificar em almparam"
+     f_grabar_incidencia(in_programa,in_incidencia)
+     bien=1
+   END IF
+END IF
+IF bien=0 THEN
+  RETURN TRUE
+ELSE
+  RETURN FALSE
+END IF
+end function
+

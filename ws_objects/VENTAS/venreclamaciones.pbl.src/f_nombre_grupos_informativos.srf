@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_nombre_grupos_informativos.srf
+$PBExportComments$Devuelve el nombre del pais.
+global type f_nombre_grupos_informativos from function_object
+end type
+
+forward prototypes
+global function string f_nombre_grupos_informativos (string ra_empresa, string ra_codfases)
+end prototypes
+
+global function string f_nombre_grupos_informativos (string ra_empresa, string ra_codfases);string ls_nombre
+
+SELECT ven_reclamaciones_grupos.descripcion 
+INTO :ls_nombre
+FROM ven_reclamaciones_grupos
+WHERE ven_reclamaciones_grupos.codigo_grupo = :ra_codfases
+AND   ven_reclamaciones_grupos.empresa = :ra_empresa
+ORDER BY ven_reclamaciones_grupos.codigo_grupo ASC USING SQLCA;
+
+IF IsNull(ls_nombre) Then ls_nombre=""
+
+RETURN ls_nombre
+
+
+
+
+
+
+
+end function
+

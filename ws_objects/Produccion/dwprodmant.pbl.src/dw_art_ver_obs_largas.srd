@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_art_ver_obs_largas.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=10789024 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=8 color="536870912" )
+footer(height=12 color="536870912" )
+detail(height=612 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="art_versiones.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=articulo dbname="art_versiones.articulo" )
+ column=(type=char(4) update=yes updatewhereclause=yes key=yes name=version dbname="art_versiones.version" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=base dbname="art_versiones.base" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="art_versiones.descripcion" )
+ column=(type=char(4099) update=yes updatewhereclause=no name=observaciones dbname="art_versiones.observaciones" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_version dbname="art_versiones.tipo_version" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"art_versiones~" ) COLUMN(NAME=~"art_versiones.empresa~") COLUMN(NAME=~"art_versiones.articulo~") COLUMN(NAME=~"art_versiones.version~") COLUMN(NAME=~"art_versiones.base~") COLUMN(NAME=~"art_versiones.descripcion~") COLUMN(NAME=~"art_versiones.observaciones~") COLUMN(NAME=~"art_versiones.tipo_version~")WHERE(    EXP1 =~"art_versiones.empresa~"   OP =~"=~"    EXP2 =~":ar_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"art_versiones.articulo~"   OP =~"=~"    EXP2 =~":ar_articulo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"art_versiones.version~"   OP =~"=~"    EXP2 =~":ar_version~" ) ) ARG(NAME = ~"ar_empresa~" TYPE = string)  ARG(NAME = ~"ar_articulo~" TYPE = string)  ARG(NAME = ~"ar_version~" TYPE = string) " update="art_versiones" updatewhere=0 updatekeyinplace=no arguments=(("ar_empresa", string),("ar_articulo", string),("ar_version", string)) )
+bitmap(band=header filename="\bmp\Exit1.bmp" x="2464" y="8" height="72" width="73" border="6"  name=p_salir visible="1" )
+column(band=detail id=6 alignment="0" tabsequence=10 border="5" color="0" x="18" y="12" height="276" width="2619" format="[general]" html.valueishtml="0"  name=observaciones visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0 edit.vscrollbar=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

@@ -1,0 +1,166 @@
+﻿$PBExportHeader$ds_bienesdet.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="act_bienesdet.empresa" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes key=yes name=elemento dbname="act_bienesdet.elemento" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=clase_inmobilizado dbname="act_bienesdet.clase_inmobilizado" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="act_bienesdet.descripcion" )
+ column=(type=char(6) update=yes updatewhereclause=yes name=familia dbname="act_bienesdet.familia" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=bien dbname="act_bienesdet.bien" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=fiscal dbname="act_bienesdet.fiscal" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=ctaproveedor dbname="act_bienesdet.ctaproveedor" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fechacompra dbname="act_bienesdet.fechacompra" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=importe dbname="act_bienesdet.importe" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=restoprevisto dbname="act_bienesdet.restoprevisto" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fechainamor dbname="act_bienesdet.fechainamor" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=anyos_amor dbname="act_bienesdet.anyos_amor" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anyo1amor dbname="act_bienesdet.anyo1amor" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=mes1amor dbname="act_bienesdet.mes1amor" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anyo2amor dbname="act_bienesdet.anyo2amor" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=mes2amor dbname="act_bienesdet.mes2amor" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=cuenta_activo dbname="act_bienesdet.cuenta_activo" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=cuenta_cargo dbname="act_bienesdet.cuenta_cargo" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=cuenta_abono dbname="act_bienesdet.cuenta_abono" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=tipo_amor dbname="act_bienesdet.tipo_amor" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=clase_amor dbname="act_bienesdet.clase_amor" )
+ column=(type=decimal(2) update=yes updatewhereclause=yes name=porcentaje_amor dbname="act_bienesdet.porcentaje_amor" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=cuota_amor dbname="act_bienesdet.cuota_amor" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=amor_acumulada dbname="act_bienesdet.amor_acumulada" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=regul_acumulada dbname="act_bienesdet.regul_acumulada" )
+ column=(type=char(80) update=yes updatewhereclause=yes name=observaciones dbname="act_bienesdet.observaciones" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=seccion dbname="act_bienesdet.seccion" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=centro_coste dbname="act_bienesdet.centro_coste" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fechabaja dbname="act_bienesdet.fechabaja" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=bajas dbname="act_bienesdet.bajas" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=padre dbname="act_bienesdet.padre" )
+ column=(type=char(2) update=yes updatewhereclause=yes name=tipo_bien dbname="act_bienesdet.tipo_bien" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=anyo_tipo dbname="act_bienesdet.anyo_tipo" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=turnos dbname="act_bienesdet.turnos" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=factura dbname="act_bienesdet.factura" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=referencia_tipo dbname="act_bienesdet.referencia_tipo" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=ubicacion dbname="act_bienesdet.ubicacion" )
+ retrieve="  SELECT act_bienesdet.empresa,   
+         act_bienesdet.elemento,   
+         act_bienesdet.clase_inmobilizado,   
+         act_bienesdet.descripcion,   
+         act_bienesdet.familia,   
+         act_bienesdet.bien,   
+         act_bienesdet.fiscal,   
+         act_bienesdet.ctaproveedor,   
+         act_bienesdet.fechacompra,   
+         act_bienesdet.importe,   
+         act_bienesdet.restoprevisto,   
+         act_bienesdet.fechainamor,   
+         act_bienesdet.anyos_amor,   
+         act_bienesdet.anyo1amor,   
+         act_bienesdet.mes1amor,   
+         act_bienesdet.anyo2amor,   
+         act_bienesdet.mes2amor,   
+         act_bienesdet.cuenta_activo,   
+         act_bienesdet.cuenta_cargo,   
+         act_bienesdet.cuenta_abono,   
+         act_bienesdet.tipo_amor,   
+         act_bienesdet.clase_amor,   
+         act_bienesdet.porcentaje_amor,   
+         act_bienesdet.cuota_amor,   
+         act_bienesdet.amor_acumulada,   
+         act_bienesdet.regul_acumulada,   
+         act_bienesdet.observaciones,   
+         act_bienesdet.seccion,   
+         act_bienesdet.centro_coste,   
+         act_bienesdet.fechabaja,   
+         act_bienesdet.bajas,   
+         act_bienesdet.padre,   
+         act_bienesdet.tipo_bien,   
+         act_bienesdet.anyo_tipo,   
+         act_bienesdet.turnos,   
+         act_bienesdet.factura,   
+         act_bienesdet.referencia_tipo,   
+         act_bienesdet.ubicacion  
+    FROM act_bienesdet  
+   WHERE ( act_bienesdet.empresa = :arg_empresa ) AND  
+         ( act_bienesdet.elemento between :arg_desde and :arg_hasta ) AND  
+         ( act_bienesdet.padre = act_bienesdet.elemento )    
+" update="act_bienesdet" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_desde", number),("arg_hasta", number)) )
+text(band=header alignment="2" text="Empresa"border="0" color="0" x="5" y="4" height="64" width="238"  name=empresa_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Elemento"border="0" color="0" x="247" y="4" height="64" width="329"  name=elemento_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Clase Inmobilizado"border="0" color="0" x="581" y="4" height="64" width="498"  name=clase_inmobilizado_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripcion"border="0" color="0" x="1083" y="4" height="64" width="1125"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Familia"border="0" color="0" x="2217" y="4" height="64" width="192"  name=familia_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Bien"border="0" color="0" x="2414" y="4" height="64" width="329"  name=bien_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fiscal"border="0" color="0" x="2747" y="4" height="64" width="329"  name=fiscal_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ctaproveedor"border="0" color="0" x="3081" y="4" height="64" width="439"  name=ctaproveedor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fechacompra"border="0" color="0" x="3525" y="4" height="64" width="603"  name=fechacompra_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importe"border="0" color="0" x="4133" y="4" height="64" width="329"  name=importe_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Restoprevisto"border="0" color="0" x="4466" y="4" height="64" width="357"  name=restoprevisto_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fechainamor"border="0" color="0" x="4827" y="4" height="64" width="603"  name=fechainamor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Anyos Amor"border="0" color="0" x="5435" y="4" height="64" width="329"  name=anyos_amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Anyo1amor"border="0" color="0" x="5769" y="4" height="64" width="329"  name=anyo1amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes1amor"border="0" color="0" x="6103" y="4" height="64" width="329"  name=mes1amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Anyo2amor"border="0" color="0" x="6437" y="4" height="64" width="329"  name=anyo2amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Mes2amor"border="0" color="0" x="6770" y="4" height="64" width="329"  name=mes2amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cuenta Activo"border="0" color="0" x="7104" y="4" height="64" width="439"  name=cuenta_activo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cuenta Cargo"border="0" color="0" x="7552" y="4" height="64" width="439"  name=cuenta_cargo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cuenta Abono"border="0" color="0" x="7995" y="4" height="64" width="439"  name=cuenta_abono_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo Amor"border="0" color="0" x="8439" y="4" height="64" width="270"  name=tipo_amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Clase Amor"border="0" color="0" x="8713" y="4" height="64" width="311"  name=clase_amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Porcentaje Amor"border="0" color="0" x="9029" y="4" height="64" width="443"  name=porcentaje_amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cuota Amor"border="0" color="0" x="9477" y="4" height="64" width="329"  name=cuota_amor_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Amor Acumulada"border="0" color="0" x="9810" y="4" height="64" width="457"  name=amor_acumulada_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Regul Acumulada"border="0" color="0" x="10272" y="4" height="64" width="466"  name=regul_acumulada_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Observaciones"border="0" color="0" x="10743" y="4" height="64" width="2194"  name=observaciones_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Seccion"border="0" color="0" x="12942" y="4" height="64" width="215"  name=seccion_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Centro Coste"border="0" color="0" x="13161" y="4" height="64" width="347"  name=centro_coste_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fechabaja"border="0" color="0" x="13513" y="4" height="64" width="603"  name=fechabaja_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Bajas"border="0" color="0" x="14121" y="4" height="64" width="329"  name=bajas_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Padre"border="0" color="0" x="14455" y="4" height="64" width="329"  name=padre_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo Bien"border="0" color="0" x="14793" y="4" height="64" width="247"  name=tipo_bien_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Anyo Tipo"border="0" color="0" x="15045" y="4" height="64" width="329"  name=anyo_tipo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Turnos"border="0" color="0" x="15378" y="4" height="64" width="329"  name=turnos_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Factura"border="0" color="0" x="15712" y="4" height="64" width="439"  name=factura_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Referencia Tipo"border="0" color="0" x="16155" y="4" height="64" width="576"  name=referencia_tipo_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Ubicacion"border="0" color="0" x="16736" y="4" height="64" width="261"  name=ubicacion_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pendiente"border="0" color="0" x="17001" y="4" height="64" width="329"  name=pendiente_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=10 border="0" color="0" x="5" y="4" height="76" width="137" format="[general]"  name=empresa edit.limit=4 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=20 border="0" color="0" x="247" y="4" height="76" width="329" format="[general]"  name=elemento edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="0" color="0" x="581" y="4" height="76" width="329" format="[general]"  name=clase_inmobilizado edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=40 border="0" color="0" x="1083" y="4" height="76" width="1125" format="[general]"  name=descripcion edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=5 alignment="0" tabsequence=50 border="0" color="0" x="2217" y="4" height="76" width="192" format="[general]"  name=familia edit.limit=6 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="2414" y="4" height="76" width="329" format="[general]"  name=bien edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="1" tabsequence=70 border="0" color="0" x="2747" y="4" height="76" width="329" format="[general]"  name=fiscal edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=8 alignment="0" tabsequence=80 border="0" color="0" x="3081" y="4" height="76" width="439" format="[general]"  name=ctaproveedor edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=9 alignment="0" tabsequence=90 border="0" color="0" x="3525" y="4" height="76" width="603" format="[shortdate] [time]"  name=fechacompra edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=100 border="0" color="0" x="4133" y="4" height="76" width="329" format="[general]"  name=importe edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=11 alignment="1" tabsequence=110 border="0" color="0" x="4466" y="4" height="76" width="329" format="[general]"  name=restoprevisto edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=12 alignment="0" tabsequence=120 border="0" color="0" x="4827" y="4" height="76" width="603" format="[shortdate] [time]"  name=fechainamor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=13 alignment="1" tabsequence=130 border="0" color="0" x="5435" y="4" height="76" width="329" format="[general]"  name=anyos_amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=14 alignment="1" tabsequence=140 border="0" color="0" x="5769" y="4" height="76" width="329" format="[general]"  name=anyo1amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=15 alignment="1" tabsequence=150 border="0" color="0" x="6103" y="4" height="76" width="329" format="[general]"  name=mes1amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=16 alignment="1" tabsequence=160 border="0" color="0" x="6437" y="4" height="76" width="329" format="[general]"  name=anyo2amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=17 alignment="1" tabsequence=170 border="0" color="0" x="6770" y="4" height="76" width="329" format="[general]"  name=mes2amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=18 alignment="0" tabsequence=180 border="0" color="0" x="7104" y="4" height="76" width="439" format="[general]"  name=cuenta_activo edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=19 alignment="0" tabsequence=190 border="0" color="0" x="7552" y="4" height="76" width="439" format="[general]"  name=cuenta_cargo edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=20 alignment="0" tabsequence=200 border="0" color="0" x="7995" y="4" height="76" width="439" format="[general]"  name=cuenta_abono edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=21 alignment="0" tabsequence=210 border="0" color="0" x="8439" y="4" height="76" width="55" format="[general]"  name=tipo_amor edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=22 alignment="0" tabsequence=220 border="0" color="0" x="8713" y="4" height="76" width="55" format="[general]"  name=clase_amor edit.limit=1 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=23 alignment="1" tabsequence=230 border="0" color="0" x="9029" y="4" height="76" width="329" format="[general]"  name=porcentaje_amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=24 alignment="1" tabsequence=240 border="0" color="0" x="9477" y="4" height="76" width="329" format="[general]"  name=cuota_amor edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=25 alignment="1" tabsequence=250 border="0" color="0" x="9810" y="4" height="76" width="329" format="[general]"  name=amor_acumulada edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="1" tabsequence=260 border="0" color="0" x="10272" y="4" height="76" width="329" format="[general]"  name=regul_acumulada edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=27 alignment="0" tabsequence=270 border="0" color="0" x="10743" y="4" height="76" width="2194" format="[general]"  name=observaciones edit.limit=80 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=28 alignment="0" tabsequence=280 border="0" color="0" x="12942" y="4" height="76" width="165" format="[general]"  name=seccion edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=29 alignment="0" tabsequence=290 border="0" color="0" x="13161" y="4" height="76" width="302" format="[general]"  name=centro_coste edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=30 alignment="0" tabsequence=300 border="0" color="0" x="13513" y="4" height="76" width="603" format="[shortdate] [time]"  name=fechabaja edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=31 alignment="1" tabsequence=310 border="0" color="0" x="14121" y="4" height="76" width="329" format="[general]"  name=bajas edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=32 alignment="1" tabsequence=320 border="0" color="0" x="14455" y="4" height="76" width="329" format="[general]"  name=padre edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=33 alignment="0" tabsequence=330 border="0" color="0" x="14793" y="4" height="76" width="78" format="[general]"  name=tipo_bien edit.limit=2 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=34 alignment="1" tabsequence=340 border="0" color="0" x="15045" y="4" height="76" width="329" format="[general]"  name=anyo_tipo edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=35 alignment="1" tabsequence=350 border="0" color="0" x="15378" y="4" height="76" width="329" format="[general]"  name=turnos edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=36 alignment="0" tabsequence=360 border="0" color="0" x="15712" y="4" height="76" width="439" format="[general]"  name=factura edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=37 alignment="0" tabsequence=370 border="0" color="0" x="16155" y="4" height="76" width="576" format="[general]"  name=referencia_tipo edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=38 alignment="0" tabsequence=380 border="0" color="0" x="16736" y="4" height="76" width="110" format="[general]"  name=ubicacion edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

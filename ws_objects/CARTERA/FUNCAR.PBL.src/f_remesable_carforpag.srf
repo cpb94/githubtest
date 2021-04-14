@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_remesable_carforpag.srf
+global type f_remesable_carforpag from function_object
+end type
+
+forward prototypes
+global function string f_remesable_carforpag (string empresa, string codigo)
+end prototypes
+
+global function string f_remesable_carforpag (string empresa, string codigo);String var_remesable
+
+SELECT carforpag.remesable
+INTO :var_remesable
+FROM carforpag  
+WHERE carforpag.empresa = :empresa
+AND   carforpag.forma = :codigo;
+
+Return var_remesable
+
+end function
+

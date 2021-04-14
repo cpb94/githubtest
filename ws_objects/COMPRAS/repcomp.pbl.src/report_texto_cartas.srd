@@ -1,0 +1,15 @@
+﻿$PBExportHeader$report_texto_cartas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=141 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="mcartas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="mcartas.codigo" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_carta dbname="mcartas.tipo_carta" )
+ column=(type=char(4099) updatewhereclause=yes name=texto_carta dbname="mcartas.texto_carta" )
+ column=(type=char(40) updatewhereclause=yes name=descripcion dbname="mcartas.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mcartas~" ) COLUMN(NAME=~"mcartas.empresa~") COLUMN(NAME=~"mcartas.codigo~") COLUMN(NAME=~"mcartas.tipo_carta~") COLUMN(NAME=~"mcartas.texto_carta~") COLUMN(NAME=~"mcartas.descripcion~")WHERE(    EXP1 =~"mcartas.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mcartas.codigo~"   OP =~"=~"    EXP2 =~":carta~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"mcartas.tipo_carta~"   OP =~"=~"    EXP2 =~":tip_car~" ) ) ORDER(NAME=~"mcartas.empresa~" ASC=yes )  ORDER(NAME=~"mcartas.codigo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"carta~" TYPE = string)  ARG(NAME = ~"tip_car~" TYPE = string) " update="mcartas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("carta", string),("tip_car", string)) )
+group(level=1 header.height=1 trailer.height=1 by=("empresa" , "codigo" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="1" y="4" height="133" width="3114" format="[general]"  name=texto_carta height.autosize=yes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

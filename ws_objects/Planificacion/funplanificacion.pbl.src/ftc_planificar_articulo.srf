@@ -1,0 +1,151 @@
+﻿$PBExportHeader$ftc_planificar_articulo.srf
+global type ftc_planificar_articulo from function_object
+end type
+
+forward prototypes
+global function integer ftc_planificar_articulo (string articulo, decimal cantidad, decimal factor_acumulado, string art_encajado, integer anyo, integer pedido, integer linped)
+end prototypes
+
+global function integer ftc_planificar_articulo (string articulo, decimal cantidad, decimal factor_acumulado, string art_encajado, integer anyo, integer pedido, integer linped);// Recibimos el codigo de artículo que queremos planificar
+string sel, calidad
+datastore registros
+integer m, total_registros
+string articulo_ant
+dec necesidad, stock
+datetime fecha
+string cadena
+long maximo_orden
+dec ordent
+string v_lineaprod
+string tipo_operacion
+string v_version = '1'
+string v_formato
+string v_base
+string v_ajuste = 'N'
+datetime v_fentrega
+
+integer nivel = 0
+boolean fallo = false
+
+
+//Calculamos el numero de pedido para todos los codigos del articulo
+//v_pedido = 0
+//v_linped = f_numero_linea_pedido_interno()
+//v_anyo = year(today())
+v_lineaprod = "1"
+
+
+fecha = datetime(today())
+calidad = '1'
+
+sel = " select articulo, version, articulo_ant, factor"+&
+		" from art_escandallo "+&
+		" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+		" and articulo = '"+articulo+"' " +&
+		" and version = '"+v_version+"' "    // De momento ruta 1
+		
+f_cargar_cursor_nuevo (sel, registros )
+
+m = 1
+
+do while m <= registros.rowcount() 
+	articulo_ant = registros.object.articulo_ant[m]
+//	factor_acumulado = registros.object.factor[m] * factor_acumulado	
+//	cantidad = cantidad / registros.object.factor[m]
+	stock	= f_stock_articulo_calidad_fecha (codigo_empresa, articulo, calidad, string(fecha ))
+	
+	if articulo_ant <> '0' and stock = 0 then
+		if m = 1 then  //  Esta condición es para que solo se genere el artículo una vez
+			// GENERAR OT
+				//Obtenemos el orden de la OT dentro de la línea de planificación
+				select max(orden)
+				into :maximo_orden
+				from planificacion
+				where lineaprod = "1"
+				and empresa = :codigo_empresa;
+				
+				if isnull (maximo_orden) then
+					maximo_orden = 0
+				end if
+				
+				maximo_orden = maximo_orden + 1	
+	
+				//Obtenemos el numero de OT 				
+				ordent = 0
+				select OT
+				into :ordenT
+				from ordenest;
+				
+				ordent = ordent +1
+				
+				// Tipo de Operación y formato
+				select tipo_operacion, formato
+				into :tipo_operacion, :v_formato
+				from art_ver_operaciones
+				where empresa = :codigo_empresa
+				and articulo = :articulo
+				and version = :v_version
+				and orden = '1';
+				
+				// Extraemos la base de la tabla art_escandallo en lugar de sacarla de art_Versiones.
+				select TOP 1 articulo_ant
+				into :v_base
+				from art_escandallo
+				where art_escandallo.empresa = :codigo_empresa
+				and articulo = :articulo
+				and version = :v_version
+				order by articulo_ant;
+
+				f_velocidad_art_ver_op(codigo_empresa, articulo_ant, v_version, "1", tipo_operacion )
+
+				update ordenest
+				set ot = :ordent using SQLCA;
+				
+				if SQLCA.SQLCode <> 0 then 
+					fallo = true
+				end if;			
+
+
+				insert into planificacion
+				(empresa,pedido,linped,anyo,orden,lineaprod, OT,tipo_operacion, cod_articulo, base,cantidad,formato,
+				f_entrega,ordenoperacion,version, ajuste, factor, art_encajado, nivel)
+				values 
+				(:codigo_empresa,:pedido, :linped, :anyo, :maximo_orden , :v_lineaprod, :ordent, :tipo_operacion, 
+				:articulo, :v_base, :cantidad, :v_formato, :v_fentrega, '1',:v_version, :v_ajuste, :factor_acumulado, :art_encajado, :nivel) using sqlca;				
+				
+				if SQLCA.SQLCode <> 0 then 
+					fallo = true
+				end if;			
+				
+				if not fallo then
+					commit using SQLCA;
+				else
+					rollback using SQLCA;
+					messagebox ("Error", "Error insertando OT en la planificación")
+				end if
+
+					
+				factor_acumulado = registros.object.factor[m] * factor_acumulado	
+				cantidad = cantidad / registros.object.factor[m]
+
+			// FIN GENERAR OT
+
+			cadena = string (articulo) +"      "+ string (cantidad)+ "         Factor: "+string(factor_acumulado)+ "       Stock:    "+string (stock)
+//			messagebox("", cadena)
+		end if
+		
+		ftc_planificar_articulo ( articulo_ant, cantidad, factor_acumulado, art_encajado, anyo, pedido, linped )
+	end if
+	
+	factor_acumulado =  factor_acumulado / registros.object.factor[m]  // En la distintas iteraciones del while tenemos que devolver el factor y la cantidad a su valor.
+	cantidad = cantidad * registros.object.factor[m]
+
+	m++
+loop
+
+destroy registros				
+return 0;
+
+
+end function
+

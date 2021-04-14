@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_inicializar_str_venmprima.srf
+global type f_inicializar_str_venmprima from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venmprima ( ref str_venmprima str_venmprima)
+end prototypes
+
+global function boolean f_inicializar_str_venmprima ( ref str_venmprima str_venmprima);boolean lb_correcto = true
+
+if isnull(str_venmprima.empresa) then str_venmprima.empresa = ''
+if isnull(str_venmprima.codigo) then str_venmprima.codigo = ''
+if isnull(str_venmprima.descripcion) then str_venmprima.descripcion = ''
+if isnull(str_venmprima.tipo_materia) then str_venmprima.tipo_materia = ''
+if isnull(str_venmprima.referencia_prove) then str_venmprima.referencia_prove = ''
+if isnull(str_venmprima.precio_coste) then str_venmprima.precio_coste = 0
+if isnull(str_venmprima.precio_medio_coste) then str_venmprima.precio_medio_coste = 0
+if isnull(str_venmprima.costeyportes) then str_venmprima.costeyportes = 0
+if isnull(str_venmprima.stock_maximo) then str_venmprima.stock_maximo = 0
+if isnull(str_venmprima.stock_minimo) then str_venmprima.stock_minimo = 0
+if isnull(str_venmprima.stock_optimo) then str_venmprima.stock_optimo = 0
+if isnull(str_venmprima.entradas) then str_venmprima.entradas = 0
+if isnull(str_venmprima.salidas) then str_venmprima.salidas = 0
+if isnull(str_venmprima.existencias) then str_venmprima.existencias = 0
+if isnull(str_venmprima.stock_actual) then str_venmprima.stock_actual = 0
+if isnull(str_venmprima.activo) then str_venmprima.activo = ''
+if isnull(str_venmprima.pte_recibir) then str_venmprima.pte_recibir = 0
+if isnull(str_venmprima.observaciones) then str_venmprima.observaciones = ''
+if isnull(str_venmprima.portes) then str_venmprima.portes = 0
+if isnull(str_venmprima.proveedor) then str_venmprima.proveedor = ''
+if isnull(str_venmprima.familia) then str_venmprima.familia = ''
+if isnull(str_venmprima.tipo_unidad) then str_venmprima.tipo_unidad = ''
+if isnull(str_venmprima.control_almacen) then str_venmprima.control_almacen = ''
+if isnull(str_venmprima.envase) then str_venmprima.envase = ''
+if isnull(str_venmprima.cuenta) then str_venmprima.cuenta = ''
+if isnull(str_venmprima.almacen_entra) then str_venmprima.almacen_entra = ''
+if isnull(str_venmprima.descripcion_vtas) then str_venmprima.descripcion_vtas = ''
+if isnull(str_venmprima.equivalencia_kg) then str_venmprima.equivalencia_kg = 0
+if isnull(str_venmprima.proveedor_obligatorio) then str_venmprima.proveedor_obligatorio = ''
+if isnull(str_venmprima.densidad) then str_venmprima.densidad = 0
+if isnull(str_venmprima.descripcion_produccion) then str_venmprima.descripcion_produccion = ''
+if isnull(str_venmprima.rtp) then str_venmprima.rtp = ''
+if isnull(str_venmprima.seccion) then str_venmprima.seccion = ''
+return lb_correcto
+end function
+

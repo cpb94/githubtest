@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_apellidos_contacto.srf
+$PBExportComments$Devueve el apellido del contacto.
+global type f_apellidos_contacto from function_object
+end type
+
+forward prototypes
+global function string f_apellidos_contacto (string empresa, string codigo)
+end prototypes
+
+global function string f_apellidos_contacto (string empresa, string codigo);String var_empresa,var_codigo,var_apellidos
+
+SELECT   mcontactos.empresa,mcontactos.codigo,mcontactos.apellidos 
+INTO     :var_empresa,:var_codigo,:var_apellidos 
+FROM     mcontactos  
+WHERE   (mcontactos.empresa = :empresa)
+AND     (mcontactos.codigo = :codigo )
+ORDER BY mcontactos.empresa,mcontactos.codigo;
+
+Return var_apellidos;
+
+end function
+

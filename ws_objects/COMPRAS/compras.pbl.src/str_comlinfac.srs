@@ -1,0 +1,41 @@
+﻿$PBExportHeader$str_comlinfac.srs
+global type str_comlinfac from structure
+	string		empresa
+	integer		anyo
+	string		proveedor
+	string		factura
+	integer		linea
+	string		mprima
+	decimal { 2 }		cantidad
+	decimal { 6 }		precio
+	datetime		fecha_entrega
+	string		unidad_medida
+	string		pedido
+	string		linea_pedido
+	string		situacion
+	string		observaciones
+	string		libre
+	string		anyo_pedido
+	datetime		fecha_control
+	string		seccion
+	string		subseccion
+	string		descripcion
+	string		envase
+	string		cuenta
+	decimal { 6 }		importe
+	string		albaran
+	string		anyo_albaran
+	string		lote
+	string		albaran_proveedor
+	datetime		fecha_albaran
+	datetime		fecha_pedido
+	decimal { 2 }		descuento
+	decimal { 2 }		descuento_comercial
+	decimal { 2 }		descuento_pp
+	string		tipo_iva
+	decimal { 2 }		iva
+	string		pedido_por
+	string		recibido_por
+	string		usuario_control
+end type
+

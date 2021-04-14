@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_mconcepto.srf
+global type f_nombre_mconcepto from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mconcepto (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_mconcepto (string empresa, string codigo);String variable
+
+  SELECT mconceptos.descripcion  
+    INTO :variable  
+    FROM mconceptos  
+   WHERE mconceptos.empresa = :empresa 
+	  AND mconceptos.codigo = :codigo ;
+	  
+	  if isnull(variable) then variable = ""
+Return variable
+end function
+

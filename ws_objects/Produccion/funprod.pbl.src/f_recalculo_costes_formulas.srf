@@ -1,0 +1,204 @@
+﻿$PBExportHeader$f_recalculo_costes_formulas.srf
+global type f_recalculo_costes_formulas from function_object
+end type
+
+forward prototypes
+global subroutine f_recalculo_costes_formulas (string empresa, string mp)
+end prototypes
+
+global subroutine f_recalculo_costes_formulas (string empresa, string mp);string seleccion1, seleccion2, formula
+string matp,proveedor
+int indice1,indice2,total1,total2
+dec {6} coste_formula, cantidad_mp, coste_mp, peso_formula
+datastore data1,data2
+dec{6} cantidad_u_m_mp, densidad, factor_corrector, precio , proporcion
+string unidad_u_m_mp, unidad_coste, tipo_unidad
+dec coste_mp_unidad_coste, precio_unidad_de_coste
+string tipo_materia, familia
+dec correccion_mp
+
+// Buscamos todas las formulas que utilicen esta materia prima.
+
+
+seleccion1 = "select distinct(proddetformula.formulacion) formula  "+&
+				 "from proddetformula,prodformula "+&
+				 "where proddetformula.empresa ='"+empresa+"' "+&
+				 "and proddetformula.mp ='"+mp+"' "
+			 
+				
+f_cargar_cursor_nuevo(seleccion1, data1)
+
+total1 = data1.rowcount()
+
+
+//for indice1 = 1 to 1
+for indice1 = 1 to total1
+	connect using SQLCA;
+	
+	
+	formula = data1.object.formula[indice1]
+
+//	formula = '17849'
+	seleccion2 = 	  	" SELECT   proddetformula.empresa,   "+&
+										" proddetformula.formulacion,    "+&
+										" proddetformula.mp,    "+&
+										" proddetformula.cantidad,  "+&   
+										" proddetformula.unidadmedida,  "+&  
+										" proddetformula.proveedor,    "+&
+										" proddetformula.cantidad_u_m_mp,  "+&  
+										" proddetformula.unidad_u_m_mp,    "+&
+										" prodformula.unidad_coste,    "+&
+										" venmprima.densidad,    "+&
+										" venmprima.equivalencia_kg, "+&   
+										" venmprima.tipo_unidad, "+&
+										" venmprima.tipo_materia, "+&
+										" venmprima.familia, "+&
+										" comartpro.precio   "+&
+					 		" FROM 	  proddetformula,   "+& 
+										" prodformula,    "+&
+										" venmprima,    "+&
+										" comartpro   "+&
+							" WHERE 	  ( proddetformula.empresa = prodformula.empresa ) and   "+&
+										" ( proddetformula.formulacion = prodformula.formula ) and   "+&
+										" ( prodformula.empresa = venmprima.empresa ) and   "+&
+										" ( proddetformula.mp = venmprima.codigo ) and   "+&
+										" ( proddetformula.empresa = comartpro.empresa ) and "+&  
+										" ( proddetformula.proveedor = comartpro.proveedor ) and  "+&  
+										" ( proddetformula.mp = comartpro.mprima ) and   "+&
+										" ( proddetformula.empresa = '"+codigo_empresa+"' ) and   "+&
+										" ( proddetformula.formulacion = '"+formula+"' )     "
+
+
+	f_cargar_cursor_nuevo(seleccion2, data2)
+	
+	coste_formula = 0
+	peso_formula = 0
+	total2 = data2.rowcount()
+
+	// CALCULAMOS EL PESO TOTAL DE LA FORMULA PARA OBTENER EL EQUIVALENTE EN LA UNIDAD DE COSTE
+	for indice2 = 1 to total2
+		unidad_u_m_mp = data2.object.proddetformula_unidad_u_m_mp[indice2]
+		unidad_coste = data2.object.prodformula_unidad_coste[indice2]
+		cantidad_u_m_mp = data2.object.proddetformula_cantidad_u_m_mp[indice2]
+		densidad = data2.object.venmprima_densidad[indice2]
+		if isnull(densidad) or densidad = 0 then
+			densidad = 1
+		end if
+//		factor_corrector = data2.object.venmprima_equivalencia_kg[indice2] 
+		peso_formula = peso_formula + f_conversion_unidades ( unidad_u_m_mp, unidad_coste, cantidad_u_m_mp, densidad) 
+	next
+
+	// CALCULAMOS EL COSTE DE LA FÓRMULA
+	for indice2 = 1 to total2
+		unidad_u_m_mp = data2.object.proddetformula_unidad_u_m_mp[indice2]
+		unidad_coste = data2.object.prodformula_unidad_coste[indice2]
+		cantidad_u_m_mp = data2.object.proddetformula_cantidad_u_m_mp[indice2]
+		densidad = data2.object.venmprima_densidad[indice2]
+		if isnull(densidad) or densidad = 0 then
+			densidad = 1
+		end if
+		if peso_formula <> 0 then
+			proporcion = cantidad_u_m_mp * densidad / peso_formula
+		else
+			proporcion = 1
+		end if
+		
+
+/************** 	OBTENEMOS EL CORRECTOR DE MATERIA PRIMA POR FAMILIAS (CON ESTA CORRECCION SE CORRIGE EL COSTE SI SE VA RESPETO AL COSTE CONTABLE ) *******************/
+		tipo_materia = data2.object.venmprima_tipo_materia[indice2]
+		familia = data2.object.venmprima_familia[indice2]
+
+		select correccion_mp
+		into :correccion_mp
+		from venfamilias
+		where empresa = :codigo_empresa
+		and tipo_materia = :tipo_materia
+		and familia = :familia;
+		
+		if isnull(correccion_mp ) or correccion_mp = 0 then correccion_mp = 1
+		
+/************** 	FIN APLICAMOS EL CORRECTOR DE MATERIA PRIMA POR FAMILIAS *******************/
+
+		factor_corrector = data2.object.venmprima_equivalencia_kg[indice2]
+		if isnull(factor_corrector) or factor_corrector = 0 then
+			factor_corrector = 1
+		end if
+		tipo_unidad = data2.object.venmprima_tipo_unidad[indice2]
+		
+		matp = data2.object.proddetformula_mp[indice2]
+		
+		proveedor = data2.object.proddetformula_proveedor[indice2]
+//		cantidad_mp = f_conversion_unidades ( unidad_u_m_mp, unidad_coste, cantidad_u_m_mp, densidad ) // Cantidad en unidad de coste.
+		cantidad_mp = 	proporcion * factor_corrector * correccion_mp
+		
+		precio = data2.object.comartpro_precio[indice2] 
+		
+		// Pegote para grabar el coste de cada materia prima en la fórmula
+		
+		precio_unidad_de_coste = f_conversion_unidades ( unidad_coste, tipo_unidad, precio, 1)
+		
+		if peso_formula = 0 then
+			coste_mp_unidad_coste = 0
+		else
+			coste_mp_unidad_coste = cantidad_mp * precio_unidad_de_coste //* correccion_mp 
+		end if		
+		
+		update proddetformula
+		set coste_mp = :coste_mp_unidad_coste 
+		where proddetformula.empresa = :empresa
+		and proddetformula.formulacion = :formula
+		and mp = :matp;
+
+		if sqlca.sqlcode <> 0 then
+			rollback using SQLCA;
+			messagebox("Actualizando proddetformula. ","Error: "+sqlca.sqlerrtext)
+			exit;
+		end if
+		
+		// Fin del Pegote para grabar el coste de cada materia prima en la fórmula
+	
+		if peso_formula = 0 then
+			coste_formula = coste_formula + 0
+		else
+//			coste_formula = coste_formula + ( cantidad / peso_formula ) * f_conversion_unidades ( unidad_coste, tipo_unidad, precio, 1)
+			coste_formula = coste_formula + ( coste_mp_unidad_coste ) //* correccion_mp ) // ¿Aplicamos aquí el factor corrector de materias primas?
+		end if
+	next
+	
+	destroy data2
+	
+	coste_formula = coste_formula 
+	
+	UPDATE prodformula  
+	SET coste_kg_formula = :coste_formula  
+	WHERE ( prodformula.empresa = :empresa ) AND  
+	( prodformula.formula = :formula)   ;
+
+	
+	if sqlca.sqlcode <> 0 then
+		rollback using SQLCA;
+		messagebox("Actualizando prodformula. ","Error: "+sqlca.sqlerrtext)
+		exit
+	end if
+	
+//	commit using SQLCA;
+	
+//	connect using SQLCA;
+	
+	f_recalculo_coste_mp_operacion (formula) // Añado el cálculo del coste de la oper. de los artículos que utilizan esa fórmula. David 29-09-06
+	
+	if sqlca.sqlcode <> 0 then
+		rollback using SQLCA;
+		messagebox("Recálculo de costes fórmulas","Error: "+sqlca.sqlerrtext)
+	else
+		commit using SQLCA;
+	end if
+	f_mensaje_proceso ("Coste Operación", indice1 , total1)
+	
+next
+
+destroy data1
+
+
+end subroutine
+

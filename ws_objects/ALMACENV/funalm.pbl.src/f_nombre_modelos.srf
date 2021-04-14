@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_modelos.srf
+global type f_nombre_modelos from function_object
+end type
+
+forward prototypes
+global function string f_nombre_modelos (string ai_codemp, string ai_codfor)
+end prototypes
+
+global function string f_nombre_modelos (string ai_codemp, string ai_codfor);string	ls_nombre_modelos
+
+SELECT modelo.descripcion  
+INTO   :ls_nombre_modelos
+FROM   modelo
+WHERE  (modelo.empresa = :ai_codemp) AND  
+	    (modelo.codigo  = :ai_codfor)
+USING  SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_modelos=""
+END IF
+
+RETURN ls_nombre_modelos
+end function
+

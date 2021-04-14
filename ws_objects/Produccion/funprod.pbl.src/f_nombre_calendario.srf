@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_calendario.srf
+global type f_nombre_calendario from function_object
+end type
+
+forward prototypes
+global function string f_nombre_calendario (string calendario)
+end prototypes
+
+global function string f_nombre_calendario (string calendario);string v_nom
+
+select descripcion
+into   :v_nom
+from   prodcalendarios
+where  codigo  = :calendario;
+
+if sqlca.sqlcode <> 0 then	v_nom = "" 
+
+if isnull(v_nom) then v_nom = ""
+
+return v_nom
+end function
+

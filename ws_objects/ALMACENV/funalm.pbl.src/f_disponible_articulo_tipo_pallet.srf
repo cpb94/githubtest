@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_disponible_articulo_tipo_pallet.srf
+global type f_disponible_articulo_tipo_pallet from function_object
+end type
+
+forward prototypes
+global function decimal f_disponible_articulo_tipo_pallet (string empresa, string articulo, string tipo_pallet)
+end prototypes
+
+global function decimal f_disponible_articulo_tipo_pallet (string empresa, string articulo, string tipo_pallet); Dec{2} reservado,total_existencias,preparado,disponible
+
+total_existencias = f_existencias_articulo_tipo_pallet(empresa,&
+                    articulo,tipo_pallet)
+reservado         = f_reservado_articulo_tipo_pallet(codigo_empresa,&
+                    articulo,tipo_pallet)
+preparado         = f_preparado_articulo_tipo_pallet(codigo_empresa,&
+                    articulo,tipo_pallet)
+
+disponible = total_existencias - (preparado + reservado)
+Return disponible;
+
+end function
+

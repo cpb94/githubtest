@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cambio_venalb.srf
+global type f_cambio_venalb from function_object
+end type
+
+forward prototypes
+global function decimal f_cambio_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_cambio_venalb (string empresa, integer anyo, decimal albaran);Dec var
+
+
+  SELECT venalb.cambio
+    INTO :var
+    FROM venalb  
+   WHERE (venalb.empresa  = :empresa)
+   AND   (venalb.anyo     = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+
+
+Return var
+end function
+

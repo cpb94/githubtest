@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_linea_his_form.srf
+global type f_linea_his_form from function_object
+end type
+
+forward prototypes
+global function long f_linea_his_form (string empresa, integer anyo)
+end prototypes
+
+global function long f_linea_his_form (string empresa, integer anyo);long v_linea
+
+select max(linea) into :v_linea 
+from prodmovformhis where
+empresa = :empresa and
+anyo = :anyo;
+
+if sqlca.sqlcode <> 0 then
+	v_linea = 0
+end if
+if isnull(v_linea) then v_linea = 0
+
+v_linea = v_linea + 1
+
+return v_linea
+end function
+

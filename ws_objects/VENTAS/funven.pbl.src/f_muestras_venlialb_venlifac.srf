@@ -1,0 +1,41 @@
+﻿$PBExportHeader$f_muestras_venlialb_venlifac.srf
+global type f_muestras_venlialb_venlifac from function_object
+end type
+
+forward prototypes
+global function boolean f_muestras_venlialb_venlifac (string empresa, integer anyo, long albaran)
+end prototypes
+
+global function boolean f_muestras_venlialb_venlifac (string empresa, integer anyo, long albaran);Boolean   resultado
+String    sel,var_clase
+Datastore datos
+Long      indice,total
+
+resultado = true
+sel = "SELECT clase "+&
+		"FROM  venlifac "+&
+		"WHERE empresa      = '"+empresa+"' "+&
+		"AND   anyo_albaran = "+string(anyo)+" "+&
+		"AND   albaran      = "+string(albaran)
+		
+//datos = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, datos)
+total = datos.Rowcount()
+
+if total = 0 then 
+	destroy datos
+	return true
+end if
+
+for indice = 1 to total
+	var_clase = datos.GetItemString(indice,"clase")
+	if var_clase <> "M" then
+		resultado = false
+	end if
+next
+
+destroy datos
+
+Return resultado
+end function
+

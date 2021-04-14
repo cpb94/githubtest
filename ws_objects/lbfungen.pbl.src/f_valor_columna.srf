@@ -1,0 +1,52 @@
+﻿$PBExportHeader$f_valor_columna.srf
+$PBExportComments$Retorna el valor de una columna recibe datawinodw,row y columna
+global type f_valor_columna from function_object
+end type
+
+forward prototypes
+global function string f_valor_columna (datawindow data, integer elemento, string columna)
+end prototypes
+
+global function string f_valor_columna (datawindow data, integer elemento, string columna);String valor,montaje,tipo,mensaje
+
+columna = Trim(columna)
+IF elemento = 0 Then
+	mensaje = "El elemento  es 0 "  +  columna
+	f_mensaje("Error en f_valor_columna",mensaje)
+   f_grabar_incidencia("f_valor_columna",mensaje)
+	Return ""
+END IF
+IF data.RowCount() = 0 Then
+	mensaje = "El elemento "+ String(elemento)+"  "+columna+ " No existe"
+	f_mensaje("Error en f_valor_columna",mensaje)
+   f_grabar_incidencia("f_valor_columna",mensaje)
+	Return ""
+END IF
+montaje = columna +".Coltype"
+tipo = data.Describe(montaje)
+tipo = Mid(tipo,1,5)
+IF IsNull(tipo) Then
+   mensaje = " La columna "+columna+ " No existe"
+	f_mensaje("Error en f_valor_columna",mensaje)
+   f_grabar_incidencia("f_valor_columna",mensaje)
+	Return ""
+END IF
+CHOOSE CASE tipo
+	CASE "char(","char"
+		valor = data.GetItemString(elemento,columna)
+	CASE "numbe","decim","long"
+		valor = String(data.GetItemNumber(elemento,columna))
+	CASE "date"
+		valor = String(data.GetItemDate(elemento,columna))
+	CASE "datet"
+		valor = String(data.GetItemDatetime(elemento,columna))
+	Case Else
+		mensaje = "En la columna "+ columna + " El tipo: "+ tipo + " No esta contemplado"
+		f_mensaje("Error en asignar valor",mensaje)
+	   f_grabar_incidencia("f_valor_columna",mensaje)
+END CHOOSE
+IF IsNull(valor) then valor = ""
+valor = Trim(valor)
+Return valor
+end function
+

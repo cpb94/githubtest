@@ -1,0 +1,16 @@
+﻿$PBExportHeader$f_texto_ventextopiealb.srf
+global type f_texto_ventextopiealb from function_object
+end type
+
+forward prototypes
+global function string f_texto_ventextopiealb (string arg_empresa)
+end prototypes
+
+global function string f_texto_ventextopiealb (string arg_empresa);String text
+
+  SELECT ventextopiealb.texto    INTO :text   FROM ventextopiealb
+   WHERE ventextopiealb.empresa = :arg_empresa;
+
+Return text
+end function
+

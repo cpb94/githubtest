@@ -1,0 +1,21 @@
+﻿$PBExportHeader$report_tfnos_consulta.srd
+$PBExportComments$Lista de telefonos.
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=349 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=telefono dbname="telefonos.telefono" )
+ column=(type=char(20) updatewhereclause=yes name=cargo dbname="telefonos.cargo" )
+ column=(type=char(30) updatewhereclause=yes name=contacto dbname="telefonos.contacto" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="telefonos.empresa" )
+ column=(type=char(1) updatewhereclause=yes key=yes name=tipoter dbname="telefonos.tipoter" )
+ column=(type=char(15) updatewhereclause=yes key=yes name=codigo dbname="telefonos.codigo" )
+ column=(type=char(4099) updatewhereclause=yes name=observaciones dbname="telefonos.observaciones" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"telefonos~" ) COLUMN(NAME=~"telefonos.telefono~") COLUMN(NAME=~"telefonos.cargo~") COLUMN(NAME=~"telefonos.contacto~") COLUMN(NAME=~"telefonos.empresa~") COLUMN(NAME=~"telefonos.tipoter~") COLUMN(NAME=~"telefonos.codigo~") COLUMN(NAME=~"telefonos.observaciones~")WHERE( EXP1 =~"telefonos.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" LOGIC =~"and~" ) WHERE( EXP1 =~"telefonos.codigo~" OP =~"=~" EXP2 =~":ra_codcli~" ) ) ORDER(NAME=~"telefonos.telefono~" ASC=yes ) ARG(NAME = ~"ra_codemp~" TYPE = string) ARG(NAME = ~"ra_codcli~" TYPE = string) " update="telefonos" updatewhere=0 updatekeyinplace=no arguments=(("ra_codemp", string),("ra_codcli", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="1" color="0" x="33" y="16" height="65" width="641" format="[general]"  name=telefono edit.name="telefonos" editmask.mask="(x###) - x## ## ##" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="1" color="0" x="1601" y="16" height="73" width="631" format="[general]"  name=cargo  tag="Cargo que ocupa en la empresa." edit.limit=20 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="1" color="0" x="782" y="16" height="77" width="764" format="[general]"  name=contacto  tag="Persona de contacto en el Telefono." edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="1" color="0" x="782" y="132" height="197" width="1473" format="[general]"  name=observaciones edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="pageCount()"border="0" color="16777215" x="19" y="224" height="5" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

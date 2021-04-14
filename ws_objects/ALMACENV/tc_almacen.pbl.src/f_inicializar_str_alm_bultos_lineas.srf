@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_inicializar_str_alm_bultos_lineas.srf
+global type f_inicializar_str_alm_bultos_lineas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_alm_bultos_lineas (ref str_alm_bultos_lineas str_alm_bultos_lineas)
+end prototypes
+
+global function boolean f_inicializar_str_alm_bultos_lineas (ref str_alm_bultos_lineas str_alm_bultos_lineas);boolean lb_correcto = true
+
+if isnull(str_alm_bultos_lineas.id) then str_alm_bultos_lineas.id = 0
+if isnull(str_alm_bultos_lineas.id_alm_bultos) then str_alm_bultos_lineas.id_alm_bultos = 0
+if isnull(str_alm_bultos_lineas.empresa) then str_alm_bultos_lineas.empresa = ''
+if isnull(str_alm_bultos_lineas.articulo) then str_alm_bultos_lineas.articulo = ''
+if isnull(str_alm_bultos_lineas.calidad) then str_alm_bultos_lineas.calidad = ''
+if isnull(str_alm_bultos_lineas.tono) then str_alm_bultos_lineas.tono = ''
+if isnull(str_alm_bultos_lineas.calibre) then str_alm_bultos_lineas.calibre = 0
+if isnull(str_alm_bultos_lineas.caja) then str_alm_bultos_lineas.caja = ''
+if isnull(str_alm_bultos_lineas.cantidad) then str_alm_bultos_lineas.cantidad = 0
+if isnull(str_alm_bultos_lineas.linea_orden_carga) then str_alm_bultos_lineas.linea_orden_carga = 0
+
+return lb_correcto
+end function
+

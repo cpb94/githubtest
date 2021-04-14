@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_carforpag.srf
+global type f_nombre_carforpag from function_object
+end type
+
+forward prototypes
+global function string f_nombre_carforpag (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_carforpag (string empresa, string codigo);String var_descripcion
+
+SELECT carforpag.texto1 INTO :var_descripcion FROM carforpag  
+WHERE carforpag.empresa = :empresa
+AND   carforpag.forma = :codigo;
+
+Return var_descripcion
+
+end function
+

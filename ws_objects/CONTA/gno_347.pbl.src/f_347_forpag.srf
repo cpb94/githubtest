@@ -1,0 +1,61 @@
+﻿$PBExportHeader$f_347_forpag.srf
+global type f_347_forpag from function_object
+end type
+
+forward prototypes
+global function boolean f_347_forpag (string arg_empresa, string arg_tipoter, string arg_codcliente, string arg_nfactura, datetime arg_ffactura)
+end prototypes
+
+global function boolean f_347_forpag (string arg_empresa, string arg_tipoter, string arg_codcliente, string arg_nfactura, datetime arg_ffactura);// Devuelve el tipo de libro V--> Ventas  C--> Compras
+
+boolean efectivo
+string tipodoc,factura
+integer anyo
+
+anyo= year(date(arg_ffactura))
+tipodoc = ''
+
+if arg_tipoter="C" then
+	
+	SELECT max(tipodoc)
+	INTO  :tipodoc 
+	FROM  carefectos  
+	WHERE carefectos.empresa = :arg_empresa
+	AND   carefectos.factura = :arg_nfactura
+	and   carefectos.anyofra = :anyo;
+
+	if isnull(tipodoc) then tipodoc = ''
+	
+	if trim(tipodoc) = '' then
+		SELECT max(tipodoc)
+		INTO  :tipodoc 
+		FROM  carhistorico  
+		WHERE carhistorico.empresa = :arg_empresa
+		AND   carhistorico.factura = :arg_nfactura
+		and   carhistorico.anyofra	= :anyo;
+		
+		choose case tipodoc
+			case "1"
+				efectivo=true
+		   case else
+				efectivo=false
+		end choose
+		return efectivo
+		
+	else
+		choose case tipodoc
+			case "1"
+				efectivo=true
+			case else
+				efectivo=false
+				
+		end choose
+		return efectivo	
+	end if
+else
+	return false
+end if
+
+
+end function
+

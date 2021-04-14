@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fecha_alta_articulo.srf
+global type f_fecha_alta_articulo from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_alta_articulo (string ai_codemp, string ai_codart)
+end prototypes
+
+global function datetime f_fecha_alta_articulo (string ai_codemp, string ai_codart);datetime	fecha_alta
+
+SELECT articulos.fecha_alta
+INTO   :fecha_alta 
+FROM   articulos  
+WHERE  articulos.empresa =:ai_codemp
+AND    articulos.codigo = :ai_codart USING SQLCA;
+
+RETURN fecha_alta
+end function
+

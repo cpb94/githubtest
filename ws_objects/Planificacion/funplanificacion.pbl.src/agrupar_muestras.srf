@@ -1,0 +1,20 @@
+﻿$PBExportHeader$agrupar_muestras.srf
+global type agrupar_muestras from function_object
+end type
+
+forward prototypes
+global function boolean agrupar_muestras (string arg_empresa)
+end prototypes
+
+global function boolean agrupar_muestras (string arg_empresa);string articulo
+datastore registros
+
+
+select cod_articulo
+into :articulo
+from planificacion
+where empresa = :arg_empresa;
+
+return true
+end function
+

@@ -1,0 +1,12 @@
+﻿$PBExportHeader$str_orden_carga_linea.srs
+global type str_orden_carga_linea from structure
+     STRING     empresa
+     INTEGER     anyo
+     STRING     codigo
+     INTEGER     linea
+     INTEGER     venliped_anyo
+     DECIMAL {0}     venliped_pedido
+     INTEGER     venliped_linea
+     INTEGER     pallets_extra
+end type
+

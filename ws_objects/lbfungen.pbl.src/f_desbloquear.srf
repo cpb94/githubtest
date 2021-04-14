@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_desbloquear.srf
+$PBExportComments$Funcion de desbloquear.
+global type f_desbloquear from function_object
+end type
+
+forward prototypes
+global subroutine f_desbloquear (string a_tabla, string a_codigo, string a_titulo)
+end prototypes
+
+global subroutine f_desbloquear (string a_tabla, string a_codigo, string a_titulo);string bloq_tabla,bloq_codigo,bloq1_tabla,bloq1_codigo,bloq1_usuario,bloq1_titulo
+datetime   bloq1_fecha
+boolean valor
+string retorno
+string control
+
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+  in_programa="f_desbloquear"
+
+ IF Trim(a_tabla)="" THEN
+   in_incidencia ="Argumento tabla Nulo  programa origen: " + a_titulo
+   f_grabar_incidencia(in_programa,in_incidencia)
+ END IF
+
+ IF Trim(a_codigo)="" THEN
+   in_incidencia ="Argumento codigo Nulo  programa origen: " + a_titulo
+   f_grabar_incidencia(in_programa,in_incidencia)
+ END IF
+
+
+bloq_tabla    = a_tabla
+bloq_codigo   = a_codigo
+SELECT   uti_bloqueo.tabla,   
+         uti_bloqueo.codigo,   
+         uti_bloqueo.titulo,   
+         uti_bloqueo.fecha,   
+         uti_bloqueo.usuario  
+    INTO :bloq1_tabla,   
+         :bloq1_codigo,   
+         :bloq1_titulo,   
+         :bloq1_fecha,   
+         :bloq1_usuario  
+    FROM uti_bloqueo
+    WHERE (uti_bloqueo.tabla  = :bloq_tabla ) AND  
+          (uti_bloqueo.codigo = :bloq_codigo )USING SQLCA;
+IF SQLCA.SQLCode=0 THEN
+   DELETE FROM uti_bloqueo  
+   WHERE (uti_bloqueo.tabla  = :bloq_tabla ) AND  
+         (uti_bloqueo.codigo = :bloq_codigo )USING SQLCA;
+
+ END IF
+ 
+
+IF SQLCA.SQLCode=0 THEN
+	delete from uti_colisiones
+	where tabla = :codigo_empresa+"-"+:bloq_tabla
+	and usuario = :nombre_usuario using sqlca;
+END IF
+
+
+
+
+end subroutine
+

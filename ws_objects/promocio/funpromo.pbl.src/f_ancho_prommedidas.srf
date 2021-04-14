@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_ancho_prommedidas.srf
+global type f_ancho_prommedidas from function_object
+end type
+
+forward prototypes
+global function decimal f_ancho_prommedidas (string empresa, string codigo)
+end prototypes
+
+global function decimal f_ancho_prommedidas (string empresa, string codigo);Dec{4}  parametro
+  
+  SELECT prommedidas.alto
+    INTO :parametro  
+    FROM prommedidas  
+   WHERE ( prommedidas.empresa = :empresa ) AND  
+         ( prommedidas.codigo = :codigo )   ;
+			
+			
+Return parametro
+
+
+end function
+

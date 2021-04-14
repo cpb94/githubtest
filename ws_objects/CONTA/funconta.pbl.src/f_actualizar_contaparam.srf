@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_actualizar_contaparam.srf
+global type f_actualizar_contaparam from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_contaparam (integer ejercicio, string empresa, decimal asiento)
+end prototypes
+
+global function boolean f_actualizar_contaparam (integer ejercicio, string empresa, decimal asiento);Update contaparam
+Set contaparam.asiento = :asiento
+Where contaparam.ejercicio = :ejercicio
+And   contaparam.empresa = :empresa;
+IF sqlca.sqlcode <> 0 Then 
+	f_grabar_incidencia("Error en gestion de datos (contaparam)",sqlca.sqlerrtext)
+	return False
+ELSE
+	return True
+END IF
+
+	
+end function
+

@@ -1,0 +1,28 @@
+﻿$PBExportHeader$amortizaciones.srs
+$PBExportComments$€
+global type amortizaciones from structure
+	string		empresa
+	decimal {0}	elemento
+	integer		amortizacion
+	decimal {0}	ejercicio
+	decimal {0}	clase_inmobilizado
+	string		familia
+	decimal {0}	bien
+	decimal {0}	periodo
+	string		tipo_amor
+	decimal {0}	porcentaje_amor
+	string		cuenta_activo
+	string		cuenta_cargo
+	string		cuenta_abono
+	string		seccion
+	string		centro_coste
+	datetime		fecha_contable
+	decimal {0}	asiento
+	string		actualizado
+	datetime		fecha_amor
+	decimal {2}	importe_amor
+	decimal {2}	importe_amorfis
+	string		clase_amor
+	decimal {0}	fiscal
+end type
+

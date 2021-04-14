@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_m2_reales_articulo_caja.srf
+global type f_m2_reales_articulo_caja from function_object
+end type
+
+forward prototypes
+global function decimal f_m2_reales_articulo_caja (string empresa, string articulo, string caja, decimal cantidad)
+end prototypes
+
+global function decimal f_m2_reales_articulo_caja (string empresa, string articulo, string caja, decimal cantidad);dec metros_reales,metros_caja
+dec cantidad_facturar
+
+select metroscaja,metros_reales
+into   :metros_caja,:metros_reales
+from   almartcajas
+where  empresa = :empresa
+and    articulo = :articulo
+and    caja = :caja;
+
+if isnull(metros_reales) then metros_reales = 0
+if metros_reales = 0 then metros_reales = metros_caja
+if metros_caja > 0 then
+	cantidad_facturar = (cantidad / metros_caja) * metros_reales
+	cantidad_facturar = dec(string(cantidad_facturar,f_mascara_unidad(f_unidad_articulo(empresa,articulo))))
+else
+	cantidad_facturar = cantidad
+end if
+
+return cantidad_facturar
+
+
+end function
+

@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_amort_actualizadas.srf
+global type f_amort_actualizadas from function_object
+end type
+
+forward prototypes
+global function decimal f_amort_actualizadas (string arg_empresa, decimal arg_elemento, datetime arg_hasta)
+end prototypes
+
+global function decimal f_amort_actualizadas (string arg_empresa, decimal arg_elemento, datetime arg_hasta);Dec	total,inicial
+
+inicial = 0
+total = 0
+
+  SELECT act_bienesdet.amor_acumulada  
+    INTO :inicial  
+    FROM act_bienesdet  
+   WHERE ( act_bienesdet.empresa = :arg_empresa ) AND  
+         ( act_bienesdet.elemento = :arg_elemento )   ;
+
+	If isnull(inicial) then inicial = 0
+
+  SELECT sum(importe_amor)  
+    INTO :total  
+    FROM act_amortizaciones  
+   WHERE ( act_amortizaciones.empresa = :arg_empresa ) AND  
+         ( act_amortizaciones.elemento = :arg_elemento ) and 
+			( act_amortizaciones.actualizado = 'S') AND 
+			( act_amortizaciones.fecha_amor <= :arg_hasta ) ;
+			
+	If isnull(total) then total = 0
+	
+total = total + inicial
+	
+return total
+end function
+

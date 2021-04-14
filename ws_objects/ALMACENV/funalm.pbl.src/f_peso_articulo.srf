@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_peso_articulo.srf
+global type f_peso_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_articulo (string empresa, string articulo)
+end prototypes
+
+global function decimal f_peso_articulo (string empresa, string articulo);Dec{4} var_peso
+
+SELECT articulos.pesopieza 
+INTO :var_peso
+FROM articulos
+Where articulos.empresa = :empresa
+And   articulos.codigo  = :articulo;
+if IsNull(var_peso) Then var_peso = 0
+IF var_peso =  0 Then f_grabar_incidencia("f_peso_articulo"," El articulo " + articulo + "No tiene peso")
+
+Return var_peso ;
+
+end function
+

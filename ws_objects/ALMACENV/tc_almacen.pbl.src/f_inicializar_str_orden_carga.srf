@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_inicializar_str_orden_carga.srf
+global type f_inicializar_str_orden_carga from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_orden_carga ( ref str_orden_carga str_orden_carga)
+end prototypes
+
+global function boolean f_inicializar_str_orden_carga ( ref str_orden_carga str_orden_carga);boolean lb_correcto = true
+
+if isnull(str_orden_carga.empresa) then str_orden_carga.empresa = ''
+if isnull(str_orden_carga.anyo) then str_orden_carga.anyo = 0
+if isnull(str_orden_carga.codigo) then str_orden_carga.codigo = ''
+if isnull(str_orden_carga.finalizada) then str_orden_carga.finalizada = ''
+if isnull(str_orden_carga.almacen_destino) then str_orden_carga.almacen_destino = ''
+if isnull(str_orden_carga.zona_destino) then str_orden_carga.zona_destino = ''
+if isnull(str_orden_carga.fila_destino) then str_orden_carga.fila_destino = 0
+if isnull(str_orden_carga.altura_destino) then str_orden_carga.altura_destino = 0
+if isnull(str_orden_carga.cliente) then str_orden_carga.cliente = ''
+if isnull(str_orden_carga.expedicion_anyo) then str_orden_carga.expedicion_anyo = 0
+if isnull(str_orden_carga.expedicion_codigo) then str_orden_carga.expedicion_codigo = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_inicializar_str_art_escandallo.srf
+global type f_inicializar_str_art_escandallo from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_art_escandallo ( ref str_art_escandallo str_art_escandallo)
+end prototypes
+
+global function boolean f_inicializar_str_art_escandallo ( ref str_art_escandallo str_art_escandallo);boolean lb_correcto = true
+
+if isnull(str_art_escandallo.empresa) then str_art_escandallo.empresa = ''
+if isnull(str_art_escandallo.articulo) then str_art_escandallo.articulo = ''
+if isnull(str_art_escandallo.version) then str_art_escandallo.version = ''
+if isnull(str_art_escandallo.articulo_ant) then str_art_escandallo.articulo_ant = ''
+if isnull(str_art_escandallo.factor) then str_art_escandallo.factor = 0
+if isnull(str_art_escandallo.aprovecha) then str_art_escandallo.aprovecha = ''
+return lb_correcto
+end function
+

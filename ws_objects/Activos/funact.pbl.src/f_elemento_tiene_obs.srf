@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_elemento_tiene_obs.srf
+global type f_elemento_tiene_obs from function_object
+end type
+
+forward prototypes
+global function boolean f_elemento_tiene_obs (string arg_empresa, decimal arg_elemento)
+end prototypes
+
+global function boolean f_elemento_tiene_obs (string arg_empresa, decimal arg_elemento);Integer cuantos
+  
+  SELECT count(*)
+    INTO :cuantos
+    FROM act_bienesdet_obs  
+   WHERE ( act_bienesdet_obs.empresa = :arg_empresa) AND  
+         ( act_bienesdet_obs.elemento = :arg_elemento )   ;
+
+If isnull(cuantos) then cuantos = 0
+
+If cuantos > 0 then
+	Return True
+Else
+	Return False
+End If
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_cliente_articulo.srf
+global type f_cliente_articulo from function_object
+end type
+
+forward prototypes
+global function string f_cliente_articulo (string ar_empresa, string ar_articulo)
+end prototypes
+
+global function string f_cliente_articulo (string ar_empresa, string ar_articulo);string v_cliente
+
+select cliente into :v_cliente
+from articulos
+where empresa = :ar_empresa
+and   codigo  = :ar_articulo;
+
+if isnull(v_cliente) then v_cliente = ""
+
+return v_cliente;
+end function
+

@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_insert_commovhis.srf
+global type f_insert_commovhis from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_commovhis (str_commovhis mov)
+end prototypes
+
+global function boolean f_insert_commovhis (str_commovhis mov);
+INSERT INTO commovhis
+	(empresa,				almacen,				anyo,
+	 nummov,					origen,				mp,
+	 fechmov,            tipomov,				cantidade,
+	 cantidads,				precio,				codtercero,   
+    numdoc,					situacion,			observaciones,   
+    familia,				calidad,				tipo_unidad,
+	 f_alta,					usuario,          externo,
+	 envase,					comp_almacen,		comp_anyo,
+	 comp_nummov)  
+VALUES 
+	(:mov.empresa,			:mov.almacen,		:mov.anyo,
+	 :mov.nummov,			:mov.origen,      :mov.mp,
+	 :mov.fechmov,			:mov.tipomov,		:mov.cantidade,
+    :mov.cantidads,		:mov.precio,		:mov.codtercero,
+	 :mov.numdoc,        :mov.situacion,	:mov.observaciones,
+    :mov.familia,			:mov.calidad,		:mov.tipo_unidad,
+	 :mov.f_alta,        :mov.usuario,		:mov.externo,
+	 :mov.envase,			:mov.comp_almacen,:mov.comp_anyo,
+	 :mov.comp_nummov);
+	 
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("Error","En funcion Insert Commovhis")
+	Return FALSE
+ELSE
+	Return TRUE
+END IF
+end function
+

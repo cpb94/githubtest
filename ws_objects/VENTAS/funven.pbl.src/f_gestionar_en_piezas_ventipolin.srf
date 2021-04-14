@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_gestionar_en_piezas_ventipolin.srf
+global type f_gestionar_en_piezas_ventipolin from function_object
+end type
+
+forward prototypes
+global function string f_gestionar_en_piezas_ventipolin (string empresa, string codigo)
+end prototypes
+
+global function string f_gestionar_en_piezas_ventipolin (string empresa, string codigo);String var_descripcion
+
+SELECT ventipolin.gestionar_en_piezas	 
+INTO   :var_descripcion    
+FROM   ventipolin  
+WHERE (ventipolin.empresa   = :empresa)
+AND   (ventipolin.codigo  = :codigo);
+
+Return var_descripcion
+
+end function
+

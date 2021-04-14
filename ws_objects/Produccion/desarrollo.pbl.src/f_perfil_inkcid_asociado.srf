@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_perfil_inkcid_asociado.srf
+global type f_perfil_inkcid_asociado from function_object
+end type
+
+forward prototypes
+global function string f_perfil_inkcid_asociado (string empresa, string cod_inkcid)
+end prototypes
+
+global function string f_perfil_inkcid_asociado (string empresa, string cod_inkcid);string des_perfil
+
+select desperfil.descripcion
+into :des_perfil
+from desperfil, desimagenestif
+where desimagenestif.empresa = desperfil.empresa
+and desimagenestif.perfil = desperfil.codigo
+and desimagenestif.empresa = :empresa
+and desimagenestif.codigo = :cod_inkcid;
+
+
+return des_perfil
+end function
+

@@ -1,0 +1,7 @@
+﻿$PBExportHeader$str_res_consumo.srs
+global type str_res_consumo from structure
+	decimal		stock
+	decimal		precio
+	decimal		valor
+end type
+

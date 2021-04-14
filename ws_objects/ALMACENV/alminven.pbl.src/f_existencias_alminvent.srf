@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_existencias_alminvent.srf
+global type f_existencias_alminvent from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_alminvent (string empresa, datetime fecha, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_existencias_alminvent (string empresa, datetime fecha, string referencia, string tipo_pallet);Decimal{4} existencias  
+SELECT sum(alminvent.existencias) INTO :existencias  FROM alminvent  
+   WHERE alminvent.empresa     = :empresa 
+	AND   alminvent.fecha_inv   = :fecha 
+	AND   alminvent.referencia  = :referencia 
+	AND   alminvent.tipo_pallet = :tipo_pallet;
+	IF IsNull(existencias) Then  existencias=0
+	
+Return existencias
+
+end function
+

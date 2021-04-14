@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nom_serie_fac.srf
+global type f_nom_serie_fac from function_object
+end type
+
+forward prototypes
+global function string f_nom_serie_fac (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function string f_nom_serie_fac (string arg_empresa, string arg_codigo);String  var_parametro
+  SELECT venseries.descripcion
+    INTO :var_parametro  
+    FROM venseries
+   WHERE ( venseries.empresa = :arg_empresa ) AND  
+         ( venseries.serie   = :arg_codigo )   ;
+Return var_parametro
+
+end function
+

@@ -1,0 +1,1193 @@
+﻿$PBExportHeader$f_dividir_linea_venliped_nueva.srf
+global type f_dividir_linea_venliped_nueva from function_object
+end type
+
+forward prototypes
+global function boolean f_dividir_linea_venliped_nueva (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea, decimal arg_cantidad, ref str_venliped arg_str_venliped[])
+end prototypes
+
+global function boolean f_dividir_linea_venliped_nueva (string arg_empresa, integer arg_anyo, long arg_pedido, long arg_linea, decimal arg_cantidad, ref str_venliped arg_str_venliped[]);boolean lb_correcto = true
+string  ls_venclientes_separar_bultos,ls_venclientes_separar_incompletos
+int     posi_aux,posi,li_indice_array
+string  cadena	
+dec     ld_cantidad_resto
+dec     ld_cantidad_pallets,ld_cantidad_cajas,ld_cantidad_pendiente_insertar
+long    ll_nueva_linea,ll_ultima_linea_pedido,ll_ultima_linea_albaran,ll_ultima_linea_factura
+boolean lb_linea_original_updateada = false
+
+str_venliped lstr_venliped
+
+//Aqui vamos a ir generando las lineas que sean necesarias al modificar la cantidad del pedido
+
+if f_cargar_str_venliped(arg_empresa,arg_anyo,arg_pedido,arg_linea,lstr_venliped) then
+	//Nueva linea
+	select max(linea)
+	into   :ll_ultima_linea_pedido
+	from   venliped
+	where  empresa = :lstr_venliped.empresa
+	and    anyo    = :lstr_venliped.anyo
+	and    pedido  = :lstr_venliped.pedido;
+	
+	if isnull(ll_ultima_linea_pedido) then ll_ultima_linea_pedido = 0
+	
+	select max(linea_pedido_origen)
+	into   :ll_ultima_linea_albaran
+	from   venlialb
+	where  empresa            = :lstr_venliped.empresa
+	and    anyo_pedido_origen = :lstr_venliped.anyo
+	and    pedido_origen      = :lstr_venliped.pedido;
+	
+	if isnull(ll_ultima_linea_albaran) then ll_ultima_linea_albaran = 0				
+	
+	select max(linea_pedido_origen)
+	into   :ll_ultima_linea_factura
+	from   venlifac
+	where  empresa            = :lstr_venliped.empresa
+	and    anyo_pedido_origen = :lstr_venliped.anyo
+	and    pedido_origen      = :lstr_venliped.pedido;
+	
+	if isnull(ll_ultima_linea_factura) then ll_ultima_linea_factura = 0								
+	
+	ll_nueva_linea = ll_ultima_linea_pedido
+	
+	if ll_ultima_linea_albaran > ll_nueva_linea then
+		ll_nueva_linea = ll_ultima_linea_albaran
+	end if
+	
+	if ll_ultima_linea_factura > ll_nueva_linea then
+		ll_nueva_linea = ll_ultima_linea_factura
+	end if				
+	
+	//Fin de nueva linea	
+	
+	SELECT isnull(venclientes.separar_bultos,''),
+			 isnull(venclientes.separar_incompletos,'')
+	INTO  :ls_venclientes_separar_bultos,
+			:ls_venclientes_separar_incompletos
+	FROM  venclientes
+	WHERE venclientes.empresa = :lstr_venliped.empresa
+	AND   venclientes.codigo  = :lstr_venliped.cliente;
+	
+	if trim(ls_venclientes_separar_bultos) = '' then ls_venclientes_separar_bultos = 'N'
+	if trim(ls_venclientes_separar_incompletos) = '' then ls_venclientes_separar_incompletos = 'S'
+	//Siempre separamos los pallets incompletos para gestionarlos bien desde la RF
+	ls_venclientes_separar_incompletos = 'S'			
+	
+	if arg_cantidad < lstr_venliped.cantidad then
+		ld_cantidad_resto = lstr_venliped.cantidad - arg_cantidad
+	else
+		
+	end if	
+	
+	//Proceso para grabar la cantidad actual
+	//Convertimos la cantidad en las distintas_unidades
+	cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+									 lstr_venliped.tipo_pallet,&
+									 lstr_venliped.caja,&
+									 0,&
+									 0,&
+									 arg_cantidad,&
+									 lstr_venliped.tipolinea)
+	
+	posi_aux = 1
+	posi = pos(cadena,"|",1)
+	if posi <> 0 then
+		lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+		posi_aux = posi + 1
+	end if
+	
+	posi = pos(cadena,"|",posi_aux)
+	if posi <> 0 then
+		lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		posi_aux = posi + 1
+	end if
+	
+	posi = pos(cadena,"|",posi_aux)
+	if posi <>0 then
+		lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		posi_aux = posi + 1
+	end if
+	
+	posi = pos(cadena,"|",posi_aux)
+	if posi <>0 then
+		lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		posi_aux = posi + 1
+	end if
+	
+	posi = pos(cadena,"|",posi_aux)
+	if posi <>0 then
+		 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+	end if		
+	//Fin de convertimos la cantidad en las distintas_unidades	
+		
+	if lstr_venliped.pallets > 0 then
+		//Convertimos los pallets en cantidad
+		//Convertimos la cantidad en las distintas_unidades
+		cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+										 lstr_venliped.tipo_pallet,&
+										 lstr_venliped.caja,&
+										 lstr_venliped.pallets,&
+										 0,&
+										 0,&
+										 lstr_venliped.tipolinea)
+		
+		posi_aux = 1
+		posi = pos(cadena,"|",1)
+		if posi <> 0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <> 0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			ld_cantidad_pallets = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+		end if		
+		//Fin de convertimos la cantidad en las distintas_unidades	
+			
+	else
+		ld_cantidad_pallets = 0
+	end if
+	
+	if lstr_venliped.cajas > 0 or ld_cantidad_pallets = 0 then
+		//Convertimos las cajas en cantidad
+		//Convertimos la cantidad en las distintas_unidades
+		if lstr_venliped.cajas > 0 and f_unidad_articulo(lstr_venliped.empresa,lstr_venliped.articulo) = '1' then
+			cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+											 lstr_venliped.tipo_pallet,&
+											 lstr_venliped.caja,&
+											 0,&
+											 lstr_venliped.cajas,&
+											 0,&
+											 lstr_venliped.tipolinea)
+		else
+			cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+											 lstr_venliped.tipo_pallet,&
+											 lstr_venliped.caja,&
+											 0,&
+											 0,&
+											 (lstr_venliped.cantidad - ld_cantidad_pallets),&
+											 lstr_venliped.tipolinea)
+			
+		end if
+		posi_aux = 1
+		posi = pos(cadena,"|",1)
+		if posi <> 0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <> 0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			ld_cantidad_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+		end if		
+		//Fin de convertimos la cantidad en las distintas_unidades	
+		
+	else
+		ld_cantidad_cajas = 0
+	end if
+	
+	if ld_cantidad_pallets > 0 then
+		//Insertamos la cantidad correspondiente a pallets
+		ld_cantidad_pendiente_insertar = ld_cantidad_pallets
+		
+		do
+			cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+											 lstr_venliped.tipo_pallet,&
+											 lstr_venliped.caja,&
+											 0,&
+											 0,&
+											 ld_cantidad_pendiente_insertar,&
+											 lstr_venliped.tipolinea)
+			
+			posi_aux = 1
+			posi = pos(cadena,"|",1)
+			if posi <> 0 then
+				lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <> 0 then
+				lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			end if
+						
+			//Fin de convertimos la cantidad en las distintas_unidades	
+			
+			if lstr_venliped.cajas > 0 then
+				lstr_venliped.es_pico = "S"
+			else
+				lstr_venliped.es_pico = "N"
+			end if			
+			
+			if ls_venclientes_separar_bultos = "S" and lstr_venliped.pallets > 0 then
+				//Calculamos las cantidades de 1 pallet
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 1,&
+												 0,&
+												 0,&
+												 lstr_venliped.tipolinea)
+				
+				posi_aux = 1
+				posi = pos(cadena,"|",1)
+				if posi <> 0 then
+					lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <> 0 then
+					lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				end if
+							
+				//Fin de Calculamos las cantidades de 1 pallet	
+				
+				if lstr_venliped.cajas > 0 then
+					lstr_venliped.es_pico = "S"
+				else
+					lstr_venliped.es_pico = "N"
+				end if	
+				
+				if not(lb_linea_original_updateada) then
+					
+					lb_linea_original_updateada = true
+					
+					update venliped
+					set    cantidad        		= :lstr_venliped.cantidad,
+							 cantidad_facturar 	= :lstr_venliped.cantidad,
+							 pallets         		= :lstr_venliped.pallets,
+							 total_cajas     		= :lstr_venliped.total_cajas,
+							 cajas           		= :lstr_venliped.cajas,
+							 metros_lineales 		= :lstr_venliped.metros_lineales,
+							 es_pico         		= :lstr_venliped.es_pico
+					where  empresa = :lstr_venliped.empresa
+					and    anyo    = :lstr_venliped.anyo
+					and    pedido  = :lstr_venliped.pedido
+					and    linea   = :lstr_venliped.linea;	
+					
+					if sqlca.sqlcode <> 0 then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])
+						end if						
+					end if
+				else
+					ll_nueva_linea ++
+					lstr_venliped.linea = ll_nueva_linea										
+					
+					if not(f_insertar_venliped(lstr_venliped)) then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if					
+				end if
+								
+			else
+				
+				if not(lb_linea_original_updateada) then
+					
+					lb_linea_original_updateada = true
+					
+					update venliped
+					set    cantidad        		= :lstr_venliped.cantidad,
+							 cantidad_facturar 	= :lstr_venliped.cantidad,
+							 pallets         		= :lstr_venliped.pallets,
+							 total_cajas     		= :lstr_venliped.total_cajas,
+							 cajas           		= :lstr_venliped.cajas,
+							 metros_lineales 		= :lstr_venliped.metros_lineales,
+							 es_pico         		= :lstr_venliped.es_pico
+					where  empresa = :lstr_venliped.empresa
+					and    anyo    = :lstr_venliped.anyo
+					and    pedido  = :lstr_venliped.pedido
+					and    linea   = :lstr_venliped.linea;	
+					
+					if sqlca.sqlcode <> 0 then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if
+				else
+					ll_nueva_linea ++
+					lstr_venliped.linea = ll_nueva_linea
+					
+					if not(f_insertar_venliped(lstr_venliped)) then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if					
+				end if
+				
+			end if
+			
+			ld_cantidad_pendiente_insertar -= lstr_venliped.cantidad
+			
+		loop while ld_cantidad_pendiente_insertar > 0
+		//Fin de Insertamos la cantidad correspondiente a pallets
+	end if
+	
+	if ld_cantidad_cajas > 0 then
+		//Insertamos la cantidad correspondiente a cajas
+		ld_cantidad_pendiente_insertar = ld_cantidad_cajas
+		
+		do
+			cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+											 lstr_venliped.tipo_pallet,&
+											 lstr_venliped.caja,&
+											 0,&
+											 0,&
+											 ld_cantidad_pendiente_insertar,&
+											 lstr_venliped.tipolinea)
+			
+			posi_aux = 1
+			posi = pos(cadena,"|",1)
+			if posi <> 0 then
+				lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <> 0 then
+				lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			end if
+						
+			//Fin de convertimos la cantidad en las distintas_unidades	
+			
+			if lstr_venliped.cajas > 0 then
+				lstr_venliped.es_pico = "S"
+			else
+				lstr_venliped.es_pico = "N"
+			end if			
+			
+			if ls_venclientes_separar_bultos = "S" and lstr_venliped.pallets > 0 then
+				//Calculamos las cantidades de 1 pallet
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 1,&
+												 0,&
+												 0,&
+												 lstr_venliped.tipolinea)
+				
+				posi_aux = 1
+				posi = pos(cadena,"|",1)
+				if posi <> 0 then
+					lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <> 0 then
+					lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				end if
+							
+				//Fin de Calculamos las cantidades de 1 pallet	
+				
+				if lstr_venliped.cajas > 0 then
+					lstr_venliped.es_pico = "S"
+				else
+					lstr_venliped.es_pico = "N"
+				end if	
+				
+				if not(lb_linea_original_updateada) then
+					
+					lb_linea_original_updateada = true
+					
+					update venliped
+					set    cantidad        		= :lstr_venliped.cantidad,
+							 cantidad_facturar 	= :lstr_venliped.cantidad,
+							 pallets         		= :lstr_venliped.pallets,
+							 total_cajas     		= :lstr_venliped.total_cajas,
+							 cajas           		= :lstr_venliped.cajas,
+							 metros_lineales 		= :lstr_venliped.metros_lineales,
+							 es_pico         		= :lstr_venliped.es_pico
+					where  empresa = :lstr_venliped.empresa
+					and    anyo    = :lstr_venliped.anyo
+					and    pedido  = :lstr_venliped.pedido
+					and    linea   = :lstr_venliped.linea;	
+					
+					if sqlca.sqlcode <> 0 then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if
+				else
+					ll_nueva_linea ++
+					lstr_venliped.linea = ll_nueva_linea
+					
+					if not(f_insertar_venliped(lstr_venliped)) then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if					
+				end if
+								
+			else
+				
+				if not(lb_linea_original_updateada) then
+					
+					lb_linea_original_updateada = true
+					
+					update venliped
+					set    cantidad        		= :lstr_venliped.cantidad,
+							 cantidad_facturar 	= :lstr_venliped.cantidad,
+							 pallets         		= :lstr_venliped.pallets,
+							 total_cajas     		= :lstr_venliped.total_cajas,
+							 cajas           		= :lstr_venliped.cajas,
+							 metros_lineales 		= :lstr_venliped.metros_lineales,
+							 es_pico         		= :lstr_venliped.es_pico
+					where  empresa = :lstr_venliped.empresa
+					and    anyo    = :lstr_venliped.anyo
+					and    pedido  = :lstr_venliped.pedido
+					and    linea   = :lstr_venliped.linea;	
+					
+					if sqlca.sqlcode <> 0 then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if
+				else
+					ll_nueva_linea ++
+					lstr_venliped.linea = ll_nueva_linea
+					
+					if not(f_insertar_venliped(lstr_venliped)) then
+						lb_correcto = false
+					else
+						li_indice_array = upperbound(arg_str_venliped) +1
+						arg_str_venliped[li_indice_array] = lstr_venliped						
+						
+						if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+							lb_correcto = false
+						else
+							//Cargamos los datos de la linea actualizada
+							f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])							
+						end if
+					end if					
+				end if
+				
+			end if
+			
+			ld_cantidad_pendiente_insertar -= lstr_venliped.cantidad
+			
+		loop while ld_cantidad_pendiente_insertar > 0
+		//Fin de Insertamos la cantidad correspondiente a cajas
+		
+	end if	
+	//Fin de Proceso para grabar la cantidad actual
+
+	//Proceso para grabar la cantidad resto
+	if ld_cantidad_resto > 0 then
+		//Convertimos la cantidad en las distintas_unidades
+		cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+										 lstr_venliped.tipo_pallet,&
+										 lstr_venliped.caja,&
+										 0,&
+										 0,&
+										 ld_cantidad_resto,&
+										 lstr_venliped.tipolinea)
+		
+		posi_aux = 1
+		posi = pos(cadena,"|",1)
+		if posi <> 0 then
+			lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <> 0 then
+			lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+			posi_aux = posi + 1
+		end if
+		
+		posi = pos(cadena,"|",posi_aux)
+		if posi <>0 then
+			 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+		end if		
+		//Fin de convertimos la cantidad en las distintas_unidades	
+			
+		if lstr_venliped.pallets > 0 then
+			//Convertimos los pallets en cantidad
+			//Convertimos la cantidad en las distintas_unidades
+			cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+											 lstr_venliped.tipo_pallet,&
+											 lstr_venliped.caja,&
+											 lstr_venliped.pallets,&
+											 0,&
+											 0,&
+											 lstr_venliped.tipolinea)
+			
+			posi_aux = 1
+			posi = pos(cadena,"|",1)
+			if posi <> 0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <> 0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				ld_cantidad_pallets = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+			end if		
+			//Fin de convertimos la cantidad en las distintas_unidades	
+				
+		else
+			ld_cantidad_pallets = 0
+		end if
+		
+		if lstr_venliped.cajas > 0 or ld_cantidad_pallets = 0 then
+			//Convertimos las cajas en cantidad
+			//Convertimos la cantidad en las distintas_unidades
+			if lstr_venliped.cajas > 0 and f_unidad_articulo(lstr_venliped.empresa,lstr_venliped.articulo) = '1' then
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 0,&
+												 lstr_venliped.cajas,&
+												 0,&
+												 lstr_venliped.tipolinea)
+			else
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 0,&
+												 0,&
+												 lstr_venliped.cantidad,&
+												 lstr_venliped.tipolinea)				
+			end if
+			
+			posi_aux = 1
+			posi = pos(cadena,"|",1)
+			if posi <> 0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <> 0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+				ld_cantidad_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				posi_aux = posi + 1
+			end if
+			
+			posi = pos(cadena,"|",posi_aux)
+			if posi <>0 then
+			end if		
+			//Fin de convertimos la cantidad en las distintas_unidades	
+			
+		else
+			ld_cantidad_cajas = 0
+		end if
+		
+		if ld_cantidad_pallets > 0 then
+			//Insertamos la cantidad correspondiente a pallets
+			ld_cantidad_pendiente_insertar = ld_cantidad_pallets
+			
+			do
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 0,&
+												 0,&
+												 ld_cantidad_pendiente_insertar,&
+												 lstr_venliped.tipolinea)
+				
+				posi_aux = 1
+				posi = pos(cadena,"|",1)
+				if posi <> 0 then
+					lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <> 0 then
+					lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				end if
+							
+				//Fin de convertimos la cantidad en las distintas_unidades	
+				
+				if lstr_venliped.cajas > 0 then
+					lstr_venliped.es_pico = "S"
+				else
+					lstr_venliped.es_pico = "N"
+				end if			
+				
+				if ls_venclientes_separar_bultos = "S" and lstr_venliped.pallets > 0 then
+					//Calculamos las cantidades de 1 pallet
+					cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+													 lstr_venliped.tipo_pallet,&
+													 lstr_venliped.caja,&
+													 1,&
+													 0,&
+													 0,&
+													 lstr_venliped.tipolinea)
+					
+					posi_aux = 1
+					posi = pos(cadena,"|",1)
+					if posi <> 0 then
+						lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <> 0 then
+						lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					end if
+								
+					//Fin de Calculamos las cantidades de 1 pallet	
+					
+					if lstr_venliped.cajas > 0 then
+						lstr_venliped.es_pico = "S"
+					else
+						lstr_venliped.es_pico = "N"
+					end if	
+					
+					if not(lb_linea_original_updateada) then
+						
+						lb_linea_original_updateada = true
+						
+						update venliped
+						set    cantidad        		= :lstr_venliped.cantidad,
+								 cantidad_facturar 	= :lstr_venliped.cantidad,
+								 pallets         		= :lstr_venliped.pallets,
+								 total_cajas     		= :lstr_venliped.total_cajas,
+								 cajas           		= :lstr_venliped.cajas,
+								 metros_lineales 		= :lstr_venliped.metros_lineales,
+								 es_pico         		= :lstr_venliped.es_pico
+						where  empresa = :lstr_venliped.empresa
+						and    anyo    = :lstr_venliped.anyo
+						and    pedido  = :lstr_venliped.pedido
+						and    linea   = :lstr_venliped.linea;	
+						
+						if sqlca.sqlcode <> 0 then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if
+					else
+						ll_nueva_linea ++
+						lstr_venliped.linea = ll_nueva_linea
+						
+						if not(f_insertar_venliped(lstr_venliped)) then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+									
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if					
+					end if
+									
+				else
+					
+					if not(lb_linea_original_updateada) then
+						
+						lb_linea_original_updateada = true
+						
+						update venliped
+						set    cantidad        		= :lstr_venliped.cantidad,
+								 cantidad_facturar 	= :lstr_venliped.cantidad,
+								 pallets         		= :lstr_venliped.pallets,
+								 total_cajas     		= :lstr_venliped.total_cajas,
+								 cajas           		= :lstr_venliped.cajas,
+								 metros_lineales 		= :lstr_venliped.metros_lineales,
+								 es_pico         		= :lstr_venliped.es_pico
+						where  empresa = :lstr_venliped.empresa
+						and    anyo    = :lstr_venliped.anyo
+						and    pedido  = :lstr_venliped.pedido
+						and    linea   = :lstr_venliped.linea;	
+						
+						if sqlca.sqlcode <> 0 then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if
+					else
+						ll_nueva_linea ++
+						lstr_venliped.linea = ll_nueva_linea
+						
+						if not(f_insertar_venliped(lstr_venliped)) then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+									
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if					
+					end if
+					
+				end if
+				
+				ld_cantidad_pendiente_insertar -= lstr_venliped.cantidad
+				
+			loop while ld_cantidad_pendiente_insertar > 0
+			//Fin de Insertamos la cantidad correspondiente a pallets
+		end if
+		
+		if ld_cantidad_cajas > 0 then
+			//Insertamos la cantidad correspondiente a cajas
+			ld_cantidad_pendiente_insertar = ld_cantidad_cajas
+			
+			do
+				cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+												 lstr_venliped.tipo_pallet,&
+												 lstr_venliped.caja,&
+												 0,&
+												 0,&
+												 ld_cantidad_pendiente_insertar,&
+												 lstr_venliped.tipolinea)
+				
+				posi_aux = 1
+				posi = pos(cadena,"|",1)
+				if posi <> 0 then
+					lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <> 0 then
+					lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					posi_aux = posi + 1
+				end if
+				
+				posi = pos(cadena,"|",posi_aux)
+				if posi <>0 then
+					 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+				end if
+							
+				//Fin de convertimos la cantidad en las distintas_unidades	
+				
+				if lstr_venliped.cajas > 0 then
+					lstr_venliped.es_pico = "S"
+				else
+					lstr_venliped.es_pico = "N"
+				end if			
+				
+				if ls_venclientes_separar_bultos = "S" and lstr_venliped.pallets > 0 then
+					//Calculamos las cantidades de 1 pallet
+					cadena = f_calculo_unidades_tipolin(lstr_venliped.empresa,lstr_venliped.articulo,&
+													 lstr_venliped.tipo_pallet,&
+													 lstr_venliped.caja,&
+													 1,&
+													 0,&
+													 0,&
+													 lstr_venliped.tipolinea)
+					
+					posi_aux = 1
+					posi = pos(cadena,"|",1)
+					if posi <> 0 then
+						lstr_venliped.pallets = dec(Mid(cadena,1,posi - 1))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <> 0 then
+						lstr_venliped.cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						lstr_venliped.total_cajas = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						lstr_venliped.cantidad = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+						posi_aux = posi + 1
+					end if
+					
+					posi = pos(cadena,"|",posi_aux)
+					if posi <>0 then
+						 lstr_venliped.metros_lineales = dec(Mid(cadena,posi_aux,posi - posi_aux ))
+					end if
+								
+					//Fin de Calculamos las cantidades de 1 pallet	
+					
+					if lstr_venliped.cajas > 0 then
+						lstr_venliped.es_pico = "S"
+					else
+						lstr_venliped.es_pico = "N"
+					end if	
+					
+					if not(lb_linea_original_updateada) then
+						
+						lb_linea_original_updateada = true
+						
+						update venliped
+						set    cantidad        		= :lstr_venliped.cantidad,
+								 cantidad_facturar 	= :lstr_venliped.cantidad,
+								 pallets         		= :lstr_venliped.pallets,
+								 total_cajas     		= :lstr_venliped.total_cajas,
+								 cajas           		= :lstr_venliped.cajas,
+								 metros_lineales 		= :lstr_venliped.metros_lineales,
+								 es_pico         		= :lstr_venliped.es_pico
+						where  empresa = :lstr_venliped.empresa
+						and    anyo    = :lstr_venliped.anyo
+						and    pedido  = :lstr_venliped.pedido
+						and    linea   = :lstr_venliped.linea;	
+						
+						if sqlca.sqlcode <> 0 then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if
+					else
+						ll_nueva_linea ++
+						lstr_venliped.linea = ll_nueva_linea
+						
+						if not(f_insertar_venliped(lstr_venliped)) then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if					
+					end if
+									
+				else
+					
+					if not(lb_linea_original_updateada) then
+						
+						lb_linea_original_updateada = true
+						
+						update venliped
+						set    cantidad        		= :lstr_venliped.cantidad,
+								 cantidad_facturar 	= :lstr_venliped.cantidad,
+								 pallets         		= :lstr_venliped.pallets,
+								 total_cajas     		= :lstr_venliped.total_cajas,
+								 cajas           		= :lstr_venliped.cajas,
+								 metros_lineales 		= :lstr_venliped.metros_lineales,
+								 es_pico         		= :lstr_venliped.es_pico
+						where  empresa = :lstr_venliped.empresa
+						and    anyo    = :lstr_venliped.anyo
+						and    pedido  = :lstr_venliped.pedido
+						and    linea   = :lstr_venliped.linea;	
+						
+						if sqlca.sqlcode <> 0 then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if
+					else
+						ll_nueva_linea ++
+						lstr_venliped.linea = ll_nueva_linea
+						
+						if not(f_insertar_venliped(lstr_venliped)) then
+							lb_correcto = false
+						else
+							li_indice_array = upperbound(arg_str_venliped) +1
+							arg_str_venliped[li_indice_array] = lstr_venliped							
+							
+							if not(f_actualizar_linea_venpedido(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea)) then
+								lb_correcto = false
+							else
+								//Cargamos los datos de la linea actualizada
+								f_cargar_str_venliped(lstr_venliped.empresa,lstr_venliped.anyo,lstr_venliped.pedido,lstr_venliped.linea,arg_str_venliped[li_indice_array])								
+							end if
+						end if					
+					end if
+					
+				end if
+				
+				ld_cantidad_pendiente_insertar -= lstr_venliped.cantidad
+				
+			loop while ld_cantidad_pendiente_insertar > 0
+			//Fin de Insertamos la cantidad correspondiente a cajas
+			
+		end if
+				
+	end if
+	//Fin de Proceso para grabar la cantidad resto
+	
+else
+	lb_correcto = false
+end if
+
+return lb_correcto
+end function
+

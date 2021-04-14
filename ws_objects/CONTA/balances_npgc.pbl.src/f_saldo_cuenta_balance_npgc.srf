@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_saldo_cuenta_balance_npgc.srf
+global type f_saldo_cuenta_balance_npgc from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuenta_balance_npgc (integer ejerc, string emp, string cuenta, datetime fd, datetime fh)
+end prototypes
+
+global function decimal f_saldo_cuenta_balance_npgc (integer ejerc, string emp, string cuenta, datetime fd, datetime fh);dec retorno
+String xempresa,xcuenta,orig_prev
+Dec    xejercicio,ld_saldo_6,ld_saldo_7
+
+retorno = 0
+
+cuenta=trim(cuenta)
+
+if left(cuenta,3) = "129" then
+	ld_saldo_6 = f_saldo_cuenta_balance_npgc(ejerc,emp,"6",fd,fh)
+	ld_saldo_7 = f_saldo_cuenta_balance_npgc(ejerc,emp,"7",fd,fh)
+	
+	retorno = ld_saldo_6 + ld_saldo_7
+else
+	cuenta = cuenta+"%"
+	
+	SELECT   sum(contaapun.debe - contaapun.haber) 
+	INTO   :retorno
+	FROM   contaapun  
+	WHERE  contaapun.ejercicio = :ejerc 
+	AND    contaapun.empresa = :emp 
+	AND    contaapun.origen not in ('100',"102")
+	AND	 contaapun.fapunte between :fd AND :fh
+	AND    contaapun.cuenta like :cuenta;
+
+end if
+
+if isnull(retorno) then retorno=0
+
+
+return retorno
+
+//AND    contaapun.origen not in ('97',"98")
+//			( contaapun.origen <> '100') AND
+//			( contaapun.origen <> '102') and
+end function
+

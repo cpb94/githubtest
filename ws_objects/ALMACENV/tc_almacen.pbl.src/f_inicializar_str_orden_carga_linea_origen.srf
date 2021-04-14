@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_inicializar_str_orden_carga_linea_origen.srf
+global type f_inicializar_str_orden_carga_linea_origen from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_orden_carga_linea_origen ( ref str_orden_carga_linea_origen str_orden_carga_linea_origen)
+end prototypes
+
+global function boolean f_inicializar_str_orden_carga_linea_origen ( ref str_orden_carga_linea_origen str_orden_carga_linea_origen);boolean lb_correcto = true
+
+if isnull(str_orden_carga_linea_origen.empresa) then str_orden_carga_linea_origen.empresa = ''
+if isnull(str_orden_carga_linea_origen.anyo) then str_orden_carga_linea_origen.anyo = 0
+if isnull(str_orden_carga_linea_origen.codigo) then str_orden_carga_linea_origen.codigo = ''
+if isnull(str_orden_carga_linea_origen.linea) then str_orden_carga_linea_origen.linea = 0
+if isnull(str_orden_carga_linea_origen.almacen) then str_orden_carga_linea_origen.almacen = ''
+if isnull(str_orden_carga_linea_origen.zona) then str_orden_carga_linea_origen.zona = ''
+if isnull(str_orden_carga_linea_origen.fila) then str_orden_carga_linea_origen.fila = 0
+if isnull(str_orden_carga_linea_origen.altura) then str_orden_carga_linea_origen.altura = 0
+if isnull(str_orden_carga_linea_origen.cantidad) then str_orden_carga_linea_origen.cantidad = 0
+if isnull(str_orden_carga_linea_origen.tono) then str_orden_carga_linea_origen.tono = ''
+if isnull(str_orden_carga_linea_origen.calibre) then str_orden_carga_linea_origen.calibre = 0
+if isnull(str_orden_carga_linea_origen.calidad) then str_orden_carga_linea_origen.calidad = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_saldo_cuenta_balance.srf
+global type f_saldo_cuenta_balance from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuenta_balance (integer ejerc, string emp, string cuenta, datetime fd, datetime fh)
+end prototypes
+
+global function decimal f_saldo_cuenta_balance (integer ejerc, string emp, string cuenta, datetime fd, datetime fh);dec retorno, retorno6, retorno7
+// Santiago 13/09/00. Calculamos la cuenta 129 por la diferencia del grupo 6 y 7
+if left(cuenta,3) = "129" then
+	cuenta ="6%"
+	SELECT sum(debe - haber) INTO :retorno6 FROM contaapun  
+	WHERE ( contaapun.ejercicio = :ejerc ) AND  
+			( contaapun.empresa = :emp ) AND  
+			( contaapun.origen <> '100') AND
+			( contaapun.origen <> '102') and
+			( contaapun.fapunte between :fd AND :fh) AND
+			( contaapun.cuenta like :cuenta) ;
+		
+	if isnull(retorno6) then retorno6=0
+	
+	cuenta ="7%"
+	SELECT sum(haber - debe) INTO :retorno7 FROM contaapun  
+	WHERE ( contaapun.ejercicio = :ejerc ) AND  
+			( contaapun.empresa = :emp ) AND  
+			( contaapun.origen <> '100') AND
+			( contaapun.origen <> '102') and
+			( contaapun.fapunte between :fd AND :fh) AND
+			( contaapun.cuenta like :cuenta) ;
+		
+	if isnull(retorno7) then retorno7=0
+	
+	return (retorno7 - retorno6)
+else
+	cuenta=trim(cuenta)+"%"
+	SELECT sum(debe - haber) INTO :retorno FROM contaapun  
+	WHERE ( contaapun.ejercicio = :ejerc ) AND  
+			( contaapun.empresa = :emp ) AND  
+			( contaapun.origen <> '100') AND
+			( contaapun.origen <> '102') and
+			( contaapun.fapunte between :fd AND :fh) AND
+			( contaapun.cuenta like :cuenta) ;
+		
+	if isnull(retorno) then retorno=0
+	return retorno
+end if
+end function
+

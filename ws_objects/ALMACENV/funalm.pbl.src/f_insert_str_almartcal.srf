@@ -1,0 +1,57 @@
+﻿$PBExportHeader$f_insert_str_almartcal.srf
+global type f_insert_str_almartcal from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_str_almartcal (ref str_almartcal str_almartcal)
+end prototypes
+
+global function boolean f_insert_str_almartcal (ref str_almartcal str_almartcal);int li_existe_registro
+boolean lb_correcto = true
+
+SELECT isnull(count(*),0) 
+INTO   :li_existe_registro 
+FROM   almartcal
+WHERE  almartcal.empresa  = :str_almartcal.empresa        
+AND    almartcal.articulo = :str_almartcal.articulo
+AND    almartcal.calidad  = :str_almartcal.calidad;
+
+if li_existe_registro = 0 then
+	//Insertamos
+	INSERT INTO almartcal
+		(almartcal.empresa,
+       almartcal.articulo,
+       almartcal.calidad,
+       almartcal.precio,
+       almartcal.fecha_alta,
+       almartcal.stockmin,
+       almartcal.stockmax,
+       almartcal.puntopedido)
+	VALUES
+		(:str_almartcal.empresa,
+       :str_almartcal.articulo,
+       :str_almartcal.calidad,
+       :str_almartcal.precio,
+       :str_almartcal.fecha_alta,
+       :str_almartcal.stockmin,
+       :str_almartcal.stockmax,
+       :str_almartcal.puntopedido);
+else
+	//Updateamos
+	UPDATE almartcal 
+	SET    almartcal.precio = :str_almartcal.precio,
+       	 almartcal.fecha_alta = :str_almartcal.fecha_alta,
+       	 almartcal.stockmin = :str_almartcal.stockmin,
+       	 almartcal.stockmax = :str_almartcal.stockmax,
+       	 almartcal.puntopedido = :str_almartcal.puntopedido 
+	WHERE almartcal.empresa = :str_almartcal.empresa 
+	AND   almartcal.articulo = :str_almartcal.articulo 
+	AND   almartcal.calidad = :str_almartcal.calidad;	
+end if
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

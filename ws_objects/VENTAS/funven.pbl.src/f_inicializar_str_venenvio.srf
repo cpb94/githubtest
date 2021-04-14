@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_inicializar_str_venenvio.srf
+global type f_inicializar_str_venenvio from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venenvio ( ref str_venenvio str_venenvio)
+end prototypes
+
+global function boolean f_inicializar_str_venenvio ( ref str_venenvio str_venenvio);boolean lb_correcto = true
+
+if isnull(str_venenvio.empresa) then str_venenvio.empresa = ''
+if isnull(str_venenvio.cliente) then str_venenvio.cliente = ''
+if isnull(str_venenvio.codigo) then str_venenvio.codigo = ''
+if isnull(str_venenvio.descripcion) then str_venenvio.descripcion = ''
+if isnull(str_venenvio.pais) then str_venenvio.pais = ''
+if isnull(str_venenvio.provincia) then str_venenvio.provincia = ''
+if isnull(str_venenvio.codpostal) then str_venenvio.codpostal = ''
+if isnull(str_venenvio.localidad) then str_venenvio.localidad = ''
+if isnull(str_venenvio.domicilio) then str_venenvio.domicilio = ''
+if isnull(str_venenvio.telefono) then str_venenvio.telefono = ''
+if isnull(str_venenvio.domicilio1) then str_venenvio.domicilio1 = ''
+if isnull(str_venenvio.domicilio2) then str_venenvio.domicilio2 = ''
+if isnull(str_venenvio.fax) then str_venenvio.fax = ''
+if isnull(str_venenvio.tarifa) then str_venenvio.tarifa = ''
+return lb_correcto
+end function
+

@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nombre_calibre.srf
+global type f_nombre_calibre from function_object
+end type
+
+forward prototypes
+global function string f_nombre_calibre (string a_codemp, integer a_codcalibre)
+end prototypes
+
+global function string f_nombre_calibre (string a_codemp, integer a_codcalibre);string	ls_nombre
+
+   SELECT nombre  
+   INTO :ls_nombre  
+   FROM calibre  
+   WHERE empresa = :a_codemp 
+	AND   codigo  = :a_codcalibre  
+   USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+
+end function
+

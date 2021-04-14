@@ -1,0 +1,87 @@
+﻿$PBExportHeader$f_insert_promlindetallalb.srf
+global type f_insert_promlindetallalb from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_promlindetallalb (str_promlindetallalb detallalb)
+end prototypes
+
+global function boolean f_insert_promlindetallalb (str_promlindetallalb detallalb);INSERT INTO promlindetallalb  
+  (empresa,anyo,   
+           albaran,   
+           linea,   
+           orden,   
+           panel,   
+           articulo,   
+           calidad,   
+           montajeartcal,   
+           piezas,   
+           usuario,   
+           usuario_pedido,   
+           observaciones,   
+           peso,   
+           coste,   
+           venta,   
+           pais,   
+           cliente,   
+           tipo,   
+           reposicion,   
+           situacion,   
+           f_albaran,   
+           f_entrega,   
+           agente1,   
+           agente2,   
+           agente3,   
+           tipo_expositor,   
+           expositor,   
+           f_entrega_real,   
+           anyo_pedido,   
+           pedido,   
+           linea_pedido,   
+           orden_pedido,   
+           activo,   
+           f_reposicion,   
+           f_retirada,   
+           f_pedido )  
+  VALUES ( :detallalb.empresa,   
+           :detallalb.anyo,   
+           :detallalb.albaran,   
+           :detallalb.linea,   
+           :detallalb.orden,   
+           :detallalb.panel,   
+           :detallalb.articulo,   
+           :detallalb.calidad,   
+           :detallalb.montajeartcal,   
+           :detallalb.piezas,   
+           :detallalb.usuario,   
+           :detallalb.usuario_pedido,   
+           :detallalb.observaciones,   
+           :detallalb.peso,   
+           :detallalb.coste,   
+           :detallalb.venta,   
+           :detallalb.pais,   
+           :detallalb.cliente,   
+           :detallalb.tipo,   
+           :detallalb.reposicion,   
+           :detallalb.situacion,   
+           :detallalb.f_albaran,   
+           :detallalb.f_entrega,   
+           :detallalb.agente1,   
+           :detallalb.agente2,   
+           :detallalb.agente3,   
+           :detallalb.tipo_expositor,   
+           :detallalb.expositor,   
+           :detallalb.f_entrega_real,   
+           :detallalb.anyo_pedido,   
+           :detallalb.pedido,   
+           :detallalb.linea_pedido,   
+           :detallalb.orden_pedido,   
+           :detallalb.activo,   
+           :detallalb.f_reposicion,   
+           :detallalb.f_retirada,   
+           :detallalb.f_pedido )  ;
+			  IF sqlca.sqlcode <> 0 Then Return False
+			  
+			  Return True
+end function
+

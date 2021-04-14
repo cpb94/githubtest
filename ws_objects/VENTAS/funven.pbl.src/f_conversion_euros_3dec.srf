@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_conversion_euros_3dec.srf
+global type f_conversion_euros_3dec from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_euros_3dec (decimal importe, decimal cambio)
+end prototypes
+
+global function decimal f_conversion_euros_3dec (decimal importe, decimal cambio);dec importe_euros
+string mascara
+
+mascara = f_mascara_decimales(3)
+
+importe_euros = importe / cambio
+
+importe_euros = round(importe_euros,3)
+
+importe_euros = dec(string(importe_euros,mascara))
+
+return importe_euros
+end function
+

@@ -1,0 +1,127 @@
+﻿$PBExportHeader$f_metros_factura_partida_estadistica.srf
+$PBExportComments$Para el Intrastat
+global type f_metros_factura_partida_estadistica from function_object
+end type
+
+forward prototypes
+global function decimal f_metros_factura_partida_estadistica (string arg_empresa, integer arg_anyo, long arg_factura, string arg_partida_estadistica)
+end prototypes
+
+global function decimal f_metros_factura_partida_estadistica (string arg_empresa, integer arg_anyo, long arg_factura, string arg_partida_estadistica);string sel,var_articulo
+datastore cursor_piezas
+real metros,metros_piezas,var_cantidad
+long indice,total,ll_existe_partida
+
+ll_existe_partida = 0
+
+select isnull(count(*),0)
+into   :ll_existe_partida
+from   venpartidas
+where  venpartidas.empresa = :arg_empresa 
+and    isnull(venpartidas.valor1,'') = :arg_partida_estadistica;
+
+if ll_existe_partida = 0 then
+	select sum(cantidad) into :metros
+	from venlifac where empresa = :arg_empresa
+	and anyo = :arg_anyo
+	and factura = :arg_factura
+	and articulo in(select articulos.codigo 
+						 from  articulos
+						 where articulos.empresa = :arg_empresa 
+						 and   articulos.unidad = '1')
+	and articulo not in(select articulos.codigo 
+							 from  articulos, 					       
+									 venpartidas 
+							 where ( articulos.empresa = venpartidas.empresa ) 
+							 and   ( articulos.partidaest = venpartidas.codigo )
+							 and   articulos.empresa = :arg_empresa 
+							 and   articulos.unidad = '1');	
+				
+	
+	if isnull(metros) then metros = 0
+	
+	sel = "select articulo,cantidad "+&
+			"from venlifac where "+&
+			"empresa ='"+arg_empresa+"' and "+&
+			"anyo    ="+string(arg_anyo,"###0")+" and "+&
+			"factura ="+string(arg_factura,"########0")+" and "+&
+			"articulo in(select articulos.codigo "+&
+						" from  articulos "+&
+						" where articulos.empresa = '"+arg_empresa+"' "+&
+						" and   articulos.unidad <> '1') and "	+&		
+			"articulo not in(select articulos.codigo "+&
+						" from  articulos, "+&
+						"		 venpartidas "+&
+						" where ( articulos.empresa = venpartidas.empresa ) "+&
+						" and   ( articulos.partidaest = venpartidas.codigo ) "+&
+						" and   articulos.empresa = '"+arg_empresa+"' "+&
+						" and   articulos.unidad <> '1')"
+		
+	f_cargar_cursor_transaccion(sqlca,cursor_piezas,sel)		
+	total = cursor_piezas.rowcount()
+	metros_piezas = 0
+	if total > 0 then
+		for indice = 1 to total
+			var_articulo = cursor_piezas.object.articulo[indice]
+			if isnull(var_articulo) then var_articulo = ""
+			var_cantidad = cursor_piezas.object.cantidad[indice]
+			if isnull(var_cantidad) then var_cantidad = 0
+			if var_cantidad <> 0 and var_articulo <> "" then
+				metros_piezas = metros_piezas + f_conversion_cantidad_m2(codigo_empresa,var_articulo,var_cantidad)
+			end if
+		next
+	end if
+	
+else
+	select sum(cantidad) into :metros
+	from venlifac where empresa = :arg_empresa
+	and anyo = :arg_anyo
+	and factura = :arg_factura
+	and articulo in(select articulos.codigo 
+						 from  articulos, 					       
+								 venpartidas 
+						 where ( articulos.empresa = venpartidas.empresa ) 
+						 and   ( articulos.partidaest = venpartidas.codigo )
+						 and   articulos.empresa = :arg_empresa 
+						 and   isnull(venpartidas.valor1,'') = :arg_partida_estadistica
+						 and   articulos.unidad = '1');
+	
+				
+	
+	if isnull(metros) then metros = 0
+	
+	sel = "select articulo,cantidad "+&
+			"from venlifac where "+&
+			"empresa ='"+arg_empresa+"' and "+&
+			"anyo    ="+string(arg_anyo,"###0")+" and "+&
+			"factura ="+string(arg_factura,"########0")+" and "+&
+			"articulo in(select articulos.codigo "+&
+						" from  articulos, "+&
+						"		 venpartidas "+&
+						" where ( articulos.empresa = venpartidas.empresa ) "+&
+						" and   ( articulos.partidaest = venpartidas.codigo ) "+&
+						" and   articulos.empresa = '"+arg_empresa+"' "+&
+						" and   isnull(venpartidas.valor1,'') = '"+arg_partida_estadistica+"' "+&
+						" and   articulos.unidad <> '1')"
+		
+	f_cargar_cursor_transaccion(sqlca,cursor_piezas,sel)		
+	total = cursor_piezas.rowcount()
+	metros_piezas = 0
+	if total > 0 then
+		for indice = 1 to total
+			var_articulo = cursor_piezas.object.articulo[indice]
+			if isnull(var_articulo) then var_articulo = ""
+			var_cantidad = cursor_piezas.object.cantidad[indice]
+			if isnull(var_cantidad) then var_cantidad = 0
+			if var_cantidad <> 0 and var_articulo <> "" then
+				metros_piezas = metros_piezas + f_conversion_cantidad_m2(codigo_empresa,var_articulo,var_cantidad)
+			end if
+		next
+	end if
+end if
+
+destroy cursor_piezas
+
+return metros_piezas+metros
+end function
+

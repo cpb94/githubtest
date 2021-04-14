@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_detalle_agrupado.srf
+global type f_detalle_agrupado from function_object
+end type
+
+forward prototypes
+global subroutine f_detalle_agrupado (string empresa, integer anyo, integer orden)
+end prototypes
+
+global subroutine f_detalle_agrupado (string empresa, integer anyo, integer orden);str_parametros lstr_param 
+  lstr_param.i_nargumentos=3
+  lstr_param.s_argumentos[1]=empresa
+  lstr_param.s_argumentos[2]=string(anyo)
+  lstr_param.s_argumentos[3]=string(orden)
+
+  OpenWithParm(w_detalle_agrupado,lstr_param)
+  
+  
+end subroutine
+

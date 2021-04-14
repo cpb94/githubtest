@@ -1,0 +1,578 @@
+﻿$PBExportHeader$f_imprimir_ficha_tecnica_ot.srf
+global type f_imprimir_ficha_tecnica_ot from function_object
+end type
+
+forward prototypes
+global subroutine f_imprimir_ficha_tecnica_ot (datawindow data, string ar_articulo, string ar_version, string ar_version2, decimal ar_ot)
+end prototypes
+
+global subroutine f_imprimir_ficha_tecnica_ot (datawindow data, string ar_articulo, string ar_version, string ar_version2, decimal ar_ot);datastore operaciones, aplicaciones, bases
+datetime v_fecha_alta
+String v_tecnico, v_dis
+string 	v_base1, v_base2, v_base3, v_base4, v_ref_produccion, v_ref_laboratorio, v_version_laboratorio, v_tipo, v_molde, v_nombre_molde
+string 	v_operacion, v_tipooperacion, v_nombre_tipooperacion, v_tipo_pasta, v_nombre_pasta
+string 	v_formato, v_nombre_formato, v_pantalla, v_nombre_pantalla, v_gramaje, v_nombre_gramaje
+string	v_empresa, v_contadoraplicacion, v_tipoaplicacion, v_nombre_tipoaplicacion
+string 	sel_operaciones, sel_aplicaciones,v_nombre_version, sel_bases
+string 	v_ciclo, v_boquilla, v_tipo_valor, v_imagen, v_obs_largas
+string 	v_formula, v_nombre_formula, v_descripcion_base1, v_descripcion_base2, v_descripcion_base3, v_descripcion_base4, v_juegopantallas
+long 		fila_Actual, indice1, total1, indice2, total2, v_numero_hilos, v_cantidad
+dec      v_densidad, v_viscosidad, v_espesor, v_espesor_lateral, v_largo, v_ancho, v_ot
+string v_cod_caja, v_des_caja, v_piezascaja, v_cortes, v_discos, v_formato_operacion, v_orden, v_ordenaplicacion
+string v_cod_pallet, v_des_pallet, v_cajaspallet, v_planospallet, v_alturaspallet, v_nominal
+string v_tono_calibre, v_tono, v_temp_Sup, v_temp_inf, ref_dis, ref_dis2, ruta, v_ubi_muestras, v_codigo_pantallas
+int v_calibre, v_anyo, v_linped, v_pedido, n
+double proporcion
+long v_ubicacion
+dec nivel, v_gram_7x20
+string tiff
+string modelo_origen, pieza_origen, prueba_origen, coleccion, costilla
+string cod_caja_compras, cod_caja_ventas, des_caja_ventas
+
+data.reset()
+data.setredraw(false)
+data.retrieve(codigo_empresa, ar_articulo, ar_version)
+
+sel_bases = 	" select art_escandallo.articulo_ant, articulos.descripcion "+&
+					" from art_escandallo, articulos "+&
+					" where art_escandallo.empresa = "+codigo_empresa+&
+					" and articulos.empresa = "+codigo_empresa+&
+					" and art_escandallo.articulo_ant = articulos.codigo "+&
+					" and art_escandallo.articulo = "+ar_articulo+&
+					" and art_escandallo.version = "+ar_version
+					
+f_cargar_cursor_nuevo( sel_bases, bases)
+
+for n = 1 to 4
+	if bases.rowcount() >= 1  then
+		if bases.object.art_escandallo_articulo_ant[1] <> '0' then
+			v_base1 = bases.object.art_escandallo_articulo_ant[1]
+			v_descripcion_base1 = bases.object.articulos_descripcion[1]
+		end if
+	end if
+	if bases.rowcount() >= 2 then
+		if bases.object.art_escandallo_articulo_ant[2] <> '0' then
+			v_base2 = bases.object.art_escandallo_articulo_ant[2]
+			v_descripcion_base2 = bases.object.articulos_descripcion[2]
+		end if
+	end if
+	if bases.rowcount() >= 3 then
+		if bases.object.art_escandallo_articulo_ant[3] <> '0' then
+			v_base3 = bases.object.art_escandallo_articulo_ant[3]
+			v_descripcion_base3 = bases.object.articulos_descripcion[3]
+		end if
+	end if
+	if bases.rowcount() >= 4 then
+		v_base4 = bases.object.art_escandallo_articulo_ant[4]
+		v_descripcion_base4 = bases.object.articulos_descripcion[4]
+	end if
+next
+
+select anyo, pedido, linped
+into :v_anyo, :v_pedido, :v_linped
+from planificacion
+where ot = :ar_ot;
+
+select tonochar, calibre
+into :v_tono, :v_calibre
+from venliped
+where anyo 	= :v_anyo
+and pedido = :v_pedido
+and linea = :v_linped
+and empresa = :codigo_empresa;
+
+if isnull (v_calibre) or  (v_calibre = 0) then
+	v_tono_calibre = v_tono
+else
+	v_tono_calibre = v_tono+" / "+string (v_calibre)
+end if
+
+SELECT molde, descripcion, formato, referencia_laboratorio,  version_laboratorio, espesor, espesor_lateral, fecha_alta, tipo, ubi_muestras, codigo_pantallas, modelo_origen, pieza_origen, prueba_origen, costilla
+INTO  :v_molde, :v_ref_produccion, :v_formato, :v_ref_laboratorio, :v_version_laboratorio, :v_espesor, :v_espesor_lateral, :v_fecha_alta, 
+		:v_tipo, :v_ubi_muestras, :v_codigo_pantallas, :modelo_origen, :pieza_origen, :prueba_origen, :costilla
+FROM  articulos
+WHERE empresa = :codigo_empresa
+AND   codigo  = :ar_articulo;
+
+if not isnull(costilla) and costilla <> "" then
+	SELECT descripcion INTO :costilla  
+	FROM costilla 
+	WHERE empresa = :codigo_empresa AND codigo = :costilla;
+end if
+
+
+// Esto es para poder sacar la imagen de la pieza con el sistema nuevo
+
+select coleccion
+into :coleccion
+from modelo
+where empresa = :codigo_empresa
+and modelo = :modelo_origen;
+
+// Sacamos la imagen, técnico y diseñador
+if modelo_origen <> '' and not isnull (modelo_origen) then
+	SELECT tecnico_lab.descripcion, tecnico_dis.descripcion INTO :v_tecnico, :v_dis
+	FROM modelo 
+	INNER JOIN descoleccionsol ON modelo.empresa = descoleccionsol.empresa AND modelo.coleccion = descoleccionsol.codigo
+	INNER JOIN tecnico_lab ON descoleccionsol.empresa = tecnico_lab.empresa AND descoleccionsol.tecnico_lab = tecnico_lab.codigo 
+	INNER JOIN tecnico_dis ON modelo.empresa = tecnico_dis.empresa AND modelo.tecnico_dis = tecnico_dis.codigo
+	WHERE descoleccionsol.empresa = :codigo_empresa AND modelo.modelo = :modelo_origen;
+//	data.Object.ruta_imagen[1] = ftc_imagen_ruta ('1', "", "", pieza_origen)
+else
+	SELECT tecnico_lab.descripcion, tecnico_dis.descripcion INTO :v_tecnico, :v_dis
+	FROM desmodelo 
+	INNER JOIN descoleccionsol ON desmodelo.empresa = descoleccionsol.empresa AND desmodelo.coleccion = descoleccionsol.codigo
+	INNER JOIN tecnico_lab ON descoleccionsol.empresa = tecnico_lab.empresa AND descoleccionsol.tecnico_lab = tecnico_lab.codigo 
+	INNER JOIN tecnico_dis ON desmodelo.empresa = tecnico_dis.empresa AND desmodelo.tecnico_dis = tecnico_dis.codigo
+	WHERE descoleccionsol.empresa = :codigo_empresa AND desmodelo.modelo = :v_ref_laboratorio;
+	v_imagen = f_cargar_imagen_nuevo(v_codigo_pantallas)
+end if
+
+
+
+
+
+// Sacamos el largo y el ancho del formato
+select ancho, largo
+into :v_ancho, :v_largo
+from formatos
+where empresa = :codigo_empresa
+and codigo = :v_formato;
+
+v_nominal = string(v_ancho*10,"###,##0.0")+" x "+string(v_largo*10,"###,##0.0")
+
+// Sacamos la información de las cajas
+select almartcajas.caja, almcajas.descripcion, almartcajas.piezascaja, almcajas.codigo_compras
+into :v_cod_caja, :v_des_caja, :v_piezascaja, :cod_caja_compras
+from almartcajas, almcajas
+where almartcajas.empresa = almcajas.empresa
+and almartcajas.caja = almcajas.codigo
+AND almartcajas.articulo = :ar_articulo
+and pordefecto = 'S';
+
+select articulos.codigo, articulos.descripcion
+into :cod_caja_ventas, :des_caja_ventas
+from articulos 
+where codigo_compras = :cod_caja_compras
+and articulos.empresa = :codigo_empresa;
+
+// Sacamos la información de las pallets
+select pallets.codigo, pallets.descripcion, palarticulo.cajaspallet, palarticulo.planospallet, palarticulo.alturas
+into :v_cod_pallet, :v_des_pallet, :v_cajaspallet, :v_planospallet, :v_alturaspallet
+from palarticulo, pallets
+where palarticulo.empresa = pallets.empresa
+and palarticulo.caja = :v_cod_caja
+and palarticulo.articulo = :ar_articulo
+and palarticulo.codigo = pallets.codigo
+and pordefecto = 'S';
+
+// Extraemos el nombre de la empresa
+SELECT nombre   
+INTO  :v_empresa
+FROM  empresas
+WHERE empresa = :codigo_empresa;
+
+
+// El tipo de pasta lo extraemos del codigo estadístico
+SELECT pt   
+INTO  :v_tipo_pasta
+FROM  art_codestadistico
+WHERE empresa = :codigo_empresa
+AND   codigo  = :ar_articulo;
+
+// Extraemos la descripcion de la version
+SELECT descripcion, observaciones
+INTO  :v_nombre_version, :v_obs_largas
+FROM  art_versiones
+WHERE empresa  = :codigo_empresa
+AND   articulo = :ar_articulo
+AND 	version  = :ar_version;
+
+
+v_nombre_formato = f_nombre_formato(codigo_empresa, v_formato)
+v_nombre_molde   = v_molde+"-"+f_nombre_molde(codigo_empresa, v_molde)
+
+CHOOSE CASE v_tipo_pasta
+ 	CASE "B" 
+		v_nombre_pasta = "BLANCA"
+ 	CASE "R" 
+		v_nombre_pasta = "ROJA"
+	CASE "P"
+		v_nombre_pasta = "PORCELANICO"
+	CASE ELSE
+		v_nombre_pasta = ""
+END CHOOSE
+
+//if isnull(v_tipo_pasta) or v_tipo_pasta = "B" or v_tipo_pasta = "" then
+//	v_nombre_pasta = "BLANCA"
+//else
+//	v_nombre_pasta = "ROJA"
+//end if
+
+sel_operaciones =  &
+		 "SELECT operacion, tipo_operacion, formato, orden, juegopantallas "+&
+		 "FROM art_ver_operaciones "+&
+		 "WHERE empresa = '" + codigo_empresa + "' "+&
+		 "AND articulo = '" + ar_articulo + "' "+&
+		 "AND version = '" + ar_version + "' "+&
+		 "ORDER BY CONVERT(int,orden)"			 
+		 
+		 
+//operaciones = f_cargar_cursor(sel_operaciones)
+f_cargar_cursor_nuevo(sel_operaciones,operaciones)
+
+
+total1 = operaciones.rowcount()
+
+for indice1 = 1 to total1
+	v_operacion = operaciones.object.operacion[indice1]
+	v_tipooperacion = operaciones.object.tipo_operacion[indice1]
+	v_formato = operaciones.object.formato[indice1]
+	v_orden = operaciones.object.orden[indice1]
+	
+	v_juegopantallas = operaciones.object.juegopantallas[indice1]
+	
+	// Sacamos la ubicación del juego de pantallas de la operación
+	
+	setnull (v_ubicacion)
+	select ubicacion
+	into :v_ubicacion
+	from juegospantallas
+	where empresa = :codigo_empresa
+	and codigo = :v_juegopantallas;
+	
+	
+	// Sacamos la OT asociada a cada operacion en la tabla de planificacion
+	v_ot = 0
+	v_cantidad = 0
+	select ot, cantidad , nivel
+	into :v_ot, :v_cantidad, :nivel
+	from planificacion
+	where anyo = : v_anyo
+	and pedido = :v_pedido
+	and linped = :v_linped
+	and empresa = :codigo_empresa
+	and cod_articulo = :ar_articulo
+	and version = :ar_version
+	and ordenoperacion =:v_orden;
+
+	
+	// Sacamos el largo y el ancho del formato de cada operacion
+	setnull(v_largo)
+	setnull(v_ancho)
+	select ancho, largo
+	into :v_ancho, :v_largo
+	from formatos
+	where empresa = :codigo_empresa
+	and codigo = :v_formato;
+	
+	v_formato_operacion = string(v_ancho*10,"###,##0.0")+" x "+string(v_largo*10,"###,##0.0")
+	if v_formato_operacion = "x" then v_formato_operacion = ""
+	
+//	v_formato_operacion = f_nombre_formato_abr(codigo_empresa, operaciones.object.formato[indice1]	)	
+	v_nombre_tipooperacion = ""
+
+	// Tipo de operacion
+	SELECT descripcion_abr   
+	INTO  :v_nombre_tipooperacion
+	FROM  art_ver_tipooperacion
+	WHERE empresa = :codigo_empresa
+	AND 	codigo  = :v_tipooperacion;
+
+	sel_aplicaciones = &
+		"SELECT pantalla, formula, gramaje, gram_7x20, orden, " +&
+		        "tipoaplicacion, densidad, viscosidad, boquilla, ciclo, cortes, discos, temp_sup, temp_inf, tiff "+&
+		"FROM art_ver_op_aplicaciones "+&
+		"WHERE empresa = '" + codigo_empresa + "' "+&
+		"AND articulo  = '" + ar_articulo + "' "+&
+		"AND version   = '" + ar_version + "' "+&
+		"AND operacion   = '" + v_operacion + "' "+&
+		"ORDER BY convert (integer, orden) "			 
+	
+
+//	aplicaciones = f_cargar_cursor(sel_aplicaciones)
+	f_cargar_cursor_nuevo(sel_aplicaciones,aplicaciones)
+
+	total2 = aplicaciones.rowcount()
+	
+	if total2 = 0 then
+		fila_actual = data.insertrow(0)
+		//data.object.nivel[fila_actual]  				= nivel
+		data.object.empresa[fila_actual]  			= v_empresa
+		data.object.articulo[fila_actual]  			= ar_articulo
+		data.object.version[fila_actual]   			= ar_version
+		data.object.ubi_muestra[fila_actual]  		= v_ubi_muestras
+		data.object.nombre_version[fila_actual]	= v_nombre_version
+
+		data.object.base1[fila_actual]				= v_base1
+		data.object.base2[fila_actual]				= v_base2
+		data.object.base3[fila_actual]				= v_base3
+		data.object.base4[fila_actual]				= v_base4
+		data.object.des_base1[fila_actual]			= v_descripcion_base1
+		data.object.des_base2[fila_actual]			= v_descripcion_base2
+		data.object.des_base3[fila_actual]			= v_descripcion_base3
+		data.object.des_base4[fila_actual]			= v_descripcion_base4
+		
+		data.object.costilla[fila_actual]			= costilla
+		
+		data.object.ref_produccion[fila_actual]   = v_ref_produccion
+		data.object.formato[fila_actual]    		= v_nombre_formato
+		data.object.ref_laboratorio[fila_actual]  = v_ref_laboratorio
+		data.object.prueba[fila_actual]  			= v_version_laboratorio
+		data.object.molde[fila_actual]  				= v_nombre_molde
+		data.object.nominal[fila_actual]          = v_nominal
+		data.object.pedido[fila_actual]           = string(v_anyo)+" / "+string(v_pedido)+" / "+string(v_linped)
+		data.object.tono_calibre[fila_actual]     = v_tono_calibre
+		data.object.pasta[fila_actual]            = v_nombre_pasta
+		data.object.espesor[fila_actual] 			= string(v_espesor)
+		data.object.espesor_lateral[fila_actual] 			= string(v_espesor_lateral)
+		data.object.fecha_alta[fila_actual]   		= v_fecha_alta
+		data.object.operacion[fila_actual]   		= v_operacion
+		data.object.ordenoperacion[fila_actual]   = v_orden
+		data.object.formato_operacion[fila_actual]= v_formato_operacion
+		data.object.tipooperacion[fila_actual]   	= v_nombre_tipooperacion	
+		if v_juegopantallas <> '' then
+			data.object.t_juegopant[fila_actual] = "Juego Pant: "
+			data.object.t_ubicacion[fila_actual] = "Ubic: "
+		else
+			data.object.t_juegopant[fila_actual] = ""
+			data.object.t_ubicacion[fila_actual] = ""
+		end if			
+		data.object.juegopantallas[fila_actual]   = v_juegopantallas	
+		data.object.ubicacion[fila_actual]   		= v_ubicacion
+		
+		
+		data.object.aplicacion[fila_actual]   		= ""
+		data.object.tipoaplicacion[fila_actual]   = ""
+		data.object.gramaje[fila_actual]   			= ""
+		data.object.pantalla[fila_actual]   		= ""
+		data.object.cod_formula[fila_actual]   	= ""
+		data.object.formula[fila_actual]   			= ""
+		data.object.hilos[fila_actual]   			= ""
+		data.object.densidad[fila_actual]   		= ""
+		data.object.viscosidad[fila_actual]   		= ""
+		data.object.boquilla[fila_actual]   		= ""
+		data.object.ciclo[fila_actual]   			= ""
+		data.object.tiff[fila_actual]   				= ""
+		data.object.temp_sup[fila_actual]  			= ""
+		data.object.temp_inf[fila_actual]   		= ""
+		data.object.obs_largas[fila_actual]   		= v_obs_largas	
+		data.object.imagen_pieza[fila_actual]   	= v_imagen
+
+		data.object.ot[fila_actual]   				= v_ot
+		data.object.cantidad[fila_actual]   		= v_cantidad
+//		data.object.cod_caja[fila_actual]  			= v_cod_caja
+//		data.object.des_caja[fila_actual]  			= v_des_caja
+		data.object.cod_caja[fila_actual]  			= cod_caja_ventas
+		data.object.des_caja[fila_actual]  			= des_caja_ventas
+		data.object.piezascaja[fila_actual]  		= string(round(dec(v_piezascaja),0))
+		data.object.cod_pallet[fila_actual]  		= v_cod_pallet
+		data.object.des_pallet[fila_actual]  		= v_des_pallet
+		data.object.cajaspallet[fila_actual]  		= string(round(dec(v_cajaspallet),0))
+		data.object.planospallet[fila_actual]  	= v_planospallet
+		data.object.alturapallet[fila_actual]  	= v_alturaspallet
+		
+		data.object.modelo_origen[fila_actual]  	= modelo_origen
+		data.object.pieza_origen[fila_actual]  	= pieza_origen
+		data.object.prueba_origen[fila_actual]  	= prueba_origen
+
+		//data.Object.ruta_imagen[fila_actual] = ftc_imagen_encajado_ruta("1", coleccion, modelo_origen, pieza_origen, "")	
+		data.Object.ruta_imagen[fila_actual] = ftc_imagen_articulo_ruta("1", ar_articulo)	
+		
+		data.Object.tecnico[fila_actual] = v_tecnico + " / " + v_dis
+		
+	else
+		for indice2 = 1 to total2
+			v_nombre_tipoaplicacion = ""
+			v_nombre_pantalla = ""
+			v_numero_hilos = 0
+			v_nombre_formula = ""
+			
+			v_pantalla 					= Aplicaciones.object.pantalla[indice2]
+			v_ordenaplicacion			= string(Aplicaciones.object.orden[indice2])
+			v_tipoaplicacion			= Aplicaciones.object.tipoaplicacion[indice2]
+			
+		// David 25-10-06. Seleccionamos el gramaje a 7x20 si se trata de una biccoción.
+
+			if v_tipooperacion = '7' or v_tipooperacion = '1' then // El 7 corresponde a la biccoción.
+				v_gramaje = string(round(Aplicaciones.object.gram_7x20[indice2], 2 ))
+			else
+				v_gramaje = string(round(Aplicaciones.object.gramaje[indice2], 2))
+			end if
+			v_formula 					= Aplicaciones.object.formula[indice2]
+			v_densidad 					= Aplicaciones.object.densidad[indice2]
+			v_viscosidad 				= Aplicaciones.object.viscosidad[indice2]
+			v_boquilla 					= Aplicaciones.object.boquilla[indice2]
+			v_ciclo 						= Aplicaciones.object.ciclo[indice2]
+			v_temp_sup 					= Aplicaciones.object.temp_sup[indice2]
+			v_temp_inf 					= Aplicaciones.object.temp_inf[indice2]
+			v_cortes 					= Aplicaciones.object.cortes[indice2]
+			v_discos						= Aplicaciones.object.discos[indice2]
+			tiff							= Aplicaciones.object.tiff[indice2]
+		
+			// Extraemos la descripcion de la aplicación
+			SELECT resumido
+			INTO  :v_nombre_tipoaplicacion
+			FROM  prodaplicaciones
+			WHERE empresa = :codigo_empresa
+			AND 	codigo  = :v_tipoaplicacion;
+	
+			if isnull(v_pantalla) or (v_pantalla = "") then
+				v_numero_hilos = 	 0
+			else
+				// Extraemos la descripcion de la pantalla
+				SELECT descripcion_abr, numero_hilos   
+				INTO  :v_nombre_pantalla, :v_numero_hilos
+				FROM  prodpantallas
+				WHERE empresa = :codigo_empresa
+				AND 	codigo  = :v_pantalla;
+			end if
+							
+			// Extraemos la descripcion de la formula
+			SELECT descripcion_produccion   
+			INTO  :v_nombre_formula
+			FROM  prodformula
+			WHERE empresa = :codigo_empresa
+			AND 	formula  = :v_formula;
+	
+			fila_actual = data.insertrow(0)
+		//	data.object.nivel[fila_actual]  				= nivel
+			data.object.empresa[fila_actual]  			= v_empresa
+			data.object.articulo[fila_actual]  			= ar_articulo
+
+			data.object.ubi_muestra[fila_actual]  	= v_ubi_muestras
+			data.object.version[fila_actual]   			= ar_version
+			data.object.nombre_version[fila_actual]	= v_nombre_version
+
+			data.object.base1[fila_actual]					= v_base1
+			data.object.base2[fila_actual]				= v_base2
+			data.object.base3[fila_actual]					= v_base3
+			data.object.base4[fila_actual]					= v_base4
+			data.object.des_base1[fila_actual]			= v_descripcion_base1
+			data.object.des_base2[fila_actual]			= v_descripcion_base2
+			data.object.des_base3[fila_actual]			= v_descripcion_base3
+			data.object.des_base4[fila_actual]			= v_descripcion_base4
+			
+			data.object.costilla[fila_actual]			= costilla
+			
+			data.object.ref_produccion[fila_actual]   = v_ref_produccion
+			data.object.formato[fila_actual]    		= v_nombre_formato
+			data.object.ref_laboratorio[fila_actual]  = v_ref_laboratorio
+			data.object.prueba[fila_actual]  			= v_version_laboratorio
+			data.object.molde[fila_actual]  				= v_nombre_molde
+			data.object.nominal[fila_actual]          = v_nominal
+			data.object.pedido[fila_actual]           = string(v_anyo)+" / "+string(v_pedido)+" / "+string(v_linped)
+			data.object.tono_calibre[fila_actual]     = v_tono_calibre
+			data.object.pasta[fila_actual]            = v_nombre_pasta
+			data.object.espesor[fila_actual] 			= string(v_espesor)
+			data.object.espesor_lateral[fila_actual] 			= string(v_espesor_lateral)
+			data.object.fecha_alta[fila_actual]   		= v_fecha_alta
+			data.object.operacion[fila_actual]   		= v_operacion
+			data.object.ordenoperacion[fila_actual]   = v_orden
+			data.object.formato_operacion[fila_actual]= v_formato_operacion		
+			data.object.tipooperacion[fila_actual]   	= v_nombre_tipooperacion	
+
+			if v_juegopantallas <> '' then
+				data.object.t_juegopant[fila_actual] = "Juego Pant: "
+				data.object.t_ubicacion[fila_actual] = "Ubic: "
+			else
+				data.object.t_juegopant[fila_actual] = ""
+				data.object.t_ubicacion[fila_actual] = ""
+			end if			
+			data.object.juegopantallas[fila_actual]	= v_juegopantallas
+			data.object.ubicacion[fila_actual]			= v_ubicacion
+			
+			data.object.aplicacion[fila_actual]   		= v_ordenaplicacion
+			data.object.tipoaplicacion[fila_actual]   = v_nombre_tipoaplicacion	
+			data.object.gramaje[fila_actual]   			= v_gramaje
+			data.object.pantalla[fila_actual]   		= v_pantalla
+			data.object.cod_formula[fila_actual]   	= v_formula
+			data.object.formula[fila_actual]   			= v_nombre_formula
+			data.object.ot[fila_actual]   				= v_ot
+			data.object.cantidad[fila_actual]   		= v_cantidad
+			if v_numero_hilos = 0 then
+				data.object.hilos[fila_actual]   			= ""
+			else
+				data.object.hilos[fila_actual]   			= string(v_numero_hilos)	
+			end if
+			data.object.densidad[fila_actual]   			= string(v_densidad)
+			data.object.viscosidad[fila_actual]   			= string(v_viscosidad)
+			data.object.boquilla[fila_actual]   			= v_boquilla
+			data.object.ciclo[fila_actual]   				= v_ciclo
+			data.object.temp_sup[fila_actual]   			= v_temp_sup
+			data.object.temp_inf[fila_actual]   			= v_temp_inf
+			data.object.cortes[fila_actual]   				= v_cortes
+			data.object.discos[fila_actual]   				= v_discos
+			data.object.obs_largas[fila_actual]   			= v_obs_largas	
+			data.object.imagen_pieza[fila_actual]   		= v_imagen	
+			data.object.tiff[fila_actual]   					= tiff
+					
+//			data.object.cod_caja[fila_actual]  			= v_cod_caja
+//			data.object.des_caja[fila_actual]  			= v_des_caja
+			data.object.cod_caja[fila_actual]  			= cod_caja_ventas
+			data.object.des_caja[fila_actual]  			= des_caja_ventas
+			data.object.piezascaja[fila_actual]  		= string(round(dec(v_piezascaja),0))
+			data.object.cod_pallet[fila_actual]  		= v_cod_pallet
+			data.object.des_pallet[fila_actual]  		= v_des_pallet
+			data.object.cajaspallet[fila_actual]  		= string(round(dec(v_cajaspallet),0))
+			data.object.planospallet[fila_actual]  	= v_planospallet
+			data.object.alturapallet[fila_actual]  	= v_alturaspallet
+			
+			data.object.modelo_origen[fila_actual]  	= modelo_origen
+			data.object.pieza_origen[fila_actual]  	= pieza_origen
+			data.object.prueba_origen[fila_actual]  	= prueba_origen
+			
+			//data.Object.ruta_imagen[fila_actual] = ftc_imagen_encajado_ruta("1", coleccion, modelo_origen, pieza_origen, "")	
+			data.Object.ruta_imagen[fila_actual] = ftc_imagen_articulo_ruta("1", ar_articulo)
+			
+			data.Object.tecnico[fila_actual] = v_tecnico + " / " + v_dis
+			
+		next
+	end if
+next
+
+//Etiquetas
+Datastore ds_etiquetas
+String etiqueta, ruta_etiqueta, sel
+Long i
+
+sel = "select top 3 almetiquetas.ruta, almetiquetas.descripcion, almetiquetas.observaciones "+&
+" from almetiquetas INNER JOIN articulos_etiqueta ON almetiquetas.empresa = articulos_etiqueta.empresa AND almetiquetas.codigo = articulos_etiqueta.etiqueta "+&
+" where articulos_etiqueta.articulo = '"+ar_articulo+"' "+&
+" and articulos_etiqueta.empresa = '"+codigo_empresa+"' ";
+f_cargar_cursor_nuevo (sel, ds_etiquetas)
+i = 1
+Do While (i <= ds_etiquetas.rowcount())
+	etiqueta = ds_etiquetas.object.almetiquetas_descripcion[i]
+	ruta_etiqueta = ds_etiquetas.object.ruta[i]
+	choose case i
+		case 1
+			data.object.etiqueta1[data.rowcount()]	= etiqueta
+			data.object.ruta_eti1[data.rowcount()]	= ruta_etiqueta	
+		case 2
+			data.object.etiqueta2[data.rowcount()]	= etiqueta
+			data.object.ruta_eti2[data.rowcount()]	= ruta_etiqueta	
+		case 3
+			data.object.etiqueta3[data.rowcount()]	= etiqueta
+			data.object.ruta_eti3[data.rowcount()]	= ruta_etiqueta	
+	end choose
+	i++
+Loop
+
+
+destroy operaciones
+destroy aplicaciones
+destroy bases
+destroy ds_etiquetas
+
+data.SetFilter("")
+data.Filter()
+	
+data.setsort(" empresa A, integer (ordenoperacion) A, integer(aplicacion) A ")
+data.sort()
+data.groupcalc()
+data.setredraw(true)
+
+
+end subroutine
+

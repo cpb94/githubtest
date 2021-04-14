@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_menu_cerrar_ventana.srf
+global type f_menu_cerrar_ventana from function_object
+end type
+
+forward prototypes
+global subroutine f_menu_cerrar_ventana (window ventana, integer posicion)
+end prototypes
+
+global subroutine f_menu_cerrar_ventana (window ventana, integer posicion);//Si es null la posición o es 0 se da por supuesto que se ha cerrado la ventana antes de llegar al evento activate
+if isnull(posicion) or posicion = 0 or isnull(ventana) then
+	return
+end if
+
+ventanas_activas[posicion].activa = false
+
+/*
+Long i, j, numero_menus
+String nombre_menu, m_principal, titulo, titulomenu1, titulomenu2
+str_ventanas_activas nueva
+menu menutemp, submenutemp, nuevomenu
+window windowtemp
+
+//Si es null la posición o es 0 se da por supuesto que se ha cerrado la ventana antes de llegar al evento activate
+if isnull(posicion) or posicion = 0 or isnull(ventana) then
+	return
+end if
+
+//Actualización Ventanas
+For i = 1 To numero_ventanas_activas - 1
+	//Ventana
+	if i >= posicion then
+		ventanas_activas[i] = ventanas_activas[i + 1]
+	end if
+	
+Next
+
+//Dejar la ventana eliminada en blanco y reducir número de ventanas activas
+ventanas_activas[numero_ventanas_activas] = nueva
+numero_ventanas_activas --
+*/
+
+
+end subroutine
+

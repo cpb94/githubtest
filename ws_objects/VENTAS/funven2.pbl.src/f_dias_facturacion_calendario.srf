@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_dias_facturacion_calendario.srf
+global type f_dias_facturacion_calendario from function_object
+end type
+
+forward prototypes
+global subroutine f_dias_facturacion_calendario (string empresa, ref integer dias_facturables, ref integer dias_facturables_restantes, ref integer dias_mes, integer anyo, integer mes)
+end prototypes
+
+global subroutine f_dias_facturacion_calendario (string empresa, ref integer dias_facturables, ref integer dias_facturables_restantes, ref integer dias_mes, integer anyo, integer mes);integer dia_actual
+
+
+dia_actual = day(today())
+select count(*)
+into :dias_facturables
+from prodmeses
+where empresa = :empresa
+and  anyo = :anyo
+and mes = :mes
+and dia <= :dia_actual
+and calendario = '5'
+and horas <> 0;
+
+select count(*)
+into :dias_facturables_restantes
+from prodmeses
+where empresa = :empresa
+and  anyo = :anyo
+and mes = :mes
+and dia > :dia_actual
+and calendario = '5'
+and horas <> 0;
+	
+select count(*)
+into :dias_mes
+from prodmeses
+where empresa = :empresa
+and  anyo = :anyo
+and mes = :mes
+and calendario = '5'
+and horas <> 0;
+
+if (long(anyo) < year (today())) or (long(mes) < month(today())) then
+	dias_facturables = dias_mes
+	dias_facturables_restantes = 0
+end if
+
+
+/*
+if dias_facturables <> 0 then
+	v_facturacion_diaria = v_alb_mas_fac / dias_facturables
+else
+	v_facturacion_diaria = 0
+end if
+	
+if dias_facturables_restantes <> 0 then
+//	v_facturacion_necesaria = (v_desviacion_objetivos / total_dias_facturables_restantes)  * -1
+	v_facturacion_necesaria = ((v_objetivos - v_alb_mas_fac) / dias_facturables_restantes) 
+else
+	v_facturacion_necesaria = 0
+end if
+v_facturacion_previsible = v_facturacion_diaria * total_dias_mes
+*/
+
+
+
+
+end subroutine
+

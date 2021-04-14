@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_ultimo_orden_carpagos.srf
+global type f_ultimo_orden_carpagos from function_object
+end type
+
+forward prototypes
+global function long f_ultimo_orden_carpagos (string arg_empresa, integer arg_anyo)
+end prototypes
+
+global function long f_ultimo_orden_carpagos (string arg_empresa, integer arg_anyo);long ultimo_orden_carpagos,ultimo_orden_carpagosdetagrupado,ultimo_orden
+
+ultimo_orden_carpagos = 0
+ultimo_orden_carpagosdetagrupado = 0
+
+select max(orden) 
+into   :ultimo_orden_carpagos
+from 	 carpagos
+where  empresa	= :arg_empresa
+and	 anyo		= :arg_anyo;
+
+if isnull(ultimo_orden_carpagos) then ultimo_orden_carpagos = 0
+
+select max(orden) 
+into   :ultimo_orden_carpagosdetagrupado
+from 	 carpagosdetagrupado
+where  empresa	= :arg_empresa
+and	 anyo		= :arg_anyo;
+
+if isnull(ultimo_orden_carpagosdetagrupado) then ultimo_orden_carpagosdetagrupado = 0
+
+if ultimo_orden_carpagosdetagrupado > ultimo_orden_carpagos then
+	ultimo_orden = ultimo_orden_carpagosdetagrupado
+else
+	ultimo_orden = ultimo_orden_carpagos
+end if
+
+ultimo_orden ++
+
+return ultimo_orden
+end function
+

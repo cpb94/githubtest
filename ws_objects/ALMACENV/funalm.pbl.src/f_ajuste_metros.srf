@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_ajuste_metros.srf
+global type f_ajuste_metros from function_object
+end type
+
+forward prototypes
+global function decimal f_ajuste_metros (string empresa, string articulo, string caja, decimal metros)
+end prototypes
+
+global function decimal f_ajuste_metros (string empresa, string articulo, string caja, decimal metros);String  cod_unidad 
+Dec     metros_caja
+Dec{0}  cajas
+
+SELECT  articulos.unidad,
+		  almartcajas.metroscaja  
+INTO 	  :cod_unidad,
+		  :metros_caja     
+FROM    articulos,
+		  almartcajas  
+WHERE   articulos.empresa = :empresa
+AND     articulos.codigo  = :articulo
+AND     articulos.empresa = :empresa
+AND     articulos.codigo  = almartcajas.articulo
+AND     almartcajas.caja  = :caja;
+
+if isnull(metros_caja) then metros_caja = 0
+
+IF cod_unidad = "0" Then 
+	Return metros
+else
+	if metros_caja > 0 then
+		cajas = metros / metros_caja
+		metros = cajas * metros_caja
+	end if
+	Return metros
+end if
+
+
+
+
+
+
+
+
+
+
+
+
+end function
+

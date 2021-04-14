@@ -1,0 +1,39 @@
+﻿$PBExportHeader$dw_con_stock_recuento.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 9 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=188 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=venmprima_codigo dbname="venmprima.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=venmprima_descripcion dbname="venmprima.descripcion" )
+ column=(type=char(1) updatewhereclause=yes name=venmprima_control_almacen dbname="venmprima.control_almacen" )
+ column=(type=number updatewhereclause=yes name=stock dbname="stock" )
+ retrieve="  SELECT venmprima.codigo,   
+         venmprima.descripcion, 
+			venmprima.control_almacen,
+         sum(commovhis.cantidade - commovhis.cantidads ) as stock
+    FROM venmprima ,commovhis 
+   WHERE venmprima.empresa = :empresa  and
+			venmprima.codigo *= commovhis.mp and
+			venmprima.empresa *= commovhis.empresa	 and
+         ( commovhis.fechmov <= :fecha_stock ) AND
+			( venmprima.tipo_materia in ( :productos) )
+GROUP BY venmprima.codigo,   
+         venmprima.descripcion,
+			venmprima.control_almacen
+
+
+" arguments=(("empresa", string),("fecha_stock", datetime),("productos", stringlist))  sort="empresa A venmprima_descripcion A " )
+text(band=header alignment="2" text="Stock" border="6" color="8388608" x="1915" y="124" height="56" width="439" html.valueishtml="0"  name=t_2 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="2" text="Materia Prima" border="6" color="8388608" x="9" y="124" height="56" width="1879" html.valueishtml="0"  name=t_1 visible="1"  resizeable=1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+text(band=header alignment="0" text="Stock Materias Primas a Fecha:" border="0" color="0" x="123" y="20" height="80" width="1093" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="0" text="" border="0" color="0" x="1262" y="20" height="80" width="439" html.valueishtml="0"  name=t_fecha visible="1"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="14" y="4" height="56" width="219" format="[general]" html.valueishtml="0"  name=venmprima_codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="247" y="4" height="56" width="1641" format="[general]" html.valueishtml="0"  name=venmprima_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="1915" y="4" height="56" width="439" format="###,###,###,##0.00" html.valueishtml="0"  name=stock visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression=" pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[General]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Pag. ' + page() + ' de ' + pageCount()"border="0" color="0" x="23" y="8" height="56" width="686" format="[general]" html.valueishtml="0"  name=page_1 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

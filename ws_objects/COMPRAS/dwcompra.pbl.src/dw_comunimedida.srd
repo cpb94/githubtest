@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_comunimedida.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=356 color="536870912" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codigo dbname="comunimedida.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="comunimedida.descripcion" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=abreviado dbname="comunimedida.abreviado" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=decimales dbname="comunimedida.decimales" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comunimedida~" ) COLUMN(NAME=~"comunimedida.codigo~") COLUMN(NAME=~"comunimedida.descripcion~") COLUMN(NAME=~"comunimedida.abreviado~") COLUMN(NAME=~"comunimedida.decimales~")WHERE(    EXP1 =~"comunimedida.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"codigo~" TYPE = string) " update="comunimedida" updatewhere=1 updatekeyinplace=no arguments=(("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="0" x="82" y="72" height="64" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="475" y="72" height="64" width="1422" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Decimales:"border="0" color="0" x="105" y="280" height="64" width="334"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=30 border="5" color="0" x="471" y="284" height="64" width="114" format="#0"  name=decimales edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Abreviado:"border="0" color="0" x="123" y="176" height="64" width="315"  name=abreviado_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="0" tabsequence=20 border="5" color="0" x="475" y="180" height="64" width="658" format="[general]"  name=abreviado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

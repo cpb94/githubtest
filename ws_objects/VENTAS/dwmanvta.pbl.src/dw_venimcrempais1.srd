@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_venimcrempais1.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\bmp\MANO.CUR" )
+header(height=93 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(5) name=empresa dbname="venincrempais.empresa" )
+ column=(type=char(5) name=familia dbname="venincrempais.familia" )
+ column=(type=char(5) name=pais dbname="venincrempais.pais" )
+ column=(type=decimal(4) name=incremento dbname="venincrempais.incremento" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venincrempais~" ) COLUMN(NAME=~"venincrempais.empresa~") COLUMN(NAME=~"venincrempais.familia~") COLUMN(NAME=~"venincrempais.pais~") COLUMN(NAME=~"venincrempais.incremento~")WHERE( EXP1 =~"venincrempais.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"venincrempais.familia~" OP =~"=~" EXP2 =~":familia~" ) ) ORDER(NAME=~"venincrempais.empresa~" ASC=yes ) ORDER(NAME=~"venincrempais.familia~" ASC=yes ) ORDER(NAME=~"venincrempais.pais~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"familia~" TYPE = string) " arguments=(("empresa", string),("familia", string)) )
+text(band=header alignment="2" text="Pais"border="6" color="0" x="23" y="16" height="65" width="663"  name=pais_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Incremento"border="6" color="0" x="700" y="16" height="65" width="595"  name=incremento_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_pais(pais)"border="0" color="128" x="28" y="4" height="65" width="654" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="128" x="700" y="4" height="65" width="412" format="[general]"  name=incremento editmask.mask="###,###.00"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr(f_moneda_pais(pais))"border="0" color="128" x="1121" y="8" height="65" width="165" format="[GENERAL]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

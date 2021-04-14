@@ -1,0 +1,85 @@
+﻿$PBExportHeader$f_calculo_coste_mp.srf
+global type f_calculo_coste_mp from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_coste_mp (string empresa, string mp, string proveedor, decimal cantidad, string unidad_destino)
+end prototypes
+
+global function decimal f_calculo_coste_mp (string empresa, string mp, string proveedor, decimal cantidad, string unidad_destino);// By Pako M. (09-12-98) \\
+
+dec equivalencia_kg,precio,coste, densidad, cantidad_destino
+string unidad_origen, tipo_unidad 
+dec cambio_unidad
+boolean correcto = true
+
+
+// Seleccionamos la equivalencia y el tipo de unidad del producto \\
+select equivalencia_kg,tipo_unidad, densidad
+into :equivalencia_kg,:tipo_unidad, :densidad
+from venmprima
+where empresa = :empresa
+and venmprima.codigo = :mp ;
+
+
+if sqlca.sqlcode <> 0 then
+	correcto = false
+end if
+
+// Obtenemos la descripción de la unidad \\
+select descripcion
+into : unidad_origen
+from comunimedida
+where codigo = :tipo_unidad;
+
+// Comprobamos que la unidad sea kilos ,
+// o bien tengamos el equivalente de la unidad en kilos \\
+if Upper (trim(unidad_origen)) <> "KILOGRAMOS" and IsNull(equivalencia_kg) then
+	correcto = false
+	messagebox("¡¡ Calculo de coste !!","Materia prima "+mp+"~nsin equivalente en Kg")
+end if
+
+if tipo_unidad =  "9" then
+	correcto = true
+end if
+
+
+// Hacemos los calculos necesarios para el calculo del coste del producto \\
+if correcto then
+	select precio
+	into :precio
+	from comartpro
+	where comartpro.empresa = :empresa
+	and comartpro.mprima = :mp
+	and comartpro.proveedor = :proveedor;
+
+	if IsNull(precio) then
+		//messagebox("¡¡ Calculo de coste !!","Materia prima "+mp+"~nsin precio")
+		correcto = false
+	end if	
+	
+	if isnull(densidad) or densidad = 0 then
+		densidad = 1
+	end if
+	
+	cambio_unidad = f_conversion_unidades ( unidad_origen, unidad_destino, cantidad, densidad)
+	
+	coste =  equivalencia_kg * precio * cantidad_destino
+
+//	choose case tipo_unidad
+//		case '0' // Unidades
+//				coste = cantidad  * equivalencia_kg * precio
+//		case '1' // Kilogramos
+//				coste = ( ( cantidad / 1000 ) * equivalencia_kg) * precio
+//		case '9' // Metros Cúbicos
+//				coste = (( cantidad / ( 1000000 * densidad ) ) * equivalencia_kg) * precio
+//		case '4' // Toneladas
+//				coste = ( ( cantidad / 1000000  ) * equivalencia_kg) * precio
+//				
+//	end choose
+else
+	coste = -1 // retorna -1 si hay algun error //
+end if
+return coste
+end function
+

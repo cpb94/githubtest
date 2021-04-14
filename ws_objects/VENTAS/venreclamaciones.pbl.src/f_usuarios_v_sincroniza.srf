@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_usuarios_v_sincroniza.srf
+global type f_usuarios_v_sincroniza from function_object
+end type
+
+forward prototypes
+global function string f_usuarios_v_sincroniza (string usuario)
+end prototypes
+
+global function string f_usuarios_v_sincroniza (string usuario);String variable
+
+  SELECT usuarios.v_sincroniza
+    INTO :variable  
+    FROM usuarios  
+   WHERE usuarios.v_usuario = :usuario   ;
+	
+	if isnull(variable) then variable = ""
+
+	Return variable
+
+end function
+

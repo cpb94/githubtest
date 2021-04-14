@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_vencondimporte.srf
+global type f_nombre_vencondimporte from function_object
+end type
+
+forward prototypes
+global function string f_nombre_vencondimporte (string cod_empresa, string codigo)
+end prototypes
+
+global function string f_nombre_vencondimporte (string cod_empresa, string codigo);String ls_nombre 
+
+ SELECT    vencondimporte.descripcion
+    INTO   :ls_nombre  
+    FROM vencondimporte 
+   WHERE ( vencondimporte.empresa= :cod_empresa ) AND  
+         ( vencondimporte.codigo  = :codigo   )   ;
+
+RETURN ls_nombre
+//
+
+end function
+

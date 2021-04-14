@@ -1,0 +1,971 @@
+﻿$PBExportHeader$wi_mant_paises.srw
+forward
+global type wi_mant_paises from wc_mantenimientos_tab
+end type
+type gb_1 from groupbox within wi_mant_paises
+end type
+type st_2 from statictext within wi_mant_paises
+end type
+type pb_calculadora from u_calculadora within wi_mant_paises
+end type
+end forward
+
+global type wi_mant_paises from wc_mantenimientos_tab
+integer width = 2898
+integer height = 1796
+gb_1 gb_1
+st_2 st_2
+pb_calculadora pb_calculadora
+end type
+global wi_mant_paises wi_mant_paises
+
+type variables
+String var_domi,var_envio,var_correspondencia
+end variables
+
+event ue_valores;call super::ue_valores;pag1 = TRUE	
+pag2 = TRUE
+pag3 = TRUE
+pag4 = TRUE
+
+
+prin_pag1 = TRUE
+prin_pag2 = TRUE
+prin_pag3 = FALSE
+prin_pag4 = FALSE
+prin_pag5 = FALSE
+end event
+
+on wi_mant_paises.create
+int iCurrent
+call super::create
+this.gb_1=create gb_1
+this.st_2=create st_2
+this.pb_calculadora=create pb_calculadora
+iCurrent=UpperBound(this.Control)
+this.Control[iCurrent+1]=this.gb_1
+this.Control[iCurrent+2]=this.st_2
+this.Control[iCurrent+3]=this.pb_calculadora
+end on
+
+on wi_mant_paises.destroy
+call super::destroy
+if IsValid(MenuID) then destroy(MenuID)
+destroy(this.gb_1)
+destroy(this.st_2)
+destroy(this.pb_calculadora)
+end on
+
+event ue_recuperar;// Valores Para Funcion de bloqueo
+titulo        =  This.title
+longitud      =  len(trim(codigo_empresa))
+criterio[1]   =  trim(sle_valor.text)+space(20-longitud)
+seleccion[1]     =  criterio[1]
+tabla[1]         = "paises"
+dw_pag1.Retrieve(sle_valor.text)
+dw_pag2.Retrieve(codigo_empresa,sle_valor.text)
+dw_pag3.Retrieve(codigo_empresa,sle_valor.text)
+dw_pag4.Retrieve(codigo_empresa,sle_valor.text)
+CALL Super::ue_recuperar
+
+end event
+
+event ue_inserta_fila;call super::ue_inserta_fila;dw_pag1.SetItem(1,"pais",sle_valor.text)
+dw_pag2.SetItem(1,"pais",sle_valor.text)
+dw_pag2.SetItem(1,"empresa",codigo_empresa)
+IF insercion = "S"  Then
+	apartados.pagina_1.dw_pagina1.SetItem(1,"tipopais","C")
+END IF
+
+end event
+
+event open;call super::open;titulo= " Mantenimiento de Paises "
+This.title = titulo
+istr_parametros.s_listado = "report_paises"
+// Si recibo el codigo lo visualizo
+IF istr_parametros.i_nargumentos>1 THEN
+     sle_valor.text=istr_parametros.s_argumentos[2]
+     istr_parametros.i_nargumentos=0
+	  IF TRIM(sle_valor.text)<>"" AND Not IsNull(sle_valor.text) THEN
+        	This.TriggerEvent("ue_recuperar")
+			return   
+     END IF
+END IF
+end event
+
+event ue_pase_valores;call super::ue_pase_valores;dw_pag2.SetItem(1,"cab2",dw_pag3.GetItemString(1,"cab2"))
+dw_pag2.SetItem(1,"destino2",dw_pag3.GetItemString(1,"destino2"))
+dw_pag2.SetItem(1,"pie2",dw_pag3.GetItemString(1,"pie2"))
+
+dw_pag2.SetItem(1,"cab3",dw_pag4.GetItemString(1,"cab3"))
+dw_pag2.SetItem(1,"destino3",dw_pag4.GetItemString(1,"destino3"))
+dw_pag2.SetItem(1,"pie3",dw_pag4.GetItemString(1,"pie3"))
+end event
+
+type cb_salir from wc_mantenimientos_tab`cb_salir within wi_mant_paises
+integer x = 2318
+integer y = 188
+integer width = 265
+integer height = 76
+integer taborder = 0
+string text = "&Salir"
+end type
+
+type cb_borrar from wc_mantenimientos_tab`cb_borrar within wi_mant_paises
+integer x = 2048
+integer y = 188
+integer width = 265
+integer height = 76
+integer taborder = 0
+string text = "&Borrar"
+end type
+
+type cb_insertar from wc_mantenimientos_tab`cb_insertar within wi_mant_paises
+integer x = 1778
+integer y = 188
+integer width = 265
+integer height = 76
+integer taborder = 0
+end type
+
+type wc_control_tabulador from wc_mantenimientos_tab`wc_control_tabulador within wi_mant_paises
+integer taborder = 30
+end type
+
+type st_empresa from wc_mantenimientos_tab`st_empresa within wi_mant_paises
+integer height = 96
+end type
+
+type sle_valor from wc_mantenimientos_tab`sle_valor within wi_mant_paises
+integer x = 306
+integer y = 184
+integer width = 233
+end type
+
+event sle_valor::getfocus;call super::getfocus;ue_titulo     = "AYUDA SELECCION PAISES"
+ue_datawindow = "dw_ayuda_paises"
+ue_filtro     = "" 	
+valor_empresa = FALSE
+
+
+
+
+end event
+
+event sle_valor::modificado;call super::modificado;st_2.text = f_nombre_pais(sle_valor.text)
+end event
+
+type st_1 from wc_mantenimientos_tab`st_1 within wi_mant_paises
+integer width = 274
+string text = "Código:"
+end type
+
+type apartados from wc_mantenimientos_tab`apartados within wi_mant_paises
+integer x = 0
+integer y = 304
+integer width = 2757
+integer height = 1240
+boolean multiline = true
+end type
+
+type pagina_1 from wc_mantenimientos_tab`pagina_1 within apartados
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = "Datos Pais"
+end type
+
+type dw_pagina1 from wc_mantenimientos_tab`dw_pagina1 within pagina_1
+integer width = 2679
+integer height = 1080
+string dataobject = "dw_paises"
+end type
+
+event dw_pagina1::clicked;call super::clicked;str_parametros lstr_param
+
+lstr_param.i_nargumentos    = 2
+lstr_param.s_argumentos[1]  = "wi_mant_paises"
+
+CHOOSE CASE f_objeto_datawindow(This)
+
+CASE 'pb_moneda'
+   lstr_param.s_argumentos[2]=GetItemString(This.GetRow(),"moneda")
+   OpenWithParm(wi_mant_divisas,lstr_param)  
+
+CASE 'pb_idioma'
+   lstr_param.s_argumentos[2]=GetItemString(This.GetRow(),"idioma")
+   OpenWithParm(wi_mant_idiomas,lstr_param)  
+
+END CHOOSE
+
+
+end event
+
+event dw_pagina1::itemfocuschanged;call super::itemfocuschanged;String li_codprov
+String li_codpais
+
+CHOOSE CASE This.GetColumnName()
+CASE "localidad"
+  String var_provincia,var_pais
+  String     var_postal,var_localidad
+  var_pais      = This.GetItemString(This.GetRow(),'pais')
+  var_provincia = This.GetItemString(This.GetRow(),'provincia')	
+  var_postal    = This.GetItemString(This.GetRow(),'codpostal')	
+  var_localidad = This.GetItemString(This.GetRow(),'localidad')
+ IF IsNull(var_localidad) Or Trim(var_localidad)="" THEN
+  SELECT  codpostales.provincia,codpostales.ciudad  
+    INTO  :var_provincia,:var_localidad  
+    FROM  codpostales  
+   WHERE (codpostales.pais      = :var_pais ) AND  
+         (codpostales.codpostal = :var_postal);
+   This.SetItem(This.getrow(),"provincia",var_provincia)
+   This.SetItem(This.getrow(),"ciudad",var_localidad)   
+END IF
+END CHOOSE
+
+
+end event
+
+event dw_pagina1::key;valor_empresa = TRUE	
+ bus_filtro=""
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+ CHOOSE CASE bus_campo
+	CASE "moneda"
+ 		bus_datawindow = "dw_ayuda_divisas"
+		valor_empresa  = FALSE
+		bus_titulo     = "AYUDA SELECCION DE MONEDAS"
+   CASE "idioma"
+      bus_datawindow = "dw_ayuda_idiomas"
+		bus_titulo="AYUDA SELECCION DE IDIOMAS"
+		valor_empresa = FALSE
+	CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::Key
+
+end event
+
+event dw_pagina1::rbuttondown;valor_empresa = TRUE	
+ bus_filtro=""
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+ CHOOSE CASE bus_campo
+	CASE "moneda"
+ 		bus_datawindow = "dw_ayuda_divisas"
+		 valor_empresa = FALSE
+		bus_titulo="AYUDA SELECCION DE MONEDAS"
+   CASE "idioma"
+      bus_datawindow = "dw_ayuda_idiomas"
+		bus_titulo="AYUDA SELECCION DE IDIOMAS"
+		valor_empresa = FALSE
+	CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::rbuttondown
+
+end event
+
+event dw_pagina1::valores_numericos;call super::valores_numericos;//---------------------------------------------//
+// Controla que solo permina valores numericos //
+//---------------------------------------------//
+       f_valores_numericos(This,"idioma")
+       f_valores_numericos(This,"moneda")
+       f_valores_numericos(This,"tarifa")
+//---------------------------------------------//
+//---------------------------------------------//
+end event
+
+event dw_pagina1::itemchanged;call super::itemchanged;
+if dwo.name = 'codigo_iso' then
+	this.object.codigo_pais_nif[row] = data
+	this.object.clave[row] = data
+end if
+end event
+
+type pagina_2 from wc_mantenimientos_tab`pagina_2 within apartados
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = "Textos Comercial."
+end type
+
+type dw_pagina2 from wc_mantenimientos_tab`dw_pagina2 within pagina_2
+integer x = 0
+integer y = 20
+integer width = 2830
+integer height = 1060
+string dataobject = "dw_paises2"
+end type
+
+type pagina_3 from wc_mantenimientos_tab`pagina_3 within apartados
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = "Textos Aduana Nacional."
+end type
+
+type dw_pagina3 from wc_mantenimientos_tab`dw_pagina3 within pagina_3
+integer x = 0
+integer y = 20
+integer width = 2697
+integer height = 1052
+string dataobject = "dw_paises3"
+end type
+
+type pagina_4 from wc_mantenimientos_tab`pagina_4 within apartados
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = "Textos Aduana Exportación."
+end type
+
+type dw_pagina4 from wc_mantenimientos_tab`dw_pagina4 within pagina_4
+integer x = 0
+integer y = 20
+integer width = 2693
+integer height = 1072
+string dataobject = "dw_paises4"
+end type
+
+type pagina_5 from wc_mantenimientos_tab`pagina_5 within apartados
+boolean visible = false
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = ""
+end type
+
+type dw_pagina5 from wc_mantenimientos_tab`dw_pagina5 within pagina_5
+integer x = 23
+integer y = 4
+integer width = 2674
+integer height = 1168
+end type
+
+event dw_pagina5::rbuttondown;bus_filtro=""
+ valor_empresa = TRUE	
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+ CHOOSE CASE bus_campo
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+	CASE "tipo_pallet"
+ 		bus_datawindow = "dw_ayuda_almclasepallet"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PALLET"
+ 	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+ 	CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+     bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+ 	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::rbuttondown
+end event
+
+event dw_pagina5::clicked;call super::clicked;str_parametros lstr_param
+lstr_param.i_nargumentos    = 2
+
+CHOOSE CASE f_objeto_datawindow(This)
+
+CASE "pb_agente1"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"agente1")
+   OpenWithParm(wi_mant_venagentes,lstr_param)
+CASE "pb_agente2"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"agente2")
+   OpenWithParm(wi_mant_venagentes,lstr_param)
+CASE "pb_agente3"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"agente2")
+   OpenWithParm(wi_mant_venagentes,lstr_param)
+CASE "pb_cod_pago"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"cod_pago")
+   OpenWithParm(wi_mant_carforpag,lstr_param)
+CASE "pb_cod_entrega"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"cod_entrega")
+   OpenWithParm(wi_mant_vencondentrega,lstr_param)
+END CHOOSE
+
+
+
+
+
+end event
+
+event dw_pagina5::key; bus_filtro=""
+ bus_titulo=""
+ valor_empresa = TRUE	
+ bus_campo = This.GetColumnName()
+
+ CHOOSE CASE bus_campo
+	CASE "tipo_pallet"
+ 		bus_datawindow = "dw_ayuda_almclasepallet"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PALLET"
+  	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+   CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+   CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+  	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "pb_banco_cobro"
+  		bus_datawindow = "dw_ayuda_carbancos"
+ 		bus_titulo = "VENTANA SELECCION BANCOS EMPRESA"
+	CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::Key
+
+
+end event
+
+event dw_pagina5::valores_numericos;call super::valores_numericos;f_valores_numericos(This,"cod_pago")
+f_valores_numericos(This,"agente1")
+f_valores_numericos(This,"agente2")
+f_valores_numericos(This,"agente3")
+end event
+
+event dw_pagina5::itemfocuschanged;call super::itemfocuschanged;string control_banco, var_codpago
+var_codpago   = f_valor_columna(This,This.GetRow(),'cod_pago')
+control_banco = f_cartipodoc_controlbanco(codigo_empresa,f_tipodoc_carforpag(codigo_empresa,var_codpago))
+This.SetTabOrder("banco_de_cobro",280)
+if control_banco = "N" then
+	This.SetTabOrder("banco_de_cobro",0)
+END IF
+
+end event
+
+type pagina_6 from wc_mantenimientos_tab`pagina_6 within apartados
+boolean visible = false
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = ""
+end type
+
+type dw_pagina6 from wc_mantenimientos_tab`dw_pagina6 within pagina_6
+integer y = 12
+integer width = 2318
+end type
+
+event dw_pagina6::rbuttondown;bus_filtro=""
+ valor_empresa = TRUE	
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+ CHOOSE CASE bus_campo
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+ 	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+ 	CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+     bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+ 	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::rbuttondown
+end event
+
+event dw_pagina6::clicked;call super::clicked;str_parametros lstr_param
+
+lstr_param.i_nargumentos    = 2
+
+CHOOSE CASE f_objeto_datawindow(This)
+
+CASE "pb_zona"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"zona")
+   OpenWithParm(wi_mant_venzonas,lstr_param)  
+CASE "pb_grupo"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"grupo")
+   OpenWithParm(wi_mant_vengrupos,lstr_param)  
+CASE "pb_serie"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"serie")
+   OpenWithParm(wi_mant_venseries,lstr_param)  
+END CHOOSE
+
+
+
+
+
+end event
+
+event dw_pagina6::key;IF KeyDown(KeyEnter!) OR KeyDown(KeyTab!) THEN
+	 valor_empresa = TRUE	
+ bus_filtro=""
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+
+ CHOOSE CASE bus_campo
+
+  	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+   CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+   CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+  	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::Key
+END IF
+
+end event
+
+type pagina_7 from wc_mantenimientos_tab`pagina_7 within apartados
+boolean visible = false
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = ""
+end type
+
+type dw_pagina7 from wc_mantenimientos_tab`dw_pagina7 within pagina_7
+integer x = 0
+integer y = 36
+integer width = 2683
+integer height = 884
+end type
+
+event dw_pagina7::key; valor_empresa = TRUE	
+ bus_filtro=""
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+
+ CHOOSE CASE bus_campo
+
+  	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+   CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+		bus_filtro = "ejercicio =" + String(f_ejercicio_activo(codigo_empresa) ,"#####")
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+   CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+  	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::Key
+
+
+end event
+
+event dw_pagina7::clicked;call super::clicked;str_parametros lstr_param
+lstr_param.i_nargumentos    = 2
+
+CHOOSE CASE f_objeto_datawindow(This)
+
+CASE "pb_transportista"
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"transportista")
+   OpenWithParm(wi_mant_ventransportistas,lstr_param)
+CASE "pb_tarifa"
+   lstr_param.s_argumentos[2]=f_valor_columna(this,This.GetRow(),"tarifa")
+   OpenWithParm(wi_mant_ventarifas,lstr_param)
+CASE "pb_tipoiva"
+   lstr_param.i_nargumentos    = 2
+   lstr_param.s_argumentos[2]=String(f_ejercicio_activo(codigo_empresa))
+   lstr_param.s_argumentos[2]=f_valor_columna(This,This.GetRow(),"tipoiva")
+	OpenWithParm(wi_mant_contaiva,lstr_param)  
+END CHOOSE
+
+
+
+
+
+end event
+
+event dw_pagina7::rbuttondown; valor_empresa = TRUE	
+bus_filtro=""
+ bus_titulo=""
+ bus_campo = This.GetColumnName()
+ CHOOSE CASE bus_campo
+  	CASE "banco_de_cobro"
+ 		bus_datawindow = "dw_ayuda_carbancos"
+		bus_titulo = "VENTANA SELECCION DE BANCOS"
+ 	CASE "zona"
+ 		bus_datawindow = "dw_ayuda_venzonas"
+		bus_titulo = "VENTANA SELECCION DE ZONAS"
+ 	CASE "tipo_cliente"
+ 		bus_datawindow = "dw_ayuda_ventipocli"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE CLIENTES"
+ 	CASE "grupo"
+ 		bus_datawindow = "dw_ayuda_vengrupos"
+		bus_titulo = "VENTANA SELECCION DE GRUPOS"
+ 	CASE "agente1"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "agente2"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+CASE "agente3"
+ 		bus_datawindow = "dw_ayuda_venagentes"
+		bus_titulo = "VENTANA SELECCION DE AGENTES"
+ 	CASE "cod_pago"
+ 		bus_datawindow = "dw_ayuda_carforpag"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE PAGO"
+ 	CASE "tipoiva"
+ 		bus_datawindow = "dw_ayuda_contaiva"
+ 		bus_filtro = "ejercicio =" + String(f_ejercicio_activo(codigo_empresa) ,"#####")
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE IVA"
+ 	CASE "transportista"
+ 		bus_datawindow = "dw_ayuda_ventransportistas"
+		bus_titulo = "VENTANA SELECCION DE TRANSPORTISTA"
+ 	CASE "cod_entrega"
+ 		bus_datawindow = "dw_ayuda_vencondentrega"
+		bus_titulo = "VENTANA SELECCION DE CONDICIONES DE ENTREGA"
+ 	CASE "tarifa"
+ 		bus_datawindow = "dw_ayuda_ventarifas"
+		bus_titulo = "VENTANA SELECCION DE TARIFAS"
+ 	CASE "domiciliacion"
+ 		bus_datawindow = "dw_ayuda_vendomiciliacion"
+		bus_titulo = "VENTANA SELECCION DE DOMICILIACIONES"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "envio"
+ 		bus_datawindow = "dw_ayuda_venenvio"
+		bus_titulo = "VENTANA SELECCION DE DIREECIONES DE ENVIO"
+     bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE "forma_envio"
+ 		bus_datawindow = "dw_ayuda_venformaenvio"
+		bus_titulo = "VENTANA SELECCION DE FORMAS DE ENVIO"
+   CASE "tipo_portes"
+ 		bus_datawindow = "dw_ayuda_ventipoportes"
+		bus_titulo = "VENTANA SELECCION DE TIPOS DE PORTES"
+ 	CASE "serie"
+ 		bus_datawindow = "dw_ayuda_venseries"
+		bus_titulo = "VENTANA SELECCION DE SERIES"
+   CASE "correspondencia"
+ 		bus_datawindow = "dw_ayuda_vencorrespondencia"
+		bus_titulo = "VENTANA SELECCION DIREECIONES CORRESPONDENCIA"
+      bus_filtro = " cliente = '" + isle_campo.text + "'"
+   CASE ELSE
+		SetNull(bus_campo)
+ END CHOOSE
+ CALL Super::rbuttondown
+end event
+
+event dw_pagina7::itemfocuschanged;call super::itemfocuschanged;IF dw_pag7.GetItemSTring(1,"deposito")= "S" Then
+	dw_pag7.SetItem(1,"pallets_enteros","S")
+ELSE
+	dw_pag7.SetItem(1,"pallets_enteros","")
+END IF
+end event
+
+type pagina_8 from wc_mantenimientos_tab`pagina_8 within apartados
+boolean visible = false
+integer y = 208
+integer width = 2720
+integer height = 1016
+string text = ""
+end type
+
+type dw_pagina8 from wc_mantenimientos_tab`dw_pagina8 within pagina_8
+integer x = 87
+integer width = 2473
+integer height = 1148
+end type
+
+type gb_1 from groupbox within wi_mant_paises
+integer x = 1760
+integer y = 152
+integer width = 837
+integer height = 124
+integer textsize = -8
+integer weight = 700
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "MS Sans Serif"
+long textcolor = 33554432
+long backcolor = 67108864
+end type
+
+type st_2 from statictext within wi_mant_paises
+integer x = 690
+integer y = 192
+integer width = 1033
+integer height = 72
+boolean bringtotop = true
+integer textsize = -8
+integer weight = 700
+fontpitch fontpitch = variable!
+fontfamily fontfamily = swiss!
+string facename = "Arial"
+long textcolor = 128
+long backcolor = 79741120
+boolean enabled = false
+boolean focusrectangle = false
+end type
+
+type pb_calculadora from u_calculadora within wi_mant_paises
+event clicked pbm_bnclicked
+integer x = 544
+integer y = 176
+integer width = 119
+integer height = 104
+integer taborder = 20
+string picturename = "c:\bmp\calcula.bmp"
+end type
+
+event clicked;call super::clicked;IF cb_insertar.enabled=TRUE THEN Return
+Integer registros
+Select count(*) Into :registros From paises;
+
+IF registros=0  Then
+   sle_valor.text="1"
+ ELSE
+   Select max(convert(int,paises.pais)+1) 
+   Into   :sle_valor.text
+   From   paises;
+END IF
+apartados.GetParent().TriggerEvent("ue_recuperar")
+end event
+

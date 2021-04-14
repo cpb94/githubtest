@@ -1,0 +1,92 @@
+﻿$PBExportHeader$f_insert_carpagos.srf
+global type f_insert_carpagos from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carpagos (str_carpagos car)
+end prototypes
+
+global function boolean f_insert_carpagos (str_carpagos car);dec    importe_calculado
+
+if isnull(car.cambio) then car.cambio = 0
+if car.cambio = 0 then
+	car.cambio = f_cambio_moneda(car.moneda)
+end if
+//SetNull(car.fpago)
+
+if isnull(car.agrupado) then car.agrupado = ""
+if trim(car.agrupado) = "" then car.agrupado = "N"
+
+importe_calculado = round(car.divisas / car.cambio,2)
+
+if car.importe <> importe_calculado then
+	messagebox("Atención Error en proceso","No coinciden los importes ~n Importe           :"+string(car.importe,"###,###,##0.00")+&
+					"~nImporte Calculado : "+string(importe_calculado,"###,###,##0.00")+"~n~nPor favor apunte el proceso que estaba realizando.")
+end if
+
+INSERT INTO carpagos  
+		( empresa,   
+		  anyo,   
+		  orden,   
+		  anyofra,   
+		  fra,   
+		  recibo,   
+		  ffra,   
+		  fvto,   
+		  fpago,   
+		  importe,   
+		  divisas,   
+		  moneda,   
+		  banco,   
+		  proveedor,   
+		  tipodoc,   
+		  codpago,   
+		  situacion,
+		  cuenta,
+		  asignar_banco,
+		  tipodoc_pago,
+		  cambio,
+		  punteado,
+		  concepto,
+		  femi,
+		  agrupado,
+		  num_talon,
+		  observaciones)  
+VALUES ( :car.empresa,   
+		  :car.anyo,   
+		  :car.orden,   
+		  :car.anyofra,   
+		  :car.fra,   
+		  :car.recibo,   
+		  :car.ffra,   
+		  :car.fvto,   
+		  :car.fpago,   
+		  :car.importe,   
+		  :car.divisas,   
+		  :car.moneda,   
+		  :car.banco,   
+		  :car.proveedor,   
+		  :car.tipodoc,   
+		  :car.codpago,   
+		  :car.situacion,
+		  :car.cuenta,
+		  :car.asignar_banco,
+		  :car.tipodoc_pago,
+		  :car.cambio,
+		  :car.punteado,
+		  :car.concepto,
+		  :car.femi,
+		  :car.agrupado,
+		  :car.num_talon,
+		  :car.observaciones)
+USING SQLCA ;
+			  
+IF SQLCA.SQLCODE <> 0 Then
+	f_mensaje("Error en f_insert_carpagos",SQLCA.SQLERRTEXT)
+	Return FALSE
+else
+	Return TRUE	
+END IF
+
+end function
+

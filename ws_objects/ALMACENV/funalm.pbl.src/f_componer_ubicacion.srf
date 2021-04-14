@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_componer_ubicacion.srf
+$PBExportComments$Rutina de composición de la ubicacion (almacen, zona, fila y altura).
+global type f_componer_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_componer_ubicacion (string ai_almacen, string ai_zona, decimal ai_fila, decimal ai_altura)
+end prototypes
+
+global function string f_componer_ubicacion (string ai_almacen, string ai_zona, decimal ai_fila, decimal ai_altura);string	ls_codubicacion
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+ 
+ in_programa="f_componer_ubicacion"
+
+ IF Trim(ai_almacen)="" THEN
+   in_incidencia= " Argumento codigo almacen Nulo "
+   f_grabar_incidencia(in_programa,in_incidencia)
+ END IF
+
+IF Trim(ai_zona)="" THEN
+   in_incidencia= " Argumento zona Nulo "
+   f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+IF Trim(String(ai_fila))="" THEN
+   in_incidencia= " Argumento fila Nulo "
+   f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+IF Trim(String(ai_altura))="" THEN
+   in_incidencia= " Argumento altura Nulo "
+   f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+
+ 
+ ls_codubicacion = String(Integer(ai_almacen),"00000")+ String(Trim(ai_zona)+ Space(5 - len(Trim(ai_zona)) ))+&
+                   String(ai_fila, "0000" ) + String(ai_altura,"00")
+
+ 
+RETURN ls_codubicacion
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_observaciones_version_articulo.srf
+global type f_observaciones_version_articulo from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_version_articulo (string empresa, string articulo, string ar_version)
+end prototypes
+
+global function string f_observaciones_version_articulo (string empresa, string articulo, string ar_version);string observaciones
+
+select observaciones 
+into   :observaciones
+from   prodobsversionart
+where  empresa  = :empresa
+and    articulo = :articulo
+and    version  = :ar_version;
+
+if isnull(observaciones) then observaciones = ""
+
+return observaciones
+
+end function
+

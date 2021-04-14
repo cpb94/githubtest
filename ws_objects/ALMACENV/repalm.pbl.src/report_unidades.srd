@@ -1,0 +1,21 @@
+﻿$PBExportHeader$report_unidades.srd
+$PBExportComments$Listado de unidades.
+release 5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=589 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="unidades.codigo" )
+ column=(type=char(15) update=yes updatewhereclause=yes name=descripcion dbname="unidades.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=abreviado dbname="unidades.abreviado" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"unidades~" ) COLUMN(NAME=~"unidades.codigo~") COLUMN(NAME=~"unidades.descripcion~") COLUMN(NAME=~"unidades.abreviado~")) ORDER(NAME=~"unidades.codigo~" ASC=yes ) " update="unidades" updatewhere=1 updatekeyinplace=no )
+text(band=header alignment="0" text="LISTADO TIPOS DE UNIDADES"border="0" color="128" x="910" y="372" height="73" width="1011"  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="23" y="12" height="313" width="3493" border="0"  height.autosize=yes criteria="" nest_arguments=(("f_codigo_empresa()")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="19" y="372" height="57" width="563" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="2" tabsequence=32766 border="0" color="0" x="746" y="4" height="65" width="188" format="[general]"  name=codigo  tag="Codigo de la unidad." edit.limit=3 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="1006" y="4" height="65" width="796" format="[general]"  name=descripcion edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="0" x="1834" y="4" height="65" width="334" format="[general]"  name=abreviado edit.limit=5 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripción"border="1" color="0" x="1006" y="516" height="65" width="796"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Abreviado"border="1" color="0" x="1834" y="516" height="65" width="334"  name=abreviado_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Código"border="1" color="0" x="718" y="516" height="65" width="247"  name=codigo_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

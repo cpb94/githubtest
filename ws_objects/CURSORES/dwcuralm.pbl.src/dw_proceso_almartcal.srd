@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_proceso_almartcal.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=1 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almartcal.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=articulo dbname="almartcal.articulo" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=calidad dbname="almartcal.calidad" )
+ column=(type=number update=yes updatewhereclause=yes name=precio dbname="almartcal.precio" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_alta dbname="almartcal.fecha_alta" )
+ column=(type=number update=yes updatewhereclause=yes name=stockmin dbname="almartcal.stockmin" )
+ column=(type=number update=yes updatewhereclause=yes name=stockmax dbname="almartcal.stockmax" )
+ column=(type=number update=yes updatewhereclause=yes name=puntopedido dbname="almartcal.puntopedido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almartcal~" ) COLUMN(NAME=~"almartcal.empresa~") COLUMN(NAME=~"almartcal.articulo~") COLUMN(NAME=~"almartcal.calidad~") COLUMN(NAME=~"almartcal.precio~") COLUMN(NAME=~"almartcal.fecha_alta~") COLUMN(NAME=~"almartcal.stockmin~") COLUMN(NAME=~"almartcal.stockmax~") COLUMN(NAME=~"almartcal.puntopedido~")WHERE(    EXP1 =~"almartcal.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almartcal.articulo~"   OP =~"=~"    EXP2 =~":articulo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"articulo~" TYPE = string) " update="almartcal" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("articulo", string)) )

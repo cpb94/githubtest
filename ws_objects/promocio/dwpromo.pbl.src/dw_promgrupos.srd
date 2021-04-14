@@ -1,0 +1,19 @@
+﻿$PBExportHeader$dw_promgrupos.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0)
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=297 color="536870912" )
+table(column=(type=char(5) key=yes update=yes name=empresa dbname="promgrupos.empresa"  )
+column=(type=char(5) key=yes update=yes name=codigo dbname="promgrupos.codigo"  )
+column=(type=char(40) update=yes name=descripcion dbname="promgrupos.descripcion"  )
+column=(type=char(10) update=yes name=resumido dbname="promgrupos.resumido"  )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"promgrupos~" ) COLUMN(NAME=~"promgrupos.empresa~") COLUMN(NAME=~"promgrupos.codigo~") COLUMN(NAME=~"promgrupos.descripcion~") COLUMN(NAME=~"promgrupos.resumido~")WHERE( EXP1 =~"promgrupos.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"promgrupos.codigo~" OP =~"=~" EXP2 =~":codigo~" ) ) ORDER(NAME=~"promgrupos.empresa~" ASC=yes ) ORDER(NAME=~"promgrupos.codigo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"codigo~" TYPE = string) "
+  update="promgrupos" updatewhere=0 updatekeyinplace=no
+  arguments=(("empresa", string), ("codigo", string))
+)
+text(name=descripcion_t band=detail font.charset="0" font.face="Arial" font.family="2" font.height="-10" font.pitch="2" font.weight="700" background.mode="1" background.color="536870912" color="0" alignment="1" border="0" x="37" y="64" height="65" width="357" text="Descripción:" )
+text(name=resumido_t band=detail font.charset="0" font.face="Arial" font.family="2" font.height="-10" font.pitch="2" font.weight="700" background.mode="1" background.color="536870912" color="0" alignment="1" border="0" x="37" y="192" height="65" width="357" text="Resumido:" )
+column(name=descripcion band=detail id=3 x="426" y="64" height="65" width="915" color="0" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.limit=30 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="Arial" font.family="2" font.height="-10" font.pitch="2" font.weight="400" tabsequence=10 )
+column(name=resumido band=detail id=4 x="426" y="192" height="65" width="238" color="0" border="5" alignment="0" format="[general]" edit.focusrectangle=no edit.autohscroll=yes edit.autoselect=yes edit.autovscroll=no edit.codetable=no edit.displayonly=no edit.hscrollbar=no edit.limit=10 edit.password=no edit.vscrollbar=no edit.validatecode=no edit.nilisnull=no edit.required=no criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="Arial" font.family="2" font.height="-10" font.pitch="2" font.weight="400" tabsequence=20 )

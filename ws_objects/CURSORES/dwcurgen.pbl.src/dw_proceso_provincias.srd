@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_proceso_provincias.srd
+$PBExportComments$Cursor almacenes selecciona todos los  almacenes de una empresa.
+release 4;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=53 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=5 color="536870912" )
+table(column=(type=char(5) update=yes key=yes name=pais dbname="provincias.pais" )
+ column=(type=char(5) update=yes key=yes name=provincia dbname="provincias.provincia" )
+ column=(type=char(30) update=yes name=nombre dbname="provincias.nombre" )
+ column=(type=char(10) update=yes name=abreviado dbname="provincias.abreviado" )
+ column=(type=char(4) update=yes name=prefijo dbname="provincias.prefijo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"provincias~" ) COLUMN(NAME=~"provincias.pais~") COLUMN(NAME=~"provincias.provincia~") COLUMN(NAME=~"provincias.nombre~") COLUMN(NAME=~"provincias.abreviado~") COLUMN(NAME=~"provincias.prefijo~")WHERE( EXP1 =~"provincias.pais~" OP =~"=~" EXP2 =~":pais~" ) ) ORDER(NAME=~"provincias.pais~" ASC=yes ) ORDER(NAME=~"provincias.nombre~" ASC=yes ) ARG(NAME = ~"pais~" TYPE = string) " update="provincias" updatewhere=1 updatekeyinplace=no arguments=(("pais", string)) )
+text(band=header alignment="0" text="CURSOR PROVINCIAS"border="0" color="0" x="1" y="0" height="57" width="517"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

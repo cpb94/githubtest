@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_controlar_niveles_anteriores_analitica.srf
+$PBExportComments$Devuelve el nivel de la cuenta superior de analitica
+global type f_controlar_niveles_anteriores_analitica from function_object
+end type
+
+forward prototypes
+global function boolean f_controlar_niveles_anteriores_analitica (string empresa, decimal ejercicio, string cuenta)
+end prototypes
+
+global function boolean f_controlar_niveles_anteriores_analitica (string empresa, decimal ejercicio, string cuenta);boolean bien
+Integer v_nivel,v_nivel_ant,longitud_nivel_ant,longitud_cta
+Integer var_digitos1,var_digitos2,numero
+String  cuenta_nivel_ant
+
+var_digitos1 = 3
+var_digitos2 = 6
+
+bien            =  TRUE
+
+//cuenta = f_controlar_numero_digitos_analitica(cuenta)
+//IF cuenta = "" THEN
+//	MessageBox("Digitos de la cuenta","Numero de digitos erroneo")
+//	RETURN FALSE
+//END IF
+
+v_nivel     =  f_controlar_digitos_analitica(cuenta)
+If v_nivel  = 0 Then  Return  FALSE
+If v_nivel  = 1 Then  Return  TRUE
+v_nivel_ant = v_nivel - 1
+
+
+CHOOSE CASE v_nivel_ant
+	CASE 1
+	     longitud_nivel_ant = var_digitos1
+	CASE 2
+	     longitud_nivel_ant = var_digitos2
+   CASE ELSE
+        Return FALSE
+END CHOOSE
+
+ cuenta_nivel_ant = Mid(cuenta,1,longitud_nivel_ant)
+ numero=0
+ Select count(*)  Into :numero  From costesplan
+ Where  costesplan.ejercicio = :ejercicio
+ And    costesplan.empresa   = :empresa
+ And    costesplan.coste     = :cuenta_nivel_ant;
+ IF IsNull(numero) Then numero =0
+ If numero =0 Then   Return FALSE
+ Return  TRUE
+ 
+ 
+
+
+
+
+
+
+
+end function
+

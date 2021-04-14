@@ -1,0 +1,15 @@
+﻿$PBExportHeader$report_con_dto_cliente6.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=65 color="536870912"  height.autosize=yes)
+table(column=(type=char(20) updatewhereclause=yes name=articulo dbname="vendtoartcli.articulo" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="vendtoartcli.calidad" )
+ column=(type=decimal(4) updatewhereclause=yes name=pallets dbname="vendtoartcli.pallets" )
+ column=(type=decimal(4) updatewhereclause=yes name=dto dbname="vendtoartcli.dto" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"vendtoartcli~" ) COLUMN(NAME=~"vendtoartcli.articulo~") COLUMN(NAME=~"vendtoartcli.calidad~") COLUMN(NAME=~"vendtoartcli.pallets~") COLUMN(NAME=~"vendtoartcli.dto~")WHERE(    EXP1 =~"vendtoartcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtoartcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtoartcli.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtoartcli.formato~"   OP =~"=~"    EXP2 =~":formato~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"vendtoartcli.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"formato~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " arguments=(("empresa", string),("cliente", string),("familia", string),("formato", string),("calidad", string)) )
+compute(band=detail alignment="0" expression=" f_nombre_articulo(empresa,articulo) "border="0" color="0" x="1" y="4" height="61" width="663" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="1" tabsequence=32766 border="0" color="0" x="796" y="4" height="57" width="170" format="[general]"  name=dto editmask.mask="###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="682" y="4" height="57" width="97" format="[general]"  name=pallets editmask.mask="###,##0" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

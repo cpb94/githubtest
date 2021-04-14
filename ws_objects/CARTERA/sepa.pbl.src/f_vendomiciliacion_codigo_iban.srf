@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_vendomiciliacion_codigo_iban.srf
+global type f_vendomiciliacion_codigo_iban from function_object
+
+end type
+
+forward prototypes
+global function string f_vendomiciliacion_codigo_iban (string arg_empresa, string arg_cliente, string arg_codigo)
+end prototypes
+
+global function string f_vendomiciliacion_codigo_iban (string arg_empresa, string arg_cliente, string arg_codigo);String ls_codigo_iban
+
+SELECT isnull(vendomiciliacion.codigo_iban,'')
+INTO   :ls_codigo_iban
+FROM   vendomiciliacion  
+WHERE  vendomiciliacion.empresa = :arg_empresa 
+AND    vendomiciliacion.cliente = :arg_cliente 
+AND    vendomiciliacion.codigo  = :arg_codigo;
+	
+Return ls_codigo_iban
+
+
+
+end function
+

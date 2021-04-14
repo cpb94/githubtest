@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_familia_relacionada_aplicacion.srf
+global type f_familia_relacionada_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_familia_relacionada_aplicacion (string empresa, string aplicacion)
+end prototypes
+
+global function string f_familia_relacionada_aplicacion (string empresa, string aplicacion);string familia_relacionada
+
+select familia_relacionada
+into   :familia_relacionada
+from   prodaplicaciones
+where  empresa = :empresa
+and    codigo =:aplicacion;
+
+if isnull(familia_relacionada) then familia_relacionada = ""
+
+return familia_relacionada
+end function
+

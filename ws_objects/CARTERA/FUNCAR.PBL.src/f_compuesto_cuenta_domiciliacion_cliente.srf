@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_compuesto_cuenta_domiciliacion_cliente.srf
+global type f_compuesto_cuenta_domiciliacion_cliente from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_cuenta_domiciliacion_cliente (string cod_empresa, string cod_cliente, string cod_domiciliacion)
+end prototypes
+
+global function string f_compuesto_cuenta_domiciliacion_cliente (string cod_empresa, string cod_cliente, string cod_domiciliacion);String ls_compuesto,oficina,entidad,control,cuenta
+
+SELECT   vendomiciliacion.entidad,
+		 	vendomiciliacion.oficina,
+		 	vendomiciliacion.control,
+		 	vendomiciliacion.cuenta
+INTO     :entidad,
+		 	:oficina,
+			:control,
+			:cuenta
+ FROM    vendomiciliacion 
+WHERE   ( vendomiciliacion.empresa  = :cod_empresa ) AND  
+		  ( vendomiciliacion.cliente  = :cod_cliente ) AND
+		  ( vendomiciliacion.codigo   = :cod_domiciliacion );
+			
+ if IsNull(entidad) then entidad = ""
+ if IsNull(oficina) then oficina = ""
+ if IsNull(control) then control = ""
+ if IsNull(cuenta)  then cuenta  = "" 
+
+ ls_compuesto = Trim(entidad)+" /" +Trim(oficina)+" / "+trim(control)+" / "+trim(cuenta)
+
+RETURN ls_compuesto
+
+//
+
+end function
+

@@ -1,0 +1,251 @@
+﻿$PBExportHeader$dw_con_pedidos_pendientes_de_fabricar.srd
+release 12.5;
+datawindow(units=0 timer_interval=0 color=16777215 brushmode=0 transparency=0 gradient.angle=0 gradient.color=8421504 gradient.focus=0 gradient.repetition.count=0 gradient.repetition.length=100 gradient.repetition.mode=0 gradient.scale=100 gradient.spread=100 gradient.transparency=0 picture.blur=0 picture.clip.bottom=0 picture.clip.left=0 picture.clip.right=0 picture.clip.top=0 picture.mode=0 picture.scale.x=100 picture.scale.y=100 picture.transparency=0 processing=0 HTMLDW=no print.printername="" print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.canusedefaultprinter=yes print.prompt=no print.buttons=no print.preview.buttons=no print.cliptext=no print.overrideprintjob=no print.collate=yes print.background=no print.preview.background=no print.preview.outline=yes hidegrayline=no showbackcoloronxp=no picture.file="" pointer="\bmp\MANO.CUR" )
+header(height=408 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+summary(height=0 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+footer(height=140 color="536870912" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+detail(height=88 color="553648127" transparency="0" gradient.color="8421504" gradient.transparency="0" gradient.angle="0" brushmode="0" gradient.repetition.mode="0" gradient.repetition.count="0" gradient.repetition.length="100" gradient.focus="0" gradient.scale="100" gradient.spread="100" )
+table(column=(type=char(20) updatewhereclause=yes name=venliped_articulo dbname="venliped.articulo" )
+ column=(type=char(140) updatewhereclause=yes name=articulos_descripcion dbname="articulos.descripcion" )
+ column=(type=char(20) updatewhereclause=yes name=formatos_abreviado dbname="formatos.abreviado" )
+ column=(type=char(15) updatewhereclause=yes name=genter_codigo dbname="genter_codigo" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter_razon" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=cantidad dbname="cantidad" )
+ column=(type=char(5) updatewhereclause=yes name=unidades_abreviado dbname="unidades.abreviado" )
+ column=(type=decimal(17) updatewhereclause=yes identity=yes name=cantidad_pzs dbname="cantidad_pzs" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=importe dbname="importe" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=stock dbname="stock" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=precio dbname="precio" )
+ column=(type=decimal(6) updatewhereclause=yes identity=yes name=diferencia dbname="DIFERENCIA" )
+ retrieve="SELECT v.articulo
+		, articulos.descripcion
+		, formatos.abreviado
+		, ISNULL(genter.codigo, 0) genter_codigo
+		, ISNULL (genter.razon, 'MARCAS') genter_razon
+		, sum (v.cantidad) cantidad
+		, unidades.abreviado
+		, sum (	CASE v.tipo_unidad 				
+					WHEN '1' 
+					THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+			 		END  ) cantidad_pzs
+		, (sum ( 	CASE v.tipo_unidad 
+					WHEN '1' 
+					THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+				 	END  ) 
+				- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+							FROM almacenmovimientos 
+							WHERE almacenmovimientos.articulo = v.articulo
+							AND almacenmovimientos.empresa = v.empresa
+							AND almacenmovimientos.calidad = v.calidad
+							AND almacenmovimientos.caja = v.caja
+							AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) )
+				* ( SELECT TOP 1 ( 	CASE v.tipo_unidad
+											WHEN '1' 
+											THEN ( (ventarifas_precios.precio * almartcajas.metroscaja) / almartcajas.piezascaja   )  
+											ELSE ventarifas_precios.precio 
+											END )
+											FROM ventarifas_precios 
+											WHERE ventarifas_precios.empresa = v.empresa
+											AND ventarifas_precios.articulos_codigo = v.articulo 
+											AND ventarifas_precios.ventarifas_codigo <> '5'
+											ORDER BY ventarifas_precios.precio ASC) AS importe  
+		,	ISNULL((	SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+						FROM almacenmovimientos 
+						WHERE almacenmovimientos.articulo = v.articulo
+						AND almacenmovimientos.empresa = v.empresa
+						AND almacenmovimientos.calidad = v.calidad
+						AND almacenmovimientos.caja = v.caja
+						AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) AS stock
+		,	ISNULL((SELECT TOP 1 ventarifas_precios.precio 
+						FROM ventarifas_precios 
+						WHERE ventarifas_precios.empresa = v.empresa
+						AND ventarifas_precios.articulos_codigo = v.articulo 
+						AND ventarifas_precios.ventarifas_codigo <> '5'
+						ORDER BY ventarifas_precios.precio ASC), 0) AS precio
+		,	sum (	CASE v.tipo_unidad 
+					WHEN '1' THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+					END  ) 
+				- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+							FROM almacenmovimientos 
+							WHERE almacenmovimientos.articulo = v.articulo
+							AND almacenmovimientos.empresa = v.empresa
+							AND almacenmovimientos.calidad = v.calidad
+							AND almacenmovimientos.caja = v.caja
+							AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) AS DIFERENCIA			  			
+
+FROM venliped v
+INNER JOIN venped ON v.empresa = venped.empresa AND v.anyo = venped.anyo AND v.pedido = venped.pedido
+INNER JOIN articulos ON v.articulo = articulos.codigo AND v.empresa = articulos.empresa
+LEFT OUTER JOIN unidades ON v.tipo_unidad = unidades.codigo
+INNER JOIN almartcajas ON v.empresa = almartcajas.empresa AND v.articulo = almartcajas.articulo AND v.caja = almartcajas.caja
+LEFT OUTER JOIN formatos ON articulos.empresa = formatos.empresa AND articulos.formato = formatos.codigo
+LEFT OUTER JOIN genter ON articulos.empresa = genter.empresa AND articulos.cliente = genter.codigo 
+
+WHERE articulos.promocion <> 'S'
+AND venped.es_proforma <> 'S'
+AND (genter.tipoter = 'C' OR genter.tipoter is null)
+AND v.empresa = :empresa
+AND ( v.cliente like :cliente )
+AND articulos.familia like :familia
+GROUP BY v.empresa
+			, v.articulo
+			, articulos.descripcion
+			, formatos.abreviado
+			, genter.codigo
+			, genter.razon
+			, unidades.abreviado
+			, v.calidad
+			, v.caja
+			, v.tipo_pallet
+			, v.tipo_unidad
+			, almartcajas.piezascaja
+			, almartcajas.metroscaja
+HAVING	sum ( CASE v.tipo_unidad 
+					WHEN '0' THEN v.cantidad 
+					WHEN '1' THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE 0  
+					END  ) 
+			- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+						FROM almacenmovimientos 
+						WHERE almacenmovimientos.articulo = v.articulo
+						AND almacenmovimientos.empresa = v.empresa
+						AND almacenmovimientos.calidad = v.calidad
+						AND almacenmovimientos.caja = v.caja
+						AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) > 0 
+ORDER BY genter_razon ASC , importe DESC
+
+/*
+SELECT v.articulo
+		, articulos.descripcion
+		, formatos.abreviado
+		, ISNULL(genter.codigo, 0) genter_codigo
+		, ISNULL (genter.razon, 'MARCAS') genter_razon
+		, sum (v.cantidad) cantidad
+		, unidades.abreviado
+		, sum (	CASE v.tipo_unidad 				
+					WHEN '1' 
+					THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+			 		END  ) cantidad_pzs
+		, (sum ( 	CASE v.tipo_unidad 
+					WHEN '1' 
+					THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+				 	END  ) 
+				- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+							FROM almacenmovimientos 
+							WHERE almacenmovimientos.articulo = v.articulo
+							AND almacenmovimientos.empresa = v.empresa
+							AND almacenmovimientos.calidad = v.calidad
+							AND almacenmovimientos.caja = v.caja
+							AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) )
+				* ( SELECT TOP 1 ( 	CASE v.tipo_unidad
+											WHEN '1' THEN ( (ventarifas_precios.precio * almartcajas.metroscaja) / almartcajas.piezascaja   )  
+											ELSE ventarifas_precios.precio 
+											END )
+											FROM ventarifas_precios 
+											WHERE ventarifas_precios.empresa = v.empresa
+											AND ventarifas_precios.articulos_codigo = v.articulo 
+											AND ventarifas_precios.ventarifas_codigo <> '5'
+											ORDER BY ventarifas_precios.precio ASC) AS importe  
+		,	ISNULL((	SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+						FROM almacenmovimientos 
+						WHERE almacenmovimientos.articulo = v.articulo
+						AND almacenmovimientos.empresa = v.empresa
+						AND almacenmovimientos.calidad = v.calidad
+						AND almacenmovimientos.caja = v.caja
+						AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) AS stock
+		,	ISNULL((SELECT TOP 1 ventarifas_precios.precio 
+						FROM ventarifas_precios 
+						WHERE ventarifas_precios.empresa = v.empresa
+						AND ventarifas_precios.articulos_codigo = v.articulo 
+						AND ventarifas_precios.ventarifas_codigo <> '5'
+						ORDER BY ventarifas_precios.precio ASC), 0) AS precio
+		,	sum (	CASE v.tipo_unidad 
+					WHEN '1' THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE v.cantidad   
+					END  ) 
+				- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+							FROM almacenmovimientos 
+							WHERE almacenmovimientos.articulo = v.articulo
+							AND almacenmovimientos.empresa = v.empresa
+							AND almacenmovimientos.calidad = v.calidad
+							AND almacenmovimientos.caja = v.caja
+							AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) AS DIFERENCIA			  			
+
+FROM venliped v
+INNER JOIN venped ON v.empresa = venped.empresa AND v.anyo = venped.anyo AND v.pedido = venped.pedido
+INNER JOIN articulos ON v.articulo = articulos.codigo AND v.empresa = articulos.empresa
+LEFT OUTER JOIN unidades ON v.tipo_unidad = unidades.codigo
+INNER JOIN almartcajas ON v.empresa = almartcajas.empresa AND v.articulo = almartcajas.articulo AND v.caja = almartcajas.caja
+LEFT OUTER JOIN formatos ON articulos.empresa = formatos.empresa AND articulos.formato = formatos.codigo
+LEFT OUTER JOIN genter ON articulos.empresa = genter.empresa AND articulos.cliente = genter.codigo 
+
+WHERE articulos.promocion <> 'S'
+AND venped.es_proforma <> 'S'
+AND (genter.tipoter = 'C' OR genter.tipoter is null)
+AND v.empresa = :empresa
+AND ( v.cliente like :cliente )
+AND articulos.familia like :familia
+GROUP BY v.empresa
+			, v.articulo
+			, articulos.descripcion
+			, formatos.abreviado
+			, genter.codigo
+			, genter.razon
+			, unidades.abreviado
+			, v.calidad
+			, v.caja
+			, v.tipo_pallet
+			, v.tipo_unidad
+			, almartcajas.piezascaja
+			, almartcajas.metroscaja
+HAVING	sum ( CASE v.tipo_unidad 
+					WHEN '0' THEN v.cantidad 
+					WHEN '1' THEN ( almartcajas.piezascaja * (v.cantidad / almartcajas.metroscaja) )  
+					ELSE 0  
+					END  ) 
+			- isnull(( SELECT sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads) 
+						FROM almacenmovimientos 
+						WHERE almacenmovimientos.articulo = v.articulo
+						AND almacenmovimientos.empresa = v.empresa
+						AND almacenmovimientos.calidad = v.calidad
+						AND almacenmovimientos.caja = v.caja
+						AND almacenmovimientos.tipo_pallet = v.tipo_pallet ),0 ) > 0 
+ORDER BY genter_razon ASC , importe DESC
+*/
+" arguments=(("empresa", string),("cliente", string),("familia", string)) )
+compute(band=header alignment="0" expression="today()"enabled="0" border="0" color="24076881" x="59" y="28" height="56" width="293" format="dd-mm-yy" html.valueishtml="0"  name=date_1 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=header alignment="0" expression="today()"enabled="0" border="0" color="24076881" x="59" y="96" height="56" width="293" format="hh:mm:ss" html.valueishtml="0"  name=date_2 visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Cantidad (Imp./Precio)" border="0" color="16777215" x="2935" y="272" height="128" width="425" html.valueishtml="0"  name=t_cantidad visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="24076881" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Precio" border="0" color="16777215" x="3374" y="272" height="128" width="197" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="24076881" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Importe" border="0" color="16777215" x="3593" y="272" height="128" width="338" html.valueishtml="0"  name=t_importe visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="24076881" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Cliente" border="0" color="16777215" x="1778" y="272" height="128" width="1143" html.valueishtml="0"  name=t_cliente visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="24076881" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Artículo" border="0" color="16777215" x="27" y="272" height="128" width="1733" html.valueishtml="0"  name=t_articulo visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="24076881" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Pedidos Pendientes de Fabricar (Pedidos - Stock)" border="0" color="24076881" x="663" y="40" height="100" width="2693" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="Los precios se extraen de la menor de las tarifas de cada artículo" border="0" color="24076881" x="672" y="144" height="60" width="2693" html.valueishtml="0"  name=t_7 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="24076881" x="302" y="12" height="64" width="1120" format="[general]" html.valueishtml="0"  name=articulos_descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="24076881" x="1445" y="12" height="64" width="315" format="[general]" html.valueishtml="0"  name=formatos_abreviado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="24076881" x="27" y="12" height="64" width="251" format="[general]" html.valueishtml="0"  name=venliped_articulo visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="24076881" x="1778" y="12" height="64" width="1147" format="[general]" html.valueishtml="0"  name=genter_razon visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=11 alignment="1" tabsequence=32766 border="0" color="24076881" x="3374" y="12" height="64" width="197" format="###,###,##0.00" html.valueishtml="0"  name=precio visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="24076881" x="3593" y="12" height="64" width="338" format="###,###,##0" html.valueishtml="0"  name=importe visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="24076881" x="3241" y="12" height="64" width="91" format="[general]" html.valueishtml="0"  name=unidades_abreviado visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=detail alignment="1" expression=" importe  /  precio "border="0" color="24076881" x="2962" y="12" height="64" width="256" format="###,###,##0" html.valueishtml="0"  name=cantidad_calc visible="1"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=footer alignment="0" expression=" pageCount()"border="0" color="0" x="1211" y="648" height="88" width="773" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+compute(band=footer alignment="1" expression="sum(  importe  for all )"border="0" color="24076881" x="3575" y="40" height="64" width="338" format="###,###,##0" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+text(band=header alignment="2" text="De momento no contempla los precios de los packs" border="0" color="19136731" x="658" y="204" height="44" width="2693" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" background.transparency="0" background.gradient.color="8421504" background.gradient.transparency="0" background.gradient.angle="0" background.brushmode="0" background.gradient.repetition.mode="0" background.gradient.repetition.count="0" background.gradient.repetition.length="100" background.gradient.focus="0" background.gradient.scale="100" background.gradient.spread="100" tooltip.backcolor="134217752" tooltip.delay.initial="0" tooltip.delay.visible="32000" tooltip.enabled="0" tooltip.hasclosebutton="0" tooltip.icon="0" tooltip.isbubble="0" tooltip.maxwidth="0" tooltip.textcolor="134217751" tooltip.transparency="0" transparency="0" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" encodeselflinkargs="1" netscapelayers="0" pagingmethod=0 generatedddwframes="1" )
+xhtmlgen() cssgen(sessionspecific="0" )
+xmlgen(inline="0" )
+xsltgen()
+jsgen()
+export.xml(headgroups="1" includewhitespace="0" metadatatype=0 savemetadata=0 )
+import.xml()
+export.pdf(method=0 distill.custompostscript="0" xslfop.print="0" )
+export.xhtml()
+ 

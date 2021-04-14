@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_nota_aplicacion_articulo_lab.srf
+global type f_nota_aplicacion_articulo_lab from function_object
+end type
+
+forward prototypes
+global function string f_nota_aplicacion_articulo_lab (string var_empresa, string var_articulo, string var_version, string var_numaplic)
+end prototypes
+
+global function string f_nota_aplicacion_articulo_lab (string var_empresa, string var_articulo, string var_version, string var_numaplic);string var_nota
+
+select notas
+into   :var_nota
+from   labdetartic
+where  empresa  = :var_empresa
+and    articulo = :var_articulo
+and    version  = :var_version
+and    numaplic = :var_numaplic;
+
+if isnull(var_nota) then var_nota = ""
+
+var_nota = trim(var_nota)
+
+return var_nota
+end function
+

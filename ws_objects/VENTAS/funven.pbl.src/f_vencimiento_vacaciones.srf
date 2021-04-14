@@ -1,0 +1,49 @@
+﻿$PBExportHeader$f_vencimiento_vacaciones.srf
+global type f_vencimiento_vacaciones from function_object
+end type
+
+forward prototypes
+global function date f_vencimiento_vacaciones (string empresa, string var_cliente, date var_vencimiento)
+end prototypes
+
+global function date f_vencimiento_vacaciones (string empresa, string var_cliente, date var_vencimiento);Dec  mesd[3],mesh[3],diad[3],diah[3],el_anyo,jj
+Date fechad[3],fechah[3]
+
+SELECT venclientes.mes1desde,venclientes.mes2desde,venclientes.mes3desde,
+		 venclientes.dia1desde,venclientes.dia2desde,venclientes.dia3desde,
+ 		 venclientes.mes1hasta,venclientes.mes2hasta,venclientes.mes3hasta,
+		 venclientes.dia1hasta,venclientes.dia2hasta,venclientes.dia3hasta
+INTO   :mesd[1],:mesd[2],:mesd[3],:diad[1],:diad[2],:diad[3],:mesh[1],
+		 :mesh[2],:mesh[3],:diah[1],:diah[2],:diah[3]
+FROM   venclientes  
+WHERE  venclientes.empresa = :empresa
+AND    venclientes.codigo  = :var_cliente;   
+IF SQLCA.SQLCODE <0 Then f_mensaje("Error en calculo vto",sqlca.sqlerrtext)
+           
+  //------------------------------------------------------------------//
+ //----Control periodo vacaciones------------------------------------//
+//------------------------------------------------------------------//
+			el_anyo = Year(var_vencimiento)
+			For jj = 1 To 3
+				IF IsNUll(mesd[jj]) Then mesd[jj] = 0
+				IF IsNUll(diad[jj]) Then diad[jj] = 0
+				IF IsNUll(mesh[jj]) Then mesh[jj] = 0
+				IF IsNUll(diah[jj]) Then diah[jj] = 0
+				IF mesd[jj] <> 0 and diad[jj] <> 0 and mesh[jj] <> 0 and diah[jj] <> 0 Then
+						fechad[jj] = MDY(mesd[jj],diad[jj],el_anyo)
+						fechah[jj] = MDY(mesh[jj],diah[jj],el_anyo)
+						IF DaysAfter(var_vencimiento,fechad[jj])<= 0 Then
+							IF DaysAfter(var_vencimiento,fechah[jj])>= 0 Then
+								// el vencimiento no es correcto
+								var_vencimiento = RelativeDate(fechah[jj],1)
+								var_vencimiento = f_vencimiento_ajuste(empresa,var_cliente,var_vencimiento)
+								var_vencimiento = f_vencimiento_vacaciones(empresa,var_cliente,var_vencimiento)
+							END IF
+						END IF
+				END IF
+			NExt			  
+			  
+			  
+Return var_vencimiento
+end function
+

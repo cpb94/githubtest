@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_origen_contarecur.srf
+global type f_origen_contarecur from function_object
+end type
+
+forward prototypes
+global function string f_origen_contarecur (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_origen_contarecur (integer ejercicio, string empresa, string codigo);String var_titulo
+
+
+  SELECT contarecur.origen
+  INTO :var_titulo  
+  FROM contarecur
+  WHERE (contarecur.ejercicio = :ejercicio)
+  AND   (contarecur.empresa   = :empresa) 
+  AND   (contarecur.codigo    = :codigo);
+
+Return var_titulo
+end function
+

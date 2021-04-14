@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_depalmacen.srf
+global type f_nombre_depalmacen from function_object
+end type
+
+forward prototypes
+global function string f_nombre_depalmacen (string ai_empresa, string as_tipo)
+end prototypes
+
+global function string f_nombre_depalmacen (string ai_empresa, string as_tipo);string	ls_nombre_tipo
+
+    SELECT depalmacen.descripcion  
+    INTO :ls_nombre_tipo  
+    FROM depalmacen
+   WHERE ( depalmacen.empresa      = :ai_empresa ) AND  
+         ( depalmacen.codigo      = :as_tipo )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_tipo = ""
+
+END IF
+
+RETURN ls_nombre_tipo
+end function
+

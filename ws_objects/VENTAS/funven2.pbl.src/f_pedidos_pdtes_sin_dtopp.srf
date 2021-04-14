@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_pedidos_pdtes_sin_dtopp.srf
+global type f_pedidos_pdtes_sin_dtopp from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_pdtes_sin_dtopp (string empresa, datetime fecha)
+end prototypes
+
+global function decimal f_pedidos_pdtes_sin_dtopp (string empresa, datetime fecha);dec resultado
+
+
+select sum(total_neto/ cambio)
+into:resultado 
+from venped 
+where empresa = :codigo_empresa 
+and fpedido <= :fecha 
+and venped.es_proforma = 'N';
+
+if isnull(resultado) then
+	resultado = 0
+end if
+
+
+	
+
+return resultado
+
+
+
+end function
+

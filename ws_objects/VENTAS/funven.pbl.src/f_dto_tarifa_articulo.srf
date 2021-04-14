@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_dto_tarifa_articulo.srf
+global type f_dto_tarifa_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_dto_tarifa_articulo (string empresa, string tarifa, string articulo, string calidad, decimal cantidad)
+end prototypes
+
+global function decimal f_dto_tarifa_articulo (string empresa, string tarifa, string articulo, string calidad, decimal cantidad);Dec dto,v_p
+String  familia,formato,unidad
+
+if cantidad = 0 then
+	dto = 0
+else
+	Select top 1 vendtotarifa.dto 
+	Into :dto 
+	From vendtotarifa
+	Where  vendtotarifa.empresa  = :empresa
+	And    vendtotarifa.tarifa  = :tarifa 
+	And    vendtotarifa.articulo = :articulo
+	and    vendtotarifa.calidad  = :calidad
+	And    vendtotarifa.cantidad <= :cantidad
+	order by vendtotarifa.cantidad desc;
+	
+	IF SQLCA.SQLCODE = 0  then
+		If IsNull(dto) Then dto = 0
+	END IF
+end if
+
+Return dto
+
+
+end function
+

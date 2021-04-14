@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_insert_contasii_envios.srf
+global type f_insert_contasii_envios from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_contasii_envios (ref str_contasii_envios str_contasii_envios)
+end prototypes
+
+global function boolean f_insert_contasii_envios (ref str_contasii_envios str_contasii_envios);boolean lb_correcto = true
+
+INSERT INTO contasii_envios
+	  ( contasii_envios.empresa,
+       contasii_envios.ejercicio,
+       contasii_envios.factura,
+       contasii_envios.tipoter,
+       contasii_envios.tercero,
+       contasii_envios.fecha_envio,
+       contasii_envios.fichero_envio,
+       contasii_envios.resultado_envio ) 
+VALUES
+	  ( :str_contasii_envios.empresa,
+       :str_contasii_envios.ejercicio,
+       :str_contasii_envios.factura,
+       :str_contasii_envios.tipoter,
+       :str_contasii_envios.tercero,
+       :str_contasii_envios.fecha_envio,
+       :str_contasii_envios.fichero_envio,
+       :str_contasii_envios.resultado_envio ) ;
+
+if sqlca.sqlcode <> 0 then
+	messagebox(string(sqlca.sqlcode),sqlca.sqlerrtext)
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

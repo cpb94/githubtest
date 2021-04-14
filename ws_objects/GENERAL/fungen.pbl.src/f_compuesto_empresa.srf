@@ -1,0 +1,69 @@
+﻿$PBExportHeader$f_compuesto_empresa.srf
+$PBExportComments$Devuelve el compuesto nombre y apellidos de un cliente.
+global type f_compuesto_empresa from function_object
+end type
+
+forward prototypes
+global function string f_compuesto_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_compuesto_empresa (string ai_codigo_empresa);string cl_domicilio,domicilio,nu_domicilio,codpostal,ciudad
+string pais,provincia,apto_correos,prefijo_provincia,telefono
+string fax,internet,cif,compuesto
+
+SELECT cl_domicilio,
+       domicilio,
+		 nu_domicilio,
+		 codpostal,
+		 ciudad,
+		 pais,
+		 provincia,
+		 apto_correos,
+		 prefijo_provincia,
+		 telefono,
+		 fax,
+		 internet,
+		 cif
+INTO   :cl_domicilio,
+       :domicilio,
+		 :nu_domicilio,
+		 :codpostal,
+		 :ciudad,
+		 :pais,
+		 :provincia,
+		 :apto_correos,
+		 :prefijo_provincia,
+		 :telefono,
+		 :fax,
+		 :internet,
+		 :cif
+FROM   empresas  
+WHERE  empresas.empresa = :ai_codigo_empresa;
+
+if isnull(cl_domicilio) then cl_domicilio = ""
+if isnull(domicilio) then domicilio = ""       
+if isnull(nu_domicilio) then nu_domicilio = ""		 
+if isnull(codpostal) then codpostal = ""		 
+if isnull(ciudad) then ciudad = ""		 
+if isnull(pais) then pais = ""		 
+if isnull(provincia) then provincia = ""		 
+if isnull(apto_correos) then apto_correos = ""		 
+if isnull(prefijo_provincia) then prefijo_provincia = ""		 
+if isnull(telefono) then telefono = ""		 
+if isnull(fax) then fax = ""		 
+if isnull(internet) then internet = ""		 
+if isnull(cif) then cif = ""		 
+
+compuesto = Trim(cl_domicilio) + "  " +Trim(domicilio) +  ", " +Trim(nu_domicilio)+"~n" 
+
+compuesto = compuesto + codpostal + " " + ciudad + " - " + f_nombre_provincia(pais,provincia)  + " - " + f_nombre_pais(pais)+" "+ apto_correos + "~n" 
+
+compuesto = compuesto + "Tel." + "("+ prefijo_provincia +") "+ telefono + " - Fax ("+ prefijo_provincia +") " + fax+ "~n"
+
+compuesto = compuesto + "Internet: "+ internet +"~n"
+
+compuesto = compuesto + "VAT CEE: ES "+ cif +"~n"
+
+RETURN compuesto
+end function
+

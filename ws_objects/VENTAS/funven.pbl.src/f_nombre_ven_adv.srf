@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_nombre_ven_adv.srf
+global type f_nombre_ven_adv from function_object
+end type
+
+forward prototypes
+global function string f_nombre_ven_adv (string ai_empresa, string as_codadv)
+end prototypes
+
+global function string f_nombre_ven_adv (string ai_empresa, string as_codadv);string	ls_nombre_adv
+
+  SELECT nombre
+    INTO :ls_nombre_adv  
+    FROM ven_adv 
+   WHERE empresa = :ai_empresa AND  
+         codigo  = :as_codadv
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+
+	ls_nombre_adv = ""
+
+END IF
+
+RETURN ls_nombre_adv
+end function
+

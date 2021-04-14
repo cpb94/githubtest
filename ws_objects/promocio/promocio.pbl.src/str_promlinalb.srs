@@ -1,0 +1,44 @@
+﻿$PBExportHeader$str_promlinalb.srs
+global type str_promlinalb from structure
+	string		empresa
+	decimal {0}	anyo
+	decimal {0}	albaran
+	decimal {0}	linea
+	string		tipo_cliente
+	string		cliente
+	string		pais
+	string		tipo
+	string		reposicion
+	string		panel
+	decimal {0}	cantidad
+	decimal {2}	peso_panel
+	decimal {0}	coste_panel
+	decimal {0}	venta_panel
+	decimal {2}	peso_material
+	decimal {0}	coste_material
+	decimal {0}	venta_material
+	string		usuario
+	string		usuario_pedido
+	string		situacion
+	string		control_libre
+	datetime		f_albaran
+	datetime		f_entrega
+	string		agente1
+	string		agente2
+	string		agente3
+	string		tipo_expositor
+	string		expositor
+	datetime		f_entrega_real
+	decimal {0}	anyo_pedido
+	decimal {0}	pedido
+	decimal {0}	linea_pedido
+	string		activo
+	datetime		f_reposicion
+	datetime		f_retirada
+	datetime		f_pedido
+	string		tipo_panel
+	string		clase_panel
+	decimal {2}	coste_manipulacion
+	string		numserie
+end type
+

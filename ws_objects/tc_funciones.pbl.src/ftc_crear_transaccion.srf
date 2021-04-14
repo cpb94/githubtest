@@ -1,0 +1,100 @@
+﻿$PBExportHeader$ftc_crear_transaccion.srf
+global type ftc_crear_transaccion from function_object
+end type
+
+forward prototypes
+global subroutine ftc_crear_transaccion (ref transaction t, str_param_transaccion param_transaccion)
+end prototypes
+
+global subroutine ftc_crear_transaccion (ref transaction t, str_param_transaccion param_transaccion);/*******************************************************************************************************************************************************************************************
+	Función para conectar a la base de datos utilizando tes f_crear_t
+
+	Parámetros
+	String bd - Base de datos (Por defecto 'TENCER')
+	String servidor - Servidor de Base de datos (Por defecto 'OBI')
+	Boolean autocommit - Modo de t. Con valor true se realiza un commit despues de cada consulta (Por defecto true)
+	String lock - Modo de bloqueo de tabla/registro utilizado. RC para realizar lecturas sin bloqueo, TS para bloquear el registro a consultar/actualizar durante la transacción (Por defecto RC)
+
+	MOTOR
+		1: MSSQL 2008
+		2: MYSQL 5
+********************************************************************************************************************************************************************************************/
+boolean v_autocommit
+
+if isnull(param_transaccion.motor) then param_transaccion.motor = 0
+
+choose case param_transaccion.motor 
+	case 0,1
+		if isNull(param_transaccion.dbms) or param_transaccion.dbms = '' then
+			param_transaccion.dbms = "SNC SQL Native Client(OLE DB)"
+		end if
+		
+		if isNull(param_transaccion.database) or param_transaccion.database = '' then
+			param_transaccion.database = global_base_datos
+		end if
+		
+		if isNull(param_transaccion.Servername) or param_transaccion.servername = '' then
+			param_transaccion.Servername =global_servidor
+		end if
+		
+		if isNull(param_transaccion.logid) or param_transaccion.logid = '' then
+			param_transaccion.logid = 'sa'
+		end if
+		
+		if isNull(param_transaccion.userid) or param_transaccion.userid = '' then
+			param_transaccion.userid = 'dbo'
+		end if
+		
+		if isNull(param_transaccion.logpass) or param_transaccion.logpass = '' then
+			param_transaccion.logpass = '1.-Tencer'
+		end if
+		
+		if isNull(param_transaccion.autocommit) or param_transaccion.autocommit = '' then
+			v_autocommit = false
+		end if
+		
+		if isNull(param_transaccion.lock) or param_transaccion.lock = '' then
+			param_transaccion.lock = 'RC'
+		else
+			if param_transaccion.lock = 'TS' then
+				v_autocommit = false
+			end if
+		end if
+		
+		if isNull(param_transaccion.dbparm) or param_transaccion.dbparm = '' then
+			param_transaccion.dbparm = "Database='"+param_transaccion.database+"',TrimSpaces=1,CommitOnDisconnect='No',NCharBind=0,DateFormat='\''yyyy-mm-dd\''',DateTimeFormat='\''yyyy-dd-mm hh:mm:ss\''',OJSyntax='PB'" //, DecimalSeparator=','
+		end if
+
+		// DAVID: Ponemos RU a piñon para ver si se evitan los bloqueos no contralados
+//		param_transaccion.lock = 'RU'
+//		v_autocommit = true
+		
+		t = CREATE transaction
+		
+		t.DBMS 	= param_transaccion.dbms
+		t.Database = param_transaccion.database
+		t.ServerName = param_transaccion.Servername
+		t.LogId = param_transaccion.logid
+		t.UserId = param_transaccion.userid
+		t.LogPass = param_transaccion.logpass
+		t.AutoCommit = v_autocommit
+		t.lock = param_transaccion.lock
+		t.DBParm =  param_transaccion.dbparm
+		
+		
+	case 2
+		t = CREATE transaction		
+		t.dbparm = "ConnectString='DRIVER={MySQL ODBC 5.2w Driver}; SERVER=192.168.100.3;PORT=3306;DATABASE=EXPOSICION;UID=exposicion;PWD=1.-Tencer;'"		
+		t.dbms = "ODBC"
+		
+
+	case else
+		messagebox("Error", "No existe el motor de base de datos")
+end choose
+		
+
+
+
+
+end subroutine
+

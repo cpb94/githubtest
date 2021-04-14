@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_vencontadores_factura.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=209 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venparamfac.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="venparamfac.anyo" )
+ column=(type=long update=yes updatewhereclause=yes name=factura dbname="venparamfac.factura" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=serie dbname="venparamfac.serie" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venparamfac~" ) COLUMN(NAME=~"venparamfac.empresa~") COLUMN(NAME=~"venparamfac.anyo~") COLUMN(NAME=~"venparamfac.factura~") COLUMN(NAME=~"venparamfac.serie~")WHERE(    EXP1 =~"venparamfac.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venparamfac.anyo~"   OP =~"=~"    EXP2 =~":arg_anyo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venparamfac.serie~"   OP =~"=~"    EXP2 =~":arg_serie~" ) ) ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_anyo~" TYPE = number)  ARG(NAME = ~"arg_serie~" TYPE = string) " update="venparamfac" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_anyo", number),("arg_serie", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="636" y="68" height="69" width="298" format="[general]"  name=factura edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Contador Factura:"border="0" color="0" x="74" y="68" height="69" width="522"  name=pedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

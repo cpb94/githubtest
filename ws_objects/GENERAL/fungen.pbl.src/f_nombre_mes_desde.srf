@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_nombre_mes_desde.srf
+global type f_nombre_mes_desde from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mes_desde (integer arg_mes, integer arg_suma)
+end prototypes
+
+global function string f_nombre_mes_desde (integer arg_mes, integer arg_suma);string  var_mes
+long    calculo_mes
+
+calculo_mes = arg_mes + arg_suma
+if calculo_mes >= 13 then
+	calculo_mes = calculo_mes - 12
+end if
+choose case calculo_mes
+			case 1
+				var_mes = "Enero"
+			case 2
+				var_mes = "Febrero"
+			case 3
+				var_mes = "Marzo"
+			case 4
+				var_mes = "Abril"
+			case 5
+				var_mes = "Mayo"
+			case 6
+				var_mes = "Junio"
+			case 7
+				var_mes = "Julio"
+			case 8
+				var_mes = "Agosto"
+			case 9
+				var_mes = "Septiembre"
+			case 10
+				var_mes = "Octubre"
+			case 11
+				var_mes = "Noviembre"
+			case 12
+				var_mes = "Diciembre"
+end choose
+
+return var_mes
+end function
+

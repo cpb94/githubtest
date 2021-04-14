@@ -1,0 +1,240 @@
+﻿$PBExportHeader$f_actualizar_linea_venfac_borrar.srf
+global type f_actualizar_linea_venfac_borrar from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_linea_venfac_borrar (string empresa, decimal periodo, decimal factura, decimal linea)
+end prototypes
+
+global function boolean f_actualizar_linea_venfac_borrar (string empresa, decimal periodo, decimal factura, decimal linea);str_venlifac  linfac
+str_venfac   ped 
+STring v_mascara
+DateTime var_ffactura
+Integer  reg,reg1 ,bien
+Dec{0}  ultima,parcial_pallets
+Dec{2}  parcial_cantidad,parcial_cajas,acumulado2
+Dec{4}  impdto,importe,acumulado,importedto1,importedto2,importedto3,importedto4,importedtopp,importedtoesp,control_precio,control_bruto,control_importedto,control_importe
+Dec{2}  var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,control_descuento
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,var_calculo_dtoesp
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+Integer procesos
+bien = 0
+linfac.empresa   = codigo_empresa
+linfac.anyo      = periodo
+linfac.factura  = factura
+linfac.linea = linea
+  SELECT venfac.dtoesp1,     venfac.dtoesp2,   
+         venfac.dtoesp3,     venfac.dtoesp4,   
+         venfac.dtopp,       venfac.tipodto1,   
+         venfac.tipodto2,    venfac.tipodto3,   
+         venfac.tipodto4,    venfac.divisa,
+			venfac.calculo_dto,venfac.ffactura,venfac.calculo_dtoesp
+    INTO :var_dto1,    :var_dto2,    :var_dto3,  :var_dto4,   
+         :var_dtopp,   :var_tipodto1,:var_tipodto2,   
+         :var_tipodto3,:var_tipodto4,:linfac.divisa,
+			:var_calculo_dto,:var_ffactura,:var_calculo_dtoesp
+    FROM venfac  
+   WHERE (venfac.empresa  = :empresa ) AND  
+         (venfac.anyo     = :periodo ) AND  
+         (venfac.factura   = :factura );
+			IF SQLCA.SQLCODE = 100 Then 
+				bien = 1
+				f_mensaje("Error base de datos","No existe factura"+String(factura))
+			END IF
+			
+v_mascara = f_mascara_moneda(linfac.divisa)
+
+Select dtoesp,tipolinea,precio_aduana,precio,cantidad
+Into   :linfac.dtoesp,:linfac.tipolinea,:linfac.precio_aduana,:linfac.precio,
+       :linfac.cantidad
+From   venlifac
+Where  venlifac.empresa = :empresa
+And    venlifac.anyo    = :periodo
+And    venlifac.factura  = :factura
+And    venlifac.linea_factura   = :linea;
+IF SQLCA.SQLCODE = 100 Then 
+	bien = 1
+	f_mensaje("Error base de datos","No existe linea factura"+String(periodo)+" "+String(factura)+" "+String(linea))
+END IF
+
+ linfac.control_comisiones = f_comision_ventipolin(linfac.empresa,linfac.tipolinea)
+ linfac.control_descuentos = f_descuento_ventipolin(linfac.empresa,linfac.tipolinea)
+
+ IF IsNull(linfac.dtoesp) Then linfac.dtoesp= 0
+ IF IsNull(var_dto1)  Then var_dto1  = 0
+ IF IsNull(var_dto2)  Then var_dto2  = 0
+ IF IsNull(var_dto3)  Then var_dto3  = 0
+ IF IsNull(var_dto4)  Then var_dto4  = 0
+ IF IsNull(linfac.dtoesp)  Then linfac.dtoesp  = 0
+ IF IsNull(var_dtopp) Then var_dtopp = 0
+
+linfac.impdtopp  =0
+linfac.precio_neto = linfac.precio
+linfac.precio_aduana_neto = linfac.precio_aduana
+
+For procesos = 1 To 2
+
+   IF procesos = 1 then control_precio = linfac.precio_neto
+   IF procesos = 2 then control_precio = linfac.precio_aduana_neto
+	
+	control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+	IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((control_bruto * linfac.dtoesp /100),v_mascara))
+			acumulado = control_bruto - importedtoesp
+	  ELSE
+			control_precio = control_precio - &
+			Dec(String((control_precio * linfac.dtoesp)/100,v_mascara))
+			control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+			acumulado = control_bruto
+	END IF
+	
+	acumulado2 = acumulado
+	
+	IF linfac.control_descuentos = "N" Then
+		linfac.descuento = 0
+	ELSE
+	   importedto1 = Dec(String((acumulado2 * var_dto1 /100),v_mascara))
+		acumulado2 = acumulado2 - importedto1
+      importedto2 = Dec(String((acumulado2 * var_dto2 /100),v_mascara))
+		acumulado2 = acumulado2 - importedto2	 
+ 	   importedto3 = Dec(String((acumulado2 * var_dto3 /100),v_mascara))
+		acumulado2 = acumulado2 - importedto3
+		importedto4 = Dec(String((acumulado2 * var_dto4 /100),v_mascara))
+		acumulado2 = acumulado2 - importedto4
+		 
+	   IF var_tipodto1  = "L" Then 
+		   IF var_calculo_dto = "N" Then
+					importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+					acumulado = acumulado - importedto1
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto1)/100,v_mascara))
+					control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linfac.dtoesp/100,v_mascara))
+					 ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+	    	END IF
+	 END IF
+	 IF var_tipodto2  = "L" Then 
+	 	  IF var_calculo_dto = "N" Then
+					importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+					acumulado = acumulado - importedto2
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto2)/100,v_mascara))
+					control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linfac.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto3  = "L" Then 
+			IF var_calculo_dto = "N" Then
+				importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+				acumulado = acumulado - importedto3
+			ELSE
+				control_precio = control_precio - &
+				Dec(String((control_precio * var_dto3)/100,v_mascara))
+				control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+				IF var_calculo_dtoesp = "N" Then
+					importedtoesp = Dec(String(control_bruto * linfac.dtoesp/100,v_mascara))
+				ELSE
+					importedtoesp = 0
+				END IF
+				acumulado = control_bruto - importedtoesp
+			END IF
+	 END IF
+	 IF var_tipodto4  = "L" Then 
+				IF var_calculo_dto = "N" Then
+					importedto4 = Dec(String((acumulado * var_dto4 /100),v_mascara))
+					acumulado = acumulado - importedto4
+				ELSE
+					control_precio = control_precio - &
+					Dec(String((control_precio * var_dto4)/100,v_mascara))
+					control_bruto = Dec(String(linfac.cantidad * control_precio,v_mascara))
+					IF var_calculo_dtoesp = "N" Then
+						importedtoesp = Dec(String(control_bruto * linfac.dtoesp/100,v_mascara))
+					ELSE
+						importedtoesp = 0
+					END IF
+					acumulado = control_bruto - importedtoesp
+				END IF
+	  END IF
+	END IF
+	
+	//linfac.impdtopp = Dec(String((acumulado * var_dtopp/100),v_mascara))
+	
+	control_importedto    = control_bruto - acumulado 
+	control_importe       = control_bruto - control_importedto
+	
+	If control_bruto = 0 then
+		control_descuento  = 0
+	ELse
+		control_descuento  = (control_importedto/control_bruto)* 100
+   End if
+   control_importedto    = Dec(String(control_bruto * control_descuento / 100,v_mascara))
+	control_importe       = control_bruto - control_importedto
+
+	IF var_calculo_dto = "S" Then
+		control_precio = control_precio - &
+		Dec(String((control_precio * control_descuento)/100,v_mascara))
+		control_descuento = linfac.dtoesp
+		acumulado2 = Dec(String(linfac.cantidad * control_precio,v_mascara))
+	   importedtoesp = Dec(String((acumulado2 * linfac.dtoesp /100),v_mascara))
+		control_importedto    = importedtoesp
+		control_importe       = acumulado2 - importedtoesp
+	END IF
+	importedtopp  = Dec(String((acumulado2 * var_dtopp /100),v_mascara)) 
+
+	IF procesos = 1 Then
+		linfac.descuento       = control_descuento
+		linfac.bruto           = control_bruto
+	   linfac.importedto      = control_importedto
+	   linfac.importe         = control_importe
+		linfac.precio_neto     = control_precio
+ 		linfac.neto            = acumulado2
+		linfac.impdtopp        = importedtopp
+	END IF
+	IF procesos = 2 Then
+		linfac.descuento_aduana       = control_descuento
+	   linfac.importe_aduana         = control_importe
+		linfac.precio_aduana_neto     = control_precio
+	END IF
+Next
+
+
+  UPDATE venlifac  
+     SET importe            = :linfac.importe,   
+         descuento          = :linfac.descuento,   
+         importedto         = :linfac.importedto,   
+         precio_neto        = :linfac.precio_neto,   
+         precio_aduana_neto = :linfac.precio_aduana_neto,   
+         descuento_aduana   = :linfac.descuento_aduana,   
+         importe_aduana     = :linfac.importe_aduana,   
+         bruto              = :linfac.bruto  ,
+			neto               = :linfac.neto,
+			impdtopp           = :linfac.impdtopp ,
+			ffactura           = :var_ffactura
+   WHERE venlifac.empresa   = :linfac.empresa
+	AND   venlifac.anyo      = :linfac.anyo
+	AND   venlifac.factura   = :linfac.factura
+   AND   venlifac.linea_factura = :linea    ;
+  			IF SQLCA.SQLCODE <>0 Then 
+				f_mensaje("Error base de datos","Error al modificar lineas de facturaes")
+				bien = 1
+			END IF
+
+IF bien = 1 Then
+	Return FALSE
+Else
+		Return TRUE
+END IF
+
+end function
+

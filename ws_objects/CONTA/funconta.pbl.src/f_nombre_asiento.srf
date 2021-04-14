@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_asiento.srf
+$PBExportComments$Devualve el nombre del asiento recurrente
+global type f_nombre_asiento from function_object
+end type
+
+forward prototypes
+global function string f_nombre_asiento (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_asiento (integer ejercicio, string empresa, string codigo);string	ls_titulo
+
+
+  SELECT contarecur.descripcion
+    INTO :ls_titulo
+    FROM contarecur  
+   WHERE (contarecur.ejercicio = :ejercicio )
+   AND   (contarecur.empresa = :empresa )
+   AND   (contarecur.codigo = :codigo)
+    USING SQLCA;
+
+RETURN ls_titulo
+end function
+

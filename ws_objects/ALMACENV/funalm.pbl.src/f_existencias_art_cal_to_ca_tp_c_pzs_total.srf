@@ -1,0 +1,325 @@
+﻿$PBExportHeader$f_existencias_art_cal_to_ca_tp_c_pzs_total.srf
+global type f_existencias_art_cal_to_ca_tp_c_pzs_total from function_object
+end type
+
+forward prototypes
+global function long f_existencias_art_cal_to_ca_tp_c_pzs_total (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function long f_existencias_art_cal_to_ca_tp_c_pzs_total (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja);long ll_stock,ll_reservado,ll_preparado 
+
+if ib_nueva_gestion_de_reservas then
+	
+	SELECT SUM(resultado.stock) as stock,
+			 SUM(resultado.reservado) as reservado, 
+			 SUM(resultado.preparado) as preparado 
+	INTO   :ll_stock, 
+			 :ll_reservado, 
+			 :ll_preparado 
+	FROM  (
+	SELECT ISNULL(sum(case when isnull(almubimapa_codbar.permitir_reservas,'') <> 'N' then alm_bultos_lineas.cantidad else alm_bultos_lineas.cantidad end),0) as stock,   
+			 0 as reservado, 
+			 0 as preparado 
+	FROM   alm_bultos_lineas 
+			 INNER JOIN alm_bultos ON 
+			 					alm_bultos_lineas.id_alm_bultos = alm_bultos.id 
+			 INNER JOIN almubimapa_codbar ON 
+			 					alm_bultos.id_ubicacion = almubimapa_codbar.id 
+	WHERE ( alm_bultos.empresa         = :arg_empresa ) 
+	AND  	( alm_bultos_lineas.articulo = :arg_articulo ) 
+	AND  	( alm_bultos_lineas.calidad  = :arg_calidad ) 
+	AND  	( alm_bultos_lineas.tono     = :arg_tono ) 
+	AND  	( alm_bultos_lineas.calibre  = :arg_calibre ) 
+	AND  	( alm_bultos.tipo_pallet     = :arg_tipo_pallet ) 
+	AND  	( alm_bultos_lineas.caja     = :arg_caja ) 
+	UNION ALL	
+	SELECT 0 as stock,   
+			 ISNULL(sum(case when venliped.situacion <> 'P' then venliped_reservas.cantidad else 0 end),0) as reservado, 
+			 ISNULL(sum(case when venliped.situacion = 'P' then venliped_reservas.cantidad else 0 end),0) as preparado  
+	FROM   alm_bultos_lineas 
+			 INNER JOIN alm_bultos ON 
+			 					alm_bultos_lineas.id_alm_bultos = alm_bultos.id 
+			 INNER JOIN almubimapa_codbar ON 
+			 					alm_bultos.id_ubicacion = almubimapa_codbar.id 
+			 LEFT OUTER JOIN venliped_reservas ON 
+			 					alm_bultos_lineas.id = venliped_reservas.alm_bultos_lineas_id 
+			 LEFT OUTER JOIN venliped ON 
+			 					venliped_reservas.empresa = venliped.empresa AND 
+								venliped_reservas.anyo = venliped.anyo AND 
+								venliped_reservas.pedido = venliped.pedido AND 
+								venliped_reservas.linea = venliped.linea 
+	WHERE ( alm_bultos.empresa         = :arg_empresa ) 
+	AND  	( alm_bultos_lineas.articulo = :arg_articulo ) 
+	AND  	( alm_bultos_lineas.calidad  = :arg_calidad ) 
+	AND  	( alm_bultos_lineas.tono     = :arg_tono ) 
+	AND  	( alm_bultos_lineas.calibre  = :arg_calibre ) 
+	AND  	( alm_bultos.tipo_pallet     = :arg_tipo_pallet ) 
+	AND  	( alm_bultos_lineas.caja     = :arg_caja ) 
+	UNION ALL
+	SELECT 0 as stock,
+			 sum( case when ventipolin.gestionar_en_piezas = 'S' then venliped.cantidad_pzs else case when articulos.unidad = '1' then ( venliped.cantidad / almartcajas.metroscaja ) * almartcajas.piezascaja else venliped.cantidad end end ) as reservado,
+			 0 as preparado 
+	FROM   venliped, 
+			 ventipolin, 
+			 articulos, 
+			 almartcajas 
+	WHERE ( venliped.empresa   = ventipolin.empresa ) 
+	AND   ( venliped.tipolinea = ventipolin.codigo ) 
+	AND   ( venliped.empresa   = articulos.empresa ) 
+	AND   ( venliped.articulo  = articulos.codigo ) 
+	AND   ( venliped.empresa   = almartcajas.empresa ) 
+	AND   ( venliped.articulo  = almartcajas.articulo ) 
+	AND   ( venliped.caja      = almartcajas.caja ) 
+	AND   ( venliped.empresa     = :arg_empresa ) 
+	AND  	( venliped.articulo    = :arg_articulo ) 
+	AND  	( venliped.calidad     = :arg_calidad ) 
+	AND  	( venliped.tonochar    = :arg_tono ) 
+	AND  	( venliped.calibre     = :arg_calibre ) 
+	AND  	( venliped.tipo_pallet = :arg_tipo_pallet ) 
+	AND  	( venliped.caja        = :arg_caja ) 
+	AND   ( venliped.situacion   = 'C' )
+	AND   ( not exists ( select venliped_reservas.alm_bultos_lineas_id 
+								from  venliped_reservas
+								where venliped_reservas.empresa = venliped.empresa 
+								and   venliped_reservas.anyo    = venliped.anyo 
+								and   venliped_reservas.pedido  = venliped.pedido 
+								and   venliped_reservas.linea   = venliped.linea ) ) ) AS resultado;	
+	 
+else
+	
+	SELECT isnull(sum(resultado.stock),0) as stock,
+			 isnull(sum(resultado.reservado),0) as reservado, 
+			 isnull(sum(resultado.preparado),0) as preparado 
+	INTO   :ll_stock, 
+			 :ll_reservado, 
+			 :ll_preparado 
+	FROM  (  SELECT isnull(alm_bultos.id,0) as bulto,
+						 isnull(alm_bultos_lineas.articulo,'') as articulo,
+						 isnull(alm_bultos_lineas.calidad,'') as calidad,
+						 isnull(alm_bultos_lineas.tono,'') as tono,
+						 isnull(alm_bultos_lineas.calibre,0) as calibre,
+						 isnull(alm_bultos.tipo_pallet,'') as tipo_pallet,
+						 isnull(alm_bultos_lineas.caja,'') as caja,
+						 isnull(sum(alm_bultos_lineas.cantidad),0) as stock,   
+						 ( SELECT isnull(sum(orden_carga_linea_reservas.cantidad),0)  
+							FROM   orden_carga_linea_reservas 
+									 INNER JOIN orden_carga_linea ON 
+													orden_carga_linea_reservas.empresa = orden_carga_linea.empresa AND 
+													orden_carga_linea_reservas.anyo = orden_carga_linea.anyo AND 
+													orden_carga_linea_reservas.codigo = orden_carga_linea.codigo AND 
+													orden_carga_linea_reservas.linea = orden_carga_linea.linea 
+									 INNER JOIN venliped ON 
+													orden_carga_linea.empresa = venliped.empresa AND 
+													orden_carga_linea.venliped_anyo = venliped.anyo AND 
+													orden_carga_linea.venliped_pedido = venliped.pedido AND 
+													orden_carga_linea.venliped_linea = venliped.linea
+							WHERE  orden_carga_linea_reservas.empresa = alm_bultos.empresa
+							AND    orden_carga_linea_reservas.id_alm_bultos = alm_bultos.id
+							AND    venliped.empresa = alm_bultos.empresa
+							AND    venliped.articulo = alm_bultos_lineas.articulo
+							AND    venliped.calidad = alm_bultos_lineas.calidad
+							AND    venliped.caja = alm_bultos_lineas.caja
+							AND    venliped.tonochar = alm_bultos_lineas.tono
+							AND    venliped.calibre = alm_bultos_lineas.calibre
+							AND    venliped.situacion <> 'P' ) as reservado,
+						 ( SELECT isnull(sum(orden_carga_linea_reservas.cantidad),0)  
+							FROM   orden_carga_linea_reservas 
+									 INNER JOIN orden_carga_linea ON 
+													orden_carga_linea_reservas.empresa = orden_carga_linea.empresa AND 
+													orden_carga_linea_reservas.anyo = orden_carga_linea.anyo AND 
+													orden_carga_linea_reservas.codigo = orden_carga_linea.codigo AND 
+													orden_carga_linea_reservas.linea = orden_carga_linea.linea 
+									 INNER JOIN venliped ON 
+													orden_carga_linea.empresa = venliped.empresa AND 
+													orden_carga_linea.venliped_anyo = venliped.anyo AND 
+													orden_carga_linea.venliped_pedido = venliped.pedido AND 
+													orden_carga_linea.venliped_linea = venliped.linea
+							WHERE  orden_carga_linea_reservas.empresa = alm_bultos.empresa
+							AND    orden_carga_linea_reservas.id_alm_bultos = alm_bultos.id
+							AND    venliped.empresa = alm_bultos.empresa
+							AND    venliped.articulo = alm_bultos_lineas.articulo
+							AND    venliped.calidad = alm_bultos_lineas.calidad
+							AND    venliped.caja = alm_bultos_lineas.caja
+							AND    venliped.tonochar = alm_bultos_lineas.tono
+							AND    venliped.calibre = alm_bultos_lineas.calibre
+							AND    venliped.situacion = 'P' ) as preparado
+				FROM   alm_bultos_lineas 
+						 INNER JOIN alm_bultos ON alm_bultos_lineas.id_alm_bultos = alm_bultos.id 
+						 INNER JOIN almubimapa_codbar ON alm_bultos.id_ubicacion = almubimapa_codbar.id 
+				WHERE ( alm_bultos.empresa         = :arg_empresa ) 
+				AND  	( alm_bultos_lineas.articulo = :arg_articulo ) 
+				AND   ( alm_bultos_lineas.calidad  = :arg_calidad ) 
+				AND   ( alm_bultos_lineas.tono     = :arg_tono ) 
+				AND   ( alm_bultos_lineas.calibre  = :arg_calibre ) 
+				AND   ( alm_bultos.tipo_pallet     = :arg_tipo_pallet ) 
+				AND   ( alm_bultos_lineas.caja     = :arg_caja ) 
+				GROUP BY alm_bultos.empresa,
+						 alm_bultos.id,
+						 alm_bultos_lineas.articulo,
+						 alm_bultos_lineas.calidad,
+						 alm_bultos_lineas.tono,
+						 alm_bultos_lineas.calibre,
+						 alm_bultos.tipo_pallet,
+						 alm_bultos_lineas.caja
+				UNION ALL
+				SELECT 0 as bulto,
+						 isnull(venliped.articulo,'') as articulo,
+						 isnull(venliped.calidad,'') as calidad,
+						 isnull(venliped.tonochar,'') as tono,
+						 isnull(venliped.calibre,0) as calibre,
+						 isnull(venliped.tipo_pallet,'') as tipo_pallet,
+						 isnull(venliped.caja,'') as caja,
+						 0 as stock,
+						 sum( case when ventipolin.gestionar_en_piezas = 'S' then venliped.cantidad_pzs else case when articulos.unidad = '1' then ( venliped.cantidad / almartcajas.metroscaja ) * almartcajas.piezascaja else venliped.cantidad end end ) as reservado,
+						 0 as preparado 
+				FROM   venliped,
+						 ventipolin, 
+						 articulos, 
+						 almartcajas 
+				WHERE ( venliped.empresa   = ventipolin.empresa ) 
+				AND   ( venliped.tipolinea = ventipolin.codigo ) 
+				AND   ( venliped.empresa   = articulos.empresa ) 
+				AND   ( venliped.articulo  = articulos.codigo ) 
+				AND   ( venliped.empresa   = almartcajas.empresa ) 
+				AND   ( venliped.articulo  = almartcajas.articulo ) 
+				AND   ( venliped.caja      = almartcajas.caja ) 
+				AND   ( venliped.empresa     = :arg_empresa ) 
+				AND  	( venliped.articulo    = :arg_articulo ) 
+				AND   ( venliped.calidad     = :arg_calidad ) 
+				AND   ( venliped.tonochar    = :arg_tono ) 
+				AND   ( venliped.calibre     = :arg_calibre ) 
+				AND   ( venliped.tipo_pallet = :arg_tipo_pallet ) 
+				AND   ( venliped.caja        = :arg_caja ) 				
+				AND   ( venliped.situacion   = 'C' )
+				AND   ( not exists ( select orden_carga_linea.codigo 
+											from  orden_carga_linea,
+													orden_carga_linea_reservas
+											where orden_carga_linea.empresa         = orden_carga_linea_reservas.empresa
+											and   orden_carga_linea.anyo            = orden_carga_linea_reservas.anyo 
+											and   orden_carga_linea.codigo          = orden_carga_linea_reservas.codigo 
+											and   orden_carga_linea.linea           = orden_carga_linea_reservas.linea 
+											and   orden_carga_linea.empresa         = venliped.empresa 
+											and   orden_carga_linea.venliped_anyo   = venliped.anyo 
+											and   orden_carga_linea.venliped_pedido = venliped.pedido 
+											and   orden_carga_linea.venliped_linea  = venliped.linea ) ) 
+				GROUP BY isnull(venliped.articulo,''),
+						 isnull(venliped.calidad,''),
+						 isnull(venliped.tonochar,''),
+						 isnull(venliped.calibre,0),
+						 isnull(venliped.tipo_pallet,''),
+						 isnull(venliped.caja,'')
+				 ) AS resultado ;
+	/*
+	SELECT SUM(resultado.stock) as stock, 
+			 SUM(resultado.reservado) as reservado, 
+			 SUM(resultado.preparado) as preparado
+	INTO   :ll_stock, 
+			 :ll_reservado, 
+			 :ll_preparado 
+	FROM (  
+	SELECT ISNULL(sum(alm_bultos_lineas.cantidad),0) as stock,   
+			 ISNULL(sum(orden_carga_linea_reservas.cantidad),0) as reservado, 
+			 0 as preparado 
+	FROM   alm_bultos_lineas 
+			 INNER JOIN alm_bultos ON alm_bultos_lineas.id_alm_bultos = alm_bultos.id 
+			 LEFT OUTER JOIN orden_carga_linea_reservas ON 
+							alm_bultos.empresa = orden_carga_linea_reservas.empresa 	AND 
+							alm_bultos.id = orden_carga_linea_reservas.id_alm_bultos 
+			 LEFT OUTER JOIN orden_carga_linea ON 
+							orden_carga_linea_reservas.empresa = orden_carga_linea.empresa AND 
+							orden_carga_linea_reservas.anyo = orden_carga_linea.anyo AND 
+							orden_carga_linea_reservas.codigo = orden_carga_linea.codigo AND 
+							orden_carga_linea_reservas.linea = orden_carga_linea.linea 
+			 LEFT OUTER JOIN venliped ON 
+							orden_carga_linea.empresa = venliped.empresa AND 
+							orden_carga_linea.venliped_anyo = venliped.anyo AND 
+							orden_carga_linea.venliped_pedido = venliped.pedido AND 
+							orden_carga_linea.venliped_linea = venliped.linea AND 
+							alm_bultos_lineas.empresa = venliped.empresa AND 
+							alm_bultos_lineas.articulo = venliped.articulo AND 
+							alm_bultos_lineas.calidad = venliped.calidad AND 
+							alm_bultos.tipo_pallet = venliped.tipo_pallet AND 
+							alm_bultos_lineas.caja = venliped.caja AND 
+							alm_bultos_lineas.tono = venliped.tonochar AND 
+							alm_bultos_lineas.calibre = venliped.calibre 
+	WHERE ( alm_bultos.empresa         = :arg_empresa ) 
+	AND  	( alm_bultos_lineas.articulo = :arg_articulo ) 
+	AND  	( alm_bultos_lineas.calidad  = :arg_calidad ) 
+	AND  	( alm_bultos_lineas.tono     = :arg_tono ) 
+	AND  	( alm_bultos_lineas.calibre  = :arg_calibre ) 
+	AND  	( alm_bultos.tipo_pallet     = :arg_tipo_pallet ) 
+	AND  	( alm_bultos_lineas.caja     = :arg_caja ) 
+	AND	ISNULL(venliped.situacion, '') <> 'P'
+	UNION ALL
+	SELECT 0 as stock,
+			 sum( case when ventipolin.gestionar_en_piezas = 'S' then venliped.cantidad_pzs else case when articulos.unidad = '1' then ( venliped.cantidad / almartcajas.metroscaja ) * almartcajas.piezascaja else venliped.cantidad end end ) as reservado,
+			 0 as preparado 
+	FROM   venliped,
+			 ventipolin, 
+			 articulos, 
+			 almartcajas 
+	WHERE ( venliped.empresa   = ventipolin.empresa ) 
+	AND   ( venliped.tipolinea = ventipolin.codigo ) 
+	AND   ( venliped.empresa   = articulos.empresa ) 
+	AND   ( venliped.articulo  = articulos.codigo ) 
+	AND   ( venliped.empresa   = almartcajas.empresa ) 
+	AND   ( venliped.articulo  = almartcajas.articulo ) 
+	AND   ( venliped.caja      = almartcajas.caja ) 
+	AND   ( venliped.empresa     = :arg_empresa ) 
+	AND  	( venliped.articulo    = :arg_articulo ) 
+	AND  	( venliped.calidad     = :arg_calidad ) 
+	AND  	( venliped.tonochar    = :arg_tono ) 
+	AND  	( venliped.calibre     = :arg_calibre ) 
+	AND  	( venliped.tipo_pallet = :arg_tipo_pallet ) 
+	AND  	( venliped.caja        = :arg_caja ) 
+	AND   ( venliped.situacion   = 'C' )
+	AND   ( not exists ( select orden_carga_linea.codigo 
+								from  orden_carga_linea,
+										orden_carga_linea_reservas
+								where orden_carga_linea.empresa         = orden_carga_linea_reservas.empresa
+								and   orden_carga_linea.anyo            = orden_carga_linea_reservas.anyo 
+								and   orden_carga_linea.codigo          = orden_carga_linea_reservas.codigo 
+								and   orden_carga_linea.linea           = orden_carga_linea_reservas.linea 
+								and   orden_carga_linea.empresa         = venliped.empresa 
+								and   orden_carga_linea.venliped_anyo   = venliped.anyo 
+								and   orden_carga_linea.venliped_pedido = venliped.pedido 
+								and   orden_carga_linea.venliped_linea  = venliped.linea ) ) 	
+	UNION ALL 
+	SELECT ISNULL(sum(alm_bultos_lineas.cantidad),0) as stock, 
+			 0 as reservado, 
+			 ISNULL(sum(orden_carga_linea_reservas.cantidad),0) as preparado  
+	FROM   alm_bultos_lineas 
+			 INNER JOIN alm_bultos ON alm_bultos_lineas.id_alm_bultos = alm_bultos.id 
+			 LEFT OUTER JOIN orden_carga_linea_reservas ON 
+								alm_bultos.empresa = orden_carga_linea_reservas.empresa AND 
+								alm_bultos.id = orden_carga_linea_reservas.id_alm_bultos 
+			 LEFT OUTER JOIN orden_carga_linea ON 
+								orden_carga_linea_reservas.empresa = orden_carga_linea.empresa AND 
+								orden_carga_linea_reservas.anyo = orden_carga_linea.anyo AND 
+								orden_carga_linea_reservas.codigo = orden_carga_linea.codigo AND 
+								orden_carga_linea_reservas.linea = orden_carga_linea.linea 
+			 LEFT OUTER JOIN venliped ON 
+								orden_carga_linea.empresa = venliped.empresa AND 
+								orden_carga_linea.venliped_anyo = venliped.anyo AND 
+								orden_carga_linea.venliped_pedido = venliped.pedido AND 
+								orden_carga_linea.venliped_linea = venliped.linea AND 
+								alm_bultos_lineas.empresa = venliped.empresa AND 
+								alm_bultos_lineas.articulo = venliped.articulo AND 
+								alm_bultos_lineas.calidad = venliped.calidad AND 
+								alm_bultos_lineas.caja = venliped.caja AND 
+								alm_bultos_lineas.tono = venliped.tonochar AND 
+								alm_bultos_lineas.calibre = venliped.calibre 
+	WHERE ( alm_bultos.empresa         = :arg_empresa ) 
+	AND  	( alm_bultos_lineas.articulo = :arg_articulo ) 
+	AND  	( alm_bultos_lineas.calidad  = :arg_calidad ) 
+	AND  	( alm_bultos_lineas.tono     = :arg_tono ) 
+	AND  	( alm_bultos_lineas.calibre  = :arg_calibre ) 
+	AND  	( venliped.tipo_pallet       = :arg_tipo_pallet ) 
+	AND  	( alm_bultos_lineas.caja     = :arg_caja )
+	AND	ISNULL(venliped.situacion, '') = 'P' ) AS resultado;
+	*/
+end if
+
+Return ll_stock
+end function
+

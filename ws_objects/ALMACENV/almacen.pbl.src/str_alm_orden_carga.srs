@@ -1,0 +1,14 @@
+﻿$PBExportHeader$str_alm_orden_carga.srs
+global type str_alm_orden_carga from structure
+     DECIMAL {0}     id
+     STRING     empresa
+     DATETIME     fecha
+     STRING     usuario
+     STRING     cliente
+     STRING     envio
+     STRING     observaciones
+     STRING     almtipotransportes_codigo
+     DECIMAL {0}     peso_maximo
+     DATETIME     fecha_alta
+end type
+

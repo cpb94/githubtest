@@ -1,0 +1,41 @@
+﻿$PBExportHeader$dw_con_ranking_clientes.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=80 color="536870912" )
+summary(height=0 color="-1" )
+footer(height=80 color="-1" )
+detail(height=68 color="-1"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=total dbname="comodin.total" )
+ column=(type=decimal(4) updatewhereclause=yes name=moneda dbname="comodin.moneda" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_moneda dbname="comodin.nombre_moneda" )
+ column=(type=decimal(4) updatewhereclause=yes name=total_pts dbname="comodin.total_pts" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcentaje dbname="comodin.porcentaje" )
+ column=(type=decimal(4) updatewhereclause=yes name=porcac dbname="comodin.porcac" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ retrieve="  SELECT comodin.empresa,   
+         numerico total,   
+         numerico moneda,   
+         letras nombre_moneda,   
+         numerico total_pts,   
+         numerico porcentaje,
+			numerico porcac,  
+         letras cliente,   
+         letras nombre_cliente  
+    FROM comodin  
+   WHERE comodin.empresa = :arg_empresa    
+" arguments=(("arg_empresa", string),("fechad", datetime),("fechah", datetime)) )
+text(band=header alignment="2" text="   %   "border="6" color="0" x="2126" y="8" height="64" width="233"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Total"border="6" color="0" x="1367" y="8" height="64" width="731"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Nombre Cliente"border="6" color="0" x="9" y="8" height="64" width="1335"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="   %  Ac "border="6" color="0" x="2386" y="8" height="64" width="229"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="1" expression="/* f_calculo_metros_lineales(empresa,articulo, cantidad) */"border="0" color="0" x="2025" y="324" height="56" width="133" format="[general]"  name=ml visible="1~t0"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="2126" y="4" height="56" width="238" format="[general]"  name=porcentaje editmask.mask="#,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="1335" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=5 alignment="1" tabsequence=32766 border="0" color="0" x="1362" y="4" height="56" width="635" format="[general]"  name=total_pts editmask.mask="###,###,###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=detail alignment="2" text="€"border="0" color="128" x="2048" y="8" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="2386" y="4" height="56" width="238" format="[general]"  name=porcac editmask.mask="#,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=footer alignment="1" expression="sum(total_pts for all)"border="0" color="16711680" x="1362" y="8" height="56" width="635" format="###,###,###,##0.00"  name=tot_pts  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=footer alignment="2" text="€"border="0" color="16711680" x="2053" y="12" height="56" width="23"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_idioma.srf
+$PBExportComments$Devualve el nombre del idioma.
+global type f_nombre_idioma from function_object
+end type
+
+forward prototypes
+global function string f_nombre_idioma (string cod_idioma)
+end prototypes
+
+global function string f_nombre_idioma (string cod_idioma);String nombre
+  SELECT idiomas.texto 
+    INTO :nombre  
+    FROM idiomas  
+   WHERE idiomas.idioma = :cod_idioma  Using SQLCA;
+  IF SQLCA.SQLCode<>0 THEN 
+     nombre=""
+  END IF
+  If IsNull(nombre) Then nombre = ""
+  Return nombre
+
+end function
+

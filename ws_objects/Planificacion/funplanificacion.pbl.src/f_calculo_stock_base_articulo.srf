@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_calculo_stock_base_articulo.srf
+global type f_calculo_stock_base_articulo from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_stock_base_articulo (string articulo)
+end prototypes
+
+global function decimal f_calculo_stock_base_articulo (string articulo);str_escandallo vector_escandallo[300]
+integer  indice = 1 , factor_acumulado = 1, nivel
+string  base
+integer i
+string uso, des_base
+dec stock
+
+f_escandallo_factores_con_sin_base(vector_Escandallo, articulo, indice, factor_acumulado, nivel, true)	
+
+i = 1
+do while i < 300 and uso <> '1'
+	base = vector_escandallo[i].articulo
+	select uso,  descripcion 
+	into :uso, :des_base
+	from articulos
+	where empresa = :codigo_empresa
+	and codigo = :base;
+	
+	i++
+loop
+
+select sum(cantidade- cantidads)
+into :stock
+from almacenmovimientos
+where empresa =:codigo_empresa
+and articulo = :base;
+
+return stock;
+
+//messagebox ("Stock Base", base+"   "+des_base+":   "+string (stock, "###,###,##0"))
+end function
+

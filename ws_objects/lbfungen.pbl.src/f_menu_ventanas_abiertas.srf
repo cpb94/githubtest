@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_menu_ventanas_abiertas.srf
+global type f_menu_ventanas_abiertas from function_object
+end type
+
+forward prototypes
+global function integer f_menu_ventanas_abiertas ()
+end prototypes
+
+global function integer f_menu_ventanas_abiertas ();return numero_ventanas_activas
+end function
+

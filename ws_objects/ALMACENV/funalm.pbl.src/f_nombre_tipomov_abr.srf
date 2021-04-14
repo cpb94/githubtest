@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_nombre_tipomov_abr.srf
+global type f_nombre_tipomov_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipomov_abr (string ra_codemp, string ra_codigo)
+end prototypes
+
+global function string f_nombre_tipomov_abr (string ra_codemp, string ra_codigo);string	ls_nombre
+
+    SELECT almtipomov.resumido  
+    INTO :ls_nombre
+    FROM almtipomov  
+   WHERE ( almtipomov.empresa      = :ra_codemp ) AND  
+         ( almtipomov.tipomov      = :ra_codigo )
+    USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+end function
+

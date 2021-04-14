@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_nombre_numero_con_decimales.srf
+global type f_nombre_numero_con_decimales from function_object
+end type
+
+forward prototypes
+global function string f_nombre_numero_con_decimales (decimal numero, integer genero, string arg_moneda)
+end prototypes
+
+global function string f_nombre_numero_con_decimales (decimal numero, integer genero, string arg_moneda);long parte_entera,parte_ent2
+dec  parte_decimal 
+string resultado
+int dec_moneda,i
+
+dec_moneda = f_decimales_moneda(arg_moneda)
+
+
+parte_entera = truncate(numero,0)
+parte_decimal = numero - parte_entera
+
+
+if parte_decimal > 0 then
+		
+	for i = 1 to dec_moneda 
+		parte_decimal = parte_decimal * 10		
+	next	
+	
+	parte_ent2	 = truncate(parte_decimal,0)
+	
+	resultado = f_nombre_numero(parte_entera,genero)	
+	resultado = resultado + " CON " 
+	resultado = resultado + f_nombre_numero(parte_ent2,genero)	
+else
+	resultado = f_nombre_numero(numero,genero)	
+end if
+
+return resultado
+
+
+
+
+
+end function
+

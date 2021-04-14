@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_ventana_alerta.srs
+global type str_ventana_alerta from structure
+	string		titulo
+	string		subtitulo
+	string		mensaje
+	integer		tipo		descriptor "comment" = "1 alerta maxima, 2 aviso, 3 informacion"
+	string		botones[]		descriptor "comment" = "Texto de los botones de la ventana"
+	boolean		mostrar_imagen
+end type
+

@@ -1,0 +1,81 @@
+﻿$PBExportHeader$f_bloquear.srf
+$PBExportComments$Función de bloqueo.
+global type f_bloquear from function_object
+end type
+
+forward prototypes
+global function boolean f_bloquear (string a_tabla, string a_codigo, string a_titulo)
+end prototypes
+
+global function boolean f_bloquear (string a_tabla, string a_codigo, string a_titulo);// Devuelve FAlSE -> BLoqueo con exito
+//          TRUE  -> Registro Ya est bloqueado
+//           Si recibe argumento en nulo devuelve FALSE
+string   bloq_tabla,bloq_codigo,bloq_usuario,bloq_titulo,bloq1_tabla,bloq1_codigo,bloq1_usuario,bloq1_titulo
+datetime bloq_fecha,bloq1_fecha
+boolean  valor
+string  retorno
+string  control
+// Variables gestion incidencias
+String in_programa,in_incidencia
+
+in_programa="f_bloquear"
+IF Trim(a_tabla)="" THEN
+	in_incidencia ="Argumento tabla Nulo  programa origen: " + a_titulo
+	f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+IF Trim(a_codigo)="" THEN
+	in_incidencia ="Argumento codigo Nulo  programa origen: " + a_titulo
+	f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+bloq_tabla    = a_tabla
+bloq_codigo   = a_codigo
+bloq_fecha    = DateTime(today(),now())
+//messagebox('', string(bloq_fecha))
+bloq_usuario  = nombre_usuario
+bloq_titulo   = a_titulo
+IF trim(bloq_tabla)="" THEN  RETURN FALSE
+
+control="S"
+
+
+DO WHILE control="S"
+	SELECT uti_bloqueo.tabla, uti_bloqueo.codigo, uti_bloqueo.titulo, uti_bloqueo.fecha, uti_bloqueo.usuario 
+	INTO :bloq1_tabla, :bloq1_codigo, :bloq1_titulo, :bloq1_fecha, :bloq1_usuario  
+	FROM uti_bloqueo  
+	WHERE (uti_bloqueo.tabla  = :bloq_tabla ) AND  
+	 		(uti_bloqueo.codigo = :bloq_codigo )
+	USING SQLCA;
+	
+	IF SQLCA.SQLCode=100 THEN
+		INSERT INTO uti_bloqueo  
+			(tabla,codigo, titulo,usuario)  
+		VALUES (:bloq_tabla, :bloq_codigo, :bloq_titulo, :bloq_usuario)
+		USING SQLCA;
+
+		
+		IF SQLCA.SQLCode<>0 THEN
+			valor = TRUE
+	   ELSE
+			valor = FALSE
+	   END IF
+		EXIT
+	ELSE	
+		str_parametros lstr_param
+		lstr_param.s_titulo_ventana = ""
+		lstr_param.s_argumentos[1]  = "wi_mant_bloqueo"
+		lstr_param.s_argumentos[2]  = bloq_tabla
+		lstr_param.s_argumentos[3]  = bloq_codigo
+		lstr_param.i_nargumentos    = 3
+		IF bloq_tabla= "GESTION ALMACEN" Then  f_grabar_incidencia(a_titulo,"Concurrencia gestión almacen")
+		OpenWithParm(w_bloqueo,lstr_param)
+		retorno = Message.StringParm
+		IF retorno="B" THEN
+			valor = TRUE
+			EXIT
+		END IF
+	END IF
+LOOP
+RETURN valor
+end function
+

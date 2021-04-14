@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_nompaises.srd
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation=0 print.margin.left=110 print.margin.right=110 print.margin.top=97 print.margin.bottom=97 print.paper.size=0 print.paper.source=0)
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(5) key=yes update=yes name=pais dbname="paises.pais"  )
+column=(type=char(50) update=yes name=nombre dbname="paises.nombre"  )
+ retrieve="PBSELECT(TABLE(NAME=~"paises~") COLUMN(NAME=~"paises.pais~")COLUMN(NAME=~"paises.nombre~"))"
+  update="paises" updatewhere=1 updatekeyinplace=no
+ )
+column(name=nombre band=detail id=2 x="174" y="12" height="65" width="970" color="0" border="5" alignment="0" format="[general]" edit.name="mayusculas" editmask.focusrectangle=no editmask.autoskip=no editmask.required=no editmask.readonly=no editmask.codetable=no editmask.spin=no editmask.mask="!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" criteria.required=no criteria.override_edit=no crosstab.repeat=no background.mode="2" background.color="16777215" font.charset="0" font.face="System" font.family="2" font.height="-10" font.pitch="2" font.weight="400" tabsequence=20 )

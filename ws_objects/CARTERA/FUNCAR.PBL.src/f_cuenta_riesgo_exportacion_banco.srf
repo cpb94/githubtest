@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_cuenta_riesgo_exportacion_banco.srf
+global type f_cuenta_riesgo_exportacion_banco from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_riesgo_exportacion_banco (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_cuenta_riesgo_exportacion_banco (string cod_empresa, string cod_banco);String ls_cuenta
+
+	 SELECT    carbancos.cta_riesgo
+    INTO   :ls_cuenta  
+    FROM carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+
+RETURN ls_cuenta
+//
+
+end function
+

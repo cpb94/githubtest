@@ -1,0 +1,96 @@
+﻿$PBExportHeader$f_hora_fichero.srf
+global type f_hora_fichero from function_object
+end type
+
+forward prototypes
+global function integer f_hora_fichero (string arg_fichero, ref datetime arg_creacion, ref datetime arg_acceso, ref datetime arg_modificacion)
+end prototypes
+
+global function integer f_hora_fichero (string arg_fichero, ref datetime arg_creacion, ref datetime arg_acceso, ref datetime arg_modificacion);//public function integer uf_getfiletime (string arg_fichero, ref datetime arg_creacion, ref datetime arg_acceso, ref datetime arg_modificacion);
+// ***************************************************************
+// uf_GetFileTime (32 bit only)
+// 
+// Parms:   arg_fichero = Name of file which to retrieve date and time
+//          arg_creacion = Creation time
+//          arg_acceso = Last access time
+//          arg_modificacion = Last write time
+//
+// Obtains creation, access and write times of the specified file
+//
+// Returns: True is successfull or False if failure
+//
+// REV   DATE   INIT  REASON
+//  -  07/14/98  PM   New
+//
+// http://www.pmsys.com/pb  pmele@pmsys.com
+// ***************************************************************
+ulong        hfile
+boolean      rtn
+date         ld_date
+time         lt_time
+filetime     lstr_create
+filetime     lstr_access
+filetime     lstr_write
+systemtime   lstr_system
+str_ofstruct lstr_ofstruct
+environment  lstr_env
+
+// Obtain our system environment
+IF GetEnvironment(lstr_env) <> 1 THEN
+    MessageBox("Error","Error obtaining system environment!")
+    Halt
+End If
+
+CHOOSE CASE lstr_env.Win16
+    CASE True
+        MessageBox("Error","GetFileTime cannot be used in 16 bit mode!")
+        Return -1
+    Case Else
+        hfile = OpenFile(arg_fichero, lstr_ofstruct, 0)
+        If hfile<1 Then Return 0
+        rtn = GetFileTime(hfile, lstr_create, lstr_access, lstr_write)
+        If Not rtn Then Return 0
+        rtn = CloseHandle(hfile)
+        If Not rtn Then Return 0
+
+        // Convert dates
+        rtn = FileTimeToSystemTime(lstr_create,lstr_system)
+        If Not rtn Then Return 0
+        arg_creacion = DateTime( &
+            Date( &
+            String(lstr_system.wyear) + "/" + &
+            String(lstr_system.wmonth) + "/" + &
+            String(lstr_system.wday)), &
+            Time( &
+            String(lstr_system.whour) + ":" + &
+            String(lstr_system.wminute) + ":" + &
+            String(lstr_system.wsecond)))
+        rtn = FileTimeToSystemTime(lstr_access,lstr_system)
+        If Not rtn Then Return 0
+        arg_acceso = DateTime( &
+            Date( &
+            String(lstr_system.wyear) + "/" + &
+            String(lstr_system.wmonth) + "/" + &
+            String(lstr_system.wday)), &
+            Time( &
+            String(lstr_system.whour) + ":" + &
+            String(lstr_system.wminute) + ":" + &
+            String(lstr_system.wsecond)))
+        rtn = FileTimeToSystemTime(lstr_write,lstr_system)
+        If Not rtn Then Return 0
+        arg_modificacion = DateTime( &
+            Date( &
+            String(lstr_system.wyear) + "/" + &
+            String(lstr_system.wmonth) + "/" + &
+            String(lstr_system.wday)), &
+            Time( &
+            String(lstr_system.whour) + ":" + &
+            String(lstr_system.wminute) + ":" + &
+            String(lstr_system.wsecond)))
+            
+End Choose
+
+Return -1
+
+end function
+

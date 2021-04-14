@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_inicializar_str_almubimapa_codbar.srf
+global type f_inicializar_str_almubimapa_codbar from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_almubimapa_codbar ( ref str_almubimapa_codbar str_almubimapa_codbar)
+end prototypes
+
+global function boolean f_inicializar_str_almubimapa_codbar ( ref str_almubimapa_codbar str_almubimapa_codbar);boolean lb_correcto = true
+
+if isnull(str_almubimapa_codbar.id) then str_almubimapa_codbar.id = 0
+if isnull(str_almubimapa_codbar.empresa) then str_almubimapa_codbar.empresa = ''
+if isnull(str_almubimapa_codbar.almacen) then str_almubimapa_codbar.almacen = ''
+if isnull(str_almubimapa_codbar.zona) then str_almubimapa_codbar.zona = ''
+if isnull(str_almubimapa_codbar.fila) then str_almubimapa_codbar.fila = 0
+if isnull(str_almubimapa_codbar.altura) then str_almubimapa_codbar.altura = 0
+if isnull(str_almubimapa_codbar.code39) then str_almubimapa_codbar.code39 = ''
+if isnull(str_almubimapa_codbar.color_fondo) then str_almubimapa_codbar.color_fondo = 0
+if isnull(str_almubimapa_codbar.color_texto) then str_almubimapa_codbar.color_texto = 0
+if isnull(str_almubimapa_codbar.ean13) then str_almubimapa_codbar.ean13 = ''
+if isnull(str_almubimapa_codbar.activo) then str_almubimapa_codbar.activo = ''
+if isnull(str_almubimapa_codbar.clasificacion_abc) then str_almubimapa_codbar.clasificacion_abc = ''
+if isnull(str_almubimapa_codbar.largo_cm) then str_almubimapa_codbar.largo_cm = 0
+if isnull(str_almubimapa_codbar.ancho_cm) then str_almubimapa_codbar.ancho_cm = 0
+if isnull(str_almubimapa_codbar.alto_cm) then str_almubimapa_codbar.alto_cm = 0
+if isnull(str_almubimapa_codbar.peso_maximo_kg) then str_almubimapa_codbar.peso_maximo_kg = 0
+if isnull(str_almubimapa_codbar.apilado_en_bloque) then str_almubimapa_codbar.apilado_en_bloque = ''
+if isnull(str_almubimapa_codbar.id_alm_bultos) then str_almubimapa_codbar.id_alm_bultos = 0
+if isnull(str_almubimapa_codbar.gestionar_en_piezas) then str_almubimapa_codbar.gestionar_en_piezas = ''
+if isnull(str_almubimapa_codbar.tipo_ubicacion) then str_almubimapa_codbar.tipo_ubicacion = 0
+if isnull(str_almubimapa_codbar.permitir_reservas) then str_almubimapa_codbar.permitir_reservas = ''
+if isnull(str_almubimapa_codbar.distancia) then str_almubimapa_codbar.distancia = 0
+if isnull(str_almubimapa_codbar.sugerida) then str_almubimapa_codbar.sugerida = ''
+return lb_correcto
+end function
+

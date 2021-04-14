@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_insert_carfinanliq.srf
+global type f_insert_carfinanliq from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carfinanliq (str_carfinanliq datos)
+end prototypes
+
+global function boolean f_insert_carfinanliq (str_carfinanliq datos);IF IsNUll(datos.empresa) or isnull(datos.anyo) or isnull(datos.bancofinan) or &
+	isnull(datos.contador) or isnull(datos.num_prorroga)  or &
+	isnull(datos.liquidacion)  then 
+	f_mensaje("Error en Base de datos (f_insert_carfinanliq)","Pase de parámetros")
+	return false
+end if
+	
+
+INSERT INTO carfinanliq 
+		( empresa,anyo,bancofinan,contador,num_prorroga,
+		liquidacion,banco,fecha,cambio,divisas,importe,moneda)
+		  
+VALUES ( :datos.empresa,:datos.anyo,:datos.bancofinan,:datos.contador,:datos.num_prorroga,
+		:datos.liquidacion,:datos.banco,:datos.fecha,:datos.cambio,
+		:datos.divisas,:datos.importe,:datos.moneda)  ;
+
+IF Sqlca.SqlCode <> 0 Then
+	f_mensaje("Error en Base de datos (f_insert_carfinanliq)",sqlca.sqlerrtext)
+ 	Return FALSE
+ELSE
+ 	Return TRUE
+END IF
+
+
+end function
+

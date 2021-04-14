@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_int_preparacion_ordenes.srd
+release 6;
+datawindow(units=1 timer_interval=0 color=33551093 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 24 print.margin.right = 24 print.margin.top = 24 print.margin.bottom = 24 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=19 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=18 color="553648127" )
+table(column=(type=char(20) update=yes updatewhereclause=yes name=matricula dbname="almcargas.matricula" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almcargas~" ) COLUMN(NAME=~"almcargas.matricula~")WHERE(    EXP1 =~"almcargas.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almcargas.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almcargas.matricula~"   OP =~"in~"    EXP2 =~"SELECT almlincargas.matricula FROM almlincargas WHERE almlincargas.empresa = :empresa  and almlincargas.cliente = :cliente ~" )  GROUP(NAME=~"almcargas.matricula~")) ORDER(NAME=~"almcargas.matricula~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("cliente", string)) )
+line(band=detail x1="1" y1="1" x2="1" y2="22" pen.style="0" pen.width="1" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="3" y1="17" x2="93" y2="17" pen.style="0" pen.width="1" pen.color="12632256"  background.mode="2" background.color="12632256" )
+line(band=detail x1="92" y1="0" x2="92" y2="18" pen.style="0" pen.width="1" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="4" y="1" height="14" width="86" format="[general]"  name=matricula edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551093" )
+text(band=header alignment="2" text="Matricula"border="6" color="0" x="3" y="2" height="14" width="86"  name=matricula_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

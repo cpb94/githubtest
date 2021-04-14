@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_alb_pdtes_facturar_fechas.srf
+global type f_alb_pdtes_facturar_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_alb_pdtes_facturar_fechas (string empresa, datetime desde, datetime hasta)
+end prototypes
+
+global function decimal f_alb_pdtes_facturar_fechas (string empresa, datetime desde, datetime hasta);dec resultado
+
+select sum( (importe / isnull(euros, 1)) - (impdtopp / isnull(euros, 1)) ) 
+into :resultado
+from   venlialb, monedas
+where  venlialb.empresa = :empresa
+and 	 venlialb.divisa = monedas.moneda
+and    falbaran between :desde and :hasta
+and 	 ( ( albaran_deposito = 'N' ) or ( albaran_deposito is null ) or ( albaran_deposito = '' )) ;
+
+if isnull(resultado) then resultado = 0
+
+return resultado
+end function
+

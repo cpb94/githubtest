@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_pedidos_de_hoy.srf
+global type f_pedidos_de_hoy from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_de_hoy (string empresa)
+end prototypes
+
+global function decimal f_pedidos_de_hoy (string empresa);//Calculamos Pedidos de hoy
+
+dec pedidos_hoy
+datetime hoy, ahora
+
+hoy = datetime(today())
+ahora = datetime(today(), now())
+
+select sum(venliped.importe/ venped.cambio)
+into :pedidos_hoy
+from venliped, venped 
+where venliped.empresa = :codigo_empresa 
+and venliped.empresa = venped.empresa
+and venliped.anyo = venped.anyo
+and venliped.pedido = venped.pedido
+and venped.es_proforma = 'N' 
+and venliped.fecha_intr >= :hoy and venliped.fecha_intr <= :ahora;
+
+if isnull(pedidos_hoy) then
+	pedidos_hoy = 0
+end if
+
+return pedidos_hoy
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_inicializar_str_orden_carga_linea_reservas.srf
+global type f_inicializar_str_orden_carga_linea_reservas from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_orden_carga_linea_reservas ( ref str_orden_carga_linea_reservas str_orden_carga_linea_reservas)
+end prototypes
+
+global function boolean f_inicializar_str_orden_carga_linea_reservas ( ref str_orden_carga_linea_reservas str_orden_carga_linea_reservas);boolean lb_correcto = true
+
+if isnull(str_orden_carga_linea_reservas.empresa) then str_orden_carga_linea_reservas.empresa = ''
+if isnull(str_orden_carga_linea_reservas.anyo) then str_orden_carga_linea_reservas.anyo = 0
+if isnull(str_orden_carga_linea_reservas.codigo) then str_orden_carga_linea_reservas.codigo = ''
+if isnull(str_orden_carga_linea_reservas.linea) then str_orden_carga_linea_reservas.linea = 0
+if isnull(str_orden_carga_linea_reservas.id_alm_bultos) then str_orden_carga_linea_reservas.id_alm_bultos = 0
+if isnull(str_orden_carga_linea_reservas.cantidad) then str_orden_carga_linea_reservas.cantidad = 0
+return lb_correcto
+end function
+

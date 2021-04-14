@@ -1,0 +1,89 @@
+﻿$PBExportHeader$f_cargar_str_venmprima.srf
+global type f_cargar_str_venmprima from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_venmprima (STRING arg_empresa, STRING arg_codigo,  ref str_venmprima str_venmprima)
+end prototypes
+
+global function boolean f_cargar_str_venmprima (STRING arg_empresa, STRING arg_codigo,  ref str_venmprima str_venmprima);boolean lb_correcto = true
+
+SELECT venmprima.empresa,
+       venmprima.codigo,
+       venmprima.descripcion,
+       venmprima.tipo_materia,
+       venmprima.referencia_prove,
+       venmprima.precio_coste,
+       venmprima.precio_medio_coste,
+       venmprima.fecha_ultima_entrada,
+       venmprima.costeyportes,
+       venmprima.stock_maximo,
+       venmprima.stock_minimo,
+       venmprima.stock_optimo,
+       venmprima.entradas,
+       venmprima.salidas,
+       venmprima.existencias,
+       venmprima.stock_actual,
+       venmprima.activo,
+       venmprima.pte_recibir,
+       venmprima.observaciones,
+       venmprima.portes,
+       venmprima.proveedor,
+       venmprima.familia,
+       venmprima.tipo_unidad,
+       venmprima.control_almacen,
+       venmprima.ultima_fcompra,
+       venmprima.envase,
+       venmprima.cuenta,
+       venmprima.almacen_entra,
+       venmprima.descripcion_vtas,
+       venmprima.equivalencia_kg,
+       venmprima.proveedor_obligatorio,
+       venmprima.densidad,
+       venmprima.descripcion_produccion,
+       venmprima.rtp,
+       venmprima.seccion
+INTO   :str_venmprima.empresa,
+       :str_venmprima.codigo,
+       :str_venmprima.descripcion,
+       :str_venmprima.tipo_materia,
+       :str_venmprima.referencia_prove,
+       :str_venmprima.precio_coste,
+       :str_venmprima.precio_medio_coste,
+       :str_venmprima.fecha_ultima_entrada,
+       :str_venmprima.costeyportes,
+       :str_venmprima.stock_maximo,
+       :str_venmprima.stock_minimo,
+       :str_venmprima.stock_optimo,
+       :str_venmprima.entradas,
+       :str_venmprima.salidas,
+       :str_venmprima.existencias,
+       :str_venmprima.stock_actual,
+       :str_venmprima.activo,
+       :str_venmprima.pte_recibir,
+       :str_venmprima.observaciones,
+       :str_venmprima.portes,
+       :str_venmprima.proveedor,
+       :str_venmprima.familia,
+       :str_venmprima.tipo_unidad,
+       :str_venmprima.control_almacen,
+       :str_venmprima.ultima_fcompra,
+       :str_venmprima.envase,
+       :str_venmprima.cuenta,
+       :str_venmprima.almacen_entra,
+       :str_venmprima.descripcion_vtas,
+       :str_venmprima.equivalencia_kg,
+       :str_venmprima.proveedor_obligatorio,
+       :str_venmprima.densidad,
+       :str_venmprima.descripcion_produccion,
+       :str_venmprima.rtp,
+       :str_venmprima.seccion
+FROM venmprima
+WHERE venmprima.empresa = :arg_empresa AND venmprima.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

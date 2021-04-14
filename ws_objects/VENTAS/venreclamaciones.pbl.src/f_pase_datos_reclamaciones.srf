@@ -1,0 +1,111 @@
+﻿$PBExportHeader$f_pase_datos_reclamaciones.srf
+global type f_pase_datos_reclamaciones from function_object
+end type
+
+forward prototypes
+global subroutine f_pase_datos_reclamaciones ()
+end prototypes
+
+global subroutine f_pase_datos_reclamaciones ();Datastore d
+long i,l
+string ls_empresa,ls_cliente,ls_reclamacion,ls_descripcion
+/// Seleccionamos albaranes de informix cabecera
+dec{0} lc_anyo,lc_factura,lc_albaran
+dec lc_pcoste,lc_cantidad
+integer li_linea_albaran,li_anyo,li_linea_factura
+boolean lb_bien = true
+
+
+delete from ven_reclamaciones_detalle using sqlca;
+f_cargar_cursor_transaccion( sqlca, d, "select * from ven_reclamaciones_detalle_gres")
+
+for i = 1 to d.rowcount()
+		
+	ls_empresa = d.object.empresa[i]
+	lc_anyo    = d.object.anyo[i]
+	lc_factura = d.object.factura[i]
+	ls_cliente = d.object.cliente[i]
+	lc_cantidad  = d.object.cantidad[i]
+	li_linea_factura = d.object.linea[i]
+	ls_reclamacion = d.object.reclamacion[i]
+	ls_descripcion = d.object.descripcion[i]
+	
+	
+	select albaran,linea,anyo_albaran
+	into :lc_albaran,:li_linea_albaran,:li_anyo
+	from venlifac
+	where empresa =:ls_empresa
+	and   factura =:lc_factura
+	and   cliente =:ls_cliente
+	and   anyo    =:lc_anyo
+	and   linea_factura = :li_linea_factura
+	using sqlca;
+	
+//	if sqlca.sqlcode = 0 or sqlca.sqlcode = 100 then
+//		if sqlca.sqlcode = 100 then
+//			select albaran,linea,anyo_albaran
+//			into :lc_albaran,:li_linea_albaran,:li_anyo
+//			from venlifac
+//			where empresa =:ls_empresa
+//			and   factura =:lc_factura
+//			and   cliente =:ls_cliente
+//			and   anyo    =:lc_anyo
+//			and   cantidad =:lc_cantidad
+//			using sqlca;
+//		end if
+//		
+//		if sqlca.sqlcode = 0 or sqlca.sqlcode = 100 then
+//			if sqlca.sqlcode = 100 then
+//			select albaran,linea,anyo_albaran
+//			into :lc_albaran,:li_linea_albaran,:li_anyo
+//			from venlifac
+//			where empresa =:ls_empresa
+//			and   factura =:lc_factura
+//			and   cliente =:ls_cliente
+//			and   anyo    =:lc_anyo
+//			and   linea_factura = :li_linea_factura
+//			using sqlca;
+//		end if
+//	end if
+			
+		if sqlca.sqlcode = 0 then	
+		INSERT INTO ven_reclamaciones_detalle  
+				( empresa,   
+				  cliente,   
+				  reclamacion,   
+				  anyo,   
+				  albaran,   
+				  linea_albaran,   
+				  cantidad,   
+				  descripcion,   
+				  factura,   
+				  linea )  
+	  VALUES ( :ls_empresa,   
+				  :ls_cliente,   
+				  :ls_reclamacion,   
+				  :li_anyo,   
+				  :lc_albaran,   
+				  :li_linea_albaran,   
+				  :lc_cantidad,   
+				  :ls_descripcion,   
+				  :lc_factura,   
+				  :li_linea_factura)   
+				  using sqlca;
+				  if sqlca.sqlcode <> 0 then
+					lb_bien = false
+					end if
+				else
+					lb_bien = false
+					
+				end if
+		
+				  
+next
+if lb_bien then
+	commit;
+else
+	rollback;
+end if
+messagebox("Fin", "Proceso creacion datos")
+end subroutine
+

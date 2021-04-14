@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_asientoinicial_contaorigen.srf
+global type f_asientoinicial_contaorigen from function_object
+end type
+
+forward prototypes
+global function decimal f_asientoinicial_contaorigen (string empresa, string codigo)
+end prototypes
+
+global function decimal f_asientoinicial_contaorigen (string empresa, string codigo);Dec as
+  SELECT contaorigen.asientoinicial  INTO :as
+    FROM contaorigen 
+   WHERE contaorigen.empresa = :empresa
+   AND   contaorigen.codigo = :codigo   USING SQLCA;
+
+RETURN as
+end function
+

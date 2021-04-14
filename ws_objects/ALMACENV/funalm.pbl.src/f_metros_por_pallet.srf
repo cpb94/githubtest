@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_metros_por_pallet.srf
+global type f_metros_por_pallet from function_object
+end type
+
+forward prototypes
+global function decimal f_metros_por_pallet (string articulo, string caja, string pallet)
+end prototypes
+
+global function decimal f_metros_por_pallet (string articulo, string caja, string pallet);dec v_metroscaja, v_cajaspallet
+
+select isnull(metroscaja,0)
+into :v_metroscaja
+from almartcajas
+where empresa = :codigo_empresa
+and articulo = :articulo
+and caja = :caja;
+
+select isnull(cajaspallet,0)
+into :v_cajaspallet
+from palarticulo
+where empresa = :codigo_empresa
+and articulo = :articulo
+and caja = :caja
+and codigo = :pallet;
+
+if pallet = '00000' and v_cajaspallet = 0 then
+	//Sin pallet
+	//Asumimos que hay cajas infinitas(Muchas)
+	v_cajaspallet = 9999
+end if
+
+return v_cajaspallet * v_metroscaja
+
+
+
+end function
+

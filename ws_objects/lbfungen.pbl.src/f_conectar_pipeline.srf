@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_conectar_pipeline.srf
+global type f_conectar_pipeline from function_object
+end type
+
+forward prototypes
+global function boolean f_conectar_pipeline ()
+end prototypes
+
+global function boolean f_conectar_pipeline ();trans = create transaction
+disconnect using trans;
+trans.lock       =  sqlca.lock
+trans.DBMS       =  sqlca.DBMS
+trans.Database   =  sqlca.database
+trans.UserId     =  sqlca.UserId
+trans.ServerName =  sqlca.ServerName
+trans.DbParm     =  sqlca.DbParm
+trans.logid      =  sqlca.logid
+
+connect using trans;
+if trans.sqlcode <> 0 then
+	MessageBox ("No Puedo conectar a la Base de Datos (trans)", trans.sqlerrtext)
+	return false
+end if
+
+trans2 = create transaction
+disconnect using trans2;
+trans2.lock       =  sqlca.lock
+trans2.DBMS       =  sqlca.DBMS
+trans2.Database   =  sqlca.database
+trans2.UserId     =  sqlca.UserId
+trans2.ServerName =  sqlca.ServerName
+trans2.DbParm     =  sqlca.DbParm
+trans2.logid      =  sqlca.logid
+
+connect using trans2;
+if trans2.sqlcode <> 0 then
+	MessageBox ("No Puedo conectar a la Base de Datos (trans2)", trans2.sqlerrtext)
+	return false
+end if
+
+return true
+end function
+

@@ -1,0 +1,16 @@
+﻿$PBExportHeader$report_con_famfor_deposito2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=69 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="venfamfordeposito.empresa" )
+ column=(type=char(20) updatewhereclause=yes key=yes name=cliente dbname="venfamfordeposito.cliente" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=familia dbname="venfamfordeposito.familia" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=formato dbname="venfamfordeposito.formato" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=calidad dbname="venfamfordeposito.calidad" )
+ column=(type=datetime updatewhereclause=yes name=falta dbname="venfamfordeposito.falta" )
+ column=(type=char(20) updatewhereclause=yes name=usuario dbname="venfamfordeposito.usuario" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venfamfordeposito~" ) COLUMN(NAME=~"venfamfordeposito.empresa~") COLUMN(NAME=~"venfamfordeposito.cliente~") COLUMN(NAME=~"venfamfordeposito.familia~") COLUMN(NAME=~"venfamfordeposito.formato~") COLUMN(NAME=~"venfamfordeposito.calidad~") COLUMN(NAME=~"venfamfordeposito.falta~") COLUMN(NAME=~"venfamfordeposito.usuario~")WHERE(    EXP1 =~"venfamfordeposito.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamfordeposito.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamfordeposito.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamfordeposito.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " update="venfamfordeposito" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("cliente", string),("familia", string),("calidad", string)) )
+compute(band=detail alignment="0" expression="f_nombre_formato_abr(empresa,formato)"border="0" color="0" x="1" y="4" height="65" width="659" format="[general]"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

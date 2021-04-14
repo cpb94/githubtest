@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_contabalgrup.srf
+global type f_nombre_contabalgrup from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contabalgrup (string emp, string codbal, string bloq, string grup)
+end prototypes
+
+global function string f_nombre_contabalgrup (string emp, string codbal, string bloq, string grup);string retorno
+
+  SELECT contabalgrup.titulo INTO :retorno  FROM contabalgrup  
+   WHERE ( contabalgrup.empresa = :emp ) AND  
+			( contabalgrup.codbal = :codbal ) AND  
+         ( contabalgrup.bloque = :bloq ) AND  
+         ( contabalgrup.grupo = :grup )   ;
+
+if isnull(retorno) then retorno=""
+
+return retorno
+end function
+

@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_contaparam_analitica.srf
+$PBExportComments$Devuelve true si la empresa tiene analitica
+global type f_contaparam_analitica from function_object
+end type
+
+forward prototypes
+global function boolean f_contaparam_analitica (integer ejercicio, string empresa)
+end prototypes
+
+global function boolean f_contaparam_analitica (integer ejercicio, string empresa);String 	ana
+Boolean	tiene
+
+SELECT contaparam.analitica INTO :ana FROM contaparam
+WHERE contaparam.ejercicio = :ejercicio
+AND   contaparam.empresa	= :empresa USING SQLCA;
+
+IF ana = "S" THEN
+	tiene = TRUE
+ELSE
+	tiene = FALSE
+END IF
+
+RETURN tiene
+
+end function
+

@@ -1,0 +1,45 @@
+﻿$PBExportHeader$dw_ayuda_remesas.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=15793151 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="carremesas.empresa" )
+ column=(type=long updatewhereclause=yes key=yes name=anyo dbname="carremesas.anyo" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=banco dbname="carremesas.banco" )
+ column=(type=long updatewhereclause=yes key=yes name=remesa dbname="carremesas.remesa" )
+ column=(type=char(1) updatewhereclause=yes key=yes name=naci_extra dbname="carremesas.naci_extra" )
+ column=(type=datetime updatewhereclause=yes name=fremesa dbname="carremesas.fremesa" )
+ column=(type=char(5) updatewhereclause=yes name=situacion dbname="carremesas.situacion" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="carremesas.importe" )
+ column=(type=char(5) updatewhereclause=yes name=tipodoc dbname="carremesas.tipodoc" )
+ column=(type=char(5) updatewhereclause=yes name=tiporem dbname="carremesas.tiporem" )
+ retrieve="  SELECT carremesas.empresa,   
+         carremesas.anyo,   
+         carremesas.banco,   
+         carremesas.remesa,   
+         carremesas.naci_extra,   
+         carremesas.fremesa,   
+         carremesas.situacion,   
+         carremesas.importe,   
+         carremesas.tipodoc,
+         carremesas.tiporem
+    FROM carremesas  
+   WHERE ( carremesas.empresa = :arg_empresa ) AND  
+         ( carremesas.anyo = :arg_anyo ) AND  
+         ( carremesas.banco = :arg_banco ) AND  
+         ( carremesas.naci_extra = :arg_naci_extr ) AND  
+         ( carremesas.situacion < :arg_situ )    
+" update="carremesas" updatewhere=0 updatekeyinplace=no arguments=(("arg_empresa", string),("arg_banco", string),("arg_anyo", number),("arg_naci_extr", string),("arg_situ", string))  sort="fremesa D " )
+text(band=header alignment="2" text="Remesa"border="6" color="0" x="9" y="8" height="56" width="329"  name=remesa_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Fecha remesa"border="6" color="0" x="357" y="8" height="56" width="480"  name=fremesa_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="855" y="8" height="56" width="448"  name=importe_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tipo de Documento "border="6" color="0" x="1321" y="8" height="56" width="590"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Tipo de Remesa"border="6" color="0" x="1929" y="4" height="60" width="759"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=4 alignment="1" tabsequence=40 border="0" color="0" x="9" y="4" height="60" width="329" format="[general]"  name=remesa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=60 border="0" color="0" x="357" y="4" height="60" width="480" format="[shortdate] [time]"  name=fremesa edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=90 border="0" color="0" x="855" y="4" height="60" width="448" format="###,###,###,##0"  name=importe edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_cartipodoc( arg_empresa , tipodoc )"border="0" color="0" x="1317" y="4" height="60" width="590" format="[general]"  name=nom_tipodoc  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_cartiporem(empresa,tiporem)"border="0" color="0" x="1925" y="4" height="64" width="768" format="[general]"  name=nombre_tipo_remesa  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

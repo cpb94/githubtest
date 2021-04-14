@@ -1,0 +1,34 @@
+﻿$PBExportHeader$str_rf_parametros_ventanas.srs
+global type str_rf_parametros_ventanas from structure
+	decimal { 0 }		id
+	string		empresa
+	string		descripcion
+	string		texto_ventana
+	string		tipo_ventana
+	string		ayuda_ventana
+	string		texto_paso1
+	string		texto_paso2
+	string		texto_paso3
+	string		ayuda_paso1
+	string		ayuda_paso2
+	string		ayuda_paso3
+	string		tipo_movimiento_entrada
+	string		sugerir_ubicacion_entrada
+	string		entrada_ubicacion_fija
+	string		almacen_entrada
+	string		zona_entrada
+	integer		fila_entrada
+	integer		altura_entrada
+	string		tipo_movimiento_salida
+	string		salida_ubicacion_fija
+	string		almacen_salida
+	string		zona_salida
+	integer		fila_salida
+	integer		altura_salida
+	string		permitir_en_bulto_con_lineas
+	string		tipologia_articulo
+	string		permitir_en_bulto_de_ubicacion
+	string		mostrar_contenido_bulto_entrada
+	string		entrada_consume_cajas
+end type
+

@@ -1,0 +1,59 @@
+﻿$PBExportHeader$report_con_albaranes_agencia.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=640 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=56 color="536870912" )
+detail(height=68 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="venalb.empresa" )
+ column=(type=decimal(4) updatewhereclause=yes name=albaran dbname="venalb.albaran" )
+ column=(type=datetime updatewhereclause=yes name=falbaran dbname="venalb.falbaran" )
+ column=(type=char(15) updatewhereclause=yes name=cliente dbname="venalb.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=transportista dbname="venalb.transportista" )
+ column=(type=char(5) updatewhereclause=yes name=envio dbname="venalb.envio" )
+ column=(type=decimal(4) updatewhereclause=yes name=peso dbname="venalb.peso" )
+ column=(type=char(30) updatewhereclause=yes name=genter_telefono dbname="genter.telefono" )
+ column=(type=char(5) updatewhereclause=yes name=genter_prefijo_provincia dbname="genter.prefijo_provincia" )
+ retrieve="  SELECT venalb.empresa,   
+         venalb.albaran,   
+         venalb.falbaran,   
+         venalb.cliente,   
+         venalb.transportista,   
+         venalb.envio,   
+         venalb.peso,   
+         genter.telefono,   
+         genter.prefijo_provincia  
+    FROM venalb,   
+         genter  
+   WHERE ( venalb.empresa = genter.empresa ) and  
+         ( venalb.cliente = genter.codigo ) and  
+         ( venalb.empresa = :empresa ) AND  
+         ( venalb.transportista like :transpor ) AND  
+         ( venalb.falbaran >= :fdesde ) AND  
+         ( venalb.falbaran <= :fhasta ) AND  
+         ( venalb.deposito <> 'S' ) AND
+			( genter.tipoter = ~"C~")
+" arguments=(("empresa", string),("transpor", string),("fdesde", datetime),("fhasta", datetime))  sort="empresa A transportista A falbaran A albaran A " )
+group(level=1 header.height=100 trailer.height=96 by=("empresa" , "transportista" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="0" y="0" height="304" width="3365" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+compute(band=header alignment="0" expression=" pageCount()"border="0" color="16777215" x="14" y="316" height="4" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="LISTADO DE AGENCIA"border="0" color="128" x="1166" y="332" height="80" width="896"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Fecha"border="2" color="0" x="5" y="572" height="64" width="251"  name=fpedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cliente"border="2" color="0" x="535" y="572" height="64" width="974"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="~"Desde fecha ~"+string(fdesde,~"dd-mm-yy~")+ ~" hasta ~"+string(fhasta,~"dd-mm-yy~")"border="0" color="0" x="1074" y="444" height="64" width="2144" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Teléfono"border="2" color="0" x="3589" y="572" height="64" width="837"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Peso"border="2" color="0" x="4443" y="572" height="64" width="270"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Dirección de envio"border="2" color="0" x="1522" y="572" height="64" width="2053"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Albarán"border="2" color="0" x="270" y="572" height="64" width="251"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header.1 alignment="0" expression="f_nombre_ventransportista(empresa,transportista)"border="0" color="0" x="9" y="20" height="64" width="2295" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="if( not isnull( envio ) or envio =~"~",f_nombre_venenvio( empresa , cliente , envio ),f_nombre_cliente(empresa,'C',cliente))"border="0" color="0" x="539" y="4" height="60" width="951" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="2" tabsequence=32766 border="0" color="0" x="5" y="4" height="60" width="251" format="[shortdate] [time]"  name=falbaran editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="4439" y="4" height="60" width="279" format="[general]"  name=peso editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_etiqueta_venenvio_corta(empresa,cliente,envio)"border="0" color="0" x="1522" y="4" height="60" width="2048" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if( not isnull( envio ) or envio =~"~", f_telefono_venenvio( empresa , cliente , envio ), genter_telefono )"border="0" color="0" x="3721" y="4" height="56" width="699" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="if( not isnull(envio) or envio =~"~", ~"~",genter_prefijo_provincia)"border="0" color="0" x="3593" y="4" height="56" width="114" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="270" y="4" height="60" width="251" format="[general]"  name=albaran editmask.mask="##,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text="Total :"border="0" color="0" x="4229" y="12" height="60" width="183"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="String(sum(peso for group 1),~"###,###.00~")"border="0" color="0" x="4439" y="12" height="68" width="274" format="[general]"  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1312" y="4" height="48" width="686" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

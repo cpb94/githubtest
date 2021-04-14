@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_cuenta_ventipolin_venserie.srf
+global type f_cuenta_ventipolin_venserie from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_ventipolin_venserie (string empresa, string tipolinea, string serie)
+end prototypes
+
+global function string f_cuenta_ventipolin_venserie (string empresa, string tipolinea, string serie);String var_cuenta_resul,var_cuenta,var_control,var_ultdigitos
+
+Select ventipolin.digitos_serie,ventipolin.cuenta
+Into   :var_control,:var_cuenta
+From   ventipolin
+Where  (ventipolin.empresa = :empresa)
+And    (ventipolin.codigo  = :tipolinea);
+
+Select venseries.ultdigconta
+Into   :var_ultdigitos
+From   venseries
+Where  (venseries.serie = :serie);
+
+If var_control="S" then
+	// la cuenta contable del tipo de línea depende de la serie, y 
+ 	// cogemos los cuatro últimos dígitos de la serie
+	var_cuenta_resul = Mid(var_cuenta,1,4) + Trim(var_ultdigitos)
+else
+	// la cuenta contable del tipo de línea no depende de la serie,
+	// aplicamos el del tipo de línea
+	var_cuenta_resul = var_cuenta
+end if
+
+Return var_cuenta_resul
+
+end function
+

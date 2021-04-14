@@ -1,0 +1,46 @@
+﻿$PBExportHeader$ftc_tranformar_imagen_im.srf
+global type ftc_tranformar_imagen_im from function_object
+end type
+
+forward prototypes
+global function integer ftc_tranformar_imagen_im (string origen, string destino, string archivo, string resolucion, string tamanyo, string color_fondo)
+end prototypes
+
+global function integer ftc_tranformar_imagen_im (string origen, string destino, string archivo, string resolucion, string tamanyo, string color_fondo);// origen: 				Ruta origen 
+// destino: 			Ruta Destino
+// Archivo:				Archivo con la extension			
+// resolucion:			Puntos por pulgada. Ej. 200x200
+// Tamanyo:				Ancho por alto de la imagen. Ej. 800x600
+// Color_fondo:		Si es "" no aplica transformacion del recuadro.
+
+
+// resultado = ftc_tranformar_imagen_IM ("c:\temp\", "c:\temp\","b.jpg", "200x200", "1024x1024", "black")
+
+
+integer control
+string comando, recuadro
+
+if color_fondo <> '' then
+	recuadro = ' -background '+color_fondo+' -gravity center -extent '+tamanyo+' '
+else
+	recuadro = ''
+end if
+
+if fileexists("C:\Program Files\ImageMagick-6.8.7-Q16\convert.exe") then
+	comando = 'C:\Program Files\ImageMagick-6.8.7-Q16\convert.exe'
+elseif fileexists("C:\Program Files (x86)\ImageMagick-6.8.7-Q16\convert.exe") then
+	comando = 'C:\Program Files (x86)\ImageMagick-6.8.7-Q16\convert.exe'
+elseif fileexists("C:\Archivos de programa\ImageMagick-6.8.7-Q16\convert.exe") then
+	comando = 'C:\Archivos de programa\ImageMagick-6.8.7-Q16\convert.exe'
+else
+	comando = 'convert.exe'
+end if
+
+comando = comando + ' '+origen+archivo+' -units PixelsPerInch -density '+resolucion+' -resample '+resolucion+' -resize "'+tamanyo+'>" '+recuadro+destino+archivo
+
+//C:\Program Files\ImageMagick-6.8.7-Q16\
+control = run (comando,Minimized!)
+
+return control
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_carbancos_codpostal.srf
+global type f_carbancos_codpostal from function_object
+end type
+
+forward prototypes
+global function string f_carbancos_codpostal (string empresa, string banco)
+end prototypes
+
+global function string f_carbancos_codpostal (string empresa, string banco);String  postal
+  
+SELECT carbancos.codpostal INTO :postal FROM carbancos
+WHERE carbancos.empresa = :empresa
+AND   carbancos.banco   = :banco;
+
+IF IsNull(postal) THEN postal = ""
+	
+RETURN postal
+
+end function
+

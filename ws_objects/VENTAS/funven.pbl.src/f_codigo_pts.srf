@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_codigo_pts.srf
+global type f_codigo_pts from function_object
+end type
+
+forward prototypes
+global function string f_codigo_pts ()
+end prototypes
+
+global function string f_codigo_pts ();RETURN "1"
+end function
+

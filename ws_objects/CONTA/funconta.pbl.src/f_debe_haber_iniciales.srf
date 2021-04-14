@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_debe_haber_iniciales.srf
+global type f_debe_haber_iniciales from function_object
+end type
+
+forward prototypes
+global function any f_debe_haber_iniciales (string empresa, string cuenta, datetime fecha_hasta)
+end prototypes
+
+global function any f_debe_haber_iniciales (string empresa, string cuenta, datetime fecha_hasta);tipo_array debe_haber
+dec debe,haber
+
+SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe,:haber 
+FROM  contaapun  
+WHERE contaapun.empresa   = :empresa 
+AND   contaapun.fapunte    < :fecha_hasta 
+AND   contaapun.cuenta     = :cuenta;
+
+if sqlca.sqlcode <> 0 THEN f_mensaje("Error en d_debe_haber",sqlca.sqlerrtext)
+debe_haber.valor[1]=string(debe)
+debe_haber.valor[2]=string(haber)
+
+return debe_haber
+end function
+

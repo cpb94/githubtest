@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_tipo_expositor_promseries.srf
+global type f_tipo_expositor_promseries from function_object
+end type
+
+forward prototypes
+global function string f_tipo_expositor_promseries (string empresa, string serie)
+end prototypes
+
+global function string f_tipo_expositor_promseries (string empresa, string serie);String var
+
+  SELECT promseries.tipo_expositor  
+    INTO :var  
+    FROM promseries  
+   WHERE ( promseries.empresa = :empresa ) AND  
+         ( promseries.codigo = :serie )   ;
+Return var
+end function
+

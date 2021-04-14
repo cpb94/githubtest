@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_contasii_parametros.srs
+global type str_contasii_parametros from structure
+     STRING     empresa
+     STRING     directorio_ficheros
+     STRING     fichero_certificado
+     STRING     password_certificado
+     STRING     cuenta_prestacion_servicios
+     INTEGER     digitos_descripcion_operacion
+end type
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_forma_pago_proveedores.srf
+global type f_forma_pago_proveedores from function_object
+end type
+
+forward prototypes
+global function string f_forma_pago_proveedores (string empresa, string proveedor)
+end prototypes
+
+global function string f_forma_pago_proveedores (string empresa, string proveedor);String ls_codpago
+
+SELECT comproveedores.forma_pago
+  INTO :ls_codpago
+  FROM comproveedores
+ WHERE comproveedores.empresa = :empresa
+   AND comproveedores.codigo  = :proveedor;
+	
+if IsNull(ls_codpago) then ls_codpago = ""
+
+return ls_codpago
+end function
+

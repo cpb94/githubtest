@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_peso_neto_venalb_venlifac.srf
+global type f_peso_neto_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_neto_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_peso_neto_venalb_venlifac (string empresa, integer anyo, decimal albaran);Dec{4} var_variable
+
+//ATENCIÓN - Se muestra el peso del albarán original, lo que permite ver los valores antes de agrupar albaranes en una misma factura
+//Este valor se guarda en las lineas y no es modificable desde la factura
+
+SELECT TOP 1 peso_neto_venalb INTO :var_variable
+FROM venlifac
+WHERE empresa  = :empresa
+AND   anyo_albaran     = :anyo
+AND   albaran  = :albaran ;
+
+//ANTES
+//MOSTRAMOS EL PESO DE LA CABECERA DE LA FACTURA 
+//DE ESTE MODO MOSTRAMOS LAS POSIBLES MODIFICACIONES INTRODUCIDAS A POSTERIORI
+
+//SELECT peso_neto INTO :var_variable
+//FROM venfac 
+//WHERE (venfac.empresa  = :empresa)
+//   AND   (venfac.anyo_albaran     = :anyo)
+//   AND   (venfac.albaran  = :albaran) ;
+	
+Return var_variable
+end function
+

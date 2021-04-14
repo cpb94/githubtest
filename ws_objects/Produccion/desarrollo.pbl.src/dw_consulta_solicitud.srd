@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_consulta_solicitud.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=224 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=dessolicitud_fecha dbname="dessolicitud.fecha" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"dessolicitud~" ) COLUMN(NAME=~"dessolicitud.fecha~")WHERE(    EXP1 =~"dessolicitud.empresa~"   OP =~"=~"    EXP2 =~":cod_emp~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"dessolicitud.codigo~"   OP =~"=~"    EXP2 =~":cod_solicitud~" ) ) ARG(NAME = ~"cod_emp~" TYPE = string)  ARG(NAME = ~"cod_solicitud~" TYPE = string) " arguments=(("cod_emp", string),("cod_solicitud", string)) )
+rectangle(band=detail x="5" y="56" height="148" width="581"  name=r_3 visible="1" brush.hatch="6" brush.color="12632256" pen.style="0" pen.width="5" pen.color="0"  background.mode="2" background.color="12632256" )
+text(band=detail alignment="2" text="Solicitud" border="6" color="16777215" x="9" y="4" height="56" width="567" html.valueishtml="0"  name=t_20 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217729" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="210" y="108" height="48" width="343" format="dd-mm-yy" html.valueishtml="0"  name=dessolicitud_fecha visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Fecha:" border="0" color="0" x="41" y="100" height="56" width="160" html.valueishtml="0"  name=t_18 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

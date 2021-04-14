@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_riesgo_concedido.srf
+global type f_riesgo_concedido from function_object
+end type
+
+forward prototypes
+global function decimal f_riesgo_concedido (string empresa, string cuenta)
+end prototypes
+
+global function decimal f_riesgo_concedido (string empresa, string cuenta);Dec{0} var_numero
+
+var_numero = 0
+
+   SELECT venriesgoclientes.riesgo_concedido 
+    INTO :var_numero  
+    FROM venriesgoclientes  
+   WHERE ( venriesgoclientes.empresa = :empresa ) AND  
+         ( venriesgoclientes.cuenta = :cuenta )   ;
+
+
+Return var_numero;
+end function
+

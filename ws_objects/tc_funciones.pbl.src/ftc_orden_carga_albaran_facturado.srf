@@ -1,0 +1,30 @@
+﻿$PBExportHeader$ftc_orden_carga_albaran_facturado.srf
+global type ftc_orden_carga_albaran_facturado from function_object
+end type
+
+forward prototypes
+global function string ftc_orden_carga_albaran_facturado (string empresa, integer anyo, decimal albaran, integer mostrar_anyo)
+end prototypes
+
+global function string ftc_orden_carga_albaran_facturado (string empresa, integer anyo, decimal albaran, integer mostrar_anyo);String expedicion_codigo, resultado
+Int expedicion_anyo
+
+//ATENCIÓN - Se muestra el peso del albarán original, lo que permite ver los valores antes de agrupar albaranes en una misma factura
+//Este valor se guarda en las lineas y no es modificable desde la factura
+
+SELECT TOP 1 expedicion_anyo_venalb, expedicion_codigo_venalb INTO :expedicion_anyo, :expedicion_codigo
+FROM venlifac
+WHERE empresa  = :empresa
+AND   anyo_albaran     = :anyo
+AND   albaran  = :albaran ;
+
+if mostrar_anyo = 1 then
+	resultado = String(expedicion_anyo)+"/"+expedicion_codigo
+else
+	resultado = expedicion_codigo
+end if
+
+return resultado
+
+end function
+

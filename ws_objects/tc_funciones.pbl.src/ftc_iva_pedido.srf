@@ -1,0 +1,19 @@
+﻿$PBExportHeader$ftc_iva_pedido.srf
+global type ftc_iva_pedido from function_object
+end type
+
+forward prototypes
+global function decimal ftc_iva_pedido (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function decimal ftc_iva_pedido (string empresa, integer anyo, decimal pedido);Decimal resultado = 0
+
+SELECT TOP 1 contaiva.iva INTO :resultado
+FROM contaiva 
+INNER JOIN venped ON contaiva.empresa = venped.empresa AND contaiva.ejercicio = venped.anyo AND contaiva.tipoiva = venped.tipoiva  
+WHERE venped.empresa = :empresa AND venped.anyo = :anyo AND venped.pedido = :pedido;
+
+if isnull(resultado) then resultado = 0
+return resultado
+end function
+

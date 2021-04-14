@@ -1,0 +1,24 @@
+﻿$PBExportHeader$ftc_variable_entorno.srf
+global type ftc_variable_entorno from function_object
+end type
+
+forward prototypes
+global function string ftc_variable_entorno (string variable, contextkeyword lcxk_base)
+end prototypes
+
+global function string ftc_variable_entorno (string variable, contextkeyword lcxk_base);//ContextKeyword lcxk_base
+string ls_Path
+string ls_values[]
+
+//this.GetContextService("Keyword", lcxk_base)
+lcxk_base.GetContextKeywords(variable, ls_values)
+
+IF Upperbound(ls_values) > 0 THEN
+   ls_Path = ls_values[1]
+ELSE   
+	ls_Path = ""
+END IF
+
+return ls_Path
+end function
+

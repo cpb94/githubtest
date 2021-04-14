@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_fuera_decimales.srf
+global type f_fuera_decimales from function_object
+end type
+
+forward prototypes
+global function integer f_fuera_decimales (decimal numero)
+end prototypes
+
+global function integer f_fuera_decimales (decimal numero);Integer var_entero
+Dec{18} dif
+Integer parametro
+var_entero = Int(numero)
+dif = Abs(numero - var_entero)
+parametro =numero - dif
+Return parametro
+
+
+
+end function
+

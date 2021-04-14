@@ -1,0 +1,780 @@
+﻿$PBExportHeader$mi_ventas_almacen.srm
+forward
+global type mi_ventas_almacen from mc_menu_sheets
+end type
+type m_-4 from menu within m_programas
+end type
+type m_gestindepedidos from menu within m_programas
+end type
+type m_introduccndepedidos from menu within m_gestindepedidos
+end type
+type m_-21 from menu within m_gestindepedidos
+end type
+type m_consultapedidos from menu within m_gestindepedidos
+end type
+type m_porcliente from menu within m_consultapedidos
+end type
+type m_poragente from menu within m_consultapedidos
+end type
+type m_porpas from menu within m_consultapedidos
+end type
+type m_portransportista from menu within m_consultapedidos
+end type
+type m_porreferencia from menu within m_consultapedidos
+end type
+type m_porusuario from menu within m_consultapedidos
+end type
+type m_pordireccionesdeenvio from menu within m_consultapedidos
+end type
+type m_entrefechas from menu within m_consultapedidos
+end type
+type m_consultapedidos from menu within m_gestindepedidos
+m_porcliente m_porcliente
+m_poragente m_poragente
+m_porpas m_porpas
+m_portransportista m_portransportista
+m_porreferencia m_porreferencia
+m_porusuario m_porusuario
+m_pordireccionesdeenvio m_pordireccionesdeenvio
+m_entrefechas m_entrefechas
+end type
+type m_-22 from menu within m_gestindepedidos
+end type
+type m_listpreparaciondepedidos from menu within m_gestindepedidos
+end type
+type m_gestindepedidos from menu within m_programas
+m_introduccndepedidos m_introduccndepedidos
+m_-21 m_-21
+m_consultapedidos m_consultapedidos
+m_-22 m_-22
+m_listpreparaciondepedidos m_listpreparaciondepedidos
+end type
+type m_-5 from menu within m_programas
+end type
+type m_gestindealbaranes from menu within m_programas
+end type
+type m_albaranes from menu within m_gestindealbaranes
+end type
+type m_-23 from menu within m_gestindealbaranes
+end type
+type m_consultasalbaranes from menu within m_gestindealbaranes
+end type
+type m_porclientealb from menu within m_consultasalbaranes
+end type
+type m_poragentealb from menu within m_consultasalbaranes
+end type
+type m_po from menu within m_consultasalbaranes
+end type
+type m_portransportista1 from menu within m_consultasalbaranes
+end type
+type m_porreferencia1 from menu within m_consultasalbaranes
+end type
+type m_porusuarioalb from menu within m_consultasalbaranes
+end type
+type m_entrefechas1 from menu within m_consultasalbaranes
+end type
+type m_consultasalbaranes from menu within m_gestindealbaranes
+m_porclientealb m_porclientealb
+m_poragentealb m_poragentealb
+m_po m_po
+m_portransportista1 m_portransportista1
+m_porreferencia1 m_porreferencia1
+m_porusuarioalb m_porusuarioalb
+m_entrefechas1 m_entrefechas1
+end type
+type m_-24 from menu within m_gestindealbaranes
+end type
+type m_manttextospiealb from menu within m_gestindealbaranes
+end type
+type m_listalbaranes from menu within m_gestindealbaranes
+end type
+type m_gestindealbaranes from menu within m_programas
+m_albaranes m_albaranes
+m_-23 m_-23
+m_consultasalbaranes m_consultasalbaranes
+m_-24 m_-24
+m_manttextospiealb m_manttextospiealb
+m_listalbaranes m_listalbaranes
+end type
+type m_consultasalmacen from menu within m_programas
+end type
+type m_stockporformatos from menu within m_consultasalmacen
+end type
+type m_consultasalmacen from menu within m_programas
+m_stockporformatos m_stockporformatos
+end type
+type m_informes from menu within m_programas
+end type
+type m_resumencargas from menu within m_informes
+end type
+type m_resumencliente from menu within m_informes
+end type
+type m_listadoalbaranes from menu within m_informes
+end type
+type m_informes from menu within m_programas
+m_resumencargas m_resumencargas
+m_resumencliente m_resumencliente
+m_listadoalbaranes m_listadoalbaranes
+end type
+type m_impresinetiquetasartculos from menu within m_listados
+end type
+type m_listadodeclientes from menu within m_listados
+end type
+type m_porpais-provincia from menu within m_listadodeclientes
+end type
+type m_listadodeclientes from menu within m_listados
+m_porpais-provincia m_porpais-provincia
+end type
+type m_ultimasvtasclientearticulo from menu within m_listados
+end type
+type m_clientebasedecorado from menu within m_listados
+end type
+type m_impresinetiquetastextos from menu within m_listados
+end type
+end forward
+
+global type mi_ventas_almacen from mc_menu_sheets
+end type
+global mi_ventas_almacen mi_ventas_almacen
+
+on mi_ventas_almacen.create
+mi_ventas_almacen=this
+call super::create
+end on
+
+on mi_ventas_almacen.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_ventas_almacen
+m_-4 m_-4
+m_gestindepedidos m_gestindepedidos
+m_-5 m_-5
+m_gestindealbaranes m_gestindealbaranes
+m_consultasalmacen m_consultasalmacen
+m_informes m_informes
+end type
+
+on m_programas.create
+call super::create
+this.m_-4=create m_-4
+this.m_gestindepedidos=create m_gestindepedidos
+this.m_-5=create m_-5
+this.m_gestindealbaranes=create m_gestindealbaranes
+this.m_consultasalmacen=create m_consultasalmacen
+this.m_informes=create m_informes
+this.Item[UpperBound(this.item)+1]=this.m_-4
+this.Item[UpperBound(this.item)+1]=this.m_gestindepedidos
+this.Item[UpperBound(this.item)+1]=this.m_-5
+this.Item[UpperBound(this.item)+1]=this.m_gestindealbaranes
+this.Item[UpperBound(this.item)+1]=this.m_consultasalmacen
+this.Item[UpperBound(this.item)+1]=this.m_informes
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_-4)
+destroy(this.m_gestindepedidos)
+destroy(this.m_-5)
+destroy(this.m_gestindealbaranes)
+destroy(this.m_consultasalmacen)
+destroy(this.m_informes)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_ventas_almacen
+m_impresinetiquetasartculos m_impresinetiquetasartculos
+m_listadodeclientes m_listadodeclientes
+m_ultimasvtasclientearticulo m_ultimasvtasclientearticulo
+m_clientebasedecorado m_clientebasedecorado
+m_impresinetiquetastextos m_impresinetiquetastextos
+end type
+
+on m_listados.create
+call super::create
+this.m_impresinetiquetasartculos=create m_impresinetiquetasartculos
+this.m_listadodeclientes=create m_listadodeclientes
+this.m_ultimasvtasclientearticulo=create m_ultimasvtasclientearticulo
+this.m_clientebasedecorado=create m_clientebasedecorado
+this.m_impresinetiquetastextos=create m_impresinetiquetastextos
+this.Item[UpperBound(this.item)+1]=this.m_impresinetiquetasartculos
+this.Item[UpperBound(this.item)+1]=this.m_listadodeclientes
+this.Item[UpperBound(this.item)+1]=this.m_ultimasvtasclientearticulo
+this.Item[UpperBound(this.item)+1]=this.m_clientebasedecorado
+this.Item[UpperBound(this.item)+1]=this.m_impresinetiquetastextos
+end on
+
+on m_listados.destroy
+call super::destroy
+destroy(this.m_impresinetiquetasartculos)
+destroy(this.m_listadodeclientes)
+destroy(this.m_ultimasvtasclientearticulo)
+destroy(this.m_clientebasedecorado)
+destroy(this.m_impresinetiquetastextos)
+end on
+
+on m_salir1.create
+call super::create
+this.ToolBarItemName="c:\BMP\EXIT1.BMP"
+end on
+
+type m_-4 from menu within m_programas
+end type
+
+on m_-4.create
+this.Text="-"
+end on
+
+type m_gestindepedidos from menu within m_programas
+m_introduccndepedidos m_introduccndepedidos
+m_-21 m_-21
+m_consultapedidos m_consultapedidos
+m_-22 m_-22
+m_listpreparaciondepedidos m_listpreparaciondepedidos
+end type
+
+on m_gestindepedidos.create
+this.Text="Gestión de Pedidos"
+this.m_introduccndepedidos=create m_introduccndepedidos
+this.m_-21=create m_-21
+this.m_consultapedidos=create m_consultapedidos
+this.m_-22=create m_-22
+this.m_listpreparaciondepedidos=create m_listpreparaciondepedidos
+this.Item[]={this.m_introduccndepedidos, &
+this.m_-21, &
+this.m_consultapedidos, &
+this.m_-22, &
+this.m_listpreparaciondepedidos}
+end on
+
+on m_gestindepedidos.destroy
+destroy(this.m_introduccndepedidos)
+destroy(this.m_-21)
+destroy(this.m_consultapedidos)
+destroy(this.m_-22)
+destroy(this.m_listpreparaciondepedidos)
+end on
+
+type m_introduccndepedidos from menu within m_gestindepedidos
+end type
+
+on clicked;str_parametros lstr_param
+w_int_venped  mas
+OpenSheetWithParm(mas, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_introduccndepedidos.create
+this.Text="Introducción de Pedidos"
+end on
+
+type m_-21 from menu within m_gestindepedidos
+end type
+
+on m_-21.create
+this.Text="-"
+end on
+
+type m_consultapedidos from menu within m_gestindepedidos
+m_porcliente m_porcliente
+m_poragente m_poragente
+m_porpas m_porpas
+m_portransportista m_portransportista
+m_porreferencia m_porreferencia
+m_porusuario m_porusuario
+m_pordireccionesdeenvio m_pordireccionesdeenvio
+m_entrefechas m_entrefechas
+end type
+
+on m_consultapedidos.create
+this.Text="Consulta Pedidos"
+this.m_porcliente=create m_porcliente
+this.m_poragente=create m_poragente
+this.m_porpas=create m_porpas
+this.m_portransportista=create m_portransportista
+this.m_porreferencia=create m_porreferencia
+this.m_porusuario=create m_porusuario
+this.m_pordireccionesdeenvio=create m_pordireccionesdeenvio
+this.m_entrefechas=create m_entrefechas
+this.Item[]={this.m_porcliente, &
+this.m_poragente, &
+this.m_porpas, &
+this.m_portransportista, &
+this.m_porreferencia, &
+this.m_porusuario, &
+this.m_pordireccionesdeenvio, &
+this.m_entrefechas}
+end on
+
+on m_consultapedidos.destroy
+destroy(this.m_porcliente)
+destroy(this.m_poragente)
+destroy(this.m_porpas)
+destroy(this.m_portransportista)
+destroy(this.m_porreferencia)
+destroy(this.m_porusuario)
+destroy(this.m_pordireccionesdeenvio)
+destroy(this.m_entrefechas)
+end on
+
+type m_porcliente from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porcliente.create
+this.Text="Por cliente"
+end on
+
+on m_porcliente.destroy
+end on
+
+type m_poragente from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_agente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_poragente.create
+this.Text="Por agente"
+end on
+
+type m_porpas from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_pais, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porpas.create
+this.Text="Por país"
+end on
+
+type m_portransportista from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_transpor, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_portransportista.create
+this.Text="Por transportista"
+end on
+
+type m_porreferencia from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_refcli, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porreferencia.create
+this.Text="Por referencia"
+end on
+
+type m_porusuario from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_usuario, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porusuario.create
+this.Text="Por usuario"
+end on
+
+type m_pordireccionesdeenvio from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_direnvio, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_pordireccionesdeenvio.create
+this.Text="Por direcciones de envio"
+end on
+
+type m_entrefechas from menu within m_consultapedidos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_pedidos_entrefechas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_entrefechas.create
+this.Text="Entre fechas"
+end on
+
+type m_-22 from menu within m_gestindepedidos
+end type
+
+on m_-22.create
+this.Text="-"
+end on
+
+type m_listpreparaciondepedidos from menu within m_gestindepedidos
+end type
+
+on clicked;str_parametros lstr_param
+OpenSheetWithParm(w_list_preparacion_pedido, lstr_param, ParentWindow, 3,original!)
+end on
+
+on m_listpreparaciondepedidos.create
+this.Text="List. Preparacion de pedidos"
+end on
+
+type m_-5 from menu within m_programas
+end type
+
+on m_-5.create
+this.Text="-"
+end on
+
+type m_gestindealbaranes from menu within m_programas
+m_albaranes m_albaranes
+m_-23 m_-23
+m_consultasalbaranes m_consultasalbaranes
+m_-24 m_-24
+m_manttextospiealb m_manttextospiealb
+m_listalbaranes m_listalbaranes
+end type
+
+on m_gestindealbaranes.create
+this.Text="Gestión de Albaranes"
+this.m_albaranes=create m_albaranes
+this.m_-23=create m_-23
+this.m_consultasalbaranes=create m_consultasalbaranes
+this.m_-24=create m_-24
+this.m_manttextospiealb=create m_manttextospiealb
+this.m_listalbaranes=create m_listalbaranes
+this.Item[]={this.m_albaranes, &
+this.m_-23, &
+this.m_consultasalbaranes, &
+this.m_-24, &
+this.m_manttextospiealb, &
+this.m_listalbaranes}
+end on
+
+on m_gestindealbaranes.destroy
+destroy(this.m_albaranes)
+destroy(this.m_-23)
+destroy(this.m_consultasalbaranes)
+destroy(this.m_-24)
+destroy(this.m_manttextospiealb)
+destroy(this.m_listalbaranes)
+end on
+
+type m_albaranes from menu within m_gestindealbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_venalb, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_albaranes.create
+this.Text="Albaranes"
+end on
+
+on m_albaranes.destroy
+end on
+
+type m_-23 from menu within m_gestindealbaranes
+end type
+
+on m_-23.create
+this.Text="-"
+end on
+
+type m_consultasalbaranes from menu within m_gestindealbaranes
+m_porclientealb m_porclientealb
+m_poragentealb m_poragentealb
+m_po m_po
+m_portransportista1 m_portransportista1
+m_porreferencia1 m_porreferencia1
+m_porusuarioalb m_porusuarioalb
+m_entrefechas1 m_entrefechas1
+end type
+
+on m_consultasalbaranes.create
+this.Text="Consulta Albaranes"
+this.m_porclientealb=create m_porclientealb
+this.m_poragentealb=create m_poragentealb
+this.m_po=create m_po
+this.m_portransportista1=create m_portransportista1
+this.m_porreferencia1=create m_porreferencia1
+this.m_porusuarioalb=create m_porusuarioalb
+this.m_entrefechas1=create m_entrefechas1
+this.Item[]={this.m_porclientealb, &
+this.m_poragentealb, &
+this.m_po, &
+this.m_portransportista1, &
+this.m_porreferencia1, &
+this.m_porusuarioalb, &
+this.m_entrefechas1}
+end on
+
+on m_consultasalbaranes.destroy
+destroy(this.m_porclientealb)
+destroy(this.m_poragentealb)
+destroy(this.m_po)
+destroy(this.m_portransportista1)
+destroy(this.m_porreferencia1)
+destroy(this.m_porusuarioalb)
+destroy(this.m_entrefechas1)
+end on
+
+type m_porclientealb from menu within m_consultasalbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porclientealb.create
+this.Text="Por cliente"
+end on
+
+type m_poragentealb from menu within m_consultasalbaranes
+end type
+
+on m_poragentealb.create
+this.Text="Por agente"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_agente, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_po from menu within m_consultasalbaranes
+end type
+
+on m_po.create
+this.Text="Por pais"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_pais, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_portransportista1 from menu within m_consultasalbaranes
+end type
+
+on m_portransportista1.create
+this.Text="Por transportista"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_transpor, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_porreferencia1 from menu within m_consultasalbaranes
+end type
+
+on m_porreferencia1.create
+this.Text="Por referencia"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_refcli, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_porusuarioalb from menu within m_consultasalbaranes
+end type
+
+on m_porusuarioalb.create
+this.Text="Por usuario"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_usuario, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_entrefechas1 from menu within m_consultasalbaranes
+end type
+
+on m_entrefechas1.create
+this.Text="Entre fechas"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_entrefechas, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_-24 from menu within m_gestindealbaranes
+end type
+
+on m_-24.create
+this.Text="-"
+end on
+
+type m_manttextospiealb from menu within m_gestindealbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_ventextopiealb, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_manttextospiealb.create
+this.Text="Mant.textos pie Alb."
+end on
+
+type m_listalbaranes from menu within m_gestindealbaranes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_lis_venalbaranes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_listalbaranes.create
+this.Text="List. Albaranes"
+end on
+
+on m_listalbaranes.destroy
+end on
+
+type m_consultasalmacen from menu within m_programas
+m_stockporformatos m_stockporformatos
+end type
+
+on m_consultasalmacen.create
+this.Text="Consultas Almacen"
+this.m_stockporformatos=create m_stockporformatos
+this.Item[]={this.m_stockporformatos}
+end on
+
+on m_consultasalmacen.destroy
+destroy(this.m_stockporformatos)
+end on
+
+type m_stockporformatos from menu within m_consultasalmacen
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_stock_formato, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_stockporformatos.create
+this.Text="Stock por Calidades"
+end on
+
+type m_informes from menu within m_programas
+m_resumencargas m_resumencargas
+m_resumencliente m_resumencliente
+m_listadoalbaranes m_listadoalbaranes
+end type
+
+on m_informes.create
+this.Text="Informes"
+this.m_resumencargas=create m_resumencargas
+this.m_resumencliente=create m_resumencliente
+this.m_listadoalbaranes=create m_listadoalbaranes
+this.Item[]={this.m_resumencargas, &
+this.m_resumencliente, &
+this.m_listadoalbaranes}
+end on
+
+on m_informes.destroy
+destroy(this.m_resumencargas)
+destroy(this.m_resumencliente)
+destroy(this.m_listadoalbaranes)
+end on
+
+type m_resumencargas from menu within m_informes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_resumen_vtas_albaranes, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_resumencargas.create
+this.Text="Resumen cargas"
+end on
+
+type m_resumencliente from menu within m_informes
+end type
+
+on m_resumencliente.create
+this.Text="Resumen Cliente"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_resumen_cargas_albaranes, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_listadoalbaranes from menu within m_informes
+end type
+
+on m_listadoalbaranes.create
+this.Text="Listado albaranes"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_albaranes_cliente, lstr_param, ParentWindow, 3,original!)
+end event
+
+type m_impresinetiquetasartculos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_etiquetas_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_impresinetiquetasartculos.create
+this.Text="Impresión etiquetas artículos"
+end on
+
+type m_listadodeclientes from menu within m_listados
+m_porpais-provincia m_porpais-provincia
+end type
+
+on m_listadodeclientes.create
+this.Text="Listado de clientes"
+this.m_porpais-provincia=create m_porpais-provincia
+this.Item[]={this.m_porpais-provincia}
+end on
+
+on m_listadodeclientes.destroy
+destroy(this.m_porpais-provincia)
+end on
+
+type m_porpais-provincia from menu within m_listadodeclientes
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_clientes_ventas, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_porpais-provincia.create
+this.Text="Por pais-provincia"
+end on
+
+type m_ultimasvtasclientearticulo from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_ventas_articulos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_ultimasvtasclientearticulo.create
+this.Text="Ult. Vtas. Cliente Articulo"
+end on
+
+type m_clientebasedecorado from menu within m_listados
+end type
+
+on m_clientebasedecorado.create
+this.Text="Ult. Vtas. Cliente Base Decorado"
+end on
+
+type m_impresinetiquetastextos from menu within m_listados
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_int_etiquetas_textos, lstr_param, ParentWindow, 3,original!)
+end event
+
+on m_impresinetiquetastextos.create
+this.Text="Impresión etiquetas textos"
+end on
+

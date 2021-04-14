@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_contador_contalibros.srf
+global type f_contador_contalibros from function_object
+end type
+
+forward prototypes
+global function decimal f_contador_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo)
+end prototypes
+
+global function decimal f_contador_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo);Dec	pa
+
+SELECT contalibros.contador  INTO :pa   FROM  contalibros  
+WHERE  contalibros.empresa   = :ai_codemp 
+AND    contalibros.ejercicio = :ejercicio
+AND    contalibros.codigo    = :ai_codigo USING SQLCA;
+
+//IF SQLCA.SQLCode <> 0 THEN
+//	f_mensaje("Error al Leer Nº registro IVA en libros",SQLCA.SQLERRTEXT)
+//END IF
+//
+IF IsNull(pa) Then pa = 0
+pa = pa + 1
+
+RETURN pa
+end function
+

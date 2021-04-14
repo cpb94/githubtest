@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_insert_almlinubicahis.srf
+global type f_insert_almlinubicahis from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_almlinubicahis (str_almlinubicahis a)
+end prototypes
+
+global function boolean f_insert_almlinubicahis (str_almlinubicahis a);a.situacion = "N" 
+a.externo= f_externo_almtipo(a.empresa,f_tipoalm_almalmacen(a.empresa,a.almacen))
+
+String campos = ""
+IF IsNull(a.ubicacion) or trim(a.ubicacion) = "" then
+	campos = campos + "ubicacion "
+end if
+if IsNull(a.almacen) or trim(a.almacen) = "" then
+	campos = campos + "almacen "
+end if
+if IsNull(a.zona) or trim(a.zona) = "" then
+	campos = campos + "zona "
+end if
+if IsNull(a.fila)  then
+	campos = campos + "fila "
+end if
+if IsNull(a.altura) then
+	campos = campos + "altura "
+end if
+if  not Trim(campos) = "" then 
+	// Intento de insertar en almlinubica con valores nulos
+	f_mensaje("¡ ¡ A t e n c i ó n ! !",&
+		"Se está intentando hacer lo que produce los descuadres de almacén.~nPor favor, apunte lo qué esté haciendo,~nen qué ventana,~ncon qué artículos,~ndesde qué empresa,~netc...~ncuanta más información mejor.~nHaga llegar esta información a su programador.")
+	f_mensaje("¡ ¡ A t e n c i ó n ! !",&
+		"Proporcione esta información a su programador:~nCampos nulos: " + campos+ " Tabla: almlinubicahis")	
+end if
+
+
+  INSERT INTO almlinubicahis 
+ (empresa,anyo,almacen,orden,nummov,zona,fila,altura,ubicacion,   
+  cantidads,cantidade,articulo,familia,formato,modelo,calidad,   
+  tonochar,calibre,caja,fecha,tipomov,tipo_unidad,referencia,f_alta,   
+  usuario,observaciones,tipo_pallet,sector,externo,situacion,
+  subfamilia,subformato,
+  comp_almacen,comp_anyo,comp_nummov)  
+  VALUES (:a.empresa,:a.anyo,:a.almacen,:a.orden,:a.nummov,:a.zona,   
+          :a.fila,:a.altura,:a.ubicacion,:a.cantidads,:a.cantidade,   
+          :a.articulo,:a.familia,:a.formato,:a.modelo,:a.calidad,   
+          :a.tonochar,:a.calibre,:a.caja,:a.fecha,:a.tipomov,:a.tipo_unidad,   
+          :a.referencia,:a.f_alta,:a.usuario,:a.observaciones,   
+          :a.tipo_pallet,:a.sector,:a.externo,:a.situacion,
+			 :a.subfamilia,:a.subformato,
+			 :a.comp_almacen,:a.comp_anyo,:a.comp_nummov);
+          If Sqlca.SqlCode<> 0 Then
+				 f_mensaje("Error","En funcion Insert Almlinubicahis"+SQLCA.SQLERRTEXT)
+             Return False
+          Else
+            Return True
+          End If
+
+end function
+

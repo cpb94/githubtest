@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_calculo_unidades_cajas.srf
+global type f_calculo_unidades_cajas from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_unidades_cajas (string cod_empresa, string cod_articulo, string caja, integer n_cajas)
+end prototypes
+
+global function decimal f_calculo_unidades_cajas (string cod_empresa, string cod_articulo, string caja, integer n_cajas); String cod_unidad
+ Integer n_piezascaja
+ decimal{3}  total_cantidad
+ string cadena
+ decimal n_metroscaja
+
+ SELECT    articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja  
+    INTO :cod_unidad,:n_piezascaja,:n_metroscaja  
+    FROM articulos,almartcajas  
+   WHERE articulos.empresa = :cod_empresa
+	AND   articulos.codigo  = :cod_articulo
+	AND   almartcajas.empresa = articulos.empresa
+	AND   almartcajas.articulo = articulos.codigo
+	AND   almartcajas.caja = :caja;
+
+CHOOSE CASE cod_unidad
+CASE  "1"
+     total_cantidad=n_cajas*n_metroscaja
+CASE "0"
+     total_cantidad=n_cajas*n_piezascaja
+END CHOOSE
+
+Return total_cantidad
+end function
+

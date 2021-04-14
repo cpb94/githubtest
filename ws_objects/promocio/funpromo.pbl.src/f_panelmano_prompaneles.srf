@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_panelmano_prompaneles.srf
+global type f_panelmano_prompaneles from function_object
+end type
+
+forward prototypes
+global function string f_panelmano_prompaneles (string var_empresa, string var_panel)
+end prototypes
+
+global function string f_panelmano_prompaneles (string var_empresa, string var_panel);String var_tipo
+
+ 			
+ SELECT prompaneles.panelmano Into :var_tipo
+    FROM prompaneles  
+   WHERE ( prompaneles.empresa = :var_empresa ) AND  
+         ( prompaneles.codigo = :var_panel )   ;
+
+
+return var_tipo
+end function
+

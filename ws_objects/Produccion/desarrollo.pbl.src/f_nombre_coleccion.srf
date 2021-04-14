@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_coleccion.srf
+global type f_nombre_coleccion from function_object
+end type
+
+forward prototypes
+global function string f_nombre_coleccion (string empresa, string solicitud, string coleccion)
+end prototypes
+
+global function string f_nombre_coleccion (string empresa, string solicitud, string coleccion);string descripcion
+
+select ambiente
+into :descripcion
+from descoleccionsol
+where empresa = :empresa
+and solicitud = :solicitud
+and codigo = :coleccion;
+
+
+return descripcion
+end function
+

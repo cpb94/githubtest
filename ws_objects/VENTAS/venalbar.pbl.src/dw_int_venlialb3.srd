@@ -1,0 +1,10 @@
+﻿$PBExportHeader$dw_int_venlialb3.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=73 color="-1" )
+summary(height=1 color="-1" )
+footer(height=1 color="-1" )
+detail(height=721 color="-1" )
+table(column=(type=char(1000) updatewhereclause=yes name=pie dbname="pie" )
+ )
+compute(band=detail alignment="0" expression="pie"border="0" color="128" x="115" y="8" height="657" width="2551" format="[GENERAL]"  name=pie  font.face="Courier" font.height="-12" font.weight="400"  font.family="1" font.pitch="1" font.charset="0" background.mode="1" background.color="553648127" )

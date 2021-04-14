@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_tipollamada.srf
+$PBExportComments$Devuelve el nombre de un tipo de llamada.
+global type f_nombre_tipollamada from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tipollamada (string ra_empresa, string ra_codigo)
+end prototypes
+
+global function string f_nombre_tipollamada (string ra_empresa, string ra_codigo);string	ls_nombre_tipo
+
+SELECT mtiposllamadas.descripcion INTO :ls_nombre_tipo
+    FROM mtiposllamadas
+   WHERE (mtiposllamadas.empresa      = :ra_empresa)
+   AND   (mtiposllamadas.codigo       = :ra_codigo)  USING SQLCA;
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre_tipo = ""
+END IF
+RETURN ls_nombre_tipo
+end function
+

@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_prueba_escandallo.srf
+global type f_prueba_escandallo from function_object
+end type
+
+forward prototypes
+global subroutine f_prueba_escandallo ()
+end prototypes
+
+global subroutine f_prueba_escandallo ();
+decimal factor
+str_escandallo escandallo[300]
+integer nivel,indice
+long k
+string articulo
+
+
+nivel = 0
+
+indice = 1
+factor = 1
+
+
+f_escandallo_factores_nuevo(escandallo, '99873' , indice, factor, nivel, '100003')
+
+for k = 1 to indice
+	
+	articulo = escandallo[k].articulo
+	factor = escandallo[k].factor
+	
+	messagebox(""," articulo "+articulo+" factor "+string(factor))
+
+
+next
+	
+
+
+
+end subroutine
+

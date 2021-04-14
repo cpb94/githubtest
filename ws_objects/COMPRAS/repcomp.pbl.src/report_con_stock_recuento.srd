@@ -1,0 +1,42 @@
+﻿$PBExportHeader$report_con_stock_recuento.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 9 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=252 color="553648127" )
+summary(height=0 color="536870912" )
+footer(height=84 color="536870912" )
+detail(height=64 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=venmprima_codigo dbname="venmprima.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=venmprima_descripcion dbname="venmprima.descripcion" )
+ column=(type=number updatewhereclause=yes name=stock dbname="stock" )
+ retrieve="  SELECT venmprima.codigo,   
+         venmprima.descripcion, 
+         sum(commovhis.cantidade - commovhis.cantidads ) as stock
+    FROM venmprima ,commovhis 
+   WHERE venmprima.empresa = :empresa  and
+			venmprima.codigo *= commovhis.mp and
+			venmprima.empresa *= commovhis.empresa	 and
+         ( commovhis.fechmov <= :fecha_stock ) AND
+			( venmprima.tipo_materia in ( :productos) )
+GROUP BY venmprima.codigo,   
+         venmprima.descripcion
+
+
+" arguments=(("empresa", string),("fecha_stock", datetime),("productos", stringlist))  sort="empresa A   venmprima_descripcion A " )
+text(band=header alignment="2" text="Materia Prima" border="6" color="8388608" x="411" y="180" height="64" width="1710" html.valueishtml="0"  name=t_1 visible="1"  resizeable=1  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stock" border="6" color="8388608" x="2139" y="180" height="64" width="288" html.valueishtml="0"  name=t_2 visible="1"  resizeable=1  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+report(band=header dataobject="report_cabecera" x="18" y="12" height="68" width="101" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  name=dw_1 visible="1~t0"  slideup=directlyabove )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="73" y="92" height="4" width="5" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="0" expression="fecha_stock  "border="0" color="8388608" x="2057" y="24" height="100" width="489" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="string( today(), ~"dd/mm/yyyy~" )"border="0" color="0" x="2793" y="8" height="76" width="558" format="[GENERAL]" html.valueishtml="0"  name=compute_2 visible="1"  slideleft=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="String(now(), ~"hh:mm:ss~")"border="0" color="0" x="2793" y="68" height="76" width="558" format="[GENERAL]" html.valueishtml="0"  name=compute_3 visible="1"  slideleft=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="~"Fecha : ~""border="0" color="0" x="2578" y="8" height="76" width="210" format="[GENERAL]" html.valueishtml="0"  name=compute_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="~"Hora   : ~""border="0" color="0" x="2578" y="68" height="76" width="210" format="[GENERAL]" html.valueishtml="0"  name=compute_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Stock Materias Primas" border="0" color="8388608" x="142" y="24" height="100" width="1911" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="8388608" x="2135" y="4" height="56" width="306" format="###,###,###,###~tf_mascara_unidad_compras( unidad )" html.valueishtml="0"  name=stock visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="8388608" x="407" y="4" height="56" width="178" format="[general]" html.valueishtml="0"  name=venmprima_codigo visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="8388608" x="603" y="4" height="56" width="1518" format="[general]" html.valueishtml="0"  name=venmprima_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[general]" html.valueishtml="0"  name=compute_10 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1285" y="584" height="92" width="855" format="[general]" html.valueishtml="0"  name=compute_11 visible="1"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="2" expression="~" Página ~" + page() + ~" de ~" + pagecount()"border="0" color="0" x="1248" y="20" height="56" width="855" format="[general]" html.valueishtml="0"  name=compute_12 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_importe_stock_deposito_cliente.srf
+global type f_importe_stock_deposito_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_stock_deposito_cliente (string empresa, string cliente)
+end prototypes
+
+global function decimal f_importe_stock_deposito_cliente (string empresa, string cliente);dec dinero
+
+select sum (deplinubica.existencias * venlintarifas.precio )
+into :dinero
+from deplinubica, venlintarifas
+where deplinubica.empresa = :empresa
+and venlintarifas.empresa = :empresa
+and deplinubica.articulo = venlintarifas.articulo
+and venlintarifas.tarifa = '5'
+and deplinubica.cliente = :cliente;
+  
+if isnull(dinero) then dinero=0
+if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando stock depósito",sqlca.sqlerrtext)
+	dinero=0
+end if
+
+return dinero
+end function
+

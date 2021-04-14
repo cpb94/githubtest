@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_pedido_direnvio_sn.srf
+global type f_pedido_direnvio_sn from function_object
+end type
+
+forward prototypes
+global function string f_pedido_direnvio_sn (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_pedido_direnvio_sn (string empresa, integer anyo, decimal pedido);String var_envio
+
+  SELECT venped.envio  INTO :var_envio  FROM venped  
+   WHERE venped.empresa = :empresa
+   AND   venped.anyo    = :anyo
+   AND   venped.pedido  = :pedido;
+
+
+if Isnull(var_envio) then var_envio=""
+
+Return var_envio
+end function
+

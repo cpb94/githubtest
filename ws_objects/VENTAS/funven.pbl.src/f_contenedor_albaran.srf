@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_contenedor_albaran.srf
+global type f_contenedor_albaran from function_object
+end type
+
+forward prototypes
+global function string f_contenedor_albaran (string empresa, decimal anyo, decimal albaran)
+end prototypes
+
+global function string f_contenedor_albaran (string empresa, decimal anyo, decimal albaran);String ls_conten
+
+SELECT contenedor
+INTO   :ls_conten
+FROM   venalb
+WHERE  venalb.empresa =:empresa
+AND    venalb.anyo    =:anyo
+AND    venalb.albaran =:albaran
+USING  sqlca;
+
+If IsNull(ls_conten) then ls_conten = ""
+
+return ls_conten
+
+
+end function
+

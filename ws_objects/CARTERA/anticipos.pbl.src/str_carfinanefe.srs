@@ -1,0 +1,22 @@
+﻿$PBExportHeader$str_carfinanefe.srs
+global type str_carfinanefe from structure
+     STRING     empresa
+     STRING     bancofinan
+     INTEGER     contador
+     INTEGER     ejercicio
+     DECIMAL {2}     orden
+     INTEGER     anyo_fac
+     STRING     serie_fac
+     STRING     factura
+     DATETIME     ffactura
+     INTEGER     pago
+     DECIMAL {2}     importe_efec
+     DECIMAL {5}     divisas_efec
+     DECIMAL {6}     cambio_efec
+     DATETIME     vto_efec
+     INTEGER     anyo
+     STRING     moneda_efec
+     STRING     fpago
+     INTEGER     orden_carpagos
+end type
+

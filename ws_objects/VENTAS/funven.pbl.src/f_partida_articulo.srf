@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_partida_articulo.srf
+global type f_partida_articulo from function_object
+end type
+
+forward prototypes
+global function string f_partida_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_partida_articulo (string empresa, string articulo);String variable
+
+  SELECT articulos.partidaest
+    INTO :variable  
+    FROM articulos  
+   WHERE articulos.empresa = :empresa 
+	AND   articulos.codigo = :articulo ;
+	
+	if isnull(variable) then variable = "0"
+	
+	return variable
+
+end function
+

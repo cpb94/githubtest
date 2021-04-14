@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_nombre_mes.srf
+global type f_nombre_mes from function_object
+end type
+
+forward prototypes
+global function string f_nombre_mes (integer arg_mes)
+end prototypes
+
+global function string f_nombre_mes (integer arg_mes);string  var_mes
+
+choose case arg_mes
+			case 1
+				var_mes = "Enero"
+			case 2
+				var_mes = "Febrero"
+			case 3
+				var_mes = "Marzo"
+			case 4
+				var_mes = "Abril"
+			case 5
+				var_mes = "Mayo"
+			case 6
+				var_mes = "Junio"
+			case 7
+				var_mes = "Julio"
+			case 8
+				var_mes = "Agosto"
+			case 9
+				var_mes = "Septiembre"
+			case 10
+				var_mes = "Octubre"
+			case 11
+				var_mes = "Noviembre"
+			case 12
+				var_mes = "Diciembre"
+end choose
+
+return var_mes
+end function
+

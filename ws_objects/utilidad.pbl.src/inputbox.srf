@@ -1,0 +1,20 @@
+﻿$PBExportHeader$inputbox.srf
+$PBExportComments$inputbox("Titulo ventana","Mensaje","Texto por defecto", [ ("F" -> fecha) ("" -> string) ]
+global type inputbox from function_object
+end type
+
+forward prototypes
+global function string inputbox (string titulo, string mensaje, string texto, string formato)
+end prototypes
+
+global function string inputbox (string titulo, string mensaje, string texto, string formato);str_parametros param
+param.s_argumentos[1]=titulo
+param.s_argumentos[2]=mensaje
+param.s_argumentos[3]=texto
+param.s_argumentos[4]=formato
+
+openwithparm(w_inputbox,param)
+
+return message.stringparm
+end function
+

@@ -1,0 +1,30 @@
+﻿$PBExportHeader$f_contador_producciones_articulo.srf
+global type f_contador_producciones_articulo from function_object
+end type
+
+forward prototypes
+global function integer f_contador_producciones_articulo (string articulo, string empresa)
+end prototypes
+
+global function integer f_contador_producciones_articulo (string articulo, string empresa);int contador
+
+
+
+contador = 0
+
+SELECT count(distinct f_fin_estimada)
+INTO :contador
+FROM planificacion 
+WHERE planificacion.f_fin_estimada IS NOT NULL
+AND planificacion.cod_articulo = :articulo
+AND planificacion.empresa = :empresa 
+GROUP BY  cod_articulo;
+
+return contador
+
+
+
+
+
+end function
+

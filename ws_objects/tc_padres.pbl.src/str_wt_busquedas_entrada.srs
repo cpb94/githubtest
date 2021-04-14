@@ -1,0 +1,9 @@
+﻿$PBExportHeader$str_wt_busquedas_entrada.srs
+global type str_wt_busquedas_entrada from structure
+	string		consulta		descriptor "comment" = "Indica la consulta para la ventana de ayuda. Es obligatorio indicar la tabla antes de todos los campos si la consulta afecta a más de una tabla. No está permitido utilizar AS."
+	string		titulos[20]		descriptor "comment" = "Vector con cada uno de los títulos que se mostrarán para cada uno de los campos recuperados en la consulta"
+	string		filtro		descriptor "comment" = "Indica el texto por el que pretende buscar el usuario. Siempre se aplica sobre el segundo campo recuperado en la consulta."
+	boolean		filtro_es_codigo		descriptor "comment" = "Indica si en el filtro se está pasando el código del objeto a buscar"
+	string		titulo_ventana		descriptor "comment" = "Indica el título de la ventana de búsqueda. En caso de no estar presente se mostrará unno genérico"
+end type
+

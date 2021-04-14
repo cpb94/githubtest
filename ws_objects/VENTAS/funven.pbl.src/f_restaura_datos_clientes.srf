@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_restaura_datos_clientes.srf
+global type f_restaura_datos_clientes from function_object
+end type
+
+forward prototypes
+global subroutine f_restaura_datos_clientes ()
+end prototypes
+
+global subroutine f_restaura_datos_clientes ();string sel,cliente,serie,grupo,cod_pago,tipoiva,tarifa,periodo_fac
+long indice,total,diaspago1,diaspago2,diaspago3,var_ejercicio,iva
+datastore clientes
+sel = "select codigo,serie,cod_pago,"+&
+		"tipoiva from venclientes where empresa = '"+codigo_empresa+"'"
+		
+//clientes = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, clientes)
+total = clientes.rowcount()
+for indice = 1 to total
+	f_mensaje_proceso("Procesando",indice,total)
+	cliente     = clientes.object.codigo[indice]
+	serie       = clientes.object.serie[indice]
+	cod_pago    = clientes.object.cod_pago[indice]
+	tipoiva     = clientes.object.tipoiva[indice]
+	
+	var_ejercicio = f_ejercicio_activo(codigo_empresa)
+	SELECT contaiva.iva  INTO :iva  
+	FROM contaiva  
+	WHERE ( contaiva.ejercicio = :var_ejercicio ) AND  
+			( contaiva.empresa = :codigo_empresa ) AND  
+			( contaiva.tipoiva = :tipoiva )   ;
+	
+	update venalb
+	set serie   = :serie,
+	    codpago = :cod_pago,
+		 tipoiva = :tipoiva,
+		 iva     = :iva
+	where empresa = :codigo_empresa
+	and   cliente = :cliente;
+	if sqlca.sqlcode = 0 then
+		commit;
+	else
+		rollback;
+	end if
+	update venped
+	set serie   = :serie,
+	    codpago = :cod_pago,
+		 tipoiva = :tipoiva,
+		 iva     = :iva
+	where empresa = :codigo_empresa
+	and   cliente = :cliente;
+	if sqlca.sqlcode = 0 then
+		commit;
+	else
+		rollback;
+	end if
+	
+next
+destroy clientes
+end subroutine
+

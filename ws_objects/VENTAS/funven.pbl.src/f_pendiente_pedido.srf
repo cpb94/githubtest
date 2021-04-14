@@ -1,0 +1,54 @@
+﻿$PBExportHeader$f_pendiente_pedido.srf
+global type f_pendiente_pedido from function_object
+end type
+
+forward prototypes
+global function decimal f_pendiente_pedido (integer anyo_alb, integer albaran, integer linea_alb, string cod_articulo)
+end prototypes
+
+global function decimal f_pendiente_pedido (integer anyo_alb, integer albaran, integer linea_alb, string cod_articulo);decimal v_anyo_ped, v_pedido, v_linea, v_cantidad, v_cantidad_original
+string separar_bultos, v_cliente
+
+
+select anyo_pedido_origen, pedido_origen, linea_pedido_origen
+into :v_anyo_ped, :v_pedido, :v_linea
+from venlialb
+where empresa = :codigo_empresa 
+and anyo = :anyo_alb
+and albaran = :albaran
+and linea = :linea_alb;
+
+
+select cantidad, cantidad_original , cliente
+into :v_cantidad, :v_cantidad_original: v_cliente
+from venliped
+where empresa = :codigo_empresa
+and anyo = :v_anyo_ped
+and pedido = :v_pedido
+and linea = :v_linea;
+
+select separar_bultos
+into :separar_bultos
+from venclientes
+where empresa = :codigo_empresa
+and codigo = :v_cliente;
+//and cliente
+
+if separar_bultos = 'S' then
+	v_cantidad = 0
+else
+	// Si la cantidad pendiente es superior al 50 % entonces se mostrará en la línea del albarán
+	if (v_cantidad + v_cantidad_original) > 0 then
+		if (v_cantidad / (v_cantidad_original)) * 100 < 50 then 
+			v_cantidad = 0
+		end if
+	else
+		v_cantidad = 0
+	end if
+end if
+
+return v_cantidad
+
+
+end function
+

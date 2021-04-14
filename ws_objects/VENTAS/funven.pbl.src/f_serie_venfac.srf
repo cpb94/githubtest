@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_serie_venfac.srf
+global type f_serie_venfac from function_object
+end type
+
+forward prototypes
+global function string f_serie_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function string f_serie_venfac (string empresa, integer anyo, decimal factura);string var_variable
+
+SELECT venfac.serie  INTO  :var_variable   FROM venfac  
+WHERE (venfac.empresa  = :empresa)
+AND   (venfac.anyo     = :anyo)
+AND   (venfac.factura  = :factura) ;  
+
+Return var_variable
+end function
+

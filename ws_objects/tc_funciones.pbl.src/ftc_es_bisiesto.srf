@@ -1,0 +1,20 @@
+﻿$PBExportHeader$ftc_es_bisiesto.srf
+global type ftc_es_bisiesto from function_object
+end type
+
+forward prototypes
+global function boolean ftc_es_bisiesto (integer anyo)
+end prototypes
+
+global function boolean ftc_es_bisiesto (integer anyo);boolean bisiesto
+//return ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0);
+
+
+bisiesto = false
+if ( mod(anyo, 4) = 0 and mod (anyo, 100 ) <> 0 ) or (mod (anyo, 400 ) = 0 ) then
+	bisiesto = true
+end if
+
+return bisiesto
+end function
+

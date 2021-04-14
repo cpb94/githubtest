@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_provincia.srf
+$PBExportComments$Devualve el nombre de la provincia.
+global type f_nombre_provincia from function_object
+end type
+
+forward prototypes
+global function string f_nombre_provincia (string cod_pais, string cod_provincia)
+end prototypes
+
+global function string f_nombre_provincia (string cod_pais, string cod_provincia);  String nombre
+
+  SELECT provincias.nombre  
+    INTO :nombre  
+    FROM provincias  
+   WHERE (provincias.pais      = :cod_pais) AND  
+         (provincias.provincia = :cod_provincia) 
+ //  ORDER BY provincias.pais,provincias.provincia 
+   USING SQLCA;
+   IF IsNull(nombre) Then nombre = ""
+   Return nombre
+
+end function
+

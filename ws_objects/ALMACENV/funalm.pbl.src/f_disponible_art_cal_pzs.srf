@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_disponible_art_cal_pzs.srf
+global type f_disponible_art_cal_pzs from function_object
+end type
+
+forward prototypes
+global function long f_disponible_art_cal_pzs (string arg_empresa, string arg_articulo, string arg_calidad)
+end prototypes
+
+global function long f_disponible_art_cal_pzs (string arg_empresa, string arg_articulo, string arg_calidad);long ll_existencias,ll_reservado,ll_preparado,ll_disponible
+
+ll_existencias = f_existencias_art_cal_pzs(arg_empresa,arg_articulo,arg_calidad)
+ll_reservado   = f_reservado_art_cal_pzs(arg_empresa,arg_articulo,arg_calidad)
+ll_preparado   = f_preparado_art_cal_pzs(arg_empresa,arg_articulo,arg_calidad)
+ll_disponible  = ll_existencias - ( ll_reservado + ll_preparado )
+
+Return ll_disponible
+end function
+

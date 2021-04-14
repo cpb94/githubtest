@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_sector_articulo.srf
+global type f_sector_articulo from function_object
+end type
+
+forward prototypes
+global function string f_sector_articulo (string ra_codemp, string ra_codart)
+end prototypes
+
+global function string f_sector_articulo (string ra_codemp, string ra_codart); string ls_sector
+
+ SELECT articulos.sector
+    INTO :ls_sector  
+    FROM articulos  
+   WHERE ( articulos.empresa = :ra_codemp ) AND  
+         ( articulos.codigo = :ra_codart )  
+  USING SQLCA;
+  IF SQLCA.SQLCODE = 100 Then ls_sector = "N" 
+
+Return ls_sector
+
+end function
+

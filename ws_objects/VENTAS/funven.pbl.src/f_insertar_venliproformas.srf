@@ -1,0 +1,207 @@
+﻿$PBExportHeader$f_insertar_venliproformas.srf
+global type f_insertar_venliproformas from function_object
+end type
+
+forward prototypes
+global function boolean f_insertar_venliproformas (str_venliproformas linproformas)
+end prototypes
+
+global function boolean f_insertar_venliproformas (str_venliproformas linproformas);Dec{4}  impdto,importe,acumulado,importedto1,importedto2,importedto3,importedto4,importedtoesp
+Dec{4}  var_dto1,var_dto2,var_dto3,var_dto4,var_dtopp,var_dtoesp
+String  var_tipodto1,var_tipodto2,var_tipodto3,var_tipodto4,var_calculo_dto,var_calculo_dtoesp,v_mascara
+Dec{4}  var_impdto1,var_impdto2,var_impdto3,var_impdto4
+
+IF IsNull(linproformas.articulo) Then linproformas.articulo = ""
+
+IF Trim(linproformas.articulo) = "" Then
+	linproformas.peso      = 0
+	linproformas.peso_neto = 0
+ELSE
+	linproformas.peso                = f_calculo_peso(linproformas.empresa,linproformas.articulo,linproformas.tipo_pallet,linproformas.cajas,linproformas.total_cajas,linproformas.pallets,linproformas.cantidad,linproformas.caja)
+	linproformas.peso_neto           = f_calculo_peso_neto(linproformas.empresa,linproformas.articulo,linproformas.cajas,linproformas.total_cajas,linproformas.cantidad,linproformas.caja)
+END IF
+IF IsNUll(linproformas.peso) Then linproformas.peso = 0
+IF IsNUll(linproformas.peso_neto) Then linproformas.peso_neto = 0
+
+linproformas.precio_neto         = linproformas.precio
+linproformas.precio_aduana_neto  = linproformas.precio_aduana
+linproformas.tipo_cliente        = f_tipo_cliente_venproformas(linproformas.empresa,linproformas.anyo,linproformas.proforma)
+linproformas.control_comisiones  = f_comision_ventipolin(linproformas.empresa,linproformas.tipolinea)
+linproformas.control_descuentos  = f_descuento_ventipolin(linproformas.empresa,linproformas.tipolinea)
+
+//----------------------------------------------------------------------------------------------------------------
+//-- Importe por aduana extranjera  ------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------
+	importe = Dec(String(linproformas.cantidad*linproformas.precio_aduana,f_mascara_moneda(linproformas.divisa)))
+	impdto = Dec(String(importe*linproformas.descuento /100,f_mascara_moneda(linproformas.divisa)))
+	linproformas.importe_aduana  = importe - impdto
+//----------------------------------------------------------------------------------------------------------------
+
+  SELECT venproformas.dtoesp1,     venproformas.dtoesp2,   
+         venproformas.dtoesp3,     venproformas.dtoesp4,   
+         venproformas.dtopp,       venproformas.tipodto1,   
+         venproformas.tipodto2,    venproformas.tipodto3,   
+         venproformas.tipodto4,    venproformas.divisa,
+			venproformas.calculo_dto,venproformas.calculo_dtoesp
+    INTO :var_dto1,    :var_dto2,    :var_dto3,  :var_dto4,   
+         :var_dtopp,   :var_tipodto1,:var_tipodto2,   
+         :var_tipodto3,:var_tipodto4,:linproformas.divisa,
+			:var_calculo_dto,:var_calculo_dtoesp
+    FROM venproformas  
+   WHERE (venproformas.empresa  = :linproformas.empresa ) AND  
+         (venproformas.anyo     = :linproformas.anyo ) AND  
+         (venproformas.proforma = :linproformas.proforma );
+IF  IsNull(linproformas.dtoesp) Then linproformas.dtoesp= 0
+
+var_dtoesp  = linproformas.dtoesp
+v_mascara = f_mascara_moneda(linproformas.divisa)
+
+IF IsNull(var_dto1)  Then var_dto1  = 0
+IF IsNull(var_dto2)  Then var_dto2  = 0
+IF IsNull(var_dto3)  Then var_dto3  = 0
+IF IsNull(var_dto4)  Then var_dto4  = 0
+IF IsNull(var_dtopp) Then var_dtopp = 0
+IF IsNull(var_dtoesp) Then var_dtoesp = 0
+
+linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+
+IF var_calculo_dtoesp = "N" Then
+	importedtoesp      = Dec(String((linproformas.bruto * var_dtoesp /100),v_mascara))
+	acumulado          = linproformas.bruto - importedtoesp
+ELSE
+	linproformas.precio_neto = linproformas.precio_neto - Dec(String(linproformas.precio_neto * var_dtoesp /100,v_mascara))
+	linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+	acumulado = linproformas.bruto 
+END IF
+
+IF linproformas.control_descuentos = "N" Then
+	linproformas.descuento = 0
+ELSE
+ IF var_tipodto1  = "L" Then 
+	IF var_calculo_dto = "N" Then
+		importedto1 = Dec(String((acumulado * var_dto1 /100),v_mascara))
+		acumulado = acumulado - importedto1
+	ELSE
+		linproformas.precio_neto = linproformas.precio_neto - Dec(String(linproformas.precio_neto * var_dto1 /100,v_mascara))
+		linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+		IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((linproformas.bruto * var_dtoesp /100),v_mascara))
+		ELSE
+			importedtoesp = 0
+		END IF
+		acumulado = linproformas.bruto - importedtoesp
+	END IF
+ END IF
+ 
+ IF var_tipodto2  = "L" Then 
+	IF var_calculo_dto = "N" Then
+		importedto2 = Dec(String((acumulado * var_dto2 /100),v_mascara))
+		acumulado = acumulado - importedto2
+	ELSE
+		linproformas.precio_neto = linproformas.precio_neto - Dec(String(linproformas.precio_neto * var_dto2 /100,v_mascara))
+		linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+		IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((linproformas.bruto * var_dtoesp /100),v_mascara))
+		ELSE
+			importedtoesp = 0
+		END IF
+		acumulado = linproformas.bruto - importedtoesp
+	END IF
+ END IF
+ 
+ IF var_tipodto3  = "L" Then 	
+	IF var_calculo_dto = "N" Then
+	   importedto3 = Dec(String((acumulado * var_dto3 /100),v_mascara))
+		acumulado = acumulado - importedto3
+	ELSE
+		linproformas.precio_neto = linproformas.precio_neto - Dec(String(linproformas.precio_neto * var_dto3 /100,v_mascara))
+		linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+		IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((linproformas.bruto * var_dtoesp /100),v_mascara))
+		ELSE
+			importedtoesp = 0
+		END IF
+		acumulado = linproformas.bruto - importedtoesp
+	END IF
+ END IF
+ 
+IF var_tipodto4  = "L" Then 	
+	IF var_calculo_dto = "N" Then
+		importedto4  = Dec(String((acumulado * var_dto4 /100),v_mascara))
+		acumulado = acumulado - importedto4
+	ELSE
+		linproformas.precio_neto = linproformas.precio_neto - Dec(String(linproformas.precio_neto * var_dto4 /100,v_mascara))
+		linproformas.bruto = Dec(String(linproformas.cantidad * linproformas.precio_neto,v_mascara))
+		IF var_calculo_dtoesp = "N" Then
+			importedtoesp = Dec(String((linproformas.bruto * var_dtoesp /100),v_mascara))
+		ELSE
+			importedtoesp = 0
+		END IF
+		acumulado = linproformas.bruto - importedtoesp
+	END IF
+END IF
+
+linproformas.importedto    = linproformas.bruto - acumulado 
+linproformas.importe       = linproformas.bruto - linproformas.importedto
+ 
+IF  linproformas.bruto = 0 then
+    linproformas.descuento = 0
+	ELSE
+	 linproformas.descuento     = (linproformas.importedto/linproformas.bruto)* 100
+ END IF
+END IF
+linproformas.impdtopp  = Dec(String((acumulado * var_dtopp /100),v_mascara)) 
+linproformas.importedto    = Dec(String(linproformas.bruto * linproformas.descuento / 100,v_mascara))
+linproformas.importe       = linproformas.bruto - linproformas.importedto
+
+INSERT INTO venliproformas(empresa,anyo,proforma,linea,serie,fproforma,   
+                       cliente,tipo_unidad,articulo,familia,formato,   
+                       modelo,calidad,tonochar,calibre,precio,precio_estand,   
+                       cantidad,pallets,total_cajas,cajas,dtocomer,dtoesp,   
+                       descripcion,tipoiva,iva,linfab,provincia,pais,   
+                       zona,tipolinea,texto1,texto2,texto3,texto4,
+                       referencia,montajeartcal,situacion,divisa,
+                       metros_lineales,peso_neto,falta,usuario,tipo_pallet,caja,
+                       importe,descuento,importedto,clase,sector,
+                       agente1,agente2,agente3,comision11,comision12,
+                       comision21,comision22,comision31,comision32,
+                       deposito, control_incremento,peso,tipo_cliente,precio_aduana,
+							  control_descuentos,control_comisiones,importe_aduana,
+							  bruto,precio_neto,precio_aduana_neto,impdtopp,
+							  subfamilia,subformato)  
+  VALUES (:linproformas.empresa,:linproformas.anyo,:linproformas.proforma,:linproformas.linea,   
+          :linproformas.serie,:linproformas.fproforma,:linproformas.cliente,   
+          :linproformas.tipo_unidad,:linproformas.articulo,:linproformas.familia,
+          :linproformas.formato,:linproformas.modelo,:linproformas.calidad,:linproformas.tonochar,   
+          :linproformas.calibre,:linproformas.precio,:linproformas.precio_estand,
+          :linproformas.cantidad,:linproformas.pallets,:linproformas.total_cajas,
+          :linproformas.cajas,:linproformas.dtocomer,:linproformas.dtoesp,
+          :linproformas.descripcion,:linproformas.tipoiva,:linproformas.iva,:linproformas.linfab,   
+          :linproformas.provincia,:linproformas.pais,:linproformas.zona,:linproformas.tipolinea,   
+          :linproformas.texto1,:linproformas.texto2,:linproformas.texto3,:linproformas.texto4,   
+          :linproformas.referencia,:linproformas.montajeartcal,:linproformas.situacion,   
+          :linproformas.divisa,:linproformas.metros_lineales,:linproformas.peso_neto,
+          :linproformas.falta,:linproformas.usuario,:linproformas.tipo_pallet,:linproformas.caja,
+          :linproformas.importe,:linproformas.descuento,:linproformas.importedto,
+          :linproformas.clase,:linproformas.sector,:linproformas.agente1,:linproformas.agente2,
+          :linproformas.agente3,:linproformas.comision11,:linproformas.comision12,
+          :linproformas.comision21,:linproformas.comision22,:linproformas.comision31,
+          :linproformas.comision32,:linproformas.deposito,
+			 :linproformas.control_incremento,:linproformas.peso,
+			 :linproformas.tipo_cliente,:linproformas.precio_aduana,
+			 :linproformas.control_descuentos,:linproformas.control_comisiones,
+			 :linproformas.importe_aduana,:linproformas.bruto,:linproformas.precio_neto,:linproformas.precio_aduana_neto,
+			 :linproformas.impdtopp,
+			 :linproformas.subfamilia,:linproformas.subformato);
+			 IF SQLCA.SQLCODE <> 0 then
+  				f_mensaje("Error en base de datos",sqlca.sqlerrtext)
+				Return FALSE
+			 END IF
+
+Return True
+
+
+
+
+end function
+

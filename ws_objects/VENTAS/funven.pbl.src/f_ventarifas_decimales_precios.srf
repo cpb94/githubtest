@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_ventarifas_decimales_precios.srf
+global type f_ventarifas_decimales_precios from function_object
+end type
+
+forward prototypes
+global function integer f_ventarifas_decimales_precios (string empresa, string codigo)
+end prototypes
+
+global function integer f_ventarifas_decimales_precios (string empresa, string codigo);int li_decimales_precios
+
+SELECT isnull(ventarifas.decimales_precios,0)
+    INTO :li_decimales_precios
+    FROM ventarifas  
+   WHERE ( ventarifas.empresa = :empresa ) AND  
+         ( ventarifas.codigo = :codigo )   ;
+
+Return li_decimales_precios
+
+end function
+

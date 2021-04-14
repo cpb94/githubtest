@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_fac_pdtes_actualizar_entre_fechas.srf
+global type f_fac_pdtes_actualizar_entre_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_fac_pdtes_actualizar_entre_fechas (string empresa, string cliente, datetime fecha1, datetime fecha2)
+end prototypes
+
+global function decimal f_fac_pdtes_actualizar_entre_fechas (string empresa, string cliente, datetime fecha1, datetime fecha2);dec dinero
+  
+if not isnull(fecha2) then  
+	SELECT sum(venfac.total_fac_pts)  
+	INTO :dinero  
+	FROM venfac  
+	WHERE venfac.empresa     = :empresa  AND  
+			venfac.cliente     = :cliente  AND
+			venfac.actualizada = "N" AND
+			venfac.ffactura >= :fecha1 and
+			venfac.ffactura < :fecha2;
+	
+	if isnull(dinero) then dinero=0
+	if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero=0
+	end if
+else
+	SELECT sum(venfac.total_fac_pts)  
+	INTO :dinero  
+	FROM venfac  
+	WHERE ( venfac.empresa     = :empresa ) AND  
+		( venfac.cliente     = :cliente ) AND
+		( venfac.actualizada = "N") AND
+		venfac.ffactura >= :fecha1 ;
+	
+	if isnull(dinero) then dinero=0
+	if sqlca.sqlcode<>0 then
+	if sqlca.sqlcode<>100 then messagebox("Error calculando albaranes sin facturar",sqlca.sqlerrtext)
+		dinero=0
+	end if
+	
+end if
+
+return dinero
+end function
+

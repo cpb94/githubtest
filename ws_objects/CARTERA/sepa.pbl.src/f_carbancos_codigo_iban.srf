@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_carbancos_codigo_iban.srf
+global type f_carbancos_codigo_iban from function_object
+
+end type
+
+forward prototypes
+global function string f_carbancos_codigo_iban (string cod_empresa, string cod_banco)
+end prototypes
+
+global function string f_carbancos_codigo_iban (string cod_empresa, string cod_banco);String ls_codigo_iban 
+
+ SELECT    isnull(carbancos.codigo_iban,'')
+    INTO   :ls_codigo_iban  
+    FROM carbancos 
+   WHERE ( carbancos.empresa= :cod_empresa ) AND  
+         ( carbancos.banco  = :cod_banco   )   ;
+
+RETURN ls_codigo_iban
+
+//
+
+
+
+end function
+

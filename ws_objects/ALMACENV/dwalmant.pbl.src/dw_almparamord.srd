@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_almparamord.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=177 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almparamord.empresa" )
+ column=(type=long update=yes updatewhereclause=yes key=yes name=anyo dbname="almparamord.anyo" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=orden dbname="almparamord.orden" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almparamord~" ) COLUMN(NAME=~"almparamord.empresa~") COLUMN(NAME=~"almparamord.anyo~") COLUMN(NAME=~"almparamord.orden~")WHERE(    EXP1 =~"( almparamord.empresa~"   OP =~"=~"    EXP2 =~":empresa )~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"( almparamord.anyo~"   OP =~"=~"    EXP2 =~":anyo )~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number) " update="almparamord" updatewhere=0 updatekeyinplace=yes arguments=(("empresa", string),("anyo", number)) )
+text(band=detail alignment="1" text="Contador ordenes:"border="0" color="0" x="51" y="84" height="65" width="535"  name=orden_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=30 border="5" color="0" x="613" y="84" height="65" width="238" format="[general]"  name=orden edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

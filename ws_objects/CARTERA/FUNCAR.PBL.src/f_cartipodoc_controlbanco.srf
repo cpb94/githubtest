@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cartipodoc_controlbanco.srf
+global type f_cartipodoc_controlbanco from function_object
+end type
+
+forward prototypes
+global function string f_cartipodoc_controlbanco (string cod_empresa, string cod_tipodoc)
+end prototypes
+
+global function string f_cartipodoc_controlbanco (string cod_empresa, string cod_tipodoc);String ls_nombre 
+
+ SELECT  cartipodoc.control_banco   
+    INTO :ls_nombre  
+
+    FROM cartipodoc 
+   WHERE ( cartipodoc.empresa= :cod_empresa ) AND  
+         ( cartipodoc.tipodoc= :cod_tipodoc )   
+   USING SQLCA;
+	
+RETURN ls_nombre
+
+
+end function
+

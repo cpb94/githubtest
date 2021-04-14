@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_fecha_baja_articulo.srf
+global type f_fecha_baja_articulo from function_object
+end type
+
+forward prototypes
+global function boolean f_fecha_baja_articulo (string ra_codemp, string ra_codart)
+end prototypes
+
+global function boolean f_fecha_baja_articulo (string ra_codemp, string ra_codart); datetime fecha_anulado
+
+ SELECT articulos.fecha_anulado
+    INTO :fecha_anulado
+    FROM articulos  
+   WHERE ( articulos.empresa = :ra_codemp ) AND  
+         ( articulos.codigo = :ra_codart )  
+  USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	return False
+END IF
+if isnull(fecha_anulado) then return False
+if string(date(fecha_anulado),"dd-mm-yy") = "00-00-00" then Return False
+Return True
+
+
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$report_cartas.srd
+$PBExportComments$Listado cartas.
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=565 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=93 color="536870912" )
+detail(height=1289 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="mcartas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="mcartas.codigo" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_carta dbname="mcartas.tipo_carta" )
+ column=(type=char(4099) updatewhereclause=yes name=texto_carta dbname="mcartas.texto_carta" )
+ column=(type=char(20) updatewhereclause=yes name=descripcion dbname="mcartas.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mcartas~" ) COLUMN(NAME=~"mcartas.empresa~") COLUMN(NAME=~"mcartas.codigo~") COLUMN(NAME=~"mcartas.tipo_carta~") COLUMN(NAME=~"mcartas.texto_carta~") COLUMN(NAME=~"mcartas.descripcion~")WHERE( EXP1 =~"mcartas.empresa~" OP =~"=~" EXP2 =~":empresa~" ) ) ORDER(NAME=~"mcartas.empresa~" ASC=yes ) ORDER(NAME=~"mcartas.codigo~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string) " update="mcartas" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string)) )
+group(level=1 header.height=1 trailer.height=1 by=("empresa" , "codigo" ) newpage=yes header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="23" y="12" height="297" width="2693" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO DE CARTAS"border="0" color="128" x="1157" y="364" height="65" width="618"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Carta...:"border="0" color="0" x="252" y="480" height="65" width="229"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=5 alignment="0" tabsequence=32766 border="0" color="0" x="499" y="480" height="65" width="755" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="23" y="320" height="57" width="19" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="220" y="20" height="1261" width="2190" format="[general]"  name=texto_carta height.autosize=yes edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="846" y="28" height="73" width="727" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="Page() + ~" de ~" + pageCount()"border="0" color="16777215" x="106" y="320" height="57" width="19" format="[general]"  name=pagina  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

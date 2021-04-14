@@ -1,0 +1,85 @@
+﻿$PBExportHeader$f_calculo_peso_neto_pzs.srf
+global type f_calculo_peso_neto_pzs from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_peso_neto_pzs (string empresa, string articulo, integer cajas, integer total_cajas, decimal cantidad, string caja)
+end prototypes
+
+global function decimal f_calculo_peso_neto_pzs (string empresa, string articulo, integer cajas, integer total_cajas, decimal cantidad, string caja);Dec{4}     var_pesopieza,var_pesoenvase,var_pesopallet,var_totalpeso,var_pesocaja
+String     tipo_unidad
+
+
+// Variables gestion incidencias
+   String in_programa,in_incidencia
+  
+ in_programa="f_calculo_peso_neto"
+
+ in_incidencia ="El Articulo nulo (Argumento) "
+ IF len(articulo) = 0 Then
+	f_grabar_incidencia(in_programa,in_incidencia)
+  	return 0
+ END IF
+ 
+SELECT ( isnull(almartcajas.pesocaja,0) - isnull(almcajas.pesoenvase,0) ) / isnull(almartcajas.piezascaja,0) as piezascaja,
+		 isnull(almcajas.pesoenvase,0) as pesoenvase,
+		 isnull(almartcajas.pesocaja,0) as pesocaja,
+       articulos.unidad
+INTO   :var_pesopieza,
+		 :var_pesoenvase,
+		 :var_pesocaja,
+		 :tipo_unidad
+FROM   articulos,almartcajas,almcajas  
+WHERE  articulos.empresa    = :empresa 
+AND    articulos.codigo     = :articulo
+AND    almartcajas.empresa  = articulos.empresa
+AND	 almartcajas.articulo = articulos.codigo
+AND	 almartcajas.caja     = :caja
+AND    almartcajas.caja     = almcajas.codigo
+AND    almcajas.codigo      = :caja;
+
+tipo_unidad = '0'
+
+IF sqlca.sqlcode =100 Then
+     in_incidencia ="El Articulo..: " + f_nombre_articulo(empresa,articulo) + " No existe"
+     f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+IF var_pesopieza=0 or IsNull(var_pesopieza) THEN
+	IF f_sector_articulo(empresa,articulo) = "S" Then
+   	in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso pieza"
+	   f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+END IF
+IF var_pesoenvase=0 or IsNull(var_pesoenvase) THEN
+	IF f_sector_articulo(empresa,articulo) = "S" Then
+	   in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso envase"
+   	f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+END IF
+IF var_pesocaja=0 or IsNull(var_pesocaja) THEN
+	IF f_sector_articulo(empresa,articulo) = "S" Then
+	   in_incidencia ="El articulo..: " + f_nombre_articulo(empresa,articulo) + " no tiene peso caja"
+   	f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+END IF
+
+if isnull(var_pesoenvase) then var_pesoenvase=0
+
+IF tipo_unidad = "1" Then
+    var_totalpeso = (var_pesocaja * total_cajas)
+END IF
+
+IF tipo_unidad = "0" Then
+   var_totalpeso = (var_pesopieza  * cantidad) + (var_pesoenvase * cajas) 
+END IF
+
+IF tipo_unidad <>"1" and tipo_unidad <> "0" THEN
+     in_incidencia ="El Tipo Unidad No contenplado"
+     f_grabar_incidencia(in_programa,in_incidencia)
+END IF
+
+Return var_totalpeso
+                
+end function
+

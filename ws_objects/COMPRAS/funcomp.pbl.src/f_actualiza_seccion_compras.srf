@@ -1,0 +1,71 @@
+﻿$PBExportHeader$f_actualiza_seccion_compras.srf
+global type f_actualiza_seccion_compras from function_object
+end type
+
+forward prototypes
+global subroutine f_actualiza_seccion_compras ()
+end prototypes
+
+global subroutine f_actualiza_seccion_compras ();long    indice,total
+string  sel,mprima,seccion
+boolean bien = true
+datastore ds_mprimas
+
+sel = "select codigo,seccion "+&
+		"from   venmprima "+&
+		"where  empresa = '"+codigo_empresa+"' "+&
+		"and    seccion <> '' and seccion is not null"
+
+//ds_mprimas = f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel, ds_mprimas)
+
+total = ds_mprimas.rowcount()
+
+for indice = 1 to total
+	f_mensaje_proceso("",indice,total)
+	bien = true
+	
+	mprima  = ds_mprimas.object.codigo[indice]
+	seccion = ds_mprimas.object.seccion[indice]
+	
+	update comlinpedpro
+	set    seccion = :seccion
+	where  empresa = :codigo_empresa
+	and    mprima  = :mprima;
+	//and   (seccion = '' or seccion is null);
+	
+	if sqlca.sqlcode <> 0 then
+		bien = false
+	end if
+	
+	update comlinalb
+	set    seccion = :seccion
+	where  empresa = :codigo_empresa
+	and    mprima  = :mprima;
+	//and   (seccion = '' or seccion is null);	
+	
+	if sqlca.sqlcode <> 0 then
+		bien = false
+	end if	
+	
+	update comlinfac
+	set    seccion = :seccion
+	where  empresa = :codigo_empresa
+	and    mprima  = :mprima;
+	//and   (seccion = '' or seccion is null);
+	
+	if sqlca.sqlcode <> 0 then
+		bien = false
+	end if	
+	
+	if bien then
+		commit;
+	else
+		rollback;
+		messagebox("Mal","Muy mal")
+	end if
+next
+
+destroy ds_mprimas
+end subroutine
+

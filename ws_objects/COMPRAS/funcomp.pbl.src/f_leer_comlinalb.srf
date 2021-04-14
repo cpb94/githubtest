@@ -1,0 +1,37 @@
+﻿$PBExportHeader$f_leer_comlinalb.srf
+$PBExportComments$Devuelve str_comlinalb
+global type f_leer_comlinalb from function_object
+end type
+
+forward prototypes
+global function str_comlinalb f_leer_comlinalb (string emp, string anyo, string albaran, string linea)
+end prototypes
+
+global function str_comlinalb f_leer_comlinalb (string emp, string anyo, string albaran, string linea);str_comlinalb lin
+
+SELECT comlinalb.mprima,comlinalb.cantidad,comlinalb.precio,comlinalb.fecha_entrega,
+       comlinalb.unidad_medida,comlinalb.pedido,comlinalb.linea_pedido,
+		 comlinalb.situacion,comlinalb.observaciones,comlinalb.libre,
+		 comlinalb.anyo_pedido,comlinalb.fecha_control,comlinalb.seccion,
+		 comlinalb.subseccion,comlinalb.descripcion,comlinalb.envase,
+		 comlinalb.cuenta,comlinalb.importe,comlinalb.automatico,comlinalb.ubicado,comlinalb.pedido_por
+	INTO :lin.mprima,:lin.cantidad,:lin.precio,:lin.fecha_entrega,
+		  :lin.unidad_medida,:lin.pedido,:lin.linea_pedido,
+		  :lin.situacion,:lin.observaciones,:lin.libre,
+		  :lin.anyo_pedido,:lin.fecha_control,:lin.seccion,
+		  :lin.subseccion,:lin.descripcion,:lin.envase,
+		  :lin.cuenta,:lin.importe,:lin.automatico,:lin.ubicado,:lin.pedido_por
+	FROM comlinalb
+WHERE comlinalb.empresa = :emp
+AND   comlinalb.anyo    = :anyo
+AND   comlinalb.albaran = :albaran
+AND   comlinalb.linea   = :linea;
+
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("Linea de Albaran de Compras","Linea del Albaran no existe")
+END IF
+
+RETURN lin 
+
+end function
+

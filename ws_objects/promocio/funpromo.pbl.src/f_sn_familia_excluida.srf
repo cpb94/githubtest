@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_sn_familia_excluida.srf
+global type f_sn_familia_excluida from function_object
+end type
+
+forward prototypes
+global function string f_sn_familia_excluida (string empresa, string familia)
+end prototypes
+
+global function string f_sn_familia_excluida (string empresa, string familia);String valor
+
+  
+    SELECT profam.familia
+    INTO :valor
+    FROM profam
+   WHERE ( profam.empresa = :empresa ) AND  
+         ( profam.familia  = :familia)   ;
+   
+    IF SQLCA.SQLCode=0 THEN
+		 valor="S"
+	else
+		valor="N"
+	End if
+
+  return valor
+
+end function
+

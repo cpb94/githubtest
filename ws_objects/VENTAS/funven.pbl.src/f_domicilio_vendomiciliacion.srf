@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_domicilio_vendomiciliacion.srf
+global type f_domicilio_vendomiciliacion from function_object
+end type
+
+forward prototypes
+global function string f_domicilio_vendomiciliacion (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_domicilio_vendomiciliacion (string empresa, string cliente, string codigo);String var_nombre
+
+ SELECT vendomiciliacion.domicilio	
+    INTO :var_nombre
+    FROM vendomiciliacion  
+   WHERE ( vendomiciliacion.empresa = :empresa ) AND  
+         ( vendomiciliacion.cliente = :cliente ) AND  
+         ( vendomiciliacion.codigo = :codigo )  ;
+
+
+Return var_nombre
+
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_campanya.srf
+global type f_nombre_campanya from function_object
+end type
+
+forward prototypes
+global function STRING f_nombre_campanya (string empresa, string codigo)
+end prototypes
+
+global function STRING f_nombre_campanya (string empresa, string codigo);String valor
+
+  SELECT mcampanya.descripcion  
+    INTO :valor
+    FROM mcampanya  
+   WHERE ( mcampanya.empresa = :empresa ) AND  
+         ( mcampanya.codigo  = :codigo )   ;
+			
+if isnull(valor) then valor =""		
+
+Return valor
+end function
+

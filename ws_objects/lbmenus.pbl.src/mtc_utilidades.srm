@@ -1,0 +1,616 @@
+﻿$PBExportHeader$mtc_utilidades.srm
+forward
+global type mtc_utilidades from menu
+end type
+type m_programas from menu within mtc_utilidades
+end type
+type m_usuarios from menu within m_programas
+end type
+type m_gruposdeusuarios from menu within m_programas
+end type
+type m_claves from menu within m_programas
+end type
+type m_parámetrosconexiónempresa from menu within m_programas
+end type
+type m_aplicaciones from menu within m_programas
+end type
+type m_parámetrosgenerales from menu within m_programas
+end type
+type m_cambioiva from menu within m_programas
+end type
+type m_generaciónestructurastablas from menu within m_programas
+end type
+type m_copiadeseguridad from menu within m_programas
+end type
+type m_programas from menu within mtc_utilidades
+m_usuarios m_usuarios
+m_gruposdeusuarios m_gruposdeusuarios
+m_claves m_claves
+m_parámetrosconexiónempresa m_parámetrosconexiónempresa
+m_aplicaciones m_aplicaciones
+m_parámetrosgenerales m_parámetrosgenerales
+m_cambioiva m_cambioiva
+m_generaciónestructurastablas m_generaciónestructurastablas
+m_copiadeseguridad m_copiadeseguridad
+end type
+type m_consultasylistados from menu within mtc_utilidades
+end type
+type m_registrosbloqueados from menu within m_consultasylistados
+end type
+type m_usuariosconectados from menu within m_consultasylistados
+end type
+type m_incidencias from menu within m_consultasylistados
+end type
+type m_mensajesentreusuarios from menu within m_consultasylistados
+end type
+type m_consultasylistados from menu within mtc_utilidades
+m_registrosbloqueados m_registrosbloqueados
+m_usuariosconectados m_usuariosconectados
+m_incidencias m_incidencias
+m_mensajesentreusuarios m_mensajesentreusuarios
+end type
+global type mtc_utilidades from menu
+m_programas m_programas
+m_consultasylistados m_consultasylistados
+end type
+end forward
+
+global type mtc_utilidades from menu
+m_programas m_programas
+m_consultasylistados m_consultasylistados
+end type
+global mtc_utilidades mtc_utilidades
+
+on mtc_utilidades.create
+mtc_utilidades=this
+call super::create
+this.text = "mtc_utilidades"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_programas=create m_programas
+this.m_consultasylistados=create m_consultasylistados
+this.Item[UpperBound(this.Item)+1]=this.m_programas
+this.Item[UpperBound(this.Item)+1]=this.m_consultasylistados
+end on
+
+on mtc_utilidades.destroy
+call super::destroy
+destroy(this.m_programas)
+destroy(this.m_consultasylistados)
+end on
+
+type m_programas from menu within mtc_utilidades
+m_usuarios m_usuarios
+m_gruposdeusuarios m_gruposdeusuarios
+m_claves m_claves
+m_parámetrosconexiónempresa m_parámetrosconexiónempresa
+m_aplicaciones m_aplicaciones
+m_parámetrosgenerales m_parámetrosgenerales
+m_cambioiva m_cambioiva
+m_generaciónestructurastablas m_generaciónestructurastablas
+m_copiadeseguridad m_copiadeseguridad
+end type
+
+on m_programas.create
+call super::create
+this.text = "Programas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_usuarios=create m_usuarios
+this.m_gruposdeusuarios=create m_gruposdeusuarios
+this.m_claves=create m_claves
+this.m_parámetrosconexiónempresa=create m_parámetrosconexiónempresa
+this.m_aplicaciones=create m_aplicaciones
+this.m_parámetrosgenerales=create m_parámetrosgenerales
+this.m_cambioiva=create m_cambioiva
+this.m_generaciónestructurastablas=create m_generaciónestructurastablas
+this.m_copiadeseguridad=create m_copiadeseguridad
+this.Item[UpperBound(this.Item)+1]=this.m_usuarios
+this.Item[UpperBound(this.Item)+1]=this.m_gruposdeusuarios
+this.Item[UpperBound(this.Item)+1]=this.m_claves
+this.Item[UpperBound(this.Item)+1]=this.m_parámetrosconexiónempresa
+this.Item[UpperBound(this.Item)+1]=this.m_aplicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_parámetrosgenerales
+this.Item[UpperBound(this.Item)+1]=this.m_cambioiva
+this.Item[UpperBound(this.Item)+1]=this.m_generaciónestructurastablas
+this.Item[UpperBound(this.Item)+1]=this.m_copiadeseguridad
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_usuarios)
+destroy(this.m_gruposdeusuarios)
+destroy(this.m_claves)
+destroy(this.m_parámetrosconexiónempresa)
+destroy(this.m_aplicaciones)
+destroy(this.m_parámetrosgenerales)
+destroy(this.m_cambioiva)
+destroy(this.m_generaciónestructurastablas)
+destroy(this.m_copiadeseguridad)
+end on
+
+type m_usuarios from menu within m_programas
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_usuarios")
+end event
+
+on m_usuarios.create
+call super::create
+this.text = "Usuarios"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_usuarios.destroy
+call super::destroy
+end on
+
+type m_gruposdeusuarios from menu within m_programas
+end type
+
+on m_gruposdeusuarios.create
+call super::create
+this.text = "Grupos de Usuarios"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_gruposdeusuarios.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_utigrupos")
+end event
+
+type m_claves from menu within m_programas
+end type
+
+on m_claves.create
+call super::create
+this.text = "Claves"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_claves.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_uticlaves")
+end event
+
+type m_parámetrosconexiónempresa from menu within m_programas
+end type
+
+on m_parámetrosconexiónempresa.create
+call super::create
+this.text = "Parámetros Conexión Empresa"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_parámetrosconexiónempresa.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_empresas_conexion")
+end event
+
+type m_aplicaciones from menu within m_programas
+end type
+
+on m_aplicaciones.create
+call super::create
+this.text = "Módulos"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_aplicaciones.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_utiaplicaciones")
+end event
+
+type m_parámetrosgenerales from menu within m_programas
+end type
+
+on m_parámetrosgenerales.create
+call super::create
+this.text = "Parámetros Generales"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_parámetrosgenerales.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wi_mant_uti_parametros")
+end event
+
+type m_cambioiva from menu within m_programas
+end type
+
+on m_cambioiva.create
+call super::create
+this.text = "Cambio IVA"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_cambioiva.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_cambio_iva")
+end event
+
+type m_generaciónestructurastablas from menu within m_programas
+end type
+
+on m_generaciónestructurastablas.create
+call super::create
+this.text = "Generación Estructuras Tablas"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_generaciónestructurastablas.destroy
+call super::destroy
+end on
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_genera_estructuras_tablas")
+end event
+
+type m_copiadeseguridad from menu within m_programas
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "wtc_copia_seguridad")
+end event
+
+on m_copiadeseguridad.create
+call super::create
+this.text = "Copia de Seguridad"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_copiadeseguridad.destroy
+call super::destroy
+end on
+
+type m_consultasylistados from menu within mtc_utilidades
+m_registrosbloqueados m_registrosbloqueados
+m_usuariosconectados m_usuariosconectados
+m_incidencias m_incidencias
+m_mensajesentreusuarios m_mensajesentreusuarios
+end type
+
+on m_consultasylistados.create
+call super::create
+this.text = "Consultas y Listados"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+this.m_registrosbloqueados=create m_registrosbloqueados
+this.m_usuariosconectados=create m_usuariosconectados
+this.m_incidencias=create m_incidencias
+this.m_mensajesentreusuarios=create m_mensajesentreusuarios
+this.Item[UpperBound(this.Item)+1]=this.m_registrosbloqueados
+this.Item[UpperBound(this.Item)+1]=this.m_usuariosconectados
+this.Item[UpperBound(this.Item)+1]=this.m_incidencias
+this.Item[UpperBound(this.Item)+1]=this.m_mensajesentreusuarios
+end on
+
+on m_consultasylistados.destroy
+call super::destroy
+destroy(this.m_registrosbloqueados)
+destroy(this.m_usuariosconectados)
+destroy(this.m_incidencias)
+destroy(this.m_mensajesentreusuarios)
+end on
+
+type m_registrosbloqueados from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_utibloqueo")
+end event
+
+on m_registrosbloqueados.create
+call super::create
+this.text = "Registros Bloqueados"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_registrosbloqueados.destroy
+call super::destroy
+end on
+
+type m_usuariosconectados from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_uticonexiones")
+end event
+
+on m_usuariosconectados.create
+call super::create
+this.text = "Usuarios Conectados"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_usuariosconectados.destroy
+call super::destroy
+end on
+
+type m_incidencias from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_con_utiincidencias")
+end event
+
+on m_incidencias.create
+call super::create
+this.text = "Incidencias"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_incidencias.destroy
+call super::destroy
+end on
+
+type m_mensajesentreusuarios from menu within m_consultasylistados
+end type
+
+event clicked;window lw_ventana 
+str_parametros lstr_param 
+OpenWithParm(lw_ventana, lstr_param , "w_mensajes_entre_usuarios")
+end event
+
+on m_mensajesentreusuarios.create
+call super::create
+this.text = "Mensajes Entre Usuarios"
+this.menutextcolor = 134217735
+this.menubackcolor = 134217732
+this.menuhighlightcolor = 134217741
+this.textsize = 8
+this.weight = 400
+this.facename = "Tahoma"
+this.titlebackcolor = 134217730
+this.bitmapbackcolor = 12632256
+this.menubitmaps = true
+this.titlegradient = true
+this.toolbartextcolor = 134217746
+this.toolbarbackcolor = 67108864
+this.toolbarhighlightcolor = 134217741
+this.toolbargradient = true
+this.bitmapgradient = true
+end on
+
+on m_mensajesentreusuarios.destroy
+call super::destroy
+end on
+

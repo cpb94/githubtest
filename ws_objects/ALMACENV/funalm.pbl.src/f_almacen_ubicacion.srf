@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_almacen_ubicacion.srf
+global type f_almacen_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_almacen_ubicacion (string ubicacion)
+end prototypes
+
+global function string f_almacen_ubicacion (string ubicacion);string	ls_parametro
+
+ ls_parametro = String(Dec(Mid(ubicacion,1,5)))
+  
+RETURN Trim(ls_parametro)
+end function
+

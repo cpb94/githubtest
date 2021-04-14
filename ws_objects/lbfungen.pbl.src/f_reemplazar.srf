@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_reemplazar.srf
+global type f_reemplazar from function_object
+end type
+
+forward prototypes
+global function string f_reemplazar (string cadena, string cadena_vieja, string cadena_nueva)
+end prototypes
+
+global function string f_reemplazar (string cadena, string cadena_vieja, string cadena_nueva);long pos_ini=1
+
+// Encuentra la primera cadena_vieja.
+pos_ini = Pos(cadena, cadena_vieja, pos_ini)
+
+DO WHILE pos_ini > 0
+	// Reemplaza cadena_vieja con cadena_nueva.
+	cadena = Replace(cadena, pos_ini,Len(cadena_vieja), cadena_nueva)
+	// Encuentra la siguiente cadena_vieja.
+	pos_ini = Pos(cadena, cadena_vieja,pos_ini+Len(cadena_nueva))
+LOOP
+
+return cadena
+end function
+

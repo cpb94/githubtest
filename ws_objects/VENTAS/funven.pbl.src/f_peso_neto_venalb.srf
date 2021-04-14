@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_peso_neto_venalb.srf
+global type f_peso_neto_venalb from function_object
+end type
+
+forward prototypes
+global function decimal f_peso_neto_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_peso_neto_venalb (string empresa, integer anyo, decimal albaran);Dec{2} var_variable
+
+SELECT venalb.peso_neto  
+INTO   :var_variable   
+FROM   venalb  
+WHERE (venalb.empresa  = :empresa)
+AND   (venalb.anyo     = :anyo)
+AND   (venalb.albaran  = :albaran);  
+
+Return var_variable
+
+//Dec{2} var_variable
+//
+//SELECT sum(venlialb.peso  )
+//INTO   :var_variable   
+//FROM   venlialb  
+//WHERE (venlialb.empresa  = :empresa)
+//AND   (venlialb.anyo     = :anyo)
+//AND   (venlialb.albaran  = :albaran);  
+//
+//Return var_variable
+end function
+

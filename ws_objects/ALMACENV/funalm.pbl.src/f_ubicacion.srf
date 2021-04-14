@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_ubicacion.srf
+global type f_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_ubicacion (string ubicacion)
+end prototypes
+
+global function string f_ubicacion (string ubicacion);String montaje,almacen,zona,fila,altura
+almacen= Mid(ubicacion,1,5)
+almacen= String(Integer(almacen))
+zona   = Mid(ubicacion,6,1)
+fila   = String(f_fila_ubicacion(ubicacion))
+fila   = String(Integer(fila))
+altura = String(f_altura_ubicacion(ubicacion))
+
+IF IsNull(fila) Then fila = "0"
+altura = String(Integer(altura))
+IF IsNull(altura) or Trim(altura) = "" Then altura = "0"
+
+
+IF Trim(altura) = "0"  Then
+  altura = ""
+Else
+  altura = "/" + String(Integer(altura))
+End If
+montaje =  trim(almacen) + trim(zona) + Trim(fila) +  Trim(altura)
+
+Return montaje
+end function
+

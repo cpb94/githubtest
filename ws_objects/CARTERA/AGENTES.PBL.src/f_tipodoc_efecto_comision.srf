@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_tipodoc_efecto_comision.srf
+global type f_tipodoc_efecto_comision from function_object
+end type
+
+forward prototypes
+global function string f_tipodoc_efecto_comision (string empresa, decimal anyo_fra, long factura)
+end prototypes
+
+global function string f_tipodoc_efecto_comision (string empresa, decimal anyo_fra, long factura);string    ph,pe
+string    factura_s
+factura_s = string(factura,"##################")
+
+Select max(carhistorico.tipodoc) 
+Into   :ph 
+From   carhistorico
+Where  carhistorico.empresa = :empresa
+And    carhistorico.anyofra = :anyo_fra
+And    carhistorico.factura = :factura_s;
+
+IF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+if isnull(ph) then ph=""
+	
+Select Max(carefectos.tipodoc)
+Into   :pe
+From   carefectos
+Where  carefectos.empresa = :empresa
+And    carefectos.anyofra = :anyo_fra
+And    carefectos.factura = :factura_s;
+
+IF sqlca.sqlcode <> 0 Then f_mensaje("Error",sqlca.sqlerrtext)
+if isnull(pe) then pe=""
+
+if pe="" then
+	Return ph
+else
+	Return pe
+end if
+
+end function
+

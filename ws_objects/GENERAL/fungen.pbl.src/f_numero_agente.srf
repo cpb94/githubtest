@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_numero_agente.srf
+global type f_numero_agente from function_object
+end type
+
+forward prototypes
+global function integer f_numero_agente (string v_empresa, string v_cliente, string v_agente)
+end prototypes
+
+global function integer f_numero_agente (string v_empresa, string v_cliente, string v_agente);  string codigo1,codigo2,codigo3
+  
+  SELECT venclientes.agente1,   
+         venclientes.agente2,   
+         venclientes.agente3  
+    INTO :codigo1,   
+         :codigo2,   
+         :codigo3  
+    FROM venclientes  
+   WHERE ( venclientes.empresa = :v_empresa ) AND  
+         ( venclientes.codigo  = :v_cliente ) ;
+
+IF IsNull(codigo1) Then codigo1 = " "			
+IF IsNull(codigo2) Then codigo2 = " "			
+IF IsNull(codigo3) Then codigo3 = " "	
+
+if codigo1 = v_agente Then Return 1			
+if codigo2 = v_agente Then Return 2			
+if codigo3 = v_agente Then Return 3			
+
+Return 0
+end function
+

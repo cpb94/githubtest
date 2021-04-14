@@ -1,0 +1,47 @@
+﻿$PBExportHeader$ftc_perfil_color_fichero.srf
+global type ftc_perfil_color_fichero from function_object
+end type
+
+forward prototypes
+global function string ftc_perfil_color_fichero (string ruta_fichero)
+end prototypes
+
+global function string ftc_perfil_color_fichero (string ruta_fichero);//Función que devuelve el codigo del perfil de color de la bases de datos, de un fichero cuya ruta se recibe como parámetro
+//Devuelve -1 si error o el codigo del perfil de color si todo OK
+String gestion_color, ruta_fichero_txt,perfil
+String codigo_perfil = ""
+Long f, bytes
+
+//Comprobacion perfil
+ftc_ejecutar_concurrente ('C:\Tencer_pb12\exiftool -w! txt -ICCProfileName "'+ ruta_fichero + '"', 2, true)
+
+//Lectura del perfil
+ruta_fichero_txt = mid(ruta_fichero, 1,pos(ruta_fichero,".")) + "txt"
+f = FileOpen(ruta_fichero_txt) 				
+if f < 0 then
+	//Error apertura
+	MessageBox("Error", "No se puede abrir el perfil del archivo.")
+	codigo_perfil = "-1"
+else
+	bytes = FileRead(f, perfil)
+	if bytes < 0 then
+		//Error lectura - Saltamos el archivo
+		MessageBox("Error", "No se puede leer el perfil del archivo.")
+		codigo_perfil = "-1"
+	else
+		perfil = f_reemplazar(f_reemplazar(f_reemplazar(perfil,":",""),"ICC Profile Name","")," ","")
+		codigo_perfil = "-1"
+		SELECT codigo INTO :codigo_perfil FROM perfil_color WHERE empresa = :codigo_empresa AND nombre_fisico = :perfil USING SQLCA;
+		if isnull(codigo_perfil) or codigo_perfil = "" or codigo_perfil = "-1" then
+			//Error - Perfil Erróneo
+			MessageBox("Error", "El archivo tiene un perfil de color NO VÁLIDO: "+perfil+". Por favor, reemplácelo.")
+			codigo_perfil = "-1"
+		end if
+	end if				
+end if
+FileClose(f)
+FileDelete(ruta_fichero_txt)
+
+return codigo_perfil
+end function
+

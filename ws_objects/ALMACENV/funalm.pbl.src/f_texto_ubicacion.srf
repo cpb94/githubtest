@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_texto_ubicacion.srf
+global type f_texto_ubicacion from function_object
+end type
+
+forward prototypes
+global function string f_texto_ubicacion (string ubicacion)
+end prototypes
+
+global function string f_texto_ubicacion (string ubicacion);String ls_codubicacion,almacen,zona,con
+Dec{0} fila,altura
+
+if trim(ubicacion)="" or isnull(ubicacion) then
+	  ls_codubicacion = ""
+  else	
+		
+		almacen = String(Dec(Mid(ubicacion,1,5)))
+		zona    = Trim(Mid(ubicacion,6,5))
+		fila    = Dec(Mid(ubicacion,11,4))
+		altura  = Dec(Mid(ubicacion,15,2))
+		iF IsNull(altura) or altura = 0 Then
+			altura = 0
+		Else
+			con = "/" + String(altura,"#")
+		End IF
+		ls_codubicacion =  f_nombre_almacen_abr(codigo_empresa,almacen)+ "-" +zona + "-" + String(fila,"##") + con
+End if
+RETURN ls_codubicacion
+end function
+

@@ -1,0 +1,121 @@
+﻿$PBExportHeader$f_calculo_unidades_lineales.srf
+$PBExportComments$Calculo de unidadades,pallets y cajas según metros lineales recibe(articulo,pallets,cantidad) y devuelve pallets,cajas y cantidad segun tipo de unidad.
+global type f_calculo_unidades_lineales from function_object
+end type
+
+forward prototypes
+global function string f_calculo_unidades_lineales (string cod_empresa, string cod_articulo, string cod_pallet, string caja, decimal total_lineales)
+end prototypes
+
+global function string f_calculo_unidades_lineales (string cod_empresa, string cod_articulo, string cod_pallet, string caja, decimal total_lineales); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Integer bien,total_cajas,total_pallets,cajas,n_piezascaja,n_cajaspallet
+ decimal n_metroslcaja,total_cantidad
+ decimal{5} largo
+ string cadena
+ decimal n_metroscaja
+
+ bien=0
+ SELECT articulos.empresa,articulos.codigo,articulos.formato,articulos.unidad ,
+        almartcajas.piezascaja,almartcajas.metroscaja,almartcajas.metroslcaja
+ INTO   :cod_empresa,:cod_articulo,:cod_formato,:cod_unidad,
+        :n_piezascaja,:n_metroscaja,:n_metroslcaja
+ FROM articulos,almartcajas  
+ WHERE (articulos.empresa = :cod_empresa )
+ AND   (articulos.codigo  = :cod_articulo )  
+ AND   (almartcajas.empresa = articulos.empresa)
+ AND   (almartcajas.articulo = articulos.codigo)
+ AND   (almartcajas.caja =:caja)
+ ORDER BY articulos.empresa ASC,articulos.codigo ASC  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien=1
+
+//if n_piezascaja=0 or isnull(n_piezascaja) then
+//	messagebox("Error en f_calculo_unidades_lineales","El articulo "+cod_articulo+" no tiene el dato piezas por caja")
+//	largo=0	
+//else
+//	if n_metroslcaja=0 or isnull(n_metroslcaja) then
+//		messagebox("Error en f_calculo_unidades_lineales","El articulo "+cod_articulo+" no tiene el dato metros lineales por caja")
+//		largo=0	
+//	else
+//		largo=n_metroslcaja/n_piezascaja
+//	end if
+//end if
+
+largo = f_nombre_formato_parte2(codigo_empresa,cod_formato)
+
+IF bien=0 THEN
+	SELECT    palarticulo.cajaspallet INTO :n_cajaspallet FROM palarticulo
+	WHERE    palarticulo.empresa  = :cod_empresa 
+	AND      palarticulo.articulo = :cod_articulo
+	AND      palarticulo.codigo   = :cod_pallet
+	AND      palarticulo.caja     = :caja;
+	IF SQLCA.SQLCode<>0 THEN bien=1  
+END IF
+
+
+
+CHOOSE CASE cod_unidad
+   	CASE  "1"  // Metros cuadrados.
+	  
+		IF n_metroslcaja=0 THEN 
+			  total_cajas = 0
+		ELSE
+			  total_cajas    = int((total_lineales / n_metroslcaja)+1)
+		END IF
+		IF n_cajaspallet=0 THEN
+			  total_pallets = 0
+		ELSE
+			  total_pallets  = total_cajas / n_cajaspallet
+		END IF
+		cajas            = total_cajas - (total_pallets*n_cajaspallet)
+		total_cantidad   = total_cajas * n_metroscaja
+		total_lineales   = total_cajas * n_metroslcaja
+	
+	CASE "0" //  Por unidades
+		If IsNull(largo) or largo = 0 Then
+			 total_cantidad = 0
+			 total_lineales = 0
+		 Else
+			//total_cantidad = int((total_lineales/largo)+.99)
+			//total_lineales = total_cantidad * largo
+			total_cantidad = total_lineales * (100/largo)
+		End IF
+		IF n_piezascaja=0 THEN 
+			total_cajas = 0
+		ELSE
+			total_cajas    = total_cantidad / n_piezascaja
+		END IF
+		IF n_cajaspallet=0 THEN
+			 total_pallets = 0
+		 ELSE
+			 total_pallets  = truncate(total_cajas / n_cajaspallet,0)
+		END IF
+	   	cajas            = total_cajas - (total_pallets * n_cajaspallet)
+//		if n_cajaspallet > 0 then 
+//			if mod(total_cajas, n_cajaspallet) > 0 then
+//				total_pallets ++
+//			end if
+//		else
+//			total_pallets = 0
+//		end if
+	
+	CASE  ELSE
+      	bien=1
+END CHOOSE
+
+if caja = "901" then //SIN CAJA
+	cajas = 0
+	total_cajas = 0
+end if
+
+cadena = &
+Trim(String(total_pallets))+Space(6 - len(Trim(String(total_pallets))))+&
+Trim(String(cajas))+Space(6 - len(trim(String(cajas))))+&
+Trim(String(total_cajas))+Space(6 - len(trim(string(total_cajas))))+&
+Trim(String(total_cantidad))+Space(9 - len(trim(string(total_cantidad))))+&
+Trim(String(total_lineales))
+         
+RETURN cadena
+
+end function
+

@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_nombre_texto_ean13.srf
+global type f_nombre_texto_ean13 from function_object
+end type
+
+forward prototypes
+global function string f_nombre_texto_ean13 (string arg_empresa, string arg_articulo, string arg_cliente, integer texto, integer arg_orden)
+end prototypes
+
+global function string f_nombre_texto_ean13 (string arg_empresa, string arg_articulo, string arg_cliente, integer texto, integer arg_orden);string	texto_1,texto_2,texto_3,texto_4
+
+SELECT texto1,texto2,texto3,texto4 INTO :texto_1,:texto_2,:texto_3,:texto_4
+FROM   almean13
+WHERE  empresa  = :arg_empresa
+AND    articulo = :arg_articulo
+AND    cliente  = :arg_cliente
+AND    orden    = :arg_orden;
+
+if texto = 1 then
+	if isnull(texto_1) then texto_1 = ""
+   RETURN texto_1
+end if
+if texto = 2 then
+	if isnull(texto_2) then texto_2 = ""
+   RETURN texto_2
+end if
+if texto = 3 then
+	if isnull(texto_3) then texto_3 = ""
+   RETURN texto_3
+end if
+if texto = 4 then
+	if isnull(texto_4) then texto_4 = ""
+   RETURN texto_4
+end if
+end function
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_venfamforcli.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=137 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="venfamforcli.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=cliente dbname="venfamforcli.cliente" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=familia dbname="venfamforcli.familia" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=formato dbname="venfamforcli.formato" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=calidad dbname="venfamforcli.calidad" )
+ column=(type=decimal(4) update=yes updatewhereclause=yes name=precio dbname="venfamforcli.precio" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venfamforcli~" ) COLUMN(NAME=~"venfamforcli.empresa~") COLUMN(NAME=~"venfamforcli.cliente~") COLUMN(NAME=~"venfamforcli.familia~") COLUMN(NAME=~"venfamforcli.formato~") COLUMN(NAME=~"venfamforcli.calidad~") COLUMN(NAME=~"venfamforcli.precio~")WHERE(    EXP1 =~"venfamforcli.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamforcli.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamforcli.familia~"   OP =~"=~"    EXP2 =~":familia~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamforcli.formato~"   OP =~"=~"    EXP2 =~":formato~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venfamforcli.calidad~"   OP =~"=~"    EXP2 =~":calidad~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"familia~" TYPE = string)  ARG(NAME = ~"formato~" TYPE = string)  ARG(NAME = ~"calidad~" TYPE = string) " update="venfamforcli" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("cliente", string),("familia", string),("formato", string),("calidad", string)) )
+text(band=detail alignment="1" text="Precio:"border="0" color="0" x="97" y="40" height="65" width="238"  name=precio_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=6 alignment="1" tabsequence=10 border="5" color="0" x="353" y="44" height="65" width="339" format="[general]"  name=precio editmask.mask="###,###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" Trim(f_nombre_moneda_abr(f_moneda_genter(empresa,~"C~",cliente))) "border="0" color="128" x="714" y="44" height="69" width="942" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )

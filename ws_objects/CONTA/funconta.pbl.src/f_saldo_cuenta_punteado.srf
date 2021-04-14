@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_saldo_cuenta_punteado.srf
+global type f_saldo_cuenta_punteado from function_object
+end type
+
+forward prototypes
+global function decimal f_saldo_cuenta_punteado (decimal ejercicio, string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta)
+end prototypes
+
+global function decimal f_saldo_cuenta_punteado (decimal ejercicio, string empresa, string cuenta, datetime fecha_desde, datetime fecha_hasta);Dec debe,haber,saldo
+
+SELECT sum(contaapun.debe),sum(contaapun.haber) INTO :debe,:haber 
+FROM  contaapun  
+WHERE contaapun.ejercicio 	= :ejercicio
+AND	contaapun.empresa   	= :empresa 
+AND   contaapun.cuenta    	= :cuenta
+AND   contaapun.fapunte 	BETWEEN :fecha_desde AND :fecha_hasta
+AND	contaapun.origen		<> '98'
+AND	contaapun.origen		<> '100'
+And   contaapun.punteado   = "S";
+
+saldo = debe - haber
+
+//IF saldo < 0 THEN	saldo = saldo * -1
+iF IsNUll(saldo) Then saldo =0
+RETURN saldo
+end function
+

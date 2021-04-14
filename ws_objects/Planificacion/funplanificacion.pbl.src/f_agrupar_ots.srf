@@ -1,0 +1,104 @@
+﻿$PBExportHeader$f_agrupar_ots.srf
+global type f_agrupar_ots from function_object
+end type
+
+forward prototypes
+global function boolean f_agrupar_ots (string lineaprod)
+end prototypes
+
+global function boolean f_agrupar_ots (string lineaprod);boolean hay_errores = false
+string sel
+decimal v_ot
+datastore reg, comunes
+long i, j, total, v_anyo, v_pedido, v_linped, v_ordenoperacion, v_cantidad
+string v_cod_articulo, v_version, v_tipo_operacion, v_clase
+datawindow DW
+
+DW = w_planificacion_tencer_wide.dw_1
+
+if messagebox("Pregunta", "¿Seguro que desea agrupar OT´s de MUESTRAS?", Exclamation!, YESNO!, 2) = 1 THEN
+	sel = " select distinct planificacion.anyo, planificacion.pedido, planificacion.cod_articulo, planificacion.version, "+&
+			" planificacion.ordenoperacion, planificacion.tipo_operacion, venliped.clase " +&
+			" from planificacion, venliped " +&
+			" where planificacion.empresa = '"+codigo_empresa+"' " +&
+			" and planificacion.empresa = venliped.empresa "+&
+			" and planificacion.anyo = venliped.anyo "+&
+			" and planificacion.pedido = venliped.pedido "+&
+			" and planificacion.linped = venliped.linea " +&
+			" and venliped.clase = 'M' " +&
+			" and planificacion.lineaprod = '"+lineaprod+"' "
+			
+	f_cargar_cursor_nuevo (sel, reg )
+	
+	for i = 1 to reg.rowcount()
+		v_anyo = reg.object.planificacion_anyo[i]
+		v_pedido = reg.object.planificacion_pedido[i]
+	//	v_linped = reg.object.planificacion_linped[i]
+		v_cod_articulo = reg.object.planificacion_cod_articulo[i]
+		v_version = reg.object.planificacion_version[i]
+		v_ordenoperacion = reg.object.planificacion_ordenoperacion[i]
+		v_tipo_operacion = reg.object.planificacion_tipo_operacion[i]
+//		v_cantidad = reg.object.planificacion_cantidad[i]
+		v_clase = reg.object.venliped_clase[i]
+		
+		sel = " select planificacion.ot, planificacion.cantidad "+&
+				" from planificacion, venliped "+&
+				" where planificacion.empresa = '"+codigo_empresa+"' "+&
+				" and planificacion.empresa = venliped.empresa "+&
+				" and planificacion.anyo = venliped.anyo "+&
+				" and planificacion.pedido = venliped.pedido "+&
+				" and planificacion.linped = venliped.linea " +&
+				" and planificacion.anyo = "+string(v_anyo)+&
+				" and planificacion.pedido = "+string(v_pedido)+&
+				" and planificacion.cod_articulo = '"+v_cod_articulo+"' "+&
+				" and planificacion.version = '"+v_version+"' "+&
+				" and planificacion.ordenoperacion = "+string(v_ordenoperacion)+&
+				" and planificacion.tipo_operacion = '"+v_tipo_operacion+"' "+&
+				" and planificacion.lineaprod = '"+lineaprod+"' " +&
+				" order by planificacion.cantidad "
+				
+		f_cargar_cursor_nuevo (sel, comunes)
+	
+		if comunes.rowcount() = 2 then
+			v_cantidad = comunes.object.planificacion_cantidad[1] + comunes.object.planificacion_cantidad[2]
+			v_ot = comunes.object.planificacion_OT[1] 
+			update planificacion 
+			set cantidad = :v_cantidad
+			where ot = :v_ot
+			and empresa = :codigo_empresa
+			using SQLCA;
+			
+			if SQLCA.SQLCode = 0 then
+				hay_errores = false
+				v_ot = comunes.object.planificacion_OT[2] 
+				delete planificacion 
+				where empresa = :codigo_empresa
+				and ot = :v_ot
+				using SQLCA;
+	
+				if SQLCA.SQLCode = 0 then
+					hay_errores = false
+				end if
+			end if
+		end if
+		f_mensaje_proceso ("Proceso", i, reg.rowcount())
+	next
+	
+	if not hay_errores then
+		COMMIT USING SQLCA;
+		messagebox("Aviso", "La agrupación de OT´s finalizó con exito.")
+		
+	else
+		ROLLBACK USING SQLCA;
+		messagebox("ERROR", "Hubo algún el error al agrupar OT´s")
+	end if
+	
+	destroy comunes	
+	destroy reg
+END IF
+
+DW.Retrieve(codigo_empresa,"1")
+
+return hay_errores
+end function
+

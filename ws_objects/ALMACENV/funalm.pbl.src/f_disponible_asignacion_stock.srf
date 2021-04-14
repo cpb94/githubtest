@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_disponible_asignacion_stock.srf
+global type f_disponible_asignacion_stock from function_object
+end type
+
+forward prototypes
+global function decimal f_disponible_asignacion_stock (string empresa, string referencia, string tipo_pallet)
+end prototypes
+
+global function decimal f_disponible_asignacion_stock (string empresa, string referencia, string tipo_pallet); Dec{2} reservado,total_existencias,preparado,disponible,fabricar
+ String  re
+ 
+//Función no compatible con el nuevo almacen
+disponible = 0
+MessageBox("ERROR - NUEVO ALMACEN", "f_disponible_ubicacion")
+/*
+
+re =  f_componer_ref(f_articulo_referencia(referencia),f_calidad_referencia(referencia),"",0)
+total_existencias = f_existencias_referencia_tipo_pallet(empresa,&
+                    referencia,tipo_pallet)
+IF IsNull(total_existencias) Then total_existencias = 0 						  
+IF total_existencias = 0 Then Return 0						  
+						  
+reservado         = f_reservado_referencia_tipo_pallet(codigo_empresa,&
+                    referencia,tipo_pallet)
+						  
+preparado         = f_preparado_referencia_tipo_pallet(codigo_empresa,&
+                    referencia,tipo_pallet)
+						  
+disponible = total_existencias - (preparado + reservado)
+
+*/
+
+Return disponible;
+
+end function
+

@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_ampliacion_contagene.srf
+$PBExportComments$Devuelve la ampliacion del tipo de apunte
+global type f_ampliacion_contagene from function_object
+end type
+
+forward prototypes
+global function string f_ampliacion_contagene (string empresa, string codigo)
+end prototypes
+
+global function string f_ampliacion_contagene (string empresa, string codigo);string amp
+
+amp = ""
+
+SELECT contagene.ampliacion INTO :amp FROM contagene    
+WHERE  contagene.empresa = :empresa
+AND    contagene.codigo  = :codigo    ;
+
+return amp
+end function
+

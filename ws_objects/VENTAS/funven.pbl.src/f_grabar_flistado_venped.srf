@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_grabar_flistado_venped.srf
+global type f_grabar_flistado_venped from function_object
+end type
+
+forward prototypes
+global function boolean f_grabar_flistado_venped (string empresa, integer anyo, integer pedido)
+end prototypes
+
+global function boolean f_grabar_flistado_venped (string empresa, integer anyo, integer pedido);DateTime  fecha
+fecha = DateTime(Today(),Now())
+UPDATE venped  
+SET    flistado       = :fecha  
+WHERE (venped.empresa = :empresa)
+AND   (venped.anyo    = :anyo )
+AND   (venped.pedido  = :pedido );
+IF Sqlca.Sqlcode=0 Then
+ COMMIT;
+ RETURN TRUE
+ELSE
+ ROLLBACK;
+ RETURN FALSE
+END IF
+end function
+

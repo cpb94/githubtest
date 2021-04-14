@@ -1,0 +1,19 @@
+﻿$PBExportHeader$report_lineasfab.srd
+$PBExportComments$Listado lineas de fabricacion.
+release 5;
+datawindow(units=0 timer_interval=0 color=1073741824 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=689 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=81 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="lineas.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="lineas.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="lineas.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"lineas~" ) COLUMN(NAME=~"lineas.empresa~") COLUMN(NAME=~"lineas.codigo~") COLUMN(NAME=~"lineas.descripcion~")WHERE( EXP1 =~"lineas.empresa~" OP =~"=~" EXP2 =~":ra_codemp~" ) ) ORDER(NAME=~"lineas.empresa~" ASC=yes ) ORDER(NAME=~"lineas.codigo~" ASC=yes ) ARG(NAME = ~"ra_codemp~" TYPE = string) " update="lineas" updatewhere=1 updatekeyinplace=no arguments=(("ra_codemp", string)) )
+report(band=header dataobject="report_cabecera" x="5" y="0" height="297" width="3457" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO LINEAS DE FABRICACION"border="0" color="128" x="814" y="424" height="73" width="1157"  font.face="Arial" font.height="-11" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="10" y="320" height="5" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="833" y="4" height="65" width="247" format="[general]"  name=codigo  tag="Linea de Fabricación" edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="1102" y="4" height="65" width="874" format="[general]"  name=descripcion edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Descripcion"border="1" color="0" x="1102" y="612" height="65" width="874"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Código"border="1" color="0" x="833" y="612" height="65" width="247"  name=codigo_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

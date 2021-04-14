@@ -1,0 +1,100 @@
+﻿$PBExportHeader$f_almparam_numorden.srf
+$PBExportComments$Rutina calculo del ultimo numero de orden del historico de lineas de ubicacion por movimiento (parte de parametros y verifica en el historico)
+global type f_almparam_numorden from function_object
+end type
+
+forward prototypes
+global function decimal f_almparam_numorden (string arg_empresa, decimal arg_anyo)
+end prototypes
+
+global function decimal f_almparam_numorden (string arg_empresa, decimal arg_anyo);
+Dec    alm_anyo,alm_numorden,alm2_numorden,existe
+String     alm_empresa,alm_almacen
+
+
+// Variables gestion incidencias
+string  in_programa,in_incidencia
+
+
+in_programa="f_almparam_numorden"
+
+SELECT  almparam.numorden   
+INTO    :alm_numorden   
+FROM    almparam  
+WHERE   almparam.empresa = :arg_empresa
+AND     almparam.anyo    = :arg_anyo;
+
+IF SQLCA.SQLCode = 100 THEN alm_numorden = 0
+
+IF IsNull(alm_numorden) Then alm_numorden = 0
+alm_numorden = alm_numorden + 1
+
+SELECT  count(almlinubicahis.orden)
+INTO    :existe
+FROM    almlinubicahis  
+WHERE   almlinubicahis.empresa = :arg_empresa 
+AND     almlinubicahis.anyo    = :arg_anyo 
+AND     almlinubicahis.orden   = :alm_numorden;
+
+if isnull(existe) then existe = 0
+IF existe > 0 THEN
+	
+//	in_incidencia="He buscado ,ultimo Nº orden con un max()!Proceso lento!"
+//	f_grabar_incidencia(in_programa,in_incidencia)
+	
+	SELECT max(almlinubicahis.orden) 
+	INTO   :alm_numorden 
+	FROM   almlinubicahis 
+	WHERE  almlinubicahis.empresa = :arg_empresa 
+	AND  	 almlinubicahis.anyo    = :arg_anyo;
+	IF ISNULL(alm_numorden) THEN alm_numorden = 0
+	alm_numorden  = alm_numorden + 1
+END IF
+
+f_actualiza_numorden(arg_empresa,arg_anyo,alm_numorden)
+
+Return alm_numorden
+/*
+
+boolean bien
+long i
+dec alm_numorden
+
+bien = false
+
+i = 0
+// David 22/09/2003
+//El bucle esta puesto para que haga como máximo 10 intentos, pero no sirve pa na porque si el registro está bloqueado
+// la rutina se para en lainstrucción update hasta que se desbloquee. Tengo que ver como solucionarlo.
+do while not bien and i < 10
+	UPDATE almparam  
+	SET  numorden = numorden + 1
+	WHERE almparam.empresa = :codigo_empresa
+	AND   almparam.anyo    = :arg_anyo using sqlca;
+	IF sqlca.sqlcode = 0 THEN
+		bien = true
+		
+		select numorden
+		into :alm_numorden
+		from almparam
+		where almparam.anyo    = :arg_anyo using sqlca;
+		IF sqlca.sqlcode = 0 THEN
+			bien = true
+		END IF
+	END IF
+	
+	i++
+loop
+string in_incidencia
+if i > 5 then
+	in_incidencia="Error al grabar almparam. Se superaron los 5 intentos"
+	f_grabar_incidencia("f_almparam_numorden",in_incidencia)
+	rollback using sqlca;
+else
+	commit using sqlca;
+	
+end if	
+Return alm_numorden
+*/
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_numpedcli_venalb.srf
+global type f_numpedcli_venalb from function_object
+end type
+
+forward prototypes
+global function string f_numpedcli_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_numpedcli_venalb (string empresa, integer anyo, decimal albaran);String var
+
+
+  SELECT venalb.numpedcli
+    INTO :var
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+
+IF IsNull(var) Then var = ""
+Return var
+end function
+

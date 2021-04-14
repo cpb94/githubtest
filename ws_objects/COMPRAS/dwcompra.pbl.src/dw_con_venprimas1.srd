@@ -1,0 +1,15 @@
+﻿$PBExportHeader$dw_con_venprimas1.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=121 color="536870912" )
+table(column=(type=char(15) update=yes updatewhereclause=yes key=yes name=empresa dbname="venmprima.empresa" )
+ column=(type=char(15) update=yes updatewhereclause=yes key=yes name=codigo dbname="venmprima.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="venmprima.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venmprima~" ) COLUMN(NAME=~"venmprima.empresa~") COLUMN(NAME=~"venmprima.codigo~") COLUMN(NAME=~"venmprima.descripcion~")WHERE(    EXP1 =~"venmprima.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venmprima.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="venmprima" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+column(band=detail id=3 alignment="1" tabsequence=30 border="5" color="128" x="1358" y="36" height="65" width="1038" format="[General]"  name=descripcion edit.limit=30 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=20 border="5" color="128" x="499" y="36" height="65" width="330" format="[general]"  name=codigo edit.limit=15 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Codigo:"border="0" color="0" x="243" y="36" height="65" width="225"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Descripcion:"border="0" color="0" x="979" y="36" height="65" width="357"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_densidad_mp.srf
+global type f_densidad_mp from function_object
+end type
+
+forward prototypes
+global function decimal f_densidad_mp (string empresa, string mp)
+end prototypes
+
+global function decimal f_densidad_mp (string empresa, string mp);dec{4} densidad
+
+select densidad
+into   :densidad
+from   venmprima where empresa = :empresa
+and    codigo = :mp;
+
+if Isnull(densidad) or densidad = 0 then
+	densidad = 1
+end if
+
+return densidad
+end function
+

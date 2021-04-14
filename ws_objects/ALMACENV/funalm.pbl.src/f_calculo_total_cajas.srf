@@ -1,0 +1,55 @@
+﻿$PBExportHeader$f_calculo_total_cajas.srf
+$PBExportComments$Devualve el total de cajas a partir de una cantidad,  y articulo.
+global type f_calculo_total_cajas from function_object
+end type
+
+forward prototypes
+global function integer f_calculo_total_cajas (string cod_empresa, string cod_articulo, string caja, decimal n_total)
+end prototypes
+
+global function integer f_calculo_total_cajas (string cod_empresa, string cod_articulo, string caja, decimal n_total); String cod_formato,cod_modelo,cod_unidad
+ Integer longitud
+ Integer bien,total_cajas,cajas,n_piezascaja,n_cajaspallet
+ decimal{3}  total_cantidad
+ string cadena
+ decimal n_metroscaja
+
+
+ SELECT  articulos.empresa,articulos.codigo, articulos.formato,   
+         articulos.unidad,almartcajas.piezascaja,almartcajas.metroscaja    
+    INTO :cod_empresa,:cod_articulo,:cod_formato,:cod_unidad,
+	      :n_piezascaja,:n_metroscaja
+    FROM articulos,almartcajas  
+   WHERE (articulos.empresa = :cod_empresa ) AND  
+         (articulos.codigo  = :cod_articulo ) AND
+			(almartcajas.empresa = articulos.empresa) AND
+			(almartcajas.articulo = articulos.codigo) AND
+			(almartcajas.caja = :caja)
+ORDER BY articulos.empresa ASC,   
+         articulos.codigo ASC  USING SQLCA ;
+
+ 
+CHOOSE CASE cod_unidad
+CASE  "1"
+  cajas=(n_total/n_metroscaja)
+CASE "0"
+  n_total=Int(n_total)
+  cajas =(n_total / n_piezascaja) 
+CASE  ELSE
+   bien=1
+END CHOOSE
+        
+RETURN cajas
+
+
+
+
+
+
+
+
+
+
+
+end function
+

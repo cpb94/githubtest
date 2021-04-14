@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_int_facturas_compras2.srd
+$PBExportComments$Introducción de facturas de compras.
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=89 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=char(25) updatewhereclause=no name=clave dbname="clave" )
+ column=(type=char(20) updatewhereclause=no name=cuenta dbname="cuenta" )
+ column=(type=char(3) updatewhereclause=no name=seccion dbname="seccion" )
+ column=(type=char(3) updatewhereclause=no name=subseccion dbname="subseccion" )
+ column=(type=decimal(2) updatewhereclause=no name=importe dbname="importe" )
+ )
+text(band=header alignment="2" text="Cuenta"border="0" color="0" x="124" y="12" height="65" width="549"  name=cuenta_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Secc/subsecc"border="0" color="0" x="695" y="12" height="65" width="380"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Importe"border="0" color="0" x="1102" y="12" height="65" width="220"  name=importe_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="0" color="0" x="124" y="4" height="77" width="549" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="700" y="4" height="77" width="165" format="[general]"  name=seccion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="915" y="4" height="77" width="151" format="[general]"  name=subseccion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="1" tabsequence=20 border="0" color="0" x="1093" y="4" height="77" width="220" format="[general]"  name=importe edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

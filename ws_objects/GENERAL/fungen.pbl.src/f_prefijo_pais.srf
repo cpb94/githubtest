@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_prefijo_pais.srf
+$PBExportComments$Devualve el prefijo del pais.
+global type f_prefijo_pais from function_object
+end type
+
+forward prototypes
+global function string f_prefijo_pais (string ra_codpais)
+end prototypes
+
+global function string f_prefijo_pais (string ra_codpais);string nombre
+
+  SELECT paises.prefijo
+    INTO :nombre
+    FROM paises  
+   WHERE paises.pais = :ra_codpais  
+ USING SQLCA;
+
+IF IsNull(nombre) Then nombre = ""
+RETURN nombre
+
+
+
+
+
+
+
+end function
+

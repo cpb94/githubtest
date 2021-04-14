@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_costesplan_abr.srf
+global type f_nombre_costesplan_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_costesplan_abr (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_costesplan_abr (integer ejercicio, string empresa, string codigo);String var_titulo
+
+  SELECT   costesplan.resumido INTO :var_titulo FROM costesplan  
+  WHERE (costesplan.ejercicio = :ejercicio)
+  AND   (costesplan.empresa   = :empresa) 
+  AND   (costesplan.coste     = :codigo);
+
+Return var_titulo
+end function
+

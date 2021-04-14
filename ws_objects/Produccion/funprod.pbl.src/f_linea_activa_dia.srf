@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_linea_activa_dia.srf
+global type f_linea_activa_dia from function_object
+end type
+
+forward prototypes
+global function boolean f_linea_activa_dia (string empresa, string linea, datetime dia)
+end prototypes
+
+global function boolean f_linea_activa_dia (string empresa, string linea, datetime dia);long coincidencias
+
+select count(*)
+into   :coincidencias
+from   prod_inactividad_lineas
+where  empresa = :empresa
+and    linea   = :linea
+and    inicio_inactividad <= :dia
+and    final_inactividad  >= :dia;
+
+if isnull(coincidencias) then coincidencias = 0
+
+if coincidencias > 0 then
+	return false
+else
+	return true
+end if
+end function
+

@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_disponible_referencia.srf
+global type f_disponible_referencia from function_object
+end type
+
+forward prototypes
+global function decimal f_disponible_referencia (string empresa, string referencia)
+end prototypes
+
+global function decimal f_disponible_referencia (string empresa, string referencia); Dec{2} reservado,total_existencias,preparado,disponible
+
+total_existencias = f_existencias_referencia(empresa,referencia)
+reservado         = f_reservado_referencia(codigo_empresa,referencia)
+preparado         = f_preparado_referencia(codigo_empresa,referencia)
+
+disponible = total_existencias - (preparado + reservado)
+Return disponible;
+
+end function
+

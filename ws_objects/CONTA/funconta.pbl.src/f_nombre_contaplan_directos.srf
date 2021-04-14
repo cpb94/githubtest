@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_contaplan_directos.srf
+global type f_nombre_contaplan_directos from function_object
+end type
+
+forward prototypes
+global function string f_nombre_contaplan_directos (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_contaplan_directos (integer ejercicio, string empresa, string codigo);String var_titulo,dire
+
+  SELECT   contaplan.titulo,contaplan.directos
+  INTO :var_titulo  ,:dire
+  FROM contaplan  
+  WHERE (contaplan.ejercicio = :ejercicio)
+  AND   (contaplan.empresa   = :empresa) 
+  AND   (contaplan.cuenta    = :codigo);
+  
+  IF dire = "N" Then var_titulo=""
+
+
+Return var_titulo
+end function
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$mdy.srf
+$PBExportComments$Montaje de una variable de tipo date. recibe ( mes, dia, año).
+global type mdy from function_object
+end type
+
+forward prototypes
+global function date mdy (integer mes, integer dia, integer anyo)
+end prototypes
+
+global function date mdy (integer mes, integer dia, integer anyo);Date fecha
+String cadena
+
+cadena = Trim(String(anyo))+ "/" +Trim(String(mes)) +"/" +Trim(String(dia))
+fecha  = Date(cadena)
+
+Return fecha
+end function
+

@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_cantidad_almtoma_ubicacion.srf
+global type f_cantidad_almtoma_ubicacion from function_object
+end type
+
+forward prototypes
+global function decimal f_cantidad_almtoma_ubicacion (string empresa, datetime fecha, string referencia, string tipo_pallet, string almacen, string zona, integer fila, integer altura)
+end prototypes
+
+global function decimal f_cantidad_almtoma_ubicacion (string empresa, datetime fecha, string referencia, string tipo_pallet, string almacen, string zona, integer fila, integer altura);Decimal{4} existencias  
+SELECT sum(almtoma.existencias) INTO :existencias  FROM almtoma  
+   WHERE almtoma.empresa     = :empresa 
+	AND   almtoma.fecha_inv   = :fecha 
+	AND   almtoma.referencia  = :referencia 
+	AND   almtoma.tipo_pallet = :tipo_pallet
+	AND   almtoma.almacen = :almacen
+	AND   almtoma.zona    = :zona
+	AND   almtoma.fila    = :fila
+	AND   almtoma.altura  = :altura;
+	IF IsNull(existencias) Then  existencias=0
+	
+Return existencias
+
+end function
+

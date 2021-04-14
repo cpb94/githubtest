@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_cargar_str_contasii_parametros.srf
+global type f_cargar_str_contasii_parametros from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_contasii_parametros (STRING arg_empresa,  ref str_contasii_parametros str_contasii_parametros)
+end prototypes
+
+global function boolean f_cargar_str_contasii_parametros (STRING arg_empresa,  ref str_contasii_parametros str_contasii_parametros);boolean lb_correcto = true
+
+SELECT contasii_parametros.empresa,
+       contasii_parametros.directorio_ficheros,
+       contasii_parametros.fichero_certificado,
+       contasii_parametros.password_certificado,
+       contasii_parametros.cuenta_prestacion_servicios,
+       contasii_parametros.digitos_descripcion_operacion
+INTO   :str_contasii_parametros.empresa,
+       :str_contasii_parametros.directorio_ficheros,
+       :str_contasii_parametros.fichero_certificado,
+       :str_contasii_parametros.password_certificado,
+       :str_contasii_parametros.cuenta_prestacion_servicios,
+       :str_contasii_parametros.digitos_descripcion_operacion
+FROM contasii_parametros
+WHERE contasii_parametros.empresa = :arg_empresa;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

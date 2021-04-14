@@ -1,0 +1,11 @@
+﻿$PBExportHeader$dw_proceso_integridadnpgc.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=72 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=84 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=cuenta dbname="contaapun.cuenta" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"contaapun~" ) COMPUTE(NAME=~"distinct cuenta~")WHERE(    EXP1 =~"contaapun.ejercicio~"   OP =~"=~"    EXP2 =~":arg_ejercicio~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"contaapun.cuenta~"   OP =~"between~"    EXP2 =~":arg_cta_desde and :arg_cta_hasta~" ) ) ORDER(NAME=~"1~" ASC=yes ) ARG(NAME = ~"arg_ejercicio~" TYPE = number)  ARG(NAME = ~"arg_empresa~" TYPE = string)  ARG(NAME = ~"arg_cta_desde~" TYPE = string)  ARG(NAME = ~"arg_cta_hasta~" TYPE = string) " arguments=(("arg_ejercicio", number),("arg_empresa", string),("arg_cta_desde", string),("arg_cta_hasta", string)) )
+text(band=header alignment="2" text="Cuenta" border="0" color="0" x="5" y="12" height="52" width="576" name=cuenta_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="8" height="64" width="576" format="[general]" name=cuenta edit.limit=20 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

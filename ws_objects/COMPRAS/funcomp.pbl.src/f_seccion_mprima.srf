@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_seccion_mprima.srf
+global type f_seccion_mprima from function_object
+end type
+
+forward prototypes
+global function string f_seccion_mprima (string empresa, string codigo)
+end prototypes
+
+global function string f_seccion_mprima (string empresa, string codigo);String seccion
+
+SELECT seccion 
+INTO   :seccion
+FROM   venmprima  
+WHERE  empresa = :codigo_empresa
+AND    codigo  = :codigo ;
+
+if isnull(seccion) then seccion = ""
+
+return seccion
+end function
+

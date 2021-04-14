@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_total_venfaccar_cuenta.srf
+global type f_total_venfaccar_cuenta from function_object
+end type
+
+forward prototypes
+global function decimal f_total_venfaccar_cuenta (string empresa, string cuenta, string moneda)
+end prototypes
+
+global function decimal f_total_venfaccar_cuenta (string empresa, string cuenta, string moneda);Dec{0}   numero
+
+  SELECT sum(importe)   INTO :numero    FROM venfaccar  
+   WHERE venfaccar.empresa   = :empresa 
+	AND   venfaccar.cuenta    = :cuenta
+	AND   venfaccar.moneda    = :moneda
+	AND   venfaccar.facturado = "N";
+	IF IsNull(numero) Then numero = 0
+	Return numero
+
+
+
+end function
+

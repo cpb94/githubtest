@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_nulo_blanco.srf
+$PBExportComments$Devuelve true cuando el argumento es una tira nula o en blanco
+global type f_nulo_blanco from function_object
+end type
+
+forward prototypes
+global function boolean f_nulo_blanco (string as_tira)
+end prototypes
+
+global function boolean f_nulo_blanco (string as_tira);return (IsNull(as_tira) or len(trim(as_tira)) = 0)
+end function
+

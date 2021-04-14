@@ -1,0 +1,60 @@
+﻿$PBExportHeader$f_insert_comlinalb.srf
+$PBExportComments$Inserta linea en comlinalb, devuelve nº de linea insertada
+global type f_insert_comlinalb from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comlinalb (str_comlinalb comlinalb)
+end prototypes
+
+global function boolean f_insert_comlinalb (str_comlinalb comlinalb);long    ultima_linea
+boolean bien = true
+
+SELECT MAX(Convert(Integer,comlinalb.linea)) 
+INTO   :ultima_linea
+FROM   comlinalb
+WHERE  empresa = :comlinalb.empresa
+AND    anyo    = :comlinalb.anyo
+AND    albaran = :comlinalb.albaran;
+
+IF IsNull(ultima_linea) THEN ultima_linea = 0
+
+ultima_linea ++
+
+comlinalb.linea = string(ultima_linea,"######")
+
+if isnull(comlinalb.ubicado) then comlinalb.ubicado = ""
+if trim(comlinalb.ubicado) = "" then comlinalb.ubicado = "N"
+
+if isnull(comlinalb.descuento) then comlinalb.descuento = 0
+
+INSERT INTO comlinalb
+	(comlinalb.empresa, 					comlinalb.anyo, 					comlinalb.albaran,
+	 comlinalb.linea, 					comlinalb.mprima, 				comlinalb.cantidad, 
+	 comlinalb.precio, 					comlinalb.fecha_entrega, 		comlinalb.unidad_medida, 
+	 comlinalb.pedido, 					comlinalb.linea_pedido, 		comlinalb.situacion, 
+	 comlinalb.observaciones, 			comlinalb.libre, 					comlinalb.anyo_pedido, 
+	 comlinalb.fecha_control, 			comlinalb.seccion, 				comlinalb.subseccion, 
+	 comlinalb.descripcion, 			comlinalb.envase, 				comlinalb.cuenta, 
+	 comlinalb.importe, 					comlinalb.automatico, 			comlinalb.ubicado, 
+	 comlinalb.pedido_por,				comlinalb.fecha_pedido,			comlinalb.descuento)
+VALUES 
+	(:comlinalb.empresa, 				:comlinalb.anyo, 					:comlinalb.albaran, 
+	 :comlinalb.linea, 					:comlinalb.mprima, 				:comlinalb.cantidad, 
+	 :comlinalb.precio, 					:comlinalb.fecha_entrega, 		:comlinalb.unidad_medida, 
+	 :comlinalb.pedido, 					:comlinalb.linea_pedido, 		:comlinalb.situacion, 
+	 :comlinalb.observaciones, 		:comlinalb.libre, 				:comlinalb.anyo_pedido, 
+	 :comlinalb.fecha_control, 		:comlinalb.seccion, 				:comlinalb.subseccion, 
+	 :comlinalb.descripcion, 			:comlinalb.envase, 				:comlinalb.cuenta, 
+	 :comlinalb.importe, 				:comlinalb.automatico, 			:comlinalb.ubicado, 
+	 :comlinalb.pedido_por,				:comlinalb.fecha_pedido,		:comlinalb.descuento);
+	 
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("Error","Error al insertar la linea de albarán de compras.~n"+sqlca.sqlerrtext)
+	bien = false
+END IF
+
+RETURN bien
+
+end function
+

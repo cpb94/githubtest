@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_cliente_conversion.srf
+global type f_cliente_conversion from function_object
+end type
+
+forward prototypes
+global function boolean f_cliente_conversion (string arg_empresa, string arg_cliente)
+end prototypes
+
+global function boolean f_cliente_conversion (string arg_empresa, string arg_cliente);String convierte
+select conversion_tono
+into :convierte
+from venclientes
+where empresa = :arg_empresa
+and   codigo = :arg_cliente;
+
+if convierte="S" then 
+	Return true
+else
+	Return false
+end if
+end function
+

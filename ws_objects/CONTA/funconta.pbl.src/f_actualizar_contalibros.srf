@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_actualizar_contalibros.srf
+global type f_actualizar_contalibros from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo, integer arg_contador)
+end prototypes
+
+global function boolean f_actualizar_contalibros (decimal ejercicio, string ai_codemp, string ai_codigo, integer arg_contador);
+  UPDATE contalibros SEt contalibros.contador = :arg_contador
+	WHere   contalibros.ejercicio = :ejercicio
+	 And    contalibros.empresa   = :ai_codemp   
+	AND    contalibros.codigo     = :ai_codigo;
+	IF SQLCA.SQLCODE = 0 Then
+		RETURN TRUE
+	
+	ELSE
+		f_mensaje("Error en datos f_actualizar contalibros",Sqlca.sqlerrtext)
+		RETURN FALSE
+	END IF
+end function
+

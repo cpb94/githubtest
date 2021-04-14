@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_inicializar_str_almartcal.srf
+global type f_inicializar_str_almartcal from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_almartcal ( ref str_almartcal str_almartcal)
+end prototypes
+
+global function boolean f_inicializar_str_almartcal ( ref str_almartcal str_almartcal);boolean lb_correcto = true
+
+if isnull(str_almartcal.empresa) then str_almartcal.empresa = ''
+if isnull(str_almartcal.articulo) then str_almartcal.articulo = ''
+if isnull(str_almartcal.calidad) then str_almartcal.calidad = ''
+if isnull(str_almartcal.precio) then str_almartcal.precio = 0
+if isnull(str_almartcal.stockmin) then str_almartcal.stockmin = 0
+if isnull(str_almartcal.stockmax) then str_almartcal.stockmax = 0
+if isnull(str_almartcal.puntopedido) then str_almartcal.puntopedido = 0
+return lb_correcto
+end function
+

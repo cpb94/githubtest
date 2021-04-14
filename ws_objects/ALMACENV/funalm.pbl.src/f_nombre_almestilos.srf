@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_almestilos.srf
+global type f_nombre_almestilos from function_object
+end type
+
+forward prototypes
+global function string f_nombre_almestilos (string arg_empresa, string arg_codigo)
+end prototypes
+
+global function string f_nombre_almestilos (string arg_empresa, string arg_codigo);string	retorno
+
+  SELECT descripcion  
+    INTO :retorno
+    FROM almestilos
+   WHERE ( empresa =:arg_empresa ) AND  
+         ( codigo = :arg_codigo )   
+     USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN 	retorno=""
+
+
+RETURN retorno
+end function
+

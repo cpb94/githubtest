@@ -1,0 +1,52 @@
+﻿$PBExportHeader$report_series.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=629 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=61 color="536870912" )
+detail(height=81 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="promseries.empresa" )
+ column=(type=char(10) updatewhereclause=yes key=yes name=codigo dbname="promseries.codigo" )
+ column=(type=char(20) updatewhereclause=yes name=cliente dbname="promseries.cliente" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_expositor dbname="promseries.tipo_expositor" )
+ column=(type=char(1) updatewhereclause=yes name=situacion dbname="promseries.situacion" values="Pedido	P/Reservado	R/Stock	S/" )
+ column=(type=char(20) updatewhereclause=yes name=proveedor dbname="promseries.proveedor" )
+ column=(type=datetime updatewhereclause=yes name=fpedido dbname="promseries.fpedido" )
+ column=(type=char(50) updatewhereclause=yes name=caracteristicas dbname="promseries.caracteristicas" )
+ column=(type=long updatewhereclause=yes name=anyo dbname="promseries.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=pedido dbname="promseries.pedido" )
+ retrieve="  SELECT promseries.empresa,   
+         promseries.codigo,   
+         promseries.cliente,   
+         promseries.tipo_expositor,   
+         promseries.situacion,   
+         promseries.proveedor,   
+         promseries.fpedido,   
+         promseries.caracteristicas,   
+         promseries.anyo,   
+         promseries.pedido  
+    FROM promseries  
+   WHERE promseries.empresa = :empresa    
+" update="promseries" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string))  sort="empresa A number(codigo) A " )
+compute(band=header alignment="0" expression="PageCount()"border="0" color="16777215" x="14" y="300" height="5" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=header dataobject="report_cabecera" x="10" y="4" height="269" width="4860" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="LISTADO CONSULTA SERIES"border="0" color="128" x="28" y="364" height="65" width="837"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.underline="1" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Nº Serie"border="2" color="0" x="37" y="556" height="65" width="279"  name=pedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Situación"border="2" color="0" x="622" y="556" height="65" width="334"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Proveedor"border="2" color="0" x="974" y="556" height="65" width="869"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Tipo expositor"border="2" color="0" x="1866" y="556" height="65" width="595"  name=expositor_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cliente"border="2" color="0" x="2483" y="556" height="65" width="261"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Año"border="2" color="0" x="2762" y="556" height="65" width="215"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Pedido"border="2" color="0" x="2995" y="556" height="65" width="275"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fpedido"border="2" color="0" x="339" y="556" height="65" width="266"  name=fpedido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="2067" y="4" height="49" width="686" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Caracteristicas"border="2" color="0" x="3283" y="556" height="65" width="1559"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="37" y="8" height="65" width="279" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_promexpositores( empresa , tipo_expositor ) "border="0" color="0" x="1866" y="8" height="65" width="599" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="1" tabsequence=32766 border="0" color="0" x="2487" y="8" height="65" width="252" format="[general]"  name=cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=10 alignment="1" tabsequence=32766 border="0" color="0" x="2995" y="8" height="65" width="261" format="[general]"  name=pedido editmask.mask="###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2762" y="8" height="65" width="211" format="[general]"  name=anyo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="2" tabsequence=32766 border="0" color="0" x="339" y="8" height="65" width="266" format="[shortdate] [time]"  name=fpedido editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="622" y="8" height="65" width="330" format="[general]"  name=situacion ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="3283" y="8" height="65" width="1555" format="[general]"  name=caracteristicas edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=detail alignment="0" expression="f_nombre_proveedor(empresa,proveedor)"border="0" color="0" x="970" y="8" height="65" width="869" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

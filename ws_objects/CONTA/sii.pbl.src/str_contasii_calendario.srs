@@ -1,0 +1,15 @@
+﻿$PBExportHeader$str_contasii_calendario.srs
+global type str_contasii_calendario from structure
+	string		empresa
+	datetime		fecha
+	decimal { 0 }		facturas_enviadas
+	decimal { 0 }		facturas_recibidas
+	decimal { 0 }		bienes_de_inversion
+	decimal { 0 }		cobros_en_metalico
+	decimal { 0 }		facturas_enviadas_bien
+	decimal { 0 }		facturas_recibidas_bien
+	decimal { 0 }		bienes_de_inversion_bien
+	decimal { 0 }		cobros_en_metalico_bien
+	decimal { 0 }		bloqueado
+end type
+

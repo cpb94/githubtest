@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_amort_ejercicio.srf
+global type f_amort_ejercicio from function_object
+end type
+
+forward prototypes
+global function decimal f_amort_ejercicio (string arg_empresa, decimal arg_elemento, decimal arg_ejercicio, string arg_contabilizado, string arg_planificado)
+end prototypes
+
+global function decimal f_amort_ejercicio (string arg_empresa, decimal arg_elemento, decimal arg_ejercicio, string arg_contabilizado, string arg_planificado);Dec suma,suma1,suma2,suma3,inicial
+DateTime	fecha
+
+suma = 0
+suma1 = 0
+suma2 = 0
+
+If arg_contabilizado = 'S' then
+	SELECT sum(importe_amor)  
+	 INTO :suma1 
+	 FROM act_amortizaciones  
+	WHERE ( act_amortizaciones.empresa = :arg_empresa ) AND  
+			( act_amortizaciones.elemento = :arg_elemento ) AND  
+			( act_amortizaciones.ejercicio = :arg_ejercicio ) AND  
+			( act_amortizaciones.actualizado = 'S' )   ;
+
+	If isnull(suma1) then suma1 = 0
+	
+  SELECT act_bienesdet.amor_acumulada,   
+         act_bienesdet.fechainamor  
+    INTO :inicial,:fecha  
+    FROM act_bienesdet  
+   WHERE ( act_bienesdet.empresa = :arg_empresa ) AND  
+         ( act_bienesdet.elemento = :arg_elemento )   ;
+
+	
+//	f_mensaje("debug","leyendo elemento " + string(arg_elemento))
+//	
+//	f_mensaje("debug",string(Year(RelativeDate(Date(fecha),-1))) )
+
+	If Year(RelativeDate(Date(fecha),-1)) = arg_ejercicio then
+		If not isnull(inicial) then 
+			suma1 = suma1 + inicial
+//			f_mensaje("debug","aumento " + string(inicial))
+		end If
+	End If	
+	
+End If
+
+If arg_planificado= 'S' then
+	SELECT sum(importe_amor)  
+	 INTO :suma2 
+	 FROM act_amortizaciones  
+	WHERE ( act_amortizaciones.empresa = :arg_empresa ) AND  
+			( act_amortizaciones.elemento = :arg_elemento ) AND  
+			( act_amortizaciones.ejercicio = :arg_ejercicio ) AND  
+			( act_amortizaciones.actualizado = 'N' )   ;
+
+	If isnull(suma2) then suma2 = 0
+End If
+
+suma = suma1 + suma2
+
+Return suma
+end function
+

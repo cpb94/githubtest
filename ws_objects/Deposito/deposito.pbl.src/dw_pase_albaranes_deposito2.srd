@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_pase_albaranes_deposito2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no pointer="\BMP\Mano.cur" )
+header(height=81 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="-1" )
+detail(height=73 color="536870912"  height.autosize=yes)
+table(column=(type=long updatewhereclause=yes name=anyo dbname="venlialb.anyo" )
+ column=(type=decimal(4) updatewhereclause=yes name=albaran dbname="venlialb.albaran" )
+ column=(type=datetime updatewhereclause=yes name=falbaran dbname="venlialb.falbaran" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venlialb~" ) COLUMN(NAME=~"venlialb.anyo~") COLUMN(NAME=~"venlialb.albaran~") COLUMN(NAME=~"venlialb.falbaran~")WHERE(    EXP1 =~"venlialb.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlialb.cliente~"   OP =~"=~"    EXP2 =~":cliente~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlialb.deposito~"   OP =~"=~"    EXP2 =~":deposito~" )  GROUP(NAME=~"venlialb.anyo~") GROUP(NAME=~"venlialb.albaran~") GROUP(NAME=~"venlialb.falbaran~")) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string)  ARG(NAME = ~"deposito~" TYPE = string) " arguments=(("empresa", string),("cliente", string),("deposito", string)) )
+text(band=header alignment="2" text=" Albaran"border="6" color="0" x="485" y="8" height="65" width="298"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="F. Albaran"border="6" color="0" x="106" y="8" height="65" width="362"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+bitmap(band=header filename="\BMP\Salir2.bmp" x="5" y="4" height="69" width="92" border="6"  name=salir pointer="\BMP\Mano.cur" )
+compute(band=detail alignment="2" expression="anyo + ~"/~" + albaran"border="0" color="0" x="485" y="4" height="65" width="293" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+line(band=summary x1="1" y1="4" x2="2798" y2="4" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="(*) Doble click consulta pedido."border="0" color="128" x="1879" y="344" height="53" width="983"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+compute(band=detail alignment="2" expression="String(falbaran,~"dd-mm-yy~")"border="0" color="0" x="124" y="4" height="65" width="348"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )

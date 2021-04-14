@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_almacen_cargas_venparametros.srf
+global type f_almacen_cargas_venparametros from function_object
+end type
+
+forward prototypes
+global function string f_almacen_cargas_venparametros (string arg_empresa)
+end prototypes
+
+global function string f_almacen_cargas_venparametros (string arg_empresa);String var_variable
+
+SELECT venparametros.almacen_cargas  INTO :var_variable FROM venparametros  
+ WHERE venparametros.empresa  =  :arg_empresa;
+	
+Return var_variable
+
+end function
+

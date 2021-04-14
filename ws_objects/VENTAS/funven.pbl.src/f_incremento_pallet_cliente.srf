@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_incremento_pallet_cliente.srf
+global type f_incremento_pallet_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_incremento_pallet_cliente (string empresa, string cliente)
+end prototypes
+
+global function decimal f_incremento_pallet_cliente (string empresa, string cliente);Dec variable
+String incre
+
+SELECT   venclientes.cantidad_incremento,venclientes.incremento
+INTO     :variable,:incre
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente ;
+If incre = "S" Then variable = 0
+if isnull(variable) then variable = 0
+Return variable
+
+
+end function
+

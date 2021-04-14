@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_calculo_peso_mp.srf
+global type f_calculo_peso_mp from function_object
+end type
+
+forward prototypes
+global subroutine f_calculo_peso_mp (string pantalla, decimal ancho, decimal largo, ref decimal hilos, ref decimal paso, ref decimal gramaje, ref string descripcion)
+end prototypes
+
+global subroutine f_calculo_peso_mp (string pantalla, decimal ancho, decimal largo, ref decimal hilos, ref decimal paso, ref decimal gramaje, ref string descripcion);dec gram_cm2
+
+select numero_hilos, descripcion, paso_cliche
+into :hilos, :Descripcion, :paso
+from prodpantallas
+where empresa = :codigo_empresa
+and codigo = :pantalla;
+
+select gram_cm2
+into :gram_cm2
+from prodhilosgramaje, prodpantallas
+where prodpantallas.empresa = :codigo_empresa 
+and prodpantallas.empresa = prodhilosgramaje.empresa
+and prodpantallas.numero_hilos = prodhilosgramaje.hilos
+and prodpantallas.codigo = :pantalla;
+
+gramaje = ((255 - long(paso)) / 255 ) *  ancho * largo * gram_cm2 //constante_hilaje en gr/cm2
+
+end subroutine
+

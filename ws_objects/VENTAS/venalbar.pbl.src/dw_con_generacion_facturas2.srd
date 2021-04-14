@@ -1,0 +1,11 @@
+﻿$PBExportHeader$dw_con_generacion_facturas2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=89 color="536870912" )
+table(column=(type=long updatewhereclause=yes name=linea dbname="venlialb.linea" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"venlialb~" ) COLUMN(NAME=~"venlialb.linea~")WHERE(    EXP1 =~"venlialb.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlialb.anyo~"   OP =~"=~"    EXP2 =~":anyo~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"venlialb.albaran~"   OP =~"=~"    EXP2 =~":albaran~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"anyo~" TYPE = number)  ARG(NAME = ~"albaran~" TYPE = number) " arguments=(("empresa", string),("anyo", number),("albaran", number)) )
+text(band=header alignment="2" text="Linea"border="0" color="0" x="5" y="4" height="65" width="330"  name=linea_t  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="5" y="4" height="77" width="330" format="[general]"  name=linea edit.limit=0 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

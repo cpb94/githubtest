@@ -1,0 +1,123 @@
+﻿$PBExportHeader$dw_con_clientes_ventas3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=84 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=52 color="536870912" )
+detail(height=420 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="genter.empresa" )
+ column=(type=char(1) updatewhereclause=yes name=tipoter dbname="genter.tipoter" )
+ column=(type=char(15) updatewhereclause=yes name=codigo dbname="genter.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=nombre dbname="genter.nombre" )
+ column=(type=char(50) updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(5) updatewhereclause=yes name=provincia dbname="genter.provincia" )
+ column=(type=char(10) updatewhereclause=yes name=cod_postal dbname="genter.cod_postal" )
+ column=(type=char(50) updatewhereclause=yes name=localidad dbname="genter.localidad" )
+ column=(type=char(30) updatewhereclause=yes name=telefono dbname="genter.telefono" )
+ column=(type=char(30) updatewhereclause=yes name=cif dbname="genter.cif" )
+ column=(type=char(5) updatewhereclause=yes name=pais dbname="genter.pais" )
+ column=(type=char(50) updatewhereclause=yes name=domicilio dbname="genter.domicilio" )
+ column=(type=char(30) updatewhereclause=yes name=fax dbname="genter.fax" )
+ column=(type=char(5) updatewhereclause=yes name=moneda dbname="genter.moneda" )
+ column=(type=long updatewhereclause=yes name=riesgo dbname="genter.riesgo" )
+ column=(type=datetime updatewhereclause=yes name=falta dbname="genter.falta" )
+ column=(type=char(40) updatewhereclause=yes name=apellidos dbname="genter.apellidos" )
+ column=(type=char(1) updatewhereclause=yes name=sexo dbname="genter.sexo" )
+ column=(type=datetime updatewhereclause=yes name=fecha_nacimiento dbname="genter.fecha_nacimiento" )
+ column=(type=char(5) updatewhereclause=yes name=idioma dbname="genter.idioma" )
+ column=(type=char(1) updatewhereclause=yes name=activo dbname="genter.activo" values="Si	S/No	N/" )
+ column=(type=char(1) updatewhereclause=yes name=tipopais dbname="genter.tipopais" )
+ column=(type=char(10) updatewhereclause=yes name=cl_domicilio dbname="genter.cl_domicilio" )
+ column=(type=char(10) updatewhereclause=yes name=nu_domicilio dbname="genter.nu_domicilio" )
+ column=(type=char(5) updatewhereclause=yes name=prefijo_provincia dbname="genter.prefijo_provincia" )
+ column=(type=char(1) updatewhereclause=yes name=distribuidor dbname="genter.distribuidor" )
+ column=(type=char(15) updatewhereclause=yes name=codigo_cliente dbname="genter.codigo_cliente" )
+ column=(type=number updatewhereclause=yes name=venclientes_dtopp dbname="venclientes.dtopp" )
+ column=(type=char(5) updatewhereclause=yes name=venclientes_cod_pago dbname="venclientes.cod_pago" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago1 dbname="venclientes.diaspago1" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago2 dbname="venclientes.diaspago2" )
+ column=(type=long updatewhereclause=yes name=venclientes_diaspago3 dbname="venclientes.diaspago3" )
+ column=(type=char(5) updatewhereclause=yes name=venclientes_domiciliacion dbname="venclientes.domiciliacion" )
+ column=(type=decimal(2) updatewhereclause=yes name=venclientes_dto1 dbname="venclientes.dto1" )
+ column=(type=decimal(2) updatewhereclause=yes name=venclientes_dto2 dbname="venclientes.dto2" )
+ retrieve="  SELECT genter.empresa,   
+         genter.tipoter,   
+         genter.codigo,   
+         genter.nombre,   
+         genter.razon,   
+         genter.provincia,   
+         genter.cod_postal,   
+         genter.localidad,   
+         genter.telefono,   
+         genter.cif,   
+         genter.pais,   
+         genter.domicilio,   
+         genter.fax,   
+         genter.moneda,   
+         genter.riesgo,   
+         genter.falta,   
+         genter.apellidos,   
+         genter.sexo,   
+         genter.fecha_nacimiento,   
+         genter.idioma,   
+         genter.activo,   
+         genter.tipopais,   
+         genter.cl_domicilio,   
+         genter.nu_domicilio,   
+         genter.prefijo_provincia,   
+         genter.distribuidor,   
+         genter.codigo_cliente,   
+         venclientes.dtopp,   
+         venclientes.cod_pago,   
+         venclientes.diaspago1,   
+         venclientes.diaspago2,   
+         venclientes.diaspago3,   
+         venclientes.domiciliacion,   
+         venclientes.dto1,   
+         venclientes.dto2  
+    FROM genter,   
+         venclientes  
+   WHERE ( genter.empresa = venclientes.empresa ) and  
+         ( genter.codigo = venclientes.codigo ) and  
+         ( genter.empresa = :empresa ) AND  
+         ( genter.pais = :pais ) AND 
+			( genter.provincia like :prov) AND 
+         ( genter.tipoter = 'C' ) AND
+			( (convert(char,venclientes.diaspago1) like :dia or convert(char,venclientes.diaspago2) like :dia or convert(char,venclientes.diaspago3) like :dia ))
+ORDER BY genter.empresa ASC,   
+         genter.pais ASC,   
+         genter.cod_postal ASC,   
+         genter.razon ASC   
+" arguments=(("empresa", string),("pais", string),("prov", string),("dia", string))  sort="razon A " )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="123" y="12" height="64" width="1038"  name=razon_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="C.Postal"border="6" color="0" x="1179" y="12" height="64" width="270"  name=cod_postal_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Localidad"border="6" color="0" x="1467" y="12" height="64" width="814"  name=localidad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Teléfono"border="6" color="0" x="2299" y="12" height="64" width="416"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="119" y="4" height="64" width="1047" format="[general]"  name=razon edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=7 alignment="0" tabsequence=32766 border="0" color="0" x="1175" y="4" height="64" width="270" format="[general]"  name=cod_postal edit.limit=10 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="0" color="0" x="1472" y="4" height="64" width="809" format="[general]"  name=localidad edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="2299" y="4" height="64" width="421" format="[general]"  name=telefono edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="0" color="33551858" x="2757" y="28" height="4" width="5" format="[general]"  name=provincia edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=detail alignment="2" text="F.Pago:"border="0" color="32896" x="498" y="188" height="60" width="192"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="0" expression="f_nombre_carforpag(empresa, venclientes_cod_pago )"border="0" color="0" x="722" y="188" height="60" width="873" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="Dto. P.P.:"border="0" color="32896" x="1618" y="188" height="60" width="229"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=28 alignment="1" tabsequence=32766 border="0" color="0" x="1865" y="188" height="60" width="197" format="[general]"  name=venclientes_dtopp editmask.mask="###" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="Activo:"border="0" color="32896" x="2144" y="188" height="60" width="165"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="2327" y="188" height="60" width="91" format=""  name=activo ddlb.limit=0 ddlb.allowedit=no ddlb.case=any  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="Dias fijos:"border="0" color="32896" x="439" y="260" height="60" width="251"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=30 alignment="2" tabsequence=32766 border="0" color="0" x="722" y="260" height="60" width="105" format="[general]"  name=venclientes_diaspago1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="-"border="0" color="0" x="841" y="260" height="60" width="23"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=31 alignment="0" tabsequence=32766 border="0" color="0" x="878" y="260" height="60" width="105" format="[general]"  name=venclientes_diaspago2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="-"border="0" color="0" x="997" y="260" height="60" width="23"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=32 alignment="0" tabsequence=32766 border="0" color="0" x="1033" y="260" height="60" width="105" format="[general]"  name=venclientes_diaspago3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="Domiciliación bancaria:"border="0" color="32896" x="101" y="332" height="60" width="590"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="0" expression="f_nombre_vendomiciliacion(empresa, codigo, venclientes_domiciliacion )"border="0" color="0" x="722" y="332" height="60" width="873" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=detail alignment="2" text="Cta.:"border="0" color="32896" x="1614" y="332" height="60" width="114"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+compute(band=detail alignment="0" expression="f_cta_vendomiciliacion(empresa, codigo, venclientes_domiciliacion )"border="0" color="0" x="1742" y="332" height="60" width="978" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+line(band=detail x1="46" y1="408" x2="2725" y2="408" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="2" background.color="12632256" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="119" y="88" height="60" width="690" format="[general]"  name=cif edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551858" )
+text(band=detail alignment="0" text="Dtos. :"border="0" color="32896" x="1618" y="260" height="60" width="229"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=34 alignment="0" tabsequence=32766 border="0" color="0" x="1865" y="260" height="60" width="197" format="[general]"  name=venclientes_dto1 editmask.mask="###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+column(band=detail id=35 alignment="0" tabsequence=32766 border="0" color="0" x="2107" y="260" height="60" width="197" format="[general]"  name=venclientes_dto2 editmask.mask="###.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+text(band=footer alignment="0" text="(*) Doble clicked para consultar."border="0" color="128" x="1920" y="4" height="44" width="791"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_anular_nummov_compras.srf
+global type f_anular_nummov_compras from function_object
+end type
+
+forward prototypes
+global function boolean f_anular_nummov_compras (string mov_empresa, string mov_almacen, decimal mov_anyo, decimal mov_nummov)
+end prototypes
+
+global function boolean f_anular_nummov_compras (string mov_empresa, string mov_almacen, decimal mov_anyo, decimal mov_nummov);Integer bien 
+String mov_situacion
+Dec num
+
+Select count(*) Into :num FROM commovhis
+   WHERE (commovhis.empresa = :mov_empresa ) AND  
+         (commovhis.almacen = :mov_almacen ) AND  
+         (commovhis.anyo    = :mov_anyo ) AND  
+         (commovhis.nummov  = :mov_nummov ) ;
+			IF num = 0 Then Return FALSE
+			IF IsNull(num) Then Return FALSE
+
+ mov_situacion  = "A"
+  UPDATE commovhis  
+     SET situacion = :mov_situacion  
+   WHERE (commovhis.empresa = :mov_empresa ) AND  
+         (commovhis.almacen = :mov_almacen ) AND  
+         (commovhis.anyo    = :mov_anyo ) AND  
+         (commovhis.nummov  = :mov_nummov )  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien = 1
+
+
+  UPDATE comlinubicahis
+     SET situacion = :mov_situacion  
+   WHERE (comlinubicahis.empresa = :mov_empresa ) AND  
+         (comlinubicahis.almacen = :mov_almacen ) AND  
+         (comlinubicahis.anyo    = :mov_anyo ) AND  
+         (comlinubicahis.nummov  = :mov_nummov )  USING SQLCA ;
+IF SQLCA.SQLCode<>0 THEN bien = 1
+
+If  bien = 1 then
+  RETURN FALSE
+ELSE
+  RETURN TRUE
+END IF
+end function
+

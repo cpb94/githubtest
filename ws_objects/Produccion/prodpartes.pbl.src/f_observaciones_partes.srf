@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_observaciones_partes.srf
+global type f_observaciones_partes from function_object
+end type
+
+forward prototypes
+global function string f_observaciones_partes (string empresa, string tipoparte, string turno, datetime fecha)
+end prototypes
+
+global function string f_observaciones_partes (string empresa, string tipoparte, string turno, datetime fecha);string v_nom
+
+select observaciones
+into   :v_nom
+from   prodpartesobservaciones
+where  empresa    = :empresa
+and    tipoparte  = :tipoparte
+and    turno      = :turno
+and    fecha      = :fecha;
+
+if sqlca.sqlcode <> 0 then
+	v_nom = ""
+end if
+
+if isnull(v_nom) then v_nom = ""
+
+return v_nom
+end function
+

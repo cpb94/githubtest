@@ -1,0 +1,56 @@
+﻿$PBExportHeader$f_calculo_coste_articulo_por_pedido.srf
+global type f_calculo_coste_articulo_por_pedido from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_coste_articulo_por_pedido (string empresa, string articulo, integer anyo, integer pedido, integer linped, ref decimal coste_mp, ref decimal coste_fab)
+end prototypes
+
+global function boolean f_calculo_coste_articulo_por_pedido (string empresa, string articulo, integer anyo, integer pedido, integer linped, ref decimal coste_mp, ref decimal coste_fab);str_escandallo escandallo[300]
+datastore ds_operaciones
+integer indice, k, nivel
+string  sel,  v_Articulo
+long i
+decimal v_coste_fabricacion, v_coste_mp, factor
+
+nivel = 0
+indice = 1
+factor = 1
+f_escandallo_factores(escandallo, articulo, indice, factor, nivel)
+
+for k = 1 to indice
+	sel = " select art_Ver_operaciones.articulo, art_Ver_operaciones.coste_fab, art_Ver_operaciones.coste_mp "+&
+			" from art_Ver_operaciones, art_versiones "+&
+			" where art_Ver_operaciones.empresa = '"+codigo_empresa+"' "+&
+			" and art_Ver_operaciones.empresa = art_versiones.empresa "+&
+			" and art_Ver_operaciones.articulo = art_versiones.articulo "+&
+			" and art_Ver_operaciones.version = art_Versiones.version "+&
+			" and art_Versiones.tipo_version = 'P' "+&
+			" and art_Ver_operaciones.articulo = '"+Escandallo[k].articulo+"' "
+		
+	f_cargar_cursor_nuevo(sel, ds_operaciones)
+	
+	for i = 1 to ds_operaciones.rowcount()
+		v_articulo = ds_operaciones.object.art_ver_operaciones_articulo[i]
+		v_coste_mp = ds_operaciones.object.art_Ver_operaciones_coste_mp[i]
+		v_coste_fabricacion  =  ds_operaciones.object.art_Ver_operaciones_coste_fab[i]
+
+		if isnull(v_coste_mp) then v_coste_mp = 0
+		if isnull(v_coste_fabricacion) then v_coste_fabricacion = 0		
+		v_coste_mp = v_coste_mp / Escandallo[k].factor
+		v_coste_fabricacion = v_coste_fabricacion / Escandallo[k].factor
+	
+		if isnull (v_coste_mp ) then
+			v_coste_mp = 0
+		end if
+		
+		coste_mp += v_coste_mp
+		coste_fab += v_coste_fabricacion
+				
+	next
+	destroy ds_operaciones
+next
+return true
+
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_cambio_euros1.srf
+global type f_cambio_euros1 from function_object
+end type
+
+forward prototypes
+global function decimal f_cambio_euros1 (string ai_codmoneda)
+end prototypes
+
+global function decimal f_cambio_euros1 (string ai_codmoneda);dec{6} cambio
+
+  SELECT monedas.euros
+    INTO :cambio
+    FROM monedas  
+   WHERE monedas.moneda = :ai_codmoneda   
+  USING sqlca;
+  
+
+  
+RETURN cambio
+end function
+

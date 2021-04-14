@@ -1,0 +1,55 @@
+﻿$PBExportHeader$f_existencias_art_cal_tp_c.srf
+global type f_existencias_art_cal_tp_c from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_art_cal_tp_c (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_existencias_art_cal_tp_c (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tipo_pallet, string arg_caja);dec ld_existencias
+
+ld_existencias = f_existencias_art_cal_tp_c_pzs(arg_empresa,arg_articulo,arg_calidad,arg_tipo_pallet,arg_caja)
+ld_existencias = f_conversion_piezas_cantidad(arg_empresa,arg_articulo,arg_caja,ld_existencias)
+
+Return ld_existencias
+/*
+Dec{4}   var_existencias
+
+SELECT case when articulos.unidad = '1' then ( round(isnull(sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads),0) / almartcajas.piezascaja ,0,1)) * almartcajas.metroscaja else isnull(sum(almacenmovimientos.cantidade - almacenmovimientos.cantidads),0) end as existencias_convertidas
+INTO   :var_existencias  
+FROM   almacenmovimientos,
+		 articulos,
+		 unidades,
+		 almartcajas 
+WHERE  almacenmovimientos.empresa     = articulos.empresa 
+AND    almacenmovimientos.articulo    = articulos.codigo 
+AND    articulos.unidad               = unidades.codigo 
+AND    almacenmovimientos.empresa     = almartcajas.empresa 
+AND    almacenmovimientos.articulo    = almartcajas.articulo 
+AND    almacenmovimientos.caja        = almartcajas.caja 
+AND    almacenmovimientos.empresa     = :arg_empresa 
+AND    almacenmovimientos.articulo    = :arg_articulo 
+AND    almacenmovimientos.calidad     = :arg_calidad 
+AND    almacenmovimientos.tipo_pallet = :arg_tipo_pallet 
+AND    almacenmovimientos.caja        = :arg_caja
+group by articulos.unidad,
+			almartcajas.piezascaja,
+			almartcajas.metroscaja;
+
+
+/*
+SELECT sum(almlinubica.existencias)  
+INTO   :var_existencias  
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :empresa
+AND   almlinubica.articulo    = :articulo
+AND   almlinubica.calidad     = :calidad
+AND   almlinubica.tonochar    = :tono
+AND   almlinubica.calibre     = :calibre;
+*/
+
+IF IsNull(var_existencias) Then var_existencias = 0
+
+Return  var_existencias */
+end function
+

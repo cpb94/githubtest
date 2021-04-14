@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_vencondentrega_idioma.srf
+global type f_nombre_vencondentrega_idioma from function_object
+end type
+
+forward prototypes
+global function string f_nombre_vencondentrega_idioma (string empresa, string codigo, string ra_idioma)
+end prototypes
+
+global function string f_nombre_vencondentrega_idioma (string empresa, string codigo, string ra_idioma);String var_descripcion 
+
+ SELECT vencondentregaidioma.descripcion
+    INTO :var_descripcion  
+    FROM vencondentregaidioma  
+   WHERE ( vencondentregaidioma.empresa = :empresa ) AND  
+         ( vencondentregaidioma.codigo = :codigo )   AND
+			( vencondentregaidioma.idioma = :ra_idioma )
+
+ORDER BY vencondentregaidioma.descripcion ASC  ;
+
+Return var_descripcion
+end function
+

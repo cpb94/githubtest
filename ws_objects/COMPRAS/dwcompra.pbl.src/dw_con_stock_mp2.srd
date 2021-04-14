@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_con_stock_mp2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=76 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=number updatewhereclause=yes name=stock dbname="stock" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="comlinubica.empresa" )
+ column=(type=char(20) updatewhereclause=yes name=mp dbname="comlinubica.mp" )
+ column=(type=char(5) updatewhereclause=yes name=calidad dbname="comlinubica.calidad" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"comlinubica~" ) COMPUTE(NAME=~"Sum(existencias) stock~") COLUMN(NAME=~"comlinubica.empresa~") COLUMN(NAME=~"comlinubica.mp~") COLUMN(NAME=~"comlinubica.calidad~")WHERE(    EXP1 =~"comlinubica.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"comlinubica.mp~"   OP =~"=~"    EXP2 =~":mp~" )  GROUP(NAME=~"comlinubica.empresa~") GROUP(NAME=~"comlinubica.mp~") GROUP(NAME=~"comlinubica.calidad~")) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"mp~" TYPE = string) " filter="/*  disponible <> 0 */" arguments=(("empresa", string),("mp", string)) )
+text(band=header alignment="2" text="Cl"border="6" color="0" x="9" y="8" height="64" width="206"  name=calidad_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Stock"border="6" color="0" x="233" y="12" height="60" width="517"  name=disponible_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="2" expression="f_nombre_calidad_abr (empresa, calidad)"border="0" color="0" x="9" y="4" height="60" width="206" format="[general]"  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="233" y="4" height="60" width="517" format="[general]"  name=stock editmask.mask="###,###,##0.00" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

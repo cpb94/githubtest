@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_valor2_venpartidas.srf
+global type f_valor2_venpartidas from function_object
+end type
+
+forward prototypes
+global function string f_valor2_venpartidas (string empresa, string codigo)
+end prototypes
+
+global function string f_valor2_venpartidas (string empresa, string codigo);String var
+
+   SELECT venpartidas.valor2
+	    INTO :var
+    FROM venpartidas  
+   WHERE ( venpartidas.empresa = :empresa ) AND  
+         ( venpartidas.codigo = :codigo )   ;
+
+
+RETURN var
+//
+
+end function
+

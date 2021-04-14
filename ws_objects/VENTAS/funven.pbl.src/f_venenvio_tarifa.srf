@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_venenvio_tarifa.srf
+global type f_venenvio_tarifa from function_object
+end type
+
+forward prototypes
+global function string f_venenvio_tarifa (string empresa, string cliente, string codigo)
+end prototypes
+
+global function string f_venenvio_tarifa (string empresa, string cliente, string codigo);String ls_tarifa
+
+SELECT ltrim(rtrim(isnull(venenvio.tarifa,'')))
+INTO   :ls_tarifa  
+FROM   venenvio  
+WHERE  venenvio.empresa = :empresa 
+AND    venenvio.cliente = :cliente 
+AND    venenvio.codigo = :codigo;    
+
+Return ls_tarifa
+
+end function
+

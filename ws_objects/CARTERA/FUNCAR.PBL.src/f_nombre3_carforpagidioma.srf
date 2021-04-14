@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre3_carforpagidioma.srf
+global type f_nombre3_carforpagidioma from function_object
+end type
+
+forward prototypes
+global function string f_nombre3_carforpagidioma (string empresa, string codigo, string idioma)
+end prototypes
+
+global function string f_nombre3_carforpagidioma (string empresa, string codigo, string idioma);String var_descripcion  
+SELECT carforpagidiomas.texto3
+    INTO :var_descripcion  
+    FROM carforpagidiomas  
+   WHERE ( carforpagidiomas.empresa = :empresa ) AND  
+         ( carforpagidiomas.codigo = :codigo ) AND  
+         ( carforpagidiomas.idioma = :idioma )   ;
+
+Return var_descripcion
+
+end function
+

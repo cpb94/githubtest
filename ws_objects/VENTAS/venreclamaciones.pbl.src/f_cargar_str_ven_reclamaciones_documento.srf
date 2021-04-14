@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_documento.srf
+global type f_cargar_str_ven_reclamaciones_documento from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_documento (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, STRING arg_documento,  ref str_ven_reclamaciones_documentos str_ven_reclamaciones_documentos)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_documento (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, STRING arg_documento,  ref str_ven_reclamaciones_documentos str_ven_reclamaciones_documentos);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_documentos.empresa,
+       ven_reclamaciones_documentos.cliente,
+       ven_reclamaciones_documentos.reclamacion,
+       ven_reclamaciones_documentos.documento,
+       ven_reclamaciones_documentos.fecha,
+       ven_reclamaciones_documentos.descripcion,
+       ven_reclamaciones_documentos.texto
+INTO   :str_ven_reclamaciones_documentos.empresa,
+       :str_ven_reclamaciones_documentos.cliente,
+       :str_ven_reclamaciones_documentos.reclamacion,
+       :str_ven_reclamaciones_documentos.documento,
+       :str_ven_reclamaciones_documentos.fecha,
+       :str_ven_reclamaciones_documentos.descripcion,
+       :str_ven_reclamaciones_documentos.texto
+FROM ven_reclamaciones_documentos
+WHERE ven_reclamaciones_documentos.empresa = :arg_empresa AND ven_reclamaciones_documentos.cliente = :arg_cliente AND ven_reclamaciones_documentos.reclamacion = :arg_reclamacion AND ven_reclamaciones_documentos.documento = :arg_documento;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

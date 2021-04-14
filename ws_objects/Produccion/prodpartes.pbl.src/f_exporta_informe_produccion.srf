@@ -1,0 +1,39 @@
+﻿$PBExportHeader$f_exporta_informe_produccion.srf
+global type f_exporta_informe_produccion from function_object
+end type
+
+forward prototypes
+global subroutine f_exporta_informe_produccion (string arg_carpeta)
+end prototypes
+
+global subroutine f_exporta_informe_produccion (string arg_carpeta);string sel,fichero,tabla
+int resultado
+long indice,total,indice2,total2
+datastore datos,tablas
+
+
+sel = "select name from sysobjects " +&
+      "where type='U' and " +&
+		"name in ('articulos','formatos','prodpartes','prodtipopartes') " +& 
+		"order by name"
+
+tablas = f_cargar_cursor(sel)
+total = tablas.rowcount()
+
+for indice = 1 to total
+	tabla = tablas.object.name[indice]
+	f_mensaje_proceso(tabla,indice,total)
+	sel = "select * from "+tabla
+	datos = f_cargar_cursor(sel)
+	if datos.rowcount() > 0 then
+		fichero = arg_carpeta+tabla+".txt"
+		resultado = datos.saveas(fichero,text!,false)
+		if resultado = -1 then f_mensaje("ERROR","Al grabar el fichero "+fichero)	
+		destroy datos
+	end if
+next
+
+destroy tablas
+
+end subroutine
+

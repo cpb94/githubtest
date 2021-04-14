@@ -1,0 +1,130 @@
+﻿$PBExportHeader$f_inicializar_str_articulos.srf
+global type f_inicializar_str_articulos from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_articulos (ref str_articulos str_articulos)
+end prototypes
+
+global function boolean f_inicializar_str_articulos (ref str_articulos str_articulos);boolean lb_correcto = true
+
+if isnull(str_articulos.empresa) then str_articulos.empresa = ''
+if isnull(str_articulos.codigo) then str_articulos.codigo = ''
+if isnull(str_articulos.descripcion) then str_articulos.descripcion = ''
+if isnull(str_articulos.familia) then str_articulos.familia = ''
+if isnull(str_articulos.subfamilia) then str_articulos.subfamilia = ''
+if isnull(str_articulos.formato) then str_articulos.formato = ''
+if isnull(str_articulos.formato_etiqueta) then str_articulos.formato_etiqueta = ''
+if isnull(str_articulos.ancho) then str_articulos.ancho = 0
+if isnull(str_articulos.largo) then str_articulos.largo = 0
+if isnull(str_articulos.ancho_std) then str_articulos.ancho_std = 0
+if isnull(str_articulos.largo_std) then str_articulos.largo_std = 0
+if isnull(str_articulos.subformato) then str_articulos.subformato = ''
+if isnull(str_articulos.modelo) then str_articulos.modelo = ''
+if isnull(str_articulos.unidad) then str_articulos.unidad = ''
+if isnull(str_articulos.precio_coste) then str_articulos.precio_coste = 0
+if isnull(str_articulos.cuenta) then str_articulos.cuenta = ''
+if isnull(str_articulos.proveedor) then str_articulos.proveedor = ''
+if isnull(str_articulos.decorado) then str_articulos.decorado = ''
+if isnull(str_articulos.sector) then str_articulos.sector = ''
+if isnull(str_articulos.conjunto) then str_articulos.conjunto = 0
+if isnull(str_articulos.pesopieza) then str_articulos.pesopieza = 0
+if isnull(str_articulos.piezascaja) then str_articulos.piezascaja = 0
+if isnull(str_articulos.pesocaja) then str_articulos.pesocaja = 0
+if isnull(str_articulos.pesoenvase) then str_articulos.pesoenvase = 0
+if isnull(str_articulos.metroscaja) then str_articulos.metroscaja = 0
+if isnull(str_articulos.metroslcaja) then str_articulos.metroslcaja = 0
+if isnull(str_articulos.cuenta_contable) then str_articulos.cuenta_contable = ''
+if isnull(str_articulos.tono) then str_articulos.tono = ''
+if isnull(str_articulos.calibre) then str_articulos.calibre = ''
+if isnull(str_articulos.compras) then str_articulos.compras = ''
+if isnull(str_articulos.activo) then str_articulos.activo = ''
+if isnull(str_articulos.unidad_est) then str_articulos.unidad_est = ''
+if isnull(str_articulos.prev_anular) then str_articulos.prev_anular = ''
+if isnull(str_articulos.empleado) then str_articulos.empleado = ''
+if isnull(str_articulos.molde) then str_articulos.molde = ''
+if isnull(str_articulos.marco) then str_articulos.marco = ''
+if isnull(str_articulos.plato_sup) then str_articulos.plato_sup = ''
+if isnull(str_articulos.plato_inf) then str_articulos.plato_inf = ''
+if isnull(str_articulos.calibre_min) then str_articulos.calibre_min = ''
+if isnull(str_articulos.calibre_max) then str_articulos.calibre_max = ''
+if isnull(str_articulos.cliente) then str_articulos.cliente = ''
+if isnull(str_articulos.uso) then str_articulos.uso = ''
+if isnull(str_articulos.estilo) then str_articulos.estilo = ''
+if isnull(str_articulos.coleccion) then str_articulos.coleccion = ''
+if isnull(str_articulos.color) then str_articulos.color = ''
+if isnull(str_articulos.imagen) then str_articulos.imagen = ''
+if isnull(str_articulos.referencia_laboratorio) then str_articulos.referencia_laboratorio = ''
+if isnull(str_articulos.version_laboratorio) then str_articulos.version_laboratorio = 0
+if isnull(str_articulos.tipo_pasta) then str_articulos.tipo_pasta = ''
+if isnull(str_articulos.codigo_pantallas) then str_articulos.codigo_pantallas = ''
+if isnull(str_articulos.espesor) then str_articulos.espesor = 0
+if isnull(str_articulos.ciclo) then str_articulos.ciclo = 0
+if isnull(str_articulos.temp_inferior) then str_articulos.temp_inferior = 0
+if isnull(str_articulos.temp_superior) then str_articulos.temp_superior = 0
+if isnull(str_articulos.ean13) then str_articulos.ean13 = ''
+if isnull(str_articulos.ventasitalia) then str_articulos.ventasitalia = ''
+if isnull(str_articulos.usuario) then str_articulos.usuario = ''
+if isnull(str_articulos.temp_inferior1) then str_articulos.temp_inferior1 = 0
+if isnull(str_articulos.temp_superior1) then str_articulos.temp_superior1 = 0
+if isnull(str_articulos.obs_ficha_hornos) then str_articulos.obs_ficha_hornos = ''
+if isnull(str_articulos.tipo) then str_articulos.tipo = ''
+if isnull(str_articulos.partidaest) then str_articulos.partidaest = ''
+if isnull(str_articulos.control_stock) then str_articulos.control_stock = ''
+if isnull(str_articulos.m2_sugeridos) then str_articulos.m2_sugeridos = 0
+if isnull(str_articulos.stock_min) then str_articulos.stock_min = 0
+if isnull(str_articulos.ubi_muestras) then str_articulos.ubi_muestras = ''
+if isnull(str_articulos.lote_minimo) then str_articulos.lote_minimo = 0
+if isnull(str_articulos.stocksugerido) then str_articulos.stocksugerido = 0
+if isnull(str_articulos.codigo_compras) then str_articulos.codigo_compras = ''
+if isnull(str_articulos.cant_compras) then str_articulos.cant_compras = 0
+if isnull(str_articulos.estandar) then str_articulos.estandar = ''
+if isnull(str_articulos.bloqueado) then str_articulos.bloqueado = ''
+if isnull(str_articulos.cod_cliente) then str_articulos.cod_cliente = ''
+if isnull(str_articulos.canto_vivo) then str_articulos.canto_vivo = ''
+if isnull(str_articulos.marcado) then str_articulos.marcado = ''
+if isnull(str_articulos.etiqueta_ce) then str_articulos.etiqueta_ce = ''
+if isnull(str_articulos.lote) then str_articulos.lote = 0
+if isnull(str_articulos.observaciones) then str_articulos.observaciones = ''
+if isnull(str_articulos.modelo_origen) then str_articulos.modelo_origen = ''
+if isnull(str_articulos.pieza_origen) then str_articulos.pieza_origen = ''
+if isnull(str_articulos.prueba_origen) then str_articulos.prueba_origen = ''
+if isnull(str_articulos.ean13_aux) then str_articulos.ean13_aux = ''
+if isnull(str_articulos.bisel) then str_articulos.bisel = 0
+if isnull(str_articulos.relieve) then str_articulos.relieve = ''
+if isnull(str_articulos.cliente_marca) then str_articulos.cliente_marca = ''
+if isnull(str_articulos.tipo_operacion) then str_articulos.tipo_operacion = ''
+if isnull(str_articulos.juegopantallas) then str_articulos.juegopantallas = ''
+if isnull(str_articulos.coste_estimado) then str_articulos.coste_estimado = 0
+if isnull(str_articulos.coste) then str_articulos.coste = ''
+if isnull(str_articulos.coste_fab) then str_articulos.coste_fab = 0
+if isnull(str_articulos.coste_mp) then str_articulos.coste_mp = 0
+if isnull(str_articulos.coste_fab_mermas) then str_articulos.coste_fab_mermas = 0
+if isnull(str_articulos.coste_mp_mermas) then str_articulos.coste_mp_mermas = 0
+if isnull(str_articulos.cod_cliente2) then str_articulos.cod_cliente2 = ''
+if isnull(str_articulos.promocion) then str_articulos.promocion = ''
+if isnull(str_articulos.venta_conjuntos) then str_articulos.venta_conjuntos = ''
+if isnull(str_articulos.costilla) then str_articulos.costilla = ''
+if isnull(str_articulos.decimales_unidad) then str_articulos.decimales_unidad = 0
+if isnull(str_articulos.marcas_codigo) then str_articulos.marcas_codigo = ''
+if isnull(str_articulos.submarcas_codigo) then str_articulos.submarcas_codigo = ''
+if isnull(str_articulos.T1) then str_articulos.T1 = ''
+if isnull(str_articulos.T2) then str_articulos.T2 = ''
+if isnull(str_articulos.T3) then str_articulos.T3 = ''
+if isnull(str_articulos.T4) then str_articulos.T4 = ''
+if isnull(str_articulos.T5) then str_articulos.T5 = ''
+if isnull(str_articulos.T6) then str_articulos.T6 = ''
+if isnull(str_articulos.T7) then str_articulos.T7 = ''
+if isnull(str_articulos.T8) then str_articulos.T8 = ''
+if isnull(str_articulos.T9) then str_articulos.T9 = ''
+if isnull(str_articulos.T10) then str_articulos.T10 = ''
+if isnull(str_articulos.ultimo_lote) then str_articulos.ultimo_lote = 0
+if isnull(str_articulos.contra_stock) then str_articulos.contra_stock = ''
+if isnull(str_articulos.bloqueo_packing) then str_articulos.bloqueo_packing = ''
+if isnull(str_articulos.tono_cliente) then str_articulos.tono_cliente = ''
+if isnull(str_articulos.calibre_cliente) then str_articulos.calibre_cliente = ''
+if isnull(str_articulos.ean13_sga) then str_articulos.ean13_sga = '' 
+
+return lb_correcto
+end function
+

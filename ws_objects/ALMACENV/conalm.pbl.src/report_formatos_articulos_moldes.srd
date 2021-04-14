@@ -1,0 +1,80 @@
+﻿$PBExportHeader$report_formatos_articulos_moldes.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=708 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=64 color="536870912" )
+detail(height=76 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) update=yes updatewhereclause=yes name=empresa dbname="articulos.empresa" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=codigo dbname="articulos.codigo" )
+ column=(type=char(40) update=yes updatewhereclause=yes name=descripcion dbname="articulos.descripcion" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=familia dbname="articulos.familia" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=formato dbname="articulos.formato" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=modelo dbname="articulos.modelo" )
+ column=(type=char(5) update=yes updatewhereclause=yes name=unidad dbname="articulos.unidad" )
+ column=(type=number update=yes updatewhereclause=yes name=precio_coste dbname="articulos.precio_coste" )
+ column=(type=datetime update=yes updatewhereclause=yes name=fecha_alta dbname="articulos.fecha_alta" initial="today" )
+ column=(type=datetime updatewhereclause=yes name=fecha_anulado dbname="articulos.fecha_anulado" )
+ column=(type=datetime updatewhereclause=yes name=fecha_fin dbname="articulos.fecha_fin" )
+ column=(type=char(60) updatewhereclause=yes name=cuenta dbname="articulos.cuenta" )
+ column=(type=char(30) updatewhereclause=yes name=proveedor dbname="articulos.proveedor" )
+ column=(type=char(1) updatewhereclause=yes name=sector dbname="articulos.sector" )
+ column=(type=char(1) updatewhereclause=yes name=decorado dbname="articulos.decorado" )
+ column=(type=decimal(4) updatewhereclause=yes name=pesopieza dbname="articulos.pesopieza" )
+ column=(type=char(1) updatewhereclause=yes name=tono dbname="articulos.tono" values="Si	S/No	N/" )
+ column=(type=char(1) updatewhereclause=yes name=calibre dbname="articulos.calibre" values="Si	S/No	N/" )
+ column=(type=char(5) updatewhereclause=yes name=tipo dbname="articulos.tipo" )
+ column=(type=char(5) updatewhereclause=yes name=subfamilia dbname="articulos.subfamilia" )
+ column=(type=char(50) updatewhereclause=yes name=prodmoldes_descripcion dbname="prodmoldes.descripcion" )
+ retrieve="  SELECT articulos.empresa,   
+         articulos.codigo,   
+         articulos.descripcion,   
+         articulos.familia,   
+         articulos.formato,   
+         articulos.modelo,   
+         articulos.unidad,   
+         articulos.precio_coste,   
+         articulos.fecha_alta,   
+         articulos.fecha_anulado,   
+         articulos.fecha_fin,   
+         articulos.cuenta,   
+         articulos.proveedor,   
+         articulos.sector,   
+         articulos.decorado,   
+         articulos.pesopieza,   
+         articulos.tono,   
+         articulos.calibre,   
+         articulos.tipo,   
+         articulos.subfamilia,   
+         prodmoldes.descripcion  
+    FROM articulos,   
+         prodmoldesmodelo,   
+         prodmoldes  
+   WHERE ( articulos.empresa = prodmoldesmodelo.empresa ) and  
+         ( articulos.tipo = prodmoldesmodelo.tipo ) and  
+         ( articulos.formato = prodmoldesmodelo.formato ) and  
+         ( prodmoldesmodelo.empresa = prodmoldes.empresa ) and  
+         ( prodmoldesmodelo.codigo = prodmoldes.codigo ) and  
+         ( ( articulos.empresa = :ra_codemp ) AND  
+         ( articulos.formato like :ra_formato ) )    
+" arguments=(("ra_codemp", string),("ra_formato", string))  sort="empresa A f_nombre_formato_parte1( empresa ,formato) A f_nombre_formato_parte2( empresa ,formato) A descripcion A f_nombre_familia_abr( empresa , familia ) A " )
+group(level=1 header.height=96 trailer.height=4 by=("formato" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="pageCount()"border="0" color="16777215" x="37" y="384" height="4" width="5" format="[general]"  name=total_paginas  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="5" y="8" height="348" width="3374" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="1" text="LISTADO DE ARTICULOS Y MOLDES"border="0" color="128" x="1129" y="396" height="80" width="1294"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cod."border="1" color="33554432" x="14" y="632" height="64" width="210"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Formato"border="1" color="33554432" x="238" y="632" height="64" width="247"  name=familia_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Artículo"border="1" color="33554432" x="503" y="632" height="64" width="1280"  name=descripcion_t  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Familia"border="1" color="33554432" x="1806" y="632" height="64" width="521"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Modelo"border="1" color="33554432" x="2345" y="632" height="64" width="608"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Molde"border="1" color="33554432" x="2971" y="632" height="64" width="384"  font.face="System" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="0" expression="f_nombre_formato(empresa,formato)"border="0" color="0" x="9" y="8" height="76" width="960" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="2" tabsequence=32766 border="0" color="0" x="14" y="8" height="60" width="210" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="2" expression="f_nombre_formato( empresa , formato )"border="0" color="0" x="238" y="8" height="60" width="247" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="503" y="8" height="64" width="1285" format="[general]"  name=descripcion edit.limit=40 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_familia_abr( empresa , familia )"border="0" color="0" x="1806" y="8" height="64" width="233" format="[GENERAL]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression=" f_nombre_subfamilia( empresa , subfamilia ) "border="0" color="33554432" x="2062" y="8" height="64" width="274" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=detail alignment="0" expression="f_nombre_modelos(empresa,tipo)"border="0" color="0" x="2354" y="8" height="64" width="594" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=21 alignment="0" tabsequence=32766 border="0" color="0" x="2971" y="8" height="64" width="384" format="[general]"  name=prodmoldes_descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="33554432" x="1330" y="4" height="52" width="773" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

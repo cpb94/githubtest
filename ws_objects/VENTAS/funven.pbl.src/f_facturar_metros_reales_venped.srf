@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_facturar_metros_reales_venped.srf
+global type f_facturar_metros_reales_venped from function_object
+end type
+
+forward prototypes
+global function string f_facturar_metros_reales_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function string f_facturar_metros_reales_venped (string empresa, integer anyo, decimal pedido);String facturar_metros_reales
+
+
+SELECT venped.facturar_metros_reales
+INTO   :facturar_metros_reales
+FROM   venped  
+WHERE  (venped.empresa = :empresa)
+AND    (venped.anyo    = :anyo)
+AND    (venped.pedido  = :pedido);
+
+Return facturar_metros_reales
+end function
+

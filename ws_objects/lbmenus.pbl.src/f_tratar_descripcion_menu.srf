@@ -1,0 +1,40 @@
+﻿$PBExportHeader$f_tratar_descripcion_menu.srf
+global type f_tratar_descripcion_menu from function_object
+end type
+
+forward prototypes
+global subroutine f_tratar_descripcion_menu (ref string arg_descripcion_menu)
+end prototypes
+
+global subroutine f_tratar_descripcion_menu (ref string arg_descripcion_menu);string ls_descripcion_menu,ls_nueva_descripcion_menu,caracter,caracter_ant
+long   indice,total,asci
+
+//ls_descripcion_menu    = Upper(trim(arg_descripcion_menu))
+ls_descripcion_menu    = trim(arg_descripcion_menu)
+ls_nueva_descripcion_menu  = ""
+total        = len(ls_descripcion_menu)
+caracter_ant = ''
+
+for indice = 1 to total
+	caracter = mid(ls_descripcion_menu,indice,1)
+	
+	choose case caracter
+		case "&"
+			caracter = ""
+			caracter_ant = caracter
+		case " "
+			if caracter_ant = ' ' then
+				caracter_ant = caracter
+				caracter = ""		
+			else
+				caracter_ant = caracter
+			end if
+		case else
+			caracter_ant = caracter
+	end choose	
+	ls_nueva_descripcion_menu  = ls_nueva_descripcion_menu + caracter	
+next
+
+arg_descripcion_menu = ls_nueva_descripcion_menu
+end subroutine
+

@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_restaura_almacen_mp.srf
+global type f_restaura_almacen_mp from function_object
+end type
+
+forward prototypes
+global subroutine f_restaura_almacen_mp ()
+end prototypes
+
+global subroutine f_restaura_almacen_mp ();long indice,total
+string sel,mp,almacen,ubicacion
+datastore materias
+
+sel = "select mp from comlinubica where empresa = '"+codigo_empresa+"' "+&
+		"group by mp"
+		
+//materias = f_cargar_cursor(sel)		
+f_cargar_cursor_nuevo(sel, materias)
+
+total = materias.rowcount()
+
+if total > 0 then
+	for indice = 1 to total
+		f_mensaje_proceso("Procesando",indice,total)
+		mp        = materias.object.mp[indice]
+		almacen   = f_almacen_mprima(codigo_empresa,mp)
+		ubicacion = f_componer_ubicacion(almacen,"A",1,0)
+		
+		update comlinubica
+		set    almacen   = :almacen,
+				 ubicacion = :ubicacion
+		where  empresa = :codigo_empresa
+		and    mp      = :mp;
+		
+		if sqlca.sqlcode = 0 then
+			commit;
+		else
+			rollback;
+		end if
+	next
+end if
+
+destroy materias
+end subroutine
+

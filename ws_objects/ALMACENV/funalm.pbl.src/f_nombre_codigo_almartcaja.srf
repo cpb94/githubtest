@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_nombre_codigo_almartcaja.srf
+global type f_nombre_codigo_almartcaja from function_object
+end type
+
+forward prototypes
+global function string f_nombre_codigo_almartcaja (string empresa, string articulo, string caja)
+end prototypes
+
+global function string f_nombre_codigo_almartcaja (string empresa, string articulo, string caja);string  ls_nombre,clase
+Integer numero
+
+//	Select count(*) Into :numero From almartcajas
+//	Where  empresa  = :empresa
+//	And    articulo = :articulo
+//	And    caja  = :caja;
+//	IF IsNull(numero) Then numero = 0
+//	IF numero= 0 Then return ""
+
+	Select codigo
+	Into   :ls_nombre
+	From   almartcajas
+	Where  empresa  = :empresa
+	And    articulo = :articulo
+	And    caja  = :caja;
+	IF IsNull(ls_nombre) or ls_nombre = "" Then 
+		ls_nombre = ""
+	END IF
+
+RETURN ls_nombre
+end function
+

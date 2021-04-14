@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_conductor_venalb_venlifac.srf
+global type f_conductor_venalb_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_conductor_venalb_venlifac (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function string f_conductor_venalb_venlifac (string empresa, integer anyo, decimal albaran);String var_conductor
+
+
+  SELECT venlifac.conductor
+    INTO :var_conductor  
+    FROM venlifac  
+   WHERE (venlifac.empresa = :empresa)
+   AND   (venlifac.anyo_albaran   = :anyo)
+   AND   (venlifac.albaran  = :albaran)
+	group by empresa,anyo_albaran,albaran,conductor;
+
+if IsNull(var_conductor) then var_conductor= ""
+
+Return var_conductor
+end function
+

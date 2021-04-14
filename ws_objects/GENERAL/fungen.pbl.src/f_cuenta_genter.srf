@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_cuenta_genter.srf
+global type f_cuenta_genter from function_object
+end type
+
+forward prototypes
+global function string f_cuenta_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_cuenta_genter (string ai_empresa, string as_tipoter, string as_codcli);string	ls_var
+
+
+  SELECT genter.cuenta
+    INTO :ls_var
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = :as_tipoter ) AND
+			( genter.codigo  = :as_codcli  )
+    USING SQLCA;
+
+if isnull(ls_var) then ls_var = ""
+RETURN ls_var
+end function
+

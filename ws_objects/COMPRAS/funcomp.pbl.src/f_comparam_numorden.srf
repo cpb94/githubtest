@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_comparam_numorden.srf
+global type f_comparam_numorden from function_object
+end type
+
+forward prototypes
+global function decimal f_comparam_numorden (string arg_empresa, decimal arg_anyo)
+end prototypes
+
+global function decimal f_comparam_numorden (string arg_empresa, decimal arg_anyo);Dec    alm_anyo,alm_numorden,alm2_numorden
+String     alm_empresa,alm_almacen
+
+
+// Variables gestion incidencias
+   string  in_programa,in_incidencia
+   
+
+ in_programa="f_comparam_numorden"
+ SELECT  comparam.numorden   INTO :alm_numorden   FROM comparam  
+   WHERE comparam.empresa = :arg_empresa
+	AND   comparam.anyo    = :arg_anyo;
+	IF SQLCA.SQLCode = 100 THEN alm_numorden=0
+
+	IF IsNull(alm_numorden) Then alm_numorden = 0
+	alm_numorden=alm_numorden + 1
+  SELECT  comlinubicahis.orden   INTO  :alm2_numorden FROM comlinubicahis  
+   WHERE  comlinubicahis.empresa = :arg_empresa 
+	AND    comlinubicahis.anyo    = :arg_anyo 
+	AND    comlinubicahis.orden   = :alm_numorden;
+		IF SQLCA.SQLCode =0 THEN
+			in_incidencia="He buscado ,ultimo Nº orden con un max()!Proceso lento!"
+			f_grabar_incidencia(in_programa,in_incidencia)
+			SELECT max(comlinubicahis.orden) INTO :alm_numorden FROM comlinubicahis 
+			WHERE comlinubicahis.empresa = :arg_empresa 
+			AND  	comlinubicahis.anyo    = :arg_anyo;
+		
+		   alm_numorden=alm_numorden + 1
+      END IF
+
+f_actualiza_numorden(arg_empresa,arg_anyo,alm_numorden)
+Return alm_numorden
+end function
+

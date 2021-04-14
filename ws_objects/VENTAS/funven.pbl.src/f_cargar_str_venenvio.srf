@@ -1,0 +1,47 @@
+﻿$PBExportHeader$f_cargar_str_venenvio.srf
+global type f_cargar_str_venenvio from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_venenvio (STRING arg_empresa, STRING arg_cliente, STRING arg_codigo,  ref str_venenvio str_venenvio)
+end prototypes
+
+global function boolean f_cargar_str_venenvio (STRING arg_empresa, STRING arg_cliente, STRING arg_codigo,  ref str_venenvio str_venenvio);boolean lb_correcto = true
+
+SELECT venenvio.empresa,
+       venenvio.cliente,
+       venenvio.codigo,
+       venenvio.descripcion,
+       venenvio.pais,
+       venenvio.provincia,
+       venenvio.codpostal,
+       venenvio.localidad,
+       venenvio.domicilio,
+       venenvio.telefono,
+       venenvio.domicilio1,
+       venenvio.domicilio2,
+       venenvio.fax,
+       venenvio.tarifa
+INTO   :str_venenvio.empresa,
+       :str_venenvio.cliente,
+       :str_venenvio.codigo,
+       :str_venenvio.descripcion,
+       :str_venenvio.pais,
+       :str_venenvio.provincia,
+       :str_venenvio.codpostal,
+       :str_venenvio.localidad,
+       :str_venenvio.domicilio,
+       :str_venenvio.telefono,
+       :str_venenvio.domicilio1,
+       :str_venenvio.domicilio2,
+       :str_venenvio.fax,
+       :str_venenvio.tarifa
+FROM venenvio
+WHERE venenvio.empresa = :arg_empresa AND venenvio.cliente = :arg_cliente AND venenvio.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

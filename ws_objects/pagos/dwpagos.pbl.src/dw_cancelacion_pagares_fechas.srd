@@ -1,0 +1,12 @@
+﻿$PBExportHeader$dw_cancelacion_pagares_fechas.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\BMP\Mano.cur" )
+header(height=92 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=72 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=fpago dbname="carpagos.fpago" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"carpagos~" ) COLUMN(NAME=~"carpagos.fpago~")WHERE(    EXP1 =~"carpagos.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.situacion~"   OP =~"=~"    EXP2 =~"'1'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.fpago~"   OP =~"is not~"    EXP2 =~"null~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.banco~"   OP =~"is not~"    EXP2 =~"null~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"carpagos.banco~"   OP =~"<>~"    EXP2 =~"''~" )  GROUP(NAME=~"carpagos.fpago~")) ARG(NAME = ~"empresa~" TYPE = string) " arguments=(("empresa", string)) )
+text(band=header alignment="2" text="Fecha Pago"border="6" color="0" x="50" y="16" height="60" width="302"  name=fpago_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="64" y="8" height="60" width="274" format="[shortdate] [time]"  name=fpago editmask.mask="dd/mm/yy" editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

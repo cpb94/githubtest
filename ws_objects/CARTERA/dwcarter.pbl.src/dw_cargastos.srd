@@ -1,0 +1,16 @@
+﻿$PBExportHeader$dw_cargastos.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=5 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=229 color="536870912" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=empresa dbname="cargastos.empresa" )
+ column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codigo dbname="cargastos.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=texto dbname="cargastos.texto" )
+ column=(type=char(10) update=yes updatewhereclause=yes name=resumido dbname="cargastos.resumido" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"cargastos~" ) COLUMN(NAME=~"cargastos.empresa~") COLUMN(NAME=~"cargastos.codigo~") COLUMN(NAME=~"cargastos.texto~") COLUMN(NAME=~"cargastos.resumido~")WHERE(    EXP1 =~"cargastos.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"cargastos.codigo~"   OP =~"=~"    EXP2 =~":cod_gasto~" ) ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"cod_gasto~" TYPE = string) " update="cargastos" updatewhere=0 updatekeyinplace=yes arguments=(("cod_empresa", string),("cod_gasto", string)) )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="375" y="16" height="77" width="988" format="[general]"  name=texto edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=20 border="5" color="0" x="375" y="140" height="77" width="330" format="[general]"  name=resumido edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-11" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=detail alignment="1" text="Texto:"border="0" color="33554432" x="37" y="20" height="65" width="307"  name=texto_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=detail alignment="1" text="Resumido:"border="0" color="33554432" x="37" y="148" height="65" width="307"  name=resumido_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

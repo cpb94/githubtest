@@ -1,0 +1,294 @@
+﻿$PBExportHeader$report_imprime_pruebas_esmaltes.srd
+release 6;
+datawindow(units=3 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 635 print.margin.right = 635 print.margin.top = 635 print.margin.bottom = 635 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=yes )
+header(height=4577 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=582 color="536870912" )
+detail(height=687 color="536870912"  height.autosize=yes)
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=prueba dbname="comodin.prueba" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=tipo_cliente dbname="comodin.tipo_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=modelo dbname="comodin.modelo" )
+ column=(type=char(255) updatewhereclause=yes name=descripcion dbname="comodin.descripcion" )
+ column=(type=char(255) updatewhereclause=yes name=formato dbname="comodin.formato" )
+ column=(type=char(255) updatewhereclause=yes name=version dbname="comodin.version" )
+ column=(type=char(255) updatewhereclause=yes name=observaciones dbname="comodin.observaciones" )
+ column=(type=char(255) updatewhereclause=yes name=n_aplicacion dbname="comodin.n_aplicacion" )
+ column=(type=char(255) updatewhereclause=yes name=formula dbname="comodin.formula" )
+ column=(type=datetime updatewhereclause=yes name=f_alta dbname="comodin.f_alta" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion1 dbname="comodin.aplicacion1" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion1 dbname="comodin.nombre_aplicacion1" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad1 dbname="comodin.densidad1" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje1 dbname="comodin.gramaje1" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura1 dbname="comodin.temperatura1" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad1 dbname="comodin.cantidad1" )
+ column=(type=char(255) updatewhereclause=yes name=unidad1 dbname="comodin.unidad1" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion2 dbname="comodin.aplicacion2" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion2 dbname="comodin.nombre_aplicacion2" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad2 dbname="comodin.densidad2" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje2 dbname="comodin.gramaje2" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura2 dbname="comodin.temperatura2" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad2 dbname="comodin.cantidad2" )
+ column=(type=char(255) updatewhereclause=yes name=unidad2 dbname="comodin.unidad2" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion3 dbname="comodin.aplicacion3" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion3 dbname="comodin.nombre_aplicacion3" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad3 dbname="comodin.densidad3" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje3 dbname="comodin.gramaje3" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura3 dbname="comodin.temperatura3" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad3 dbname="comodin.cantidad3" )
+ column=(type=char(255) updatewhereclause=yes name=unidad3 dbname="comodin.unidad3" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion4 dbname="comodin.aplicacion4" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion4 dbname="comodin.nombre_aplicacion4" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad4 dbname="comodin.densidad4" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje4 dbname="comodin.gramaje4" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura4 dbname="comodin.temperatura4" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad4 dbname="comodin.cantidad4" )
+ column=(type=char(255) updatewhereclause=yes name=unidad4 dbname="comodin.unidad4" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion5 dbname="comodin.aplicacion5" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion5 dbname="comodin.nombre_aplicacion5" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad5 dbname="comodin.densidad5" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje5 dbname="comodin.gramaje5" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura5 dbname="comodin.temperatura5" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad5 dbname="comodin.cantidad5" )
+ column=(type=char(255) updatewhereclause=yes name=unidad5 dbname="comodin.unidad5" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion6 dbname="comodin.aplicacion6" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion6 dbname="comodin.nombre_aplicacion6" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad6 dbname="comodin.densidad6" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje6 dbname="comodin.gramaje6" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura6 dbname="comodin.temperatura6" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad6 dbname="comodin.cantidad6" )
+ column=(type=char(255) updatewhereclause=yes name=unidad6 dbname="comodin.unidad6" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion7 dbname="comodin.aplicacion7" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion7 dbname="comodin.nombre_aplicacion7" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad7 dbname="comodin.densidad7" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje7 dbname="comodin.gramaje7" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura7 dbname="comodin.temperatura7" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad7 dbname="comodin.cantidad7" )
+ column=(type=char(255) updatewhereclause=yes name=unidad7 dbname="comodin.unidad7" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion8 dbname="comodin.aplicacion8" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion8 dbname="comodin.nombre_aplicacion8" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad8 dbname="comodin.densidad8" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje8 dbname="comodin.gramaje8" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura8 dbname="comodin.temperatura8" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad8 dbname="comodin.cantidad8" )
+ column=(type=char(255) updatewhereclause=yes name=unidad8 dbname="comodin.unidad8" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion9 dbname="comodin.aplicacion9" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion9 dbname="comodin.nombre_aplicacion9" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad9 dbname="comodin.densidad9" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje9 dbname="comodin.gramaje9" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura9 dbname="comodin.temperatura9" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad9 dbname="comodin.cantidad9" )
+ column=(type=char(255) updatewhereclause=yes name=unidad9 dbname="comodin.unidad9" )
+ column=(type=char(255) updatewhereclause=yes name=aplicacion10 dbname="comodin.aplicacion10" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_aplicacion10 dbname="comodin.nombre_aplicacion10" )
+ column=(type=decimal(4) updatewhereclause=yes name=densidad10 dbname="comodin.densidad10" )
+ column=(type=decimal(4) updatewhereclause=yes name=gramaje10 dbname="comodin.gramaje10" )
+ column=(type=decimal(4) updatewhereclause=yes name=temperatura10 dbname="comodin.temperatura10" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad10 dbname="comodin.cantidad10" )
+ column=(type=char(255) updatewhereclause=yes name=unidad10 dbname="comodin.unidad10" )
+ retrieve="  SELECT empresa,
+			letras prueba,
+			letras cliente,
+			letras tipo_cliente,
+			letras modelo,
+			letras descripcion,
+			letras formato,
+			letras version,
+			letras observaciones,
+			letras n_aplicacion,
+			letras formula,
+         fecha f_alta,
+			letras aplicacion1,
+			letras nombre_aplicacion1,
+			numerico densidad1,
+			numerico gramaje1,
+			numerico temperatura1,
+			numerico cantidad1,
+			letras unidad1,
+			letras aplicacion2,
+			letras nombre_aplicacion2,
+			numerico densidad2,
+			numerico gramaje2,
+			numerico temperatura2,
+			numerico cantidad2,
+			letras unidad2,
+			letras aplicacion3,
+			letras nombre_aplicacion3,
+			numerico densidad3,
+			numerico gramaje3,
+			numerico temperatura3,
+			numerico cantidad3,
+			letras unidad3,
+			letras aplicacion4,
+			letras nombre_aplicacion4,
+			numerico densidad4,
+			numerico gramaje4,
+			numerico temperatura4,
+			numerico cantidad4,
+			letras unidad4,
+			letras aplicacion5,
+			letras nombre_aplicacion5,
+			numerico densidad5,
+			numerico gramaje5,
+			numerico temperatura5,
+			numerico cantidad5,
+			letras unidad5,
+			letras aplicacion6,
+			letras nombre_aplicacion6,
+			numerico densidad6,
+			numerico gramaje6,
+			numerico temperatura6,
+			numerico cantidad6,
+			letras unidad6,
+			letras aplicacion7,
+			letras nombre_aplicacion7,
+			numerico densidad7,
+			numerico gramaje7,
+			numerico temperatura7,
+			numerico cantidad7,
+			letras unidad7,
+			letras aplicacion8,
+			letras nombre_aplicacion8,
+			numerico densidad8,
+			numerico gramaje8,
+			numerico temperatura8,
+			numerico cantidad8,
+			letras unidad8,
+			letras aplicacion9,
+			letras nombre_aplicacion9,
+			numerico densidad9,
+			numerico gramaje9,
+			numerico temperatura9,
+			numerico cantidad9,
+			letras unidad9,
+			letras aplicacion10,
+			letras nombre_aplicacion10,
+			numerico densidad10,
+			numerico gramaje10,
+			numerico temperatura10,
+			numerico cantidad10,
+			letras unidad10
+    FROM comodin" )
+group(level=1 header.height=3122 trailer.height=0 by=("n_aplicacion" ) header.color="536870912" trailer.color="536870912" )
+report(band=header dataobject="report_cabecera" x="211" y="105" height="555" width="635" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes visible="1~t0"  slideup=directlyabove )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="926" y="132" height="370" width="264" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Cliente :"border="0" color="0" x="1058" y="2751" height="423" width="1402"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Soporte :"border="0" color="0" x="926" y="3280" height="423" width="1534"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="Fecha :"border="0" color="0" x="1217" y="3810" height="423" width="1243"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header.1 x1="52" y1="741" x2="52" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="79" y1="741" x2="19526" y2="741" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Aplicación "border="2" color="0" x="132" y="846" height="423" width="3122"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+line(band=header.1 x1="3333" y1="741" x2="3333" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="4947" y1="741" x2="4947" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="6588" y1="741" x2="6588" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+column(band=header.1 id=28 alignment="0" tabsequence=32766 border="0" color="0" x="6693" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header.1 x1="8175" y1="741" x2="8175" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="11403" y1="741" x2="11403" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="13017" y1="741" x2="13017" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+column(band=header.1 id=56 alignment="0" tabsequence=32766 border="0" color="0" x="13123" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=header.1 x1="14631" y1="741" x2="14631" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="79" y1="1323" x2="19526" y2="1323" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Densidad"border="2" color="0" x="132" y="1428" height="423" width="3122"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=22 alignment="1" tabsequence=32766 border="0" color="0" x="5080" y="1428" height="423" width="1428" format="###,###.00"  name=densidad2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Gramaje"border="2" color="0" x="132" y="2011" height="423" width="3122"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=23 alignment="1" tabsequence=32766 border="0" color="0" x="5080" y="2011" height="423" width="1428" format="###,###.00"  name=gramaje2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header.1 alignment="0" text="Temperatura"border="2" color="0" x="132" y="2593" height="423" width="3122"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+line(band=header.1 x1="79" y1="3069" x2="19526" y2="3069" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="9816" y1="741" x2="9816" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="16245" y1="741" x2="16245" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="17859" y1="741" x2="17859" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=header.1 x1="19526" y1="741" x2="19526" y2="3095" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=header.1 alignment="0" expression="case(  n_aplicacion  when ~"0~" then ~"Engobe~" when ~"1~" then ~"1ª Aplicación~" when ~"2~" then ~"2ª Aplicación~" when ~"3~" then ~"3ª Aplicación~")"border="2" color="0" x="132" y="238" height="423" width="3122" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" font.italic="1" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="1"border="2" color="0" x="3439" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="2"border="2" color="0" x="5080" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="3"border="2" color="0" x="6693" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="4"border="2" color="0" x="8307" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="5"border="2" color="0" x="9921" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="6"border="2" color="0" x="11509" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="7"border="2" color="0" x="13123" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="8"border="2" color="0" x="14737" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="9"border="2" color="0" x="16351" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header.1 alignment="2" text="10"border="2" color="0" x="17965" y="238" height="423" width="1428"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=header.1 id=31 alignment="1" tabsequence=32766 border="0" color="0" x="6667" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=35 alignment="0" tabsequence=32766 border="0" color="0" x="8281" y="846" height="423" width="1455" format="[general]"  name=nombre_aplicacion4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=42 alignment="0" tabsequence=32766 border="0" color="0" x="9921" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=38 alignment="1" tabsequence=32766 border="0" color="0" x="8281" y="2593" height="423" width="1455" format="###,###.00"  name=temperatura4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=45 alignment="1" tabsequence=32766 border="0" color="0" x="9921" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=49 alignment="0" tabsequence=32766 border="0" color="0" x="11509" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=29 alignment="1" tabsequence=32766 border="0" color="0" x="6693" y="1428" height="423" width="1428" format="###,###.00"  name=densidad3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=43 alignment="1" tabsequence=32766 border="0" color="0" x="9921" y="1428" height="423" width="1428" format="###,###.00"  name=densidad5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=37 alignment="1" tabsequence=32766 border="0" color="0" x="8281" y="2011" height="423" width="1455" format="###,###.00"  name=gramaje4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=44 alignment="1" tabsequence=32766 border="0" color="0" x="9921" y="2011" height="423" width="1428" format="###,###.00"  name=gramaje5 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=50 alignment="1" tabsequence=32766 border="0" color="0" x="11509" y="1428" height="423" width="1428" format="###,###.00"  name=densidad6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=51 alignment="1" tabsequence=32766 border="0" color="0" x="11509" y="2011" height="423" width="1428" format="[general]"  name=gramaje6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=52 alignment="1" tabsequence=32766 border="0" color="0" x="11509" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=57 alignment="1" tabsequence=32766 border="0" color="0" x="13123" y="1428" height="423" width="1428" format="###,###.00"  name=densidad7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=63 alignment="0" tabsequence=32766 border="0" color="0" x="14737" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=58 alignment="1" tabsequence=32766 border="0" color="0" x="13123" y="2011" height="423" width="1428" format="###,###.00"  name=gramaje7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=59 alignment="1" tabsequence=32766 border="0" color="0" x="13123" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=65 alignment="1" tabsequence=32766 border="0" color="0" x="14737" y="2011" height="423" width="1428" format="[general]"  name=gramaje8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=64 alignment="1" tabsequence=32766 border="0" color="0" x="14737" y="1428" height="423" width="1428" format="###,###.00"  name=densidad8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=66 alignment="1" tabsequence=32766 border="0" color="0" x="14737" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=70 alignment="0" tabsequence=32766 border="0" color="0" x="16351" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=71 alignment="1" tabsequence=32766 border="0" color="0" x="16351" y="1428" height="423" width="1428" format="###,###.00"  name=densidad9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=72 alignment="1" tabsequence=32766 border="0" color="0" x="16351" y="1984" height="423" width="1428" format="###,###.00"  name=gramaje9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=77 alignment="0" tabsequence=32766 border="0" color="0" x="17991" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=78 alignment="1" tabsequence=32766 border="0" color="0" x="17991" y="1428" height="423" width="1428" format="###,###.00"  name=densidad10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=79 alignment="1" tabsequence=32766 border="0" color="0" x="17991" y="1984" height="423" width="1428" format="###,###.00"  name=gramaje10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=73 alignment="1" tabsequence=32766 border="0" color="0" x="16351" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=header.1 x1="79" y1="2487" x2="19526" y2="2487" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+column(band=header.1 id=80 alignment="1" tabsequence=32766 border="0" color="0" x="17991" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=21 alignment="0" tabsequence=32766 border="0" color="0" x="5080" y="846" height="423" width="1428" format="[general]"  name=nombre_aplicacion2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=header.1 x1="79" y1="1905" x2="19526" y2="1905" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+column(band=header.1 id=36 alignment="1" tabsequence=32766 border="0" color="0" x="8281" y="1428" height="423" width="1455" format="###,###.00"  name=densidad4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=14 alignment="0" tabsequence=32766 border="0" color="0" x="3439" y="846" height="423" width="1402" format="[general]"  name=nombre_aplicacion1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=30 alignment="1" tabsequence=32766 border="0" color="0" x="6693" y="2011" height="423" width="1428" format="###,###.00"  name=gramaje3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=15 alignment="1" tabsequence=32766 border="0" color="0" x="3439" y="1402" height="423" width="1402" format="###,###.00"  name=densidad1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=24 alignment="1" tabsequence=32766 border="0" color="0" x="5080" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura2 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=16 alignment="1" tabsequence=32766 border="0" color="0" x="3439" y="2011" height="423" width="1428" format="###,###.00"  name=gramaje1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header.1 id=17 alignment="1" tabsequence=32766 border="0" color="0" x="3439" y="2593" height="423" width="1428" format="###,###.00"  name=temperatura1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+line(band=detail x1="4974" y1="26" x2="4974" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="3333" y1="26" x2="3333" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="52" y1="608" x2="19526" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="6588" y1="26" x2="6588" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="8202" y1="26" x2="8202" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="9842" y1="26" x2="9842" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="11430" y1="26" x2="11430" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="13043" y1="26" x2="13043" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="14657" y1="26" x2="14657" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="16271" y1="26" x2="16271" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="17885" y1="26" x2="17885" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="19526" y1="26" x2="19526" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="52" y1="26" x2="52" y2="608" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+line(band=detail x1="79" y1="26" x2="19526" y2="26" pen.style="0" pen.width="26" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_formulacion_laboratorio( empresa , formula )"border="0" color="0" x="132" y="105" height="423" width="3122" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=53 alignment="1" tabsequence=32766 border="0" color="0" x="11509" y="105" height="423" width="899" format="###,###.00"  name=cantidad6 edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=46 alignment="1" tabsequence=32766 border="0" color="0" x="9921" y="105" height="423" width="899" format="###,###.00"  name=cantidad5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=39 alignment="1" tabsequence=32766 border="0" color="0" x="8281" y="105" height="423" width="899" format="###,###.00"  name=cantidad4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=53 alignment="1" tabsequence=32766 border="0" color="0" x="13123" y="105" height="423" width="899" format="###,###.00" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=67 alignment="1" tabsequence=32766 border="0" color="0" x="14737" y="105" height="423" width="899" format="###,###.00"  name=cantidad8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=32 alignment="1" tabsequence=32766 border="0" color="0" x="6693" y="105" height="423" width="899" format="###,###.00"  name=cantidad3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=40 alignment="0" tabsequence=32766 border="0" color="0" x="9286" y="105" height="423" width="476" format="[general]"  name=unidad4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=47 alignment="0" tabsequence=32766 border="0" color="0" x="10900" y="105" height="423" width="476" format="[general]"  name=unidad5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=54 alignment="0" tabsequence=32766 border="0" color="0" x="12488" y="105" height="423" width="476" format="[general]"  name=unidad6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=61 alignment="0" tabsequence=32766 border="0" color="0" x="14128" y="105" height="423" width="476" format="[general]"  name=unidad7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=68 alignment="0" tabsequence=32766 border="0" color="0" x="15716" y="105" height="423" width="476" format="[general]"  name=unidad8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=33 alignment="0" tabsequence=32766 border="0" color="0" x="7672" y="105" height="423" width="476" format="[general]"  name=unidad3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=74 alignment="1" tabsequence=32766 border="0" color="0" x="16351" y="105" height="423" width="899" format="###,###.00"  name=cantidad9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=81 alignment="1" tabsequence=32766 border="0" color="0" x="17991" y="105" height="423" width="899" format="[general]"  name=cantidad10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=75 alignment="0" tabsequence=32766 border="0" color="0" x="17356" y="105" height="423" width="476" format="[general]"  name=unidad9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=82 alignment="0" tabsequence=32766 border="0" color="0" x="18970" y="105" height="423" width="476" format="[general]"  name=unidad10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=25 alignment="1" tabsequence=32766 border="0" color="0" x="5053" y="105" height="423" width="899" format="###,###.00"  name=cantidad2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=18 alignment="1" tabsequence=32766 border="0" color="0" x="3439" y="105" height="423" width="899" format="###,###.00"  name=cantidad1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=26 alignment="0" tabsequence=32766 border="0" color="0" x="6058" y="105" height="423" width="476" format="[general]"  name=unidad2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=19 alignment="0" tabsequence=32766 border="0" color="0" x="4445" y="105" height="423" width="423" format="[general]"  name=unidad1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=footer alignment="2" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="211" y="106" height="423" width="19420" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header alignment="2" text="PRUEBAS DE ESMALTES"border="0" color="0" x="211" y="1111" height="661" width="19420"  font.face="Arial" font.height="-16" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+rectangle(band=header x="185" y="1878" height="2592" width="19446" brush.hatch="7" brush.color="553648127" pen.style="0" pen.width="26" pen.color="0"  background.mode="2" background.color="0" )
+text(band=header alignment="2" text="Referencia :"border="0" color="0" x="291" y="1984" height="608" width="2989"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=6 alignment="0" tabsequence=32766 border="0" color="0" x="3360" y="1984" height="635" width="16166" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="f_nombre_cliente_laboratorio( empresa ,  cliente ,   tipo_cliente   )"border="0" color="0" x="2566" y="2751" height="423" width="16589" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="trim(formato)"border="0" color="0" x="2566" y="3280" height="423" width="16615" format="[general]"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=12 alignment="2" tabsequence=32766 border="0" color="0" x="2566" y="3810" height="423" width="2063" format="dd/mm/yy"  name=f_alta edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

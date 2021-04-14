@@ -1,0 +1,32 @@
+﻿$PBExportHeader$f_cambio_venfac.srf
+global type f_cambio_venfac from function_object
+end type
+
+forward prototypes
+global function decimal f_cambio_venfac (string empresa, integer anyo, decimal factura)
+end prototypes
+
+global function decimal f_cambio_venfac (string empresa, integer anyo, decimal factura);string sel
+datastore ds
+dec cambio
+
+sel="	SELECT cambio " + &
+  	 " FROM  venfac  " +&
+	 " WHERE venfac.empresa  = '"+codigo_empresa+"' "+&
+	 " AND   venfac.anyo     = "+string(anyo,'#####')+&
+	 " AND   venfac.factura  = "+string(factura,'########')
+	
+//ds=f_cargar_cursor(sel)
+f_cargar_cursor_nuevo(sel,ds)
+
+if ds.rowcount()>0 then 
+	cambio=ds.object.cambio[1]
+else
+	cambio=0
+end if
+
+destroy ds
+
+Return cambio
+end function
+

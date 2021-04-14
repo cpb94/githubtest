@@ -1,0 +1,137 @@
+﻿$PBExportHeader$f_elimina_albaran_de_cmr.srf
+global type f_elimina_albaran_de_cmr from function_object
+end type
+
+forward prototypes
+global function boolean f_elimina_albaran_de_cmr (string arg_empresa, long arg_ejercicio, string arg_cmr, string arg_ventaspromocion, integer arg_anyo_albaran, long arg_albaran)
+end prototypes
+
+global function boolean f_elimina_albaran_de_cmr (string arg_empresa, long arg_ejercicio, string arg_cmr, string arg_ventaspromocion, integer arg_anyo_albaran, long arg_albaran);string   ls_cliente, ls_transportista, ls_matricula, ls_cond_entrega, ls_envio , ls_remolque,ls_venconductores_codigo
+dec      ld_kilos,ld_kilos_muestras
+long     ll_pallets,ll_pallets_muestras,ll_albaranes,ll_albaranes_muestras
+long     ll_albaranes_en_cmr,ll_existe_albaran
+boolean  lb_correcto = true
+
+if arg_ventaspromocion = 'V' then
+	
+	ll_existe_albaran = 0
+	
+	SELECT isnull(count(*),0)
+	INTO   :ll_existe_albaran
+	FROM   venalb
+	WHERE	 empresa	= :arg_empresa
+	AND	 anyo		= :arg_anyo_albaran
+	AND	 albaran	= :arg_albaran;	
+	
+	
+	if ll_existe_albaran = 1 then
+		SELECT	isnull(cliente,''), isnull(transportista,''), isnull(matricula,''), isnull(cod_entrega,''), isnull(peso,0), isnull(envio,''), isnull(remolque,''), isnull(venconductores_codigo,'')
+		INTO		:ls_cliente, :ls_transportista, :ls_matricula, :ls_cond_entrega, :ld_kilos, :ls_envio, :ls_remolque, :ls_venconductores_codigo
+		FROM		venalb
+		WHERE		empresa	= :arg_empresa
+		AND		anyo		= :arg_anyo_albaran
+		AND		albaran	= :arg_albaran;	
+		
+		SELECT	isnull(sum(pallets),0)
+		INTO		:ll_pallets
+		FROM		venlialb
+		WHERE		empresa	= :arg_empresa
+		AND		anyo		= :arg_anyo_albaran
+		AND		albaran	= :arg_albaran;		
+	else
+		SELECT	isnull(venfac.cliente,''), isnull(venlifac.transportista,''), isnull(venlifac.matricula,''), isnull(venfac.cod_entrega,''), isnull(sum(venlifac.peso),0), isnull(venfac.envio,''), isnull(venlifac.remolque,''), isnull(venlifac.venconductores_codigo,''), isnull(sum(venlifac.pallets),0)
+		INTO		:ls_cliente, :ls_transportista, :ls_matricula, :ls_cond_entrega, :ld_kilos, :ls_envio, :ls_remolque, :ls_venconductores_codigo , :ll_pallets
+		FROM		venlifac,venfac
+		WHERE		venlifac.empresa	    = venfac.empresa
+		AND		venlifac.anyo         = venfac.anyo
+		AND		venlifac.factura	    = venfac.factura
+		and      venlifac.empresa	    = :arg_empresa
+		AND		venlifac.anyo_albaran = :arg_anyo_albaran
+		AND		venlifac.albaran	    = :arg_albaran
+		group by isnull(venfac.cliente,''), isnull(venlifac.transportista,''), isnull(venlifac.matricula,''), isnull(venfac.cod_entrega,''), isnull(venfac.envio,''), isnull(venlifac.remolque,''), isnull(venlifac.venconductores_codigo,'');	
+	end if
+	
+	
+	
+	ld_kilos_muestras     = 0
+	ll_pallets_muestras   = 0
+	ll_albaranes          = 1
+	ll_albaranes_muestras = 0
+else
+	
+	SELECT	isnull(cliente,''), isnull(transportista,''), isnull(matricula,''), '', isnull(peso_bruto,0), '', isnull(remolque,''), isnull(bultos,0), isnull(venconductores_codigo,'')
+	INTO		:ls_cliente, :ls_transportista, :ls_matricula, :ls_cond_entrega, :ld_kilos_muestras, :ls_envio, :ls_remolque , :ll_pallets_muestras, :ls_venconductores_codigo
+	FROM		prom_cabecera_albaran
+	WHERE		empresa	= :arg_empresa
+	AND		anyo		= :arg_anyo_albaran
+	AND		albaran	= :arg_albaran;
+
+	ld_kilos              = 0
+	ll_pallets            = 0
+	ll_albaranes          = 0
+	ll_albaranes_muestras = 1	
+end if
+
+select isnull(count(*),0)
+into   :ll_albaranes_en_cmr
+from   ven_cmr_lineas
+where  ven_cmr_lineas.empresa   = :arg_empresa
+and    ven_cmr_lineas.ejercicio = :arg_ejercicio
+and    ven_cmr_lineas.codigo    = :arg_cmr;
+
+if ll_albaranes_en_cmr = 1 then
+	update ven_cmr_cabecera
+	set    peso_bruto          = 0,
+	 		 bultos              = 0,
+	 		 peso_bruto_muestras = 0,
+	 		 bultos_muestras     = 0,
+			 albaranes           = 0,
+			 albaranes_muestras  = 0
+	where  empresa   = :arg_empresa
+	and    ejercicio = :arg_ejercicio
+	and    codigo    = :arg_cmr;
+	
+	if sqlca.sqlcode <> 0 then
+		lb_correcto = false	
+	end if
+else
+	update ven_cmr_cabecera
+	set    peso_bruto          = peso_bruto - :ld_kilos,
+	 		 bultos              = bultos - :ll_pallets,
+	 		 peso_bruto_muestras = peso_bruto_muestras - :ld_kilos_muestras,
+	 		 bultos_muestras     = bultos_muestras - :ll_pallets_muestras,
+			 albaranes           = albaranes - :ll_albaranes,
+			 albaranes_muestras  = albaranes_muestras - :ll_albaranes_muestras    			  
+	where  empresa   = :arg_empresa
+	and    ejercicio = :arg_ejercicio
+	and    codigo    = :arg_cmr;
+	
+	if sqlca.sqlcode <> 0 then
+		lb_correcto = false	
+	end if	
+end if
+
+delete ven_cmr_lineas
+where empresa           = :arg_empresa
+and   ejercicio         = :arg_ejercicio
+and   codigo            = :arg_cmr
+and   ventaspromocion   = :arg_ventaspromocion
+and   ejercicio_albaran = :arg_anyo_albaran
+and   albaran           = :arg_albaran;
+	
+if sqlca.sqlcode <> 0 then
+	lb_correcto = false	
+end if	
+	
+if lb_correcto then
+	commit;
+else
+	rollback;
+	messagebox("¡Error!","Se ha producido un error al eliminar el albarán "+string(arg_albaran,"#####0")+" al CMR.")
+end if
+
+return lb_correcto
+
+
+end function
+

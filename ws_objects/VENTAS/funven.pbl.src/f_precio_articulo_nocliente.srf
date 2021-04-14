@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_precio_articulo_nocliente.srf
+global type f_precio_articulo_nocliente from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo_nocliente (string empresa, string cliente, string articulo, string calidad, string tarifa)
+end prototypes
+
+global function decimal f_precio_articulo_nocliente (string empresa, string cliente, string articulo, string calidad, string tarifa);Decimal{2} var_precio
+String var_cliente,var_empresa,var_tarifa,var_articulo,var_calidad,var_familia,var_formato
+Datetime   var_fecha
+ 		
+	   SELECT ventarifas.activa INTO :var_fecha  
+    	FROM   ventarifas  
+   	WHERE  ventarifas.empresa = :empresa 
+		AND    ventarifas.codigo  = :tarifa;
+		var_precio = f_precio_articulo_venlintarifas(empresa,tarifa,var_fecha,articulo,calidad)
+
+Return var_precio
+end function
+

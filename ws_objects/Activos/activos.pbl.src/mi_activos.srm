@@ -1,0 +1,1060 @@
+﻿$PBExportHeader$mi_activos.srm
+forward
+global type mi_activos from mc_menu_sheets
+end type
+type m_activosfijos from menu within m_programas
+end type
+type m_mntoelementos from menu within m_activosfijos
+end type
+type m_bajadeelementos from menu within m_activosfijos
+end type
+type m_mntoamortizaciones from menu within m_activosfijos
+end type
+type m_-10 from menu within m_activosfijos
+end type
+type m_generacinamortizaciones from menu within m_activosfijos
+end type
+type m_amortizacionesdeunperodo from menu within m_generacinamortizaciones
+end type
+type m_plandeamortizaciones from menu within m_generacinamortizaciones
+end type
+type m_eliminarplandeamortizaciones from menu within m_generacinamortizaciones
+end type
+type m_generacinamortizaciones from menu within m_activosfijos
+m_amortizacionesdeunperodo m_amortizacionesdeunperodo
+m_plandeamortizaciones m_plandeamortizaciones
+m_eliminarplandeamortizaciones m_eliminarplandeamortizaciones
+end type
+type m_contabilizacinamortizaciones from menu within m_activosfijos
+end type
+type m_-12 from menu within m_activosfijos
+end type
+type m_mantenimientos1 from menu within m_activosfijos
+end type
+type m_parmetros from menu within m_mantenimientos1
+end type
+type m_1erdgito from menu within m_mantenimientos1
+end type
+type m_2dgito from menu within m_mantenimientos1
+end type
+type m_3erdgito from menu within m_mantenimientos1
+end type
+type m_4dgito from menu within m_mantenimientos1
+end type
+type m_familias from menu within m_mantenimientos1
+end type
+type m_bienes from menu within m_mantenimientos1
+end type
+type m_clasesdeinmobilizado from menu within m_mantenimientos1
+end type
+type m_tiposamortizacin from menu within m_mantenimientos1
+end type
+type m_ubicaciones from menu within m_mantenimientos1
+end type
+type m_mantenimientos1 from menu within m_activosfijos
+m_parmetros m_parmetros
+m_1erdgito m_1erdgito
+m_2dgito m_2dgito
+m_3erdgito m_3erdgito
+m_4dgito m_4dgito
+m_familias m_familias
+m_bienes m_bienes
+m_clasesdeinmobilizado m_clasesdeinmobilizado
+m_tiposamortizacin m_tiposamortizacin
+m_ubicaciones m_ubicaciones
+end type
+type m_listados1 from menu within m_activosfijos
+end type
+type m_fichaelemento from menu within m_listados1
+end type
+type m_detalleactivosfijos from menu within m_listados1
+end type
+type m_diariomovimientos from menu within m_listados1
+end type
+type m_bajasdeunperodo from menu within m_listados1
+end type
+type m_amortporejercicios from menu within m_listados1
+end type
+type m_amortfiscal from menu within m_listados1
+end type
+type m_2 from menu within m_listados1
+end type
+type m_consultaactivos from menu within m_listados1
+end type
+type m_listados1 from menu within m_activosfijos
+m_fichaelemento m_fichaelemento
+m_detalleactivosfijos m_detalleactivosfijos
+m_diariomovimientos m_diariomovimientos
+m_bajasdeunperodo m_bajasdeunperodo
+m_amortporejercicios m_amortporejercicios
+m_amortfiscal m_amortfiscal
+m_2 m_2
+m_consultaactivos m_consultaactivos
+end type
+type m_activosfijos from menu within m_programas
+m_mntoelementos m_mntoelementos
+m_bajadeelementos m_bajadeelementos
+m_mntoamortizaciones m_mntoamortizaciones
+m_-10 m_-10
+m_generacinamortizaciones m_generacinamortizaciones
+m_contabilizacinamortizaciones m_contabilizacinamortizaciones
+m_-12 m_-12
+m_mantenimientos1 m_mantenimientos1
+m_listados1 m_listados1
+end type
+type m_programas from mc_menu_sheets`m_programas within mi_activos
+m_activosfijos m_activosfijos
+end type
+end forward
+
+global type mi_activos from mc_menu_sheets
+end type
+global mi_activos mi_activos
+
+on mi_activos.create
+mi_activos=this
+call super::create
+end on
+
+on mi_activos.destroy
+call super::destroy
+end on
+
+type m_programas from mc_menu_sheets`m_programas within mi_activos
+m_activosfijos m_activosfijos
+end type
+
+on m_programas.create
+call super::create
+this.m_activosfijos=create m_activosfijos
+this.Item[UpperBound(this.Item)+1]=this.m_activosfijos
+end on
+
+on m_programas.destroy
+call super::destroy
+destroy(this.m_activosfijos)
+end on
+
+type m_listados from mc_menu_sheets`m_listados within mi_activos
+end type
+
+on m_listados.create
+call super::create
+this.text = "&Consultas y Listados"
+end on
+
+on m_listados.destroy
+call super::destroy
+end on
+
+type m_opciones from mc_menu_sheets`m_opciones within mi_activos
+end type
+
+on m_opciones.create
+call super::create
+end on
+
+on m_opciones.destroy
+call super::destroy
+end on
+
+type m_ordenar from mc_menu_sheets`m_ordenar within m_opciones
+end type
+
+on m_ordenar.create
+call super::create
+end on
+
+on m_ordenar.destroy
+call super::destroy
+end on
+
+type m_-3 from mc_menu_sheets`m_-3 within m_opciones
+end type
+
+on m_-3.create
+call super::create
+end on
+
+on m_-3.destroy
+call super::destroy
+end on
+
+type m_setupimpresora from mc_menu_sheets`m_setupimpresora within m_opciones
+end type
+
+on m_setupimpresora.create
+call super::create
+end on
+
+on m_setupimpresora.destroy
+call super::destroy
+end on
+
+type m_imprimir from mc_menu_sheets`m_imprimir within m_opciones
+end type
+
+on m_imprimir.create
+call super::create
+end on
+
+on m_imprimir.destroy
+call super::destroy
+end on
+
+type m_-2 from mc_menu_sheets`m_-2 within m_opciones
+end type
+
+on m_-2.create
+call super::create
+end on
+
+on m_-2.destroy
+call super::destroy
+end on
+
+type m_barraherramientas from mc_menu_sheets`m_barraherramientas within m_opciones
+end type
+
+on m_barraherramientas.create
+call super::create
+end on
+
+on m_barraherramientas.destroy
+call super::destroy
+end on
+
+type m_imprimirpantalla from mc_menu_sheets`m_imprimirpantalla within m_opciones
+end type
+
+on m_imprimirpantalla.create
+call super::create
+end on
+
+on m_imprimirpantalla.destroy
+call super::destroy
+end on
+
+type m_utilidades from mc_menu_sheets`m_utilidades within mi_activos
+end type
+
+on m_utilidades.create
+call super::create
+end on
+
+on m_utilidades.destroy
+call super::destroy
+end on
+
+type m_agendatelefnica from mc_menu_sheets`m_agendatelefnica within m_utilidades
+end type
+
+on m_agendatelefnica.create
+call super::create
+end on
+
+on m_agendatelefnica.destroy
+call super::destroy
+end on
+
+type m_mapadecaracteres from mc_menu_sheets`m_mapadecaracteres within m_utilidades
+end type
+
+on m_mapadecaracteres.create
+call super::create
+end on
+
+on m_mapadecaracteres.destroy
+call super::destroy
+end on
+
+type m_calculadora from mc_menu_sheets`m_calculadora within m_utilidades
+end type
+
+on m_calculadora.create
+call super::create
+end on
+
+on m_calculadora.destroy
+call super::destroy
+end on
+
+type m_mensajes from mc_menu_sheets`m_mensajes within m_utilidades
+end type
+
+on m_mensajes.create
+call super::create
+end on
+
+on m_mensajes.destroy
+call super::destroy
+end on
+
+type m_ventana from mc_menu_sheets`m_ventana within mi_activos
+end type
+
+on m_ventana.create
+call super::create
+end on
+
+on m_ventana.destroy
+call super::destroy
+end on
+
+type m_vertical from mc_menu_sheets`m_vertical within m_ventana
+end type
+
+on m_vertical.create
+call super::create
+end on
+
+on m_vertical.destroy
+call super::destroy
+end on
+
+type m_horizontal from mc_menu_sheets`m_horizontal within m_ventana
+end type
+
+on m_horizontal.create
+call super::create
+end on
+
+on m_horizontal.destroy
+call super::destroy
+end on
+
+type m_mosaico from mc_menu_sheets`m_mosaico within m_ventana
+end type
+
+on m_mosaico.create
+call super::create
+end on
+
+on m_mosaico.destroy
+call super::destroy
+end on
+
+type m_cascada from mc_menu_sheets`m_cascada within m_ventana
+end type
+
+on m_cascada.create
+call super::create
+end on
+
+on m_cascada.destroy
+call super::destroy
+end on
+
+type m_- from mc_menu_sheets`m_- within m_ventana
+end type
+
+on m_-.create
+call super::create
+end on
+
+on m_-.destroy
+call super::destroy
+end on
+
+type m_iconos from mc_menu_sheets`m_iconos within m_ventana
+end type
+
+on m_iconos.create
+call super::create
+end on
+
+on m_iconos.destroy
+call super::destroy
+end on
+
+type m_ayuda from mc_menu_sheets`m_ayuda within mi_activos
+end type
+
+on m_ayuda.create
+call super::create
+end on
+
+on m_ayuda.destroy
+call super::destroy
+end on
+
+type m_indice from mc_menu_sheets`m_indice within m_ayuda
+end type
+
+on m_indice.create
+call super::create
+end on
+
+on m_indice.destroy
+call super::destroy
+end on
+
+type m_buscarayudasobre from mc_menu_sheets`m_buscarayudasobre within m_ayuda
+end type
+
+on m_buscarayudasobre.create
+call super::create
+end on
+
+on m_buscarayudasobre.destroy
+call super::destroy
+end on
+
+type m_ventanaactual from mc_menu_sheets`m_ventanaactual within m_ayuda
+end type
+
+on m_ventanaactual.create
+call super::create
+end on
+
+on m_ventanaactual.destroy
+call super::destroy
+end on
+
+type m_usodelaayuda from mc_menu_sheets`m_usodelaayuda within m_ayuda
+end type
+
+on m_usodelaayuda.create
+call super::create
+end on
+
+on m_usodelaayuda.destroy
+call super::destroy
+end on
+
+type m_-1 from mc_menu_sheets`m_-1 within m_ayuda
+end type
+
+on m_-1.create
+call super::create
+end on
+
+on m_-1.destroy
+call super::destroy
+end on
+
+type m_acerca from mc_menu_sheets`m_acerca within m_ayuda
+end type
+
+on m_acerca.create
+call super::create
+end on
+
+on m_acerca.destroy
+call super::destroy
+end on
+
+type m_informacindeventana from mc_menu_sheets`m_informacindeventana within m_ayuda
+end type
+
+on m_informacindeventana.create
+call super::create
+end on
+
+on m_informacindeventana.destroy
+call super::destroy
+end on
+
+type m_salir1 from mc_menu_sheets`m_salir1 within mi_activos
+end type
+
+on m_salir1.create
+call super::create
+end on
+
+on m_salir1.destroy
+call super::destroy
+end on
+
+type m_activosfijos from menu within m_programas
+m_mntoelementos m_mntoelementos
+m_bajadeelementos m_bajadeelementos
+m_mntoamortizaciones m_mntoamortizaciones
+m_-10 m_-10
+m_generacinamortizaciones m_generacinamortizaciones
+m_contabilizacinamortizaciones m_contabilizacinamortizaciones
+m_-12 m_-12
+m_mantenimientos1 m_mantenimientos1
+m_listados1 m_listados1
+end type
+
+on m_activosfijos.create
+call super::create
+this.text = "Activos Fijos"
+this.m_mntoelementos=create m_mntoelementos
+this.m_bajadeelementos=create m_bajadeelementos
+this.m_mntoamortizaciones=create m_mntoamortizaciones
+this.m_-10=create m_-10
+this.m_generacinamortizaciones=create m_generacinamortizaciones
+this.m_contabilizacinamortizaciones=create m_contabilizacinamortizaciones
+this.m_-12=create m_-12
+this.m_mantenimientos1=create m_mantenimientos1
+this.m_listados1=create m_listados1
+this.Item[UpperBound(this.Item)+1]=this.m_mntoelementos
+this.Item[UpperBound(this.Item)+1]=this.m_bajadeelementos
+this.Item[UpperBound(this.Item)+1]=this.m_mntoamortizaciones
+this.Item[UpperBound(this.Item)+1]=this.m_-10
+this.Item[UpperBound(this.Item)+1]=this.m_generacinamortizaciones
+this.Item[UpperBound(this.Item)+1]=this.m_contabilizacinamortizaciones
+this.Item[UpperBound(this.Item)+1]=this.m_-12
+this.Item[UpperBound(this.Item)+1]=this.m_mantenimientos1
+this.Item[UpperBound(this.Item)+1]=this.m_listados1
+end on
+
+on m_activosfijos.destroy
+call super::destroy
+destroy(this.m_mntoelementos)
+destroy(this.m_bajadeelementos)
+destroy(this.m_mntoamortizaciones)
+destroy(this.m_-10)
+destroy(this.m_generacinamortizaciones)
+destroy(this.m_contabilizacinamortizaciones)
+destroy(this.m_-12)
+destroy(this.m_mantenimientos1)
+destroy(this.m_listados1)
+end on
+
+type m_mntoelementos from menu within m_activosfijos
+end type
+
+on m_mntoelementos.create
+call super::create
+this.text = "Mnto. Elementos"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_bienesdet,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_mntoelementos.destroy
+call super::destroy
+end on
+
+type m_bajadeelementos from menu within m_activosfijos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_act_bajas,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_bajadeelementos.create
+call super::create
+this.text = "Baja de Elementos"
+end on
+
+on m_bajadeelementos.destroy
+call super::destroy
+end on
+
+type m_mntoamortizaciones from menu within m_activosfijos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_amortizaciones,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_mntoamortizaciones.create
+call super::create
+this.text = "Mnto. Amortizaciones"
+end on
+
+on m_mntoamortizaciones.destroy
+call super::destroy
+end on
+
+type m_-10 from menu within m_activosfijos
+end type
+
+on m_-10.create
+call super::create
+this.text = "-"
+end on
+
+on m_-10.destroy
+call super::destroy
+end on
+
+type m_generacinamortizaciones from menu within m_activosfijos
+m_amortizacionesdeunperodo m_amortizacionesdeunperodo
+m_plandeamortizaciones m_plandeamortizaciones
+m_eliminarplandeamortizaciones m_eliminarplandeamortizaciones
+end type
+
+on m_generacinamortizaciones.create
+call super::create
+this.text = "Generación Amortizaciones"
+this.m_amortizacionesdeunperodo=create m_amortizacionesdeunperodo
+this.m_plandeamortizaciones=create m_plandeamortizaciones
+this.m_eliminarplandeamortizaciones=create m_eliminarplandeamortizaciones
+this.Item[UpperBound(this.Item)+1]=this.m_amortizacionesdeunperodo
+this.Item[UpperBound(this.Item)+1]=this.m_plandeamortizaciones
+this.Item[UpperBound(this.Item)+1]=this.m_eliminarplandeamortizaciones
+end on
+
+on m_generacinamortizaciones.destroy
+call super::destroy
+destroy(this.m_amortizacionesdeunperodo)
+destroy(this.m_plandeamortizaciones)
+destroy(this.m_eliminarplandeamortizaciones)
+end on
+
+type m_amortizacionesdeunperodo from menu within m_generacinamortizaciones
+end type
+
+on m_amortizacionesdeunperodo.create
+call super::create
+this.text = "Amortizaciones de un Período"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_act_amortizaciones,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_amortizacionesdeunperodo.destroy
+call super::destroy
+end on
+
+type m_plandeamortizaciones from menu within m_generacinamortizaciones
+end type
+
+on m_plandeamortizaciones.create
+call super::create
+this.text = "Plan de Amortizaciones"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_plan_amortizaciones,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_plandeamortizaciones.destroy
+call super::destroy
+end on
+
+type m_eliminarplandeamortizaciones from menu within m_generacinamortizaciones
+end type
+
+on m_eliminarplandeamortizaciones.create
+call super::create
+this.text = "Eliminar Plan de Amortizaciones"
+end on
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_borra_plan_amortizaciones,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_eliminarplandeamortizaciones.destroy
+call super::destroy
+end on
+
+type m_contabilizacinamortizaciones from menu within m_activosfijos
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_act_meses,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_contabilizacinamortizaciones.create
+call super::create
+this.text = "Contabilización Amortizaciones"
+end on
+
+on m_contabilizacinamortizaciones.destroy
+call super::destroy
+end on
+
+type m_-12 from menu within m_activosfijos
+end type
+
+on m_-12.create
+call super::create
+this.text = "-"
+end on
+
+on m_-12.destroy
+call super::destroy
+end on
+
+type m_mantenimientos1 from menu within m_activosfijos
+m_parmetros m_parmetros
+m_1erdgito m_1erdgito
+m_2dgito m_2dgito
+m_3erdgito m_3erdgito
+m_4dgito m_4dgito
+m_familias m_familias
+m_bienes m_bienes
+m_clasesdeinmobilizado m_clasesdeinmobilizado
+m_tiposamortizacin m_tiposamortizacin
+m_ubicaciones m_ubicaciones
+end type
+
+on m_mantenimientos1.create
+call super::create
+this.text = "Mantenimientos"
+this.m_parmetros=create m_parmetros
+this.m_1erdgito=create m_1erdgito
+this.m_2dgito=create m_2dgito
+this.m_3erdgito=create m_3erdgito
+this.m_4dgito=create m_4dgito
+this.m_familias=create m_familias
+this.m_bienes=create m_bienes
+this.m_clasesdeinmobilizado=create m_clasesdeinmobilizado
+this.m_tiposamortizacin=create m_tiposamortizacin
+this.m_ubicaciones=create m_ubicaciones
+this.Item[UpperBound(this.Item)+1]=this.m_parmetros
+this.Item[UpperBound(this.Item)+1]=this.m_1erdgito
+this.Item[UpperBound(this.Item)+1]=this.m_2dgito
+this.Item[UpperBound(this.Item)+1]=this.m_3erdgito
+this.Item[UpperBound(this.Item)+1]=this.m_4dgito
+this.Item[UpperBound(this.Item)+1]=this.m_familias
+this.Item[UpperBound(this.Item)+1]=this.m_bienes
+this.Item[UpperBound(this.Item)+1]=this.m_clasesdeinmobilizado
+this.Item[UpperBound(this.Item)+1]=this.m_tiposamortizacin
+this.Item[UpperBound(this.Item)+1]=this.m_ubicaciones
+end on
+
+on m_mantenimientos1.destroy
+call super::destroy
+destroy(this.m_parmetros)
+destroy(this.m_1erdgito)
+destroy(this.m_2dgito)
+destroy(this.m_3erdgito)
+destroy(this.m_4dgito)
+destroy(this.m_familias)
+destroy(this.m_bienes)
+destroy(this.m_clasesdeinmobilizado)
+destroy(this.m_tiposamortizacin)
+destroy(this.m_ubicaciones)
+end on
+
+type m_parmetros from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_parametros,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_parmetros.create
+call super::create
+this.text = "Parámetros"
+end on
+
+on m_parmetros.destroy
+call super::destroy
+end on
+
+type m_1erdgito from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_fcampo1,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_1erdgito.create
+call super::create
+this.text = "1er Dígito"
+end on
+
+on m_1erdgito.destroy
+call super::destroy
+end on
+
+type m_2dgito from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_fcampo2,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_2dgito.create
+call super::create
+this.text = "2º Dígito"
+end on
+
+on m_2dgito.destroy
+call super::destroy
+end on
+
+type m_3erdgito from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_fcampo3,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_3erdgito.create
+call super::create
+this.text = "3er y 4º Dígito"
+end on
+
+on m_3erdgito.destroy
+call super::destroy
+end on
+
+type m_4dgito from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_fcampo4,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_4dgito.create
+call super::create
+this.text = "5º y 6º Dígito"
+end on
+
+on m_4dgito.destroy
+call super::destroy
+end on
+
+type m_familias from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_familias,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_familias.create
+call super::create
+this.text = "Familias"
+end on
+
+on m_familias.destroy
+call super::destroy
+end on
+
+type m_bienes from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_bienes,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_bienes.create
+call super::create
+this.text = "Bienes"
+end on
+
+on m_bienes.destroy
+call super::destroy
+end on
+
+type m_clasesdeinmobilizado from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_clase,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_clasesdeinmobilizado.create
+call super::create
+this.text = "Clases de Inmobilizado"
+end on
+
+on m_clasesdeinmobilizado.destroy
+call super::destroy
+end on
+
+type m_tiposamortizacin from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_tipobien,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_tiposamortizacin.create
+call super::create
+this.text = "Tipos Amortización"
+end on
+
+on m_tiposamortizacin.destroy
+call super::destroy
+end on
+
+type m_ubicaciones from menu within m_mantenimientos1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(wi_mant_act_ubicaciones,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_ubicaciones.create
+call super::create
+this.text = "Ubicaciones"
+end on
+
+on m_ubicaciones.destroy
+call super::destroy
+end on
+
+type m_listados1 from menu within m_activosfijos
+m_fichaelemento m_fichaelemento
+m_detalleactivosfijos m_detalleactivosfijos
+m_diariomovimientos m_diariomovimientos
+m_bajasdeunperodo m_bajasdeunperodo
+m_amortporejercicios m_amortporejercicios
+m_amortfiscal m_amortfiscal
+m_2 m_2
+m_consultaactivos m_consultaactivos
+end type
+
+on m_listados1.create
+call super::create
+this.text = "Listados"
+this.m_fichaelemento=create m_fichaelemento
+this.m_detalleactivosfijos=create m_detalleactivosfijos
+this.m_diariomovimientos=create m_diariomovimientos
+this.m_bajasdeunperodo=create m_bajasdeunperodo
+this.m_amortporejercicios=create m_amortporejercicios
+this.m_amortfiscal=create m_amortfiscal
+this.m_2=create m_2
+this.m_consultaactivos=create m_consultaactivos
+this.Item[UpperBound(this.Item)+1]=this.m_fichaelemento
+this.Item[UpperBound(this.Item)+1]=this.m_detalleactivosfijos
+this.Item[UpperBound(this.Item)+1]=this.m_diariomovimientos
+this.Item[UpperBound(this.Item)+1]=this.m_bajasdeunperodo
+this.Item[UpperBound(this.Item)+1]=this.m_amortporejercicios
+this.Item[UpperBound(this.Item)+1]=this.m_amortfiscal
+this.Item[UpperBound(this.Item)+1]=this.m_2
+this.Item[UpperBound(this.Item)+1]=this.m_consultaactivos
+end on
+
+on m_listados1.destroy
+call super::destroy
+destroy(this.m_fichaelemento)
+destroy(this.m_detalleactivosfijos)
+destroy(this.m_diariomovimientos)
+destroy(this.m_bajasdeunperodo)
+destroy(this.m_amortporejercicios)
+destroy(this.m_amortfiscal)
+destroy(this.m_2)
+destroy(this.m_consultaactivos)
+end on
+
+type m_fichaelemento from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_ficha_amortizacion,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_fichaelemento.create
+call super::create
+this.text = "Ficha Elemento"
+end on
+
+on m_fichaelemento.destroy
+call super::destroy
+end on
+
+type m_detalleactivosfijos from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_detalle_activos,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_detalleactivosfijos.create
+call super::create
+this.text = "Detalle Activos Fijos"
+end on
+
+on m_detalleactivosfijos.destroy
+call super::destroy
+end on
+
+type m_diariomovimientos from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_diario_mov,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_diariomovimientos.create
+call super::create
+this.text = "Diario Movimientos"
+end on
+
+on m_diariomovimientos.destroy
+call super::destroy
+end on
+
+type m_bajasdeunperodo from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_bajas_periodo,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_bajasdeunperodo.create
+call super::create
+this.text = "Bajas de un Período"
+end on
+
+on m_bajasdeunperodo.destroy
+call super::destroy
+end on
+
+type m_amortporejercicios from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_amort_ejercicios,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_amortporejercicios.create
+call super::create
+this.text = "Amort. por Ejercicios"
+end on
+
+on m_amortporejercicios.destroy
+call super::destroy
+end on
+
+type m_amortfiscal from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_amort_fiscal,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_amortfiscal.create
+call super::create
+this.text = "Amort. Fiscal"
+end on
+
+on m_amortfiscal.destroy
+call super::destroy
+end on
+
+type m_2 from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_activos_por_grupos,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_2.create
+call super::create
+this.text = "Amortización por centros y ejercicios"
+end on
+
+on m_2.destroy
+call super::destroy
+end on
+
+type m_consultaactivos from menu within m_listados1
+end type
+
+event clicked;str_parametros lstr_param
+OpenSheetWithParm(w_con_activos,lstr_param,ParentWindow, 3,Original!)
+end event
+
+on m_consultaactivos.create
+call super::create
+this.text = "Consulta Activos"
+end on
+
+on m_consultaactivos.destroy
+call super::destroy
+end on
+

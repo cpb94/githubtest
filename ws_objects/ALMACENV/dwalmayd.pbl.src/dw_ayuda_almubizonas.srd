@@ -1,0 +1,18 @@
+﻿$PBExportHeader$dw_ayuda_almubizonas.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=85 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=85 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes key=yes name=zona dbname="almubizonas.zona" )
+ column=(type=long updatewhereclause=yes name=filas dbname="almubizonas.filas" )
+ column=(type=char(30) updatewhereclause=yes name=descripcion dbname="almubizonas.descripcion" )
+ column=(type=char(5) updatewhereclause=yes name=resumido dbname="almubizonas.resumido" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="almubizonas.empresa" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=almacen dbname="almubizonas.almacen" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almubizonas~" ) COLUMN(NAME=~"almubizonas.zona~") COLUMN(NAME=~"almubizonas.filas~") COLUMN(NAME=~"almubizonas.descripcion~") COLUMN(NAME=~"almubizonas.resumido~") COLUMN(NAME=~"almubizonas.empresa~") COLUMN(NAME=~"almubizonas.almacen~")WHERE(    EXP1 =~"almubizonas.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"upper(almubizonas.zona)~"   OP =~"like~"    EXP2 =~":ra_zona~" ) ) ORDER(NAME=~"almubizonas.empresa~" ASC=yes )  ORDER(NAME=~"almubizonas.almacen~" ASC=yes )  ORDER(NAME=~"almubizonas.zona~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"ra_zona~" TYPE = string) " update="almubizonas" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("ra_zona", string)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="179" y="4" height="65" width="151" format="[general]"  name=zona  tag="Zona del ubicacion del almacen." editmask.mask="XXXXX"  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="5" color="0" x="348" y="4" height="65" width="604" format="[general]"  name=descripcion  tag="Descripcion de la zona." edit.limit=30 edit.case=any edit.autoselect=yes edit.autohscroll=yes edit.displayonly=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Zona"border="6" color="33554432" x="174" y="12" height="65" width="156"  name=zona_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )
+text(band=header alignment="2" text="Descripción"border="6" color="33554432" x="348" y="12" height="65" width="604"  name=descripcion_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="67108864" )

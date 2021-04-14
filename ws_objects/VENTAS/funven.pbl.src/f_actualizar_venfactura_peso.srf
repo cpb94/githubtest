@@ -1,0 +1,208 @@
+﻿$PBExportHeader$f_actualizar_venfactura_peso.srf
+$PBExportComments$€
+global type f_actualizar_venfactura_peso from function_object
+end type
+
+forward prototypes
+global function boolean f_actualizar_venfactura_peso (string empresa, decimal periodo, decimal factura, string calculo_peso)
+end prototypes
+
+global function boolean f_actualizar_venfactura_peso (string empresa, decimal periodo, decimal factura, string calculo_peso);Dec{0}   var_anyo,var_factura,var_ejercicio
+String   var_empresa,var_tipo_recargo,var_tipo_iva,var_moneda,var_cliente,sel
+Dec{4}   var_importe,var_peso,var_peso_neto,var_bruto,var_importe_dto,var_impdtopp,var_importe_neto
+Dec{4}   var_iva,var_recargo,var_total_neto,var_importe_iva,var_importe_recargo,var_total_fra,var_base_comision
+Dec{4} 	fac_peso,fac_peso_neto,r,r1,var_total_fac_pts,var_importe_iva_pts,var_base_comision_pts,imppts,imp
+dec      var_cambio
+dec      cambio_euros,cambio_euro_pts,var_cambio_euros
+string   var_cambioc,var_cambio_eurosc
+Dec      total_muestras,total_sincargo
+Dec      v_impdtopp,v_neto,v_cantidad,v_precio_estand
+String   v_mascara,v_clase,mascara_moneda_empresa,moneda_empresa
+
+datastore d
+var_recargo = 0
+var_iva = 0
+
+SetNull(var_tipo_iva)
+SetNull(var_tipo_recargo)
+
+Select venfac.cliente,venfac.tipoiva,venfac.divisa,venfac.peso,
+		 venfac.peso_neto,cambio,cambio_euros
+Into   :var_cliente,:var_tipo_iva,:var_moneda,
+		 :fac_peso,:fac_peso_neto,:var_cambio,:var_cambio_euros
+From   venfac			
+Where  venfac.empresa   = :empresa
+And    venfac.anyo      = :periodo
+And    venfac.factura   = :factura;
+
+
+var_cambio = f_cambio_venfac(empresa,periodo,factura)
+
+v_mascara              = f_mascara_moneda(var_moneda)
+moneda_empresa         = f_moneda_empresa_secundaria(empresa)
+mascara_moneda_empresa = f_mascara_moneda(moneda_empresa)
+//var_cambio       = dec(var_cambioc)
+//var_cambio_euros = dec(var_cambio_eurosc)
+var_ejercicio    = f_ejercicio_activo(empresa)
+
+SELECT   contaiva.iva,contaiva.recargo INTO :var_iva,:var_tipo_recargo  
+   FROM  contaiva  
+   WHERE contaiva.ejercicio = :var_ejercicio
+	AND   contaiva.empresa   = :empresa 
+	AND   contaiva.tipoiva   = :var_tipo_iva;
+	
+IF Not IsNull(var_tipo_recargo) and Trim(var_tipo_recargo)<> "" Then	
+	SELECT   contaiva.iva,contaiva.recargo INTO :var_recargo,:var_tipo_recargo  
+   FROM     contaiva  
+   WHERE    contaiva.ejercicio = :var_ejercicio
+	AND      contaiva.empresa   = :codigo_empresa 
+	AND      contaiva.tipoiva   = :var_tipo_recargo;
+END IF
+
+	imp = 0
+	imppts = 0
+	var_total_fac_pts = 0
+	var_peso          = 0
+	var_peso_neto     = 0
+	var_importe_dto   = 0
+	var_impdtopp      = 0
+	var_bruto         = 0
+	var_importe_neto  = 0
+	var_base_comision_pts = 0	
+	var_base_comision     = 0	
+	total_muestras        = 0
+	total_sincargo        = 0
+	
+	sel = " Select precio_estand,cantidad,clase,peso,peso_neto,importedto,impdtopp,bruto,neto,control_comisiones "+&
+	      " from venlifac" +&
+			" Where empresa = '" + codigo_empresa+"'"+&
+			" and   anyo    = "  + String(periodo,"#######")+&
+			" and   factura = "  + String(factura,"#########")
+	
+//	d = f_cargar_cursor2(sel)
+	f_cargar_cursor_nuevo(sel,d)
+	r1 = d.RowCount()
+	////
+	////cambio_euros = f_cambio_euros (var_moneda)
+	////cambio_euro_pts = f_cambio_moneda ("7")
+	////
+	For r = 1 To r1
+		  v_impdtopp        = d.getItemNumber(r,"impdtopp")
+		  v_neto            = d.getItemNumber(r,"neto")
+		  v_clase           = d.getItemString(r,"clase")
+		  //imppts            = imppts + Dec(STring((v_neto - v_impdtopp ) * var_cambio,f_mascara_decimales(f_decimales_moneda(f_moneda_empresa(codigo_empresa))+2)))
+  		  //imppts 			  = imppts + Dec(STring(v_neto * var_cambio,f_mascara_decimales(f_decimales_moneda(f_moneda_empresa(codigo_empresa))+2)))
+		 if isnull(var_cambio) or var_cambio = 0 then var_cambio = 1
+		  imppts 			  = imppts + dec(string(v_neto / var_cambio, mascara_moneda_empresa))
+		  //imp               = imp + Dec(STring((v_neto - v_impdtopp ) ,f_mascara_decimales(f_decimales_moneda(var_moneda)+2)))
+		  imp               = imp + Dec(STring(v_neto ,f_mascara_decimales(f_decimales_moneda(var_moneda)+2)))
+
+	 	  var_peso          = var_peso         + d.getItemNumber(r,"peso")   
+		  var_peso_neto     = var_peso_neto    + d.getItemNumber(r,"peso_neto")
+
+	     var_importe_dto   = var_importe_dto  + d.getItemNumber(r,"importedto")
+		  var_impdtopp      = var_impdtopp     + v_impdtopp
+	     var_bruto         = var_bruto        + d.getItemNumber(r,"bruto")
+	     var_importe_neto  = var_importe_neto + v_neto
+		  CHOOSE CASE v_clase
+         	CASE "M"
+				    v_cantidad        = d.getItemNumber(r,"cantidad")
+		          v_precio_estand   = d.getItemNumber(r,"precio_estand")
+	             total_muestras    = total_muestras + (v_cantidad * v_precio_estand) 
+      		CASE "S"
+ 				    v_cantidad        = d.getItemNumber(r,"cantidad")
+		          v_precio_estand   = d.getItemNumber(r,"precio_estand")
+                total_sincargo    = total_sincargo + (v_cantidad * v_precio_estand) 
+        END CHOOSE
+
+		  IF  d.getItemSTring(r,"control_comisiones") = "S" Then
+			 //var_base_comision_pts = var_base_comision_pts + Dec(String(((v_neto - v_impdtopp)* var_cambio),f_mascara_decimales(f_decimales_moneda(f_moneda_empresa(codigo_empresa))+2) ))
+			 var_base_comision_pts = var_base_comision_pts + Dec(String(v_neto / var_cambio,mascara_moneda_empresa))
+			 //var_base_comision     = var_base_comision     + Dec(String(((v_neto - v_impdtopp)),f_mascara_decimales(f_decimales_moneda(var_moneda)+2)  ))
+			 var_base_comision     = var_base_comision     + Dec(String(v_neto,f_mascara_decimales(f_decimales_moneda(var_moneda)+2)  ))			 
+		  END IF
+   Next
+ 
+ var_impdtopp = Dec(String(var_impdtopp,f_mascara_moneda(var_moneda)))
+ if isnull(var_cambio) or var_cambio = 0 then var_cambio = 1
+ imppts = imppts - dec(string(var_impdtopp / var_cambio,mascara_moneda_empresa))
+ imp    = imp - var_impdtopp
+// imppts = Dec(String(imppts,f_mascara_moneda(f_moneda_empresa(codigo_empresa))))
+// imp    = Dec(String(imp,f_mascara_moneda(var_moneda)))
+ var_base_comision     = var_base_comision - var_impdtopp
+ var_base_comision_pts = var_base_comision_pts - dec(string(var_impdtopp / var_cambio,mascara_moneda_empresa))
+// var_base_comision_pts = Dec(String(var_base_comision_pts,f_mascara_moneda(f_moneda_empresa(codigo_empresa))))
+ var_base_comision     = Dec(String(var_base_comision,f_mascara_moneda(var_moneda)))
+
+//***
+//f_mensaje("imppts",String(imppts))
+//f_mensaje("imp",String(imp))
+//f_mensaje("var_base_comision_pts",String(var_base_comision_pts))
+//f_mensaje("var_base_comision",String(var_base_comision))
+
+ var_importe_iva_pts  = Dec(String(imppts * var_iva / 100,mascara_moneda_empresa))
+ var_total_fac_pts    = imppts + var_importe_iva_pts
+ var_total_neto       = var_importe_neto 
+ var_importe_iva      = Dec(String(imp * var_iva / 100,v_mascara))
+ var_importe_recargo  = Dec(String((imp - var_importe_iva) * var_recargo / 100,v_mascara))
+ var_total_fra        = imp + var_importe_iva + var_importe_recargo
+
+
+// var_impdtopp  = Dec(String(var_impdtopp,f_mascara_moneda(f_moneda_empresa(codigo_empresa))))
+
+// IF calculo_peso = "N" Then
+//	var_peso      = fac_peso
+//	var_peso_neto = fac_peso_neto
+// END IF
+if fac_peso <> 0 then
+	var_peso = fac_peso
+end if
+if fac_peso_neto <> 0 then
+	var_peso_neto = fac_peso_neto
+end if
+ 
+if var_moneda = moneda_empresa then
+ 	var_total_fac_pts     = var_total_fra
+	var_importe_iva_pts   = var_importe_iva
+	var_base_comision_pts = var_base_comision
+else
+	 if isnull(var_cambio) or var_cambio = 0 then var_cambio = 1
+	var_total_fac_pts     = dec(string(var_total_fra / var_cambio,mascara_moneda_empresa))
+	var_importe_iva_pts   = dec(string(var_importe_iva / var_cambio,mascara_moneda_empresa))
+	var_base_comision_pts = dec(string(var_base_comision / var_cambio,mascara_moneda_empresa))
+end if
+
+ 
+  UPDATE  venfac 
+  SET venfac.peso            	= :var_peso  ,
+      venfac.peso_neto       	= :var_peso_neto,  
+	   venfac.bruto           	= :var_bruto,
+	   venfac.total_neto      	= :var_total_neto,
+		venfac.total_fac       	= :var_total_fra,
+		venfac.tipo_recargo    	= :var_tipo_recargo,
+		venfac.recargo         	= :var_recargo,
+		venfac.importe_iva     	= :var_importe_iva + :var_importe_recargo,
+		venfac.base_comision   	= :var_base_comision,
+		venfac.total_fac_pts   	= :var_total_fac_pts,
+		venfac.importe_iva_pts    = :var_importe_iva_pts,
+		venfac.base_comision_pts  = :var_base_comision_pts,
+		venfac.totalpts_muestras  = :total_muestras,
+		venfac.totalpts_sincargo  = :total_sincargo,
+		venfac.importe_dto        = :var_importe_dto,
+		venfac.impdtopp           = :var_impdtopp 
+		
+   WHERE venfac.empresa   = :codigo_empresa
+   AND   venfac.anyo      = :periodo
+   AND   venfac.factura   = :factura;
+	
+	destroy d
+	
+	IF SQLCA.SQLCODE <> 0 Then 
+		f_mensaje("(Update) Error Datos(f_actualizar_venfactura)",sqlca.sqlErrtext)
+		Return FALSE
+	ELSE
+		return TRUE
+	END IF
+	
+end function
+

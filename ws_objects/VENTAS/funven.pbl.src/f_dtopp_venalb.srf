@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_dtopp_venalb.srf
+global type f_dtopp_venalb from function_object
+end type
+
+forward prototypes
+global function decimal f_dtopp_venalb (string empresa, integer anyo, decimal albaran)
+end prototypes
+
+global function decimal f_dtopp_venalb (string empresa, integer anyo, decimal albaran);Dec var_dtopp
+
+
+  SELECT venalb.dtopp
+    INTO :var_dtopp
+    FROM venalb  
+   WHERE (venalb.empresa = :empresa)
+   AND   (venalb.anyo    = :anyo)
+   AND   (venalb.albaran  = :albaran);
+
+
+
+Return var_dtopp
+end function
+

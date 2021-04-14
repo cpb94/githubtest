@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_referencia_codarticulo.srf
+$PBExportComments$Devuelve el codigo del artciulo a partir de la referencia
+global type f_referencia_codarticulo from function_object
+end type
+
+forward prototypes
+global function string f_referencia_codarticulo (string referencia)
+end prototypes
+
+global function string f_referencia_codarticulo (string referencia);string	ls_codarticulo
+ls_codarticulo =  Mid(referencia,1,13)
+
+RETURN ls_codarticulo
+end function
+

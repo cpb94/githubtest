@@ -1,0 +1,70 @@
+﻿$PBExportHeader$f_conversion_piezas_cantidad.srf
+$PBExportComments$Transforma una cantidad en piezas a otra según del tipo de unidad del articulo.
+global type f_conversion_piezas_cantidad from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_piezas_cantidad (string cod_empresa, string cod_articulo, string caja, decimal n_total)
+end prototypes
+
+global function decimal f_conversion_piezas_cantidad (string cod_empresa, string cod_articulo, string caja, decimal n_total);String cod_formato,cod_modelo,cod_unidad
+Integer longitud
+Integer bien,total_cajas,total_pallets,cajas,n_piezascaja,n_cajaspallet,li_decimales_unidad_articulo
+decimal{3}  total_cantidad
+decimal n_metroscaja
+
+bien = 0
+
+select articulos.unidad ,
+		 isnull(isnull(articulos.decimales_unidad,unidades.decimales),0) as decimales_unidad_articulo 
+into   :cod_unidad,
+		 :li_decimales_unidad_articulo 
+from   articulos,unidades
+where  articulos.unidad  = unidades.codigo
+and    articulos.empresa = :cod_empresa
+and    articulos.codigo  = :cod_articulo;
+
+if sqlca.sqlcode <> 0 then
+	//messagebox("Error","En [F_conversion_piezas_cantidad] "+sqlca.sqlerrtext)
+	total_cantidad = 0		
+	total_cantidad = n_total
+else
+	CHOOSE CASE cod_unidad
+		CASE  "1"
+			SELECT almartcajas.piezascaja,
+					 almartcajas.metroscaja    
+			INTO   :n_piezascaja,
+					 :n_metroscaja  
+			FROM   almartcajas  
+			WHERE  almartcajas.empresa  = :cod_empresa
+			AND    almartcajas.articulo = :cod_articulo
+			AND    almartcajas.caja     = :caja;
+			
+			IF SQLCA.SQLCode<>0 THEN 
+				//messagebox("Error","En [F_conversion_piezas_cantidad] "+sqlca.sqlerrtext)
+				total_cantidad = 0	
+				total_cantidad = n_total
+			else
+				total_cantidad   = round((n_total / n_piezascaja) * n_metroscaja,li_decimales_unidad_articulo)
+			end if				
+		CASE "0"
+			total_cantidad   = n_total
+		CASE  ELSE
+			messagebox("Error","En [F_conversion_piezas_cantidad] unidad no valida ["+cod_unidad+"]")
+			total_cantidad = 0
+	END CHOOSE
+end if
+
+RETURN total_cantidad
+
+
+
+
+
+
+
+
+
+
+end function
+

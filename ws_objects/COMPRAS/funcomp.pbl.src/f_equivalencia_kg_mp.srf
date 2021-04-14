@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_equivalencia_kg_mp.srf
+global type f_equivalencia_kg_mp from function_object
+end type
+
+forward prototypes
+global function decimal f_equivalencia_kg_mp (string empresa, string mp)
+end prototypes
+
+global function decimal f_equivalencia_kg_mp (string empresa, string mp);dec {4} equivalencia
+string u_medida
+
+select tipo_unidad,equivalencia_kg into :u_medida,:equivalencia
+from venmprima where empresa = :empresa
+and codigo = :mp;
+
+if Isnull(equivalencia) then
+	equivalencia = 1
+else
+	if trim(u_medida) = "2" then
+		equivalencia = 1
+	end if
+end if
+
+return equivalencia
+end function
+

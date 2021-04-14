@@ -1,0 +1,447 @@
+﻿$PBExportHeader$f_total_fac_partidas.srf
+global type f_total_fac_partidas from function_object
+end type
+
+forward prototypes
+global function string f_total_fac_partidas (string empresa, long anyo, long factura, string moneda)
+end prototypes
+
+global function string f_total_fac_partidas (string empresa, long anyo, long factura, string moneda);dec{2} variable,importe, peso_bruto, peso_neto,ld_m2
+string sel,resultado,nombre_par,valor1_par,par,m2_str,cajas_str, simbolo_moneda
+long   indice,total,ll_cajas
+Datastore datos
+
+//Tipos de lineas excluidas
+//5    	TRANSPORTES Y FLETES                    
+//14   	OTRAS VT. COSTES Y FLETES               
+//15   	VT ENV & EMB SIN ALTA ART               
+//16   	OTRAS VTAS. GASTOS                      
+
+//13-03-2017 ya no hacemos la conversion de piezas a metros
+/*
+sel = "SELECT sum(venlifac.importe - impdtopp) as importe_partida, "+&
+		"       articulos.partidaest, "+&
+		"       sum(venlifac.peso) as peso_bruto, "+&
+		"       sum(venlifac.peso_neto) as peso_neto, "+&
+		"       sum(case when articulos.unidad = '1' then venlifac.cantidad else ( almartcajas.metroscaja * round(venlifac.cantidad / almartcajas.piezascaja,0,1) ) end ) as m2 "+&
+		"FROM   venlifac,"+&
+		"       articulos, "+&		
+		"       almartcajas "+&
+		"WHERE  venlifac.empresa  = articulos.empresa "+&
+		"AND    venlifac.articulo = articulos.codigo "+&
+		"AND    venlifac.empresa  = almartcajas.empresa "+&
+		"AND    venlifac.articulo = almartcajas.articulo "+&
+		"AND    venlifac.caja     = almartcajas.caja "+&
+		"AND    venlifac.empresa = '"+empresa+"' "+&
+      "AND    venlifac.anyo    = "+string(anyo,"###0")+" "+&
+      "AND    venlifac.factura = "+string(factura,"#####0")+" "+&
+		"AND    isnull(venlifac.clase,'') <> 'M' "+&
+		"AND    venlifac.tipolinea <> '5' "+&
+		"AND    venlifac.tipolinea <> '14' "+&
+		"AND    venlifac.tipolinea <> '15' "+&
+		"AND    venlifac.tipolinea <> '16' "+&
+		"GROUP BY articulos.partidaest "+&
+		"UNION ALL "+&
+      "SELECT sum((venlifac.peso_neto / venfac_totales.peso_neto_total) * venfac_totales.valor_estadistico) as importe_partida, "+&
+		"       articulos.partidaest, "+&
+		"       sum(venlifac.peso) as peso_bruto, "+&
+		"       sum(venlifac.peso_neto) as peso_neto, "+&
+		"       sum(case when articulos.unidad = '1' then venlifac.cantidad else ( almartcajas.metroscaja * round(venlifac.cantidad / almartcajas.piezascaja,0,1) ) end ) as m2 "+&
+		"FROM   venlifac,"+&
+		"       articulos, "+&
+		"     ( select isnull(venfac.valor_frontera,0) as valor_estadistico, "+&
+		"       		   sum(venlifac.peso) as peso_bruto_total, "+&
+		"       		   sum(venlifac.peso_neto) as peso_neto_total "+&
+		"       from   venfac, "+&
+		"       		   venlifac "+&
+		"       where  venfac.empresa = venlifac.empresa "+&
+		"       and    venfac.anyo    = venlifac.anyo "+&
+		"       and    venfac.factura = venlifac.factura "+&
+		"       and    venfac.empresa = '"+empresa+"' "+&
+		"       and    venfac.anyo    = "+string(anyo,"###0")+" "+&
+		"       and    venfac.factura = "+string(factura,"#####0")+" "+&
+		"       and    venlifac.clase = 'M' "+&
+		"       group by isnull(venfac.valor_frontera,0) ) as venfac_totales, "+&		
+		"       almartcajas "+&
+		"WHERE  venlifac.empresa  = articulos.empresa "+&
+		"AND    venlifac.articulo = articulos.codigo "+&
+		"AND    venlifac.empresa  = almartcajas.empresa "+&
+		"AND    venlifac.articulo = almartcajas.articulo "+&
+		"AND    venlifac.caja     = almartcajas.caja "+&
+		"AND    venlifac.empresa = '"+empresa+"' "+&
+      "AND    venlifac.anyo    = "+string(anyo,"###0")+" "+&
+      "AND    venlifac.factura = "+string(factura,"#####0")+" "+&
+		"AND    isnull(venlifac.clase,'') = 'M' "+&
+		"AND    venlifac.tipolinea <> '5' "+&
+		"AND    venlifac.tipolinea <> '14' "+&
+		"AND    venlifac.tipolinea <> '15' "+&
+		"AND    venlifac.tipolinea <> '16' "+&
+		"GROUP BY articulos.partidaest "
+*/
+//13-03-2017 ya no hacemos la conversion de piezas a metros
+
+//Ajuste del peso entre cabecera y lineas
+dec ld_peso_bruto_cabecera,ld_peso_neto_cabecera,ld_peso_bruto_lineas,ld_peso_neto_lineas
+dec ld_corrector_bruto,ld_corrector_neto
+
+select venfac.peso,
+		 venfac.peso_neto,
+		 sum(venlifac.peso) as venlifac_peso,
+		 sum(venlifac.peso_neto) as venlifac_peso_neto 
+into   :ld_peso_bruto_cabecera,
+		 :ld_peso_neto_cabecera,
+		 :ld_peso_bruto_lineas,
+		 :ld_peso_neto_lineas 
+from   venfac,
+		 venlifac 
+where  venfac.empresa = venlifac.empresa 
+and    venfac.anyo    = venlifac.anyo 
+and    venfac.factura = venlifac.factura 
+and    venfac.empresa = :empresa 
+and    venfac.anyo    = :anyo
+and    venfac.factura = :factura
+group by venfac.peso,
+		   venfac.peso_neto;
+
+if ld_peso_neto_cabecera <> 0 then 
+	ld_corrector_neto = ld_peso_neto_lineas / ld_peso_neto_cabecera
+else
+	ld_corrector_neto = 1
+end if
+
+sel = "SELECT sum(isnull(importe_partida,0)) as importe_partida, "+&
+		"       partidaest, "+&
+		"       convert(decimal(10,0),sum(isnull(peso_bruto,0))) as peso_bruto, "+&
+		"       convert(decimal(10,0),sum(isnull(peso_neto,0))) as peso_neto, "+&
+		"       sum(isnull(m2,0)) as m2, "+&
+		"       sum(isnull(cajas,0)) as cajas "+&
+		"FROM ( "+&
+		"SELECT sum(venlifac.neto) as importe_partida, "+&
+		"       isnull(articulos.partidaest,'') as partidaest, "+&
+		"       sum(venlifac.peso) as peso_bruto, "+&
+		"       sum(venlifac.peso_neto) as peso_neto, "+&
+		"       sum(case when articulos.unidad = '1' then venlifac.cantidad else 0 end ) as m2, "+&
+		"       sum(isnull(venlifac.total_cajas,0)) as cajas "+&
+		"FROM   venlifac,"+&
+		"       articulos, "+&		
+		"       almartcajas "+&
+		"WHERE  venlifac.empresa  = articulos.empresa "+&
+		"AND    venlifac.articulo = articulos.codigo "+&
+		"AND    venlifac.empresa  = almartcajas.empresa "+&
+		"AND    venlifac.articulo = almartcajas.articulo "+&
+		"AND    venlifac.caja     = almartcajas.caja "+&
+		"AND    venlifac.empresa = '"+empresa+"' "+&
+      "AND    venlifac.anyo    = "+string(anyo,"###0")+" "+&
+      "AND    venlifac.factura = "+string(factura,"#####0")+" "+&
+		"AND    isnull(venlifac.clase,'') <> 'M' "+&
+		"AND    venlifac.tipolinea <> '5' "+&
+		"AND    venlifac.tipolinea <> '14' "+&
+		"AND    venlifac.tipolinea <> '15' "+&
+		"AND    venlifac.tipolinea <> '16' "+&
+		"GROUP BY articulos.partidaest "+&
+		"UNION ALL "+&
+      "SELECT sum((venlifac.peso_neto / venfac_totales.peso_neto_total) * venfac_totales.valor_estadistico) as importe_partida, "+&
+		"       isnull(articulos.partidaest,'') as partidaest, "+&
+		"       sum(venlifac.peso) as peso_bruto, "+&
+		"       sum(venlifac.peso_neto) as peso_neto, "+&
+		"       sum(case when articulos.unidad = '1' then venlifac.cantidad else 0 end ) as m2, "+&
+		"       sum(isnull(venlifac.total_cajas,0)) as cajas "+&
+		"FROM   venlifac,"+&
+		"       articulos, "+&
+		"     ( select isnull(venfac.valor_frontera,0) as valor_estadistico, "+&
+		"       		   sum(venlifac.peso) as peso_bruto_total, "+&
+		"       		   sum(venlifac.peso_neto) as peso_neto_total "+&
+		"       from   venfac, "+&
+		"       		   venlifac "+&
+		"       where  venfac.empresa = venlifac.empresa "+&
+		"       and    venfac.anyo    = venlifac.anyo "+&
+		"       and    venfac.factura = venlifac.factura "+&
+		"       and    venfac.empresa = '"+empresa+"' "+&
+		"       and    venfac.anyo    = "+string(anyo,"###0")+" "+&
+		"       and    venfac.factura = "+string(factura,"#####0")+" "+&
+		"       and    venlifac.clase = 'M' "+&
+		"       group by isnull(venfac.valor_frontera,0) ) as venfac_totales, "+&		
+		"       almartcajas "+&
+		"WHERE  venlifac.empresa  = articulos.empresa "+&
+		"AND    venlifac.articulo = articulos.codigo "+&
+		"AND    venlifac.empresa  = almartcajas.empresa "+&
+		"AND    venlifac.articulo = almartcajas.articulo "+&
+		"AND    venlifac.caja     = almartcajas.caja "+&
+		"AND    venlifac.empresa = '"+empresa+"' "+&
+      "AND    venlifac.anyo    = "+string(anyo,"###0")+" "+&
+      "AND    venlifac.factura = "+string(factura,"#####0")+" "+&
+		"AND    isnull(venlifac.clase,'') = 'M' "+&
+		"AND    venlifac.tipolinea <> '5' "+&
+		"AND    venlifac.tipolinea <> '14' "+&
+		"AND    venlifac.tipolinea <> '15' "+&
+		"AND    venlifac.tipolinea <> '16' "+&
+		"GROUP BY articulos.partidaest ) as resultado "+&
+		"GROUP BY partidaest "+&
+		"ORDER BY partidaest "
+		
+f_cargar_cursor_nuevo(sel, datos)
+
+resultado = ""
+total = datos.rowcount()
+if total = 0 then
+	resultado = "sin datos"
+else
+	
+	ld_peso_bruto_lineas = dec(datos.describe("evaluate('sum(peso_bruto for all)',1)"))
+	ld_peso_neto_lineas  = dec(datos.describe("evaluate('sum(peso_neto for all)',1)"))	
+	
+	if ld_peso_bruto_lineas <> ld_peso_bruto_cabecera then
+		if ld_peso_bruto_cabecera <> 0 then
+			ld_corrector_bruto = ld_peso_bruto_lineas / ld_peso_bruto_cabecera
+		else
+			ld_corrector_bruto = 1
+		end if
+		for indice = 1 to total
+			if ld_corrector_bruto <> 0 then
+				datos.object.peso_bruto[indice] = round(datos.object.peso_bruto[indice] / ld_corrector_bruto,2)
+			else
+				datos.object.peso_bruto[indice] = round(datos.object.peso_bruto[indice],2)
+			end if
+		next 
+		
+		ld_peso_bruto_lineas = dec(datos.describe("evaluate('sum(peso_bruto for all)',1)"))
+		
+		if ld_peso_bruto_lineas <> ld_peso_bruto_cabecera then
+			//Vamos a aplicar la correcion en la linea mas pesada
+			datos.setsort("peso_bruto asc")
+			datos.sort()
+			
+			datos.object.peso_bruto[1] = datos.object.peso_bruto[1] + (ld_peso_bruto_cabecera - ld_peso_bruto_lineas)
+			
+			datos.setsort("partidaest asc")
+			datos.sort()			
+		end if
+	end if
+	
+	if ld_peso_neto_lineas <> ld_peso_neto_cabecera then
+		if ld_peso_neto_cabecera <> 0 then
+			ld_corrector_neto = ld_peso_neto_lineas / ld_peso_neto_cabecera
+		else
+			ld_corrector_neto = 1
+		end if
+		for indice = 1 to total
+			if ld_corrector_neto <> 0 then
+				datos.object.peso_neto[indice] = round(datos.object.peso_neto[indice] / ld_corrector_neto,2)
+			else
+				datos.object.peso_neto[indice] = round(datos.object.peso_neto[indice],2)
+			end if
+		next 
+		
+		ld_peso_neto_lineas = dec(datos.describe("evaluate('sum(peso_neto for all)',1)"))
+		
+		if ld_peso_neto_lineas <> ld_peso_neto_cabecera then
+			//Vamos a aplicar la correcion en la linea mas pesada
+			datos.setsort("peso_neto asc")
+			datos.sort()
+			
+			datos.object.peso_neto[1] = datos.object.peso_neto[1] + (ld_peso_neto_cabecera - ld_peso_neto_lineas)
+			
+			datos.setsort("partidaest asc")
+			datos.sort()			
+		end if
+	end if	
+	
+	for indice = 1 to total
+		importe    = datos.Getitemnumber(indice,"importe_partida")
+		peso_bruto = datos.object.peso_bruto[indice] 
+		peso_neto  = datos.object.peso_neto[indice] 
+		ld_m2      = datos.object.m2[indice]
+		par        = datos.Getitemstring(indice,"partidaest")
+		ll_cajas   = datos.object.cajas[indice]
+		nombre_par = f_nombre_venpartidas(codigo_empresa,par)
+		valor1_par = f_valor1_venpartidas(codigo_empresa,par)
+	//	resultado = resultado + valor1_par + " " + nombre_par + " : " + string(importe,"###,###,###.00") +" EUR"+ char(13)
+	
+	
+		int espacios
+		string peso_bruto_str, peso_neto_str, importe_str
+		
+		espacios =  20 - len(valor1_par) //20
+		valor1_par = valor1_par + space(espacios)
+		
+		importe_str = string(importe,"#######0.00")
+		espacios = 11 - len (importe_str) //11
+		importe_str =space(espacios) +importe_str
+		
+		peso_bruto_str = string (peso_bruto, "#####0.0" )
+		espacios = 8 - len (peso_bruto_str) //6
+		peso_bruto_str =space(espacios) +peso_bruto_str
+		
+		peso_neto_str = string (peso_neto, "#####0.0")
+		espacios = 8 - len (peso_neto_str) //6
+		peso_neto_str =space(espacios) +peso_neto_str
+	
+		m2_str = string(ld_m2,"#######0.00")
+		espacios = 11 - len (m2_str) //11
+		m2_str =space(espacios) +m2_str
+		
+		cajas_str = string(ll_cajas,"####0")
+		espacios = 6 - len (cajas_str) //6
+		cajas_str =space(espacios) +cajas_str
+		//resultado = resultado + valor1_par + " : " + string(importe,"###,###,###.00") +" EUR"+peso_bruto_str+" Kg "+peso_neto_Str+" Kg"+ char(13)+ char(13)
+		
+		if isnull(moneda) or moneda = '' then 
+			
+			moneda = '7'
+		
+		end if
+		
+		if moneda = '5' then
+			
+			simbolo_moneda = '$ '
+			
+		else
+			
+			simbolo_moneda = '€ '
+	
+		end if
+		
+		resultado = resultado + valor1_par + ":" + importe_str + simbolo_moneda +peso_bruto_str+"Kg "+peso_neto_str+"Kg "+m2_str+"M2 "+cajas_str+"Cjs"+char(13) //+ char(13)	
+		
+		//resultado = resultado + valor1_par + ":" + importe_str +"€ "+peso_bruto_str+"Kg "+peso_neto_str+"Kg "+m2_str+"M2 "+cajas_str+"Cjs"+char(13) //+ char(13)	
+	next
+	
+	resultado = trim(resultado)
+	
+	destroy datos
+	
+end if
+
+Return resultado
+
+
+
+
+/*
+dec{2} variable,importe, peso_neto, peso_bruto, peso_pallets, peso_bruto_pallets
+string sel,resultado,nombre_par,valor1_par,par
+long   indice,total
+Datastore datos
+
+sel = "SELECT sum(venlifac.importe - impdtopp) importe_partida, sum(venlifac.peso) peso_bruto, sum(venlifac.peso_neto) peso_neto, articulos.partidaest "+&
+		"FROM venlifac,articulos "+&
+		"WHERE venlifac.empresa = '"+empresa+"' AND "+&
+      	"venlifac.anyo    = "+string(anyo)+" AND "+&
+      	"venlifac.factura = "+string(factura)+" AND "+&
+		"venlifac.tipolinea <> '5' AND "+&
+		"venlifac.tipolinea <> '14' AND "+&
+		"venlifac.tipolinea <> '15' AND "+&
+		"venlifac.tipolinea <> '16' AND "+&
+		"venlifac.articulo = articulos.codigo "+&
+		"GROUP BY articulos.partidaest"
+
+//datos = f_cargar_cursor(sel)	
+f_cargar_cursor_nuevo(sel, datos)
+
+resultado = ""
+total = datos.rowcount()
+if total = 0 then
+	resultado = "sin datos"
+end if
+
+select sum (distinct peso_bruto_venalb) - sum (peso)
+into :peso_pallets
+from venlifac
+where	venlifac.empresa = :empresa AND 
+venlifac.anyo    = :anyo AND 
+venlifac.factura = :factura AND 
+venlifac.tipolinea <> '5' AND 
+venlifac.tipolinea <> '14' AND
+venlifac.tipolinea <> '15' AND
+venlifac.tipolinea <> '16' ;
+
+if total = 0 or isnull(total) then
+	peso_bruto_pallets =  0
+else
+	peso_bruto_pallets =  peso_pallets / total
+end if
+
+for indice = 1 to total
+	importe = datos.Getitemnumber(indice,"importe_partida")
+	par     = datos.Getitemstring(indice,"articulos_partidaest")
+	nombre_par = f_nombre_venpartidas(codigo_empresa,par)
+	valor1_par = f_valor1_venpartidas(codigo_empresa,par)
+	peso_bruto = datos.object.peso_bruto[indice]
+	peso_neto = datos.object.peso_neto[indice]
+
+
+//	peso_neto = datos.Getitemnumber(indice,"peso_neto") 
+	peso_bruto = peso_bruto  + peso_bruto_pallets
+	
+	
+	int espacios
+	string peso_bruto_str, peso_neto_str, importe_str
+	
+	espacios =  20 - len(valor1_par)
+	valor1_par = valor1_par + space(espacios)
+	
+	importe_str = string(importe,"###,###,###.00")
+	espacios = 11 - len (importe_str)
+	importe_str =space(espacios) +importe_str
+	
+	peso_bruto_str = string (peso_bruto, "######" )
+	espacios = 6 - len (peso_bruto_str)
+	peso_bruto_str =space(espacios) +peso_bruto_str
+	
+	peso_neto_str = string (peso_neto, "######")
+	espacios = 6 - len (peso_neto_str)
+	peso_neto_str =space(espacios) +peso_neto_str
+	
+//	resultado = resultado + valor1_par + ": " + string(importe,"###,###,###.00") +" € "+string (peso_bruto)+" Kg "+string (peso_neto)+" Kg"+ char(13)
+	resultado = resultado + valor1_par + ": " + importe_str +" € "+peso_bruto_str+" Kg "+peso_neto_str+" Kg"+ char(13)+ char(13)
+next
+resultado = trim(resultado)
+destroy datos
+
+Return resultado
+*/
+
+
+
+/*
+dec{2} variable,importe
+string sel,resultado,nombre_par,valor1_par,par
+long   indice,total
+Datastore datos
+
+sel = "SELECT sum(venlifac.importe - impdtopp) importe_partida, articulos.partidaest, sum(venlifac.peso) peso_bruto, sum(venlifac.peso_neto) peso_neto "+&
+		"FROM venlifac,articulos "+&
+		"WHERE venlifac.empresa = '"+empresa+"' AND "+&
+      "venlifac.anyo    = "+string(anyo)+" AND "+&
+      "venlifac.factura = "+string(factura)+" AND "+&
+		"venlifac.tipolinea <> '5' AND "+&
+		"venlifac.tipolinea <> '14' AND "+&
+		"venlifac.tipolinea <> '15' AND "+&
+		"venlifac.tipolinea <> '16' AND "+&
+		"venlifac.articulo = articulos.codigo "+&
+		"GROUP BY articulos.partidaest"
+
+//datos = f_cargar_cursor(sel)	
+f_cargar_cursor_nuevo(sel, datos)
+
+resultado = ""
+total = datos.rowcount()
+if total = 0 then
+	resultado = "sin datos"
+end if
+
+for indice = 1 to total
+	importe = datos.Getitemnumber(indice,"importe_partida")
+	par     = datos.Getitemstring(indice,"articulos_partidaest")
+	nombre_par = f_nombre_venpartidas(codigo_empresa,par)
+	valor1_par = f_valor1_venpartidas(codigo_empresa,par)
+//	resultado = resultado + valor1_par + " " + nombre_par + " : " + string(importe,"###,###,###.00") +" EUR"+ char(13)
+	resultado = resultado + valor1_par + " : " + string(importe,"###,###,###.00") +" EUR"+ char(13)
+next
+resultado = trim(resultado)
+destroy datos
+
+Return resultado
+*/
+end function
+

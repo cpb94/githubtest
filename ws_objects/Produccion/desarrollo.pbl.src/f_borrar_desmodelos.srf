@@ -1,0 +1,98 @@
+﻿$PBExportHeader$f_borrar_desmodelos.srf
+global type f_borrar_desmodelos from function_object
+end type
+
+forward prototypes
+global function boolean f_borrar_desmodelos (string empresa, string modelo)
+end prototypes
+
+global function boolean f_borrar_desmodelos (string empresa, string modelo);long trabajos_lab
+boolean exito
+dec total_colecciones
+string v_coleccion
+
+select count(*)
+into :trabajos_lab
+from destrabajo2
+where empresa = :empresa
+and modelo = :modelo
+and laboratorio = 'S' using sqlca;
+
+if trabajos_lab > 0 then
+	messagebox("Aviso","No se borrar el modelo, porque existen trabajos de laboratorio.")
+	return false
+end if
+
+
+select coleccion
+into :v_coleccion
+from desmodelo
+where empresa = :empresa
+and modelo = :modelo using sqlca;
+
+
+exito = true
+
+delete from desmodelo 
+where empresa = :empresa
+and modelo = :modelo
+using SQLCA;
+
+if SQLCA.SQLCode = -1 then
+	exito = false
+end if
+
+delete from destrabajo2 
+where empresa = :empresa
+and modelo = :modelo
+using SQLCA;
+
+if SQLCA.SQLCode = -1 then
+	exito = false
+end if
+
+//if exito then 
+//	commit using SQLCA;
+//else
+//	rollback using sqlca;
+//end if
+
+// Comprobamos si queda alguna pieza más en la colección
+select count(*) 
+into :total_colecciones
+from desmodelo
+where empresa = :empresa
+and coleccion = :v_coleccion using sqlca;
+
+if total_colecciones = 0 then
+	delete from descoleccionsol
+	where empresa = :empresa
+	and codigo = :v_coleccion
+	using SQLCA;
+
+	if SQLCA.SQLCode = -1 then
+		exito = false
+	end if
+	
+	delete from deshistorico
+	where empresa = :empresa
+	and coleccion = :v_coleccion
+	using SQLCA;
+	
+	if SQLCA.SQLCode = -1 then
+		exito = false
+	end if
+end if
+
+if exito = true then 
+	commit using SQLCA;
+	messagebox("Aviso","El modelo "+string(modelo)+" se ha borrado con éxito ")	
+else
+	rollback using SQLCA;
+	messagebox("Aviso","No se ha podido borrar el modelo "+string(modelo))
+end if
+
+return exito	
+
+end function
+

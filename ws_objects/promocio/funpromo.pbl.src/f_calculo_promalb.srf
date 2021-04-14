@@ -1,0 +1,62 @@
+﻿$PBExportHeader$f_calculo_promalb.srf
+global type f_calculo_promalb from function_object
+end type
+
+forward prototypes
+global function boolean f_calculo_promalb (string arg_empresa, decimal arg_anyo, decimal arg_albaran)
+end prototypes
+
+global function boolean f_calculo_promalb (string arg_empresa, decimal arg_anyo, decimal arg_albaran);Integer bien
+bien= 0
+Dec{4} var_peso_panel,var_coste_panel,var_venta_panel,var_peso_material,&
+       var_coste_material,var_venta_material,var_coste_manipulacion
+
+
+  SELECT sum(promlinalb.peso_material  * promlinalb.cantidad),   
+         sum(promlinalb.coste_material * promlinalb.cantidad),   
+         sum(promlinalb.venta_material * promlinalb.cantidad),   
+         sum(promlinalb.coste_panel * promlinalb.cantidad),   
+         sum(promlinalb.peso_panel  * promlinalb.cantidad),   
+         sum(promlinalb.venta_panel * promlinalb.cantidad)  ,
+			sum(promlinalb.coste_manipulacion * promlinalb.cantidad)  
+    INTO :var_peso_material,   
+         :var_coste_material,   
+         :var_venta_material,   
+         :var_coste_panel,   
+         :var_peso_panel,   
+         :var_venta_panel  ,
+         :var_coste_manipulacion
+    FROM promlinalb  
+   WHERE ( promlinalb.empresa = :arg_empresa ) AND  
+         ( promlinalb.anyo = :arg_anyo ) AND  
+         ( promlinalb.albaran = :arg_albaran );
+			IF SQLCA.SQLCODE <> 0 Then bien = 1
+			
+	  UPDATE promalb  
+     SET promalb.peso_paneles       = :var_peso_panel,   
+         promalb.coste_paneles      = :var_coste_panel,   
+         promalb.venta_paneles      = :var_venta_panel,   
+         promalb.peso_material      = :var_peso_material,   
+         promalb.coste_material     = :var_coste_material,   
+         promalb.venta_material     = :var_venta_material,   
+			promalb.coste_manipulacion = :var_coste_manipulacion,
+			promalb.peso_total       = promalb.peso_expositor + (:var_peso_material+ :var_peso_panel),   
+         promalb.coste_total      = promalb.coste_expositor + (:var_coste_material + :var_coste_panel + :var_coste_manipulacion),    
+         promalb.venta_total      = promalb.venta_expositor + (:var_venta_material + :var_venta_panel + :var_coste_manipulacion)
+
+   WHERE ( promalb.empresa  = :arg_empresa ) AND  
+         ( promalb.anyo     = :arg_anyo ) AND  
+         ( promalb.albaran   = :arg_albaran )   ;
+			IF SQLCA.SQLCODE <> 0 then bien = 1
+
+
+
+
+
+IF bien = 0 Then
+	Return TRUE
+ELSE
+	RETURN FALSE
+END IF
+end function
+

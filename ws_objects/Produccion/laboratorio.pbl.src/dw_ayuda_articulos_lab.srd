@@ -1,0 +1,44 @@
+﻿$PBExportHeader$dw_ayuda_articulos_lab.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=76 color="536870912" )
+summary(height=16 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes key=yes name=codigo dbname="articulos_lab.codigo" )
+ column=(type=char(5) updatewhereclause=yes key=yes name=empresa dbname="articulos_lab.empresa" )
+ column=(type=char(10) updatewhereclause=yes name=formato dbname="articulos_lab.formato" )
+ column=(type=char(4) updatewhereclause=yes name=pasta dbname="articulos_lab.pasta" )
+ column=(type=char(15) updatewhereclause=yes name=esmalte dbname="articulos_lab.esmalte" )
+ column=(type=datetime updatewhereclause=yes name=fecha_alta dbname="articulos_lab.fecha_alta" )
+ column=(type=char(40) updatewhereclause=yes name=piezas_juego dbname="articulos_lab.piezas_juego" )
+ column=(type=char(5) updatewhereclause=yes name=tipo_acabado dbname="articulos_lab.tipo_acabado" )
+ column=(type=char(12) updatewhereclause=yes name=ref_disenyo dbname="articulos_lab.ref_disenyo" )
+ column=(type=char(4) updatewhereclause=yes name=ref_disenyo2 dbname="articulos_lab.ref_disenyo2" )
+ retrieve="  SELECT 	articulos_lab.codigo ,          
+			 	articulos_lab.empresa ,           
+				articulos_lab.formato ,           
+				articulos_lab.pasta ,           
+				articulos_lab.esmalte ,           
+				articulos_lab.fecha_alta ,           
+				articulos_lab.piezas_juego ,           
+				articulos_lab.tipo_acabado ,           
+				articulos_lab.ref_disenyo ,           
+				articulos_lab.ref_disenyo2     
+        FROM articulos_lab      
+        WHERE 	( articulos_lab.empresa = :empresa ) and          
+					( articulos_lab.codigo like :criterio )   " update="articulos_lab" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Código"border="6" color="0" x="165" y="8" height="56" width="206"  name=codigo_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Ref. Diseño"border="6" color="0" x="393" y="8" height="56" width="398"  name=descripcion_t  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Formato"border="6" color="0" x="814" y="12" height="56" width="242"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Pasta"border="6" color="0" x="1083" y="12" height="56" width="169"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Esmalte"border="6" color="0" x="1280" y="12" height="56" width="370"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="0" x="165" y="4" height="56" width="206" format="[general]"  name=codigo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=6 alignment="0" tabsequence=32766 border="2" color="0" x="2971" y="20" height="56" width="608" format="[shortdate] [time]"  name=fecha_alta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="0" tabsequence=32766 border="2" color="0" x="3584" y="8" height="56" width="471" format="[general]"  name=tipo_acabado edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="2" color="0" x="814" y="4" height="56" width="242" format="[general]"  name=formato edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="2" color="0" x="1083" y="8" height="56" width="169" format="[general]"  name=pasta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="2" color="0" x="1280" y="4" height="56" width="370" format="[general]"  name=esmalte edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="0" tabsequence=32766 border="0" color="0" x="389" y="4" height="56" width="279" format="[general]"  name=ref_disenyo edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=10 alignment="0" tabsequence=32766 border="0" color="0" x="681" y="4" height="56" width="110" format="[general]"  name=ref_disenyo2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

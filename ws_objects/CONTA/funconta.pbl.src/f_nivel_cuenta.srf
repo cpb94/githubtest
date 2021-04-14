@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nivel_cuenta.srf
+global type f_nivel_cuenta from function_object
+end type
+
+forward prototypes
+global function integer f_nivel_cuenta (integer ejercicio, string empresa, string cuenta)
+end prototypes
+
+global function integer f_nivel_cuenta (integer ejercicio, string empresa, string cuenta);int nivel
+
+  SELECT contaplan.nivel
+    INTO :nivel  
+    FROM contaplan
+   WHERE ( contaplan.ejercicio = :ejercicio ) AND  
+         ( contaplan.empresa = :empresa ) AND  
+         ( contaplan.codigo = :cuenta)   ;
+
+Return nivel
+end function
+

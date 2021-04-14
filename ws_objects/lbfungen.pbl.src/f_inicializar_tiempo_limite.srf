@@ -1,0 +1,12 @@
+﻿$PBExportHeader$f_inicializar_tiempo_limite.srf
+$PBExportComments$Inicializa el valor de la variable global tiempo_limite.
+global type f_inicializar_tiempo_limite from function_object
+end type
+
+forward prototypes
+global subroutine f_inicializar_tiempo_limite ()
+end prototypes
+
+global subroutine f_inicializar_tiempo_limite ();If tiempo_limite >= 0 Then tiempo_limite = 0
+end subroutine
+

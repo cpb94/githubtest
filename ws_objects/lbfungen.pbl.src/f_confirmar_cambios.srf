@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_confirmar_cambios.srf
+$PBExportComments$Función para confirmar la grabacion de las modificaciones producidas en los datos de una Datawindow.
+global type f_confirmar_cambios from function_object
+end type
+
+forward prototypes
+global subroutine f_confirmar_cambios (datawindow adw_datawindow)
+end prototypes
+
+global subroutine f_confirmar_cambios (datawindow adw_datawindow);integer	li_opcion		// Controla la elección del MessageBox
+integer f_borradas, f_modif
+
+
+IF adw_datawindow.DeletedCount() > 0  OR &
+		adw_datawindow.ModifiedCount() > 0 THEN
+
+	li_opcion = MessageBox("Modificaciones", &
+						"Actualizar la Base de Datos con las modificaciones", &
+						Question!, YesNoCancel!, 3)
+
+	CHOOSE CASE li_opcion
+
+		CASE	1		// Actualiza la B.D.
+
+			IF adw_datawindow.Update() = 1 THEN 
+					Commit using sqlca;
+			ELSE		
+					RollBack using sqlca;
+			END IF
+
+		CASE  2		// Rechaza los cambios la B.D.
+
+			RollBack using sqlca;
+
+		CASE ELSE		// Cancela y vuelve a la ventana
+
+			Message.ReturnValue = 1
+
+	END CHOOSE
+
+END IF
+end subroutine
+

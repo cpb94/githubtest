@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_total_precartera_cuenta.srf
+global type f_total_precartera_cuenta from function_object
+end type
+
+forward prototypes
+global function decimal f_total_precartera_cuenta (string empresa, string cuenta)
+end prototypes
+
+global function decimal f_total_precartera_cuenta (string empresa, string cuenta);Dec{0}   numero
+
+  SELECT sum(importe)   INTO :numero    FROM carefectos  
+   WHERE carefectos.empresa   = :empresa 
+	AND   carefectos.cuenta    = :cuenta
+	AND   carefectos.situacion = "4";
+	IF IsNull(numero) Then numero = 0
+	Return numero
+
+
+
+end function
+

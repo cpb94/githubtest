@@ -1,0 +1,36 @@
+﻿$PBExportHeader$f_insert_comcabfac.srf
+global type f_insert_comcabfac from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_comcabfac (str_comcabfac comcabfac)
+end prototypes
+
+global function boolean f_insert_comcabfac (str_comcabfac comcabfac);Boolean bien = true
+
+INSERT INTO comcabfac
+	(comcabfac.empresa,						comcabfac.anyo,						comcabfac.proveedor,
+	 comcabfac.factura,						comcabfac.fecha_fac,					comcabfac.fecha_entrega,
+	 comcabfac.forma_envio,					comcabfac.forma_pago,				comcabfac.incidencias,
+	 comcabfac.libre,							comcabfac.pedidopor,					comcabfac.tipoiva,
+	 comcabfac.iva,							comcabfac.moneda,						comcabfac.dtopp,
+	 comcabfac.dto1,							comcabfac.cambio,						comcabfac.decimales_precios,
+	 comcabfac.facturado_por)
+VALUES 
+	(:comcabfac.empresa,						:comcabfac.anyo,						:comcabfac.proveedor,
+	 :comcabfac.factura,						:comcabfac.fecha_fac,				:comcabfac.fecha_entrega,
+	 :comcabfac.forma_envio,				:comcabfac.forma_pago,				:comcabfac.incidencias,
+	 :comcabfac.libre,						:comcabfac.pedidopor,				:comcabfac.tipoiva,
+	 :comcabfac.iva,							:comcabfac.moneda,					:comcabfac.dtopp,
+	 :comcabfac.dto1,							:comcabfac.cambio,					:comcabfac.decimales_precios,
+	 :comcabfac.facturado_por);
+
+IF SQLCA.SQLCode <> 0 THEN
+	MessageBox("Cabecera de Facturas de Compras","Error al insertar")
+	bien = false
+END IF
+
+RETURN bien
+
+end function
+

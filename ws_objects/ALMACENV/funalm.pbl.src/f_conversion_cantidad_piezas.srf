@@ -1,0 +1,65 @@
+﻿$PBExportHeader$f_conversion_cantidad_piezas.srf
+$PBExportComments$Transforma una cantidad en piezas a otra según del tipo de unidad del articulo.
+global type f_conversion_cantidad_piezas from function_object
+end type
+
+forward prototypes
+global function decimal f_conversion_cantidad_piezas (string cod_empresa, string cod_articulo, string caja, decimal n_total)
+end prototypes
+
+global function decimal f_conversion_cantidad_piezas (string cod_empresa, string cod_articulo, string caja, decimal n_total);String cod_formato,cod_modelo,cod_unidad
+Integer longitud
+Integer bien,total_cajas,total_pallets,cajas,n_piezascaja,n_cajaspallet
+decimal{0}  total_cantidad
+decimal n_metroscaja
+
+bien = 0
+
+select articulos.unidad
+into   :cod_unidad
+from   articulos
+where  articulos.empresa = :cod_empresa
+and    articulos.codigo  = :cod_articulo;
+
+if sqlca.sqlcode <> 0 then
+	messagebox("Error","En [F_conversion_cantidad_piezas] "+sqlca.sqlerrtext)
+	total_cantidad = 0		
+else
+	CHOOSE CASE cod_unidad
+		CASE  "1"
+			SELECT almartcajas.piezascaja,
+					 almartcajas.metroscaja    
+			INTO   :n_piezascaja,
+					 :n_metroscaja  
+			FROM   almartcajas  
+			WHERE  almartcajas.empresa  = :cod_empresa
+			AND    almartcajas.articulo = :cod_articulo
+			AND    almartcajas.caja     = :caja;
+			
+			IF SQLCA.SQLCode<>0 THEN 
+				messagebox("Error","En [F_conversion_cantidad_piezas] "+sqlca.sqlerrtext)
+				total_cantidad = 0	
+			else
+				total_cantidad   = round(( n_total / n_metroscaja ) * n_piezascaja,0)
+			end if				
+		CASE "0"
+			total_cantidad   = n_total
+		CASE  ELSE
+			messagebox("Error","En [F_conversion_cantidad_piezas] unidad no valida ["+cod_unidad+"]")
+			total_cantidad = 0
+	END CHOOSE
+end if
+
+RETURN total_cantidad
+
+
+
+
+
+
+
+
+
+
+end function
+

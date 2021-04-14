@@ -1,0 +1,64 @@
+﻿$PBExportHeader$f_calculo_coste_mp2.srf
+global type f_calculo_coste_mp2 from function_object
+end type
+
+forward prototypes
+global function decimal f_calculo_coste_mp2 (string empresa, string mp, string proveedor, decimal cantidad)
+end prototypes
+
+global function decimal f_calculo_coste_mp2 (string empresa, string mp, string proveedor, decimal cantidad);// By Pako M. (09-12-98) \\
+
+dec equivalencia_kg,precio,coste
+string desc_unidad,tipo_unidad
+boolean correcto = true
+
+// Seleccionamos la equivalencia y el tipo de unidad del producto \\
+select equivalencia_kg,tipo_unidad
+into :equivalencia_kg,:tipo_unidad
+from venmprima
+where empresa = :empresa
+and venmprima.codigo = :mp ;
+
+
+if sqlca.sqlcode <> 0 then
+	correcto = false
+end if
+
+// Obtenemos la descripción de la unidad \\
+select descripcion
+into : desc_unidad
+from comunimedida
+where codigo = :tipo_unidad;
+
+// Comprobamos que la unidad sea kilos ,
+// o bien tengamos el equivalente de la unidad en kilos \\
+if Upper (trim(desc_unidad))<>"KILOGRAMOS" and IsNull(equivalencia_kg) then
+	correcto = false
+	messagebox("¡¡ Calculo de coste !!","Materia prima "+mp+"~nsin equivalente en Kg")
+end if
+
+// Hacemos los calculos necesarios para el calculo del coste del producto \\
+if correcto then
+	select precio
+	into :precio
+	from comartpro
+	where comartpro.empresa = :empresa
+	and comartpro.mprima = :mp
+	and comartpro.proveedor = :proveedor;
+
+	if IsNull(precio) then
+		//messagebox("¡¡ Calculo de coste !!","Materia prima "+mp+"~nsin precio")
+		correcto = false
+	end if	
+	
+	if correcto then
+			coste = ((cantidad/1000) / equivalencia_kg) * precio
+	else
+		coste = -1 // retorna -1 si hay algun error //
+	end if
+else
+	coste = -1 // retorna -1 si hay algun error //
+end if
+return coste
+end function
+

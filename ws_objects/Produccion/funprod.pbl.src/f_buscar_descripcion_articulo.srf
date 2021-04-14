@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_buscar_descripcion_articulo.srf
+global type f_buscar_descripcion_articulo from function_object
+end type
+
+forward prototypes
+global function string f_buscar_descripcion_articulo (string articulo)
+end prototypes
+
+global function string f_buscar_descripcion_articulo (string articulo);string descripcion_base
+
+SELECT descripcion 
+INTO	:descripcion_base
+FROM	articulos
+WHERE	codigo = :articulo
+and empresa = :codigo_Empresa;
+
+RETURN descripcion_base
+end function
+

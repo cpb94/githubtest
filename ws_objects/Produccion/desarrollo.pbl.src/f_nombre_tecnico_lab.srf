@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_nombre_tecnico_lab.srf
+global type f_nombre_tecnico_lab from function_object
+end type
+
+forward prototypes
+global function string f_nombre_tecnico_lab (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_tecnico_lab (string empresa, string codigo);
+string descripcion
+
+select descripcion
+into :descripcion
+from tecnico_lab
+where empresa = :empresa
+and codigo = :codigo;
+
+return descripcion
+
+
+end function
+

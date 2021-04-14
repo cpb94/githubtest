@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_disponible_ubicacion.srf
+global type f_disponible_ubicacion from function_object
+end type
+
+forward prototypes
+global function decimal f_disponible_ubicacion (readonly string v_empresa, string v_ubicacion)
+end prototypes
+
+global function decimal f_disponible_ubicacion (readonly string v_empresa, string v_ubicacion);Dec   ex
+
+//Función no compatible con el nuevo almacen
+MessageBox("ERROR - NUEVO ALMACEN", "f_disponible_ubicacion")
+
+/*
+SELECT sum(almlinubica.existencias)  INTO   :ex
+FROM   almlinubica  
+WHERE almlinubica.empresa     = :v_empresa
+AND   almlinubica.ubicacion   = :v_ubicacion
+And   almlinubica.pedido is Null;
+*/
+
+
+IF IsNull(ex) Then ex = 0
+Return  ex
+end function
+

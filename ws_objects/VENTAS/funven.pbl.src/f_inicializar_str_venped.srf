@@ -1,0 +1,91 @@
+﻿$PBExportHeader$f_inicializar_str_venped.srf
+global type f_inicializar_str_venped from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_venped ( ref str_venped str_venped)
+end prototypes
+
+global function boolean f_inicializar_str_venped ( ref str_venped str_venped);boolean lb_correcto = true
+
+if isnull(str_venped.empresa) then str_venped.empresa = ''
+if isnull(str_venped.anyo) then str_venped.anyo = 0
+if isnull(str_venped.pedido) then str_venped.pedido = 0
+if isnull(str_venped.cliente) then str_venped.cliente = ''
+if isnull(str_venped.observaciones) then str_venped.observaciones = ''
+if isnull(str_venped.codpago) then str_venped.codpago = ''
+if isnull(str_venped.agente1) then str_venped.agente1 = ''
+if isnull(str_venped.agente2) then str_venped.agente2 = ''
+if isnull(str_venped.comision1) then str_venped.comision1 = 0
+if isnull(str_venped.comision2) then str_venped.comision2 = 0
+if isnull(str_venped.comision11) then str_venped.comision11 = 0
+if isnull(str_venped.comision22) then str_venped.comision22 = 0
+if isnull(str_venped.dtopp) then str_venped.dtopp = 0
+if isnull(str_venped.dtoesp1) then str_venped.dtoesp1 = 0
+if isnull(str_venped.dtoesp2) then str_venped.dtoesp2 = 0
+if isnull(str_venped.dtoesp3) then str_venped.dtoesp3 = 0
+if isnull(str_venped.dtoesp4) then str_venped.dtoesp4 = 0
+if isnull(str_venped.tipodto1) then str_venped.tipodto1 = ''
+if isnull(str_venped.tipodto2) then str_venped.tipodto2 = ''
+if isnull(str_venped.tipodto3) then str_venped.tipodto3 = ''
+if isnull(str_venped.tipodto4) then str_venped.tipodto4 = ''
+if isnull(str_venped.explicaciondto1) then str_venped.explicaciondto1 = ''
+if isnull(str_venped.explicaciondto2) then str_venped.explicaciondto2 = ''
+if isnull(str_venped.explicaciondto3) then str_venped.explicaciondto3 = ''
+if isnull(str_venped.explicaciondto4) then str_venped.explicaciondto4 = ''
+if isnull(str_venped.tipoiva) then str_venped.tipoiva = ''
+if isnull(str_venped.iva) then str_venped.iva = 0
+if isnull(str_venped.numpedcli) then str_venped.numpedcli = ''
+if isnull(str_venped.idioma) then str_venped.idioma = ''
+if isnull(str_venped.divisa) then str_venped.divisa = ''
+if isnull(str_venped.cambio) then str_venped.cambio = 0
+if isnull(str_venped.tarifa) then str_venped.tarifa = ''
+if isnull(str_venped.transportista) then str_venped.transportista = ''
+if isnull(str_venped.serie) then str_venped.serie = ''
+if isnull(str_venped.zona) then str_venped.zona = ''
+if isnull(str_venped.envio) then str_venped.envio = ''
+if isnull(str_venped.correspondencia) then str_venped.correspondencia = ''
+if isnull(str_venped.domiciliacion) then str_venped.domiciliacion = ''
+if isnull(str_venped.forma_envio) then str_venped.forma_envio = ''
+if isnull(str_venped.cod_entrega) then str_venped.cod_entrega = ''
+if isnull(str_venped.usuario) then str_venped.usuario = ''
+if isnull(str_venped.tipo_portes) then str_venped.tipo_portes = ''
+if isnull(str_venped.periodo_fac) then str_venped.periodo_fac = ''
+if isnull(str_venped.peso) then str_venped.peso = 0
+if isnull(str_venped.usuario_pedido) then str_venped.usuario_pedido = ''
+if isnull(str_venped.agente3) then str_venped.agente3 = ''
+if isnull(str_venped.comision31) then str_venped.comision31 = 0
+if isnull(str_venped.comision32) then str_venped.comision32 = 0
+if isnull(str_venped.veces) then str_venped.veces = 0
+if isnull(str_venped.textcomercial1) then str_venped.textcomercial1 = ''
+if isnull(str_venped.textcomercial2) then str_venped.textcomercial2 = ''
+if isnull(str_venped.textaduanaesp1) then str_venped.textaduanaesp1 = ''
+if isnull(str_venped.textaduanaesp2) then str_venped.textaduanaesp2 = ''
+if isnull(str_venped.textaduanaext1) then str_venped.textaduanaext1 = ''
+if isnull(str_venped.textaduanaext2) then str_venped.textaduanaext2 = ''
+if isnull(str_venped.textopie1) then str_venped.textopie1 = ''
+if isnull(str_venped.textopie2) then str_venped.textopie2 = ''
+if isnull(str_venped.condicion) then str_venped.condicion = ''
+if isnull(str_venped.peso_neto) then str_venped.peso_neto = 0
+if isnull(str_venped.banco_de_cobro) then str_venped.banco_de_cobro = ''
+if isnull(str_venped.porcentaje_aduana) then str_venped.porcentaje_aduana = 0
+if isnull(str_venped.bruto) then str_venped.bruto = 0
+if isnull(str_venped.importe_dto) then str_venped.importe_dto = 0
+if isnull(str_venped.total_neto) then str_venped.total_neto = 0
+if isnull(str_venped.calculo_dto) then str_venped.calculo_dto = ''
+if isnull(str_venped.agrupa) then str_venped.agrupa = ''
+if isnull(str_venped.almacen_deposito) then str_venped.almacen_deposito = ''
+if isnull(str_venped.deposito) then str_venped.deposito = ''
+if isnull(str_venped.calculo_dtoesp) then str_venped.calculo_dtoesp = ''
+if isnull(str_venped.agrupa_exp) then str_venped.agrupa_exp = ''
+if isnull(str_venped.facturar_metros_reales) then str_venped.facturar_metros_reales = ''
+if isnull(str_venped.almacen_de_carga) then str_venped.almacen_de_carga = ''
+if isnull(str_venped.comision_fija1) then str_venped.comision_fija1 = ''
+if isnull(str_venped.comision_fija2) then str_venped.comision_fija2 = ''
+if isnull(str_venped.comision_fija3) then str_venped.comision_fija3 = ''
+if isnull(str_venped.es_proforma) then str_venped.es_proforma = ''
+if isnull(str_venped.peso_bascula_kg) then str_venped.peso_bascula_kg = 0
+if isnull(str_venped.observaciones2) then str_venped.observaciones2 = ''
+return lb_correcto
+end function
+

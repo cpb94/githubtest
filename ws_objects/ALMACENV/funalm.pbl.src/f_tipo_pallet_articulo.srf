@@ -1,0 +1,28 @@
+﻿$PBExportHeader$f_tipo_pallet_articulo.srf
+global type f_tipo_pallet_articulo from function_object
+end type
+
+forward prototypes
+global function string f_tipo_pallet_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_tipo_pallet_articulo (string empresa, string articulo);string var_pallet 
+Dec nu
+
+
+  SELECT count(*) INTO :nu   FROM almartpallet  
+   WHERE almartpallet.empresa  = :empresa  
+	AND   almartpallet.articulo = :articulo;
+	
+  IF nu = 1 Then
+  SELECT almartpallet.pallet INTO :var_pallet   FROM almartpallet  
+   WHERE almartpallet.empresa  = :empresa  
+	AND   almartpallet.articulo = :articulo;
+END IF
+
+
+
+	 Return var_pallet
+
+end function
+

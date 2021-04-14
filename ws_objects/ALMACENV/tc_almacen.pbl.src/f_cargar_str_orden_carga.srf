@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_cargar_str_orden_carga.srf
+global type f_cargar_str_orden_carga from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_orden_carga (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo,  ref str_orden_carga str_orden_carga)
+end prototypes
+
+global function boolean f_cargar_str_orden_carga (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo,  ref str_orden_carga str_orden_carga);boolean lb_correcto = true
+
+SELECT orden_carga.empresa,
+       orden_carga.anyo,
+       orden_carga.codigo,
+       orden_carga.fecha,
+       orden_carga.finalizada,
+       orden_carga.almacen_destino,
+       orden_carga.zona_destino,
+       orden_carga.fila_destino,
+       orden_carga.altura_destino,
+       orden_carga.cliente,
+       orden_carga.expedicion_anyo,
+       orden_carga.expedicion_codigo,
+       orden_carga.fecha_fin
+INTO   :str_orden_carga.empresa,
+       :str_orden_carga.anyo,
+       :str_orden_carga.codigo,
+       :str_orden_carga.fecha,
+       :str_orden_carga.finalizada,
+       :str_orden_carga.almacen_destino,
+       :str_orden_carga.zona_destino,
+       :str_orden_carga.fila_destino,
+       :str_orden_carga.altura_destino,
+       :str_orden_carga.cliente,
+       :str_orden_carga.expedicion_anyo,
+       :str_orden_carga.expedicion_codigo,
+       :str_orden_carga.fecha_fin
+FROM orden_carga
+WHERE orden_carga.empresa = :arg_empresa AND orden_carga.anyo = :arg_anyo AND orden_carga.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

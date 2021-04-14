@@ -1,0 +1,57 @@
+﻿$PBExportHeader$f_orden_coccion_articulo_version.srf
+global type f_orden_coccion_articulo_version from function_object
+end type
+
+forward prototypes
+global function long f_orden_coccion_articulo_version (string arg_empresa, string arg_articulo, string arg_version, integer arg_coccion)
+end prototypes
+
+global function long f_orden_coccion_articulo_version (string arg_empresa, string arg_articulo, string arg_version, integer arg_coccion);string sel,distintas_cocciones,aplicacion
+long   indice,total
+int    numero_de_orden
+datastore cocciones
+
+sel = "select codigo "+&
+		"from prodaplicaciones "+&
+		"where empresa = '"+arg_empresa+"' "+&
+		"and   es_coccion = 'S'"
+		
+//cocciones = f_cargar_cursor(sel)	
+f_cargar_cursor_nuevo(sel, cocciones)
+
+total = cocciones.rowcount()
+distintas_cocciones = ""
+for indice = 1 to total
+	aplicacion = cocciones.object.codigo[indice]
+	if trim(distintas_cocciones) = "" then
+		distintas_cocciones = "'"+aplicacion+"'"
+	else
+		distintas_cocciones = distintas_cocciones +",'"+aplicacion+"'"
+	end if
+next
+
+destroy cocciones
+
+sel = "select orden "+&
+		"from   prodaplicaciones_articulo "+&
+		"where  empresa  = '"+arg_empresa+"' "+&
+		"and    articulo = '"+arg_articulo+"' "+&
+		"and    version  = '"+arg_version+"' "+&
+		"and    aplicacion in  ("+distintas_cocciones+") "+&
+		"order  by orden"
+		
+cocciones = f_cargar_cursor(sel)		
+
+total = cocciones.rowcount()
+
+if arg_coccion > total then
+	numero_de_orden = 0
+else
+	numero_de_orden = cocciones.object.orden[arg_coccion]
+end if
+
+destroy cocciones
+		
+return numero_de_orden
+end function
+

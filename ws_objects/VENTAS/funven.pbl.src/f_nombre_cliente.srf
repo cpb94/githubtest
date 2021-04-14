@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_nombre_cliente.srf
+global type f_nombre_cliente from function_object
+end type
+
+forward prototypes
+global function string f_nombre_cliente (string empresa, string cliente)
+end prototypes
+
+global function string f_nombre_cliente (string empresa, string cliente);String var_cliente
+
+  SELECT genter.razon
+    INTO :var_cliente
+    FROM genter  
+   WHERE (genter.empresa = :empresa)
+   AND   (genter.codigo  = :cliente)
+   AND   (genter.tipoter = "C");
+
+Return var_cliente
+end function
+

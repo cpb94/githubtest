@@ -1,0 +1,151 @@
+﻿$PBExportHeader$f_enviar_email.srf
+global type f_enviar_email from function_object
+end type
+
+forward prototypes
+global function boolean f_enviar_email (string correo1, string correo2, string postdata, string mensaje, string ruta)
+end prototypes
+
+global function boolean f_enviar_email (string correo1, string correo2, string postdata, string mensaje, string ruta);mailSession				mSes
+mailReturnCode			mRet
+mailMessage				mMsg
+mailFileDescription	mAttach[]
+string					ls_ret, ls_syntax, ls_name, ls_open_pathname, ls_filename
+string					ls_attach_name,ls_path
+int						li_index, li_nret, li_nrecipients, li_nfile,li_pos
+boolean	 				lb_noerrors
+long ll_cont
+string ls_correo,ls_fichero
+
+mSes = create mailSession
+mRet = mSes.mailLogon(mailNewSession!)
+If mRet <> mailReturnSuccess! Then
+	MessageBox ("Mail Logon", 'Return Code <> mailReturnSuccess!' )
+	mSes.mailLogoff()
+	return false
+End If
+
+ll_cont = 1
+do while correo1 <> ""
+	
+	ls_correo = f_get_token (correo1,";")
+	
+	mMsg.Recipient[ll_cont].name = trim(ls_correo)
+
+	
+	ll_cont ++ 
+
+loop
+
+
+mMsg.notetext             = mensaje
+//mMsg.Recipient[1].name    = correo1
+mMsg.Subject              = postdata
+
+ll_cont = 1
+do while ruta <> ""
+	
+	ls_fichero = f_get_token (ruta,";")
+			
+	mAttach[ll_cont].FileType = mailAttach!
+	mAttach[ll_cont].PathName = trim(ls_fichero)
+	mAttach[ll_cont].FileName = trim(ls_fichero)
+	mAttach[ll_cont].Position = len(mMsg.notetext) - 1	
+	mMsg.AttachmentFile = mAttach
+
+	ll_cont ++ 
+
+loop
+
+
+setPointer(HourGlass!)
+mRet = mSes.mailsend ( mMsg )
+
+if mRet <> mailReturnSuccess! then
+	f_mail_error_to_string ( mRet, 'Enviando Mensajes:', True )
+end if
+
+mSes.mailLogoff()
+
+return true
+
+
+
+
+//FUNCION ORIGINAL
+
+//mailReturnCode			mRet
+//mailMessage			   mMsg  
+//mailFileDescription	mAttach
+//
+//int						li_dwattached, li_attachnumber
+//string					ls_filename, ls_ret
+//int						li_msgs, li_attachments
+//int						li_index , li_row, li_attachindex
+//long i
+//
+//mailSession		ims_mSes
+//boolean			ib_connected,estado
+//estado = true
+//
+////st_status_bar.Text = ' Acceso al sistema de correo...'
+//
+//ims_mses = create mailSession
+//mRet = ims_mses.mailLogon ( mailNewSession!  )
+//ls_ret = f_mail_error_to_string ( mRet, 'Logon:', FALSE )
+////st_status_bar.text = ' Logon: ' + ls_ret
+//
+//if mRet <> mailReturnSuccess! then
+//	MessageBox ("Logon Correo", 'Codigo retorno <> mailReturnSuccess!' )
+//	ib_connected = false
+//	return false
+//end if
+//
+//SetPointer ( HourGlass! )
+//ib_connected = true
+//mRet = ims_mses.mailLogon ( mailNewSession!  )
+//ls_ret = f_mail_error_to_string ( mRet, 'Logon:', FALSE )
+////st_status_bar.text = ' Logon: ' + ls_ret
+//if mRet <> mailReturnSuccess! then
+//	MessageBox ("Logon Correo", 'Codigo retorno <> mailReturnSuccess!' )
+//	ib_connected = false
+//	return false
+//end if
+//
+//SetPointer ( HourGlass! )
+//ib_connected = true
+//
+///****************************************************************
+//	Obtain the list of mail Message IDs in the user's mail Inbox
+// ****************************************************************/
+//// Populate the mailMessage structure
+//
+//mMsg.Subject = postdata
+//mMsg.NoteText = mensaje
+//mMsg.Recipient[1].name = correo1
+//
+//if correo2 <> "" and not isnull(correo2) then
+//	mMsg.Recipient[2].name = correo2
+//end if
+//
+//mAttach.FileType = mailAttach!
+//	mAttach.FileName = ruta
+//	mAttach.Pathname = ruta
+//	mMsg.AttachmentFile[1] = mAttach
+//
+//mRet = ims_mses.mailSend ( mMsg )
+//IF mRet <> mailReturnSuccess! THEN
+//	MessageBox("Bandeja de salida", 'Correo no enviado')
+//	ls_Ret = f_mail_error_to_string ( mRet, 'Obteniendo Mensajes:', FALSE )
+////	st_status_bar.text = ' Salida: ' + ls_ret	
+//	estado= false
+//end if
+//
+//SetPointer ( Arrow! )
+//
+////st_status_bar.text = "Ready"
+//
+//return estado
+//
+end function
+

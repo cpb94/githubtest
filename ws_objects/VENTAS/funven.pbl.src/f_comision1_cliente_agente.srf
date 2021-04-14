@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_comision1_cliente_agente.srf
+global type f_comision1_cliente_agente from function_object
+end type
+
+forward prototypes
+global function decimal f_comision1_cliente_agente (string empresa, string agente)
+end prototypes
+
+global function decimal f_comision1_cliente_agente (string empresa, string agente);dec comision1
+
+if f_comision_fija_agente(empresa,agente) = "S" then
+	comision1 = f_comision_m2_agente(empresa,agente)
+else
+	comision1 = f_comision1_agente(empresa,agente)
+end if
+return comision1
+end function
+

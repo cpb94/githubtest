@@ -1,0 +1,33 @@
+﻿$PBExportHeader$f_inicializar_str_contaparam.srf
+global type f_inicializar_str_contaparam from function_object
+end type
+
+forward prototypes
+global function boolean f_inicializar_str_contaparam ( ref str_contaparam str_contaparam)
+end prototypes
+
+global function boolean f_inicializar_str_contaparam ( ref str_contaparam str_contaparam);boolean lb_correcto = true
+
+if isnull(str_contaparam.ejercicio) then str_contaparam.ejercicio = 0
+if isnull(str_contaparam.empresa) then str_contaparam.empresa = ''
+if isnull(str_contaparam.chequeo) then str_contaparam.chequeo = ''
+if isnull(str_contaparam.activo) then str_contaparam.activo = ''
+if isnull(str_contaparam.analitica) then str_contaparam.analitica = ''
+if isnull(str_contaparam.digitos) then str_contaparam.digitos = 0
+if isnull(str_contaparam.niveles) then str_contaparam.niveles = 0
+if isnull(str_contaparam.digitos1) then str_contaparam.digitos1 = 0
+if isnull(str_contaparam.digitos2) then str_contaparam.digitos2 = 0
+if isnull(str_contaparam.digitos3) then str_contaparam.digitos3 = 0
+if isnull(str_contaparam.digitos4) then str_contaparam.digitos4 = 0
+if isnull(str_contaparam.digitos5) then str_contaparam.digitos5 = 0
+if isnull(str_contaparam.digitos6) then str_contaparam.digitos6 = 0
+if isnull(str_contaparam.digitos7) then str_contaparam.digitos7 = 0
+if isnull(str_contaparam.digitos8) then str_contaparam.digitos8 = 0
+if isnull(str_contaparam.digitos9) then str_contaparam.digitos9 = 0
+if isnull(str_contaparam.comienzo) then str_contaparam.comienzo = 0
+if isnull(str_contaparam.documento) then str_contaparam.documento = 0
+if isnull(str_contaparam.asiento) then str_contaparam.asiento = 0
+if isnull(str_contaparam.tipocta_iva) then str_contaparam.tipocta_iva = ''
+return lb_correcto
+end function
+

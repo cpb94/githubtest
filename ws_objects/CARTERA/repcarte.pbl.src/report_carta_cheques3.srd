@@ -1,0 +1,13 @@
+﻿$PBExportHeader$report_carta_cheques3.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=5 print.documentname="" print.orientation = 2 print.margin.left = 0 print.margin.right = 0 print.margin.top = 0 print.margin.bottom = 0 print.paper.source = 0 print.paper.size = 9 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=1736 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=356 color="536870912"  height.autosize=yes)
+table(column=(type=char(10) updatewhereclause=yes name=a dbname="a" )
+ unbound = "yes"arguments=(("arg_empresa", string),("banco", string),("dia", datetime),("cabecera", string)) )
+report(band=header dataobject="report_cabecera_legal" x="23" y="80" height="424" width="3282" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa")) trail_footer = yes visible="1~tif(cabecera = ~"S~",1,0)"  slideup=directlyabove )
+report(band=header dataobject="report_carta_cheques4" x="27" y="728" height="1000" width="3218" border="0"  height.autosize=yes criteria="" nest_arguments=(("arg_empresa"),("banco"),("dia")) trail_footer = yes  name=report_presentacion  slideup=directlyabove )
+report(band=detail dataobject="report_carta_cheques1" x="41" y="4" height="280" width="3200" border="0"  height.autosize=yes criteria="" trail_footer = yes  name=report_detalle  slideup=directlyabove )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

@@ -1,0 +1,34 @@
+﻿$PBExportHeader$f_pedidos_pendientes_no_fabricados.srf
+global type f_pedidos_pendientes_no_fabricados from function_object
+end type
+
+forward prototypes
+global function decimal f_pedidos_pendientes_no_fabricados (string empresa)
+end prototypes
+
+global function decimal f_pedidos_pendientes_no_fabricados (string empresa);dec pedidos
+
+
+//select sum ((venliped.neto - venliped.impdtopp) / cambio )
+//select sum		(venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 ) / venped.cambio ) 
+
+select sum ((venliped.neto - venliped.impdtopp) / venped.cambio )
+into :pedidos
+from venliped
+inner join venped on venliped.empresa = venped.empresa 
+		and venliped.anyo = venped.anyo 
+		and venliped.pedido = venped.pedido
+inner join articulos on venliped.empresa = articulos.empresa 
+		and venliped.articulo = articulos.codigo
+where venliped.empresa = :empresa
+and venped.es_proforma = 'N'
+and articulos.promocion <> 'S';
+
+
+if isnull(pedidos) then
+	pedidos = 0
+end if
+
+return pedidos
+end function
+

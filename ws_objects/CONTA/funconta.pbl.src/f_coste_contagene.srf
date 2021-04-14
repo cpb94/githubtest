@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_coste_contagene.srf
+global type f_coste_contagene from function_object
+end type
+
+forward prototypes
+global function string f_coste_contagene (string empresa, string codigo)
+end prototypes
+
+global function string f_coste_contagene (string empresa, string codigo);string coste
+
+coste = ""
+
+SELECT contagene.centro_coste INTO :coste FROM contagene    
+WHERE  contagene.empresa = :empresa
+AND    contagene.codigo  = :codigo    ;
+
+return coste
+end function
+

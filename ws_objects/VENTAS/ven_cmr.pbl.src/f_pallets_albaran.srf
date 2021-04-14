@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_pallets_albaran.srf
+global type f_pallets_albaran from function_object
+end type
+
+forward prototypes
+global function string f_pallets_albaran (string empresa, decimal anyo, decimal albaran)
+end prototypes
+
+global function string f_pallets_albaran (string empresa, decimal anyo, decimal albaran);int	var_pallets
+
+SELECT	sum (pallets)
+INTO		:var_pallets
+FROM		venlialb
+WHERE		empresa	=	:empresa
+AND		anyo		= 	:anyo
+AND		albaran	= 	:albaran;
+
+if isnull(var_pallets) then var_pallets = 0
+
+Return string(var_pallets)
+end function
+

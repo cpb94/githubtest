@@ -1,0 +1,24 @@
+﻿$PBExportHeader$str_deplinubica.srs
+global type str_deplinubica from structure
+	string		empresa
+	string		almacen
+	decimal {0}	linea
+	string		articulo
+	string		familia
+	string		subfamilia
+	string		formato
+	string		subformato
+	string		calidad
+	integer		tono
+	string		modelo
+	integer		calibre
+	decimal {4}	existencias
+	string		cliente
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		tipo_pallet
+	string		caja
+	string		tonochar
+end type
+

@@ -1,0 +1,42 @@
+﻿$PBExportHeader$f_vencimientos_carpagos.srf
+global type f_vencimientos_carpagos from function_object
+end type
+
+forward prototypes
+global function str_vencimientos f_vencimientos_carpagos (string empresa, decimal fra, string proveedor)
+end prototypes
+
+global function str_vencimientos f_vencimientos_carpagos (string empresa, decimal fra, string proveedor);Dec{4}    var_total_fac,reg,dias,acumulado,var_importe
+Dec    var_efectos,var_primero, var_cadencia,ajuste,r
+Dec  dia[3]
+String var_tipodoc
+Date  ffactura,var_vencimiento,fecha11,fecha12
+DateTime  var_fecha
+str_vencimientos   vto
+
+vto.efectos = 0
+vto.importe[1] =0
+SetNull(vto.vencimiento[1])
+string sel
+datastore dd
+
+sel=" SELECT fvto 	FROM   carpagos  "+&
+   " WHERE  empresa 	= '"+empresa+"' "+&
+	" AND    proveedor  = '"+proveedor+"' "+& 
+	" and 	fra			= "+string(fra)
+	
+dd=f_cargar_cursor(sel)
+
+	IF SQLCA.SQLCODE <> 0 Then Return vto
+		
+	vto.efectos=dd.rowcount()
+	var_efectos=vto.efectos
+	
+	FOR reg = 1 To var_efectos
+			vto.vencimiento[reg]=date(dd.getitemdatetime(reg,"fvto"))
+	NEXT
+	
+Return vto
+
+end function
+

@@ -1,0 +1,165 @@
+﻿$PBExportHeader$f_recalcula_docs_liquidacion.srf
+global type f_recalcula_docs_liquidacion from function_object
+end type
+
+forward prototypes
+global subroutine f_recalcula_docs_liquidacion ()
+end prototypes
+
+global subroutine f_recalcula_docs_liquidacion ();long   indice,total,existe_doc,v_doc_liquidacion
+string sel,v_agente,mascara_moneda_empresa
+datetime v_fliquidacion
+dec      v_importe_liquidado,v_importe_fletes
+boolean bien = true
+
+str_car_doc_liq_comisiones car_doc_liq_comisiones
+
+datastore ds_docs_liquidacion
+
+mascara_moneda_empresa = f_mascara_moneda(f_moneda_empresa(codigo_empresa))
+
+sel = "select agente,fliquidacion,sum(importeliquidadopts) importe_liquidado,"+&
+		"sum(gastos_fletes) importe_fletes,doc_liquidacion "+&
+		"from carcomisiones "+&
+		"where empresa = '"+codigo_empresa+"' "+&
+		"and   liquidado = 'S' "+&
+		"group by agente,fliquidacion,doc_liquidacion "
+		
+f_cargar_cursor_transaccion(sqlca,ds_docs_liquidacion,sel)
+
+total = ds_docs_liquidacion.rowcount()
+
+for indice = 1 to total
+	f_mensaje_proceso("",indice,total)
+	bien = true
+	v_agente            = ds_docs_liquidacion.object.agente[indice]
+	v_fliquidacion      = ds_docs_liquidacion.object.fliquidacion[indice]
+	v_importe_liquidado = ds_docs_liquidacion.object.importe_liquidado[indice]
+	v_importe_fletes    = ds_docs_liquidacion.object.importe_fletes[indice]
+	v_doc_liquidacion   = ds_docs_liquidacion.object.doc_liquidacion[indice]
+
+	car_doc_liq_comisiones.empresa               = codigo_empresa
+	car_doc_liq_comisiones.anyo                  = year(date(v_fliquidacion))
+	car_doc_liq_comisiones.doc_liquidacion       = v_doc_liquidacion
+	car_doc_liq_comisiones.agente                = v_agente
+	car_doc_liq_comisiones.fliquidacion          = v_fliquidacion
+	car_doc_liq_comisiones.importe_liquidado     = v_importe_liquidado
+	car_doc_liq_comisiones.importe_gastos_fletes = v_importe_fletes
+	car_doc_liq_comisiones.importe_iva           = 0
+	car_doc_liq_comisiones.importe_irpf          = 0
+	
+	select irpf,
+			 tipo_iva
+	into   :car_doc_liq_comisiones.irpf,
+			 :car_doc_liq_comisiones.tipo_iva
+	from   venagentes
+	where  empresa = :car_doc_liq_comisiones.empresa
+	and    agente  = :car_doc_liq_comisiones.agente;
+	
+	if sqlca.sqlcode <> 0 then bien = false
+	
+	if isnull(car_doc_liq_comisiones.irpf) then car_doc_liq_comisiones.irpf = 0
+	if isnull(car_doc_liq_comisiones.tipo_iva) then car_doc_liq_comisiones.tipo_iva = ""
+	
+	car_doc_liq_comisiones.iva = f_iva_contaiva(car_doc_liq_comisiones.anyo,codigo_empresa,car_doc_liq_comisiones.tipo_iva)
+	car_doc_liq_comisiones.fecha_inicio_facturas = datetime(date(year(date(v_fliquidacion)),month(date(v_fliquidacion)),1))
+	car_doc_liq_comisiones.fecha_fin_facturas    = v_fliquidacion
+	car_doc_liq_comisiones.usuario               = nombre_usuario
+	car_doc_liq_comisiones.fecha_creacion_documento    = v_fliquidacion
+	car_doc_liq_comisiones.usuario_ultima_modificacion = nombre_usuario
+	car_doc_liq_comisiones.fecha_ultima_modificacion   = car_doc_liq_comisiones.fecha_creacion_documento
+	
+	if car_doc_liq_comisiones.iva <> 0 then
+		car_doc_liq_comisiones.importe_iva = (car_doc_liq_comisiones.importe_liquidado * car_doc_liq_comisiones.iva) / 100
+	else
+		car_doc_liq_comisiones.importe_iva = 0
+	end if
+	
+	if car_doc_liq_comisiones.irpf <> 0 then
+		car_doc_liq_comisiones.importe_irpf = (car_doc_liq_comisiones.importe_liquidado * car_doc_liq_comisiones.irpf) / 100
+	else
+		car_doc_liq_comisiones.importe_irpf = 0
+	end if	
+	
+	car_doc_liq_comisiones.importe_iva = dec(string(car_doc_liq_comisiones.importe_iva,mascara_moneda_empresa))
+	car_doc_liq_comisiones.importe_irpf = dec(string(car_doc_liq_comisiones.importe_irpf,mascara_moneda_empresa))
+	
+	existe_doc = 0
+	
+	select count(*)
+	into   :existe_doc
+	from   car_doc_liq_comisiones
+	where  car_doc_liq_comisiones.empresa         = :codigo_empresa
+	and    car_doc_liq_comisiones.anyo            = :car_doc_liq_comisiones.anyo
+	and    car_doc_liq_comisiones.doc_liquidacion = :car_doc_liq_comisiones.doc_liquidacion;		
+	
+	if isnull(existe_doc) then existe_doc = 0
+	
+	if existe_doc > 0 then	
+		update car_doc_liq_comisiones
+		set    car_doc_liq_comisiones.importe_liquidado           = :car_doc_liq_comisiones.importe_liquidado,
+				 car_doc_liq_comisiones.importe_gastos_fletes       = :car_doc_liq_comisiones.importe_gastos_fletes,
+				 car_doc_liq_comisiones.importe_iva                 = :car_doc_liq_comisiones.importe_iva,
+				 car_doc_liq_comisiones.importe_irpf                = :car_doc_liq_comisiones.importe_irpf
+		where  car_doc_liq_comisiones.empresa         = :codigo_empresa
+		and    car_doc_liq_comisiones.anyo            = :car_doc_liq_comisiones.anyo
+		and    car_doc_liq_comisiones.doc_liquidacion = :car_doc_liq_comisiones.doc_liquidacion;		
+			 
+		if sqlca.sqlcode <> 0 then
+			bien = false
+		end if
+	else		
+		insert into car_doc_liq_comisiones
+			(car_doc_liq_comisiones.empresa,
+			 car_doc_liq_comisiones.anyo,
+			 car_doc_liq_comisiones.doc_liquidacion,
+			 car_doc_liq_comisiones.agente,
+			 car_doc_liq_comisiones.fliquidacion,
+			 car_doc_liq_comisiones.importe_liquidado,
+			 car_doc_liq_comisiones.importe_gastos_fletes,
+			 car_doc_liq_comisiones.importe_iva,
+			 car_doc_liq_comisiones.importe_irpf,
+			 car_doc_liq_comisiones.tipo_iva,
+			 car_doc_liq_comisiones.iva,
+			 car_doc_liq_comisiones.irpf,
+			 car_doc_liq_comisiones.fecha_inicio_facturas,
+			 car_doc_liq_comisiones.fecha_fin_facturas,
+			 car_doc_liq_comisiones.usuario,
+			 car_doc_liq_comisiones.fecha_creacion_documento,
+			 car_doc_liq_comisiones.usuario_ultima_modificacion,
+			 car_doc_liq_comisiones.fecha_ultima_modificacion)
+		values
+			(:car_doc_liq_comisiones.empresa,
+			 :car_doc_liq_comisiones.anyo,
+			 :car_doc_liq_comisiones.doc_liquidacion,
+			 :car_doc_liq_comisiones.agente,
+			 :car_doc_liq_comisiones.fliquidacion,
+			 :car_doc_liq_comisiones.importe_liquidado,
+			 :car_doc_liq_comisiones.importe_gastos_fletes,
+			 :car_doc_liq_comisiones.importe_iva,
+			 :car_doc_liq_comisiones.importe_irpf,
+			 :car_doc_liq_comisiones.tipo_iva,
+			 :car_doc_liq_comisiones.iva,
+			 :car_doc_liq_comisiones.irpf,
+			 :car_doc_liq_comisiones.fecha_inicio_facturas,
+			 :car_doc_liq_comisiones.fecha_fin_facturas,
+			 :car_doc_liq_comisiones.usuario,
+			 :car_doc_liq_comisiones.fecha_creacion_documento,
+			 :car_doc_liq_comisiones.usuario_ultima_modificacion,
+			 :car_doc_liq_comisiones.fecha_ultima_modificacion);
+			 
+		if sqlca.sqlcode <> 0 then
+			bien = false
+		end if
+	end if	
+
+	if bien then
+		commit;
+	else
+		rollback;
+	end if
+next
+
+destroy ds_docs_liquidacion
+end subroutine
+

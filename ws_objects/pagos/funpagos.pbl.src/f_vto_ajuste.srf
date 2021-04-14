@@ -1,0 +1,46 @@
+﻿$PBExportHeader$f_vto_ajuste.srf
+global type f_vto_ajuste from function_object
+end type
+
+forward prototypes
+global function date f_vto_ajuste (string var_empresa, string var_proveedor, date var_vencimiento)
+end prototypes
+
+global function date f_vto_ajuste (string var_empresa, string var_proveedor, date var_vencimiento);Dec ajuste,r,g
+Date fecha11,fecha12
+Dec dia[3]
+SELECT comproveedores.dia1,comproveedores.dia2,comproveedores.dia3
+INTO   :dia[1],:dia[2],:dia[3] FROM   comproveedores  
+WHERE  comproveedores.empresa = :var_empresa
+AND    comproveedores.codigo  = :var_proveedor;   
+IF SQLCA.SQLCODE <0 Then f_mensaje("Error en calculo vto",sqlca.sqlerrtext)
+For g = 1 To 3
+	IF IsNull(dia[g]) Then dia[g] = 0
+NEXT
+
+
+// Ajustar recibo segun dias
+			ajuste = 50
+			For r =1  To 3
+			IF dia[r] <> 0 Then
+					fecha11 = MDY(Month(var_vencimiento),dia[r],Year(var_vencimiento))
+					if Month(var_vencimiento) + 1 = 13 then
+						fecha12 = MDY(1,dia[r],Year(var_vencimiento)+1)
+					else
+				     	fecha12 = MDY(Month(var_vencimiento) + 1,dia[r],Year(var_vencimiento))	
+					End if	  
+					IF DaysAfter(var_vencimiento,fecha11) > -1 Then
+						IF Abs(DaysAfter(var_vencimiento,fecha11)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha11)
+					END IF
+					IF DaysAfter(var_vencimiento,fecha12) > -1 Then
+						IF abs(DaysAfter(var_vencimiento,fecha12)) < Abs(ajuste) Then ajuste = DaysAfter(var_vencimiento,fecha12)
+					END IF
+				END IF
+			Next
+			
+			IF ajuste = 50 Then ajuste = 0
+			var_vencimiento = RelativeDate(var_vencimiento,ajuste)
+			Return var_vencimiento
+			
+end function
+

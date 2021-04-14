@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_elemento_en_array.srf
+global type f_elemento_en_array from function_object
+end type
+
+forward prototypes
+global function boolean f_elemento_en_array (any array, any elemento)
+end prototypes
+
+global function boolean f_elemento_en_array (any array, any elemento);Integer cont, total
+Boolean esta = false
+any var_array[]
+
+var_array = array
+total = UpperBound(array)
+
+for cont = 1 to total
+	if var_array[cont] = elemento then 
+		esta = true
+		exit
+	end if
+	
+next
+
+return esta
+end function
+

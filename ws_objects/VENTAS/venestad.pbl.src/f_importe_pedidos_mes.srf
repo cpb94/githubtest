@@ -1,0 +1,57 @@
+﻿$PBExportHeader$f_importe_pedidos_mes.srf
+global type f_importe_pedidos_mes from function_object
+end type
+
+forward prototypes
+global function decimal f_importe_pedidos_mes (string empresa, integer mes, integer anyo)
+end prototypes
+
+global function decimal f_importe_pedidos_mes (string empresa, integer mes, integer anyo);dec importe, importe_ped, importe_alb, importe_fac
+
+select sum(venliped.importe / venped.cambio) as importe_moneda
+into :importe_ped
+from venliped, venped
+where venliped.empresa = :empresa 
+and venped.empresa = :empresa   
+and venped.anyo = venliped.anyo
+and venped.pedido = venliped.pedido
+and month(venliped.fpedido) = :mes
+and year(venliped.fpedido) = :anyo
+and venliped.articulo <> '';
+
+select sum(venlialb.importe / venalb.cambio) as importe_moneda
+into :importe_alb
+from venlialb, venalb
+where venlialb.empresa = :empresa    
+and venalb.empresa = :empresa
+and venalb.anyo = venlialb.anyo
+and venalb.albaran = venlialb.albaran
+and month(venlialb.fpedido_origen) = :mes
+and year(venlialb.fpedido_origen) = :anyo
+and venlialb.articulo <> '';
+
+
+select sum(venlifac.importe / venlifac.cambio) as importe_moneda
+into :importe_fac
+from venlifac, venfac
+where venlifac.empresa = :empresa    
+and venfac.empresa = :empresa
+and venfac.anyo = venlifac.anyo
+and venfac.factura = venlifac.factura
+and month(venlifac.fpedido_origen) = :mes
+and year(venlifac.fpedido_origen) = :anyo
+and venlifac.articulo <> '';
+
+
+if isnull(importe_ped) then importe_ped = 0
+if isnull(importe_alb) then importe_alb = 0
+if isnull(importe_fac) then importe_fac = 0
+
+importe = importe_ped + importe_alb + importe_fac
+
+return importe
+
+
+
+end function
+

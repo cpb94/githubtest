@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_veces_impreso_recibo.srf
+global type f_veces_impreso_recibo from function_object
+end type
+
+forward prototypes
+global function integer f_veces_impreso_recibo (string empresa, decimal anyo, decimal orden)
+end prototypes
+
+global function integer f_veces_impreso_recibo (string empresa, decimal anyo, decimal orden);Integer variable
+
+  SELECT carefectos.veces  
+    INTO :variable  
+    FROM carefectos  
+   WHERE carefectos.empresa = :empresa  AND  
+         carefectos.anyo = :anyo  AND  
+         carefectos.orden = :orden ;
+			
+if isnull(variable) then variable = 0
+
+Return variable
+
+end function
+

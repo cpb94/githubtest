@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_tipoalm_almalmacen.srf
+global type f_tipoalm_almalmacen from function_object
+end type
+
+forward prototypes
+global function string f_tipoalm_almalmacen (string empresa, string almacen)
+end prototypes
+
+global function string f_tipoalm_almalmacen (string empresa, string almacen);String var_tipoalm
+  SELECT almalmacen.tipoalm  
+    INTO :var_tipoalm  
+    FROM almalmacen  
+   WHERE ( almalmacen.empresa = :empresa ) AND  
+         ( almalmacen.codigo = :almacen )   ;
+			
+Return var_tipoalm
+
+end function
+

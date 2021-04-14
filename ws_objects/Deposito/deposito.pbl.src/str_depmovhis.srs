@@ -1,0 +1,36 @@
+﻿$PBExportHeader$str_depmovhis.srs
+global type str_depmovhis from structure
+	string		empresa
+	string		almacen
+	decimal {0}	anyo
+	decimal {0}	nummov
+	string		articulo
+	datetime		fechmov
+	string		tipomov
+	decimal {4}	cantidade
+	decimal {4}	cantidads
+	decimal {4}	precio
+	string		codtercero
+	string		numdoc
+	string		situacion
+	string		observaciones
+	datetime		punteado
+	decimal {4}	antexist
+	string		familia
+	string		subfamilia
+	string		subformato
+	string		formato
+	string		modelo
+	string		calidad
+	integer		tono
+	integer		calibre
+	string		tipo_unidad
+	string		referencia
+	datetime		f_alta
+	string		usuario
+	string		tipo_pallet
+	string		tipo
+	string		caja
+	string		tonochar
+end type
+

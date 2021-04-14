@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_proceso_calidades.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=73 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=17 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="calidades.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="calidades.codigo" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=descripcion dbname="calidades.descripcion" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=abreviado dbname="calidades.abreviado" )
+ column=(type=char(1) update=yes updatewhereclause=yes name=incremento dbname="calidades.incremento" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"calidades~" ) COLUMN(NAME=~"calidades.empresa~") COLUMN(NAME=~"calidades.codigo~") COLUMN(NAME=~"calidades.descripcion~") COLUMN(NAME=~"calidades.abreviado~") COLUMN(NAME=~"calidades.incremento~")WHERE(    EXP1 =~"calidades.empresa~"   OP =~"=~"    EXP2 =~":arg_empresa~" ) ) ORDER(NAME=~"calidades.abreviado~" ASC=yes ) ARG(NAME = ~"arg_empresa~" TYPE = string) " update="calidades" updatewhere=1 updatekeyinplace=no arguments=(("arg_empresa", string)) )
+text(band=header alignment="0" text="CURSOR CALIDADES"border="0" color="0" x="69" y="0" height="77" width="750"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

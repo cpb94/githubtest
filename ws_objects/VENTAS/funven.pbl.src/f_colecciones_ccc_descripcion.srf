@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_colecciones_ccc_descripcion.srf
+global type f_colecciones_ccc_descripcion from function_object
+end type
+
+forward prototypes
+global function string f_colecciones_ccc_descripcion (string a_codemp, string a_cod)
+end prototypes
+
+global function string f_colecciones_ccc_descripcion (string a_codemp, string a_cod);string	ls_nombre
+
+SELECT isnull(colecciones_ccc.descripcion,'')
+INTO :ls_nombre  
+FROM colecciones_ccc  
+WHERE colecciones_ccc.empresa = :a_codemp 
+AND   colecciones_ccc.codigo = :a_cod
+USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN
+	ls_nombre = ""
+END IF
+
+RETURN ls_nombre
+
+end function
+

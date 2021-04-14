@@ -1,0 +1,79 @@
+﻿$PBExportHeader$f_articulos_mismo_grupo_combi.srf
+global type f_articulos_mismo_grupo_combi from function_object
+end type
+
+forward prototypes
+global function string f_articulos_mismo_grupo_combi (string articulo)
+end prototypes
+
+global function string f_articulos_mismo_grupo_combi (string articulo);string resultado, sub_resultado, consulta_grupos, consulta_articulos, codigo_resultado, descripcion_resultado, ubi_muestras, descripcion_grupo_combi
+decimal grupo_combi
+datastore reg_grupos, reg_articulos
+long i, j
+
+
+resultado = ""
+
+consulta_grupos = "select grupo_combi "+&
+" from articulos_grupo_combi "+&
+" where empresa = '"+codigo_empresa+"' "+&
+" and articulo = '"+articulo+"' "
+
+f_cargar_cursor_nuevo(consulta_grupos,reg_grupos)
+
+for i = 1 to reg_grupos.rowcount()
+	
+	grupo_combi = reg_grupos.object.grupo_combi[i]
+
+	consulta_articulos = "select articulos_grupo_combi.articulo,articulos.descripcion, articulos.ubi_muestras "+&
+	" from articulos_grupo_combi "+&
+	" inner join articulos on articulos.empresa = articulos_grupo_combi.empresa and articulos.codigo = articulos_grupo_combi.articulo "+&
+	" where articulos_grupo_combi.grupo_combi = "+string(grupo_combi)+" "+&
+	" and articulos_grupo_combi.empresa = '"+codigo_empresa+"' " +&
+	" and articulos_grupo_combi.articulo <> '"+articulo+"' "
+
+	f_cargar_cursor_nuevo(consulta_articulos,reg_articulos)
+
+	for j = 1 to reg_articulos.rowcount()
+		
+		codigo_resultado = reg_articulos.object.articulos_grupo_combi_articulo[j]
+		descripcion_resultado = reg_articulos.object.articulos_descripcion[j]
+		ubi_muestras = reg_articulos.object.articulos_ubi_muestras[j]
+		
+		select descripcion
+		into :descripcion_grupo_combi
+		from grupo_combi
+		where empresa = :codigo_empresa
+		and codigo = :grupo_combi;
+		
+		if isnull(ubi_muestras) then ubi_muestras = ""
+		
+		sub_resultado =  " |   "+codigo_resultado+" "+descripcion_resultado+"   -   "+ubi_muestras+	"          "
+		
+		select cast (:sub_resultado as varchar(80)) 
+		into :sub_resultado 
+		from empresas 
+		where empresa = :codigo_empresa;
+		
+		resultado = resultado + sub_resultado
+		
+		if mod(j , 5) = 0 then
+			
+			resultado = resultado + "~r~n"
+			
+		end if
+		
+	next
+	
+	destroy reg_articulos
+	
+next
+
+destroy reg_grupos
+
+
+return resultado
+
+
+end function
+

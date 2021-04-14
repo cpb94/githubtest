@@ -1,0 +1,25 @@
+﻿$PBExportHeader$f_tiempo_cambio_molde_linea.srf
+global type f_tiempo_cambio_molde_linea from function_object
+end type
+
+forward prototypes
+global function decimal f_tiempo_cambio_molde_linea (string empresa, string linea)
+end prototypes
+
+global function decimal f_tiempo_cambio_molde_linea (string empresa, string linea);dec tiempo
+
+select tiempo_cambio_molde
+into   :tiempo
+from   prodlineas
+where  empresa = :empresa
+and    codigo  = :linea;
+
+if sqlca.sqlcode <> 0 then
+	tiempo = 0
+end if
+
+if isnull(tiempo) then tiempo = 0
+
+return tiempo
+end function
+

@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_subfamilia_articulo.srf
+global type f_subfamilia_articulo from function_object
+end type
+
+forward prototypes
+global function string f_subfamilia_articulo (string empresa, string articulo)
+end prototypes
+
+global function string f_subfamilia_articulo (string empresa, string articulo);String var_resultado
+
+SELECT articulos.subfamilia  
+INTO   :var_resultado
+FROM   articulos
+Where  articulos.empresa = :empresa
+And    articulos.codigo  = :articulo;
+
+
+Return var_resultado
+
+end function
+

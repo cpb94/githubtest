@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_albaranes_facturados_fechas.srf
+global type f_albaranes_facturados_fechas from function_object
+end type
+
+forward prototypes
+global function decimal f_albaranes_facturados_fechas (string empresa, datetime desde, datetime hasta)
+end prototypes
+
+global function decimal f_albaranes_facturados_fechas (string empresa, datetime desde, datetime hasta);dec resultado
+
+select sum ( (importe-impdtopp) / isnull(cambio, 1)) 
+into :resultado
+from   venlifac
+where  venlifac.empresa = :empresa
+and    falbaran between :desde and :hasta
+and 	  ( ( factura_deposito = 'N' ) or ( factura_deposito is null ) or ( factura_deposito = '' ));
+
+if isnull(resultado ) then resultado = 0
+
+return resultado
+end function
+

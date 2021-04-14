@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_version_revisada_art.srf
+global type f_version_revisada_art from function_object
+end type
+
+forward prototypes
+global function boolean f_version_revisada_art (string var_empresa, string var_articulo, string var_version)
+end prototypes
+
+global function boolean f_version_revisada_art (string var_empresa, string var_articulo, string var_version);boolean resultado
+int     existe
+
+select count(*)
+into   :existe
+from   prodartversionrevisada
+where  empresa  = :var_empresa
+and    articulo = :var_articulo
+and    version  = :var_version;
+
+if isnull(existe) then existe = 0
+
+if existe > 0 then
+	resultado = true
+else
+	resultado = false
+end if
+	
+return resultado
+end function
+

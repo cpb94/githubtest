@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_venclientes_cuenta_ecd.srf
+global type f_venclientes_cuenta_ecd from function_object
+end type
+
+forward prototypes
+global function string f_venclientes_cuenta_ecd (string empresa, string cliente)
+end prototypes
+
+global function string f_venclientes_cuenta_ecd (string empresa, string cliente);String valor
+
+SELECT isnull(venclientes.cuenta_ecd,'')
+INTO     :valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente;
+
+Return valor;
+
+end function
+

@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_fpedido_venped.srf
+global type f_fpedido_venped from function_object
+end type
+
+forward prototypes
+global function datetime f_fpedido_venped (string empresa, integer anyo, decimal pedido)
+end prototypes
+
+global function datetime f_fpedido_venped (string empresa, integer anyo, decimal pedido);Datetime fpedido
+  SELECT venped.fpedido   INTO :fpedido  FROM venped  
+   WHERE venped.empresa = :empresa
+   AND   venped.anyo    = :anyo
+   AND   venped.pedido  = :pedido;
+	IF SQLCA.SQLCODE < 0 Then  f_mensaje("Error",sqlca.sqlerrtext)
+Return fpedido
+end function
+

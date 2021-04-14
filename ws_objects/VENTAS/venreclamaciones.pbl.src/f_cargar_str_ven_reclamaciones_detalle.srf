@@ -1,0 +1,35 @@
+﻿$PBExportHeader$f_cargar_str_ven_reclamaciones_detalle.srf
+global type f_cargar_str_ven_reclamaciones_detalle from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_ven_reclamaciones_detalle (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, DECIMAL {0} arg_anyo, DECIMAL {0} arg_factura, DECIMAL {0} arg_linea,  ref str_ven_reclamaciones_detalle str_ven_reclamaciones_detalle)
+end prototypes
+
+global function boolean f_cargar_str_ven_reclamaciones_detalle (STRING arg_empresa, STRING arg_cliente, STRING arg_reclamacion, DECIMAL {0} arg_anyo, DECIMAL {0} arg_factura, DECIMAL {0} arg_linea,  ref str_ven_reclamaciones_detalle str_ven_reclamaciones_detalle);boolean lb_correcto = true
+
+SELECT ven_reclamaciones_detalle.empresa,
+       ven_reclamaciones_detalle.cliente,
+       ven_reclamaciones_detalle.reclamacion,
+       ven_reclamaciones_detalle.anyo,
+       ven_reclamaciones_detalle.factura,
+       ven_reclamaciones_detalle.linea,
+       ven_reclamaciones_detalle.cantidad,
+       ven_reclamaciones_detalle.descripcion
+INTO   :str_ven_reclamaciones_detalle.empresa,
+       :str_ven_reclamaciones_detalle.cliente,
+       :str_ven_reclamaciones_detalle.reclamacion,
+       :str_ven_reclamaciones_detalle.anyo,
+       :str_ven_reclamaciones_detalle.factura,
+       :str_ven_reclamaciones_detalle.linea,
+       :str_ven_reclamaciones_detalle.cantidad,
+       :str_ven_reclamaciones_detalle.descripcion
+FROM ven_reclamaciones_detalle
+WHERE ven_reclamaciones_detalle.empresa = :arg_empresa AND ven_reclamaciones_detalle.cliente = :arg_cliente AND ven_reclamaciones_detalle.reclamacion = :arg_reclamacion AND ven_reclamaciones_detalle.anyo = :arg_anyo AND ven_reclamaciones_detalle.factura = :arg_factura AND ven_reclamaciones_detalle.linea = :arg_linea;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_nombre_familia_abr.srf
+global type f_nombre_familia_abr from function_object
+end type
+
+forward prototypes
+global function string f_nombre_familia_abr (string ai_codemp, string ai_codfam)
+end prototypes
+
+global function string f_nombre_familia_abr (string ai_codemp, string ai_codfam);string	ls_nombre_familia
+
+  SELECT familias.descripcion_abr
+    INTO :ls_nombre_familia  
+    FROM familias  
+   WHERE ( familias.empresa =:ai_codemp ) AND  
+         ( familias.codigo = :ai_codfam )   
+     USING SQLCA;
+
+IF SQLCA.SQLCode <> 0 THEN 	ls_nombre_familia=""
+
+
+RETURN ls_nombre_familia
+end function
+

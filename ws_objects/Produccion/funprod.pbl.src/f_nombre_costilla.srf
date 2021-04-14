@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_costilla.srf
+global type f_nombre_costilla from function_object
+end type
+
+forward prototypes
+global function string f_nombre_costilla (string arg_empresa, string arg_costilla)
+end prototypes
+
+global function string f_nombre_costilla (string arg_empresa, string arg_costilla);string descripcion
+
+select descripcion 
+into   :descripcion
+from   costilla 
+where  empresa = :arg_empresa
+and    codigo  = :arg_costilla;
+
+if isnull(descripcion) then descripcion = ""
+
+return trim(descripcion)
+end function
+

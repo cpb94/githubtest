@@ -1,0 +1,6 @@
+﻿$PBExportHeader$str_traspaso_operaciones.srs
+global type str_traspaso_operaciones from structure
+	string		operacion
+	string		aplicaciones[]
+end type
+

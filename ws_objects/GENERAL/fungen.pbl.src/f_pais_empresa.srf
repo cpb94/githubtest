@@ -1,0 +1,17 @@
+﻿$PBExportHeader$f_pais_empresa.srf
+global type f_pais_empresa from function_object
+end type
+
+forward prototypes
+global function string f_pais_empresa (string ai_codigo_empresa)
+end prototypes
+
+global function string f_pais_empresa (string ai_codigo_empresa);string pais
+
+	SELECT empresas.pais INTO :pais  FROM empresas  
+	WHERE  empresas.empresa = :ai_codigo_empresa;
+	IF IsNull(pais) Then pais = "" 
+	
+RETURN pais
+end function
+

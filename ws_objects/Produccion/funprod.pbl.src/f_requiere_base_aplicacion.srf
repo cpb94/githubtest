@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_requiere_base_aplicacion.srf
+global type f_requiere_base_aplicacion from function_object
+end type
+
+forward prototypes
+global function string f_requiere_base_aplicacion (string empresa, string aplicacion)
+end prototypes
+
+global function string f_requiere_base_aplicacion (string empresa, string aplicacion);string requiere_base
+
+select requiere_articulo
+into   :requiere_base
+from   prodaplicaciones
+where  empresa = :empresa
+and    codigo  = :aplicacion;
+
+if isnull(requiere_base) then requiere_base = ""
+if trim(requiere_base) =  "" then
+	requiere_base = "N"
+end if
+
+return requiere_base
+end function
+

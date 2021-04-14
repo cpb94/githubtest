@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_control_promlinped.srf
+global type f_control_promlinped from function_object
+end type
+
+forward prototypes
+global function string f_control_promlinped (string empresa, integer anyo, decimal pedido, string panel)
+end prototypes
+
+global function string f_control_promlinped (string empresa, integer anyo, decimal pedido, string panel);Integer numero
+numero  = 0 
+ SELECT count(*)  
+    INTO :numero  
+    FROM   promlinped
+   WHERE ( promlinped.empresa  = :empresa ) AND  
+         ( promlinped.anyo   = :anyo ) AND  
+         ( promlinped.pedido   = :pedido ) AND  
+         ( promlinped.panel    = :panel )   ;
+IF IsNull(numero) Then  numero = 0
+If numero = 0 Then
+   Return ""
+Else
+   Return "X"
+End If
+ 
+
+end function
+

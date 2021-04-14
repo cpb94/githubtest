@@ -1,0 +1,36 @@
+﻿$PBExportHeader$str_promlinped.srs
+global type str_promlinped from structure
+	string		empresa
+	decimal {0}	anyo
+	decimal {0}	pedido
+	decimal {0}	linea
+	string		tipo_cliente
+	string		cliente
+	string		pais
+	string		tipo
+	string		reposicion
+	string		panel
+	decimal {0}	cantidad
+	decimal {2}	peso_panel
+	decimal {0}	coste_panel
+	decimal {0}	venta_panel
+	decimal {2}	peso_material
+	decimal {0}	coste_material
+	decimal {0}	venta_material
+	string		usuario
+	string		usuario_pedido
+	string		situacion
+	string		control_libre
+	datetime		f_pedido
+	datetime		f_entrega
+	string		agente1
+	string		agente2
+	string		agente3
+	string		tipo_expositor
+	string		expositor
+	string		tipo_panel
+	string		clase_panel
+	decimal {0}	coste_manipulacion
+	string		numserie
+end type
+

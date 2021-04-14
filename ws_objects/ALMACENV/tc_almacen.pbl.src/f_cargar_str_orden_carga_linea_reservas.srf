@@ -1,0 +1,31 @@
+﻿$PBExportHeader$f_cargar_str_orden_carga_linea_reservas.srf
+global type f_cargar_str_orden_carga_linea_reservas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_orden_carga_linea_reservas (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo, INTEGER arg_linea, DECIMAL {0} arg_id_alm_bultos,  ref str_orden_carga_linea_reservas str_orden_carga_linea_reservas)
+end prototypes
+
+global function boolean f_cargar_str_orden_carga_linea_reservas (STRING arg_empresa, INTEGER arg_anyo, STRING arg_codigo, INTEGER arg_linea, DECIMAL {0} arg_id_alm_bultos,  ref str_orden_carga_linea_reservas str_orden_carga_linea_reservas);boolean lb_correcto = true
+
+SELECT orden_carga_linea_reservas.empresa,
+       orden_carga_linea_reservas.anyo,
+       orden_carga_linea_reservas.codigo,
+       orden_carga_linea_reservas.linea,
+       orden_carga_linea_reservas.id_alm_bultos,
+       orden_carga_linea_reservas.cantidad
+INTO   :str_orden_carga_linea_reservas.empresa,
+       :str_orden_carga_linea_reservas.anyo,
+       :str_orden_carga_linea_reservas.codigo,
+       :str_orden_carga_linea_reservas.linea,
+       :str_orden_carga_linea_reservas.id_alm_bultos,
+       :str_orden_carga_linea_reservas.cantidad
+FROM orden_carga_linea_reservas
+WHERE orden_carga_linea_reservas.empresa = :arg_empresa AND orden_carga_linea_reservas.anyo = :arg_anyo AND orden_carga_linea_reservas.codigo = :arg_codigo AND orden_carga_linea_reservas.linea = :arg_linea AND orden_carga_linea_reservas.id_alm_bultos = :arg_id_alm_bultos;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

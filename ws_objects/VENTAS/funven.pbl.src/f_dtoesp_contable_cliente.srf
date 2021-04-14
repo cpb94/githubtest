@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_dtoesp_contable_cliente.srf
+global type f_dtoesp_contable_cliente from function_object
+end type
+
+forward prototypes
+global function decimal f_dtoesp_contable_cliente (string empresa, string cliente)
+end prototypes
+
+global function decimal f_dtoesp_contable_cliente (string empresa, string cliente);dec variable
+
+  SELECT venclientes.dtoesp  
+    INTO :variable  
+    FROM venclientes  
+   WHERE ( venclientes.empresa = :empresa ) AND  
+         ( venclientes.codigo  = :cliente )   ;
+
+if isnull(variable) then variable = 0
+
+return variable
+end function
+

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$str_venliped_reservas.srs
+global type str_venliped_reservas from structure
+	string		empresa
+	integer		anyo
+	decimal { 0 }		pedido
+	integer		linea
+	decimal { 0 }		alm_bultos_lineas_id
+	decimal { 6 }		cantidad
+	decimal { 0 }		id_ubicacion_original
+	decimal { 0 }		id_ubicacion_destino
+	decimal { 0 }		bulto_orden_carga
+	string		preparado
+end type
+

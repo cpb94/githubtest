@@ -1,0 +1,93 @@
+﻿$PBExportHeader$ftc_movimiento_almacen.srf
+global type ftc_movimiento_almacen from function_object
+end type
+
+forward prototypes
+global function integer ftc_movimiento_almacen (str_almacenmovimientos movimiento, ref transaction arg_trans)
+end prototypes
+
+global function integer ftc_movimiento_almacen (str_almacenmovimientos movimiento, ref transaction arg_trans);// El orden tiene valor 0, calcularemos el numero de orden, sino mantendremos el que recibimos como parámetro
+// Resultado = 1 si error.
+
+string campo, motivo
+boolean falta_Campo
+Int resultado
+str_colisiones param_colisiones
+string fecha_mov
+
+fecha_mov = string(movimiento.fecha_mov, "dd-mm-yyyy")
+
+param_colisiones.empresa = codigo_empresa
+param_colisiones.tabla = "almacenmovimientos"
+param_colisiones.campo = "orden"
+param_colisiones.filtro =  "fecha_mov = '"+string(date(movimiento.fecha_mov))+"' "
+param_colisiones.buscar_huecos = false
+
+//if movimiento.orden = 0 then
+//	movimiento.orden = long ( f_colisiones ( arg_trans, param_colisiones)) 
+//end if
+//											orden,
+//											:movimiento.orden,											
+
+
+insert into almacenmovimientos (	empresa, 
+											fecha_mov,
+											fecha_intr,
+											origen,
+											almacen,
+											zona,
+											fila,
+											altura,
+											articulo,
+											familia,
+											formato,
+											calidad,
+											tono,
+											calibre,
+											tipo_pallet,
+											caja,
+											cantidade,
+											cantidads,
+											tipomov,
+											tipo_unidad,
+											usuario,
+											observaciones,
+											trazabilidad )
+							values 	( 	:movimiento.empresa,
+											:fecha_mov,
+											:movimiento.fecha_intr,
+											:movimiento.origen,
+											:movimiento.almacen,
+											:movimiento.zona,
+											:movimiento.fila,
+											:movimiento.altura,
+											:movimiento.articulo,
+											:movimiento.familia,
+											:movimiento.formato,
+											:movimiento.calidad,
+											:movimiento.tono,
+											:movimiento.calibre,
+											:movimiento.tipo_pallet,
+											:movimiento.caja,
+											:movimiento.cantidade,
+											:movimiento.cantidads,
+											:movimiento.tipomov,
+											:movimiento.tipo_unidad,
+											:movimiento.usuario,
+											:movimiento.observaciones,
+											:movimiento.trazabilidad ) using arg_trans;
+
+//DEVUELVE 0 si todo BIEN
+//OJO CON FUNCIONES NUEVAS QUE SUELE SER AL CONTRARIO
+if arg_trans.sqlcode <> 0 then 
+	//error
+	return 1;
+else
+//	COMMIT using arg_trans;
+	return 0;
+end if
+
+
+
+end function
+

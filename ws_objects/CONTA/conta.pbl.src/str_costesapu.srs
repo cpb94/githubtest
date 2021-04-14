@@ -1,0 +1,17 @@
+﻿$PBExportHeader$str_costesapu.srs
+global type str_costesapu from structure
+	integer		ejercicio
+	string		empresa
+	integer		mes
+	string		origen
+	integer		asiento
+	integer		apunte
+	string		coste
+	decimal {4}	debe
+	decimal {4}	haber
+	string		concepto
+	string		ampliacion
+	string		cuenta
+	datetime		fapunte
+end type
+

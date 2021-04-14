@@ -1,0 +1,133 @@
+﻿$PBExportHeader$dw_datos_pedidos_clientes_g2.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=1090519039 processing=4 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no  crosstab.dynamic = yes grid.lines=0 grid.columnmove=no selected.mouse=no )
+header[1](height=128 color="536870912" )
+header[2](height=64 color="536870912" )
+summary(height=72 color="536870912" )
+footer(height=4 color="536870912" )
+detail(height=60 color="536870912" )
+table(column=(type=char(20) updatewhereclause=yes name=descripcion dbname="descripcion" )
+ column=(type=number updatewhereclause=yes name=importe_moneda dbname="importe_moneda" )
+ retrieve="select 	venliped.empresa,   
+         venliped.anyo,   
+         venliped.pedido,   
+         venliped.linea,  
+			venliped.fpedido,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venliped.cantidad * venliped.precio * ( 1 -  venliped.dtoesp / 100 ) * ( 1 -  venliped.dtoesp2 / 100 ) ) / venped.cambio as importe_moneda,
+         venliped.cantidad,
+         articulos.fecha_alta
+
+from venliped, articulos, venped, art_codestadistico, art_grupo2, genter, venclientes
+where venliped.empresa = :empresa 
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and venliped.empresa = genter.empresa
+and venliped.cliente = genter.codigo
+and genter.empresa = venclientes.empresa
+and genter.codigo = venclientes.codigo
+and genter.tipoter = 'C'
+and venped.empresa = :empresa   
+and venped.anyo = venliped.anyo
+and venped.pedido = venliped.pedido
+and venliped.articulo = articulos.codigo
+and year(venliped.fpedido) >= :a1
+and year(venliped.fpedido) <= :a2
+and month(venliped.fpedido) >= :m1
+and month(venliped.fpedido) <= :m2
+and venclientes.agente1 like :agente
+and venliped.cliente like :cliente
+
+union
+
+select 	venlialb.empresa,
+			venlialb.anyo_pedido_origen, 
+			venlialb.pedido_origen, 
+			venlialb.linea_pedido_origen, 
+			venlialb.fpedido_origen,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venlialb.cantidad * venlialb.precio * ( 1 -  venlialb.dtoesp / 100  )* ( 1 -  venlialb.dtoesp2 / 100  ) ) / venalb.cambio as importe_moneda,
+			venlialb.cantidad,
+			articulos.fecha_alta
+
+from venlialb, articulos, venalb, art_codestadistico, art_grupo2, genter, venclientes
+where venlialb.empresa = :empresa    
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and venlialb.empresa = genter.empresa
+and venlialb.cliente = genter.codigo
+and genter.empresa = venclientes.empresa
+and genter.codigo = venclientes.codigo
+and genter.tipoter = 'C'
+and venalb.empresa = :empresa
+and venalb.anyo = venlialb.anyo
+and venalb.albaran = venlialb.albaran
+and venlialb.articulo = articulos.codigo
+and year(venlialb.fpedido_origen) >= :a1
+and year(venlialb.fpedido_origen) <= :a2
+and month(venlialb.fpedido_origen) >= :m1
+and month(venlialb.fpedido_origen) <= :m2
+and venlialb.cliente like :cliente
+and venclientes.agente1 like :agente
+
+union
+
+select 	venlifac.empresa, 
+			venlifac.anyo_pedido_origen, 
+			venlifac.pedido_origen, 
+			venlifac.linea_pedido_origen, 
+			venlifac.fpedido_origen,
+			art_codestadistico.g2,
+			art_grupo2.descripcion,
+         ( venlifac.cantidad * venlifac.precio * ( 1 -  venlifac.dtoesp / 100  ) * ( 1 -  venlifac.dtoesp2 / 100 ) ) / venfac.cambio as importe_moneda,
+			venlifac.cantidad,
+			articulos.fecha_alta
+
+from venlifac, articulos, venfac, art_codestadistico, art_grupo2, genter, venclientes
+where venlifac.empresa = :empresa    
+and articulos.empresa = :empresa
+and art_codestadistico.empresa = :empresa
+and articulos.codigo = art_codestadistico.codigo 
+and art_codestadistico.g2 = art_grupo2.descripcion_abr
+and art_grupo2.empresa = :empresa
+and venlifac.empresa = genter.empresa
+and venlifac.cliente = genter.codigo
+and genter.empresa = venclientes.empresa
+and genter.codigo = venclientes.codigo
+and genter.tipoter = 'C'
+and venfac.empresa = :empresa
+and venfac.anyo = venlifac.anyo
+and venfac.factura = venlifac.factura
+and venlifac.articulo = articulos.codigo
+and year(venlifac.fpedido_origen) >= :a1
+and year(venlifac.fpedido_origen) <= :a2
+and month(venlifac.fpedido_origen) >= :m1
+and month(venlifac.fpedido_origen) <= :m2
+and venclientes.agente1 like :agente
+and venlifac.cliente like :cliente
+and ( venlifac.factura_deposito <> 'S' or venlifac.factura_deposito is null )
+
+" arguments=(("empresa", string),("fecha1", date),("fecha2", date),("cliente", string),("a1", number),("a2", number),("m1", number),("m2", number),("agente", string))  sort="descripcion A " )
+text(band=header[1] alignment="0" text="" border="0" color="33554432" x="9" y="12" height="48" width="544" html.valueishtml="0"  name=t1 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[1] alignment="0" text="" border="0" color="33554432" x="9" y="72" height="48" width="544" html.valueishtml="0"  name=t2 visible="1"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=header[2] alignment="2" text="Total " border="0" color="16777215" x="878" y="4" height="56" width="439" html.valueishtml="0"  name=grand_sum_importe_moneda_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217730" )
+text(band=header[2] alignment="2" text="@anyo" border="0" color="16777215" x="558" y="4" height="56" width="311" html.valueishtml="0"  name=importe_moneda_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217730" )
+text(band=header[2] alignment="2" text="Descripcion" border="0" color="16777215" x="9" y="4" height="56" width="539" html.valueishtml="0"  name=descripcion_t visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="134217730" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="2" color="33554432" x="9" y="4" height="76" width="539" format="[general]" html.valueishtml="0"  name=descripcion visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12639424" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="2" color="33554432" x="558" y="4" height="76" width="311" format="###,###,###,##0.00" html.valueishtml="0"  name=importe_moneda visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.autohscroll=yes edit.imemode=0 crosstab.repeat=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="30337023" )
+compute(band=detail alignment="1" expression="crosstabsum(1)"border="2" color="33554432" x="878" y="4" height="76" width="439" format="###,###,###,##0.00" html.valueishtml="0"  name=grand_sum_importe_moneda visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="65535" )
+compute(band=summary alignment="1" expression="sum(importe_moneda for all )"border="2" color="33554432" x="558" y="4" height="76" width="311" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=summary alignment="1" expression="sum(grand_sum_importe_moneda for all )"border="2" color="33554432" x="878" y="4" height="76" width="439" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=summary alignment="1" expression="~"Total~""border="0" color="33554432" x="9" y="4" height="76" width="539" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+compute(band=footer alignment="0" expression="pageCount()"border="0" color="0" x="878" y="208" height="76" width="439" format="[General]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+ crosstab(band = foreground  crosstabonly = yes 
+ columns = "anyo" rows = "descripcion" values = "sum(importe_moneda for crosstab)" sourcenames = "empresa, anyo, pedido, linea, fpedido, g2, descripcion, importe_moneda, cantidad, fecha_alta")htmltable(border="0" cellpadding="1" cellspacing="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

@@ -1,0 +1,43 @@
+﻿$PBExportHeader$f_actualiza_almlincargas.srf
+global type f_actualiza_almlincargas from function_object
+end type
+
+forward prototypes
+global function boolean f_actualiza_almlincargas (string empresa, decimal anyo, decimal orden, decimal linea)
+end prototypes
+
+global function boolean f_actualiza_almlincargas (string empresa, decimal anyo, decimal orden, decimal linea);Str_almlincargas la
+Select empresa,articulo,calidad,tonochar,calibre,tipo_pallet,caja,cajas,total_cajas,cantidad
+Into   :la.empresa,:la.articulo,:la.calidad,:la.tonochar,:la.calibre,:la.tipo_pallet,:la.caja,:la.cajas,:la.total_cajas,:la.cantidad
+From   almlincargas
+Where  almlincargas.empresa = :empresa
+And    almlincargas.anyo    = :anyo
+And    almlincargas.orden   = :orden
+And    almlincargas.linea   = :linea;
+
+la.tipo_unidad  = f_unidad_articulo(la.empresa,la.articulo)
+la.montajeartcal = f_componer_artcal(la.articulo,la.calidad)
+la.referencia = f_componer_ref(la.articulo,la.calidad,la.tonochar,la.calibre)   
+la.peso_bruto   = f_calculo_peso(codigo_empresa,la.articulo,la.tipo_pallet,la.cajas,la.total_cajas,la.pallets,la.cantidad,la.caja)
+la.peso_neto    = f_calculo_peso_neto(la.empresa,la.articulo,la.cajas,la.total_cajas,la.cantidad,la.caja)
+la.formato      = f_formato_articulo(la.empresa,la.articulo)	 
+IF la.pallets   = 0 Then la.es_pico = "S"
+Update almlincargas
+Set      tipo_unidad   = :la.tipo_unidad,
+			montajeartcal = :la.tipo_unidad,
+			referencia    = :la.referencia,
+			peso_bruto    = :la.peso_bruto,
+			peso_neto     = :la.peso_neto,
+			formato       = :la.formato,
+			es_pico       = :la.es_pico
+From   almlincargas
+Where  almlincargas.empresa = :empresa
+And    almlincargas.anyo    = :anyo
+And    almlincargas.orden   = :orden
+And    almlincargas.linea   = :linea;
+
+IF sqlca.sqlcode  <> 0 Then Return FALSE
+Return  True
+
+end function
+

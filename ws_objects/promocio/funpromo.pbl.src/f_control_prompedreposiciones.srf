@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_control_prompedreposiciones.srf
+global type f_control_prompedreposiciones from function_object
+end type
+
+forward prototypes
+global function string f_control_prompedreposiciones (string empresa, decimal anyo, decimal pedido, decimal anyo_alb, decimal albaran, decimal linea_alb)
+end prototypes
+
+global function string f_control_prompedreposiciones (string empresa, decimal anyo, decimal pedido, decimal anyo_alb, decimal albaran, decimal linea_alb);Integer numero
+Select count(*) Into :numero From prompedreposicion
+Where  empresa = :empresa
+And    anyo    = :anyo	
+And    pedido  = :pedido	
+And    anyo_alb = :anyo_alb	
+And    albaran  = :albaran	
+And    linea_alb = :linea_alb;
+IF IsNUll(numero) Then numero = 0
+IF numero = 0 Then
+	Return ""
+ELSE
+	Return "X"
+END IF
+end function
+

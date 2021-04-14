@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_mant_motivotirar.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+summary(height=4 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=192 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almmotivostirar.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="almmotivostirar.codigo" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="almmotivostirar.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almmotivostirar~" ) COLUMN(NAME=~"almmotivostirar.empresa~") COLUMN(NAME=~"almmotivostirar.codigo~") COLUMN(NAME=~"almmotivostirar.descripcion~")WHERE(    EXP1 =~"almmotivostirar.empresa~"   OP =~"=~"    EXP2 =~":cod_empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almmotivostirar.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"cod_empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="almmotivostirar" updatewhere=0 updatekeyinplace=no arguments=(("cod_empresa", string),("codigo", string)) )
+text(band=detail alignment="1" text="Descripción:"border="0" color="33554432" x="0" y="44" height="56" width="370"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=10 border="5" color="0" x="407" y="44" height="60" width="1317" format="[general]"  name=descripcion edit.limit=0 edit.case=upper edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

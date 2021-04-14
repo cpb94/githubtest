@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_paneles_expositor.srf
+global type f_paneles_expositor from function_object
+end type
+
+forward prototypes
+global function boolean f_paneles_expositor (string empresa, string expositor)
+end prototypes
+
+global function boolean f_paneles_expositor (string empresa, string expositor);string v_paneles
+
+select paneles into :v_paneles
+from promcabexpositores
+where empresa = :empresa
+and codigo = :expositor;
+
+if isnull(v_paneles) then v_paneles = "N"
+
+if v_paneles = "N" then
+	return false
+else
+	return true
+end if
+end function
+

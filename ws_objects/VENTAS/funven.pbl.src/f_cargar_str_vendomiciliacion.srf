@@ -1,0 +1,53 @@
+﻿$PBExportHeader$f_cargar_str_vendomiciliacion.srf
+global type f_cargar_str_vendomiciliacion from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_vendomiciliacion (STRING arg_empresa, STRING arg_cliente, STRING arg_codigo,  ref str_vendomiciliacion str_vendomiciliacion)
+end prototypes
+
+global function boolean f_cargar_str_vendomiciliacion (STRING arg_empresa, STRING arg_cliente, STRING arg_codigo,  ref str_vendomiciliacion str_vendomiciliacion);boolean lb_correcto = true
+
+SELECT vendomiciliacion.empresa,
+       vendomiciliacion.cliente,
+       vendomiciliacion.codigo,
+       vendomiciliacion.nombrebanco,
+       vendomiciliacion.pais,
+       vendomiciliacion.provincia,
+       vendomiciliacion.codpostal,
+       vendomiciliacion.localidad,
+       vendomiciliacion.domicilio,
+       vendomiciliacion.cuenta,
+       vendomiciliacion.entidad,
+       vendomiciliacion.oficina,
+       vendomiciliacion.control,
+       vendomiciliacion.swift,
+       vendomiciliacion.iban,
+       vendomiciliacion.codigo_iban,
+       vendomiciliacion.codigo_swift
+INTO   :str_vendomiciliacion.empresa,
+       :str_vendomiciliacion.cliente,
+       :str_vendomiciliacion.codigo,
+       :str_vendomiciliacion.nombrebanco,
+       :str_vendomiciliacion.pais,
+       :str_vendomiciliacion.provincia,
+       :str_vendomiciliacion.codpostal,
+       :str_vendomiciliacion.localidad,
+       :str_vendomiciliacion.domicilio,
+       :str_vendomiciliacion.cuenta,
+       :str_vendomiciliacion.entidad,
+       :str_vendomiciliacion.oficina,
+       :str_vendomiciliacion.control,
+       :str_vendomiciliacion.swift,
+       :str_vendomiciliacion.iban,
+       :str_vendomiciliacion.codigo_iban,
+       :str_vendomiciliacion.codigo_swift
+FROM vendomiciliacion
+WHERE vendomiciliacion.empresa = :arg_empresa AND vendomiciliacion.cliente = :arg_cliente AND vendomiciliacion.codigo = :arg_codigo;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

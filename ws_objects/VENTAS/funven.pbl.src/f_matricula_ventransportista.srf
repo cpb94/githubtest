@@ -1,0 +1,22 @@
+﻿$PBExportHeader$f_matricula_ventransportista.srf
+global type f_matricula_ventransportista from function_object
+end type
+
+forward prototypes
+global function string f_matricula_ventransportista (string empresa, string codigo)
+end prototypes
+
+global function string f_matricula_ventransportista (string empresa, string codigo);String var_matricula
+
+SELECT ventransportista.matricula
+INTO :var_matricula
+FROM ventransportista
+WHERE (ventransportista.empresa   = :empresa)
+AND   (ventransportista.codigo  = :codigo);
+
+if isnull(var_matricula) then var_matricula=''
+
+Return var_matricula
+
+end function
+

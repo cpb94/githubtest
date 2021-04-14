@@ -1,0 +1,21 @@
+﻿$PBExportHeader$dw_proceso_llamadas_mailing.srd
+$PBExportComments$cursir llamadas mailing.
+release 4;
+datawindow(units=0 timer_interval=0 color=12632256 processing=1 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no grid.lines=0 )
+header(height=89 color="536870912" )
+summary(height=13 color="536870912" )
+footer(height=25 color="536870912" )
+detail(height=1 color="536870912" )
+table(column=(type=char(5) key=yes name=empresa dbname="mllamadas.empresa" )
+ column=(type=number key=yes name=anyo dbname="mllamadas.anyo" )
+ column=(type=number key=yes name=contador dbname="mllamadas.contador" )
+ column=(type=datetime name=fecha dbname="mllamadas.fecha" )
+ column=(type=char(5) name=tipo_revista dbname="mllamadas.tipo_revista" )
+ column=(type=char(1) name=enviados dbname="mllamadas.enviados" )
+ column=(type=char(20) key=yes name=contacto dbname="mllamadas.contacto" )
+ column=(type=char(1) name=imp_etiquetas dbname="mllamadas.imp_etiquetas" )
+ column=(type=datetime name=fecha_alta dbname="mllamadas.fecha_alta" )
+ column=(type=char(5) name=provincia dbname="mllamadas.provincia" )
+ column=(type=char(5) name=pais dbname="mllamadas.pais" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"mllamadas~" ) COLUMN(NAME=~"mllamadas.empresa~") COLUMN(NAME=~"mllamadas.anyo~") COLUMN(NAME=~"mllamadas.contador~") COLUMN(NAME=~"mllamadas.fecha~") COLUMN(NAME=~"mllamadas.tipo_revista~") COLUMN(NAME=~"mllamadas.enviados~") COLUMN(NAME=~"mllamadas.contacto~") COLUMN(NAME=~"mllamadas.imp_etiquetas~") COLUMN(NAME=~"mllamadas.fecha_alta~") COLUMN(NAME=~"mllamadas.provincia~") COLUMN(NAME=~"mllamadas.pais~")WHERE( EXP1 =~"mllamadas.empresa~" OP =~"=~" EXP2 =~":empresa~" LOGIC =~"and~" ) WHERE( EXP1 =~"mllamadas.anyo~" OP =~"=~" EXP2 =~":anyo~" ) ) ARG(NAME = ~"empresa~" TYPE = string) ARG(NAME = ~"anyo~" TYPE = number) " update="mllamadas" updatewhere=0 updatekeyinplace=no arguments=(("empresa", string),("anyo", number)) )
+text(band=header alignment="0" text="Cursor LLamadas Hasta fecha"border="0" color="128" x="151" y="12" height="65" width="865"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )

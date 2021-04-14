@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipo_materia_venmprima.srf
+global type f_tipo_materia_venmprima from function_object
+end type
+
+forward prototypes
+global function string f_tipo_materia_venmprima (string arg_empresa, string arg_mprima)
+end prototypes
+
+global function string f_tipo_materia_venmprima (string arg_empresa, string arg_mprima);string tipo_materia
+
+select tipo_materia
+into   :tipo_materia
+from   venmprima
+where  empresa = :arg_empresa
+and    codigo  = :arg_mprima;
+
+if isnull(tipo_materia) then tipo_materia = ""
+
+return tipo_materia
+end function
+

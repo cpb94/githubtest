@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_calibre_referencia.srf
+global type f_calibre_referencia from function_object
+end type
+
+forward prototypes
+global function string f_calibre_referencia (string referencia)
+end prototypes
+
+global function string f_calibre_referencia (string referencia);string	cod
+//cod = Mid(referencia,17,1)
+cod = Right(referencia,1)
+
+RETURN  cod
+end function
+

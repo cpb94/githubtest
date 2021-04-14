@@ -1,0 +1,27 @@
+﻿$PBExportHeader$f_orden_impresa_sn.srf
+global type f_orden_impresa_sn from function_object
+end type
+
+forward prototypes
+global function boolean f_orden_impresa_sn (string empresa, integer anyo, decimal orden)
+end prototypes
+
+global function boolean f_orden_impresa_sn (string empresa, integer anyo, decimal orden);String impreso,var_empresa
+Decimal{0} var_orden
+Integer var_anyo,var_veces
+impreso="N"
+
+
+  SELECT almcargas.empresa,almcargas.anyo,almcargas.orden,almcargas.veces
+    INTO :var_empresa,:var_anyo,:var_orden,:var_veces
+    FROM almcargas  
+   WHERE ( almcargas.empresa = :empresa ) AND  
+         ( almcargas.anyo    = :anyo    ) AND  
+         ( almcargas.orden   = :orden   )   ;
+
+if var_veces<>0 then return True
+
+Return False
+
+end function
+

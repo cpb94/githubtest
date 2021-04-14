@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_proveedor.srf
+$PBExportComments$Devuelve el nombre de proveedor.
+global type f_nombre_proveedor from function_object
+end type
+
+forward prototypes
+global function string f_nombre_proveedor (string ai_empresa, string as_codpro)
+end prototypes
+
+global function string f_nombre_proveedor (string ai_empresa, string as_codpro);string	ls_nombre
+  SELECT genter.razon
+    INTO :ls_nombre
+    FROM genter  
+   WHERE ( genter.empresa = :ai_empresa ) AND  
+         ( genter.tipoter = 'P' )AND
+			( genter.codigo  = :as_codpro)
+    USING SQLCA;
+IF IsNull(ls_nombre) Then ls_nombre=""
+RETURN ls_nombre
+end function
+

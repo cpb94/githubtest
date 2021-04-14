@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_decimales_moneda.srf
+global type f_decimales_moneda from function_object
+end type
+
+forward prototypes
+global function integer f_decimales_moneda (string v_moneda)
+end prototypes
+
+global function integer f_decimales_moneda (string v_moneda);dec v_dec
+  SELECT monedas.decimales  
+    INTO :v_dec  
+    FROM monedas  
+   WHERE monedas.moneda = :v_moneda   ;
+if sqlca.sqlcode<> 0 then v_dec=0
+
+return integer(v_dec)
+end function
+

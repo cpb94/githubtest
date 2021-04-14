@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_tipoiva_agente.srf
+global type f_tipoiva_agente from function_object
+end type
+
+forward prototypes
+global function string f_tipoiva_agente (string empresa, string codigo)
+end prototypes
+
+global function string f_tipoiva_agente (string empresa, string codigo);String var_iva
+
+SELECT venagentes.tipo_iva INTO :var_iva 
+FROM venagentes
+WHERE venagentes.empresa = :empresa
+AND   venagentes.agente = :codigo ;
+			
+if IsNull(var_iva) then var_iva = ""
+
+Return var_iva
+
+end function
+

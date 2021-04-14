@@ -1,0 +1,38 @@
+﻿$PBExportHeader$f_exporta_stock_obsoleto.srf
+global type f_exporta_stock_obsoleto from function_object
+end type
+
+forward prototypes
+global subroutine f_exporta_stock_obsoleto ()
+end prototypes
+
+global subroutine f_exporta_stock_obsoleto ();///
+
+if messagebox("ATENCION", "El proceso exporta directamente en Excel. Esto puede tardar varios minutos. ¿Continuar?", question!, yesno!, 1) = 0 then return
+	
+f_mensaje_proceso("Espere por favor...", 10, 100)
+
+string ls_file, ls_path
+
+GetFileSaveName ("Seleccione Fichero", ls_path, ls_file, "XLSX", "All Files (*.*),*.*" , "C:\", 32770)
+
+//messagebox(ls_file,ls_path)
+
+
+f_mensaje_proceso("Espere por favor...", 25, 100)
+
+datastore ds_datos
+
+f_cargar_cursor_transaccion(sqlca, ds_datos, "select * from v_stock_valor_movs_vtas")
+
+
+f_mensaje_proceso("Espere por favor...", 50, 100)
+
+
+ds_datos.saveas(ls_path, Excel!, true)
+
+f_mensaje_proceso("Espere por favor...", 100, 100)
+
+///
+end subroutine
+

@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_formaenvio.srf
+global type f_nombre_formaenvio from function_object
+end type
+
+forward prototypes
+global function string f_nombre_formaenvio (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_formaenvio (string empresa, string codigo);  string nombre
+  SELECT comforenv.descripcion  
+    INTO :nombre  
+    FROM comforenv  
+   WHERE ( comforenv.empresa = :empresa ) AND  
+         ( comforenv.codigo = :codigo )   ;
+	return nombre
+
+end function
+

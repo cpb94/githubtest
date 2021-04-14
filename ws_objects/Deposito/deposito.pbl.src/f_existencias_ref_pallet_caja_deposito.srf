@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_existencias_ref_pallet_caja_deposito.srf
+global type f_existencias_ref_pallet_caja_deposito from function_object
+end type
+
+forward prototypes
+global function decimal f_existencias_ref_pallet_caja_deposito (string empresa, string referencia, string tipo_pallet, string caja)
+end prototypes
+
+global function decimal f_existencias_ref_pallet_caja_deposito (string empresa, string referencia, string tipo_pallet, string caja);Dec{4}   var_existencias
+
+
+SELECT sum(deplinubica.existencias) 
+INTO   :var_existencias 
+FROM   deplinubica  
+WHERE  deplinubica.empresa     = :empresa
+AND    deplinubica.referencia  = :referencia
+AND    deplinubica.tipo_pallet = :tipo_pallet
+AND    deplinubica.caja = :caja;
+
+IF IsNull(var_existencias) Then var_existencias = 0
+Return  var_existencias
+end function
+

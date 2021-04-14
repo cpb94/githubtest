@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_disponible_art_cal_to_ca_tp_c_m2.srf
+global type f_disponible_art_cal_to_ca_tp_c_m2 from function_object
+end type
+
+forward prototypes
+global function decimal f_disponible_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja)
+end prototypes
+
+global function decimal f_disponible_art_cal_to_ca_tp_c_m2 (string arg_empresa, string arg_articulo, string arg_calidad, string arg_tono, integer arg_calibre, string arg_tipo_pallet, string arg_caja);Dec{3} ld_existencias,ld_reservado,ld_preparado,ld_disponible
+
+ld_existencias = f_existencias_art_cal_to_ca_tp_c_m2(arg_empresa,arg_articulo,arg_calidad,arg_tono,arg_calibre,arg_tipo_pallet,arg_caja)
+ld_reservado   = f_reservado_art_cal_to_ca_tp_c_m2(arg_empresa,arg_articulo,arg_calidad,arg_tono,arg_calibre,arg_tipo_pallet,arg_caja)
+ld_preparado   = f_preparado_art_cal_to_ca_tp_c_m2(arg_empresa,arg_articulo,arg_calidad,arg_tono,arg_calibre,arg_tipo_pallet,arg_caja)
+ld_disponible  = ld_existencias - ( ld_reservado + ld_preparado )
+
+Return ld_disponible
+end function
+

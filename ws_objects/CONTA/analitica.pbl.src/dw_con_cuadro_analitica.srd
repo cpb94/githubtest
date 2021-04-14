@@ -1,0 +1,655 @@
+﻿$PBExportHeader$dw_con_cuadro_analitica.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=88 color="536870912" )
+summary(height=76 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=80 color="536870912" )
+table(column=(type=char(10) update=yes updatewhereclause=yes key=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(50) updatewhereclause=yes name=cuenta dbname="comodin.cuenta" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_cuenta dbname="comodin.codigo_cuenta" )
+ column=(type=char(50) updatewhereclause=yes name=fila1 dbname="comodin.fila1" )
+ column=(type=char(50) updatewhereclause=yes name=fila2 dbname="comodin.fila2" )
+ column=(type=char(50) updatewhereclause=yes name=fila3 dbname="comodin.fila3" )
+ column=(type=char(50) updatewhereclause=yes name=fila4 dbname="comodin.fila4" )
+ column=(type=char(50) updatewhereclause=yes name=fila5 dbname="comodin.fila5" )
+ column=(type=char(50) updatewhereclause=yes name=fila6 dbname="comodin.fila6" )
+ column=(type=char(50) updatewhereclause=yes name=fila7 dbname="comodin.fila7" )
+ column=(type=char(50) updatewhereclause=yes name=fila8 dbname="comodin.fila8" )
+ column=(type=char(50) updatewhereclause=yes name=fila9 dbname="comodin.fila9" )
+ column=(type=char(50) updatewhereclause=yes name=fila10 dbname="comodin.fila10" )
+ column=(type=char(50) updatewhereclause=yes name=fila11 dbname="comodin.fila11" )
+ column=(type=char(50) updatewhereclause=yes name=fila12 dbname="comodin.fila12" )
+ column=(type=char(50) updatewhereclause=yes name=fila13 dbname="comodin.fila13" )
+ column=(type=char(50) updatewhereclause=yes name=fila14 dbname="comodin.fila14" )
+ column=(type=char(50) updatewhereclause=yes name=fila15 dbname="comodin.fila15" )
+ column=(type=char(50) updatewhereclause=yes name=fila16 dbname="comodin.fila16" )
+ column=(type=char(50) updatewhereclause=yes name=fila17 dbname="comodin.fila17" )
+ column=(type=char(50) updatewhereclause=yes name=fila18 dbname="comodin.fila18" )
+ column=(type=char(50) updatewhereclause=yes name=fila19 dbname="comodin.fila19" )
+ column=(type=char(50) updatewhereclause=yes name=fila20 dbname="comodin.fila20" )
+ column=(type=char(50) updatewhereclause=yes name=fila21 dbname="comodin.fila21" )
+ column=(type=char(50) updatewhereclause=yes name=fila22 dbname="comodin.fila22" )
+ column=(type=char(50) updatewhereclause=yes name=fila23 dbname="comodin.fila23" )
+ column=(type=char(50) updatewhereclause=yes name=fila24 dbname="comodin.fila24" )
+ column=(type=char(50) updatewhereclause=yes name=fila25 dbname="comodin.fila25" )
+ column=(type=char(50) updatewhereclause=yes name=fila26 dbname="comodin.fila26" )
+ column=(type=char(50) updatewhereclause=yes name=fila27 dbname="comodin.fila27" )
+ column=(type=char(50) updatewhereclause=yes name=fila28 dbname="comodin.fila28" )
+ column=(type=char(50) updatewhereclause=yes name=fila29 dbname="comodin.fila29" )
+ column=(type=char(50) updatewhereclause=yes name=fila30 dbname="comodin.fila30" )
+ column=(type=char(50) updatewhereclause=yes name=fila31 dbname="comodin.fila31" )
+ column=(type=char(50) updatewhereclause=yes name=fila32 dbname="comodin.fila32" )
+ column=(type=char(50) updatewhereclause=yes name=fila33 dbname="comodin.fila33" )
+ column=(type=char(50) updatewhereclause=yes name=fila34 dbname="comodin.fila34" )
+ column=(type=char(50) updatewhereclause=yes name=fila35 dbname="comodin.fila35" )
+ column=(type=char(50) updatewhereclause=yes name=fila36 dbname="comodin.fila36" )
+ column=(type=char(50) updatewhereclause=yes name=fila37 dbname="comodin.fila37" )
+ column=(type=char(50) updatewhereclause=yes name=fila38 dbname="comodin.fila38" )
+ column=(type=char(50) updatewhereclause=yes name=fila39 dbname="comodin.fila39" )
+ column=(type=char(50) updatewhereclause=yes name=fila40 dbname="comodin.fila40" )
+ column=(type=char(50) updatewhereclause=yes name=fila41 dbname="comodin.fila41" )
+ column=(type=char(50) updatewhereclause=yes name=fila42 dbname="comodin.fila42" )
+ column=(type=char(50) updatewhereclause=yes name=fila43 dbname="comodin.fila43" )
+ column=(type=char(50) updatewhereclause=yes name=fila44 dbname="comodin.fila44" )
+ column=(type=char(50) updatewhereclause=yes name=fila45 dbname="comodin.fila45" )
+ column=(type=char(50) updatewhereclause=yes name=fila46 dbname="comodin.fila46" )
+ column=(type=char(50) updatewhereclause=yes name=fila47 dbname="comodin.fila47" )
+ column=(type=char(50) updatewhereclause=yes name=fila48 dbname="comodin.fila48" )
+ column=(type=char(50) updatewhereclause=yes name=fila49 dbname="comodin.fila49" )
+ column=(type=char(50) updatewhereclause=yes name=fila50 dbname="comodin.fila50" )
+ column=(type=char(50) updatewhereclause=yes name=fila51 dbname="comodin.fila51" )
+ column=(type=char(50) updatewhereclause=yes name=fila52 dbname="comodin.fila52" )
+ column=(type=char(50) updatewhereclause=yes name=fila53 dbname="comodin.fila53" )
+ column=(type=char(50) updatewhereclause=yes name=fila54 dbname="comodin.fila54" )
+ column=(type=char(50) updatewhereclause=yes name=fila55 dbname="comodin.fila55" )
+ column=(type=char(50) updatewhereclause=yes name=fila56 dbname="comodin.fila56" )
+ column=(type=char(50) updatewhereclause=yes name=fila57 dbname="comodin.fila57" )
+ column=(type=char(50) updatewhereclause=yes name=fila58 dbname="comodin.fila58" )
+ column=(type=char(50) updatewhereclause=yes name=fila59 dbname="comodin.fila59" )
+ column=(type=char(50) updatewhereclause=yes name=fila60 dbname="comodin.fila60" )
+ column=(type=char(50) updatewhereclause=yes name=fila61 dbname="comodin.fila61" )
+ column=(type=char(50) updatewhereclause=yes name=fila62 dbname="comodin.fila62" )
+ column=(type=char(50) updatewhereclause=yes name=fila63 dbname="comodin.fila63" )
+ column=(type=char(50) updatewhereclause=yes name=fila64 dbname="comodin.fila64" )
+ column=(type=char(50) updatewhereclause=yes name=fila65 dbname="comodin.fila65" )
+ column=(type=char(50) updatewhereclause=yes name=fila66 dbname="comodin.fila66" )
+ column=(type=char(50) updatewhereclause=yes name=fila67 dbname="comodin.fila67" )
+ column=(type=char(50) updatewhereclause=yes name=fila68 dbname="comodin.fila68" )
+ column=(type=char(50) updatewhereclause=yes name=fila69 dbname="comodin.fila69" )
+ column=(type=char(50) updatewhereclause=yes name=fila70 dbname="comodin.fila70" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila1 dbname="comodin.codigo_fila1" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila2 dbname="comodin.codigo_fila2" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila3 dbname="comodin.codigo_fila3" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila4 dbname="comodin.codigo_fila4" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila5 dbname="comodin.codigo_fila5" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila6 dbname="comodin.codigo_fila6" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila7 dbname="comodin.codigo_fila7" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila8 dbname="comodin.codigo_fila8" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila9 dbname="comodin.codigo_fila9" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila10 dbname="comodin.codigo_fila10" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila11 dbname="comodin.codigo_fila11" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila12 dbname="comodin.codigo_fila12" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila13 dbname="comodin.codigo_fila13" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila14 dbname="comodin.codigo_fila14" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila15 dbname="comodin.codigo_fila15" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila16 dbname="comodin.codigo_fila16" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila17 dbname="comodin.codigo_fila17" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila18 dbname="comodin.codigo_fila18" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila19 dbname="comodin.codigo_fila19" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila20 dbname="comodin.codigo_fila20" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila21 dbname="comodin.codigo_fila21" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila22 dbname="comodin.codigo_fila22" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila23 dbname="comodin.codigo_fila23" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila24 dbname="comodin.codigo_fila24" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila25 dbname="comodin.codigo_fila25" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila26 dbname="comodin.codigo_fila26" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila27 dbname="comodin.codigo_fila27" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila28 dbname="comodin.codigo_fila28" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila29 dbname="comodin.codigo_fila29" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila30 dbname="comodin.codigo_fila30" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila31 dbname="comodin.codigo_fila31" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila32 dbname="comodin.codigo_fila32" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila33 dbname="comodin.codigo_fila33" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila34 dbname="comodin.codigo_fila34" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila35 dbname="comodin.codigo_fila35" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila36 dbname="comodin.codigo_fila36" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila37 dbname="comodin.codigo_fila37" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila38 dbname="comodin.codigo_fila38" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila39 dbname="comodin.codigo_fila39" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila40 dbname="comodin.codigo_fila40" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila41 dbname="comodin.codigo_fila41" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila42 dbname="comodin.codigo_fila42" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila43 dbname="comodin.codigo_fila43" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila44 dbname="comodin.codigo_fila44" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila45 dbname="comodin.codigo_fila45" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila46 dbname="comodin.codigo_fila46" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila47 dbname="comodin.codigo_fila47" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila48 dbname="comodin.codigo_fila48" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila49 dbname="comodin.codigo_fila49" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila50 dbname="comodin.codigo_fila50" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila51 dbname="comodin.codigo_fila51" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila52 dbname="comodin.codigo_fila52" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila53 dbname="comodin.codigo_fila53" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila54 dbname="comodin.codigo_fila54" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila55 dbname="comodin.codigo_fila55" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila56 dbname="comodin.codigo_fila56" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila57 dbname="comodin.codigo_fila57" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila58 dbname="comodin.codigo_fila58" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila59 dbname="comodin.codigo_fila59" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila60 dbname="comodin.codigo_fila60" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila61 dbname="comodin.codigo_fila61" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila62 dbname="comodin.codigo_fila62" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila63 dbname="comodin.codigo_fila63" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila64 dbname="comodin.codigo_fila64" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila65 dbname="comodin.codigo_fila65" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila66 dbname="comodin.codigo_fila66" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila67 dbname="comodin.codigo_fila67" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila68 dbname="comodin.codigo_fila68" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila69 dbname="comodin.codigo_fila69" )
+ column=(type=char(50) updatewhereclause=yes name=codigo_fila70 dbname="comodin.codigo_fila70" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe1 dbname="comodin.importe1" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe2 dbname="comodin.importe2" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe3 dbname="comodin.importe3" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe4 dbname="comodin.importe4" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe5 dbname="comodin.importe5" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe6 dbname="comodin.importe6" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe7 dbname="comodin.importe7" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe8 dbname="comodin.importe8" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe9 dbname="comodin.importe9" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe10 dbname="comodin.importe10" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe11 dbname="comodin.importe11" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe12 dbname="comodin.importe12" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe13 dbname="comodin.importe13" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe14 dbname="comodin.importe14" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe15 dbname="comodin.importe15" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe16 dbname="comodin.importe16" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe17 dbname="comodin.importe17" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe18 dbname="comodin.importe18" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe19 dbname="comodin.importe19" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe20 dbname="comodin.importe20" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe21 dbname="comodin.importe21" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe22 dbname="comodin.importe22" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe23 dbname="comodin.importe23" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe24 dbname="comodin.importe24" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe25 dbname="comodin.importe25" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe26 dbname="comodin.importe26" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe27 dbname="comodin.importe27" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe28 dbname="comodin.importe28" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe29 dbname="comodin.importe29" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe30 dbname="comodin.importe30" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe31 dbname="comodin.importe31" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe32 dbname="comodin.importe32" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe33 dbname="comodin.importe33" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe34 dbname="comodin.importe34" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe35 dbname="comodin.importe35" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe36 dbname="comodin.importe36" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe37 dbname="comodin.importe37" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe38 dbname="comodin.importe38" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe39 dbname="comodin.importe39" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe40 dbname="comodin.importe40" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe41 dbname="comodin.importe41" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe42 dbname="comodin.importe42" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe43 dbname="comodin.importe43" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe44 dbname="comodin.importe44" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe45 dbname="comodin.importe45" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe46 dbname="comodin.importe46" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe47 dbname="comodin.importe47" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe48 dbname="comodin.importe48" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe49 dbname="comodin.importe49" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe50 dbname="comodin.importe50" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe51 dbname="comodin.importe51" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe52 dbname="comodin.importe52" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe53 dbname="comodin.importe53" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe54 dbname="comodin.importe54" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe55 dbname="comodin.importe55" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe56 dbname="comodin.importe56" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe57 dbname="comodin.importe57" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe58 dbname="comodin.importe58" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe59 dbname="comodin.importe59" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe60 dbname="comodin.importe60" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe61 dbname="comodin.importe61" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe62 dbname="comodin.importe62" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe63 dbname="comodin.importe63" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe64 dbname="comodin.importe64" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe65 dbname="comodin.importe65" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe66 dbname="comodin.importe66" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe67 dbname="comodin.importe67" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe68 dbname="comodin.importe68" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe69 dbname="comodin.importe69" initial="0" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe70 dbname="comodin.importe70" initial="0" )
+ retrieve="  SELECT comodin.empresa,   
+         letras cuenta,   
+         letras codigo_cuenta,   
+         letras  fila1,   
+         letras  fila2,   
+         letras  fila3,   
+         letras  fila4,   
+         letras  fila5,   
+         letras  fila6,   
+         letras  fila7,   
+         letras  fila8,   
+         letras  fila9,   
+         letras  fila10,   
+         letras  fila11,   
+         letras  fila12,   
+         letras  fila13,   
+         letras  fila14,   
+         letras  fila15,   
+         letras  fila16,   
+         letras  fila17,   
+         letras  fila18,   
+         letras  fila19,   
+         letras  fila20,   
+         letras  fila21,   
+         letras  fila22,   
+         letras  fila23,   
+         letras  fila24,   
+         letras  fila25,   
+         letras  fila26,   
+         letras  fila27,   
+         letras  fila28,   
+         letras  fila29,   
+         letras  fila30,   
+         letras  fila31,   
+         letras  fila32,   
+         letras  fila33,   
+         letras  fila34,   
+         letras  fila35,   
+         letras  fila36,   
+         letras  fila37,   
+         letras  fila38,   
+         letras  fila39,   
+         letras  fila40,   
+         letras  fila41,   
+         letras  fila42,   
+         letras  fila43,   
+         letras  fila44,   
+         letras  fila45,   
+         letras  fila46,   
+         letras  fila47,   
+         letras  fila48,   
+         letras  fila49,   
+         letras  fila50,   
+         letras  fila51,   
+         letras  fila52,   
+         letras  fila53,   
+         letras  fila54,   
+         letras  fila55,   
+         letras  fila56,   
+         letras  fila57,   
+         letras  fila58,   
+         letras  fila59,   
+         letras  fila60,   
+         letras  fila61,   
+         letras  fila62,   
+         letras  fila63,   
+         letras  fila64,   
+         letras  fila65,   
+         letras  fila66,   
+         letras  fila67,   
+         letras  fila68,   
+         letras  fila69,   
+         letras  fila70,   
+         letras  codigo_fila1,   
+         letras  codigo_fila2,   
+         letras  codigo_fila3,   
+         letras  codigo_fila4,   
+         letras  codigo_fila5,   
+         letras  codigo_fila6,   
+         letras  codigo_fila7,   
+         letras  codigo_fila8,   
+         letras  codigo_fila9,   
+         letras  codigo_fila10,   
+         letras  codigo_fila11,   
+         letras  codigo_fila12,   
+         letras  codigo_fila13,   
+         letras  codigo_fila14,   
+         letras  codigo_fila15,   
+         letras  codigo_fila16,   
+         letras  codigo_fila17,   
+         letras  codigo_fila18,   
+         letras  codigo_fila19,   
+         letras  codigo_fila20,   
+         letras  codigo_fila21,   
+         letras  codigo_fila22,   
+         letras  codigo_fila23,   
+         letras  codigo_fila24,   
+         letras  codigo_fila25,   
+         letras  codigo_fila26,   
+         letras  codigo_fila27,   
+         letras  codigo_fila28,   
+         letras  codigo_fila29,   
+         letras  codigo_fila30,   
+         letras  codigo_fila31,   
+         letras  codigo_fila32,   
+         letras  codigo_fila33,   
+         letras  codigo_fila34,   
+         letras  codigo_fila35,   
+         letras  codigo_fila36,   
+         letras  codigo_fila37,   
+         letras  codigo_fila38,   
+         letras  codigo_fila39,   
+         letras  codigo_fila40,   
+         letras  codigo_fila41,   
+         letras  codigo_fila42,   
+         letras  codigo_fila43,   
+         letras  codigo_fila44,   
+         letras  codigo_fila45,   
+         letras  codigo_fila46,   
+         letras  codigo_fila47,   
+         letras  codigo_fila48,   
+         letras  codigo_fila49,   
+         letras  codigo_fila50,   
+         letras  codigo_fila51,   
+         letras  codigo_fila52,   
+         letras  codigo_fila53,   
+         letras  codigo_fila54,   
+         letras  codigo_fila55,   
+         letras  codigo_fila56,   
+         letras  codigo_fila57,   
+         letras  codigo_fila58,   
+         letras  codigo_fila59,   
+         letras  codigo_fila60,
+         letras  codigo_fila61,
+         letras  codigo_fila62,
+         letras  codigo_fila63,
+         letras  codigo_fila64,
+         letras  codigo_fila65,
+         letras  codigo_fila66,
+         letras  codigo_fila67,
+         letras  codigo_fila68,
+         letras  codigo_fila69,
+         letras  codigo_fila70,
+         numero  importe1,   
+         numero  importe2,   
+         numero  importe3,   
+         numero  importe4,   
+         numero  importe5,   
+         numero  importe6,   
+         numero  importe7,   
+         numero  importe8,   
+         numero  importe9,   
+         numero  importe10,   
+         numero  importe11,   
+         numero  importe12,   
+         numero  importe13,   
+         numero  importe14,   
+         numero  importe15,   
+         numero  importe16,   
+         numero  importe17,   
+         numero  importe18,   
+         numero  importe19,   
+         numero  importe20,   
+         numero  importe21,   
+         numero  importe22,   
+         numero  importe23,   
+         numero  importe24,   
+         numero  importe25,   
+         numero  importe26,   
+         numero  importe27,   
+         numero  importe28,   
+         numero  importe29,   
+         numero  importe30,   
+         numero  importe31,   
+         numero  importe32,   
+         numero  importe33,   
+         numero  importe34,   
+         numero  importe35,   
+         numero  importe36,   
+         numero  importe37,   
+         numero  importe38,   
+         numero  importe39,   
+         numero  importe40,   
+         numero  importe41,   
+         numero  importe42,   
+         numero  importe43,   
+         numero  importe44,   
+         numero  importe45,   
+         numero  importe46,   
+         numero  importe47,   
+         numero  importe48,   
+         numero  importe49,   
+         numero  importe50,   
+         numero  importe51,   
+         numero  importe52,   
+         numero  importe53,   
+         numero  importe54,   
+         numero  importe55,   
+         numero  importe56,   
+         numero  importe57,   
+         numero  importe58,   
+         numero  importe59,   
+         numero  importe60,   
+         numero  importe61,   
+         numero  importe62,   
+         numero  importe63,   
+         numero  importe64,   
+         numero  importe65,
+         numero  importe66,
+         numero  importe67,
+         numero  importe68,
+         numero  importe69,
+         numero  importe70
+
+ 
+
+
+
+    FROM comodin  
+   WHERE comodin.empresa = :empresa    
+" update="comodin" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string)) )
+text(band=header alignment="2" text="Titulo Cuenta"border="1" color="0" x="0" y="8" height="64" width="841"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=4 alignment="2" tabsequence=32766 border="1" color="0" x="869" y="8" height="64" width="471" format="[general]"  name=fila1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=5 alignment="2" tabsequence=32766 border="1" color="0" x="1367" y="8" height="64" width="471" format="[general]"  name=fila2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=6 alignment="2" tabsequence=32766 border="1" color="0" x="1865" y="8" height="64" width="471" format="[general]"  name=fila3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=7 alignment="2" tabsequence=32766 border="1" color="0" x="2363" y="8" height="64" width="471" format="[general]"  name=fila4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=8 alignment="2" tabsequence=32766 border="1" color="0" x="2862" y="8" height="64" width="471" format="[general]"  name=fila5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=9 alignment="2" tabsequence=32766 border="1" color="0" x="3360" y="8" height="64" width="471" format="[general]"  name=fila6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=10 alignment="2" tabsequence=32766 border="1" color="0" x="3858" y="8" height="64" width="471" format="[general]"  name=fila7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=11 alignment="2" tabsequence=32766 border="1" color="0" x="4357" y="8" height="64" width="471" format="[general]"  name=fila8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=12 alignment="2" tabsequence=32766 border="1" color="0" x="4855" y="8" height="64" width="471" format="[general]"  name=fila9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=13 alignment="2" tabsequence=32766 border="1" color="0" x="5353" y="8" height="64" width="471" format="[general]"  name=fila10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=14 alignment="2" tabsequence=32766 border="1" color="0" x="5847" y="8" height="64" width="475" format="[general]"  name=fila11 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=15 alignment="2" tabsequence=32766 border="1" color="0" x="6345" y="12" height="64" width="471" format="[general]"  name=fila12 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=16 alignment="2" tabsequence=32766 border="1" color="0" x="6843" y="12" height="64" width="471" format="[general]"  name=fila13 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=17 alignment="2" tabsequence=32766 border="1" color="0" x="7342" y="12" height="64" width="471" format="[general]"  name=fila14 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=18 alignment="2" tabsequence=32766 border="1" color="0" x="7840" y="12" height="64" width="471" format="[general]"  name=fila15 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=19 alignment="2" tabsequence=32766 border="1" color="0" x="8338" y="12" height="64" width="471" format="[general]"  name=fila16 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=20 alignment="2" tabsequence=32766 border="1" color="0" x="8837" y="12" height="64" width="471" format="[general]"  name=fila17 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=21 alignment="2" tabsequence=32766 border="1" color="0" x="9335" y="12" height="64" width="471" format="[general]"  name=fila18 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=22 alignment="2" tabsequence=32766 border="1" color="0" x="9833" y="12" height="64" width="471" format="[general]"  name=fila19 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=23 alignment="2" tabsequence=32766 border="1" color="0" x="10331" y="12" height="64" width="471" format="[general]"  name=fila20 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=24 alignment="2" tabsequence=32766 border="1" color="0" x="10830" y="12" height="64" width="471" format="[general]"  name=fila21 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=25 alignment="2" tabsequence=32766 border="1" color="0" x="11328" y="12" height="64" width="471" format="[general]"  name=fila22 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=27 alignment="2" tabsequence=32766 border="1" color="0" x="12325" y="12" height="64" width="471" format="[general]"  name=fila24 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=28 alignment="2" tabsequence=32766 border="1" color="0" x="12823" y="12" height="64" width="471" format="[general]"  name=fila25 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=29 alignment="2" tabsequence=32766 border="1" color="0" x="13321" y="12" height="64" width="471" format="[general]"  name=fila26 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=30 alignment="2" tabsequence=32766 border="1" color="0" x="13815" y="12" height="64" width="475" format="[general]"  name=fila27 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=31 alignment="2" tabsequence=32766 border="1" color="0" x="14313" y="12" height="64" width="471" format="[general]"  name=fila28 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=32 alignment="2" tabsequence=32766 border="1" color="0" x="14811" y="12" height="64" width="471" format="[general]"  name=fila29 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=33 alignment="2" tabsequence=32766 border="1" color="0" x="15310" y="12" height="64" width="471" format="[general]"  name=fila30 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=34 alignment="2" tabsequence=32766 border="1" color="0" x="15808" y="12" height="56" width="471" format="[general]"  name=fila31 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=35 alignment="2" tabsequence=32766 border="1" color="0" x="16306" y="12" height="56" width="471" format="[general]"  name=fila32 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=36 alignment="2" tabsequence=32766 border="1" color="0" x="16809" y="12" height="56" width="471" format="[general]"  name=fila33 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=37 alignment="2" tabsequence=32766 border="1" color="0" x="17307" y="12" height="56" width="471" format="[general]"  name=fila34 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=38 alignment="2" tabsequence=32766 border="1" color="0" x="17806" y="12" height="56" width="471" format="[general]"  name=fila35 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=39 alignment="2" tabsequence=32766 border="1" color="0" x="18304" y="12" height="56" width="471" format="[general]"  name=fila36 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=41 alignment="2" tabsequence=32766 border="1" color="0" x="19301" y="12" height="56" width="471" format="[general]"  name=fila38 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=42 alignment="2" tabsequence=32766 border="1" color="0" x="19799" y="12" height="56" width="475" format="[general]"  name=fila39 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=43 alignment="2" tabsequence=32766 border="1" color="0" x="20302" y="12" height="56" width="471" format="[general]"  name=fila40 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=44 alignment="2" tabsequence=32766 border="1" color="0" x="20800" y="12" height="56" width="471" format="[general]"  name=fila41 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=45 alignment="2" tabsequence=32766 border="1" color="0" x="21298" y="12" height="56" width="471" format="[general]"  name=fila42 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=46 alignment="2" tabsequence=32766 border="1" color="0" x="21797" y="12" height="56" width="471" format="[general]"  name=fila43 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=47 alignment="2" tabsequence=32766 border="1" color="0" x="22295" y="12" height="56" width="471" format="[general]"  name=fila44 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=48 alignment="2" tabsequence=32766 border="1" color="0" x="22793" y="12" height="56" width="471" format="[general]"  name=fila45 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=49 alignment="2" tabsequence=32766 border="1" color="0" x="23296" y="12" height="56" width="471" format="[general]"  name=fila46 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=50 alignment="2" tabsequence=32766 border="1" color="0" x="23794" y="12" height="56" width="471" format="[general]"  name=fila47 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=51 alignment="2" tabsequence=32766 border="1" color="0" x="24293" y="12" height="56" width="471" format="[general]"  name=fila48 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=52 alignment="2" tabsequence=32766 border="1" color="0" x="24791" y="12" height="56" width="471" format="[general]"  name=fila49 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=53 alignment="2" tabsequence=32766 border="1" color="0" x="25289" y="12" height="56" width="471" format="[general]"  name=fila50 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=54 alignment="2" tabsequence=32766 border="1" color="0" x="25787" y="12" height="56" width="471" format="[general]"  name=fila51 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=55 alignment="2" tabsequence=32766 border="1" color="0" x="26290" y="12" height="56" width="471" format="[general]"  name=fila52 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=56 alignment="2" tabsequence=32766 border="1" color="0" x="26789" y="12" height="56" width="471" format="[general]"  name=fila53 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=57 alignment="2" tabsequence=32766 border="1" color="0" x="27287" y="12" height="56" width="471" format="[general]"  name=fila54 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=58 alignment="2" tabsequence=32766 border="1" color="0" x="27785" y="12" height="56" width="471" format="[general]"  name=fila55 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=59 alignment="2" tabsequence=32766 border="1" color="0" x="28283" y="12" height="56" width="471" format="[general]"  name=fila56 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=60 alignment="2" tabsequence=32766 border="1" color="0" x="28782" y="12" height="56" width="471" format="[general]"  name=fila57 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=61 alignment="2" tabsequence=32766 border="1" color="0" x="29280" y="12" height="56" width="471" format="[general]"  name=fila58 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=62 alignment="2" tabsequence=32766 border="1" color="0" x="29783" y="12" height="56" width="471" format="[general]"  name=fila59 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=63 alignment="2" tabsequence=32766 border="1" color="0" x="30281" y="12" height="56" width="471" format="[general]"  name=fila60 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=64 alignment="2" tabsequence=32766 border="1" color="0" x="30775" y="8" height="64" width="475" format="[general]"  name=fila61 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=65 alignment="2" tabsequence=32766 border="1" color="0" x="31273" y="8" height="64" width="475" format="[general]"  name=fila62 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=66 alignment="2" tabsequence=32766 border="1" color="0" x="31771" y="8" height="64" width="475" format="[general]"  name=fila63 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=67 alignment="2" tabsequence=32766 border="1" color="0" x="32270" y="8" height="64" width="475" format="[general]"  name=fila64 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=68 alignment="2" tabsequence=32766 border="1" color="0" x="32768" y="8" height="64" width="475" format="[general]"  name=fila65 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=69 alignment="2" tabsequence=32766 border="1" color="0" x="33262" y="8" height="64" width="475" format="[general]"  name=fila66 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=70 alignment="2" tabsequence=32766 border="1" color="0" x="33760" y="8" height="64" width="475" format="[general]"  name=fila67 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=71 alignment="2" tabsequence=32766 border="1" color="0" x="34258" y="8" height="64" width="475" format="[general]"  name=fila68 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=72 alignment="2" tabsequence=32766 border="1" color="0" x="34757" y="8" height="64" width="475" format="[general]"  name=fila69 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=73 alignment="2" tabsequence=32766 border="1" color="0" x="35255" y="8" height="64" width="475" format="[general]"  name=fila70 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=26 alignment="2" tabsequence=32766 border="1" color="0" x="11826" y="12" height="64" width="471" format="[general]"  name=fila23 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=header id=40 alignment="2" tabsequence=32766 border="1" color="0" x="18802" y="12" height="56" width="471" format="[general]"  name=fila37 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="0" y="4" height="64" width="846" format="[general]"  name=cuenta edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=144 alignment="1" tabsequence=32766 border="0" color="0" x="869" y="4" height="64" width="471" format="[general]"  name=importe1 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=145 alignment="1" tabsequence=32766 border="0" color="0" x="1367" y="4" height="64" width="471" format="[general]"  name=importe2 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=146 alignment="1" tabsequence=32766 border="0" color="0" x="1865" y="4" height="64" width="471" format="[general]"  name=importe3 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=147 alignment="1" tabsequence=32766 border="0" color="0" x="2363" y="4" height="64" width="471" format="[general]"  name=importe4 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=148 alignment="1" tabsequence=32766 border="0" color="0" x="2862" y="4" height="64" width="471" format="[general]"  name=importe5 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=149 alignment="1" tabsequence=32766 border="0" color="0" x="3360" y="4" height="64" width="471" format="[general]"  name=importe6 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=150 alignment="1" tabsequence=32766 border="0" color="0" x="3858" y="4" height="64" width="471" format="[general]"  name=importe7 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=151 alignment="1" tabsequence=32766 border="0" color="0" x="4357" y="4" height="64" width="471" format="[general]"  name=importe8 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=152 alignment="1" tabsequence=32766 border="0" color="0" x="4855" y="4" height="64" width="471" format="[general]"  name=importe9 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=153 alignment="1" tabsequence=32766 border="0" color="0" x="5353" y="4" height="64" width="471" format="[general]"  name=importe10 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=154 alignment="1" tabsequence=32766 border="0" color="0" x="5847" y="4" height="64" width="475" format="[general]"  name=importe11 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=155 alignment="1" tabsequence=32766 border="0" color="0" x="6345" y="4" height="64" width="475" format="[general]"  name=importe12 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=156 alignment="1" tabsequence=32766 border="0" color="0" x="6843" y="4" height="64" width="475" format="[general]"  name=importe13 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=157 alignment="1" tabsequence=32766 border="0" color="0" x="7342" y="4" height="64" width="475" format="[general]"  name=importe14 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=158 alignment="1" tabsequence=32766 border="0" color="0" x="7840" y="4" height="64" width="475" format="[general]"  name=importe15 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=159 alignment="1" tabsequence=32766 border="0" color="0" x="8338" y="4" height="64" width="475" format="[general]"  name=importe16 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=160 alignment="1" tabsequence=32766 border="0" color="0" x="8837" y="4" height="64" width="475" format="[general]"  name=importe17 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=161 alignment="1" tabsequence=32766 border="0" color="0" x="9335" y="4" height="64" width="475" format="[general]"  name=importe18 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=162 alignment="1" tabsequence=32766 border="0" color="0" x="9833" y="4" height="64" width="471" format="[general]"  name=importe19 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=163 alignment="1" tabsequence=32766 border="0" color="0" x="10327" y="4" height="64" width="475" format="[general]"  name=importe20 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=164 alignment="1" tabsequence=32766 border="0" color="0" x="10825" y="4" height="64" width="475" format="[general]"  name=importe21 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=165 alignment="1" tabsequence=32766 border="0" color="0" x="11323" y="4" height="64" width="475" format="[general]"  name=importe22 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=167 alignment="1" tabsequence=32766 border="0" color="0" x="12320" y="4" height="64" width="475" format="[general]"  name=importe24 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=168 alignment="1" tabsequence=32766 border="0" color="0" x="12818" y="4" height="64" width="475" format="[general]"  name=importe25 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=169 alignment="1" tabsequence=32766 border="0" color="0" x="13317" y="4" height="64" width="475" format="[general]"  name=importe26 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=170 alignment="1" tabsequence=32766 border="0" color="0" x="13815" y="4" height="64" width="475" format="[general]"  name=importe27 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=171 alignment="1" tabsequence=32766 border="0" color="0" x="14313" y="4" height="64" width="475" format="[general]"  name=importe28 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=172 alignment="1" tabsequence=32766 border="0" color="0" x="14811" y="4" height="64" width="475" format="[general]"  name=importe29 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=173 alignment="1" tabsequence=32766 border="0" color="0" x="15310" y="4" height="64" width="475" format="[general]"  name=importe30 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=174 alignment="1" tabsequence=32766 border="0" color="0" x="15808" y="4" height="64" width="475" format="[general]"  name=importe31 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=175 alignment="1" tabsequence=32766 border="0" color="0" x="16306" y="4" height="64" width="475" format="[general]"  name=importe32 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=176 alignment="1" tabsequence=32766 border="0" color="0" x="16805" y="4" height="64" width="475" format="[general]"  name=importe33 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=177 alignment="1" tabsequence=32766 border="0" color="0" x="17303" y="4" height="64" width="475" format="[general]"  name=importe34 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=178 alignment="1" tabsequence=32766 border="0" color="0" x="17801" y="4" height="64" width="471" format="[general]"  name=importe35 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=179 alignment="1" tabsequence=32766 border="0" color="0" x="18295" y="4" height="64" width="475" format="[general]"  name=importe36 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=181 alignment="1" tabsequence=32766 border="0" color="0" x="19291" y="4" height="64" width="475" format="[general]"  name=importe38 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=182 alignment="1" tabsequence=32766 border="0" color="0" x="19790" y="4" height="64" width="475" format="[general]"  name=importe39 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=183 alignment="1" tabsequence=32766 border="0" color="0" x="20288" y="4" height="64" width="475" format="[general]"  name=importe40 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=184 alignment="1" tabsequence=32766 border="0" color="0" x="20786" y="4" height="64" width="475" format="[general]"  name=importe41 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=185 alignment="1" tabsequence=32766 border="0" color="0" x="21285" y="4" height="64" width="475" format="[general]"  name=importe42 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=186 alignment="1" tabsequence=32766 border="0" color="0" x="21783" y="4" height="64" width="475" format="[general]"  name=importe43 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=187 alignment="1" tabsequence=32766 border="0" color="0" x="22281" y="4" height="64" width="475" format="[general]"  name=importe44 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=188 alignment="1" tabsequence=32766 border="0" color="0" x="22779" y="4" height="64" width="475" format="[general]"  name=importe45 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=189 alignment="1" tabsequence=32766 border="0" color="0" x="23278" y="4" height="64" width="475" format="[general]"  name=importe46 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=190 alignment="1" tabsequence=32766 border="0" color="0" x="23776" y="4" height="64" width="475" format="[general]"  name=importe47 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=191 alignment="1" tabsequence=32766 border="0" color="0" x="24274" y="4" height="64" width="475" format="[general]"  name=importe48 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=192 alignment="1" tabsequence=32766 border="0" color="0" x="24773" y="4" height="64" width="475" format="[general]"  name=importe49 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=193 alignment="1" tabsequence=32766 border="0" color="0" x="25271" y="4" height="64" width="475" format="[general]"  name=importe50 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=194 alignment="1" tabsequence=32766 border="0" color="0" x="25769" y="4" height="64" width="471" format="[general]"  name=importe51 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=195 alignment="1" tabsequence=32766 border="0" color="0" x="26263" y="4" height="64" width="475" format="[general]"  name=importe52 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=196 alignment="1" tabsequence=32766 border="0" color="0" x="26761" y="4" height="64" width="475" format="[general]"  name=importe53 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=197 alignment="1" tabsequence=32766 border="0" color="0" x="27259" y="4" height="64" width="475" format="[general]"  name=importe54 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=198 alignment="1" tabsequence=32766 border="0" color="0" x="27758" y="4" height="64" width="475" format="[general]"  name=importe55 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=199 alignment="1" tabsequence=32766 border="0" color="0" x="28256" y="4" height="64" width="475" format="[general]"  name=importe56 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=200 alignment="1" tabsequence=32766 border="0" color="0" x="28754" y="4" height="64" width="475" format="[general]"  name=importe57 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=201 alignment="1" tabsequence=32766 border="0" color="0" x="29253" y="4" height="64" width="475" format="[general]"  name=importe58 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=202 alignment="1" tabsequence=32766 border="0" color="0" x="29751" y="4" height="64" width="475" format="[general]"  name=importe59 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=203 alignment="1" tabsequence=32766 border="0" color="0" x="30263" y="4" height="64" width="475" format="[general]"  name=importe60 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=204 alignment="1" tabsequence=32766 border="0" color="0" x="30770" y="8" height="64" width="475" format="[general]"  name=importe61 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=205 alignment="1" tabsequence=32766 border="0" color="0" x="31269" y="8" height="64" width="475" format="[general]"  name=importe62 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=206 alignment="1" tabsequence=32766 border="0" color="0" x="31767" y="8" height="64" width="475" format="[general]"  name=importe63 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=207 alignment="1" tabsequence=32766 border="0" color="0" x="32265" y="8" height="64" width="475" format="[general]"  name=importe64 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=208 alignment="1" tabsequence=32766 border="0" color="0" x="32763" y="8" height="64" width="475" format="[general]"  name=importe65 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=209 alignment="1" tabsequence=32766 border="0" color="0" x="33257" y="8" height="64" width="475" format="[general]"  name=importe66 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=210 alignment="1" tabsequence=32766 border="0" color="0" x="33755" y="8" height="64" width="475" format="[general]"  name=importe67 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=211 alignment="1" tabsequence=32766 border="0" color="0" x="34254" y="8" height="64" width="475" format="[general]"  name=importe68 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=166 alignment="1" tabsequence=32766 border="0" color="0" x="11826" y="4" height="64" width="471" format="[general]"  name=importe23 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=180 alignment="1" tabsequence=32766 border="0" color="0" x="18802" y="4" height="64" width="471" format="[general]"  name=importe37 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe1 for all)"border="0" color="0" x="869" y="4" height="64" width="475" format="[general]"  name=t1  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe2 for all)"border="0" color="0" x="1367" y="4" height="64" width="471" format="[general]"  name=t2  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe3 for all)"border="0" color="0" x="1865" y="4" height="64" width="471" format="[general]"  name=t3  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe4 for all)"border="0" color="0" x="2363" y="4" height="64" width="471" format="[general]"  name=t4  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe5 for all)"border="0" color="0" x="2862" y="4" height="64" width="471" format="[general]"  name=t5  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe6 for all)"border="0" color="0" x="3360" y="4" height="64" width="471" format="[general]"  name=t6  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe7 for all)"border="0" color="0" x="3858" y="4" height="64" width="471" format="[general]"  name=t7  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe8 for all)"border="0" color="0" x="4357" y="4" height="64" width="471" format="[general]"  name=t8  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe9 for all)"border="0" color="0" x="4855" y="4" height="64" width="471" format="[general]"  name=t9  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe10 for all)"border="0" color="0" x="5353" y="4" height="64" width="471" format="[general]"  name=t10  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe11 for all)"border="0" color="0" x="5847" y="4" height="64" width="475" format="[general]"  name=t11  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe12 for all)"border="0" color="0" x="6345" y="4" height="64" width="475" format="[general]"  name=t12  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe13 for all)"border="0" color="0" x="6843" y="4" height="64" width="475" format="[general]"  name=t13  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe14 for all)"border="0" color="0" x="7342" y="4" height="64" width="475" format="[general]"  name=t14  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe15 for all)"border="0" color="0" x="7840" y="4" height="64" width="475" format="[general]"  name=t15  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe16 for all)"border="0" color="0" x="8338" y="4" height="64" width="475" format="[general]"  name=t16  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe17 for all)"border="0" color="0" x="8837" y="4" height="64" width="475" format="[general]"  name=t17  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe18 for all)"border="0" color="0" x="9335" y="4" height="64" width="475" format="[general]"  name=t18  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe19 for all)"border="0" color="0" x="9833" y="4" height="64" width="471" format="[general]"  name=t19  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe20 for all)"border="0" color="0" x="10327" y="4" height="64" width="475" format="[general]"  name=t20  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe21 for all)"border="0" color="0" x="10825" y="4" height="64" width="475" format="[general]"  name=t21  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe22 for all)"border="0" color="0" x="11323" y="4" height="64" width="475" format="[general]"  name=t22  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe23 for all)"border="0" color="0" x="11826" y="4" height="64" width="471" format="[general]"  name=t23  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe24 for all)"border="0" color="0" x="12320" y="4" height="64" width="475" format="[general]"  name=t24  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe25 for all)"border="0" color="0" x="12818" y="4" height="64" width="475" format="[general]"  name=t25  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe26 for all)"border="0" color="0" x="13317" y="4" height="64" width="475" format="[general]"  name=t26  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe27 for all)"border="0" color="0" x="13815" y="4" height="64" width="475" format="[general]"  name=t27  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe28 for all)"border="0" color="0" x="14313" y="4" height="64" width="475" format="[general]"  name=t28  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe29 for all)"border="0" color="0" x="14811" y="4" height="64" width="475" format="[general]"  name=t29  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe30 for all)"border="0" color="0" x="15310" y="4" height="64" width="475" format="[general]"  name=t30  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe31 for all)"border="0" color="0" x="15808" y="4" height="64" width="475" format="[general]"  name=t31  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe32 for all)"border="0" color="0" x="16306" y="4" height="64" width="475" format="[general]"  name=t32  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe33 for all)"border="0" color="0" x="16805" y="4" height="64" width="475" format="[general]"  name=t33  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe34 for all)"border="0" color="0" x="17303" y="4" height="64" width="475" format="[general]"  name=t34  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe35 for all)"border="0" color="0" x="17801" y="4" height="64" width="471" format="[general]"  name=t35  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe36 for all)"border="0" color="0" x="18295" y="4" height="64" width="475" format="[general]"  name=t36  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe37 for all)"border="0" color="0" x="18802" y="4" height="64" width="471" format="[general]"  name=t37  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe38 for all)"border="0" color="0" x="19291" y="4" height="64" width="475" format="[general]"  name=t38  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe39 for all)"border="0" color="0" x="19790" y="4" height="64" width="475" format="[general]"  name=t39  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe40 for all)"border="0" color="0" x="20288" y="4" height="64" width="475" format="[general]"  name=t40  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe41 for all)"border="0" color="0" x="20786" y="4" height="64" width="475" format="[general]"  name=t41  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe42 for all)"border="0" color="0" x="21285" y="4" height="64" width="475" format="[general]"  name=t42  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe43 for all)"border="0" color="0" x="21783" y="4" height="64" width="475" format="[general]"  name=t43  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe44 for all)"border="0" color="0" x="22286" y="4" height="64" width="475" format="[general]"  name=t44  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe45 for all)"border="0" color="0" x="22779" y="4" height="64" width="475" format="[general]"  name=t45  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe46 for all)"border="0" color="0" x="23278" y="4" height="64" width="475" format="[general]"  name=t46  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe47 for all)"border="0" color="0" x="23781" y="4" height="64" width="475" format="[general]"  name=t47  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe48 for all)"border="0" color="0" x="24274" y="4" height="64" width="475" format="[general]"  name=t48  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe49 for all)"border="0" color="0" x="24773" y="4" height="64" width="475" format="[general]"  name=t49  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe50 for all)"border="0" color="0" x="25271" y="4" height="64" width="475" format="[general]"  name=t50  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe51 for all)"border="0" color="0" x="25769" y="4" height="64" width="471" format="[general]"  name=t51  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe52 for all)"border="0" color="0" x="26263" y="4" height="64" width="475" format="[general]"  name=t52  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe53 for all)"border="0" color="0" x="26761" y="4" height="64" width="475" format="[general]"  name=t53  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe54 for all)"border="0" color="0" x="27259" y="4" height="64" width="475" format="[general]"  name=t54  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe55 for all)"border="0" color="0" x="27758" y="4" height="64" width="475" format="[general]"  name=t55  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe56 for all)"border="0" color="0" x="28256" y="4" height="64" width="475" format="[general]"  name=t56  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe57 for all)"border="0" color="0" x="28754" y="4" height="64" width="475" format="[general]"  name=t57  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe58 for all)"border="0" color="0" x="29253" y="4" height="64" width="475" format="[general]"  name=t58  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe59 for all)"border="0" color="0" x="29751" y="4" height="64" width="475" format="[general]"  name=t59  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe60 for all)"border="0" color="0" x="30263" y="4" height="64" width="475" format="[general]"  name=t60  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe61 for all)"border="0" color="0" x="30770" y="4" height="64" width="475" format="[general]"  name=t61  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe62 for all)"border="0" color="0" x="31269" y="4" height="64" width="475" format="[general]"  name=t62  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe63 for all)"border="0" color="0" x="31767" y="4" height="64" width="475" format="[general]"  name=t63  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe64 for all)"border="0" color="0" x="32270" y="4" height="64" width="475" format="[general]"  name=t64  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe65 for all)"border="0" color="0" x="32763" y="4" height="64" width="475" format="[general]"  name=t65  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe66 for all)"border="0" color="0" x="33257" y="4" height="64" width="475" format="[general]"  name=t66  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe67 for all)"border="0" color="0" x="33755" y="4" height="64" width="475" format="[general]"  name=t67  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe68 for all)"border="0" color="0" x="34254" y="4" height="64" width="475" format="[general]"  name=t68  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe69 for all)"border="0" color="0" x="34752" y="4" height="64" width="475" format="[general]"  name=t69  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=summary alignment="1" expression="sum(importe70 for all)"border="0" color="0" x="35250" y="4" height="64" width="475" format="[general]"  name=t70  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="439" y="8" height="76" width="256"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=212 alignment="1" tabsequence=32766 border="0" color="0" x="34752" y="8" height="64" width="475" format="[general]"  name=importe69 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=213 alignment="1" tabsequence=32766 border="0" color="0" x="35250" y="8" height="64" width="475" format="[general]"  name=importe70 edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

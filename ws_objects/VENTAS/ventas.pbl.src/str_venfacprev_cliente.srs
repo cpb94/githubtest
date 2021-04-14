@@ -1,0 +1,10 @@
+﻿$PBExportHeader$str_venfacprev_cliente.srs
+global type str_venfacprev_cliente from structure
+	string		empresa
+	integer		ejercicio
+	string		genter_codigo
+	decimal		prevision_precio_medio
+	decimal		prevision_importe
+	decimal		prevision_metros
+end type
+

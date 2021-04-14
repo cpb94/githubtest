@@ -1,0 +1,13 @@
+﻿$PBExportHeader$f_cargar_cursor2.srf
+global type f_cargar_cursor2 from function_object
+end type
+
+forward prototypes
+global function datastore f_cargar_cursor2 (string compuesto)
+end prototypes
+
+global function datastore f_cargar_cursor2 (string compuesto);DataStore d
+d = f_cargar_cursor(compuesto)
+Return d
+end function
+

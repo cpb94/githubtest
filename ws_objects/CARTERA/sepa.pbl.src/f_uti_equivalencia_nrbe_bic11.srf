@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_uti_equivalencia_nrbe_bic11.srf
+global type f_uti_equivalencia_nrbe_bic11 from function_object
+
+end type
+
+forward prototypes
+global function string f_uti_equivalencia_nrbe_bic11 (string arg_nrbe)
+end prototypes
+
+global function string f_uti_equivalencia_nrbe_bic11 (string arg_nrbe);string ls_bic11
+
+select isnull(uti_equivalencia_nrbe_bic11.bic11,'')
+into   :ls_bic11
+from   uti_equivalencia_nrbe_bic11
+where  uti_equivalencia_nrbe_bic11.nrbe = :arg_nrbe;
+
+return ls_bic11
+
+end function
+

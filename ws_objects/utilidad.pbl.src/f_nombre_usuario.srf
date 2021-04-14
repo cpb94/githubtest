@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_nombre_usuario.srf
+global type f_nombre_usuario from function_object
+end type
+
+forward prototypes
+global function string f_nombre_usuario (string codigo)
+end prototypes
+
+global function string f_nombre_usuario (string codigo);String para
+
+SELECT usuarios.v_usuario  
+INTO   :para  
+FROM   usuarios  
+WHERE  usuarios.v_usuario = :codigo   ;
+
+Return para
+end function
+

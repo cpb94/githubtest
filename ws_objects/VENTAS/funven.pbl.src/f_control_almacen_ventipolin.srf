@@ -1,0 +1,20 @@
+﻿$PBExportHeader$f_control_almacen_ventipolin.srf
+global type f_control_almacen_ventipolin from function_object
+end type
+
+forward prototypes
+global function string f_control_almacen_ventipolin (string empresa, string codigo)
+end prototypes
+
+global function string f_control_almacen_ventipolin (string empresa, string codigo);String var_descripcion
+
+SELECT ventipolin.control_almacen 
+INTO   :var_descripcion    
+FROM   ventipolin  
+WHERE (ventipolin.empresa   = :empresa)
+AND   (ventipolin.codigo  = :codigo);
+
+Return var_descripcion
+
+end function
+

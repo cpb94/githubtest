@@ -1,0 +1,91 @@
+﻿$PBExportHeader$report_con_ped_alb_fac_cliente_fechas5.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=852 color="553648127" )
+summary(height=104 color="536870912" )
+footer(height=76 color="536870912" )
+detail(height=80 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=serie dbname="comodin.serie" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_serie dbname="comodin.nombre_serie" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_nacional dbname="comodin.importe_nacional" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_cee dbname="comodin.importe_cee" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_export dbname="comodin.importe_export" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe_total dbname="comodin.importe_total" )
+ column=(type=char(255) updatewhereclause=yes name=moneda dbname="comodin.moneda" )
+ column=(type=datetime updatewhereclause=yes name=fecha_ini dbname="comodin.fecha_ini" )
+ column=(type=datetime updatewhereclause=yes name=fecha_fin dbname="comodin.fecha_fin" )
+ column=(type=char(255) updatewhereclause=yes name=fecha_calculo dbname="comodin.fecha_calculo" )
+ column=(type=datetime updatewhereclause=yes name=fecha_calculo2 dbname="comodin.fecha_calculo2" )
+ retrieve="  SELECT comodin.empresa,   
+         letras serie,   
+         letras cliente,   
+         letras nombre_cliente,   
+         letras nombre_serie,   
+         numerico importe_nacional,   
+         numerico importe_cee,   
+         numerico importe_export,
+			numerico importe_total,   
+         letras moneda,
+			fecha fecha_ini,
+			fecha fecha_fin,
+			letras fecha_calculo,
+			fecha fecha_calculo2 
+    FROM comodin  
+   WHERE comodin.empresa = :arg_empresa    
+" arguments=(("arg_empresa", string),("fdesde", datetime),("fhasta", datetime),("arg_cliente", string),("series", string),("agentes", string))  sort="empresa A serie A nombre_cliente A " )
+group(level=1 header.height=92 trailer.height=76 by=("empresa" , "serie" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression=" pageCount()"border="0" color="16777215" x="18" y="304" height="12" width="23" format="[general]"  name=total_paginas  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+report(band=header dataobject="report_cabecera" x="5" y="8" height="304" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="INFORME DE PEDIDOS DETALLADO"border="0" color="128" x="763" y="408" height="120" width="1957"  font.face="Arial" font.height="-18" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="FECHA DE PEDIDO :"border="0" color="128" x="763" y="552" height="80" width="878"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="0" text="-"border="0" color="128" x="2176" y="552" height="80" width="37"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="string(fecha_ini,~"dd-mm-yy~")"border="0" color="128" x="1669" y="552" height="80" width="480" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="string(fecha_fin,~"dd-mm-yy~")"border="0" color="128" x="2235" y="552" height="80" width="480" format="[general]"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="8" height="76" width="1070" format="[general]"  name=nombre_serie edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="60" width="1061" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="1079" y1="8" x2="1079" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1097" y="8" height="56" width="434" format=""  name=importe_nacional editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1550" y="16" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="1627" y1="8" x2="1627" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1646" y="8" height="56" width="434" format="[general]"  name=importe_cee editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2094" y="16" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="2171" y1="8" x2="2171" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="2190" y="8" height="56" width="434" format="[general]"  name=importe_export editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2638" y="16" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="2715" y1="8" x2="2715" y2="76" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3186" y="16" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=detail x1="0" y1="72" x2="3264" y2="72" pen.style="0" pen.width="5" pen.color="12632256"  background.mode="1" background.color="553648127" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="2738" y="8" height="56" width="434" format=""  name=importe_total editmask.mask="###,###,###" editmask.focusrectangle=no  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1550" y="12" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2098" y="12" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2647" y="12" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3186" y="12" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="343" y="4" height="56" width="718" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total"border="0" color="0" x="174" y="4" height="56" width="146"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(importe_total for group 1)"border="0" color="0" x="2743" y="8" height="56" width="425" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(importe_export for group 1)"border="0" color="0" x="2199" y="8" height="56" width="425" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(importe_cee for group 1)"border="0" color="0" x="1655" y="8" height="56" width="425" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum(importe_nacional for group 1)"border="0" color="0" x="1102" y="8" height="56" width="425" format="###,###,###"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="0" text="TOTAL DE TODAS LAS SERIES :"border="0" color="0" x="293" y="36" height="56" width="768"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1559" y="44" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2103" y="44" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2647" y="44" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3186" y="44" height="48" width="69" format="[general]"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="9" y1="4" x2="3259" y2="4" pen.style="0" pen.width="5" pen.color="0"  background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( importe_nacional for all)"border="0" color="0" x="1102" y="36" height="56" width="434" format="###,###,###~tf_mascara_moneda( moneda )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( importe_cee for all)"border="0" color="0" x="1650" y="36" height="56" width="434" format="###,###,###~tf_mascara_moneda( moneda )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( importe_export for all)"border="0" color="0" x="2194" y="36" height="56" width="434" format="###,###,###~tf_mascara_moneda( moneda )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum(importe_total for all)"border="0" color="0" x="2734" y="36" height="56" width="434" format="###,###,###~tf_mascara_moneda( moneda )"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="2" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="2441" y="8" height="52" width="818" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=footer alignment="0" text="No se incluyen descuentos Pronto Pago."border="0" color="0" x="59" y="12" height="48" width="1202"  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Cliente"border="6" color="0" x="18" y="788" height="56" width="1047"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Pedidos"border="6" color="0" x="1097" y="788" height="56" width="517"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Albaranes"border="6" color="0" x="1646" y="788" height="56" width="517"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Facturas"border="6" color="0" x="2190" y="788" height="56" width="507"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Total"border="6" color="0" x="2729" y="788" height="56" width="517"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="0" text="AGENTES :"border="0" color="128" x="763" y="660" height="80" width="878"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=header alignment="0" expression="if(agentes = ~"%~",~"TODOS~",agentes)"border="0" color="128" x="1673" y="660" height="80" width="1047"  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

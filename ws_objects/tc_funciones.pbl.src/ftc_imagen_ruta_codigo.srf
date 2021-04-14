@@ -1,0 +1,94 @@
+﻿$PBExportHeader$ftc_imagen_ruta_codigo.srf
+global type ftc_imagen_ruta_codigo from function_object
+end type
+
+forward prototypes
+global function string ftc_imagen_ruta_codigo (string tipo, string coleccion, string modelo, string pieza, string codigo)
+end prototypes
+
+global function string ftc_imagen_ruta_codigo (string tipo, string coleccion, string modelo, string pieza, string codigo);// tipo: Codigo de los diferentes tipos de imágen de la tabla "archivo_resolucion"
+// coleccion: de la que deseamos cargar la imágen
+// modelo: del que deseamos cargar la imágen
+// pieza: del que deseamos cargar la imágen
+
+// Cargaremos la imágen en función de los parámetros que no estén vacios (coleccion, modelo, pieza)
+
+String resultado = ""
+string ruta, ruta_archivos_exposicion, tamanyo //codigo_coleccion, modelo, 
+
+if tipo <> "0" then
+	SELECT tamanyo INTO :tamanyo FROM archivo_resolucion WHERE empresa = :codigo_empresa AND codigo = :tipo;
+	tamanyo = tamanyo + '\'
+else
+	tamanyo = ""
+end if
+
+SELECT ruta_archivos_exposicion INTO :ruta_archivos_exposicion  FROM empresas WHERE empresa = :codigo_empresa;
+if isnull(ruta_archivos_exposicion) then ruta_archivos_exposicion = ""
+
+if not isnull(pieza) and pieza <> "" then
+	// Imágen de la pieza	
+	
+	if not isnull(codigo) and codigo <> "" then
+		SELECT REPLACE(ruta + :tamanyo + fichero, ' ', '' ) 
+		INTO  :ruta  
+		FROM modelo_pieza_archivo
+		WHERE empresa = :codigo_empresa
+		and pieza = :pieza
+		and codigo = :codigo
+		USING SQLCA;
+		
+		if not isnull(ruta) and ruta <> "" then
+			resultado =  ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+		end if
+	end if
+	
+else 
+	if not isnull(coleccion) and coleccion <> "" and not isnull(modelo) and modelo <> "" then
+		// Imágen del modelo
+			
+		if not isnull(codigo) and codigo <> "" then
+			SELECT REPLACE(ruta + :tamanyo + fichero, ' ', '' ) 
+			INTO  :ruta  
+			FROM modelo_archivo_expo
+			WHERE empresa = :codigo_empresa
+			and coleccion = :coleccion
+			and modelo = :modelo
+			and codigo = :codigo
+			USING SQLCA;
+			
+			if not isnull(ruta) and ruta <> "" then
+				resultado = ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+			end if
+			
+		end if
+	else 
+		if not isnull(coleccion) and coleccion <> "" then
+			// Imágen de la colección
+			if not isnull(codigo) and codigo <> "" then
+				SELECT REPLACE(ruta + :tamanyo + fichero, ' ', '' ) 
+				INTO  :ruta  
+				FROM coleccion_archivo
+				WHERE empresa = :codigo_empresa
+				and coleccion = :coleccion
+				and codigo = :codigo
+				USING SQLCA;
+				
+				if not isnull(ruta) and ruta <> "" then
+					resultado =  ruta_archivos_exposicion + f_reemplazar(ruta, ruta_archivos_exposicion, "")
+				end if
+			end if
+		end if
+	end if
+end if
+
+if isnull(resultado ) then
+	return ""
+else
+	return resultado 
+end if
+
+
+
+end function
+

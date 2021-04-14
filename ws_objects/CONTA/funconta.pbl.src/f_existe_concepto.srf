@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_existe_concepto.srf
+global type f_existe_concepto from function_object
+end type
+
+forward prototypes
+global function boolean f_existe_concepto (string farg_emp, string farg_codigo)
+end prototypes
+
+global function boolean f_existe_concepto (string farg_emp, string farg_codigo);String  ls_titulo
+
+SELECT descripcion INTO :ls_titulo	FROM contaconcepto
+WHERE  contaconcepto.empresa  = :farg_emp 
+AND contaconcepto.codigo 		= :farg_codigo	USING SQLCA;
+
+IF SQLCA.SQLCode<>0 THEN
+	Return FALSE
+ELSE
+	Return TRUE
+END IF
+end function
+

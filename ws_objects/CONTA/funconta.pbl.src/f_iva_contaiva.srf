@@ -1,0 +1,18 @@
+﻿$PBExportHeader$f_iva_contaiva.srf
+$PBExportComments$Devuelve el % de iva
+global type f_iva_contaiva from function_object
+end type
+
+forward prototypes
+global function decimal f_iva_contaiva (integer ejercicio, string empresa, string codigo)
+end prototypes
+
+global function decimal f_iva_contaiva (integer ejercicio, string empresa, string codigo);Dec{2}   parametro
+SELECT contaiva.iva  INTO :parametro   FROM contaiva  
+WHERE (contaiva.ejercicio = :ejercicio)
+AND   (contaiva.empresa   = :empresa)
+AND   (contaiva.tipoiva   = :codigo);
+Return parametro
+
+end function
+

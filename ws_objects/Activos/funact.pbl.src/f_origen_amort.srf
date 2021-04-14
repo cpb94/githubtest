@@ -1,0 +1,11 @@
+﻿$PBExportHeader$f_origen_amort.srf
+global type f_origen_amort from function_object
+end type
+
+forward prototypes
+global function string f_origen_amort ()
+end prototypes
+
+global function string f_origen_amort ();Return '5'
+end function
+

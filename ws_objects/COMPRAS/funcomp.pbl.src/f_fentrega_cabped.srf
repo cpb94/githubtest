@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fentrega_cabped.srf
+global type f_fentrega_cabped from function_object
+end type
+
+forward prototypes
+global function datetime f_fentrega_cabped (string empresa, string anyo, string pedido)
+end prototypes
+
+global function datetime f_fentrega_cabped (string empresa, string anyo, string pedido);datetime fentrega
+  SELECT comcabpedpro.fecha_entrega  
+    INTO :fentrega  
+    FROM comcabpedpro  
+   WHERE ( comcabpedpro.empresa = :empresa ) AND  
+         ( comcabpedpro.anyo = :anyo ) AND  
+         ( comcabpedpro.pedido = :pedido )   ;
+			
+return fentrega
+end function
+

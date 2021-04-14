@@ -1,0 +1,53 @@
+﻿$PBExportHeader$f_insert_carfinanefe.srf
+global type f_insert_carfinanefe from function_object
+end type
+
+forward prototypes
+global function boolean f_insert_carfinanefe (str_carfinanefe carfinanefe)
+end prototypes
+
+global function boolean f_insert_carfinanefe (str_carfinanefe carfinanefe);insert into carfinanefe
+	  (carfinanefe.empresa,
+	   carfinanefe.bancofinan,
+		carfinanefe.contador,
+		carfinanefe.ejercicio,
+		carfinanefe.orden,
+		carfinanefe.anyo_fac,
+		carfinanefe.serie_fac,
+		carfinanefe.factura,
+		carfinanefe.ffactura,
+		carfinanefe.pago,
+		carfinanefe.importe_efec,
+		carfinanefe.divisas_efec,
+		carfinanefe.cambio_efec,
+		carfinanefe.vto_efec,
+		carfinanefe.anyo,
+		carfinanefe.moneda_efec,
+		carfinanefe.fpago)
+values 
+	  (:carfinanefe.empresa,
+	   :carfinanefe.bancofinan,
+		:carfinanefe.contador,
+		:carfinanefe.ejercicio,
+		:carfinanefe.orden,
+		:carfinanefe.anyo_fac,
+		:carfinanefe.serie_fac,
+		:carfinanefe.factura,
+		:carfinanefe.ffactura,
+		:carfinanefe.pago,
+		:carfinanefe.importe_efec,
+		:carfinanefe.divisas_efec,
+		:carfinanefe.cambio_efec,
+		:carfinanefe.vto_efec,
+		:carfinanefe.anyo,
+		:carfinanefe.moneda_efec,
+		:carfinanefe.fpago);
+
+if Sqlca.SqlCode <> 0 then
+	f_mensaje("Error en base de datos f_insert_carfinanefe ",SQLCA.SQLERRTEXT)
+   return false
+else
+   return true
+end if
+end function
+

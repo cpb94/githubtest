@@ -1,0 +1,17 @@
+﻿$PBExportHeader$dw_ayuda_subclientes.srd
+$PBExportComments$Datawindow ayuda subclientes.
+release 5;
+datawindow(units=0 timer_interval=0 color=12632256 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=93 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(15) updatewhereclause=yes name=codigo dbname="genter.codigo" )
+ column=(type=char(50) updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(15) updatewhereclause=yes name=codigo_cliente dbname="genter.codigo_cliente" )
+ column=(type=char(5) updatewhereclause=yes name=empresa dbname="genter.empresa" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"genter~" ) COLUMN(NAME=~"genter.codigo~") COLUMN(NAME=~"genter.razon~") COLUMN(NAME=~"genter.codigo_cliente~") COLUMN(NAME=~"genter.empresa~")WHERE(    EXP1 =~"genter.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.tipoter~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"Upper(genter.razon)~"   OP =~"like~"    EXP2 =~":criterio~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"criterio~" TYPE = string) " arguments=(("empresa", string),("criterio", string)) )
+text(band=header alignment="2" text="Código"border="6" color="0" x="179" y="12" height="65" width="275"  name=codigo_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="5" color="0" x="179" y="4" height="65" width="275" format="[general]"  name=codigo edit.limit=15 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Razón"border="6" color="0" x="481" y="12" height="65" width="1285"  name=razon_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="5" color="0" x="481" y="4" height="65" width="1285" format="[general]"  name=razon edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

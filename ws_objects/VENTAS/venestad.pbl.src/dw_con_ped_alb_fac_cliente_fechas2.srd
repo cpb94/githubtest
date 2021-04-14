@@ -1,0 +1,89 @@
+﻿$PBExportHeader$dw_con_ped_alb_fac_cliente_fechas2.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no pointer="\bmp\MANO.CUR" )
+header(height=748 color="536870912" )
+summary(height=124 color="536870912" )
+footer(height=172 color="536870912" )
+detail(height=108 color="553648127" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comodin.empresa" )
+ column=(type=char(255) updatewhereclause=yes name=serie dbname="comodin.serie" )
+ column=(type=char(255) updatewhereclause=yes name=cliente dbname="comodin.cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_cliente dbname="comodin.nombre_cliente" )
+ column=(type=char(255) updatewhereclause=yes name=nombre_serie dbname="comodin.nombre_serie" )
+ column=(type=decimal(4) updatewhereclause=yes name=importe dbname="comodin.importe" )
+ column=(type=decimal(4) updatewhereclause=yes name=cantidad dbname="comodin.cantidad" )
+ column=(type=decimal(4) updatewhereclause=yes name=metros dbname="comodin.metros" )
+ column=(type=char(255) updatewhereclause=yes name=moneda dbname="comodin.moneda" )
+ column=(type=char(255) updatewhereclause=yes name=fecha_calculo dbname="comodin.fecha_calculo" )
+ column=(type=datetime updatewhereclause=yes name=fecha_ini dbname="comodin.fecha_ini" )
+ column=(type=datetime updatewhereclause=yes name=fecha_fin dbname="comodin.fecha_fin" )
+ column=(type=char(255) updatewhereclause=yes name=cadena dbname="comodin.cadena" )
+ column=(type=char(255) updatewhereclause=yes name=grupo dbname="comodin.grupo" )
+ column=(type=char(255) updatewhereclause=yes name=pais dbname="comodin.pais" )
+ column=(type=decimal(4) updatewhereclause=yes name=orden dbname="comodin.orden" )
+ retrieve="   SELECT comodin.empresa,   
+         letras serie,   
+         letras cliente,   
+         letras nombre_cliente,   
+         letras nombre_serie,   
+         numerico importe,   
+			numerico cantidad,   
+			numerico metros,
+         letras moneda,
+			letras fecha_calculo,
+			fecha fecha_ini,
+			fecha fecha_fin,
+			letras cadena,
+			letras grupo,
+			letras pais,
+			numerico orden
+    FROM comodin  
+   WHERE comodin.empresa = :empresa    
+" arguments=(("empresa", string),("fdesde", datetime),("fhasta", datetime))  sort="empresa A serie A orden A " )
+group(level=1 header.height=144 trailer.height=88 by=("empresa" , "serie" ) header.color="536870912" trailer.color="536870912" )
+compute(band=header alignment="0" expression="pagecount()"border="0" color="0" x="59" y="532" height="68" width="64" format="[general]"  name=total_paginas visible="1~t0"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="INFORME DE FACTURACIÓN POR GRUPOS DE CLIENTES"border="0" color="0" x="18" y="408" height="92" width="3355"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="-"border="0" color="0" x="1600" y="540" height="92" width="41"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=11 alignment="2" tabsequence=32766 border="0" color="0" x="1166" y="540" height="92" width="407" format="[shortdate]"  name=fecha_ini edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=header id=12 alignment="2" tabsequence=32766 border="0" color="0" x="1678" y="540" height="92" width="407" format="[shortdate]"  name=fecha_fin edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=header alignment="2" text="Metros"border="6" color="0" x="1989" y="680" height="56" width="434"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cantidad"border="6" color="0" x="1536" y="680" height="56" width="434"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Importe"border="6" color="0" x="1083" y="680" height="56" width="434"  name=texto4  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Cliente / Grupo / País"border="6" color="0" x="23" y="680" height="56" width="1038"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+report(band=header dataobject="report_cabecera" x="18" y="16" height="328" width="3355" border="0"  height.autosize=yes criteria="" nest_arguments=(("empresa")) trail_footer = yes  slideup=directlyabove )
+text(band=header alignment="2" text="Prec.Med.Pz"border="6" color="0" x="2446" y="680" height="56" width="315"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Prec.Med.M2"border="6" color="0" x="2784" y="680" height="56" width="329"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="23" y="44" height="88" width="1120" format="[general]"  name=nombre_serie edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-12" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=7 alignment="1" tabsequence=32766 border="0" color="0" x="1536" y="20" height="68" width="434" format="###,###,###"  name=cantidad edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="82" y="20" height="68" width="983" format="[general]"  name=nombre_cliente edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1989" y="20" height="68" width="434" format="###,###,##0.00"  name=metros edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" importe / metros "border="0" color="0" x="2784" y="20" height="64" width="329" format="~tf_mascara_moneda(moneda)"  name=pm_metro  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=trailer.1 id=5 alignment="0" tabsequence=32766 border="0" color="0" x="251" y="8" height="64" width="768" format="[general]" edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="0" text=":"border="0" color="0" x="1038" y="8" height="64" width="27"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression=" importe_grupo / metros_grupo"border="0" color="0" x="2784" y="8" height="64" width="329" format="~tf_mascara_moneda(moneda)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=trailer.1 alignment="1" text="Total"border="0" color="0" x="82" y="8" height="64" width="146"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( cantidad for group 1)"border="0" color="0" x="1531" y="8" height="68" width="434" format="###,###,###"  name=cantidad_grupo  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( metros for group 1)"border="0" color="0" x="1984" y="8" height="68" width="434" format="###,###,##0.00"  name=metros_grupo  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+text(band=summary alignment="1" text="Totales : "border="0" color="0" x="791" y="40" height="68" width="274"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression=" importe_total / metros_total"border="0" color="0" x="2784" y="40" height="64" width="329" format="~tf_mascara_moneda(moneda)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+line(band=summary x1="82" y1="12" x2="3113" y2="12" pen.style="0" pen.width="9" pen.color="0"  background.mode="2" background.color="16777215" )
+compute(band=summary alignment="1" expression="sum( cantidad for all )"border="0" color="0" x="1531" y="40" height="68" width="434" format="###,###,###"  name=cantidad_total  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( metros for all )"border="0" color="0" x="1984" y="40" height="68" width="434" format="###,###,##0.00"  name=metros_total  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=footer alignment="2" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="18" y="92" height="64" width="3355" format="[general]"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=footer id=13 alignment="0" tabsequence=32766 border="0" color="0" x="18" y="16" height="56" width="3355" format="[general]"  name=cadena edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+column(band=detail id=6 alignment="1" tabsequence=32766 border="0" color="0" x="1083" y="20" height="68" width="375" format="~tf_mascara_moneda(moneda)"  name=importe edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression="sum( importe for group 1)"border="0" color="0" x="1083" y="8" height="68" width="375" format="~tf_mascara_moneda(moneda)"  name=importe_grupo  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression="sum( importe for all )"border="0" color="0" x="1083" y="40" height="68" width="375" format="~tf_mascara_moneda(moneda)"  name=importe_total  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1472" y="52" height="64" width="41"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="1" expression=" importe / cantidad "border="0" color="0" x="2441" y="20" height="64" width="270" format="~tf_mascara_moneda(moneda)"  name=pm_pieza  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="1" expression=" importe_grupo / cantidad_grupo"border="0" color="0" x="2441" y="8" height="64" width="270" format="~tf_mascara_moneda(moneda)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="1" expression=" importe_total / cantidad_total"border="0" color="0" x="2441" y="40" height="64" width="270" format="~tf_mascara_moneda(moneda)"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2720" y="28" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2720" y="16" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="2720" y="48" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3122" y="28" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3127" y="16" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=summary alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="3122" y="52" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=detail alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1467" y="28" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+compute(band=trailer.1 alignment="0" expression="f_nombre_moneda_abr( moneda )"border="0" color="0" x="1467" y="16" height="64" width="50"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="553648127" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

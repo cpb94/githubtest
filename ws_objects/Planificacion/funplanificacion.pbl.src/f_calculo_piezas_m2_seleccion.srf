@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_calculo_piezas_m2_seleccion.srf
+global type f_calculo_piezas_m2_seleccion from function_object
+end type
+
+forward prototypes
+global subroutine f_calculo_piezas_m2_seleccion (ref decimal piezas, ref decimal m2)
+end prototypes
+
+global subroutine f_calculo_piezas_m2_seleccion (ref decimal piezas, ref decimal m2);long i
+piezas = 0
+m2 = 0
+
+for i=1 to w_planificacion_tencer_wide.dw_1.rowcount()
+	if w_planificacion_tencer_wide.dw_1.object.planificacion_usuario[i]  = nombre_usuario then
+		piezas += w_planificacion_tencer_wide.dw_1.object.planificacion_cantidad[i]
+		m2 += w_planificacion_tencer_wide.dw_1.object.m2[i]
+	end if		
+next
+
+m2 = round (m2, 2)
+
+end subroutine
+

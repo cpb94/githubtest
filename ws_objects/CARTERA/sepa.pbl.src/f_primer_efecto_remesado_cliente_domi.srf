@@ -1,0 +1,61 @@
+﻿$PBExportHeader$f_primer_efecto_remesado_cliente_domi.srf
+global type f_primer_efecto_remesado_cliente_domi from function_object
+end type
+
+forward prototypes
+global function boolean f_primer_efecto_remesado_cliente_domi (string arg_empresa, integer arg_anyo, long arg_orden)
+end prototypes
+
+global function boolean f_primer_efecto_remesado_cliente_domi (string arg_empresa, integer arg_anyo, long arg_orden);boolean lb_primer_efecto 
+string  ls_cliente,ls_domiciliacion,ls_banco,ls_remesa,ls_situacion
+long    ll_efectos_remesados_domiciliacion
+datetime ldt_fremesa
+
+select carefectos.cliente,
+       carefectos.domiciliacion,
+		 carefectos.banco,
+		 carefectos.remesa,
+		 carefectos.fremesa,
+		 carefectos.situacion
+into   :ls_cliente,
+		 :ls_domiciliacion,
+		 :ls_banco,
+		 :ls_remesa,
+		 :ldt_fremesa,
+		 :ls_situacion
+from   carefectos
+where  carefectos.empresa = :arg_empresa
+and    carefectos.anyo    = :arg_anyo
+and    carefectos.orden   = :arg_orden;
+
+select isnull(sum(efectos_remesados),0)
+into   :ll_efectos_remesados_domiciliacion
+from  (
+select isnull(count(*),0) as efectos_remesados
+from   carefectos
+where  carefectos.empresa = :arg_empresa
+and    carefectos.cliente = :ls_cliente
+and    carefectos.domiciliacion = :ls_domiciliacion
+and    isnull(carefectos.banco,'') <> ''
+and    isnull(carefectos.remesa,0) > 0
+and    carefectos.fremesa < :ldt_fremesa
+union all
+select isnull(count(*),0) as efectos_remesados
+from   carhistorico
+where  carhistorico.empresa = :arg_empresa
+and    carhistorico.cliente = :ls_cliente
+and    carhistorico.domiciliacion = :ls_domiciliacion
+and    isnull(carhistorico.banco,'') <> ''
+and    isnull(carhistorico.remesa,0) > 0
+and    carhistorico.fremesa < :ldt_fremesa) as resultado;
+
+if ll_efectos_remesados_domiciliacion = 0 then
+	//lb_primer_efecto = true
+	lb_primer_efecto = false
+else
+	lb_primer_efecto = false
+end if
+
+return lb_primer_efecto
+end function
+

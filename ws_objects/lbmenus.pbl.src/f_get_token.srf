@@ -1,0 +1,51 @@
+﻿$PBExportHeader$f_get_token.srf
+$PBExportComments$Analiza un string para devolver el primer token y lo borra de dicho string.
+global type f_get_token from function_object
+end type
+
+forward prototypes
+global function string f_get_token (ref string as_tira, string as_separador)
+end prototypes
+
+global function string f_get_token (ref string as_tira, string as_separador);//////////////////////////////////////////////////////////////////////
+// © ISI S.A.      
+// Función		:	f_get_token
+// Descripción	:	Devuelve un token sin el caracter separador (la parte
+//						izquierda de una tira desde el inicio hasta un caracter
+//						separador) de la tira que recibe como argumento.
+//						Y además, deja dicha tira (argumento as_tira pasado
+//						por referencia) sin el token.
+//	Alcance		:	global
+// Acceso		:	público
+//	Argumentos	:	- as_tira (por referencia)
+//						- as_separador
+//	Valor ret.	:	string
+// Notas			:	Si en la tira no está el caracter separador, devuelve
+//						toda la tira como token y deja la tira as_tira en blanco.
+//////////////////////////////////////////////////////////////////////
+// Historial	:
+//
+// Fecha			Prog	Versión	Notas
+// ----------	----	--------	----------------------------------------
+// 01/01/2001	JO		v1.0		Versión inicial
+//////////////////////////////////////////////////////////////////////
+integer li_p, li_token
+string ls_ret
+
+li_p = Pos(as_tira, as_separador)	//Obtiene la posición del separador
+
+if li_p = 0 then					//Si no hay separador,
+	ls_ret = as_tira				//devuelve el string completo y
+	as_tira = ""					//pone el argumento as_tira como ""
+else
+	li_token = Len(as_separador)
+	ls_ret = Mid(as_tira, 1, li_p - 1)			//sino, devuelve el token y
+	as_tira = Right(as_tira, Len(as_tira) - li_p - li_token + 1)
+																//lo elimina del string
+																//as_tira
+end if
+
+return ls_ret
+
+end function
+

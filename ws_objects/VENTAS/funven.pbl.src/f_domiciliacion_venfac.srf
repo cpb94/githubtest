@@ -1,0 +1,23 @@
+﻿$PBExportHeader$f_domiciliacion_venfac.srf
+global type f_domiciliacion_venfac from function_object
+end type
+
+forward prototypes
+global function string f_domiciliacion_venfac (string empresa, long anyo, long factura)
+end prototypes
+
+global function string f_domiciliacion_venfac (string empresa, long anyo, long factura);String valor
+
+SELECT   venfac.domiciliacion
+INTO     :valor
+FROM     venfac  
+Where    venfac.empresa = :empresa
+And      venfac.anyo    = :anyo
+and      venfac.factura = :factura;
+
+IF IsNull(valor) Then valor= ""
+
+Return valor
+
+end function
+

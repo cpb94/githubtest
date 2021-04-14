@@ -1,0 +1,29 @@
+﻿$PBExportHeader$f_contenedor_venlifac.srf
+global type f_contenedor_venlifac from function_object
+end type
+
+forward prototypes
+global function string f_contenedor_venlifac (string empresa, decimal anyo, decimal albaran)
+end prototypes
+
+global function string f_contenedor_venlifac (string empresa, decimal anyo, decimal albaran);String ls_conten
+
+//f_mensaje("empr",empresa)
+//f_mensaje("anyo",String(anyo))
+//f_mensaje("alb",String(albaran))
+
+SELECT max(contenedor)
+  INTO :ls_conten
+  FROM venlifac
+ WHERE venlifac.empresa      =:empresa
+   AND venlifac.anyo_albaran =:anyo
+	AND venlifac.albaran      =:albaran
+ USING sqlca;
+  
+ If IsNull(ls_conten) then ls_conten = ""
+ 
+ return ls_conten
+
+
+end function
+

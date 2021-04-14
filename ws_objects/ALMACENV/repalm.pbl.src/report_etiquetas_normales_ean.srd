@@ -1,0 +1,18 @@
+﻿$PBExportHeader$report_etiquetas_normales_ean.srd
+release 8;
+datawindow(units=3 timer_interval=0 color=1073741824 processing=2 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 0 print.margin.right = 0 print.margin.top = 0 print.margin.bottom = 0 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no label.name="" label.width=10199 label.height=3600 label.rows=1 label.rows.spacing=0 label.columns=1 label.columns.spacing=0 label.topdown=no label.sheet=yes label.shape=roundrectangle label.ellipse_height=0 label.ellipse_width=0 )
+detail(height=3598 color="536870912" )
+table(column=(type=char(100) updatewhereclause=yes name=t1 dbname="t1" )
+ column=(type=char(100) updatewhereclause=yes name=t2 dbname="t2" )
+ column=(type=char(100) updatewhereclause=yes name=t3 dbname="t3" )
+ column=(type=char(100) updatewhereclause=yes name=t4 dbname="t4" )
+ column=(type=char(100) updatewhereclause=yes name=t5 dbname="t5" )
+ )
+compute(band=detail alignment="0" expression="pagecount()"border="0" color="0" x="9842" y="185" height="26" width="26" format="[GENERAL]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="33554432" x="6402" y="1084" height="2381" width="3624" format="[general]" html.valueishtml="0"  name=texto5 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="EAN-13" font.height="-42" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="33554432" x="264" y="26" height="873" width="9710" format="[general]" html.valueishtml="0"  name=texto1 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="AkzentCond DB" font.height="-24" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="33554432" x="264" y="978" height="873" width="5900" format="[general]" html.valueishtml="0"  name=texto2 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=yes edit.autohscroll=yes edit.imemode=0  font.face="AkzentCond DB" font.height="-24" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="33554432" x="264" y="1957" height="687" width="5900" format="[general]" html.valueishtml="0"  name=t3 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="AkzentCond DB" font.height="-16" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="33554432" x="264" y="2725" height="687" width="5900" format="[general]" html.valueishtml="0"  name=t4 visible="1" edit.limit=0 edit.case=any edit.focusrectangle=no edit.autoselect=no edit.imemode=0  font.face="AkzentCond DB" font.height="-16" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

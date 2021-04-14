@@ -1,0 +1,85 @@
+﻿$PBExportHeader$f_restaura_datos_dep_facturas.srf
+global type f_restaura_datos_dep_facturas from function_object
+end type
+
+forward prototypes
+global subroutine f_restaura_datos_dep_facturas ()
+end prototypes
+
+global subroutine f_restaura_datos_dep_facturas ();string sel,referencia,tipo_pallet,caja,almacen
+dec    cantidad
+long   anyo,albaran,indice,total,lineas,anyo_factura,factura,linea_factura
+datastore datos
+
+sel = "select anyo,numdoc,referencia,tipo_pallet,caja,cantidads,almacen "+&
+		"from   depmovhis "+&
+		"where  empresa = '"+codigo_empresa+"' "+&
+		"and    tipomov = '2' "+&
+		"and    situacion = 'N' "+&
+		"and    fechmov < '02/07/01'"
+		
+datos = f_cargar_cursor(sel)		
+
+total = datos.rowcount()
+
+for indice = 1 to total
+	f_mensaje_proceso("",indice,total)
+	
+	anyo        = datos.object.anyo[indice]
+	albaran     = dec(datos.object.numdoc[indice])
+	referencia  = datos.object.referencia[indice]
+	tipo_pallet = datos.object.tipo_pallet[indice]
+	caja        = datos.object.caja[indice]
+	cantidad    = datos.object.cantidads[indice]
+	almacen     = datos.object.almacen[indice]
+	
+	if isnull(caja) then caja = ""
+	if trim(caja) = "" then caja = "%"
+	
+	lineas = 0
+	
+	select count(*)
+	into   :lineas
+	from   venlifac
+	where  empresa      = :codigo_empresa
+	and    referencia   = :referencia
+	and    tipo_pallet  = :tipo_pallet
+	and    caja like :caja
+	and    cantidad     = :cantidad
+	and    anyo_albaran = :anyo
+	and    albaran      = :albaran;
+	
+	if isnull(lineas) then lineas = 0
+	
+	if lineas = 1 then
+		select anyo,factura,linea_factura
+		into   :anyo_factura,:factura,:linea_factura
+		from   venlifac
+		where  empresa      = :codigo_empresa
+		and    referencia   = :referencia
+		and    tipo_pallet  = :tipo_pallet
+		and    caja like :caja
+		and    cantidad     = :cantidad
+		and    anyo_albaran = :anyo
+		and    albaran      = :albaran;
+
+		update venlifac
+		set    consumo_deposito = 'S',
+				 almacen_deposito = :almacen
+		where  empresa       = :codigo_empresa
+		and    anyo          = :anyo_factura
+		and    factura       = :factura
+		and    linea_factura = :linea_factura;
+		
+		if sqlca.sqlcode <> 0 then
+			rollback;
+		else
+			commit;
+		end if
+				 
+	end if
+next
+
+destroy datos
+end subroutine
+

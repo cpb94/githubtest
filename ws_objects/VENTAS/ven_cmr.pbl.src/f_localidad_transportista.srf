@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_localidad_transportista.srf
+global type f_localidad_transportista from function_object
+end type
+
+forward prototypes
+global function string f_localidad_transportista (string empresa, string transportista)
+end prototypes
+
+global function string f_localidad_transportista (string empresa, string transportista);String var_localidad
+
+SELECT	localidad
+INTO		:var_localidad
+FROM		ventransportista
+WHERE		empresa	=	:empresa
+AND		codigo	= 	:transportista;
+
+if isnull(var_localidad) then var_localidad = ""
+
+Return var_localidad
+end function
+

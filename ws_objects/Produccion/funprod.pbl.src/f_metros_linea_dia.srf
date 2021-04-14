@@ -1,0 +1,15 @@
+﻿$PBExportHeader$f_metros_linea_dia.srf
+global type f_metros_linea_dia from function_object
+end type
+
+forward prototypes
+global function decimal f_metros_linea_dia (string empresa, string linea)
+end prototypes
+
+global function decimal f_metros_linea_dia (string empresa, string linea);dec metros_dia
+
+metros_dia = f_metros_linea_hora(empresa,linea) * 24
+
+return metros_dia
+end function
+

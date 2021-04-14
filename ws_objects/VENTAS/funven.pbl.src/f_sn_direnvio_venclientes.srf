@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_sn_direnvio_venclientes.srf
+global type f_sn_direnvio_venclientes from function_object
+end type
+
+forward prototypes
+global function string f_sn_direnvio_venclientes (string empresa, string cliente)
+end prototypes
+
+global function string f_sn_direnvio_venclientes (string empresa, string cliente);String valor
+
+SELECT venclientes.direnvio
+INTO     :valor
+FROM     venclientes  
+Where    venclientes.empresa = :empresa
+And      venclientes.codigo = :cliente;
+
+if isnull(valor) then valor = "N"
+Return valor;
+
+end function
+

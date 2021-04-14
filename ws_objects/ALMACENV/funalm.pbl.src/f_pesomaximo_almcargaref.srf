@@ -1,0 +1,24 @@
+﻿$PBExportHeader$f_pesomaximo_almcargaref.srf
+global type f_pesomaximo_almcargaref from function_object
+end type
+
+forward prototypes
+global function decimal f_pesomaximo_almcargaref (string empresa, integer anyo, string cliente, string referencia)
+end prototypes
+
+global function decimal f_pesomaximo_almcargaref (string empresa, integer anyo, string cliente, string referencia);dec{2} parametro
+
+  SELECT almcargaref.pesomax
+    INTO :parametro  
+    FROM almcargaref  
+   WHERE ( almcargaref.empresa    = :empresa ) AND  
+         ( almcargaref.anyo       = :anyo ) AND  
+			( almcargaref.cliente    = :cliente ) AND  
+         ( almcargaref.referencia = :referencia )   ;
+			
+Return parametro
+
+
+
+end function
+

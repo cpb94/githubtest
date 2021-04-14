@@ -1,0 +1,14 @@
+﻿$PBExportHeader$report_con_ubicaciones_bloqueo2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=1 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=65 color="536870912" )
+table(column=(type=datetime updatewhereclause=yes name=fecha dbname="almlinubica_observaciones.fecha" )
+ column=(type=char(20) updatewhereclause=yes name=usuario dbname="almlinubica_observaciones.usuario" )
+ column=(type=char(50) updatewhereclause=yes name=observaciones dbname="almlinubica_observaciones.observaciones" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almlinubica_observaciones~" ) COLUMN(NAME=~"almlinubica_observaciones.fecha~") COLUMN(NAME=~"almlinubica_observaciones.usuario~") COLUMN(NAME=~"almlinubica_observaciones.observaciones~")WHERE(    EXP1 =~"almlinubica_observaciones.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica_observaciones.ubicacion~"   OP =~"=~"    EXP2 =~":ubicacion~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almlinubica_observaciones.linea~"   OP =~"=~"    EXP2 =~":linea~" ) ) ORDER(NAME=~"almlinubica_observaciones.fecha~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"ubicacion~" TYPE = string)  ARG(NAME = ~"linea~" TYPE = number) " arguments=(("empresa", string),("ubicacion", string),("linea", number)) )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="5" y="4" height="57" width="279" format="[shortdate] [time]"  name=fecha editmask.mask="dd-mm-yy" editmask.focusrectangle=no  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=3 alignment="0" tabsequence=32766 border="0" color="0" x="732" y="4" height="57" width="1783" format="[general]"  name=observaciones edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="0" tabsequence=32766 border="0" color="0" x="298" y="4" height="57" width="417" format="[general]"  name=usuario edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-10" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )

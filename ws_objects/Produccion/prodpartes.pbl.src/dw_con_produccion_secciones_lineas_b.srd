@@ -1,0 +1,51 @@
+﻿$PBExportHeader$dw_con_produccion_secciones_lineas_b.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 HTMLDW=no print.documentname="" print.orientation = 1 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=296 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=84 color="536870912" )
+detail(height=0 color="536870912" )
+table(column=(type=decimal(0) updatewhereclause=yes name=piezas dbname="prodpartes_ot.piezas" )
+ column=(type=number updatewhereclause=yes name=metros dbname="metros" )
+ column=(type=char(5) updatewhereclause=yes name=prodpartes_ot_seccion dbname="prodpartes_ot.seccion" )
+ column=(type=char(4) updatewhereclause=yes name=prodsecciones_descripcion_abr dbname="prodsecciones.descripcion_abr" )
+ column=(type=char(10) updatewhereclause=yes name=prodpartes_ot_linea dbname="prodpartes_ot.linea" )
+ column=(type=char(10) updatewhereclause=yes name=prodlineas_resumido dbname="prodlineas.resumido" )
+ column=(type=datetime updatewhereclause=yes name=prodpartes_ot_fecha dbname="prodpartes_ot.fecha" )
+ retrieve="  SELECT  prodpartes_ot.buenas as piezas,  
+			( prodpartes_ot.buenas * formatos.ancho * formatos.largo)  / 10000 as metros, 
+         prodpartes_ot.seccion,   
+         prodsecciones.descripcion_abr,   
+         prodpartes_ot.linea,   
+         prodlineas.resumido,   
+			prodpartes_ot.fecha
+    FROM prodpartes_ot LEFT OUTER JOIN prodsecciones ON prodpartes_ot.empresa = prodsecciones.empresa AND prodpartes_ot.seccion = prodsecciones.codigo LEFT OUTER JOIN prodlineas ON prodpartes_ot.empresa = prodlineas.empresa AND prodpartes_ot.linea = prodlineas.codigo LEFT OUTER JOIN formatos ON prodpartes_ot.empresa = formatos.empresa AND prodpartes_ot.formato = formatos.codigo  
+   WHERE ( prodpartes_ot.empresa = :empresa ) AND  
+         ( prodpartes_ot.fecha >= :fecha1 ) AND  
+         ( prodpartes_ot.fecha <= :fecha2 ) AND  
+         ( prodpartes_ot.seccion like :seccion )    
+		" arguments=(("empresa", string),("fecha1", datetime),("fecha2", datetime),("seccion", string))  sort="prodsecciones_descripcion_abr A prodlineas_resumido A prodpartes_ot_fecha A " )
+group(level=1 header.height=64 trailer.height=0 by=("prodsecciones_descripcion_abr" ) header.color="536870912" trailer.color="536870912"  sort="count(prodsecciones_descripcion_abr for group 1) A " )
+group(level=2 header.height=64 trailer.height=0 by=("prodsecciones_descripcion_abr" , "prodlineas_resumido" ) header.color="536870912" trailer.color="536870912" )
+group(level=3 header.height=0 trailer.height=0 by=("prodsecciones_descripcion_abr" , "prodlineas_resumido" , "prodpartes_ot_fecha" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="" border="0" color="0" x="2030" y="128" height="44" width="763" html.valueishtml="0"  name=fechas visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="1" expression="today()"border="0" color="0" x="4251" y="28" height="48" width="288" format="[general]" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header alignment="1" expression="String(Now(), ~"hh:mm:ss~")"border="0" color="0" x="4251" y="80" height="44" width="288" format="[general]" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Sección" border="2" color="0" x="357" y="232" height="56" width="261" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Informe Resumen de Producción por Secciones y Líneas" border="2" color="0" x="1166" y="32" height="92" width="2459" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-14" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+text(band=header alignment="2" text="Línea" border="2" color="0" x="635" y="232" height="56" width="261" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Metros" border="2" color="0" x="1385" y="232" height="56" width="466" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+text(band=header alignment="2" text="Piezas" border="2" color="0" x="910" y="232" height="56" width="453" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="79741120" )
+column(band=header.1 id=4 alignment="1" tabsequence=32766 border="0" color="16711680" x="361" y="4" height="56" width="251" format="[general]" html.valueishtml="0"  name=prodsecciones_descripcion_abr visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.1 alignment="1" expression="sum(  media_piezas_linea )"border="0" color="0" x="914" y="4" height="56" width="448" format="###,###,###,###" html.valueishtml="0"  name=piezas_seccion visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.2 id=6 alignment="1" tabsequence=32766 border="0" color="134217858" x="631" y="4" height="56" width="261" format="[general]" html.valueishtml="0"  name=prodlineas_resumido visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="sum(  piezas  for group 2 )"border="0" color="0" x="910" y="4" height="56" width="448" format="###,###,###,###" html.valueishtml="0"  name=piezas_linea visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.2 alignment="1" expression="avg(  piezas_dia for group 2 )"border="0" color="0" x="1371" y="4" height="56" width="466" format="###,###,###,###" html.valueishtml="0"  name=media_piezas_linea visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=header.3 alignment="1" expression="sum(  piezas  for group 3 )"border="0" color="0" x="910" y="4" height="56" width="448" format="###,###,###,###" html.valueishtml="0"  name=piezas_dia visible="1"  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=header.3 id=7 alignment="0" tabsequence=32766 border="0" color="8421376" x="626" y="4" height="56" width="270" format="[shortdate] [time]" html.valueishtml="0"  name=prodpartes_ot_fecha visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=2 alignment="1" tabsequence=32766 border="0" color="0" x="1367" y="4" height="56" width="466" format="###,###,###,###" html.valueishtml="0"  name=metros visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=1 alignment="1" tabsequence=32766 border="0" color="0" x="901" y="4" height="56" width="453" format="###,###,###,###" html.valueishtml="0"  name=piezas visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="pagecount()"border="0" color="0" x="2075" y="364" height="76" width="256" format="[general]" html.valueishtml="0"  name=total_paginas visible="1"  font.face="Arial" font.height="-12" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=footer alignment="0" expression="'Página ' + page() + ' de ' + pageCount()"border="0" color="0" x="1961" y="16" height="48" width="773" format="[general]" html.valueishtml="0"  name=compute_28 visible="1"  font.face="Arial" font.height="-7" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

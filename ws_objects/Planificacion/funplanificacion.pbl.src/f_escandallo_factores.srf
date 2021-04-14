@@ -1,0 +1,90 @@
+﻿$PBExportHeader$f_escandallo_factores.srf
+global type f_escandallo_factores from function_object
+end type
+
+forward prototypes
+global subroutine f_escandallo_factores (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel)
+end prototypes
+
+global subroutine f_escandallo_factores (ref str_escandallo arg_escandallo[300], string arg_articulo, ref integer indice, decimal factor_acumulado, integer nivel);/*   PRUEBAS CON CONSULTAS RECURSIVAS DIRECTAS
+string sel
+datastore registros
+
+sel = "WITH TreeView(articulo, version, factor, articulo_ant, nivel, fac_acumulado) "+&
+		" AS "+&
+		" ( "+&
+	   " SELECT articulo, version,  factor , articulo_ant, 1 as nivel , convert(float ,1) as fac_acumulado  "+&
+	   " FROM art_escandallo  "+&
+	   " WHERE articulo = 3212 "+&
+    	" and version = 1   "+&
+    	" UNION ALL "+&
+	   " SELECT n.articulo, n.version,  n.factor, n.articulo_ant, tv.nivel + 1 as nivel, (convert(float , tv.fac_acumulado) / convert(float ,n.factor )) as fac_acumulado "+&
+    	" FROM art_escandallo n "+&
+	   " INNER JOIN TreeView tv on n.articulo = tv.articulo_ant "+&    
+		" ) "+&
+		" SELECT articulo, version, factor, articulo_ant, nivel, fac_acumulado  from TreeView  "+&
+		" order by nivel "
+	
+		f_cargar_cursor_nuevo (sel, registros )
+*/
+
+
+// arg_escandallo[50]:  	Vector de estructuras para almacenar todos los artículos que componen el árbol . (ver str_escandallo).
+// arg_articulo:				Código del artículo del cual buscaremos su escandallo.
+// indice:						Siempre deberá recibir un 1 en la llamada principal.
+// factor acumulado:			Siempre deberá recibir un 1 en la llamada principal.
+
+string sel, articulo_ant, v_Articulo, v_version
+integer i, nodo_hijo, nodo_raiz, k
+datastore registros 
+long nodo_actual, nodo_padre
+boolean procesado = false
+decimal{2} v_factor
+
+nivel ++
+if nivel < 300 then
+	arg_escandallo[300].articulo = "CORRECTO"
+	sel = " select articulo, version, articulo_ant, factor"+&
+			" from art_escandallo "+&
+			" where art_escandallo.empresa = '"+codigo_empresa+"'"+&
+			" and articulo = '"+arg_articulo+"' " +&
+			" and version = '1';"
+			
+	f_cargar_cursor_nuevo (sel, registros )
+	
+	for i = 1 to registros.RowCount()
+		if registros.RowCount() = 0 then
+			articulo_ant = "0"
+		else
+			v_articulo = registros.object.articulo[i]
+			v_version = registros.object.version[i]
+			articulo_ant = registros.object.articulo_ant[i]		
+		end if
+		
+		if articulo_ant <> "0" then
+			if registros.object.factor[i] = 0 or isnull(registros.object.factor[i]) then
+				v_factor = factor_acumulado
+			else
+				v_factor = registros.object.factor[i] * factor_Acumulado
+			end if
+			f_escandallo_factores (arg_escandallo, articulo_ant, indice, v_factor, nivel)
+		end if
+
+		if not procesado and indice > 0 then
+			arg_escandallo[indice].articulo = v_articulo
+			arg_escandallo[indice].version = v_version
+			arg_escandallo[indice].factor =  factor_Acumulado
+			arg_escandallo[indice].nivel =  nivel
+			procesado = true
+			indice++		
+		end if
+	next
+else
+	arg_escandallo[300].articulo = "ERROR"
+	destroy registros
+end if
+destroy registros
+
+
+end subroutine
+

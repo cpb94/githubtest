@@ -1,0 +1,39 @@
+﻿$PBExportHeader$ftc_articulo_base.srf
+global type ftc_articulo_base from function_object
+end type
+
+forward prototypes
+global function boolean ftc_articulo_base (string articulo)
+end prototypes
+
+global function boolean ftc_articulo_base (string articulo);//Devuelve true si el articulo forma parte de los intermedios que forman una base
+Boolean resultado = false, fin = false
+String ver, uso, articulo_actual
+Long numero_articulos
+
+articulo_actual = articulo
+//Da igual la versión, elijo una cualquiera
+SELECT TOP 1 version INTO :ver FROM art_escandallo WHERE empresa = :codigo_empresa AND articulo_ant  = :articulo_actual;
+
+DO   
+	uso = ""
+	SELECT uso INTO :uso FROM articulos WHERE empresa = :codigo_empresa AND codigo = :articulo_actual;
+	if uso = "1" then
+		resultado = true
+		fin = true
+	else
+		SELECT COUNT(*) INTO :numero_articulos FROM art_escandallo WHERE empresa = :codigo_empresa AND articulo_ant = :articulo_actual AND version = :ver;
+		if numero_articulos <> 1 then
+			fin = true
+		else	
+			SELECT articulo INTO :articulo_actual FROM art_escandallo WHERE empresa = :codigo_empresa AND articulo_ant  = :articulo_actual AND version = :ver;
+			if articulo_actual = "" then
+				fin = true
+			end if
+		end if
+	end if
+LOOP WHILE fin = false
+
+return resultado
+end function
+

@@ -1,0 +1,14 @@
+﻿$PBExportHeader$dw_con_distribuidores_provincias2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551088 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=65 color="536870912" )
+detail(height=77 color="536870912" )
+table(column=(type=char(50) updatewhereclause=yes name=razon dbname="genter.razon" )
+ column=(type=char(15) updatewhereclause=yes name=codigo dbname="genter.codigo" )
+ column=(type=char(15) updatewhereclause=yes name=codigo_cliente dbname="genter.codigo_cliente" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"genter~" ) COLUMN(NAME=~"genter.razon~") COLUMN(NAME=~"genter.codigo~") COLUMN(NAME=~"genter.codigo_cliente~")WHERE(    EXP1 =~"genter.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.tipoter~"   OP =~"=~"    EXP2 =~"'S'~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"genter.codigo_cliente~"   OP =~"=~"    EXP2 =~":cliente~" ) ) ORDER(NAME=~"genter.razon~" ASC=yes ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"cliente~" TYPE = string) " arguments=(("empresa", string),("cliente", string)) )
+text(band=header alignment="2" text="Subdistribuidores"border="6" color="0" x="1" y="8" height="65" width="1079"  name=razon_t  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=1 alignment="0" tabsequence=32766 border="0" color="0" x="1" y="4" height="69" width="1079" format="[general]"  name=razon edit.limit=50 edit.case=any edit.autoselect=yes edit.autohscroll=yes  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+text(band=footer alignment="0" text="(*) Doble clicked para consultar."border="0" color="128" x="293" y="4" height="57" width="791"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="33551088" )

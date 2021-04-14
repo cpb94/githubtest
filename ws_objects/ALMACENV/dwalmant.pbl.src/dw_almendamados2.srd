@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_almendamados2.srd
+release 5;
+datawindow(units=0 timer_interval=0 color=33551858 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no )
+header(height=77 color="536870912" )
+summary(height=1 color="536870912" )
+footer(height=1 color="536870912" )
+detail(height=85 color="536870912" )
+table(column=(type=char(5) update=yes updatewhereclause=yes key=yes name=empresa dbname="almendamadosdetalle.empresa" )
+ column=(type=char(5) update=yes updatewhereclause=yes key=yes name=codigo dbname="almendamadosdetalle.codigo" )
+ column=(type=char(20) update=yes updatewhereclause=yes key=yes name=articulo dbname="almendamadosdetalle.articulo" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"almendamadosdetalle~" ) COLUMN(NAME=~"almendamadosdetalle.empresa~") COLUMN(NAME=~"almendamadosdetalle.codigo~") COLUMN(NAME=~"almendamadosdetalle.articulo~")WHERE(    EXP1 =~"almendamadosdetalle.empresa~"   OP =~"=~"    EXP2 =~":empresa~"    LOGIC =~"and~" ) WHERE(    EXP1 =~"almendamadosdetalle.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"empresa~" TYPE = string)  ARG(NAME = ~"codigo~" TYPE = string) " update="almendamadosdetalle" updatewhere=1 updatekeyinplace=no arguments=(("empresa", string),("codigo", string)) )
+text(band=header alignment="2" text="Descripción"border="6" color="0" x="55" y="8" height="65" width="1605"  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+compute(band=detail alignment="0" expression="f_nombre_articulo(empresa,articulo)"border="0" color="128" x="55" y="8" height="65" width="1605" format="[general]"  name=descripcion  font.face="Arial" font.height="-10" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )

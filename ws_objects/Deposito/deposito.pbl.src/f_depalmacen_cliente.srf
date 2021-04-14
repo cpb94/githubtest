@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_depalmacen_cliente.srf
+global type f_depalmacen_cliente from function_object
+end type
+
+forward prototypes
+global function string f_depalmacen_cliente (string empresa, string cliente)
+end prototypes
+
+global function string f_depalmacen_cliente (string empresa, string cliente);String v_almacen
+Dec    numero
+
+ SELECT count(*) INTO :numero  FROM depalmacen  
+ WHERE  depalmacen.empresa  = :empresa 
+ AND    depalmacen.codcli   = :cliente;
+ IF IsNull(numero) Then numero = 0
+ IF numero = 1 Then
+  SELECT depalmacen.codigo  INTO :v_almacen  FROM depalmacen  
+   WHERE depalmacen.empresa = :empresa
+	AND   depalmacen.codcli = :cliente;
+ELSE
+	v_almacen = ""
+END IF
+return v_almacen
+
+end function
+

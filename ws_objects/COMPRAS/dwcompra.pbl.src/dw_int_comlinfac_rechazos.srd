@@ -1,0 +1,87 @@
+﻿$PBExportHeader$dw_int_comlinfac_rechazos.srd
+release 8;
+datawindow(units=0 timer_interval=0 color=16777215 processing=0 HTMLDW=no print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 97 print.margin.bottom = 97 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=72 color="536870912" )
+summary(height=64 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=68 color="536870912" )
+table(column=(type=char(5) updatewhereclause=yes name=empresa dbname="comcabfac.empresa" )
+ column=(type=decimal(0) updatewhereclause=yes name=anyo dbname="comcabfac.anyo" )
+ column=(type=char(20) updatewhereclause=yes name=proveedor dbname="comcabfac.proveedor" )
+ column=(type=char(20) updatewhereclause=yes name=factura dbname="comcabfac.factura" )
+ column=(type=datetime updatewhereclause=yes name=fecha_fac dbname="comcabfac.fecha_fac" )
+ column=(type=decimal(0) update=yes updatewhereclause=yes name=linea dbname="comlinfac.linea" )
+ column=(type=char(20) update=yes updatewhereclause=yes name=mprima dbname="comlinfac.mprima" )
+ column=(type=decimal(6) update=yes updatewhereclause=yes name=cantidad dbname="comlinfac.cantidad" )
+ column=(type=decimal(6) update=yes updatewhereclause=yes name=precio dbname="comlinfac.precio" )
+ column=(type=char(3) update=yes updatewhereclause=yes name=unidad_medida dbname="comlinfac.unidad_medida" )
+ column=(type=char(5) updatewhereclause=yes name=moneda dbname="comcabfac.moneda" )
+ column=(type=char(50) update=yes updatewhereclause=yes name=descripcion dbname="comlinfac.descripcion" )
+ column=(type=char(50) updatewhereclause=yes name=genter_razon dbname="genter.razon" )
+ column=(type=char(50) updatewhereclause=yes name=venmprima_descripcion dbname="venmprima.descripcion" )
+ column=(type=char(35) updatewhereclause=yes name=grupo1 dbname="grupo1" )
+ column=(type=char(35) updatewhereclause=yes name=grupo2 dbname="grupo2" )
+ column=(type=char(10) updatewhereclause=yes name=comlinfac_rechazada dbname="comlinfac.rechazada" )
+ column=(type=datetime updatewhereclause=yes name=comlinfac_fecha_rechazo dbname="comlinfac.fecha_rechazo" )
+ column=(type=char(10) updatewhereclause=yes name=comlinfac_abonada dbname="comlinfac.abonada" )
+ column=(type=datetime updatewhereclause=yes name=comlinfac_fecha_abono dbname="comlinfac.fecha_abono" )
+ retrieve="SELECT  comcabfac.empresa ,
+           comcabfac.anyo ,
+           comcabfac.proveedor ,
+           comcabfac.factura ,
+           comcabfac.fecha_fac ,
+           comlinfac.linea ,
+           comlinfac.mprima ,
+           comlinfac.cantidad ,
+           comlinfac.precio ,
+           comlinfac.unidad_medida ,
+           comcabfac.moneda ,
+           comlinfac.descripcion ,
+           genter.razon ,
+           venmprima.descripcion ,
+           '                                   ' grupo1,
+           '                                   ' grupo2,
+           comlinfac.rechazada ,
+           comlinfac.fecha_rechazo ,
+           comlinfac.abonada ,
+           comlinfac.fecha_abono     
+        FROM comcabfac ,
+           comlinfac ,
+           genter ,
+           venmprima     
+        WHERE 	( comcabfac.empresa = comlinfac.empresa ) and          
+					( comcabfac.anyo = comlinfac.anyo ) and          
+					( comcabfac.proveedor = comlinfac.proveedor ) and          
+					( comcabfac.factura = comlinfac.factura ) and          
+					( comcabfac.empresa = venmprima.empresa ) and          
+					( comlinfac.mprima = venmprima.codigo ) and          
+					( comlinfac.empresa = genter.empresa ) and          
+					( comlinfac.proveedor = genter.codigo ) and          
+					( ( comcabfac.empresa = :arg_emp ) and          
+					( comcabfac.proveedor like :arg_prov ) and          
+					( comlinfac.mprima like :arg_prima ) and          
+					( comcabfac.fecha_fac >=  :arg_fd ) and 
+					( comcabfac.fecha_fac <= :arg_fh ) and          
+					( genter.tipoter = 'P' ) )  " arguments=(("arg_emp", string),("arg_fd", datetime),("arg_fh", datetime),("arg_prima", string),("arg_prov", string))  sort="empresa A fecha_fac A proveedor A mprima A " )
+group(level=1 header.height=0 trailer.height=0 by=("empresa" , "grupo1" ) header.color="536870912" trailer.color="536870912" )
+group(level=2 header.height=0 trailer.height=0 by=("grupo2" ) header.color="536870912" trailer.color="536870912" )
+text(band=header alignment="2" text="Factura" border="6" color="0" x="9" y="8" height="56" width="224" html.valueishtml="0"  name=t_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Fecha" border="6" color="0" x="251" y="8" height="56" width="215" html.valueishtml="0"  name=t_fecha visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Proveedor" border="6" color="0" x="485" y="8" height="56" width="530" html.valueishtml="0"  name=t_prov visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="M. Prima" border="6" color="0" x="1033" y="8" height="56" width="494" html.valueishtml="0"  name=t_prima visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="15780518" )
+text(band=header alignment="2" text="Cantidad" border="6" color="0" x="1545" y="8" height="56" width="293" html.valueishtml="0"  name=t_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Precio" border="6" color="0" x="1856" y="8" height="56" width="256" html.valueishtml="0"  name=t_3 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Recha." border="6" color="0" x="2130" y="8" height="56" width="265" html.valueishtml="0"  name=t_4 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+text(band=header alignment="2" text="Abono" border="6" color="0" x="2414" y="8" height="56" width="265" html.valueishtml="0"  name=t_5 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="12632256" )
+column(band=detail id=4 alignment="0" tabsequence=32766 border="0" color="0" x="9" y="4" height="56" width="224" format="[general]" html.valueishtml="0"  name=factura visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=5 alignment="0" tabsequence=32766 border="0" color="0" x="251" y="4" height="56" width="215" format="dd-mm-yy" html.valueishtml="0"  name=fecha_fac visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=13 alignment="0" tabsequence=32766 border="0" color="0" x="485" y="8" height="48" width="530" format="[general]" html.valueishtml="0"  name=genter_razon visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=14 alignment="0" tabsequence=32766 border="0" color="0" x="1033" y="8" height="48" width="494" format="[general]" html.valueishtml="0"  name=venmprima_descripcion visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-7" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=8 alignment="1" tabsequence=32766 border="0" color="0" x="1545" y="4" height="56" width="293" format="###,###,###,##0.00" html.valueishtml="0"  name=cantidad visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=9 alignment="1" tabsequence=32766 border="0" color="0" x="1856" y="4" height="56" width="256" format="###,###,###,##0.00" html.valueishtml="0"  name=precio visible="1" edit.limit=0 edit.case=any edit.autoselect=yes edit.imemode=0  font.face="Arial" font.height="-8" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=18 alignment="2" tabsequence=32766 border="0" color="0" x="2130" y="4" height="56" width="265" format="" html.valueishtml="0"  name=comlinfac_fecha_rechazo visible="1~tif(isnull( comlinfac_fecha_rechazo ),0,1)" editmask.mask="dd/mm/yy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+column(band=detail id=20 alignment="2" tabsequence=32766 border="0" color="0" x="2414" y="4" height="56" width="265" format="[shortdate] [time]" html.valueishtml="0"  name=comlinfac_fecha_abono visible="1~tif(isnull(  comlinfac_fecha_abono ),0,1)" editmask.mask="dd/mm/yy" editmask.imemode=0 editmask.focusrectangle=no  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.2 alignment="1" expression="sum( cantidad *  precio  for group 2)"border="0" color="0" x="2222" y="4" height="56" width="571" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_1 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+compute(band=trailer.1 alignment="1" expression="sum( cantidad *  precio  for group 1)"border="0" color="0" x="2222" y="4" height="56" width="571" format="###,###,###,##0.00" html.valueishtml="0"  name=compute_2 visible="1"  font.face="Arial" font.height="-8" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" )
+htmlgen(clientevents="1" clientvalidation="1" clientcomputedfields="1" clientformatting="0" clientscriptable="0" generatejavascript="1" netscapelayers="0" )

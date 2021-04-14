@@ -1,0 +1,13 @@
+﻿$PBExportHeader$dw_calendarios.srd
+release 6;
+datawindow(units=0 timer_interval=0 color=79741120 processing=0 print.documentname="" print.orientation = 0 print.margin.left = 110 print.margin.right = 110 print.margin.top = 96 print.margin.bottom = 96 print.paper.source = 0 print.paper.size = 0 print.prompt=no print.buttons=no print.preview.buttons=no )
+header(height=16 color="536870912" )
+summary(height=0 color="536870912" )
+footer(height=0 color="536870912" )
+detail(height=268 color="536870912" )
+table(column=(type=char(3) update=yes updatewhereclause=yes key=yes name=codigo dbname="prodcalendarios.codigo" )
+ column=(type=char(30) update=yes updatewhereclause=yes name=descripcion dbname="prodcalendarios.descripcion" )
+ retrieve="PBSELECT( VERSION(400) TABLE(NAME=~"prodcalendarios~" ) COLUMN(NAME=~"prodcalendarios.codigo~") COLUMN(NAME=~"prodcalendarios.descripcion~")WHERE(    EXP1 =~"prodcalendarios.codigo~"   OP =~"=~"    EXP2 =~":codigo~" ) ) ARG(NAME = ~"codigo~" TYPE = string) " update="prodcalendarios" updatewhere=0 updatekeyinplace=no arguments=(("codigo", string)) )
+text(band=detail alignment="1" text="Descripcion:"border="0" color="0" x="73" y="32" height="60" width="370"  name=descripcion_t  font.face="Arial" font.height="-9" font.weight="700"  font.family="2" font.pitch="2" font.charset="0" background.mode="1" background.color="536870912" )
+column(band=detail id=2 alignment="0" tabsequence=10 border="5" color="0" x="475" y="32" height="60" width="1413" format="[general]"  name=descripcion edit.limit=0 edit.case=any edit.autoselect=yes  font.face="Arial" font.height="-9" font.weight="400"  font.family="2" font.pitch="2" font.charset="0" background.mode="2" background.color="16777215" )
+htmltable(border="1" cellpadding="0" cellspacing="0" generatecss="no" nowrap="yes")

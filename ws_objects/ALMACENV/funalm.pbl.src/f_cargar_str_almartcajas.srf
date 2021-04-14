@@ -1,0 +1,45 @@
+﻿$PBExportHeader$f_cargar_str_almartcajas.srf
+global type f_cargar_str_almartcajas from function_object
+end type
+
+forward prototypes
+global function boolean f_cargar_str_almartcajas (STRING arg_empresa, STRING arg_articulo, STRING arg_caja,  ref str_almartcajas str_almartcajas)
+end prototypes
+
+global function boolean f_cargar_str_almartcajas (STRING arg_empresa, STRING arg_articulo, STRING arg_caja,  ref str_almartcajas str_almartcajas);boolean lb_correcto = true
+
+SELECT almartcajas.empresa,
+       almartcajas.articulo,
+       almartcajas.caja,
+       almartcajas.piezascaja,
+       almartcajas.metroscaja,
+       almartcajas.metroslcaja,
+       almartcajas.pesocaja,
+       almartcajas.metros_reales_caja,
+       almartcajas.peso_real_caja,
+       almartcajas.metros_reales,
+       almartcajas.descripcion,
+       almartcajas.codigo,
+       almartcajas.pordefecto
+INTO   :str_almartcajas.empresa,
+       :str_almartcajas.articulo,
+       :str_almartcajas.caja,
+       :str_almartcajas.piezascaja,
+       :str_almartcajas.metroscaja,
+       :str_almartcajas.metroslcaja,
+       :str_almartcajas.pesocaja,
+       :str_almartcajas.metros_reales_caja,
+       :str_almartcajas.peso_real_caja,
+       :str_almartcajas.metros_reales,
+       :str_almartcajas.descripcion,
+       :str_almartcajas.codigo,
+       :str_almartcajas.pordefecto
+FROM almartcajas
+WHERE almartcajas.empresa = :arg_empresa AND almartcajas.articulo = :arg_articulo AND almartcajas.caja = :arg_caja;
+
+if sqlca.sqlcode <> 0 then
+    lb_correcto = false
+end if
+return lb_correcto
+end function
+

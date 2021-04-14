@@ -1,0 +1,26 @@
+﻿$PBExportHeader$f_moneda_genter.srf
+$PBExportComments$Devuelve el cod. de la moneda de un cliente proveedor tercero.
+global type f_moneda_genter from function_object
+end type
+
+forward prototypes
+global function string f_moneda_genter (string ai_empresa, string as_tipoter, string as_codcli)
+end prototypes
+
+global function string f_moneda_genter (string ai_empresa, string as_tipoter, string as_codcli);string	ls_nombre,cod1,cod2,cod3
+
+IF as_codcli = "" THEN RETURN as_codcli
+
+  SELECT genter.empresa,genter.tipoter,genter.codigo,genter.moneda
+    INTO :cod1,:cod2,:cod3,:ls_nombre
+    FROM genter  
+   WHERE (genter.empresa = :ai_empresa )
+   AND   (genter.tipoter = :as_tipoter )
+   AND   (genter.codigo  = :as_codcli  )
+    ORDER BY  genter.empresa,genter.tipoter,genter.codigo
+    USING SQLCA;
+
+If IsNull(ls_nombre) Then ls_nombre = ""
+RETURN ls_nombre
+end function
+

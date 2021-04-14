@@ -1,0 +1,68 @@
+﻿$PBExportHeader$f_buscar_codigo_articulo.srf
+global type f_buscar_codigo_articulo from function_object
+end type
+
+forward prototypes
+global function long f_buscar_codigo_articulo ()
+end prototypes
+
+global function long f_buscar_codigo_articulo ();/*
+long iteraciones, v_codigo
+boolean exito
+string v_tabla, v_titulo, v_empresa_mas_tabla
+datetime v_fecha
+
+v_tabla = "articulos"
+v_titulo = v_tabla
+v_fecha = datetime (today())
+
+v_empresa_mas_tabla = codigo_empresa+"-"+v_tabla
+
+connect using sqlca;
+
+delete from uti_bloqueo
+where usuario = :nombre_usuario
+and tabla = :v_tabla
+and titulo = "articulos";
+
+if sqlca.sqlcode= 0 then 
+	commit using SQLCA;
+else
+	rollback using SQLCA;
+	messagebox("Error","Error borrando los bloqueos del usuario actual",StopSign!)
+end if
+// Fin de borrar bloqueos del usuario actual
+
+select max (convert(integer, codigo))
+into :v_codigo
+from articulos 
+where empresa = :codigo_empresa;
+
+v_codigo ++
+
+
+DO WHILE iteraciones < 10 and not exito
+	INSERT INTO uti_bloqueo (tabla, codigo, titulo, fecha, usuario)
+					VALUES (:v_empresa_mas_tabla, :v_codigo, :v_titulo, :v_fecha, :nombre_usuario);
+	if sqlca.sqlcode= 0 then 
+		commit;
+		exito = true
+	else
+		rollback;
+		iteraciones ++
+		v_codigo ++
+	end if
+LOOP
+
+
+if iteraciones >= 10 then
+	messagebox("ERROR", "No se puede asignar un código.")
+else
+	return v_codigo
+end if
+*/
+
+return f_colisiones2(codigo_empresa, "articulos", "codigo", "",false)
+
+end function
+

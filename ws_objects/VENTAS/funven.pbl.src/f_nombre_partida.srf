@@ -1,0 +1,21 @@
+﻿$PBExportHeader$f_nombre_partida.srf
+global type f_nombre_partida from function_object
+end type
+
+forward prototypes
+global function string f_nombre_partida (string empresa, string codigo)
+end prototypes
+
+global function string f_nombre_partida (string empresa, string codigo);string variable
+
+  SELECT venpartidas.descripcion  
+    INTO :variable  
+    FROM venpartidas  
+   WHERE venpartidas.empresa = :empresa 
+	AND   venpartidas.codigo = :codigo ;
+	
+	if isnull(variable) then variable = ""
+	return variable
+
+end function
+

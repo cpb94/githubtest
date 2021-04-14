@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_precio_articulo_esp_tar.srf
+global type f_precio_articulo_esp_tar from function_object
+end type
+
+forward prototypes
+global function decimal f_precio_articulo_esp_tar (string empresa, string tarifa, string cliente, string articulo, string calidad)
+end prototypes
+
+global function decimal f_precio_articulo_esp_tar (string empresa, string tarifa, string cliente, string articulo, string calidad);Dec    numero
+Dec{2} precio
+string divisa
+
+//Select count(*) Into :numero From venclipreesp
+//Where  empresa  = :codigo_empresa
+//And    tarifa   = :tarifa
+//And    articulo = :articulo
+//And    calidad  = :calidad
+//And    cliente  = :cliente;
+//IF numero <> 0 Then Return 0
+
+divisa = f_moneda_cliente(codigo_empresa,cliente)
+
+if divisa = "7" then
+	Select precio_euros Into :precio From venprecesp
+	Where  empresa  = :codigo_empresa
+	And    tarifa   = :tarifa
+	And    articulo = :articulo
+	And    calidad  = :calidad
+	And    cliente  = :cliente;
+else
+	IF IsNull(precio) Then precio = 0
+	Select precio Into :precio From venprecesp
+	Where  empresa  = :codigo_empresa
+	And    tarifa   = :tarifa
+	And    articulo = :articulo
+	And    calidad  = :calidad
+	And    cliente  = :cliente;
+	IF IsNull(precio) Then precio = 0
+end if  
+
+
+Return Precio
+end function
+

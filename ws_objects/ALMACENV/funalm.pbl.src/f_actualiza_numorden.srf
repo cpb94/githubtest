@@ -1,0 +1,44 @@
+﻿$PBExportHeader$f_actualiza_numorden.srf
+$PBExportComments$Actualiza el contador de ultimo numero de orden.
+global type f_actualiza_numorden from function_object
+end type
+
+forward prototypes
+global function boolean f_actualiza_numorden (string v_empresa, decimal v_anyo, decimal v_numorden)
+end prototypes
+
+global function boolean f_actualiza_numorden (string v_empresa, decimal v_anyo, decimal v_numorden);Dec cur_anyo,bien,numero
+String     cur_empresa,cur_almacen
+// Variables gestion incidencias
+string  in_programa,in_incidencia
+in_programa="f_actualiza_numorden"
+SELECT  count(*) INTO :numero   FROM almparam  
+WHERE almparam.empresa = :v_empresa
+AND   almparam.anyo    = :v_anyo using sqlca;
+IF IsNUll(numero) Then numero = 0
+IF numero=0 THEN
+	INSERT INTO almparam	( empresa,anyo,numorden )  
+	VALUES ( :v_empresa,:v_anyo,:v_numorden ) using sqlca  ;
+	IF sqlca.sqlcode<>0 THEN
+		bien=1
+		in_incidencia="Error al grabar almparam"
+		f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+ELSE
+	UPDATE almparam  
+	SET  numorden = :v_numorden  
+	WHERE almparam.empresa = :v_empresa 
+	AND   almparam.anyo    = :v_anyo using sqlca;
+	IF sqlca.sqlcode<>0 THEN
+		bien=1
+		in_incidencia="Error al modificar almparam"
+		f_grabar_incidencia(in_programa,in_incidencia)
+	END IF
+END IF
+IF bien=0 THEN
+	RETURN TRUE
+ELSE
+	RETURN FALSE
+END IF
+end function
+

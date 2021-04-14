@@ -1,0 +1,19 @@
+﻿$PBExportHeader$f_fecha_version_articulo_lab.srf
+global type f_fecha_version_articulo_lab from function_object
+end type
+
+forward prototypes
+global function datetime f_fecha_version_articulo_lab (string ar_empresa, string ar_articulo, string ar_version)
+end prototypes
+
+global function datetime f_fecha_version_articulo_lab (string ar_empresa, string ar_articulo, string ar_version);datetime fecha
+
+select min(f_alta) into :fecha
+from labdetartic
+where empresa  = :ar_empresa
+and   articulo = :ar_articulo
+and   version  = :ar_version;
+
+return fecha
+end function
+
